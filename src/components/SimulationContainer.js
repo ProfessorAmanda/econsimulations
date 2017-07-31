@@ -17,17 +17,17 @@ class SimulationContainer extends Component{
     selectPop(popType){
         switch (popType) {
             case "Normal":
-            this.setState({pop:this.generateNormal()})
-            break;
+                this.setState({pop:this.generateNormal()})
+                break;
             case "Uniform":
-
-            break;
+                this.setState({pop:this.generateUniform()})
+                break;
             case "Exponential":
 
-            break;
+                break;
             case "Chi-Square":
 
-            break;
+                break;
         }
     }
     render(){
@@ -39,6 +39,24 @@ class SimulationContainer extends Component{
             <div id="container"></div>
             </div>
         )
+    }
+    generateUniform(){
+        const HI = 74;
+        const LOW = 54;
+        const range = HI - LOW;
+        let pdict = [];
+        const popArray = []
+        for (let i = 0; i < 10000; i++){
+            let val = Math.random()*range + LOW;
+            if (pdict[Math.round(val * 10)]){
+                pdict[Math.round(val * 10)] += 1;
+            } else {
+                pdict[Math.round(val * 10)] = 1;
+            }
+            popArray.push(val)
+        }
+        this.changePop(pdict);
+        return popArray;
     }
     generateNormal(){
         const MEAN = 64;
@@ -53,13 +71,19 @@ class SimulationContainer extends Component{
             for (let j = 0; j < ITERATES; j++){
                 sum += Math.random() * range + popMin;
             }
-            if (pdict[Math.round(sum / ITERATES * 10)])
+            if (pdict[Math.round(sum / ITERATES * 10)]){
                 pdict[Math.round(sum / ITERATES * 10)] += 1
+            }
             else {
                 pdict[Math.round(sum / ITERATES * 10)] = 1
             }
             popArray.push(sum / ITERATES)
         }
+        this.changePop(pdict);
+        return popArray
+    }
+
+    changePop(pdict) {
         let pseries = [{data : [], color: '#F27474', name:"Female"}]
         for (let i in pdict) {
             if (i) {
@@ -68,14 +92,6 @@ class SimulationContainer extends Component{
                 }
             }
         }
-        this.changePop(pseries);
-        console.log(popArray);
-        console.log(math.std(popArray));
-        console.log(math.mean(popArray));
-        return popArray
-    }
-
-    changePop(pseries) {
         let myChart = Highcharts.chart('container', {
         chart: {
             type: 'scatter',
