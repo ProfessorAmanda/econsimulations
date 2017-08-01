@@ -46,7 +46,6 @@ class SimBar extends Component {
                 background: '#555555',
                 color: 'white'
             } : {};
-            style && console.log(style)
             return (<SectionItem key={section}> <ToolBarButton style={style} onClick={()=>{this.props.setSection(section); this.setState({selected:section})}}> {section} </ToolBarButton></SectionItem>);
         });
         return(

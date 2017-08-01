@@ -23,7 +23,7 @@ class SimulationContainer extends Component{
                 this.setState({pop:this.generateUniform()})
                 break;
             case "Exponential":
-
+                this.setState({pop:this.generateExponential()})
                 break;
             case "Chi-Square":
 
@@ -39,24 +39,6 @@ class SimulationContainer extends Component{
             <div id="container"></div>
             </div>
         )
-    }
-    generateUniform(){
-        const HI = 74;
-        const LOW = 54;
-        const range = HI - LOW;
-        let pdict = [];
-        const popArray = []
-        for (let i = 0; i < 10000; i++){
-            let val = Math.random()*range + LOW;
-            if (pdict[Math.round(val * 10)]){
-                pdict[Math.round(val * 10)] += 1;
-            } else {
-                pdict[Math.round(val * 10)] = 1;
-            }
-            popArray.push(val)
-        }
-        this.changePop(pdict);
-        return popArray;
     }
     generateNormal(){
         const MEAN = 64;
@@ -80,6 +62,43 @@ class SimulationContainer extends Component{
             popArray.push(sum / ITERATES)
         }
         this.changePop(pdict);
+        return popArray
+    }
+
+    generateUniform(){
+        const HI = 74;
+        const LOW = 54;
+        const range = HI - LOW;
+        let pdict = [];
+        const popArray = []
+        for (let i = 0; i < 10000; i++){
+            let val = Math.random()*range + LOW;
+            if (pdict[Math.round(val * 10)]){
+                pdict[Math.round(val * 10)] += 1;
+            } else {
+                pdict[Math.round(val * 10)] = 1;
+            }
+            popArray.push(val);
+        }
+        this.changePop(pdict);
+        return popArray;
+    }
+
+    generateExponential(){
+        const LAMBDA = 1/64;
+        let pdict = [];
+        const popArray = [];
+        for (let i = 0; i < 10000; i++){
+            let val = -Math.log(Math.random()) / LAMBDA
+            if (pdict[Math.round(val * 10)]){
+                pdict[Math.round(val * 10)] += 1;
+            } else {
+                pdict[Math.round(val * 10)] = 1;
+            }
+            popArray.push(val);
+        }
+        this.changePop(pdict);
+        console.log(math.mean(popArray))
         return popArray
     }
 
