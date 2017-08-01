@@ -4,6 +4,7 @@ import SimBar from './SimBar.js';
 import PopBar from './PopBar.js';
 import Highcharts from 'highcharts';
 import math from 'mathjs'
+import chi from 'chi-squared'
 
 class SimulationContainer extends Component{
     constructor(){
@@ -25,8 +26,8 @@ class SimulationContainer extends Component{
             case "Exponential":
                 this.setState({pop:this.generateExponential()})
                 break;
-            case "Chi-Square":
-
+            case "Chi-Squared":
+                this.setState({pop:this.generateChiSquared()})
                 break;
         }
     }
@@ -102,8 +103,35 @@ class SimulationContainer extends Component{
         return popArray
     }
 
+    generateChiSquared(){
+        const DEGREES_OF_FREEDOM = 8;
+        let pdict = [];
+        const popArray = [];
+        let chiArray = []
+        const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM)
+        for (let i = 0; i < 20; i+=.1){
+            let tmp = chi.pdf(i, DEGREES_OF_FREEDOM)
+            console.log(tmp/chiMin)
+            for (let j = 0; j < tmp / chiMin; j++){
+                chiArray.push(i)
+            }
+        }
+        console.log(chiArray)
+        for (let i = 0; i < 10000; i++){
+            let val = chiArray[Math.round(Math.random() * chiArray.length)]
+            if (pdict[Math.round(val * 10)]){
+                pdict[Math.round(val * 10)] += 1;
+            } else {
+                pdict[Math.round(val * 10)] = 1;
+            }
+            popArray.push(val);
+        }
+        this.changePop(pdict);
+        return popArray
+    }
+
     changePop(pdict) {
-        let pseries = [{data : [], color: '#F27474', name:"Female"}]
+        let pseries = [{data : [], color: '#F27474', name:"Population"}]
         for (let i in pdict) {
             if (i) {
                 for (let j = 1; j < pdict[i] + 1; j++) {

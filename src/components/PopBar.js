@@ -44,7 +44,7 @@ class PopBar extends Component {
         }
     }
     render() {
-        const modes = ["Normal", "Uniform", "Exponential", "Chi-Square"]
+        const modes = ["Normal", "Uniform", "Exponential", "Chi-Squared"]
         const sections = modes.map((section)=>{
             const style = section === this.state.selected ? {
                 background: '#555555',
