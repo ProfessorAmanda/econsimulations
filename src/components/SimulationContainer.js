@@ -6,40 +6,58 @@ import Highcharts from 'highcharts';
 import math from 'mathjs'
 import chi from 'chi-squared'
 
+
+function popTable(props) {
+    let rows = props.popArray.forEach( (val, index) => {
+        return (<tr> <td> {index} </td> <td> {val} </td> </tr>);
+    });
+    return (<table> <tr> <th> "Subject" </th> <th> "Height" </th> </tr> {rows} </table>);
+}
+
 class SimulationContainer extends Component{
     constructor(){
         super();
         this.state = {
             mode: 'Home',
             popType: '',
-            popArray:{},
+            popArray:{
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": []
+            },
             popDict:{
-                "normal": [],
-                "uniform": [],
-                "exponential": [],
-                "chi-square": []
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": []
             }
         }
     }
     selectPop(popType){
+        clearInterval(this.timer);
         this.timer = setInterval( () => {
             this.generate(popType);
-        }, 1000)
+        }, 1500)
     }
 
     generate(popType){
         switch (popType) {
             case "Normal":
-                this.setState({pop:{popType:this.generateNormal()}})
+                let newPopArray1 = Object.assign(this.state.popArray, {"Normal" : this.state.popArray[popType].concat(this.generateNormal())})
+                this.setState({popArray :newPopArray1});
                 break;
             case "Uniform":
-                this.setState({pop:{popType:this.generateUniform()}})
+                let newPopArray2 = Object.assign(this.state.popArray, {"Uniform" : this.state.popArray[popType].concat(this.generateUniform())})
+                this.setState({popArray : newPopArray2});
                 break;
             case "Exponential":
-                this.setState({pop:{popType:this.generateExponential()}})
+                let newPopArray3 = Object.assign(this.state.popArray, {"Exponential" : this.state.popArray[popType].concat(this.generateExponential())})
+                this.setState({popArray : newPopArray3});
                 break;
             case "Chi-Squared":
-                this.setState({pop:{popType:this.generateChiSquared()}})
+                let newPopArray4 = Object.assign(this.state.popArray, {"Chi-Squared" : this.state.popArray[popType].concat(this.generateChiSquared())})
+                this.setState({popArray : newPopArray4});
                 break;
         }
     }
@@ -48,15 +66,17 @@ class SimulationContainer extends Component{
             <div>
             <h1> {this.state.mode} </h1>
             <SimBar section= {this.state.mode} setSection={(section) => this.setState({mode:section})} />
-            <PopBar section={this.state.pop} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
-            <div id="container"></div>
+            <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
+            <div style={{width:"800px"}} id="container"></div>
+            <popTable popArray={this.state.popArray[this.state.popType]}/>
             </div>
-        )
+        );
     }
     generateNormal(){
-        if (this.sum(this.state.popDict["normal"]) > 8000){
+        this.changePop(this.state.popDict["Normal"]);
+        console.log()
+        if (this.sum(this.state.popDict["Normal"]) === 10000){
             clearInterval(this.timer);
-            this.changePop(this.state.popDict["normal"]);
             return popArray;
         }
         const MEAN = 64;
@@ -65,74 +85,71 @@ class SimulationContainer extends Component{
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
         const popArray = []
-        const sampleSize = this.sum(this.state.popDict["normal"]) + 1
+        const sampleSize = this.sum(this.state.popDict["Normal"]) > 8000 ? 10000 - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) + 1
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
             for (let j = 0; j < ITERATES; j++){
                 sum += Math.random() * range + popMin;
             }
-            if (this.state.popDict["normal"][Math.round(sum / ITERATES * 10)]){
-                this.state.popDict["normal"][Math.round(sum / ITERATES * 10)] += 1
+            if (this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)]){
+                this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] += 1
             }
             else {
-                this.state.popDict["normal"][Math.round(sum / ITERATES * 10)] = 1
+                this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] = 1
             }
             popArray.push(sum / ITERATES)
         }
-        this.changePop(this.state.popDict["normal"]);
         return popArray
     }
 
     generateUniform(){
-        if (this.sum(this.state.popDict["uniform"]) > 8000){
+        this.changePop(this.state.popDict["Uniform"]);
+        if (this.sum(this.state.popDict["Uniform"]) === 8000){
             clearInterval(this.timer);
-            this.changePop(this.state.popDict["uniform"]);
             return popArray;
         }
         const HI = 74;
         const LOW = 54;
         const range = HI - LOW;
         const popArray = []
-        const sampleSize = this.sum(this.state.popDict["uniform"]) + 1
+        const sampleSize = this.sum(this.state.popDict["Uniform"]) > 8000 ? 10000 - this.sum(this.state.popDict["Uniform"]) : this.sum(this.state.popDict["Uniform"]) + 1
         for (let i = 0; i < sampleSize; i++){
             let val = Math.random()*range + LOW;
-            if (this.state.popDict["uniform"][Math.round(val * 10)]){
-                this.state.popDict["uniform"][Math.round(val * 10)] += 1;
+            if (this.state.popDict["Uniform"][Math.round(val * 10)]){
+                this.state.popDict["Uniform"][Math.round(val * 10)] += 1;
             } else {
-                this.state.popDict["uniform"][Math.round(val * 10)] = 1;
+                this.state.popDict["Uniform"][Math.round(val * 10)] = 1;
             }
             popArray.push(val);
         }
-        this.changePop(this.state.popDict["uniform"]);
         return popArray;
     }
 
     generateExponential(){
-        if (this.sum(this.state.popDict["exponential"]) > 8000){
+        this.changePop(this.state.popDict["Exponential"]);
+        if (this.sum(this.state.popDict["Exponential"]) === 10000){
             clearInterval(this.timer);
-            this.changePop(this.state.popDict["exponential"]);
             return popArray;
         }
         const LAMBDA = 1/64;
         const popArray = [];
-        const sampleSize = this.sum(this.state.popDict["exponential"]) + 1
+        const sampleSize = this.sum(this.state.popDict["Exponential"]) > 8000 ? 10000 - this.sum(this.state.popDict["Exponential"]) : this.sum(this.state.popDict["Exponential"]) + 1
         for (let i = 0; i < sampleSize; i++){
             let val = -Math.log(Math.random()) / LAMBDA
-            if (this.state.popDict["exponential"][Math.round(val * 10)]){
-                this.state.popDict["exponential"][Math.round(val * 10)] += 1;
+            if (this.state.popDict["Exponential"][Math.round(val * 10)]){
+                this.state.popDict["Exponential"][Math.round(val * 10)] += 1;
             } else {
-                this.state.popDict["exponential"][Math.round(val * 10)] = 1;
+                this.state.popDict["Exponential"][Math.round(val * 10)] = 1;
             }
             popArray.push(val);
         }
-        this.changePop(this.state.popDict["exponential"]);
         return popArray
     }
 
     generateChiSquared(){
-        if (this.sum(this.state.popDict["chi-square"]) > 8000){
+        this.changePop(this.state.popDict["Chi-Squared"]);
+        if (this.sum(this.state.popDict["Chi-Squared"]) === 10000){
             clearInterval(this.timer);
-            this.changePop(this.state.popDict["chi-square"]);
             return popArray;
         }
         const DEGREES_OF_FREEDOM = 8;
@@ -145,17 +162,16 @@ class SimulationContainer extends Component{
                 chiArray.push(i)
             }
         }
-        const sampleSize = this.sum(this.state.popDict["chi-square"]) + 1
+        const sampleSize = this.sum(this.state.popDict["Chi-Squared"]) > 8000 ? 10000 - this.sum(this.state.popDict["Chi-Squared"]) : this.sum(this.state.popDict["Chi-Squared"]) + 1
         for (let i = 0; i < sampleSize; i++){
             let val = chiArray[Math.round(Math.random() * chiArray.length)]
-            if (this.state.popDict["chi-square"][Math.round(val * 10)]){
-                this.state.popDict["chi-square"][Math.round(val * 10)] += 1;
+            if (this.state.popDict["Chi-Squared"][Math.round(val * 10)]){
+                this.state.popDict["Chi-Squared"][Math.round(val * 10)] += 1;
             } else {
-                this.state.popDict["chi-square"][Math.round(val * 10)] = 1;
+                this.state.popDict["Chi-Squared"][Math.round(val * 10)] = 1;
             }
             popArray.push(val);
         }
-        this.changePop(this.state.popDict["chi-square"]);
         return popArray
     }
 
@@ -168,7 +184,7 @@ class SimulationContainer extends Component{
                 }
             }
         }
-        if (!this.myChart) {
+        if (!this.myChart || this.sum(popDict) === 10000) {
             this.myChart = Highcharts.chart('container', {
             chart: {
                 type: 'scatter',
