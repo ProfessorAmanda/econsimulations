@@ -203,6 +203,7 @@ class SimulationContainer extends Component{
                 showLastLabel: true
             },
             yAxis: {
+                max: 200,
                 title: {
                     text: 'Count'
                 }
