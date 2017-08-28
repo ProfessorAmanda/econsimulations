@@ -2,17 +2,37 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import SimBar from './SimBar.js';
 import PopBar from './PopBar.js';
+import SampleArea from './SampleArea.js'
 import Highcharts from 'highcharts';
 import math from 'mathjs'
 import chi from 'chi-squared'
+import MeanButton from './MeanButton.js'
 
-
-function popTable(props) {
-    let rows = props.popArray.forEach( (val, index) => {
-        return (<tr> <td> {index} </td> <td> {val} </td> </tr>);
+function PopTable(props) {
+    const popArr = props.popArray[props.popType] || [];
+    const samples = props.samples[props.popType];
+    const rows = popArr.map( (val, index) => {
+        for (let i of samples) {
+            if (index === i){
+                return (<tr style={{background:"red"}}><td>{index}</td><td>{Math.round(val * 10) / 10}</td></tr>);
+            }
+        }
+        return(<tr><td>{index}</td><td>{Math.round(val * 10) / 10}</td></tr>);
     });
-    return (<table> <tr> <th> "Subject" </th> <th> "Height" </th> </tr> {rows} </table>);
+    return (
+            <div style={{height:"300px", overflow:"scroll"}}>
+                <table style={{border:"1px solid black"}}>
+                    <tr>
+                        <th> Subject </th>
+                        <th> Height </th>
+                    </tr>
+                {rows}
+                </table>
+            </div>
+        );
 }
+
+
 
 class SimulationContainer extends Component{
     constructor(){
@@ -31,6 +51,12 @@ class SimulationContainer extends Component{
                 "Uniform": [],
                 "Exponential": [],
                 "Chi-Squared": []
+            },
+            sampled:{
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": []
             }
         }
     }
@@ -40,7 +66,22 @@ class SimulationContainer extends Component{
             this.generate(popType);
         }, 1500)
     }
+    sample(size) {
+        let sampled = []
+        const currentPop = this.state.popArray[this.state.popType]
+        while (sampled.length < size){
+            let r = Math.round(Math.random() * currentPop.length)
+            let shouldSample = true;
+             for (let i = 0; i < sampled.length; i++){
+                 if (sampled[i] === r) {
+                     shouldSample = false;
+                 }
+            }
+            shouldSample && sampled.push(r);
+        }
 
+        this.setState({sampled: Object.assign(this.state.sampled, {[this.state.popType] : sampled})})
+    }
     generate(popType){
         switch (popType) {
             case "Normal":
@@ -62,13 +103,17 @@ class SimulationContainer extends Component{
         }
     }
     render(){
+        const popTable = (<PopTable samples={this.state.sampled} popArray={this.state.popArray} popType={this.state.popType}/>)
         return(
             <div>
             <h1> {this.state.mode} </h1>
             <SimBar section= {this.state.mode} setSection={(section) => this.setState({mode:section})} />
             <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
-            <div style={{width:"800px"}} id="container"></div>
-            <popTable popArray={this.state.popArray[this.state.popType]}/>
+            {popTable}
+            <span style={{width:"800px"}} id="container"></span>
+            <MeanButton type={"Population"} popArray = {this.state.popArray} popType={this.state.popType}/>
+            <SampleArea sample={(size) => this.sample(size)} popArray = {this.state.popArray} popType={this.state.popType}/>
+            <MeanButton type={"Sample"} popArray = {this.state.popArray} popType={this.state.popType}/>
             </div>
         );
     }
@@ -85,7 +130,7 @@ class SimulationContainer extends Component{
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
         const popArray = []
-        const sampleSize = this.sum(this.state.popDict["Normal"]) > 8000 ? 10000 - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) + 1
+        const sampleSize = this.sum(this.state.popDict["Normal"]) > 8000 ? 9999 - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) + 1
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
             for (let j = 0; j < ITERATES; j++){
@@ -104,7 +149,7 @@ class SimulationContainer extends Component{
 
     generateUniform(){
         this.changePop(this.state.popDict["Uniform"]);
-        if (this.sum(this.state.popDict["Uniform"]) === 8000){
+        if (this.sum(this.state.popDict["Uniform"]) === 10000){
             clearInterval(this.timer);
             return popArray;
         }
@@ -184,6 +229,9 @@ class SimulationContainer extends Component{
                 }
             }
         }
+        const xmaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 74 : this.state.popType == "Exponential" ? 350: 25;
+        const xminval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 56 : 0;
+        const ymaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 200 : this.state.popType == "Exponential" ? 30 : 150;
         if (!this.myChart || this.sum(popDict) === 10000) {
             this.myChart = Highcharts.chart('container', {
             chart: {
@@ -194,6 +242,8 @@ class SimulationContainer extends Component{
                 text: 'Female Height'
             },
             xAxis: {
+                min: xminval,
+                max: xmaxval,
                 title : {
                     enabled: true,
                     text: 'Height (in)'
@@ -203,7 +253,7 @@ class SimulationContainer extends Component{
                 showLastLabel: true
             },
             yAxis: {
-                max: 200,
+                max: ymaxval,
                 title: {
                     text: 'Count'
                 }
@@ -211,7 +261,24 @@ class SimulationContainer extends Component{
             series: pseries
             });
         } else {
-            this.myChart.update({series:pseries})
+            const xvals = {
+                min: xminval,
+                max: xmaxval,
+                title : {
+                    enabled: true,
+                    text: 'Height (in)'
+                },
+                startOnTick: true,
+                endOnTick: true,
+                showLastLabel: true
+            }
+            const yvals = {
+                max: ymaxval,
+                title: {
+                    text: 'Count'
+                }
+            }
+            this.myChart.update({series:pseries, xAxis: xvals, yAxis: yvals})
         }
     }
     sum(pop){
