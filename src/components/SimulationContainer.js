@@ -8,18 +8,20 @@ import math from 'mathjs'
 import chi from 'chi-squared'
 import MeanButton from './MeanButton.js'
 
-const SAMPLE_SIZE = 10000
+const SAMPLE_SIZE = 1000
 
 function PopTable(props) {
     const popArr = props.popArray[props.popType] || [];
     const samples = props.samples[props.popType];
     const rows = popArr.map( (val, index) => {
-        for (let i of samples) {
-            if (index === i){
-                return (<tr style={{background:"red"}}><td>{index}</td><td>{Math.round(val * 10) / 10}</td></tr>);
+        if (val){
+            for (let i of samples) {
+                if (index === i[0]){
+                    return (<tr style={{background:"#747EF2"}}><td>{index + 1}</td><td>{Math.round(val * 10) / 10}</td></tr>);
+                }
             }
+            return(<tr><td>{index + 1}</td><td>{Math.round(val * 10) / 10}</td></tr>);
         }
-        return(<tr><td>{index}</td><td>{Math.round(val * 10) / 10}</td></tr>);
     });
     return (
             <div style={{height:"300px", overflow:"scroll"}}>
@@ -59,6 +61,12 @@ class SimulationContainer extends Component{
                 "Uniform": [],
                 "Exponential": [],
                 "Chi-Squared": []
+            },
+            samplePop: {
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": []
             }
         }
     }
@@ -66,7 +74,7 @@ class SimulationContainer extends Component{
         clearInterval(this.timer);
         this.timer = setInterval( () => {
             this.generate(popType);
-        }, 1500)
+        }, 250)
     }
     sample(size) {
         let sampled = []
@@ -75,11 +83,17 @@ class SimulationContainer extends Component{
             let r = Math.round(Math.random() * currentPop.length)
             let shouldSample = true;
              for (let i = 0; i < sampled.length; i++){
-                 if (sampled[i] === r) {
+                 if (sampled[i][0] === r) {
                      shouldSample = false;
                  }
             }
-            shouldSample && sampled.push(r);
+            let count = 1;
+            currentPop.forEach( (val, index) => {
+                if (index < r && Math.round(val * 10) === Math.round(currentPop[r] * 10)) {
+                    count += 1;
+                }
+            });
+            shouldSample && sampled.push([r, count]);
         }
 
         this.setState({sampled: Object.assign(this.state.sampled, {[this.state.popType] : sampled})})
@@ -87,20 +101,16 @@ class SimulationContainer extends Component{
     generate(popType){
         switch (popType) {
             case "Normal":
-                let newPopArray1 = Object.assign(this.state.popArray, {"Normal" : this.state.popArray[popType].concat(this.generateNormal())})
-                this.setState({popArray :newPopArray1});
+                this.setState({popArray : Object.assign(this.state.popArray, {"Normal" : this.state.popArray[popType].concat(this.generateNormal())})});
                 break;
             case "Uniform":
-                let newPopArray2 = Object.assign(this.state.popArray, {"Uniform" : this.state.popArray[popType].concat(this.generateUniform())})
-                this.setState({popArray : newPopArray2});
+                this.setState({popArray : Object.assign(this.state.popArray, {"Uniform" : this.state.popArray[popType].concat(this.generateUniform())})});
                 break;
             case "Exponential":
-                let newPopArray3 = Object.assign(this.state.popArray, {"Exponential" : this.state.popArray[popType].concat(this.generateExponential())})
-                this.setState({popArray : newPopArray3});
+                this.setState({popArray : Object.assign(this.state.popArray, {"Exponential" : this.state.popArray[popType].concat(this.generateExponential())})});
                 break;
             case "Chi-Squared":
-                let newPopArray4 = Object.assign(this.state.popArray, {"Chi-Squared" : this.state.popArray[popType].concat(this.generateChiSquared())})
-                this.setState({popArray : newPopArray4});
+                this.setState({popArray : Object.assign(this.state.popArray, {"Chi-Squared" : this.state.popArray[popType].concat(this.generateChiSquared())})});
                 break;
         }
     }
@@ -113,15 +123,14 @@ class SimulationContainer extends Component{
             <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
             {popTable}
             <span style={{width:"800px"}} id="container"></span>
-            <MeanButton type={"Population"} popArray = {this.state.popArray} popType={this.state.popType}/>
-            <SampleArea sample={(size) => this.sample(size)} popArray = {this.state.popArray} popType={this.state.popType}/>
-            <MeanButton type={"Sample"} popArray = {this.state.popArray} popType={this.state.popType}/>
+            <MeanButton popArray = {this.state.popArray} popType={this.state.popType}/>
+            <SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType])} sample={(size) => this.sample(size)} popArray = {this.state.popArray} popType={this.state.popType}/>
+            <MeanButton popArray = {this.state.samplePop} popType={this.state.popType}/>
             </div>
         );
     }
     generateNormal(){
         this.changePop(this.state.popDict["Normal"]);
-        console.log()
         if (this.sum(this.state.popDict["Normal"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return popArray;
@@ -132,7 +141,7 @@ class SimulationContainer extends Component{
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
         const popArray = []
-        const sampleSize = this.sum(this.state.popDict["Normal"]) > 8000 ? 9999 - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) + 1
+        const sampleSize = this.sum(this.state.popDict["Normal"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) / 4 + 1
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
             for (let j = 0; j < ITERATES; j++){
@@ -159,7 +168,7 @@ class SimulationContainer extends Component{
         const LOW = 54;
         const range = HI - LOW;
         const popArray = []
-        const sampleSize = this.sum(this.state.popDict["Uniform"]) > SAMPLE_SIZE * 1/2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Uniform"]) : this.sum(this.state.popDict["Uniform"]) + 1
+        const sampleSize = this.sum(this.state.popDict["Uniform"]) > SAMPLE_SIZE * 1/2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Uniform"]) : this.sum(this.state.popDict["Uniform"]) / 2 + 1
         for (let i = 0; i < sampleSize; i++){
             let val = Math.random()*range + LOW;
             if (this.state.popDict["Uniform"][Math.round(val * 10)]){
@@ -219,22 +228,41 @@ class SimulationContainer extends Component{
             }
             popArray.push(val);
         }
-        return popArray
+        return popArray;
     }
 
     changePop(popDict) {
-        let pseries = [{data : [], color: '#F27474', name:"Population"}]
+        let pseries = {data : [], color: '#F27474', name:"Population"}
+        let sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
+        let sampledCopy = this.state.sampled[this.state.popType];
+        let sampleVals = [[]];
+        let samplePop = []
+        for (let j in sampledCopy){
+            sampleVals[j] = [];
+            sampleVals[j][0] = Math.round(this.state.popArray[this.state.popType][sampledCopy[j][0]] * 10)
+            sampleVals[j][1] = sampledCopy[j][1]
+            samplePop.push(Math.round(this.state.popArray[this.state.popType][sampledCopy[j][0]] * 10) / 10)
+        }
         for (let i in popDict) {
             if (i) {
                 for (let j = 1; j < popDict[i] + 1; j++) {
-                    pseries[0].data.push([i / 10, j])
+                    let found = false;
+                    for (let subArr of sampleVals){
+                        if (subArr[0] == i && subArr[1] == j){
+                            sampleSeries.data.push([i / 10, j]);
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        pseries.data.push([i / 10, j])
+                    }
                 }
             }
         }
         const xmaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 74 : this.state.popType == "Exponential" ? 350: 25;
         const xminval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 56 : 0;
-        const ymaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 200 : this.state.popType == "Exponential" ? 30 : 150;
-        if (!this.myChart || this.sum(popDict) === SAMPLE_SIZE) {
+        const ymaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 30 : this.state.popType == "Exponential" ? 10 : 20;
+        if (!this.myChart) {
             this.myChart = Highcharts.chart('container', {
             chart: {
                 type: 'scatter',
@@ -260,7 +288,7 @@ class SimulationContainer extends Component{
                     text: 'Count'
                 }
             },
-            series: pseries
+            series: [pseries, sampleSeries]
             });
         } else {
             const xvals = {
@@ -280,8 +308,9 @@ class SimulationContainer extends Component{
                     text: 'Count'
                 }
             }
-            this.myChart.update({series:pseries, xAxis: xvals, yAxis: yvals})
+            this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals})
         }
+        this.setState({samplePop : Object.assign(this.state.samplePop, {[this.state.popType]: samplePop})})
     }
     sum(pop){
         let val = 0

@@ -9,7 +9,8 @@ class MeanButton extends Component{
         }
     }
     render () {
-        return (<div> <button disabled={!this.props.popArray[this.props.popType]} onClick={() => {this.setState({popMean:Math.round(math.mean(this.props.popArray[this.props.popType].slice(0, 10000)) * 100) / 100})}}> Calculate Mean </button> <h4> {this.props.type} Mean: {this.state.popMean || ''} </h4> </div>);
+        const array = this.props.popArray[this.props.popType]
+        return (<div> <button disabled={!array} onClick={() => {this.setState({popMean:Math.round(math.mean(array.slice(0, array.length - 1)) * 100) / 100})}}> Calculate Mean </button> <h4> {this.props.type} Mean: {this.state.popMean || ''} </h4> </div>);
     }
 }
 export default MeanButton;

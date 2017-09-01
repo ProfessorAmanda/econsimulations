@@ -13,7 +13,7 @@ class SampleArea extends Component {
         return (
             <div style={{margin:"20px"}}>
                 <input type="number" placeholder="Sample Size" onChange={(event) => {this.setState({sampleSize:event.target.value})}} />
-                <button disabled={this.state.sampleSize < 1 || this.state.sampleSize > this.props.popArray[this.props.popType].length || !this.props.popArray[this.props.popType]}onClick={()=>{this.props.sample(this.state.sampleSize)}}> Sample </button>
+                <button disabled={this.state.sampleSize < 1 || this.state.sampleSize > this.props.popArray[this.props.popType].length || !this.props.popArray[this.props.popType]} onClick={()=>{this.props.sample(this.state.sampleSize); this.props.redraw()}}> Sample </button>
             </div>
         )
     }
