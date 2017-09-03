@@ -102,6 +102,7 @@ class SimulationContainer extends Component{
         switch (popType) {
             case "Normal":
                 this.setState({popArray : Object.assign(this.state.popArray, {"Normal" : this.state.popArray[popType].concat(this.generateNormal())})});
+                console.log(this.state.popArray["Normal"]);
                 break;
             case "Uniform":
                 this.setState({popArray : Object.assign(this.state.popArray, {"Uniform" : this.state.popArray[popType].concat(this.generateUniform())})});
@@ -133,7 +134,7 @@ class SimulationContainer extends Component{
         this.changePop(this.state.popDict["Normal"]);
         if (this.sum(this.state.popDict["Normal"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
-            return popArray;
+            return [];
         }
         const MEAN = 64;
         const STANDARD_DEV = 3;
@@ -155,6 +156,7 @@ class SimulationContainer extends Component{
             }
             popArray.push(sum / ITERATES)
         }
+        popArray[popArray.length - 1] == undefined && console.log(popArray);
         return popArray
     }
 
