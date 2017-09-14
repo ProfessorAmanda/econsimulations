@@ -6,14 +6,14 @@ class SampleArea extends Component {
     constructor(props){
         super(props);
         this.state = {
-            sampleSize: 0
+            sampleSize: undefined
         }
     }
     render() {
         return (
             <div style={{margin:"20px"}}>
-                <input type="number" placeholder="Sample Size" onChange={(event) => {this.setState({sampleSize:event.target.value})}} />
-                <button disabled={this.state.sampleSize < 1 || this.state.sampleSize > this.props.popArray[this.props.popType].length || !this.props.popArray[this.props.popType]} onClick={()=>{this.props.sample(this.state.sampleSize); this.props.redraw()}}> Sample </button>
+                <input type="number" placeholder="Sample Size" onChange={(event) => {this.setState({sampleSize:Math.max(event.target.value, 1)})}} value={this.state.sampleSize} />
+                <button disabled={!this.props.popArray[this.props.popType] || !this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length} onClick={()=>{this.props.sample(this.state.sampleSize); this.props.redraw()}}> Sample </button>
             </div>
         )
     }

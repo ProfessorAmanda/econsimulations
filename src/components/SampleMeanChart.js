@@ -6,26 +6,31 @@ class SampleMeanChart extends Component {
         super(props);
         this.state = {
             chart: undefined,
+            sampleMeans:[],
+            meanDiffs:[]
         }
     }
     render(){
+        this.props.sampleMeans && this.props.sampleMeans.length && this.show();
         return(
-            <div>
-                <button onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[]}); this.show()}}> Display Mean Distribution </button>
-                <div id="sim-container"> </div>
-            </div>
+            <span id="sim-container"> </span>
         );
+    }
+    componentDidMount(){
+        this.show();
     }
     show(){
         let sampleMeanSeries = {name: "Sample Means", data : []};
+        let yMax = 30;
         for (let i in this.props.sampleMeans){
-            const val = Math.round(this.props.sampleMeans[i] * 10) / 10
+            const val = Math.round(this.props.sampleMeans[i]);
             let count = 1;
             for (let j of sampleMeanSeries.data){
-                if (Math.round(j[0] * 10) / 10 === val){
+                if (Math.round(j[0]) === val){
                     count += 1;
                 }
             }
+            yMax = Math.max(count, yMax);
             sampleMeanSeries.data[i] = [val, count];
         }
         if (!this.state.chart) {
@@ -39,22 +44,26 @@ class SampleMeanChart extends Component {
                             xAxis: {
                                 title : {
                                     enabled: true,
-                                    text: 'Height (in)'
+                                    text: 'Sample Mean (in)'
                                 },
                                 startOnTick: true,
                                 endOnTick: true,
                                 showLastLabel: true
                             },
                             yAxis: {
+                                max: yMax,
                                 title: {
-                                    text: 'Count'
+                                    text: 'Observations of Sample Mean'
                                 }
                             },
                             series: [sampleMeanSeries]
                             })});
         } else {
-            this.state.chart.update({series:[sampleMeanSeries]});
+            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}});
         }
     }
 }
 export default SampleMeanChart;
+
+//automate sample mean sampling
+//

@@ -14,7 +14,7 @@ class SimulateSamples extends Component {
     render(){
         return(
             <div>
-                <button onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[]}); this.simulate()}}> Run Simulation </button>
+                <button disabled={this.props.disabled} onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[]}); this.simulate()}}> Run Simulation </button>
                 <div id="sim-container"> </div>
             </div>
         );
@@ -24,7 +24,7 @@ class SimulateSamples extends Component {
         let popMeanSeries = {name: "Population Mean", data: []};
         let sampleMeanSeries = {name: "Sample Means", data : []};
         for (let i = 0; i < 100; i++){
-            popMeanSeries.data[i] = math.mean(this.props.pop);
+            popMeanSeries.data[i] = Math.round(math.mean(this.props.pop) * 10) / 10;
             sampleMeanSeries.data[i] = null;
         }
         for (let i = 0; i < this.state.sampleMeans.length; i++){
@@ -35,6 +35,8 @@ class SimulateSamples extends Component {
             for (let i=0; i < 100; i++){
                 myCategories[i]= (this.props.pop.length / 100 * i);
             }
+            const yMax = this.props.type === "Chi-Squared" ? 10 : this.props.type === "Exponential" ? 90 : 67;
+            const yMin = this.props.type === "Chi-Squared" ? 6 : this.props.type === "Exponential" ? 40 : 61
             this.setState({chart: Highcharts.chart('sim-container', {
                             chart: {
                                 type: 'line'
@@ -53,6 +55,8 @@ class SimulateSamples extends Component {
                                 showLastLabel: true
                             },
                             yAxis: {
+                                min: yMin,
+                                max: yMax,
                                 title: {
                                     text: 'Mean'
                                 }
@@ -80,7 +84,7 @@ class SimulateSamples extends Component {
             for (let j of sample){
                 vals.push(pop[j[0]]);
             }
-            this.state.sampleMeans.push(math.mean(vals));
+            this.state.sampleMeans.push(Math.round(math.mean(vals) * 10) / 10);
             this.state.meanDiffs.push(this.state.popMean - math.mean(vals));
         }
     }
