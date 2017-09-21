@@ -13,7 +13,7 @@ class SampleMeanChart extends Component {
     render(){
         this.props.sampleMeans && this.props.sampleMeans.length && this.show();
         return(
-            <span id="sim-container"> </span>
+            <span style={{width:"400px", float: "left"}} id="sim-container"> </span>
         );
     }
     componentDidMount(){
@@ -23,16 +23,18 @@ class SampleMeanChart extends Component {
         let sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
         for (let i in this.props.sampleMeans){
-            const val = Math.round(this.props.sampleMeans[i]);
+            const val = Math.round(this.props.sampleMeans[i] * 4) / 4;
             let count = 1;
             for (let j of sampleMeanSeries.data){
-                if (Math.round(j[0]) === val){
+                if (Math.round(j[0] * 4) / 4 === val){
                     count += 1;
                 }
             }
             yMax = Math.max(count, yMax);
             sampleMeanSeries.data[i] = [val, count];
         }
+        const xMin = this.props.type === "Chi-Squared" ? 4 :  this.props.type === "Exponential" ? 0 : 55;
+        const xMax = this.props.type === "Chi-Squared" ? 12 : this.props.type === "Exponential" ? 150 : 75;
         if (!this.state.chart) {
             this.setState({chart: Highcharts.chart('sim-container', {
                             chart: {
@@ -42,6 +44,8 @@ class SampleMeanChart extends Component {
                                 text: 'Sample Mean Distribution'
                             },
                             xAxis: {
+                                min: xMin,
+                                max: xMax,
                                 title : {
                                     enabled: true,
                                     text: 'Sample Mean (in)'

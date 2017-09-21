@@ -61,20 +61,21 @@ class CentralLimitTheorem extends Component {
         return(
             <div>
                 <div style={{width:"100%", height:"300px"}}>
-                    <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
-                    {popTable}
-                    <span style={{float:'left'}} id="container"></span>
-                    <div style={{float:'right'}}>
-                        <MeanButton calculable={true} setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        <SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType])} sample={(size) => this.setState({calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        <MeanButton calculable={this.state.calculable} setmean={(mean) => this.sampleMean(mean)} popArray = {this.state.samplePop} popType={this.state.popType}/>
-                        <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType] ? this.state.sampleMean[this.state.popType][this.state.sampleMean[this.state.popType].length - 1] : undefined}/>
-                        <SampleMeanTable style={{float:'right'}} sampleMeans={this.state.sampleMean[this.state.popType]}/>
+                    <div style={{float:"left"}}>
+                        <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
+                        <SampleMeanTable sampleMeans={this.state.sampleMean[this.state.popType]}/>
                     </div>
-                </div>
-                <div>
-                    <SampleMeanChart style={{float:'left'}} sampleMeans={this.state.sampleMean[this.state.popType]}/>
-                    <SampleMeanSimulator style={{float:'right'}} population={this.state.popArray[this.state.popType]} sample={(mean)=>{this.sampleMean(mean)}}/>
+                    <div style={{margin:"20px"}}>
+                        <span style={{float:'left', width:"400px"}} id="container"></span>
+                        {this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length ? <SampleMeanChart style={{width:"400px"}} type={this.state.popType} sampleMeans={this.state.sampleMean[this.state.popType]}/> : null}
+                        {this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length ? <SampleMeanSimulator style={{float:'right'}} population={this.state.popArray[this.state.popType]} sample={(means)=>{this.updateSampleMeansFromArray(means)}}/> : null}
+                    </div>
+                    <div style={{float:'right'}}>
+                        <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                        <SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType])} sample={(size) => this.setState({calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                        <MeanButton string={"Sample"} calculable={this.state.calculable} setmean={(mean) => this.sampleMean(mean)} popArray = {this.state.samplePop} popType={this.state.popType}/>
+                        <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType] ? this.state.sampleMean[this.state.popType][this.state.sampleMean[this.state.popType].length - 1] : undefined}/>
+                    </div>
                 </div>
             </div>
         );
@@ -86,12 +87,18 @@ class CentralLimitTheorem extends Component {
         this.setState({calculable: false, sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : sampleMeans})});
     }
 
+    updateSampleMeansFromArray(means){
+        let sampleMeans = this.state.sampleMean[this.state.popType];
+        sampleMeans = sampleMeans.concat(means);
+        this.setState({calculable: false, sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : sampleMeans})});
+    }
+
 
     selectPop(popType){
         clearInterval(this.timer);
         this.timer = setInterval( () => {
             this.generate(popType);
-        }, 250)
+        }, 200)
     }
 
     sum(pop){
@@ -363,7 +370,7 @@ function SampleMeanTable(props){
         return(<tr><td>{index + 1}</td><td>{Math.round(val * 10) / 10}</td></tr>);
     });
     return (
-            <div style={{float:"left", height:"300px", overflow:"scroll"}}>
+            <div style={{float:"left", height:"150px", overflow:"scroll", margin:"35px"}}>
                 <table style={{width: "100%", border:"1px solid black"}}>
                     <tr>
                         <th> Observation </th>

@@ -21,6 +21,7 @@ const ToolBarButton=styled.a`
   border: 2px solid black;
   color: #555555;
   padding: 10px 24px;
+  width: 80px;
   text-align: center;
   text-decoration: none;
   display: block;

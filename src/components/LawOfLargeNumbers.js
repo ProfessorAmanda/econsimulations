@@ -135,16 +135,16 @@ class LawOfLargeNumbers extends Component{
         const popTable = (<PopTable samples={this.state.sampled} popArray={this.state.popArray} popType={this.state.popType}/>)
         return(
             <div>
-            <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
-            {popTable}
-            <span style={{float:'left'}} id="container"></span>
-            <div style={{float:'right'}}>
-                <MeanButton calculable={true} setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                <SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType])} sample={(size) => this.setState({sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                <MeanButton calculable={true} setmean={(mean) => this.setState({sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/>
-                <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType]}/>
-            </div>
-            <SimulateSamples type={this.state.popType} disabled={!(this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE)} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/>
+                <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
+                {popTable}
+                <span style={{float:'left'}} id="container"></span>
+                <div style={{float:'right'}}>
+                    <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                    <SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType])} sample={(size) => this.setState({sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                    <MeanButton string={"Sample"} calculable={true} setmean={(mean) => this.setState({sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/>
+                    <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType]}/>
+                </div>
+                <SimulateSamples type={this.state.popType} disabled={!(this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE)} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/>
             </div>
         );
     }
