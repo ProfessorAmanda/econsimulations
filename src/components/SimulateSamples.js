@@ -68,13 +68,16 @@ class SimulateSamples extends Component {
         }
     }
     simulate(){
-        let n = 1;
-        this.timer = setInterval( () => {
-            this.calculate(n, this.props.pop);
-            this.chart();
-            n += 1;
-            n === 101 && clearInterval(this.timer);
-        }, n === 2 ? 1000 : 100);
+        this.chart();
+        setTimeout(()=> {
+            let n = 1;
+            this.timer = setInterval( () => {
+                this.calculate(n, this.props.pop);
+                this.chart();
+                n += 1;
+                n === 101 && clearInterval(this.timer);
+            }, 100);
+        }, 600);
     }
     calculate(n, pop){
         for (let i = n; i < n + 1; i++){

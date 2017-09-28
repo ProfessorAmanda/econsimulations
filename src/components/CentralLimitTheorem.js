@@ -11,72 +11,73 @@ import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeanSimulator from './SampleMeanSimulator.js'
 
 const SAMPLE_SIZE = 1000;
-
+const BASE_STATE = {
+    popType: '',
+    popMean: {
+        "Normal": [],
+        "Uniform": [],
+        "Exponential": [],
+        "Chi-Squared": []
+    },
+    sampleMean: {
+        "Normal": [],
+        "Uniform": [],
+        "Exponential": [],
+        "Chi-Squared": []
+    },
+    popArray:{
+        "Normal": [],
+        "Uniform": [],
+        "Exponential": [],
+        "Chi-Squared": []
+    },
+    popDict:{
+        "Normal": [],
+        "Uniform": [],
+        "Exponential": [],
+        "Chi-Squared": []
+    },
+    sampled:{
+        "Normal": [],
+        "Uniform": [],
+        "Exponential": [],
+        "Chi-Squared": []
+    },
+    samplePop: {
+        "Normal": [],
+        "Uniform": [],
+        "Exponential": [],
+        "Chi-Squared": []
+    }
+}
 class CentralLimitTheorem extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            popType: '',
-            popMean: {
-                "Normal": [],
-                "Uniform": [],
-                "Exponential": [],
-                "Chi-Squared": []
-            },
-            sampleMean: {
-                "Normal": [],
-                "Uniform": [],
-                "Exponential": [],
-                "Chi-Squared": []
-            },
-            popArray:{
-                "Normal": [],
-                "Uniform": [],
-                "Exponential": [],
-                "Chi-Squared": []
-            },
-            popDict:{
-                "Normal": [],
-                "Uniform": [],
-                "Exponential": [],
-                "Chi-Squared": []
-            },
-            sampled:{
-                "Normal": [],
-                "Uniform": [],
-                "Exponential": [],
-                "Chi-Squared": []
-            },
-            samplePop: {
-                "Normal": [],
-                "Uniform": [],
-                "Exponential": [],
-                "Chi-Squared": []
-            }
-        }
+        this.state = BASE_STATE;
     }
 
     render(){
         const popTable = (<PopTable samples={this.state.sampled} popArray={this.state.popArray} popType={this.state.popType}/>)
+        const popDrawn = this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length;
         return(
             <div>
                 <div style={{width:"100%", height:"300px"}}>
                     <div style={{float:"left"}}>
                         <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
-                        <SampleMeanTable sampleMeans={this.state.sampleMean[this.state.popType]}/>
                     </div>
                     <div style={{margin:"20px"}}>
                         <span style={{float:'left', width:"400px"}} id="container"></span>
-                        {this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length ? <SampleMeanChart style={{width:"400px"}} type={this.state.popType} sampleMeans={this.state.sampleMean[this.state.popType]}/> : null}
-                        {this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length ? <SampleMeanSimulator style={{float:'right'}} population={this.state.popArray[this.state.popType]} sample={(means)=>{this.updateSampleMeansFromArray(means)}}/> : null}
+                        {popDrawn ? <SampleMeanChart style={{width:"400px"}} type={this.state.popType} sampleMeans={this.state.sampleMean[this.state.popType]}/> : null}
                     </div>
-                    <div style={{float:'right'}}>
+                    {popDrawn ? <div style={{float:'right'}}>
                         <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        <SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType])} sample={(size) => this.setState({calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        <MeanButton string={"Sample"} calculable={this.state.calculable} setmean={(mean) => this.sampleMean(mean)} popArray = {this.state.samplePop} popType={this.state.popType}/>
-                        <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType] ? this.state.sampleMean[this.state.popType][this.state.sampleMean[this.state.popType].length - 1] : undefined}/>
-                    </div>
+                        <p> Draw one sample of a specified size </p>
+                        <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}} sample={(size) => this.setState({calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                        <p> Simulate drawing n samples of a given size </p>
+                        <SampleMeanSimulator style={{float:'right'}} population={this.state.popArray[this.state.popType]} sample={(means)=>{this.updateSampleMeansFromArray(means)}}/>
+                    </div> : null}
                 </div>
+                <button onClick={()=>{this.setState(BASE_STATE); this.myChart.destroy(); this.myChart = null; console.log(this.state)}}> CLEAR </button>
             </div>
         );
     }
@@ -95,10 +96,13 @@ class CentralLimitTheorem extends Component {
 
 
     selectPop(popType){
-        clearInterval(this.timer);
-        this.timer = setInterval( () => {
-            this.generate(popType);
-        }, 200)
+        this.changePop(this.state.popDict[popType], popType);
+        setTimeout(() => {
+            clearInterval(this.timer); //stop any populating that may be happening
+            this.timer = setInterval( () => {
+                this.generate(popType);
+            }, 200);
+        }, 500)
     }
 
     sum(pop){
@@ -151,7 +155,7 @@ class CentralLimitTheorem extends Component {
     }
 
     generateNormal(){
-        this.changePop(this.state.popDict["Normal"]);
+        this.changePop(this.state.popDict["Normal"], "Normal");
         if (this.sum(this.state.popDict["Normal"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -180,7 +184,7 @@ class CentralLimitTheorem extends Component {
     }
 
     generateUniform(){
-        this.changePop(this.state.popDict["Uniform"]);
+        this.changePop(this.state.popDict["Uniform"], "Uniform");
         if (this.sum(this.state.popDict["Uniform"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -203,7 +207,7 @@ class CentralLimitTheorem extends Component {
     }
 
     generateExponential(){
-        this.changePop(this.state.popDict["Exponential"]);
+        this.changePop(this.state.popDict["Exponential"], "Exponential");
         if (this.sum(this.state.popDict["Exponential"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -224,7 +228,7 @@ class CentralLimitTheorem extends Component {
     }
 
     generateChiSquared(){
-        this.changePop(this.state.popDict["Chi-Squared"]);
+        this.changePop(this.state.popDict["Chi-Squared"], "Chi-Squared");
         if (this.sum(this.state.popDict["Chi-Squared"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -252,15 +256,15 @@ class CentralLimitTheorem extends Component {
         return popArray;
     }
 
-    changePop(popDict) {
+    changePop(popDict, popType) {
         let pseries = {data : [], color: '#F27474', name:"Population"}
         let sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
-        let sampledCopy = this.state.sampled[this.state.popType];
+        let sampledCopy = this.state.sampled[popType];
         let sampleVals = [[]];
         let samplePop = []
         for (let j in sampledCopy){
             sampleVals[j] = [];
-            sampleVals[j][0] = Math.round(this.state.popArray[this.state.popType][sampledCopy[j][0]] * 10)
+            sampleVals[j][0] = Math.round(this.state.popArray[popType][sampledCopy[j][0]] * 10)
             sampleVals[j][1] = sampledCopy[j][1];
             samplePop.push(sampleVals[j][0] / 10)
         }
@@ -276,9 +280,9 @@ class CentralLimitTheorem extends Component {
                 }
             }
         }
-        const xmaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 74 : this.state.popType == "Exponential" ? 350: 25;
-        const xminval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 56 : 0;
-        const ymaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 30 : this.state.popType == "Exponential" ? 10 : 20;
+        const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: 25;
+        const xminval = (popType == "Uniform" || popType == "Normal") ? 56 : 0;
+        const ymaxval = (popType == "Uniform" || popType == "Normal") ? 30 : popType == "Exponential" ? 10 : 20;
         if (!this.myChart) {
             this.myChart = Highcharts.chart('container', {
             chart: {

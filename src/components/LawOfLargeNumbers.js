@@ -89,10 +89,13 @@ class LawOfLargeNumbers extends Component{
         }
     }
     selectPop(popType){
-        clearInterval(this.timer);
-        this.timer = setInterval( () => {
-            this.generate(popType);
-        }, 250)
+        this.changePop(this.state.popDict[popType], popType);
+        setTimeout(() => {
+            clearInterval(this.timer); //stop any populating that may be happening
+            this.timer = setInterval( () => {
+                this.generate(popType);
+            }, 200);
+        }, 500)
     }
     sample(size, array) {
         let sampled = []
@@ -149,7 +152,7 @@ class LawOfLargeNumbers extends Component{
         );
     }
     generateNormal(){
-        this.changePop(this.state.popDict["Normal"]);
+        this.changePop(this.state.popDict["Normal"], "Normal");
         if (this.sum(this.state.popDict["Normal"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -178,7 +181,7 @@ class LawOfLargeNumbers extends Component{
     }
 
     generateUniform(){
-        this.changePop(this.state.popDict["Uniform"]);
+        this.changePop(this.state.popDict["Uniform"], "Uniform");
         if (this.sum(this.state.popDict["Uniform"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -201,7 +204,7 @@ class LawOfLargeNumbers extends Component{
     }
 
     generateExponential(){
-        this.changePop(this.state.popDict["Exponential"]);
+        this.changePop(this.state.popDict["Exponential"], "Exponential");
         if (this.sum(this.state.popDict["Exponential"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -222,7 +225,7 @@ class LawOfLargeNumbers extends Component{
     }
 
     generateChiSquared(){
-        this.changePop(this.state.popDict["Chi-Squared"]);
+        this.changePop(this.state.popDict["Chi-Squared"], "Chi-Squared");
         if (this.sum(this.state.popDict["Chi-Squared"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -250,15 +253,15 @@ class LawOfLargeNumbers extends Component{
         return popArray;
     }
 
-    changePop(popDict) {
+    changePop(popDict, popType) {
         let pseries = {data : [], color: '#F27474', name:"Population"}
         let sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
-        let sampledCopy = this.state.sampled[this.state.popType];
+        let sampledCopy = this.state.sampled[popType];
         let sampleVals = [[]];
         let samplePop = []
         for (let j in sampledCopy){
             sampleVals[j] = [];
-            sampleVals[j][0] = Math.round(this.state.popArray[this.state.popType][sampledCopy[j][0]] * 10)
+            sampleVals[j][0] = Math.round(this.state.popArray[popType][sampledCopy[j][0]] * 10)
             sampleVals[j][1] = sampledCopy[j][1];
             samplePop.push(sampleVals[j][0] / 10)
         }
@@ -274,9 +277,9 @@ class LawOfLargeNumbers extends Component{
                 }
             }
         }
-        const xmaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 74 : this.state.popType == "Exponential" ? 350: 25;
-        const xminval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 56 : 0;
-        const ymaxval = (this.state.popType == "Uniform" || this.state.popType == "Normal") ? 30 : this.state.popType == "Exponential" ? 10 : 20;
+        const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: 25;
+        const xminval = (popType == "Uniform" || popType == "Normal") ? 56 : 0;
+        const ymaxval = (popType == "Uniform" || popType == "Normal") ? 30 : popType == "Exponential" ? 10 : 20;
         if (!this.myChart) {
             this.myChart = Highcharts.chart('container', {
             chart: {
