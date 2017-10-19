@@ -89,25 +89,27 @@ class LawOfLargeNumbers extends Component{
                 "Uniform": [],
                 "Exponential": [],
                 "Chi-Squared": []
-            }
+            },
+            stage : 0
         }
     }
 
     render(){
         const popTable = (<PopTable samples={this.state.sampled} popArray={this.state.popArray} popType={this.state.popType}/>)
+        const popDrawn = this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE;
         return(
             <div>
                 <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
                 {popTable}
                 <span style={{float:'left'}} id="container"></span>
-                <div style={{float:'right'}}>
-                    <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                    <SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType], this.state.popType)} sample={(size) => this.setState({sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                    <MeanButton string={"Sample"} calculable={true} setmean={(mean) => this.setState({sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/>
-                    <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType]}/>
-                </div>
-                <SimulateSamples type={this.state.popType} disabled={!(this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE)} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/>
-                <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
+                {popDrawn ? <div style={{float:'right'}}>
+                    <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({stage:1,popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                    { this.state.stage >= 1 ? <span> <p> Take a Sample:</p> {this.state.stage >= 2 ? <p> Try a few different sample sizes and <br/> compare sample mean to population mean </p> : null}<SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType], this.state.popType)} sample={(size) => this.setState({stage:2,sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/></span> : null}
+                    { this.state.stage >= 2 ? <MeanButton string={"Sample"} calculable={true} setmean={(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/> : null}
+                    { this.state.stage >= 3 ? <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType]}/> : null}
+                    <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
+                </div> : null}
+                { this.state.stage >= 2 ? <span> <p> See Simulation of different sample sizes below main plot: </p><SimulateSamples type={this.state.popType} disabled={!(this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE)} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/></span> : null}
             </div>
         );
     }
