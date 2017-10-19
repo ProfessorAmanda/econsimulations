@@ -77,9 +77,22 @@ class CentralLimitTheorem extends Component {
                         <SampleMeanSimulator style={{float:'right'}} population={this.state.popArray[this.state.popType]} sample={(means)=>{this.updateSampleMeansFromArray(means)}}/>
                     </div> : null}
                 </div>
-                <button onClick={()=>{this.setState(BASE_STATE); this.myChart.destroy(); this.myChart = null; console.log(this.state)}}> CLEAR </button>
+                <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
             </div>
         );
+    }
+
+    clearState() {
+        for (let i in this.state){
+            if (i !== "poptype"){
+                for (let j of ["Normal", "Uniform", "Exponential", "Chi-Squared"]){
+                    this.setState({i: Object.assign(this.state[i], {[j] : []})});
+                }
+
+            }
+        }
+        this.setState({popType:''});
+        clearInterval(this.timer);
     }
 
     sampleMean(mean){

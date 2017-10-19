@@ -8,13 +8,18 @@ class SimulateSamples extends Component {
         this.state = {
             sampleMeans: [],
             meanDiffs: [],
-            chart: undefined
+            chart: undefined,
+            type: ''
         }
     }
     render(){
+        if (this.props.type !== this.state.type) {
+            this.state.chart && this.state.chart.destroy();
+            this.state = {chart:undefined,sampleMeans:[],meanDiffs:[], type:this.props.type};
+        }
         return(
             <div>
-                <button disabled={this.props.disabled} onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[]}); this.simulate()}}> Run Simulation </button>
+                <button disabled={this.props.disabled} onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[], type:''}); this.simulate()}}> Run Simulation </button>
                 <div id="sim-container"> </div>
             </div>
         );

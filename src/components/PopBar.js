@@ -41,10 +41,11 @@ class PopBar extends Component {
     constructor(props){
         super(props);
         this.state = {
-            selected: ''
+            selected: props.section
         }
     }
     render() {
+        this.state.selected = this.props.section;
         const modes = ["Normal", "Uniform", "Exponential", "Chi-Squared"]
         const sections = modes.map((section)=>{
             const style = section === this.state.selected ? {
