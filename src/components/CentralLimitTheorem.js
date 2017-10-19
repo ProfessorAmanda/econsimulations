@@ -48,7 +48,8 @@ const BASE_STATE = {
         "Uniform": [],
         "Exponential": [],
         "Chi-Squared": []
-    }
+    },
+    stage : 0
 }
 class CentralLimitTheorem extends Component {
     constructor(props){
@@ -71,10 +72,13 @@ class CentralLimitTheorem extends Component {
                     </div>
                     {popDrawn ? <div style={{float:'right'}}>
                         <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        <p> Draw one sample of a specified size </p>
-                        <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}} sample={(size) => this.setState({calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        <p> Simulate drawing n samples of a given size </p>
-                        <SampleMeanSimulator style={{float:'right'}} population={this.state.popArray[this.state.popType]} sample={(means)=>{this.updateSampleMeansFromArray(means)}}/>
+                        {this.state.stage == 0 ? <span> <p> Try drawing one sample <br/> of a specified size and plotting its mean </p>
+                        <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}} sample={(size) => this.setState({stage: 1, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                        </span>:this.state.stage == 1 ? <span> <p> Ok, now see what happens <br/> with a different size </p>
+                        <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}} sample={(size) => this.setState({stage: 2, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                        </span>:
+                        <span><p> Finally, simulate drawing samples <br/> at a specified size many times <br/> and plotting each mean </p>
+                        <SampleMeanSimulator style={{float:'right'}} population={this.state.popArray[this.state.popType]} sample={(means)=>{this.updateSampleMeansFromArray(means)}}/></span>}
                     </div> : null}
                 </div>
                 <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
