@@ -5,7 +5,6 @@ import styled from 'styled-components';
 const SelectPop=styled.ul`
   list-style: none;
   float: left;
-  margin: 10px;
 `;
 
 const SectionItem=styled.li`

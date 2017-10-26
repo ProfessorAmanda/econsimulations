@@ -13,7 +13,7 @@ class SampleMeanChart extends Component {
     render(){
         this.props.sampleMeans && this.props.sampleMeans.length && this.show();
         return(
-            <span style={{width:"400px", float: "left"}} id="sim-container"> </span>
+            <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
         );
     }
     componentDidMount(){

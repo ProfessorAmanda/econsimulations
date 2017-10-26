@@ -85,6 +85,7 @@ class SimulateSamples extends Component {
         }, 600);
     }
     calculate(n, pop){
+        window.scrollBy(0, 400);
         for (let i = n; i < n + 1; i++){
             let size = pop.length / 100 * i;
             const sample = this.props.sample(size, pop);
