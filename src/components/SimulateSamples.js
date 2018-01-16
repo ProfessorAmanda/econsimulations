@@ -19,20 +19,34 @@ class SimulateSamples extends Component {
         }
         return(
             <div>
-                <button disabled={this.props.disabled} onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[], type:''}); this.simulate()}}> Run Simulation </button>
+                <button disabled = {this.timer} onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[], type:''}); this.simulate()}}> Run Simulation </button>
                 <div id="sim-container"> </div>
             </div>
         );
+    }
+
+    simulate(){
+        this.chart();
+        setTimeout(()=> {
+            let n = 1;
+            this.timer = setInterval( () => {
+                this.calculate(n, this.props.pop);
+                this.chart();
+                n += 1;
+                n === 101 && clearInterval(this.timer);
+            }, 175);
+        }, 600);
     }
 
     chart(){
         let popMeanSeries = {name: "Population Mean", data: []};
         let sampleMeanSeries = {name: "Sample Means", data : []};
         for (let i = 0; i < 100; i++){
-            popMeanSeries.data[i] = Math.round(math.mean(this.props.pop) * 10) / 10;
+            popMeanSeries.data[i] = null;
             sampleMeanSeries.data[i] = null;
         }
         for (let i = 0; i < this.state.sampleMeans.length; i++){
+            popMeanSeries.data[i] = Math.round(math.mean(this.props.pop) * 10) / 10;
             sampleMeanSeries.data[i] = this.state.sampleMeans[i];
         }
         if (!this.state.chart) {
@@ -72,18 +86,7 @@ class SimulateSamples extends Component {
             this.state.chart.update({series:[popMeanSeries, sampleMeanSeries]});
         }
     }
-    simulate(){
-        this.chart();
-        setTimeout(()=> {
-            let n = 1;
-            this.timer = setInterval( () => {
-                this.calculate(n, this.props.pop);
-                this.chart();
-                n += 1;
-                n === 101 && clearInterval(this.timer);
-            }, 100);
-        }, 600);
-    }
+
     calculate(n, pop){
         window.scrollBy(0, 400);
         for (let i = n; i < n + 1; i++){

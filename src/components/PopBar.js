@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import HelpModal from './HelpModal.js';
 
 
 const SelectPop=styled.ul`
   list-style: none;
   float: left;
+  margin: 10px
 `;
 
 const SectionItem=styled.li`
@@ -54,8 +56,9 @@ class PopBar extends Component {
             return (<ToolBarButton style={style} onClick={()=> {this.props.setPop(section); this.setState({selected:section})}}> {section} </ToolBarButton>);
         });
         return(
+
             <div id="section-list">
-                 <SelectPop> <label> Select a Distribution Type </label> {sections} </SelectPop>
+                 <SelectPop> <label> Select a Distribution Type </label> {sections}  <HelpModal content={"PopBar"}/> </SelectPop>
             </div>
         );
     }

@@ -6,6 +6,7 @@ import Highcharts from 'highcharts';
 import math from 'mathjs'
 import chi from 'chi-squared'
 import MeanButton from './MeanButton.js'
+import HelpModal from './HelpModal.js'
 import SimulateSamples from './SimulateSamples.js'
 
 const SAMPLE_SIZE = 1000
@@ -95,11 +96,11 @@ class LawOfLargeNumbers extends Component{
     }
 
     render(){
-        const popTable = (<PopTable samples={this.state.sampled} popArray={this.state.popArray} popType={this.state.popType}/>)
+        const popTable = (<PopTable style={{width:"50%"}}  samples={this.state.sampled} popArray={this.state.popArray} popType={this.state.popType}/>)
         const popDrawn = this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE;
         return(
             <div>
-                <PopBar style={{width:"5%"}} section={this.state.popType} setPop={(pop) => {this.setState({popType:pop, stage: 0}); this.selectPop(pop)}}/>
+                <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop, stage: 0}); this.selectPop(pop)}}/>
                 {popTable}
                 <span style={{float:'left', width:"30%"}} id="container"></span>
                 {popDrawn ? <span style={{width:"20%"}}>
@@ -109,7 +110,7 @@ class LawOfLargeNumbers extends Component{
                     { this.state.stage >= 3 ? <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType]}/> : null}
                     <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
                 </span> : null}
-                { this.state.stage >= 2 && popDrawn ? <div style={{width:"100%"}}> <p> See simulation of different sample sizes below main plot: </p><SimulateSamples type={this.state.popType} disabled={!(this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE)} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/></div> : null}
+                { this.state.stage >= 2 && popDrawn ? <div style={{width:"100%"}}> <p> See simulation of different sample sizes below main plot: </p><SimulateSamples type={this.state.popType} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/></div> : null}
             </div>
         );
     }
