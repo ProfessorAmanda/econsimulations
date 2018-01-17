@@ -27,12 +27,23 @@ const modalStyle = {
     }
 }
 
+
+
 class HelpModal extends Component {
     constructor(props){
         super(props);
         this.state = {
             open : false
         }
+        this.contentDict = {}
+        this.contentDict["PopBar"] = <span>
+                                        <h1> I am for the Pop Bar </h1>
+                                        <button onClick={() => {this.setState({open:false})}}> close </button>
+                                    </span>
+        this.contentDict["Mean"] = <span>
+                                        <h1> I am for the Mean </h1>
+                                        <button onClick={() => {this.setState({open:false})}}> close </button>
+                                    </span>
     }
 
     render(){
@@ -40,9 +51,8 @@ class HelpModal extends Component {
             <div>
                 <button onClick={()=> {this.setState({open:true}); console.log("hello?");}}> Help!  </button>
                 <Modal isOpen={this.state.open} >
-                    <h1> Here to help! </h1>
-                    <button onClick={() => {this.setState({open:false})}}> close </button>
-                    </Modal>
+                {this.contentDict[this.props.content]}
+                </Modal>
             </div>
         )
     }
