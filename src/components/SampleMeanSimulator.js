@@ -14,14 +14,22 @@ class SampleMeanSimulator extends Component{
     render(){
         return(
             <div>
-                <input type="number" placeholder="Resample Size" onChange={(event) => {this.setState({resampleSize: event.target.value})}} value={this.state.resampleSize}/>
-                <input type="number" placeholder="Number of Resamples" onChange={(event) => {this.setState({numberResamples:event.target.value})}} value={this.state.numberResamples}/>
-                <button onClick={()=>{this.runSim(this.state.resampleSize, this.state.numberResamples, this.props.population, this.props.sample)}} disabled={this.timer || !this.state.numberResamples || !this.state.resampleSize || !this.props.population || this.props.population.length < 1000 || this.state.resampleSize < 1 || this.state.numberResamples < 1}> Run </button>
+                <input type="number" placeholder="Resample Size" onKeyPress={(e)=> this.onKey(e)} onChange={(event) => {this.setState({resampleSize: event.target.value})}} value={this.state.resampleSize}/>
+                <input type="number" placeholder="Number of Resamples" onKeyPress={(e)=> this.onKey(e)} onChange={(event) => {this.setState({numberResamples:event.target.value})}} value={this.state.numberResamples}/>
+                <button onClick={()=>{this.runSim(this.state.resampleSize, this.state.numberResamples, this.props.population, this.props.sample, this.props.clear)}}
+                disabled={this.timer || !this.state.numberResamples || !this.state.resampleSize || this.state.resampleSize < 1 || this.state.numberResamples < 1}> Run </button>
             </div>
         )
     }
 
-    runSim(resampleSize, numberResamples, population, callback){
+    onKey(e) {
+        if (e.key === "Enter" && !this.timer && this.state.numberResamples && this.state.resampleSize && this.state.resampleSize >= 1 && this.state.numberResamples >= 1) {
+            this.runSim(this.state.resampleSize, this.state.numberResamples, this.props.population, this.props.sample, this.props.clear)
+        }
+    }
+
+    runSim(resampleSize, numberResamples, population, callback, clear){
+        clear()
         let n = 0;
         const step = Math.max(numberResamples / NUMBER_OF_STEPS, 1);
         this.timer = setInterval(()=>{

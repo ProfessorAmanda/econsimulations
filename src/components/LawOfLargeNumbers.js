@@ -100,18 +100,20 @@ class LawOfLargeNumbers extends Component{
         const popDrawn = this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE;
         return(
             <div>
-                <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop, stage: 0}); this.selectPop(pop)}}/>
+                <div style={{width:"10%"}}>
+                    <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
+                </div>
                 {popTable}
                 <span style={{float:'left', width:"30%"}} id="container"></span>
                 {popDrawn ? <span style={{width:"20%"}}>
                     <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({stage:1,popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                    { this.state.stage >= 1 ? <span> <label> Step 3: Sampling </label> <HelpModal content={"Sampling"}/> </span> : null }
                     { this.state.stage >= 1 ? <span> <p> Take a Sample:</p> {this.state.stage >= 2 ? <p> Try a few different sample sizes and compare sample mean to population mean </p> : null}<SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType], this.state.popType)} sample={(size) => this.setState({stage:2,sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/></span> : null}
-                    <HelpModal content={"Mean"}/>
                     { this.state.stage >= 2 ? <MeanButton string={"Sample"} calculable={true} setmean={(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/> : null}
                     { this.state.stage >= 3 ? <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType]}/> : null}
                     <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
                 </span> : null}
-                { this.state.stage >= 2 && popDrawn ? <div style={{width:"100%"}}> <p> See simulation of different sample sizes below main plot: </p><SimulateSamples type={this.state.popType} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/></div> : null}
+                { this.state.stage >= 2 && popDrawn ? <div style={{width:"100%"}}> <p> See simulation of different sample sizes below main plot: </p> <SimulateSamples type={this.state.popType} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/> <HelpModal content={"SimulateSamples"}/></div> : null}
             </div>
         );
     }

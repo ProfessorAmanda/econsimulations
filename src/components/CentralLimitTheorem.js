@@ -69,14 +69,32 @@ class CentralLimitTheorem extends Component {
                     <span style={{float: "left", width:"30%"}} id="container"></span>
                     {popDrawn ? <SampleMeanChart type={this.state.popType} sampleMeans={this.state.sampleMean[this.state.popType]}/> : null}
                     {popDrawn ? <span style={{width:"25%"}}>
-                        <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        {this.state.stage == 0 ? <span> <p> Try drawing one sample of a specified size and plotting its mean </p>
-                        <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}} sample={(size) => this.setState({stage: 1, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        </span>:this.state.stage == 1 ? <span> <p> Ok, now see what happens with a different size </p>
-                        <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}} sample={(size) => this.setState({stage: 2, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/>
-                        </span>:
+                        <MeanButton string={"Population"} calculable={true}
+                        setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})}
+                        popArray = {this.state.popArray} popType={this.state.popType}/>
+
+                        {this.state.stage == 0 ?
+                        <span> <p> Try drawing one sample of a specified size and plotting its mean </p>
+                        <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}}
+                        sample={(size) => this.setState({stage: 1, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})}
+                        popArray = {this.state.popArray}
+                        popType={this.state.popType}/>
+                        </span>: this.state.stage == 1 ?
+
+                        <span> <p> Ok, now see what happens with a different size </p>
+                        <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}}
+                        sample={(size) => this.setState({stage: 2, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})}
+                        popArray = {this.state.popArray}
+                        popType={this.state.popType}/>
+                        </span> :
+
                         <span><p> Finally, simulate drawing samples at a specified size many times and plotting each mean </p>
-                        <SampleMeanSimulator style={{float:'right'}} population={this.state.popArray[this.state.popType]} sample={(means)=>{this.updateSampleMeansFromArray(means)}}/></span>}
+                            <SampleMeanSimulator style={{float:'right'}}
+                            clear={()=> this.setState({calculable: false, sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : []})})}
+                            population={this.state.popArray[this.state.popType]}
+                            sample={(means)=>{this.updateSampleMeansFromArray(means)}}/>
+                        </span>}
+
                     </span> : null}
                 </div>
                 <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>

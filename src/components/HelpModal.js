@@ -40,8 +40,13 @@ class HelpModal extends Component {
                                         <h1> I am for the Pop Bar </h1>
                                         <button onClick={() => {this.setState({open:false})}}> close </button>
                                     </span>
-        this.contentDict["Mean"] = <span>
-                                        <h1> I am for the Mean </h1>
+        this.contentDict["Sampling"] = <span>
+                                        <h1> I am for the Sampling </h1>
+                                        <button onClick={() => {this.setState({open:false})}}> close </button>
+                                    </span>
+
+        this.contentDict["SimulateSamples"] = <span>
+                                        <h1> I am for the Simulation </h1>
                                         <button onClick={() => {this.setState({open:false})}}> close </button>
                                     </span>
     }
