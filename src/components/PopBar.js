@@ -58,7 +58,7 @@ class PopBar extends Component {
         return(
 
             <div id="section-list">
-                 <SelectPop> <label> Step 1: Select a Distribution Type </label> {sections}  <HelpModal content={"PopBar"}/> </SelectPop>
+                 <SelectPop> <h4> Step 1: Select a Distribution Type <HelpModal content={"PopBar"}/> </h4> {sections} </SelectPop>
             </div>
         );
     }

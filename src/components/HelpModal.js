@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import FaQuestionCircle from 'react-icons/lib/fa'
+import Icon from 'react-icons-kit';
+import { question } from 'react-icons-kit/fa/question';
+import { close } from 'react-icons-kit/fa/close';
 const modalStyle = {
     overlay : {
         position          : 'fixed',
@@ -36,29 +38,30 @@ class HelpModal extends Component {
             open : false
         }
         this.contentDict = {}
-        this.contentDict["PopBar"] = <span>
-                                        <h1> I am for the Pop Bar </h1>
-                                        <button onClick={() => {this.setState({open:false})}}> close </button>
-                                    </span>
-        this.contentDict["Sampling"] = <span>
-                                        <h1> I am for the Sampling </h1>
-                                        <button onClick={() => {this.setState({open:false})}}> close </button>
-                                    </span>
-
-        this.contentDict["SimulateSamples"] = <span>
-                                        <h1> I am for the Simulation </h1>
-                                        <button onClick={() => {this.setState({open:false})}}> close </button>
-                                    </span>
+        this.contentDict["PopBar"] = {
+            header : "Population Bar",
+            paragraph: "Here is where you select the distribution type of your population."
+        }
+        this.contentDict["Sampling"] = {
+            header : "Sampling Section",
+            paragraph : "This is where you play around with sampling from your population"
+        }
+        this.contentDict["SimulateSamples"] = {
+            header : "Simulation Sampler",
+            paragraph : "This simulation shows the Law of Large Numbers in action, where larger samples have means that converge to the true population mean."
+        }
     }
 
     render(){
         return(
-            <div>
-                <button onClick={()=> {this.setState({open:true})}}> Help!  </button>
-                <Modal isOpen={this.state.open} >
-                {this.contentDict[this.props.content]}
+            <span>
+                <button onClick={()=> {this.setState({open:true})}}> <Icon icon={question}/> </button>
+                <Modal isOpen={this.state.open}>
+                    <button style={{float: 'right'}} onClick={() => {this.setState({open:false})}}> <Icon icon={close}/> </button>
+                    <h1> {this.contentDict[this.props.content].header} </h1>
+                    <p> {this.contentDict[this.props.content].paragraph} </p>
                 </Modal>
-            </div>
+            </span>
         )
     }
 }

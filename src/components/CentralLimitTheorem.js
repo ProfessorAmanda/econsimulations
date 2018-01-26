@@ -60,7 +60,6 @@ class CentralLimitTheorem extends Component {
     render(){
         const popTable = (<PopTable samples={this.state.sampled} popArray={this.state.popArray} popType={this.state.popType}/>)
         const popDrawn = this.state.popArray[this.state.popType] && this.state.popArray[this.state.popType].length === SAMPLE_SIZE;
-        console.log(this.state.popType);
         return(
             <div>
                 <div style={{width:"100%", height:"300px"}}>
