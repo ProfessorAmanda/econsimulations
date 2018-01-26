@@ -6,12 +6,11 @@ class SampleMeanChart extends Component {
         super(props);
         this.state = {
             chart: undefined,
-            sampleMeans:[],
-            meanDiffs:[]
+            sampleMeans:[]
         }
     }
     render(){
-        this.props.sampleMeans && this.props.sampleMeans.length && this.show();
+        this.state.chart && this.show();
         return(
             <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
         );
@@ -20,6 +19,7 @@ class SampleMeanChart extends Component {
         this.show();
     }
     show(){
+        console.log(this.props.type);
         let sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
         for (let i in this.props.sampleMeans){
@@ -63,11 +63,8 @@ class SampleMeanChart extends Component {
                             series: [sampleMeanSeries]
                             })});
         } else {
-            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}});
+            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {max: xMax, min: xMin}});
         }
     }
 }
 export default SampleMeanChart;
-
-//automate sample mean sampling
-//

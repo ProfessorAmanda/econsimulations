@@ -54,7 +54,7 @@ class HelpModal extends Component {
     render(){
         return(
             <div>
-                <button onClick={()=> {this.setState({open:true}); console.log("hello?");}}> Help!  </button>
+                <button onClick={()=> {this.setState({open:true})}}> Help!  </button>
                 <Modal isOpen={this.state.open} >
                 {this.contentDict[this.props.content]}
                 </Modal>
