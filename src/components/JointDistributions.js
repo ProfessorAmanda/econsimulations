@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
+import * as distriprob from "distriprob";
+const cdf = require('cumulative-distribution-function');
 
 class JointDistributions extends Component {
     constructor(props){
@@ -36,14 +38,19 @@ class JointDistributions extends Component {
 
         var distribution = MultivariateNormal(meanVector, covarianceMatrix);
         let series = {data : [], color: '#F27474', name:"Population"}
-        for (let i = 0; i < 10000; i++){
+        for (let i = 0; i < 1000; i++){
             series.data.push(distribution.sample());
         }
         let sharkSeries = {data : [], color: '#F27474', name:"Shark Attacks per Day"}
         let sharkDict = {};
-        for (let i of series.data){
-            const sharkFreq = Math.round(i[0] * 100) / 100;
-            console.log(sharkFreq);
+        let rawSharks = series.data.map((s) => {return s[0]});
+        let sharkCDF = cdf(rawSharks);
+        let sharkPois = [];
+        for (let s of sharkCDF.ps().slice(0, -1)) {
+            sharkPois.push(distriprob.poisson.quantileSync(s, 5));
+        }
+        for (let i of sharkPois){
+            const sharkFreq = i;
             if (sharkDict[sharkFreq]){
                 sharkDict[sharkFreq]++;
             } else {
@@ -55,7 +62,6 @@ class JointDistributions extends Component {
                 sharkSeries.data.push([parseFloat(i), j+1]);
             }
         }
-        console.log(sharkSeries.data);
         Highcharts.chart('sharks', {
             chart: {
                 type: 'scatter',
@@ -85,7 +91,6 @@ class JointDistributions extends Component {
         let icecreamDict = {};
         for (let i of series.data){
             const icecreamFreq = Math.round(i[1] * 100) / 100;
-            console.log(icecreamFreq);
             if (icecreamDict[icecreamFreq]){
                 icecreamDict[icecreamFreq]++;
             } else {
@@ -103,7 +108,7 @@ class JointDistributions extends Component {
                 zoomtype: 'xy'
             },
             title: {
-                text: 'icecream Attacks!'
+                text: 'Ice Cream Cones'
             },
             xAxis: {
                 title : {
@@ -121,6 +126,7 @@ class JointDistributions extends Component {
             },
             series: [icecreamSeries]
         });
+        
 
         Highcharts.chart('joint', {
             chart: {
