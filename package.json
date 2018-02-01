@@ -5,6 +5,7 @@
   "dependencies": {
     "chi-squared": "^1.1.0",
     "cumulative-distribution-function": "^1.0.2",
+    "distributions-normal-cdf": "0.0.2",
     "distriprob": "^0.2.0",
     "highcharts": "^5.0.14",
     "math": "0.0.3",

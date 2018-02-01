@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
-import * as distriprob from "distriprob";
-const cdf = require('cumulative-distribution-function');
+const distriprob = require("distriprob");
+var cdf = require( 'distributions-normal-cdf' );
 
 class JointDistributions extends Component {
     constructor(props){
@@ -17,9 +17,9 @@ class JointDistributions extends Component {
         return(
             <div>
                 <button onClick={()=>{this.generate()}}> Generate! </button>
-                <div id="sharks"/>
-                <div id="icecream"/>
-                <div id="joint"/>
+                <span style={{width:"30%", float: "left"}} id="sharks"/>
+                <span style={{width:"30%", float: "left"}} id="icecream"/>
+                <span style={{width:"30%", float: "left"}} id="joint"/>
             </div>
 
         )
@@ -27,27 +27,27 @@ class JointDistributions extends Component {
 
 
     generate() {
-        var meanVector = [1, 2];
+        var meanVector = [1, 10];
 
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
         var covarianceMatrix = [
-            [ 1.0, 0.0],
-            [ 0.0, 1.0]
+            [ 1.0, 1.0],
+            [ 1.0, 1.0]
         ];
 
         var distribution = MultivariateNormal(meanVector, covarianceMatrix);
-        let series = {data : [], color: '#F27474', name:"Population"}
+        let series = {data : [], color: '#1F242A ', name:"Population"}
         for (let i = 0; i < 1000; i++){
             series.data.push(distribution.sample());
         }
-        let sharkSeries = {data : [], color: '#F27474', name:"Shark Attacks per Day"}
+        let sharkSeries = {data : [], color: '#006D75', name:"Shark Attacks per Day"}
         let sharkDict = {};
         let rawSharks = series.data.map((s) => {return s[0]});
         let sharkCDF = cdf(rawSharks);
         let sharkPois = [];
-        for (let s of sharkCDF.ps().slice(0, -1)) {
-            sharkPois.push(distriprob.poisson.quantileSync(s, 5));
+        for (let s of sharkCDF) {
+            sharkPois.push(distriprob.poisson.quantileSync(s, 1));
         }
         for (let i of sharkPois){
             const sharkFreq = i;
@@ -87,7 +87,7 @@ class JointDistributions extends Component {
             series: [sharkSeries]
         });
 
-        let icecreamSeries = {data : [], color: '#F27474', name:"icecream Attacks per Day"}
+        let icecreamSeries = {data : [], color: '#FFE3B9', name:"Ice Cream Cones bought per Day"}
         let icecreamDict = {};
         for (let i of series.data){
             const icecreamFreq = Math.round(i[1] * 100) / 100;
@@ -113,7 +113,7 @@ class JointDistributions extends Component {
             xAxis: {
                 title : {
                     enabled: true,
-                    text: 'icecream Attacks per Day'
+                    text: 'Ice Cream Cones bought per day'
                 },
                 startOnTick: true,
                 endOnTick: true,
@@ -126,15 +126,18 @@ class JointDistributions extends Component {
             },
             series: [icecreamSeries]
         });
-        
 
+        let jointSeries = {data : [], color: '#EA7200', name:"Sharks vs Ice Creams"}
+        for (let i in sharkPois){
+            jointSeries.data.push([sharkPois[i], Math.round(series.data[i][1] * 100) / 100]);
+        }
         Highcharts.chart('joint', {
             chart: {
                 type: 'scatter',
                 zoomtype: 'xy'
             },
             title: {
-                text: 'Some Bivariate'
+                text: 'Ice Cream Cones per Shark Attack'
             },
             xAxis: {
                 title : {
@@ -150,7 +153,7 @@ class JointDistributions extends Component {
                     text: 'Shark Attacks Per Day'
                 }
             },
-            series: [series]
+            series: [jointSeries]
         });
     }
 }
