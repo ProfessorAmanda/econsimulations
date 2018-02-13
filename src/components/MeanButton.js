@@ -11,7 +11,7 @@ class MeanButton extends Component{
     render () {
         const array = this.props.popArray[this.props.popType]
         return (<div>
-                    <label> Step 2: Calculate {this.props.string} Mean </label>
+                    <h4> Step {this.props.string === "Population" ? 2 : 4}: Calculate {this.props.string} Mean </h4>
                     <button disabled={!array || !array.length || !this.props.calculable} onClick={() => {this.setState({popMean:Math.round(math.mean(array) * 100) / 100}); this.props.setmean(Math.round(math.mean(array) * 100) / 100)}}> Calculate! </button>
                     <h4> {this.props.type} Mean: {this.state.popMean || ''} </h4>
                 </div>);

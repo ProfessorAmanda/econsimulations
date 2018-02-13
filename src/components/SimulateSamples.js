@@ -33,7 +33,11 @@ class SimulateSamples extends Component {
                 this.calculate(n, this.props.pop);
                 this.chart();
                 n += 1;
-                n === 101 && clearInterval(this.timer);
+                if (n === 101) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                    this.setState({});
+                }
             }, 175);
         }, 600);
     }
@@ -52,7 +56,7 @@ class SimulateSamples extends Component {
         if (!this.state.chart) {
             let myCategories = [];
             for (let i=0; i < 100; i++){
-                myCategories[i]= (this.props.pop.length / 100 * i);
+                myCategories[i]= (this.props.pop.length / 100 * (i + 1));
             }
             const yMax = this.props.type === "Chi-Squared" ? 10 : this.props.type === "Exponential" ? 90 : 67;
             const yMin = this.props.type === "Chi-Squared" ? 6 : this.props.type === "Exponential" ? 40 : 61
@@ -97,6 +101,7 @@ class SimulateSamples extends Component {
                 vals.push(pop[j[0]]);
             }
             this.state.sampleMeans.push(Math.round(math.mean(vals) * 10) / 10);
+            console.log(this.state.sampleMeans);
             this.state.meanDiffs.push(this.state.popMean - math.mean(vals));
         }
     }
