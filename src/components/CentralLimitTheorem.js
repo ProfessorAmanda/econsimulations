@@ -49,7 +49,19 @@ const BASE_STATE = {
         "Exponential": [],
         "Chi-Squared": []
     },
-    stage : 0
+    stage : 0,
+    numberResamples : {
+        "Normal": 0,
+        "Uniform": 0,
+        "Exponential": 0,
+        "Chi-Squared": 0
+    },
+    resampleSize : {
+        "Normal": 0,
+        "Uniform": 0,
+        "Exponential": 0,
+        "Chi-Squared": 0
+    }
 }
 class CentralLimitTheorem extends Component {
     constructor(props){
@@ -89,7 +101,10 @@ class CentralLimitTheorem extends Component {
                             <SampleMeanSimulator style={{float:'right'}}
                             clear={()=> this.setState({calculable: false, sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : []})})}
                             population={this.state.popArray[this.state.popType]}
-                            sample={(means)=>{this.updateSampleMeansFromArray(means)}}/>
+                            resampleSize={this.state.resampleSize}
+                            numberResamples={this.state.numberResamples}
+                            popType={this.state.popType}
+                            sample={(means, resampleSize, numberResamples)=>{this.updateSampleMeansFromArray(means, resampleSize, numberResamples)}}/>
                         </div>
                         : null}
                         </span> : null}
@@ -114,10 +129,13 @@ class CentralLimitTheorem extends Component {
         this.setState({calculable: false, sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : sampleMeans})});
     }
 
-    updateSampleMeansFromArray(means){
+    updateSampleMeansFromArray(means, resampleSize, numberResamples){
         let sampleMeans = this.state.sampleMean[this.state.popType];
         sampleMeans = sampleMeans.concat(means);
-        this.setState({calculable: false, sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : sampleMeans})});
+        this.setState({calculable: false,
+                       sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : sampleMeans}),
+                       resampleSize : Object.assign(this.state.resampleSize, {[this.state.popType] : resampleSize}),
+                       numberResamples : Object.assign(this.state.numberResamples, {[this.state.popType] : numberResamples})});
     }
 
 
