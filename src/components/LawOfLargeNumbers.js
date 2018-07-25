@@ -106,18 +106,23 @@ class LawOfLargeNumbers extends Component{
                 <div>
                     <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
                 </div>
-                {popTable}
+                {popDrawn ? popTable : null}
                 <span style={{float:'left', width:"30%"}} id="container"></span>
+
+                {/* Going through the Stages */}
+
                 {popDrawn ? <span style={{width:"20%"}}>
                     <MeanButton string={"Population"} calculable={true} setmean={(mean) => this.setState({stage:1,popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
                     { this.state.stage >= 1 ? <span> <h4> Step 3: Sampling </h4>
                          </span> : null }
-                    { this.state.stage >= 1 ? <span> <p> Take a Sample:</p> {this.state.stage >= 2 ? <p> Try a few different sample sizes and compare sample mean to population mean </p> : null}<SampleArea redraw = {() => this.changePop(this.state.popDict[this.state.popType], this.state.popType)} sample={(size) => this.setState({stage:2,sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/></span> : null}
-                    { this.state.stage >= 2 ? <MeanButton string={"Sample"} calculable={true} setmean={(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/> : null}
+                    { this.state.stage >= 1 ? <span> <p> Take a Sample:</p> {this.state.stage >= 1 ? <p> Try a few different sample sizes and compare sample mean to population mean </p> : null}<SampleArea setmean={(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType)}} sample={(size) => this.setState({stage:2,sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})} popArray = {this.state.popArray} popType={this.state.popType}/></span> : null}
+                    {/*{ this.state.stage >= 2 ? <MeanButton string={"Sample"} calculable={true} setmean={(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/> : null}*/}
                     { this.state.stage >= 3 ? <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType]}/> : null}
                 </span> : null}
                 { this.state.stage >= 2 && popDrawn ? <div style={{width:"100%"}}> <h4> Step 5: Run the Simulation </h4> <SimulateSamples type={this.state.popType} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/>
                 </div> : null}
+
+                {/* Done with the Stages */}
             </div>
         );
     }
@@ -125,6 +130,7 @@ class LawOfLargeNumbers extends Component{
 
     selectPop(popType){
         this.changePop(this.state.popDict[popType], popType);
+        //console.log(this.state.popDict);
         setTimeout(() => {
             clearInterval(this.timer); //stop any populating that may be happening
             this.timer = setInterval( () => {
@@ -135,10 +141,12 @@ class LawOfLargeNumbers extends Component{
     sample(size, array) {
         let sampled = []
         const currentPop = array;
+
         while (sampled.length < size){
+            // index to sample ?
             let r = Math.round(Math.random() * (currentPop.length - 1))
             let shouldSample = true;
-             for (let i = 0; i < sampled.length; i++){
+            for (let i = 0; i < sampled.length; i++){
                  if (sampled[i][0] === r) {
                      shouldSample = false;
                  }
@@ -149,12 +157,17 @@ class LawOfLargeNumbers extends Component{
                     count += 1;
                 }
             });
+            // only pushes if shouldSample is true
             shouldSample && sampled.push([r, count]);
         }
         return sampled
     }
     generate(popType){
         switch (popType) {
+
+          // Changes Normal of popArray to this.generateNormal
+          // Looks like it concatenates instead of reassigning?
+          // Can't generate it twice though so no issues
             case "Normal":
                 this.setState({popArray : Object.assign(this.state.popArray, {"Normal" : this.state.popArray[popType].concat(this.generateNormal())})});
                 break;
@@ -171,18 +184,22 @@ class LawOfLargeNumbers extends Component{
     }
 
     clearState() {
+
         for (let i in this.state){
-            if (i !== "poptype" || i !== "stage"){
-                for (let j of ["Normal", "Uniform", "Exponential", "Chi-Squared"]){
-                    this.setState({i: Object.assign(this.state[i], {[j] : []})});
-                }
+            // Changed these to and from or because I don't think it was checking any of these
+            if (i !== "poptype" && i !== "stage" && i !== "popDict" && i !== "popArray"){
+              for (let j of ["Normal", "Uniform", "Exponential", "Chi-Squared"]){
+                this.setState({i: Object.assign(this.state[i], {[j] : []})});
+              }
 
             }
         }
         this.setState({popType: '', stage: 0});
         clearInterval(this.timer);
+        console.log(this.state.popDict);
     }
     generateNormal(){
+        console.log('called');
         this.changePop(this.state.popDict["Normal"], "Normal");
         if (this.sum(this.state.popDict["Normal"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
@@ -194,15 +211,21 @@ class LawOfLargeNumbers extends Component{
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
         const popArray = []
-        const sampleSize = this.sum(this.state.popDict["Normal"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) / 4 + 1
+        const sampleSize =  1000;//this.sum(this.state.popDict["Normal"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) / 4 + 1
+        console.log('sample size is');
+        console.log(sampleSize);
+
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
             for (let j = 0; j < ITERATES; j++){
                 sum += Math.random() * range + popMin;
             }
+
+            // Adding instances of certain points generated for the histogram
             if (this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)]){
                 this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] += 1
             }
+            // Adds first instance of a point
             else {
                 this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] = 1
             }
@@ -284,18 +307,24 @@ class LawOfLargeNumbers extends Component{
         return popArray;
     }
 
+    // changePop seems to build graph
+
     changePop(popDict, popType) {
         let pseries = {data : [], color: '#F27474', name:"Population"}
         let sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
         let sampledCopy = this.state.sampled[popType];
         let sampleVals = [[]];
-        let samplePop = []
+        let samplePop = [];
+
+        // Rounding everything??? Multiplies by 10, rounds, and then divides by 10
         for (let j in sampledCopy){
             sampleVals[j] = [];
             sampleVals[j][0] = Math.round(this.state.popArray[popType][sampledCopy[j][0]] * 10)
             sampleVals[j][1] = sampledCopy[j][1];
             samplePop.push(sampleVals[j][0] / 10)
         }
+
+        // Adds everything in popDict to the highcharts plot
         for (let i in popDict) {
             if (i) {
                 for (let j = 1; j < popDict[i] + 1; j++) {
@@ -308,6 +337,7 @@ class LawOfLargeNumbers extends Component{
                 }
             }
         }
+        console.log(pseries.data);
         const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: 25;
         const xminval = (popType == "Uniform" || popType == "Normal") ? 56 : 0;
         const ymaxval = (popType == "Uniform" || popType == "Normal") ? 30 : popType == "Exponential" ? 10 : 20;
@@ -359,8 +389,13 @@ class LawOfLargeNumbers extends Component{
             }
             this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals})
         }
+
+        // when called for generating initial population, it doesn't return anything
         this.setState({samplePop : Object.assign(this.state.samplePop, {[this.state.popType]: samplePop})})
     }
+
+
+    // Actually just sums population, kind of a misleading name
     sum(pop){
         let val = 0
         for (let i of pop){

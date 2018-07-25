@@ -93,7 +93,7 @@ class CentralLimitTheorem extends Component {
                             <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}}
                             sample={(size) => this.setState({stage: this.state.stage + 1, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})}
                             popArray = {this.state.popArray}
-                            popType={this.state.popType}/>
+                            popType={this.state.popType} setmean = {(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})}/>
                         </div>
                         {this.state.stage >= 2 ?
                         <div>
@@ -115,7 +115,8 @@ class CentralLimitTheorem extends Component {
 
     clearState() {
         for (let i in this.state){
-            if (i !== "popType" || i !== "stage"){
+          // changed clear again to keep pop
+            if (i !== "poptype" && i !== "stage" && i !== "popDict" && i !== "popArray"){
                 this.setState({i: Object.assign(this.state[i], {[this.state.popType] : []})});
             }
         }
