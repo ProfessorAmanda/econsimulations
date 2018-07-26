@@ -9,6 +9,7 @@ import MeanButton from './MeanButton.js'
 import SimulateSamples from './SimulateSamples.js'
 import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeanSimulator from './SampleMeanSimulator.js'
+import SampleAreaCLT from './SampleAreaCLT.js'
 
 const SAMPLE_SIZE = 1000;
 const BASE_STATE = {
@@ -90,7 +91,7 @@ class CentralLimitTheorem extends Component {
 
                         <div>
                             <h4> Step 3: Try drawing some samples and calculating means </h4>
-                            <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}}
+                            <SampleAreaCLT redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}}
                             sample={(size) => this.setState({stage: this.state.stage + 1, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})}
                             popArray = {this.state.popArray}
                             popType={this.state.popType} setmean = {(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})}/>
@@ -125,7 +126,9 @@ class CentralLimitTheorem extends Component {
     }
 
     sampleMean(mean){
+        console.log(mean);
         const sampleMeans = this.state.sampleMean[this.state.popType];
+        console.log(sampleMeans);
         sampleMeans.push(mean);
         this.setState({calculable: false, sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : sampleMeans})});
     }

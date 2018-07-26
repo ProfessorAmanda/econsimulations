@@ -19,9 +19,10 @@ class SampleMeanChart extends Component {
         this.show();
     }
     show(){
-        console.log(this.props.type);
+        //console.log(this.props.type);
         let sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
+        console.log(this.props.sampleMeans);
         for (let i in this.props.sampleMeans){
             const val = Math.round(this.props.sampleMeans[i] * 4) / 4;
             let count = 1;
