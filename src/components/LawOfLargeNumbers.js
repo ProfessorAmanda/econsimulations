@@ -101,7 +101,7 @@ class LawOfLargeNumbers extends Component{
         return(
             <div>
                 <div style={{width:"10%"}}>
-                    <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
+                    <PopBar section={this.state.popType} mode="LLN" setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
                 </div>
                 <div>
                     <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
