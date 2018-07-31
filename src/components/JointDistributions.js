@@ -7,33 +7,99 @@ const cdf = require( 'distributions-normal-cdf' );
 
 
 
+function SharkInput(props){
+  return(
+    <div>
+        <h4> Choose the Mean and Standard Deviation for Shark Attacks </h4>
+        <label >Shark Attack Mean </label>
+        <input type="number" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
+        <label >Shark Attack SD </label>
+        <input type="number" value={props.sharkSD} onChange={(event) => {
+          // const variance = parseFloat(event.target.value)*parseFloat(event.target.value);
+          const sd = parseFloat(event.target.value);
+          // const temp = [[variance,copy[0][1]],copy[1]];
+          props.saveSD(sd);
+          //this.setState({sharkSD : sd});
+          //this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});
+        }} />
+    </div>
+  );
+}
+
+function IceInput(props){
+  return(
+    <div>
+        <h4> Choose the Mean and Standard Deviation for Ice Cream Cones </h4>
+        <label >Ice Cream Cone Mean </label>
+        <input type="number" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
+        <label >Ice Cream Cone SD </label>
+        <input type="number" value={props.iceSD} onChange={(event) => {
+          //const copy = this.state.covMatrix;
+          const sd = parseFloat(event.target.value);
+          //const temp = [copy[0],[copy[1][0],variance]];
+          props.saveSD(sd);
+          //this.setState({covMatrix : temp});
+          //console.log(this.state.covMatrix);
+          //this.setState({covMatrix: [this.state.covMatrix[0], [parseFloat(event.target.value)].concat(this.state.covMatrix[1][1]) ]})
+        }} />
+    </div>
+  );
+}
 
 class JointDistributions extends Component {
     constructor(props){
         super(props);
         this.state = {
-            meanVector : [],
-            covMatrix : [[], []]
+            meanVector : [1,1],
+            covMatrix : [[1,1], [1,1]],
+            sharkSD : 1,
+            iceSD : 1
         }
     }
 
     render() {
+
         return(
             <div>
-                <div>
+                <SharkInput sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD} saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
+                  saveSD={(sd) => {
+                    const copy = this.state.covMatrix;
+                    const variance = Math.pow(sd,2);
+                    const temp = [[variance,copy[0][1]],copy[1]];
+                    this.setState({sharkSD : sd});
+                    this.setState({covMatrix : temp});
+                }}/>
+                <IceInput iceMean={this.state.meanVector[1]} iceSD={this.state.iceSD} saveMean={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}}
+                    saveSD={(sd) => {
+                      const copy = this.state.covMatrix;
+                      const variance = Math.pow(sd,2);
+                      const temp = [copy[0],[copy[1][0],variance]];
+                      this.setState({iceSD : sd});
+                      this.setState({covMatrix : temp});
+                    }}/>
+                {/*<div>
                     <h4> Set the Mean Vector </h4>
                     <input type="number" onChange={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}} />
                     <input type="number" onChange={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}} />
-                </div>
+                </div>*/}
                 <div>
                     <h4> Set the Covariance Matrix </h4>
                     <div>
-                        <input type="number" onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]})}} />
-                        <input type="number" onChange={(event) => {this.setState({covMatrix: [[this.state.covMatrix[0][0]].concat(parseFloat(event.target.value)),  this.state.covMatrix[1]]})}} />
+                        <input type="number" value={Math.pow(this.state.sharkSD,2)}
+                        //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
+                        />
+                        <input type="number" value={this.state.covMatrix[0][1]} onChange={(event) => {
+                          const copy = this.state.covMatrix;
+                          const temp = [[copy[0][0],parseFloat(event.target.value)],copy[1]];
+                          this.setState({covMatrix : temp});
+                          //this.setState({covMatrix: [[this.state.covMatrix[0][0]].concat(parseFloat(event.target.value)),  this.state.covMatrix[1]]})
+                        }} />
                     </div>
                     <div>
-                        <input type="number" onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [parseFloat(event.target.value)].concat(this.state.covMatrix[1][1]) ]})}} />
-                        <input type="number" onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [this.state.covMatrix[1][0]].concat(parseFloat(event.target.value))]})}} />
+                        <input type="number" value={this.state.covMatrix[1][0]} onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [parseFloat(event.target.value)].concat(this.state.covMatrix[1][1]) ]})}} />
+                        <input type="number" value={Math.pow(this.state.iceSD,2)}
+                        //onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [this.state.covMatrix[1][0]].concat(parseFloat(event.target.value))]})}} 
+                        />
                     </div>
                 </div>
                 <button style={{margin:"10px"}} onClick={()=>{this.generate()}}> Generate! </button>
@@ -58,20 +124,32 @@ class JointDistributions extends Component {
             [ 1.0, 1.0]
         ];
         console.log(this.state);
+
+        // Check for non symmetric Matrix
+        if(this.state.covMatrix[0][1] != this.state.covMatrix[1][0]){
+          //alert("these gotta be the same yo");
+          return;
+        }
+
+        // lets you sample from distribution
         var distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
         let series = {data : [], color: '#1F242A ', name:"Population"}
+        // samples 1000
         for (let i = 0; i < 1000; i++){
             series.data.push(distribution.sample());
         }
         let sharkSeries = {data : [], color: '#006D75', name:"Shark Attacks per Day"}
         let sharkDict = {};
         let rawSharks = series.data.map((s) => {return s[0]});
+        // raw sharks is the sample without the double array thing
         let sharkCDF = cdf(rawSharks);
-        let sharkExp = quantile(sharkCDF)
+        let sharkExp = quantile(sharkCDF);
+        console.log(sharkExp);
         // for (let s of sharkCDF) {
         //     sharkPois.push();
         // }
 
+        // building dictionary for histogram
         for (let i of sharkExp){
             const sharkFreq = Math.round(i * 100) / 100;
             if (sharkDict[sharkFreq]){
