@@ -17,12 +17,12 @@ class SampleAreaCLT extends Component {
                 <input type="number" onKeyPress={(e) => this.onKey(e)} onChange={(event) => {this.setState({sampleSize: event.target.value})}} value={this.state.sampleSize} />
                 <button disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1} onClick={()=>{
                   this.props.sample(this.state.sampleSize);
-                  this.props.redraw();
+                  //this.props.redraw();
                   const array = this.newSample(this.state.sampleSize,this.props.popArray[this.props.popType]);
                   this.setState({popMean:Math.round(math.mean(array) * 100) / 100});
-
+                  this.props.setmean(Math.round(math.mean(array) * 100) / 100);
                 }}> Sample </button>
-                <h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>
+                {/*}<h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>*/}
             </div>
         )
     }

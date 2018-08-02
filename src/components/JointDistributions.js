@@ -12,7 +12,7 @@ function SharkInput(props){
     <div>
         <h4> Choose the Mean and Standard Deviation for Shark Attacks </h4>
         <label >Shark Attack Mean </label>
-        <input type="number" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
+        <input type="number" step="any" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
         <label >Shark Attack SD </label>
         <input type="number" value={props.sharkSD} onChange={(event) => {
           // const variance = parseFloat(event.target.value)*parseFloat(event.target.value);
@@ -31,7 +31,7 @@ function IceInput(props){
     <div>
         <h4> Choose the Mean and Standard Deviation for Ice Cream Cones </h4>
         <label >Ice Cream Cone Mean </label>
-        <input type="number" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
+        <input type="number" step="any" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
         <label >Ice Cream Cone SD </label>
         <input type="number" value={props.iceSD} onChange={(event) => {
           //const copy = this.state.covMatrix;
@@ -98,7 +98,7 @@ class JointDistributions extends Component {
                     <div>
                         <input type="number" value={this.state.covMatrix[1][0]} onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [parseFloat(event.target.value)].concat(this.state.covMatrix[1][1]) ]})}} />
                         <input type="number" value={Math.pow(this.state.iceSD,2)}
-                        //onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [this.state.covMatrix[1][0]].concat(parseFloat(event.target.value))]})}} 
+                        //onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [this.state.covMatrix[1][0]].concat(parseFloat(event.target.value))]})}}
                         />
                     </div>
                 </div>

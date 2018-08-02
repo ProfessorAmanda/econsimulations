@@ -23,9 +23,9 @@ class SampleArea extends Component {
                       const array = this.newSample(this.state.sampleSize,this.props.popArray[this.props.popType]);
                       console.log(array);
                       this.setState({popMean:Math.round(math.mean(array) * 100) / 100});
-                      this.props.setmean(Math.round(math.mean(array) * 100) / 100)
+                      this.props.setmean(Math.round(math.mean(array) * 100) / 100);
                     }}> Sample </button>
-                <h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>
+                {/*<h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>*/}
             </div>
         )
     }
