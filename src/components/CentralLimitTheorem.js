@@ -9,6 +9,7 @@ import MeanButton from './MeanButton.js'
 import SimulateSamples from './SimulateSamples.js'
 import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeanSimulator from './SampleMeanSimulator.js'
+import SampleAreaCLT from './SampleAreaCLT.js'
 
 const SAMPLE_SIZE = 1000;
 const BASE_STATE = {
@@ -17,50 +18,72 @@ const BASE_STATE = {
         "Normal": [],
         "Uniform": [],
         "Exponential": [],
-        "Chi-Squared": []
+        "Chi-Squared": [],
+        "Mystery": []
     },
     sampleMean: {
         "Normal": [],
         "Uniform": [],
         "Exponential": [],
-        "Chi-Squared": []
+        "Chi-Squared": [],
+        "Mystery": []
     },
     popArray:{
         "Normal": [],
         "Uniform": [],
         "Exponential": [],
-        "Chi-Squared": []
+        "Chi-Squared": [],
+        "Mystery": []
     },
     popDict:{
         "Normal": [],
         "Uniform": [],
         "Exponential": [],
-        "Chi-Squared": []
+        "Chi-Squared": [],
+        "Mystery": []
     },
     sampled:{
         "Normal": [],
         "Uniform": [],
         "Exponential": [],
-        "Chi-Squared": []
+        "Chi-Squared": [],
+        "Mystery": []
     },
     samplePop: {
         "Normal": [],
         "Uniform": [],
         "Exponential": [],
-        "Chi-Squared": []
+        "Chi-Squared": [],
+        "Mystery": []
     },
     stage : 0,
     numberResamples : {
         "Normal": 0,
         "Uniform": 0,
         "Exponential": 0,
-        "Chi-Squared": 0
+        "Chi-Squared": 0,
+        "Mystery": 0
     },
     resampleSize : {
         "Normal": 0,
         "Uniform": 0,
         "Exponential": 0,
-        "Chi-Squared": 0
+        "Chi-Squared": 0,
+        "Mystery": 0
+    },
+    stages: {
+      "Normal": 0,
+      "Uniform": 0,
+      "Exponential": 0,
+      "Chi-Squared": 0,
+      "Mystery" : 0
+    },
+    clearedArray: {
+      "Normal": [],
+      "Uniform": [],
+      "Exponential": [],
+      "Chi-Squared": [],
+      "Mystery": []
     }
 }
 class CentralLimitTheorem extends Component {
@@ -76,7 +99,25 @@ class CentralLimitTheorem extends Component {
             <div>
                 <div style={{width:"100%", height:"300px"}}>
                     <div style={{width:"10%"}}>
-                        <PopBar section={this.state.popType} setPop={(pop) => {this.setState({popType:pop}); this.selectPop(pop)}}/>
+                        <PopBar section={this.state.popType} mode = "CLT" setPop={(pop) => {
+                          let copy = this.state.stages;
+                          copy[this.state.popType] = this.state.stage;
+                          //copy[this.state.popType] = 0;
+                          this.setState({stages : copy});
+                          // erase means
+                          // let popCopy = this.state.popMean;
+                          // popCopy[this.state.popType] = [];
+                          // this.setState({popMean : popCopy});
+                          //erase means
+                          // let sampCopy = this.state.sampleMean;
+                          // sampCopy[this.state.popType] = [];
+                          // this.setState({sampleMean : sampCopy});
+                          // new dist
+                          this.setState({popType:pop});
+                          this.setState({popType:pop});
+                          this.setState({stage : this.state.stages[pop]});
+                          this.selectPop(pop);
+                        }}/>
                     </div>
                     <div>
                         <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
@@ -87,13 +128,22 @@ class CentralLimitTheorem extends Component {
                         <MeanButton string={"Population"} calculable={true}
                         setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})}
                         popArray = {this.state.popArray} popType={this.state.popType}/>
+                        <h4> {this.state.popType} Mean: {this.state.popMean[this.state.popType] || ''} </h4>
 
                         <div>
                             <h4> Step 3: Try drawing some samples and calculating means </h4>
-                            <SampleArea redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}}
+                            <SampleAreaCLT redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); console.log(this.state.popDict); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}}
                             sample={(size) => this.setState({stage: this.state.stage + 1, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})}
                             popArray = {this.state.popArray}
-                            popType={this.state.popType}/>
+                            popType={this.state.popType} setmean = {(mean) => {
+                              let means = this.state.sampleMean;
+                              let thisMean = means[this.state.popType];
+                              thisMean.push(mean);
+                              means[this.state.popType] = thisMean;
+                              this.setState({stage:3,sampleMean: means});
+
+                            }}/>
+                            <h4> {this.state.popType} Sample Mean: {this.state.sampleMean[this.state.popType][this.state.sampleMean[this.state.popType].length - 1] || ''} </h4>
                         </div>
                         {this.state.stage >= 2 ?
                         <div>
@@ -114,8 +164,13 @@ class CentralLimitTheorem extends Component {
     }
 
     clearState() {
+        let tempArray = this.state.popArray;
+        let tempCleared = this.state.clearedArray;
+        tempCleared[this.state.popType] = tempArray[this.state.popType];
+        this.setState({clearedArray : tempCleared});
         for (let i in this.state){
-            if (i !== "popType" || i !== "stage"){
+          // changed clear again to keep pop
+            if (i !== "poptype" && i !== "clearedArray"){
                 this.setState({i: Object.assign(this.state[i], {[this.state.popType] : []})});
             }
         }
@@ -127,6 +182,7 @@ class CentralLimitTheorem extends Component {
         const sampleMeans = this.state.sampleMean[this.state.popType];
         sampleMeans.push(mean);
         this.setState({calculable: false, sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : sampleMeans})});
+
     }
 
     updateSampleMeansFromArray(means, resampleSize, numberResamples){
@@ -195,11 +251,15 @@ class CentralLimitTheorem extends Component {
             case "Chi-Squared":
                 this.setState({popArray : Object.assign(this.state.popArray, {"Chi-Squared" : this.state.popArray[popType].concat(this.generateChiSquared())})});
                 break;
+            case "Mystery":
+                this.setState({popArray : Object.assign(this.state.popArray, {"Mystery" : this.state.popArray[popType].concat(this.generateMystery())})});
+                break;
         }
     }
 
     generateNormal(){
         this.changePop(this.state.popDict["Normal"], "Normal");
+        // if pop is already fully drawn
         if (this.sum(this.state.popDict["Normal"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -210,21 +270,111 @@ class CentralLimitTheorem extends Component {
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
         const popArray = []
-        const sampleSize = this.sum(this.state.popDict["Normal"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) / 4 + 1
+        const sampleSize =  this.sum(this.state.popDict["Normal"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) / 4 + 1;
+        let newCleared = this.state.clearedArray[this.state.popType];
+
+        console.log(sampleSize);
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
-            for (let j = 0; j < ITERATES; j++){
-                sum += Math.random() * range + popMin;
+            if(this.state.clearedArray[this.state.popType].length === 0){
+              for (let j = 0; j < ITERATES; j++){
+                  sum += Math.random() * range + popMin;
+              }
             }
+            else{
+
+              //console.log(this.state.clearedArray[this.state.popType]);
+              sum = newCleared.pop() * ITERATES;
+              //sum = this.state.clearedArray[this.state.popType][i]*ITERATES;
+            }
+
+            // Adding instances of certain points generated for the histogram
             if (this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)]){
-                this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] += 1
+                this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] += 1;
             }
+            // Adds first instance of a point
             else {
-                this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] = 1
+                this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] = 1;
             }
-            popArray.push(sum / ITERATES)
+            popArray.push(sum / ITERATES);
         }
+        if(this.state.clearedArray[this.state.popType].length > 0){
+          let tempCleared = this.state.clearedArray;
+          //const tempL = tempCleared[this.state.popType].length;
+          //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
+          tempCleared[this.state.popType] = newCleared;
+          this.setState({clearedArray : tempCleared});
+        }
+
+
         return popArray
+    }
+
+    generateMystery(){
+      this.changePop(this.state.popDict["Mystery"], "Mystery");
+      if (this.sum(this.state.popDict["Mystery"]) === SAMPLE_SIZE){
+          clearInterval(this.timer);
+          return [];
+      }
+      const popArray = []
+      const firstMEAN = 70;
+      const firstSTANDARD_DEV = 3;
+      const firstITERATES = 9;
+      const firstrange = Math.sqrt(12) * firstSTANDARD_DEV * firstSTANDARD_DEV;
+      const firstpopMin = firstMEAN - (firstrange / 2);
+      const secondMEAN = 55;
+      const secondSTANDARD_DEV = 2;
+      const secondITERATES = 9;
+      const secondrange = Math.sqrt(12) * secondSTANDARD_DEV * secondSTANDARD_DEV;
+      const secondpopMin = secondMEAN - (secondrange / 2);
+      const sampleSize = (this.sum(this.state.popDict["Mystery"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Mystery"]) : this.sum(this.state.popDict["Mystery"]) / 4 + 1)/2;
+      let newCleared = this.state.clearedArray[this.state.popType];
+
+      for (let i = 0; i < sampleSize; i++){
+          let sum = 0;
+          if(this.state.clearedArray[this.state.popType].length === 0){
+              for (let j = 0; j < firstITERATES; j++){
+                  sum += Math.random() * firstrange + firstpopMin;
+              }
+          }
+          else{
+              sum = newCleared.pop() * firstITERATES;
+          }
+          if (this.state.popDict["Mystery"][Math.round(sum / firstITERATES * 10)]){
+              this.state.popDict["Mystery"][Math.round(sum / firstITERATES * 10)] += 1
+          }
+          else {
+              this.state.popDict["Mystery"][Math.round(sum / firstITERATES * 10)] = 1
+          }
+          popArray.push(sum / firstITERATES)
+      }
+
+      for (let i = 0; i < sampleSize; i++){
+          let sum = 0;
+          if(this.state.clearedArray[this.state.popType].length === 0){
+              for (let j = 0; j < secondITERATES; j++){
+                  sum += Math.random() * secondrange + secondpopMin;
+              }
+          }
+          else{
+              sum = newCleared.pop() * secondITERATES;
+          }
+          if (this.state.popDict["Mystery"][Math.round(sum / secondITERATES * 10)]){
+              this.state.popDict["Mystery"][Math.round(sum / secondITERATES * 10)] += 1
+          }
+          else {
+              this.state.popDict["Mystery"][Math.round(sum / secondITERATES * 10)] = 1
+          }
+          popArray.push(sum / secondITERATES)
+      }
+      if(this.state.clearedArray[this.state.popType].length > 0){
+        let tempCleared = this.state.clearedArray;
+        //const tempL = tempCleared[this.state.popType].length;
+        //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
+        tempCleared[this.state.popType] = newCleared;
+        this.setState({clearedArray : tempCleared});
+      }
+      return popArray
     }
 
     generateUniform(){
@@ -238,8 +388,17 @@ class CentralLimitTheorem extends Component {
         const range = HI - LOW;
         const popArray = []
         const sampleSize = this.sum(this.state.popDict["Uniform"]) > SAMPLE_SIZE * 1/2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Uniform"]) : this.sum(this.state.popDict["Uniform"]) / 2 + 1
+        let newCleared = this.state.clearedArray[this.state.popType];
+
         for (let i = 0; i < sampleSize; i++){
-            let val = Math.random()*range + LOW;
+            let val;
+            if(this.state.clearedArray[this.state.popType].length === 0){
+                val = Math.random()*range + LOW;
+            }
+            else{
+                val = newCleared.pop();
+            }
+
             if (this.state.popDict["Uniform"][Math.round(val * 10)]){
                 this.state.popDict["Uniform"][Math.round(val * 10)] += 1;
             } else {
@@ -247,6 +406,14 @@ class CentralLimitTheorem extends Component {
             }
             popArray.push(val);
         }
+        if(this.state.clearedArray[this.state.popType].length > 0){
+          let tempCleared = this.state.clearedArray;
+          //const tempL = tempCleared[this.state.popType].length;
+          //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
+          tempCleared[this.state.popType] = newCleared;
+          this.setState({clearedArray : tempCleared});
+        }
+
         return popArray;
     }
 
@@ -259,14 +426,29 @@ class CentralLimitTheorem extends Component {
         const LAMBDA = 1/64;
         const popArray = [];
         const sampleSize = this.sum(this.state.popDict["Exponential"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Exponential"]) : this.sum(this.state.popDict["Exponential"]) + 1
+        let newCleared = this.state.clearedArray[this.state.popType];
         for (let i = 0; i < sampleSize; i++){
-            let val = -Math.log(Math.random()) / LAMBDA
+            let val;
+            if(this.state.clearedArray[this.state.popType].length === 0){
+                val = -Math.log(Math.random()) / LAMBDA
+            }
+            else{
+              val = newCleared.pop();
+            }
+
             if (this.state.popDict["Exponential"][Math.round(val * 10)]){
                 this.state.popDict["Exponential"][Math.round(val * 10)] += 1;
             } else {
                 this.state.popDict["Exponential"][Math.round(val * 10)] = 1;
             }
             popArray.push(val);
+        }
+        if(this.state.clearedArray[this.state.popType].length > 0){
+          let tempCleared = this.state.clearedArray;
+          //const tempL = tempCleared[this.state.popType].length;
+          //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
+          tempCleared[this.state.popType] = newCleared;
+          this.setState({clearedArray : tempCleared});
         }
         return popArray
     }
@@ -278,24 +460,38 @@ class CentralLimitTheorem extends Component {
             return [];
         }
         const DEGREES_OF_FREEDOM = 8;
+        let newCleared = this.state.clearedArray[this.state.popType];
         const popArray = [];
-        let chiArray = []
-        const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM)
+        let chiArray = [];
+        const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM);
         for (let i = 0; i < 20; i+=.1){
             let tmp = chi.pdf(i, DEGREES_OF_FREEDOM)
             for (let j = 0; j < tmp / chiMin; j++){
                 chiArray.push(i)
             }
         }
-        const sampleSize = this.sum(this.state.popDict["Chi-Squared"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Chi-Squared"]) : this.sum(this.state.popDict["Chi-Squared"]) + 1
+        const sampleSize = this.sum(this.state.popDict["Chi-Squared"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Chi-Squared"]) : this.sum(this.state.popDict["Chi-Squared"]) + 1;
         for (let i = 0; i < sampleSize; i++){
-            let val = chiArray[Math.round(Math.random() * chiArray.length)]
+            let val;
+            if(this.state.clearedArray[this.state.popType].length === 0){
+                val = chiArray[Math.round(Math.random() * chiArray.length)];
+            }
+            else{
+                val = newCleared.pop();
+            }
             if (this.state.popDict["Chi-Squared"][Math.round(val * 10)]){
                 this.state.popDict["Chi-Squared"][Math.round(val * 10)] += 1;
             } else {
                 this.state.popDict["Chi-Squared"][Math.round(val * 10)] = 1;
             }
             popArray.push(val);
+        }
+        if(this.state.clearedArray[this.state.popType].length > 0){
+          let tempCleared = this.state.clearedArray;
+          //const tempL = tempCleared[this.state.popType].length;
+          //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
+          tempCleared[this.state.popType] = newCleared;
+          this.setState({clearedArray : tempCleared});
         }
         return popArray;
     }
@@ -316,6 +512,7 @@ class CentralLimitTheorem extends Component {
             if (i) {
                 for (let j = 1; j < popDict[i] + 1; j++) {
                     for (let subArr of sampleVals){
+                        //console.log(subArr);
                         if (subArr[0] == i && subArr[1] == j){
                             sampleSeries.data.push([i / 10, j]);
                         }
@@ -324,9 +521,10 @@ class CentralLimitTheorem extends Component {
                 }
             }
         }
-        const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: 25;
-        const xminval = (popType == "Uniform" || popType == "Normal") ? 56 : 0;
-        const ymaxval = (popType == "Uniform" || popType == "Normal") ? 30 : popType == "Exponential" ? 10 : 20;
+
+        const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: popType == "Mystery" ? 74:25;
+        const xminval = (popType == "Uniform" || popType == "Normal" || popType == "Mystery") ? 56 : 0;
+        const ymaxval = (popType == "Uniform" || popType == "Normal" || popType == "Mystery") ? 30 : popType == "Exponential" ? 10 : 20;
         if (!this.myChart) {
             this.myChart = Highcharts.chart('container', {
             chart: {
