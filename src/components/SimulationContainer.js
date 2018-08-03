@@ -4,6 +4,7 @@ import SimBar from './SimBar.js';
 import LawOfLargeNumbers from './LawOfLargeNumbers.js'
 import CentralLimitTheorem from './CentralLimitTheorem.js'
 import JointDistributions from './JointDistributions.js'
+import JointSimple from './JointSimple.js'
 
 class SimulationContainer extends Component{
     constructor(){
@@ -19,7 +20,7 @@ class SimulationContainer extends Component{
             <SimBar section= {this.state.mode} setSection={(section) => this.setState({mode:section})} />
             {this.state.mode === 'Law of Large Numbers' && <LawOfLargeNumbers/>}
             {this.state.mode === 'Central Limit Theorem' && <CentralLimitTheorem/>}
-            {this.state.mode === 'Joint Distributions' && <JointDistributions/>}
+            {this.state.mode === 'Joint Distributions' && <JointSimple/>}
             </div>
         );
     }
