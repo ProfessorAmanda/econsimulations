@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import styled from 'styled-components';
 import PopBar from './PopBar.js';
-import SampleArea from './SampleArea.js'
+import ToggleStandard from './ToggleStandard.js';
+import SampleArea from './SampleArea.js';
 import Highcharts from 'highcharts';
 import math from 'mathjs'
 import chi from 'chi-squared'
@@ -84,7 +85,8 @@ const BASE_STATE = {
       "Exponential": [],
       "Chi-Squared": [],
       "Mystery": []
-    }
+    },
+    standardNormal : 0
 }
 class CentralLimitTheorem extends Component {
     constructor(props){
@@ -99,6 +101,7 @@ class CentralLimitTheorem extends Component {
             <div>
                 <div style={{width:"100%", height:"300px"}}>
                     <div style={{width:"10%"}}>
+                        <ToggleStandard section={this.state.standardNormal} toggleSwitch={(set) => {this.setState({standardNormal : set})}} />
                         <PopBar section={this.state.popType} mode = "CLT" setPop={(pop) => {
                           let copy = this.state.stages;
                           copy[this.state.popType] = this.state.stage;
@@ -123,7 +126,7 @@ class CentralLimitTheorem extends Component {
                         <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
                     </div>
                     <span style={{float: "left", width:"30%"}} id="container"></span>
-                    {popDrawn ? <SampleMeanChart type={this.state.popType} sampleMeans={this.state.sampleMean[this.state.popType]}/> : null}
+                    {popDrawn ? <SampleMeanChart mean={math.mean(this.state.popArray[this.state.popType])} sd={math.std(this.state.popArray[this.state.popType])} normalized={this.state.standardNormal} type={this.state.popType} normal={this.state.standardNormal} sampleMeans={this.state.sampleMean[this.state.popType]}/> : null}
                     {popDrawn ? <span style={{width:"25%"}}>
                         <MeanButton string={"Population"} calculable={true}
                         setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})}
@@ -132,7 +135,7 @@ class CentralLimitTheorem extends Component {
 
                         <div>
                             <h4> Step 3: Try drawing some samples and calculating means </h4>
-                            <SampleAreaCLT redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType); console.log(this.state.popDict); this.sampleMean(math.mean(this.state.samplePop[this.state.popType]))}}
+                            <SampleAreaCLT redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType)}}
                             sample={(size) => this.setState({stage: this.state.stage + 1, calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})}
                             popArray = {this.state.popArray}
                             popType={this.state.popType} setmean = {(mean) => {
@@ -187,7 +190,10 @@ class CentralLimitTheorem extends Component {
 
     updateSampleMeansFromArray(means, resampleSize, numberResamples){
         let sampleMeans = this.state.sampleMean[this.state.popType];
-        sampleMeans = sampleMeans.concat(means);
+        let roundedMeans = means.map((mean) => {
+            return Math.round(mean * 4) / 4;
+        });
+        sampleMeans = sampleMeans.concat(roundedMeans);
         this.setState({calculable: false,
                        sampleMean: Object.assign(this.state.sampleMean, {[this.state.popType] : sampleMeans}),
                        resampleSize : Object.assign(this.state.resampleSize, {[this.state.popType] : resampleSize}),
@@ -272,8 +278,6 @@ class CentralLimitTheorem extends Component {
         const popArray = []
         const sampleSize =  this.sum(this.state.popDict["Normal"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) / 4 + 1;
         let newCleared = this.state.clearedArray[this.state.popType];
-
-        console.log(sampleSize);
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
             if(this.state.clearedArray[this.state.popType].length === 0){
