@@ -13,15 +13,7 @@ function SharkInput(props){
         <h4> Choose the Mean and Standard Deviation for Shark Attacks </h4>
         <label >Shark Attack Mean </label>
         <input type="number" step="any" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
-        <label >Shark Attack SD </label>
-        <input type="number" value={props.sharkSD} onChange={(event) => {
-          // const variance = parseFloat(event.target.value)*parseFloat(event.target.value);
-          const sd = parseFloat(event.target.value);
-          // const temp = [[variance,copy[0][1]],copy[1]];
-          props.saveSD(sd);
-          //this.setState({sharkSD : sd});
-          //this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});
-        }} />
+        
     </div>
   );
 }
@@ -53,64 +45,76 @@ class JointDistributions extends Component {
             meanVector : [1,1],
             covMatrix : [[1,1], [1,1]],
             sharkSD : 1,
-            iceSD : 1
+            iceSD : 1,
+            covariance : 1
         }
     }
 
     render() {
 
-        return(
-            <div>
-                <SharkInput sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD} saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
+      return(
+          <div>
+              <SharkInput sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD} saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
+                saveSD={(sd) => {
+                  const copy = this.state.covMatrix;
+                  const variance = Math.pow(sd,2);
+                  const temp = [[variance,copy[0][1]],copy[1]];
+                  this.setState({sharkSD : sd});
+                  this.setState({covMatrix : temp});
+              }}/>
+              <IceInput iceMean={this.state.meanVector[1]} iceSD={this.state.iceSD} saveMean={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}}
                   saveSD={(sd) => {
                     const copy = this.state.covMatrix;
                     const variance = Math.pow(sd,2);
-                    const temp = [[variance,copy[0][1]],copy[1]];
-                    this.setState({sharkSD : sd});
+                    const temp = [copy[0],[copy[1][0],variance]];
+                    this.setState({iceSD : sd});
                     this.setState({covMatrix : temp});
-                }}/>
-                <IceInput iceMean={this.state.meanVector[1]} iceSD={this.state.iceSD} saveMean={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}}
-                    saveSD={(sd) => {
-                      const copy = this.state.covMatrix;
-                      const variance = Math.pow(sd,2);
-                      const temp = [copy[0],[copy[1][0],variance]];
-                      this.setState({iceSD : sd});
-                      this.setState({covMatrix : temp});
-                    }}/>
-                {/*<div>
-                    <h4> Set the Mean Vector </h4>
-                    <input type="number" onChange={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}} />
-                    <input type="number" onChange={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}} />
-                </div>*/}
-                <div>
-                    <h4> Set the Covariance Matrix </h4>
-                    <div>
-                        <input type="number" value={Math.pow(this.state.sharkSD,2)}
-                        //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
-                        />
-                        <input type="number" value={this.state.covMatrix[0][1]} onChange={(event) => {
+                  }}/>
+              {/*<div>
+                  <h4> Set the Mean Vector </h4>
+                  <input type="number" onChange={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}} />
+                  <input type="number" onChange={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}} />
+              </div>*/}
+              <div>
+                  <h4> Set the Covariance</h4>
+                  <div>
+                      <input value={this.state.covariance} type="number" step="any" min={-this.findMax()}
+                        max={this.findMax()} onChange={(event) => {
+                          this.setState({covariance : parseFloat(event.target.value)});
                           const copy = this.state.covMatrix;
-                          const temp = [[copy[0][0],parseFloat(event.target.value)],copy[1]];
+                          const temp = [[copy[0][0],parseFloat(event.target.value)],[parseFloat(event.target.value),copy[1][1]]];
                           this.setState({covMatrix : temp});
-                          //this.setState({covMatrix: [[this.state.covMatrix[0][0]].concat(parseFloat(event.target.value)),  this.state.covMatrix[1]]})
-                        }} />
-                    </div>
-                    <div>
-                        <input type="number" value={this.state.covMatrix[1][0]} onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [parseFloat(event.target.value)].concat(this.state.covMatrix[1][1]) ]})}} />
-                        <input type="number" value={Math.pow(this.state.iceSD,2)}
-                        //onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [this.state.covMatrix[1][0]].concat(parseFloat(event.target.value))]})}}
-                        />
-                    </div>
-                </div>
-                <button style={{margin:"10px"}} onClick={()=>{this.generate()}}> Generate! </button>
-                <div>
-                    <span style={{width:"30%", float: "left"}} id="sharks"/>
-                    <span style={{width:"30%", float: "left"}} id="icecream"/>
-                    <span style={{width:"30%", float: "left"}} id="joint"/>
-                </div>
-            </div>
+                        }}
+                  //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
+                  />
+                  </div>
+                  {/*<div>
+                      <input type="number" value={Math.pow(this.state.sharkSD,2)}
+                      //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
+                      />
+                      <input type="number" placeholder="test" value={this.state.covMatrix[0][1]} onChange={(event) => {
+                        const copy = this.state.covMatrix;
+                        const temp = [[copy[0][0],parseFloat(event.target.value)],copy[1]];
+                        this.setState({covMatrix : temp});
+                        //this.setState({covMatrix: [[this.state.covMatrix[0][0]].concat(parseFloat(event.target.value)),  this.state.covMatrix[1]]})
+                      }} />
+                  </div>*/}
+                  {/*<div>
+                      <input type="number" value={this.state.covMatrix[1][0]} onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [parseFloat(event.target.value)].concat(this.state.covMatrix[1][1]) ]})}} />
+                      <input type="number" value={Math.pow(this.state.iceSD,2)}
+                      //onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [this.state.covMatrix[1][0]].concat(parseFloat(event.target.value))]})}}
+                      />
+                  </div>*/}
+              </div>
+              <button style={{margin:"10px"}} onClick={()=>{this.generate()}}> Generate! </button>
+              <div>
+                  <span style={{width:"30%", float: "left"}} id="sharks"/>
+                  <span style={{width:"30%", float: "left"}} id="icecream"/>
+                  <span style={{width:"30%", float: "left"}} id="joint"/>
+              </div>
+          </div>
 
-        )
+      )
     }
 
 
@@ -256,6 +260,15 @@ class JointDistributions extends Component {
             },
             series: [jointSeries]
         });
+    }
+
+    findMax(){
+      const firstSD = this.state.sharkSD;
+      const secondSD = this.state.iceSD;
+      if(firstSD === 1 && secondSD === 1){
+        return 1;
+      }
+      return firstSD * secondSD;
     }
 }
 export default JointDistributions
