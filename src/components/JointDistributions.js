@@ -13,7 +13,7 @@ function SharkInput(props){
         <h4> Choose the Mean and Standard Deviation for Shark Attacks </h4>
         <label >Shark Attack Mean </label>
         <input type="number" step="any" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
-        
+
     </div>
   );
 }
@@ -23,7 +23,7 @@ function IceInput(props){
     <div>
         <h4> Choose the Mean and Standard Deviation for Ice Cream Cones </h4>
         <label >Ice Cream Cone Mean </label>
-        <input type="number" step="any" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
+        <input type="number" min={10} step="any" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
         <label >Ice Cream Cone SD </label>
         <input type="number" value={props.iceSD} onChange={(event) => {
           //const copy = this.state.covMatrix;
@@ -42,7 +42,7 @@ class JointDistributions extends Component {
     constructor(props){
         super(props);
         this.state = {
-            meanVector : [1,1],
+            meanVector : [1,70],
             covMatrix : [[1,1], [1,1]],
             sharkSD : 1,
             iceSD : 1,

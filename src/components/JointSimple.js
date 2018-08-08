@@ -185,6 +185,8 @@ class JointSimple extends Component {
                 text: 'Parent Height'
             },
             xAxis: {
+                min: 30,
+                max: 70,
                 title : {
                     enabled: true,
                     text: 'Parent Height (inches)'
@@ -225,6 +227,8 @@ class JointSimple extends Component {
                 text: 'Child Height'
             },
             xAxis: {
+                min: 30,
+                max: 70,
                 title : {
                     enabled: true,
                     text: 'Child Height (inches)'
@@ -255,6 +259,7 @@ class JointSimple extends Component {
                 text: 'Parent Height vs Child Height'
             },
             xAxis: {
+
                 title : {
                     enabled: true,
                     text: 'Child Height (inches)'

@@ -19,6 +19,7 @@ class SampleAreaCLT extends Component {
                   this.props.sample(this.state.sampleSize);
                   this.props.redraw();
                   const array = this.newSample(this.state.sampleSize,this.props.popArray[this.props.popType]);
+                  console.log(array);
                   this.setState({popMean:Math.round(math.mean(array) * 100) / 100});
                   this.props.setmean(Math.round(math.mean(array) * 100) / 100);
                 }}> Sample </button>
@@ -58,6 +59,7 @@ class SampleAreaCLT extends Component {
         let sampledCopy = sampled;
         let sampleVals = [[]];
         let samplePop = [];
+        console.log(sampledCopy);
 
         for (let j in sampledCopy){
             sampleVals[j] = [];
@@ -65,7 +67,7 @@ class SampleAreaCLT extends Component {
             sampleVals[j][1] = sampledCopy[j][1];
             samplePop.push(sampleVals[j][0] / 10)
         }
-
+        console.log(samplePop);
         return samplePop;
     }
 }

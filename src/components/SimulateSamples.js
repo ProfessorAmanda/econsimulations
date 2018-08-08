@@ -93,6 +93,20 @@ class SimulateSamples extends Component {
                                     text: 'Mean'
                                 }
                             },
+                            tooltip: {
+                              enabled: false
+                            },
+                            plotOptions: {
+                              series: {
+                                point: {
+                                  events: {
+                                    mouseOver: function() {
+                                      //console.log('hehehe');
+                                    }
+                                  }
+                                }
+                              }
+                            },
                             series: [popMeanSeries, sampleMeanSeries]
                             })});
         } else {
