@@ -53,16 +53,17 @@ class SampleMeanChart extends Component {
         console.log(sampleMeanSeries.data);
         let xMin;
         let xMax;
+        let xLabel;
         if(this.props.normalized === 0){
             xMin = this.props.type === "Chi-Squared" ? 4 :  this.props.type === "Exponential" ? 0 : 55;
             xMax = this.props.type === "Chi-Squared" ? 12 : this.props.type === "Exponential" ? 150 : 75;
+            xLabel = (this.props.type == "Uniform" || this.props.type == "Normal" || this.props.type == "Mystery") ? "Sample Mean (in)" : this.props.type == "Exponential" ? "Sample Mean (seconds)" : "Sample Mean (dollars)";
         }
         else{
           xMin = -3;
           xMax = 3;
+          xLabel = "Standard Deviations";
         }
-        const xLabel = (this.props.type == "Uniform" || this.props.type == "Normal" || this.props.type == "Mystery") ? "Sample Mean (in)" : this.props.type == "Exponential" ? "Sample Mean (seconds)" : "Sample Mean (dollars)";
-
         if (!this.state.chart) {
             this.setState({chart: Highcharts.chart('sim-container', {
                             chart: {
@@ -105,7 +106,7 @@ class SampleMeanChart extends Component {
                             series: [sampleMeanSeries]
                             })});
         } else {
-            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {max: xMax, min: xMin}});
+            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
         }
     }
 }
