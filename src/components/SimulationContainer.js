@@ -6,6 +6,7 @@ import CentralLimitTheorem from './CentralLimitTheorem.js'
 import JointDistributions from './JointDistributions.js'
 import JointSimple from './JointSimple.js'
 import JointWrapper from './JointWrapper.js'
+import LeastSim from './LeastSim.js'
 
 class SimulationContainer extends Component{
     constructor(){
@@ -15,13 +16,15 @@ class SimulationContainer extends Component{
     }
 }
     render(){
+        const data = [3,4,5,6,7,8,9,10];
         return(
             <div>
-            <h1> {this.state.mode} </h1>
-            <SimBar section= {this.state.mode} setSection={(section) => this.setState({mode:section})} />
-            {this.state.mode === 'Law of Large Numbers' && <LawOfLargeNumbers/>}
-            {this.state.mode === 'Central Limit Theorem' && <CentralLimitTheorem/>}
-            {this.state.mode === 'Joint Distributions' && <JointWrapper/>}
+              <h1> {this.state.mode} </h1>
+              <SimBar section= {this.state.mode} setSection={(section) => this.setState({mode:section})} />
+              {this.state.mode === 'Law of Large Numbers' && <LawOfLargeNumbers/>}
+              {this.state.mode === 'Central Limit Theorem' && <CentralLimitTheorem/>}
+              {this.state.mode === 'Joint Distributions' && <JointWrapper/>}
+              {this.state.mode === 'Least Squares' && <LeastSim/>}
             </div>
         );
     }

@@ -40,7 +40,7 @@ class SimBar extends Component {
         }
     }
     render(){
-        const modes = ["Start Here", "Law of Large Numbers", "Central Limit Theorem", "Joint Distributions"]
+        const modes = ["Start Here", "Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares"]
         const sections = modes.map((section)=>{
             const style = section === this.state.selected ? {
                 background: '#555555',
