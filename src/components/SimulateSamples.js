@@ -64,9 +64,8 @@ class SimulateSamples extends Component {
                 myCategories[i]= (2 * (i+1));
             }
             for (let i=50; i < 100; i++){
-                myCategories[i]= 100 + (10 * (i-49));
+                myCategories[i]= 100 + (18 * (i-49));
             }
-            console.log(myCategories);
             const yMax = this.props.type === "Chi-Squared" ? 10 : this.props.type === "Exponential" ? 90 : 67;
             const yMin = this.props.type === "Chi-Squared" ? 6 : this.props.type === "Exponential" ? 40 : 61
             this.setState({chart: Highcharts.chart('sim-container', {
@@ -94,6 +93,20 @@ class SimulateSamples extends Component {
                                     text: 'Mean'
                                 }
                             },
+                            tooltip: {
+                              enabled: false
+                            },
+                            plotOptions: {
+                              series: {
+                                point: {
+                                  events: {
+                                    mouseOver: function() {
+                                      //console.log('hehehe');
+                                    }
+                                  }
+                                }
+                              }
+                            },
                             series: [popMeanSeries, sampleMeanSeries]
                             })});
         } else {
@@ -111,7 +124,7 @@ class SimulateSamples extends Component {
               size = 2 * i;
             }
             else{
-              size = 100 + (10 * (i-50));
+              size = 100 + (18 * (i-50));
             }
             const sample = this.props.sample(size, pop);
             let vals = [];

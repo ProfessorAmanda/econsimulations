@@ -438,9 +438,12 @@ class LawOfLargeNumbers extends Component{
                 }
             }
         }
+        console.log("shit should be changing");
         const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: 25;
         const xminval = (popType == "Uniform" || popType == "Normal") ? 56 : 0;
         const ymaxval = (popType == "Uniform" || popType == "Normal") ? 30 : popType == "Exponential" ? 10 : 20;
+        const title = (popType == "Uniform" || popType == "Normal") ? "Female Height" : popType == "Exponential" ? "Duration of Telemarketer Call" : "Money Spent on Lunch";
+        const xLabel = (popType == "Uniform" || popType == "Normal" || popType == "Mystery") ? "Height (in)" : popType == "Exponential" ? "Duration (seconds)" : "Dollars";
         if (!this.myChart) {
             this.myChart = Highcharts.chart('container', {
             chart: {
@@ -448,14 +451,14 @@ class LawOfLargeNumbers extends Component{
                 zoomtype: 'xy'
             },
             title: {
-                text: 'Female Height'
+                text: title
             },
             xAxis: {
                 min: xminval,
                 max: xmaxval,
                 title : {
                     enabled: true,
-                    text: 'Height (in)'
+                    text: xLabel
                 },
                 startOnTick: true,
                 endOnTick: true,
@@ -467,15 +470,32 @@ class LawOfLargeNumbers extends Component{
                     text: 'Count'
                 }
             },
+            plotOptions: {
+              series: {
+                point: {
+                  events: {
+                    mouseOver: function() {
+                      //console.log('hehehe');
+                    }
+                  }
+                }
+              }
+            },
+            tooltip: {
+              enabled: false
+            },
             series: [pseries, sampleSeries]
             });
         } else {
+            const titleNew = {
+                text: title
+            }
             const xvals = {
                 min: xminval,
                 max: xmaxval,
                 title : {
                     enabled: true,
-                    text: 'Height (in)'
+                    text: xLabel
                 },
                 startOnTick: true,
                 endOnTick: true,
@@ -487,7 +507,7 @@ class LawOfLargeNumbers extends Component{
                     text: 'Count'
                 }
             }
-            this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals})
+            this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals, title:titleNew});
         }
 
         // when called for generating initial population, it doesn't return anything
