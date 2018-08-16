@@ -87,7 +87,8 @@ const BASE_STATE = {
       "Mystery": []
     },
     standardNormal : 0,
-    sampleSize : 1
+    sampleSize : 1,
+    disableSample : false,
 }
 class CentralLimitTheorem extends Component {
     constructor(props){
@@ -136,7 +137,7 @@ class CentralLimitTheorem extends Component {
 
                         <div>
                             <h4> Step 3: Try drawing some samples and calculating means </h4>
-                            <SampleAreaCLT redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType)}}
+                            <SampleAreaCLT disabled={this.state.disableSample} redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType)}}
                             sample={(size) => this.setState({stage: this.state.stage + 1, sampleSize: parseInt(size), calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})}
                             popArray = {this.state.popArray}
                             popType={this.state.popType} setmean = {(mean) => {
@@ -164,7 +165,10 @@ class CentralLimitTheorem extends Component {
                             resampleSize={this.state.resampleSize}
                             numberResamples={this.state.numberResamples}
                             popType={this.state.popType}
-                            sample={(means, resampleSize, numberResamples)=>{this.updateSampleMeansFromArray(means, resampleSize, numberResamples)}}/>
+                            sample={(means, resampleSize, numberResamples)=>{
+                              this.updateSampleMeansFromArray(means, resampleSize, numberResamples);
+                              this.setState({disableSample : true});
+                            }}/>
                         </div>
                         : null}
                         </span> : null}
@@ -185,6 +189,7 @@ class CentralLimitTheorem extends Component {
             }
         }
         this.setState({popType:'', stage:0});
+        this.setState({disableSample : false});
         clearInterval(this.timer);
     }
 

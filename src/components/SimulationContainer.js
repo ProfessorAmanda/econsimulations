@@ -7,6 +7,7 @@ import JointDistributions from './JointDistributions.js'
 import JointSimple from './JointSimple.js'
 import JointWrapper from './JointWrapper.js'
 import LeastSim from './LeastSim.js'
+import OmmittedVariable from './OmmittedVariable.js'
 
 class SimulationContainer extends Component{
     constructor(){
@@ -25,6 +26,7 @@ class SimulationContainer extends Component{
               {this.state.mode === 'Central Limit Theorem' && <CentralLimitTheorem/>}
               {this.state.mode === 'Joint Distributions' && <JointWrapper/>}
               {this.state.mode === 'Least Squares' && <LeastSim/>}
+              {this.state.mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
             </div>
         );
     }

@@ -23,26 +23,36 @@ class LeastSim extends Component {
       slope: 1,
       int: 3,
       points: [null,1,5,3,6],
-      diffs: [0,0,0,0]
+      diffs: [0,0,0,0],
+      step: 1
 		};
 	}
 	render(){
     this.state.chart && this.show();
     return(
-      <div style={{ marginLeft: 300,marginTop: 50 }}>
+      <div style={{ marginLeft: 250,marginTop: 50 }}>
         <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
-        <h4>Change the Slope</h4>
-        <input type="number" step={.1} value={this.state.slope} min={-2} max={2} onChange={(event) => {
-          this.setState({slope:parseFloat(event.target.value)});
-        }}/>
-        <h4>Change the Y Intercept</h4>
-        <input type="number" step={.1} value={this.state.int} min={-1} max={3} onChange={(event) => {
-          this.setState({int:parseFloat(event.target.value)});
-        }}/>
-        <h4>Sum of Squares: {Math.round(sumSquares * 100) / 100}</h4>
-        <button onClick={() => {
-          this.setState({ slope : 1.3, int : .5});
-        }}> Find Least Squares Line </button>
+        <span>
+          {this.state.step === 1 ? <h4> Step 1: Choose a Slope and Y Intercept for Your Regression Line:</h4> :
+          <h4>Step 2: Change Slope and Y Intercept to Reduce Sum of Squares</h4>}
+          <h4>Slope</h4>
+          <input type="number" step={.1} value={this.state.slope} min={-2} max={2} onChange={(event) => {
+            this.setState({slope:parseFloat(event.target.value)});
+          }}/>
+          <h4>Y Intercept</h4>
+          <input type="number" step={.1} value={this.state.int} min={-1} max={3} onChange={(event) => {
+            this.setState({int:parseFloat(event.target.value)});
+          }}/>
+          <br></br><br></br>
+          {this.state.step !== 1 ? null : <button onClick={() => {
+            this.setState({step : 2});
+          }}> Generate Regression Line </button>}
+          {this.state.step === 1 ? null : <div><h4>Sum of Squares: {this.state.step === 1 ? 0 : Math.round(sumSquares * 100) / 100}</h4>
+          <h4>Step 3: Show Least Squares Line</h4>
+          <button onClick={() => {
+            this.setState({ slope : 1.3, int : .5});
+          }}> Find Least Squares Line </button></div>}
+        </span>
       </div>
     );
 	}
@@ -129,7 +139,7 @@ class LeastSim extends Component {
         let secondL = 36*Math.abs(diff);
         sumSquares += diff*diff;
 
-        if(i == 1){
+        if(i == 1 && this.state.step > 1){
           if(rectOne){
             rectOne.destroy();
           }
@@ -144,7 +154,7 @@ class LeastSim extends Component {
               })
               .add();
         }
-        else if(i == 2){
+        else if(i == 2 && this.state.step > 1){
           if(rectTwo){
             rectTwo.destroy();
           }
@@ -159,7 +169,7 @@ class LeastSim extends Component {
               })
               .add();
         }
-        else if(i == 3){
+        else if(i == 3 && this.state.step > 1){
           if(rectThree){
             rectThree.destroy();
           }
@@ -174,7 +184,7 @@ class LeastSim extends Component {
               })
               .add();
         }
-        else{
+        else if(i == 4 && this.state.step > 1){
           if(rectFour){
             rectFour.destroy();
           }
@@ -199,6 +209,9 @@ class LeastSim extends Component {
 
     for(let i=0;i<POINT_SIZE;i++){
       points[i] = int + i*slope;
+    }
+    if(this.state.step === 1){
+      points = [null,null,null,null,null];
     }
     return points;
   }

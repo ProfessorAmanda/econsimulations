@@ -14,7 +14,7 @@ function ParentInput(props){
         <label >Parent Height Mean </label>
         <input type="number" min={50} max={80} step="any" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
         <label >Parent Height SD </label>
-        <input type="number" value={props.sharkSD} onChange={(event) => {
+        <input type="number" min={1} max={7} value={props.sharkSD} onChange={(event) => {
           // const variance = parseFloat(event.target.value)*parseFloat(event.target.value);
           const sd = parseFloat(event.target.value);
           // const temp = [[variance,copy[0][1]],copy[1]];
@@ -33,7 +33,7 @@ function ChildInput(props){
         <label >Child Height Mean </label>
         <input type="number" step="any" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
         <label >Child Height SD </label>
-        <input type="number" value={props.iceSD} onChange={(event) => {
+        <input type="number" min={1} max={7} value={props.iceSD} onChange={(event) => {
           //const copy = this.state.covMatrix;
           const sd = parseFloat(event.target.value);
           //const temp = [copy[0],[copy[1][0],variance]];
