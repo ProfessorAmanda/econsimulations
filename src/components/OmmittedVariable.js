@@ -71,9 +71,9 @@ class OmmittedVariable extends Component {
             [ 2, 3]
         ];
 
-        let beta_X = -2.5;
-        let delta_V = 6;
-        let cov_XV = 2;
+        let beta_X = this.state.beta;
+        let delta_V = this.state.delta;
+        let cov_XV = this.state.cov;
 
         // lets you sample from distribution
         let distribution = MultivariateNormal(meanVector, covarianceMatrix);
