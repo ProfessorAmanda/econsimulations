@@ -18,13 +18,19 @@ var sumSquares;
 class LeastSim extends Component {
 	constructor(props){
 		super(props);
+    console.log("doing this");
+    let p = [null,1,4,6,3];
 		this.state = {
 			chart: undefined,
       slope: 1,
       int: 3,
-      points: [null,1,5,3,6],
+      points: p,
       diffs: [0,0,0,0],
-      step: 1
+      step: 1,
+      trueM: null,
+      trueb: null,
+      isRec: 0,
+      start: 1
 		};
 	}
 	render(){
@@ -33,6 +39,27 @@ class LeastSim extends Component {
       <div style={{ marginLeft: 250,marginTop: 50 }}>
         <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
         <span>
+          <button onClick={() => {
+            let one = Math.random()*2;
+            let two = Math.random()*3;
+            let three = Math.random()*5;
+            let four = Math.random()*6;
+            const newPoints = [null,one,two,three,four];
+            this.setState({ points : newPoints, step : 1 , cleared : 1});
+            if(this.state.step > 1){
+              // this.setState({isRec : 0});
+              rectOne.destroy();
+              rectTwo.destroy();
+              rectThree.destroy();
+              rectFour.destroy();
+            }
+            rectOne = null;
+            rectTwo = null;
+            rectThree = null;
+            rectFour = null;
+
+          }}>New Data</button>
+          <br></br>
           {this.state.step === 1 ? <h4> Step 1: Choose a Slope and Y Intercept for Your Regression Line:</h4> :
           <h4>Step 2: Change Slope and Y Intercept to Reduce Sum of Squares</h4>}
           <h4>Slope</h4>
@@ -50,8 +77,11 @@ class LeastSim extends Component {
           {this.state.step === 1 ? null : <div><h4>Sum of Squares: {this.state.step === 1 ? 0 : Math.round(sumSquares * 100) / 100}</h4>
           <h4>Step 3: Show Least Squares Line</h4>
           <button onClick={() => {
-            this.setState({ slope : 1.3, int : .5});
+            let eq = this.generateTrue();
+            this.setState({ slope : eq[0], int : eq[1]});
           }}> Find Least Squares Line </button></div>}
+
+
         </span>
       </div>
     );
@@ -63,7 +93,6 @@ class LeastSim extends Component {
 
     let linePoints = this.generatePoints(this.state.slope,this.state.int);
     const scatPoints = [null,1,5,3,6];
-    console.log(linePoints);
     if(!this.state.chart){
       this.setState({chart: Highcharts.chart('sim-container', {
     		chart: {
@@ -84,7 +113,7 @@ class LeastSim extends Component {
         series: [
         	{
         		type: 'scatter',
-            data: [null,1,5,3,6]
+            data: this.state.points
         	},
           {
         		type: 'line',
@@ -112,7 +141,7 @@ class LeastSim extends Component {
         {
           name: 'points',
           type: 'scatter',
-          data: [null,1,5,3,6]
+          data: this.state.points
         },
         {
           name: 'line',
@@ -123,7 +152,7 @@ class LeastSim extends Component {
 
       copyChart.update({series: newSeries});
 
-      const scatPoints = [null,1,5,3,6];
+      const scatPoints = this.state.points;
       const lineMax = copyChart.series[1].dataMax;
       const lineMin = copyChart.series[1].dataMin;
       const slope = (lineMax - lineMin)/4;
@@ -139,8 +168,12 @@ class LeastSim extends Component {
         let secondL = 36*Math.abs(diff);
         sumSquares += diff*diff;
 
+        console.log("running this");
+
         if(i == 1 && this.state.step > 1){
+          //console.log(this.state.isRec);
           if(rectOne){
+
             rectOne.destroy();
           }
 
@@ -170,7 +203,7 @@ class LeastSim extends Component {
               .add();
         }
         else if(i == 3 && this.state.step > 1){
-          if(rectThree){
+          if(rectThree ){
             rectThree.destroy();
           }
 
@@ -185,7 +218,7 @@ class LeastSim extends Component {
               .add();
         }
         else if(i == 4 && this.state.step > 1){
-          if(rectFour){
+          if(rectFour ){
             rectFour.destroy();
           }
 
@@ -200,7 +233,6 @@ class LeastSim extends Component {
               .add();
         }
       }
-      console.log(sumSquares);
     }
   }
 
@@ -221,6 +253,32 @@ class LeastSim extends Component {
     const xBox = diff > 0 ? lineX - diff : lineX;
     const yBox = diff > 0 ? this.state.points[lineX] : lineY;
     return xBox;
+  }
+
+  generateTrue(){
+    let yPoints = [null,null,null,null];
+    for(let j=1;j<5;j++){
+      yPoints[j-1] = this.state.points[j];
+    }
+    const xPoints = [1,2,3,4];
+    const x_sq = [1,4,9,16];
+    let xy = [null,null,null,null];
+    let m;
+    let b;
+    for(let i=0;i<4;i++){
+      xy[i] = xPoints[i]*yPoints[i];
+
+    }
+    m = (4*this.sum(xy) - this.sum(xPoints)*this.sum(yPoints))/(4*this.sum(x_sq) - (this.sum(xPoints)*this.sum(xPoints)));
+    b = (this.sum(yPoints) - m*this.sum(xPoints))/4;
+    console.log(b);
+    return [m,b];
+
+  }
+
+  sum(array){
+    let ret = array.reduce((a, b) => a + b, 0);
+    return ret;
   }
 
 }
