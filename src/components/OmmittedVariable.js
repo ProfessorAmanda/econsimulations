@@ -129,6 +129,10 @@ class OmmittedVariable extends Component {
         }
 
         const correctedSlopes = correctedReg.calculateCoefficients();
+        console.log(correctedSlopes);
+
+        let testy = correctedReg.hypothesize({ x: [0, 0] }); // Returns [20.93]
+        console.log(testy);
 
         let correctedLine = this.generatePoints(parseFloat(correctedSlopes[0]),INT);
         if(stage === 0){

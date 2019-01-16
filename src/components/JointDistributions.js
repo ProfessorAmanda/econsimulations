@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './dropdown.css';
 import styled from 'styled-components';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
@@ -7,12 +8,13 @@ const cdf = require( 'distributions-normal-cdf' );
 
 
 
+
 function SharkInput(props){
   return(
     <div>
         <h4> Choose the Mean and Standard Deviation for Shark Attacks </h4>
-        <label >Shark Attack Mean </label>
-        <input type="number" step="any" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
+        <label >Shark Attack Mean</label><span>:  {props.sharkMean}</span>
+        <input type="range" className="slider" min={0} max={5} step=".1" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
 
     </div>
   );
@@ -22,10 +24,12 @@ function IceInput(props){
   return(
     <div>
         <h4> Choose the Mean and Standard Deviation for Ice Cream Cones </h4>
-        <label >Ice Cream Cone Mean </label>
-        <input type="number" min={10} step="any" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
-        <label >Ice Cream Cone SD </label>
-        <input type="number" value={props.iceSD} onChange={(event) => {
+        <label >Ice Cream Cone Mean: </label><span>{props.iceMean}</span>
+        <input type="range" className="slider" min={10} max={500} step="1" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
+        <br></br>
+        <br></br>
+        <label >Ice Cream Cone SD: </label><span>{props.iceSD}</span>
+        <input type="range" classNAme="slider" min={1} max={5} value={props.iceSD} onChange={(event) => {
           //const copy = this.state.covMatrix;
           const sd = parseFloat(event.target.value);
           //const temp = [copy[0],[copy[1][0],variance]];
@@ -78,7 +82,7 @@ class JointDistributions extends Component {
               <div>
                   <h4> Set the Covariance</h4>
                   <div>
-                      <input value={this.state.covariance} type="number" step="any" min={-this.findMax()}
+                      <input value={this.state.covariance} type="range" className="slider" step=".1" min={-this.findMax()}
                         max={this.findMax()} onChange={(event) => {
                           this.setState({covariance : parseFloat(event.target.value)});
                           const copy = this.state.covMatrix;
@@ -87,6 +91,17 @@ class JointDistributions extends Component {
                         }}
                   //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
                   />
+                  <br></br>
+                  <span>{this.state.covariance}</span>
+                  {/* Code for dropdown menu found at https://www.w3schools.com/howto/howto_css_dropdown.asp */}
+                  {/*}<div className="dropdown">
+                    <button className="dropbtn">Dropdown</button>
+                    <div className="dropdown-content">
+                      <a href="#">Link 1</a>
+                      <a href="#">Link 2</a>
+                      <a href="#">Link 3</a>
+                    </div>
+                  </div>*/}
                   </div>
                   {/*<div>
                       <input type="number" value={Math.pow(this.state.sharkSD,2)}

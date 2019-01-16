@@ -11,10 +11,13 @@ function ParentInput(props){
   return(
     <div>
         <h4> Choose the Mean and Standard Deviation for Parent Height </h4>
-        <label >Parent Height Mean </label>
-        <input type="number" min={50} max={80} step="any" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
-        <label >Parent Height SD </label>
-        <input type="number" min={1} max={7} value={props.sharkSD} onChange={(event) => {
+        <label >Parent Height Mean: </label><span>{props.sharkMean} </span>
+        <input type="range" className="slider" min={60} max={80} step={1} value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
+        <br></br>
+        <br></br>
+        <label >Parent Height SD: </label>
+        <span>{props.sharkSD} </span>
+        <input type="range" className="slider" min={1} max={7} value={props.sharkSD} onChange={(event) => {
           // const variance = parseFloat(event.target.value)*parseFloat(event.target.value);
           const sd = parseFloat(event.target.value);
           // const temp = [[variance,copy[0][1]],copy[1]];
@@ -22,6 +25,7 @@ function ParentInput(props){
           //this.setState({sharkSD : sd});
           //this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});
         }} />
+
     </div>
   );
 }
@@ -30,10 +34,13 @@ function ChildInput(props){
   return(
     <div>
         <h4> Choose the Mean and Standard Deviation for Child Height </h4>
-        <label >Child Height Mean </label>
-        <input type="number" step="any" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
-        <label >Child Height SD </label>
-        <input type="number" min={1} max={7} value={props.iceSD} onChange={(event) => {
+        <label >Child Height Mean: </label> <span>{props.iceMean} </span>
+        <input type="range" className="slider" min={60} max={80} step={1} value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
+        <br></br>
+
+        <br></br>
+        <label >Child Height SD: </label><span>{props.iceSD} </span>
+        <input type="range" className="slider" min={1} max={7} value={props.iceSD} onChange={(event) => {
           //const copy = this.state.covMatrix;
           const sd = parseFloat(event.target.value);
           //const temp = [copy[0],[copy[1][0],variance]];
@@ -50,7 +57,7 @@ class JointSimple extends Component {
     constructor(props){
         super(props);
         this.state = {
-            meanVector : [55,55],
+            meanVector : [70,70],
             covMatrix : [[1,1], [1,1]],
             sharkSD : 1,
             iceSD : 1,
@@ -62,7 +69,7 @@ class JointSimple extends Component {
 
         return(
             <div>
-                <ParentInput sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD} saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
+                <ParentInput cov={this.state.covariance} sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD} saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
                   saveSD={(sd) => {
                     const copy = this.state.covMatrix;
                     const variance = Math.pow(sd,2);
@@ -70,7 +77,7 @@ class JointSimple extends Component {
                     this.setState({sharkSD : sd});
                     this.setState({covMatrix : temp});
                 }}/>
-                <ChildInput iceMean={this.state.meanVector[1]} iceSD={this.state.iceSD} saveMean={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}}
+                <ChildInput cov={this.state.covariance} iceMean={this.state.meanVector[1]} iceSD={this.state.iceSD} saveMean={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}}
                     saveSD={(sd) => {
                       const copy = this.state.covMatrix;
                       const variance = Math.pow(sd,2);
@@ -86,7 +93,7 @@ class JointSimple extends Component {
                 <div>
                     <h4> Set the Covariance</h4>
                     <div>
-                        <input value={this.state.covariance} type="number" step="any" min={-this.findMax()}
+                        <input value={this.state.covariance} type="range" className="slider" step={.1} min={-this.findMax()}
                           max={this.findMax()} onChange={(event) => {
                             this.setState({covariance : parseFloat(event.target.value)});
                             const copy = this.state.covMatrix;
@@ -95,6 +102,8 @@ class JointSimple extends Component {
                           }}
                     //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
                     />
+                    <br></br>
+                    <span>{this.state.covariance} </span>
                     </div>
                     {/*<div>
                         <input type="number" value={Math.pow(this.state.sharkSD,2)}
@@ -142,8 +151,6 @@ class JointSimple extends Component {
           //alert("these gotta be the same yo");
           return;
         }
-        console.log(this.state.covMatrix[0][1]);
-        console.log(this.state.covMatrix[1][0]);
 
         // lets you sample from distribution
         var distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
@@ -185,8 +192,8 @@ class JointSimple extends Component {
                 text: 'Parent Height'
             },
             xAxis: {
-                min: 30,
-                max: 70,
+                min: 55,
+                max: 85,
                 title : {
                     enabled: true,
                     text: 'Parent Height (inches)'
@@ -227,8 +234,8 @@ class JointSimple extends Component {
                 text: 'Child Height'
             },
             xAxis: {
-                min: 30,
-                max: 70,
+                min: 55,
+                max: 85,
                 title : {
                     enabled: true,
                     text: 'Child Height (inches)'
@@ -259,7 +266,8 @@ class JointSimple extends Component {
                 text: 'Parent Height vs Child Height'
             },
             xAxis: {
-
+                min: 55,
+                max: 85,
                 title : {
                     enabled: true,
                     text: 'Child Height (inches)'

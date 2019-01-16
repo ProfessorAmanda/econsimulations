@@ -18,7 +18,6 @@ var sumSquares;
 class LeastSim extends Component {
 	constructor(props){
 		super(props);
-    console.log("doing this");
     let p = [null,1,4,6,3];
 		this.state = {
 			chart: undefined,
@@ -40,9 +39,9 @@ class LeastSim extends Component {
         <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
         <span>
           <button onClick={() => {
-            let one = Math.random()*2;
-            let two = Math.random()*3;
-            let three = Math.random()*5;
+            let one = Math.random()*6;
+            let two = Math.random()*6;
+            let three = Math.random()*6;
             let four = Math.random()*6;
             const newPoints = [null,one,two,three,four];
             this.setState({ points : newPoints, step : 1 , cleared : 1});
@@ -63,11 +62,11 @@ class LeastSim extends Component {
           {this.state.step === 1 ? <h4> Step 1: Choose a Slope and Y Intercept for Your Regression Line:</h4> :
           <h4>Step 2: Change Slope and Y Intercept to Reduce Sum of Squares</h4>}
           <h4>Slope</h4>
-          <input type="number" step={.1} value={this.state.slope} min={-2} max={2} onChange={(event) => {
+          <input type="number" step={.1} value={this.state.slope} min={-5} max={2} onChange={(event) => {
             this.setState({slope:parseFloat(event.target.value)});
           }}/>
           <h4>Y Intercept</h4>
-          <input type="number" step={.1} value={this.state.int} min={-1} max={3} onChange={(event) => {
+          <input type="number" step={.1} value={this.state.int} min={-10} max={10} onChange={(event) => {
             this.setState({int:parseFloat(event.target.value)});
           }}/>
           <br></br><br></br>
@@ -271,6 +270,8 @@ class LeastSim extends Component {
     }
     m = (4*this.sum(xy) - this.sum(xPoints)*this.sum(yPoints))/(4*this.sum(x_sq) - (this.sum(xPoints)*this.sum(xPoints)));
     b = (this.sum(yPoints) - m*this.sum(xPoints))/4;
+    m = Math.round(m*10)/10;
+    b = Math.round(b*10)/10;
     console.log(b);
     return [m,b];
 
