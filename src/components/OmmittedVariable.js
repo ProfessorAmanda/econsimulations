@@ -98,7 +98,7 @@ class OmmittedVariable extends Component {
         // generate crime data
         let crime = [];
         for(let i=0;i<OBS;i++){
-          let crimePoint = beta_X*roundedSeries[i][0] + delta_V*roundedSeries[i][1] + epsilon[i];
+          let crimePoint = INT + beta_X*roundedSeries[i][0] + delta_V*roundedSeries[i][1] + epsilon[i];
           crime.push(Math.round(crimePoint*100)/100);
         }
 
