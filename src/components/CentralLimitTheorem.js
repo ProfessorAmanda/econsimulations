@@ -122,6 +122,7 @@ class CentralLimitTheorem extends Component {
                           this.setState({popType:pop});
                           this.setState({stage : this.state.stages[pop]});
                           this.selectPop(pop);
+                          this.setState({disableSample : false});
                         }}/>
                     </div>
                     <div>
