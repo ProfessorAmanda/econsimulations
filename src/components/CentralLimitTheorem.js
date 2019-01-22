@@ -540,6 +540,8 @@ class CentralLimitTheorem extends Component {
             }
         }
 
+
+
         const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: popType == "Mystery" ? 74:25;
         const xminval = (popType == "Uniform" || popType == "Normal" || popType == "Mystery") ? 56 : 0;
         const ymaxval = (popType == "Uniform" || popType == "Normal" || popType == "Mystery") ? 30 : popType == "Exponential" ? 10 : 20;

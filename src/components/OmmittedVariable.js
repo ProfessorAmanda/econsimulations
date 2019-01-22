@@ -8,7 +8,7 @@ const quantile = require("distributions-exponential-quantile");
 const cdf = require( 'distributions-normal-cdf' );
 const random = require( 'distributions-normal-random' );
 const OBS =300;
-const INT = 15;
+const INT = 10;
 
 
 class OmmittedVariable extends Component {
@@ -30,21 +30,24 @@ class OmmittedVariable extends Component {
                 <span>
                     <div style={{marginLeft: -84}}>
                     <h4>Step 1: Choose Population Parameters</h4>
-                    <label> Beta, the Police Coefficient </label>
-                    <input style={{}} type="number" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
+                    <label> Beta, the Police Coefficient: </label>
+                    <span>{this.state.beta}</span>
+                    <input style={{}} type="range" className="slider" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
                       this.setState({beta:parseFloat(event.target.value)});
                     }}/>
                     </div>
                     <br></br>
                     <div style={{marginLeft: -70}}>
-                        <label> Delta, the Density Coefficient </label>
-                        <input type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
+                        <label> Delta, the Density Coefficient: </label>
+                        <span>{this.state.delta}</span>
+                        <input type="range" className="slider" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
                           this.setState({delta:parseFloat(event.target.value)});
                         }}/>
                     </div>
                     <br></br>
-                    <label> Covariance beween Police and Density </label>
-                    <input type="number" step={.1} value={this.state.cov} min={-12} max={12} onChange={(event) => {
+                    <label> Covariance beween Police and Density: </label>
+                    <span>{this.state.cov}</span>
+                    <input type="range" className="slider" step={.1} value={this.state.cov} min={-12} max={12} onChange={(event) => {
                       this.setState({cov:parseFloat(event.target.value)});
                     }}/>
                     <br></br>
@@ -62,7 +65,7 @@ class OmmittedVariable extends Component {
 
 
     generate(stage) {
-        let meanVector = [2, .8];
+        let meanVector = [5, .8];
 
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
@@ -112,27 +115,30 @@ class OmmittedVariable extends Component {
         const naiveReg = regression.linear(crimePol);
         const naiveSlope = (naiveReg.equation[0]);
         const naiveInt = (naiveReg.equation[1]);
+        console.log(naiveInt);
+        console.log(naiveReg.string);
         const naiveLine = this.generatePoints(naiveSlope,naiveInt);
 
         // Corrected regression
 
         let multipleArray = [];
         for(let i=0;i<OBS;i++){
-          let multiplePoint = [crimePol[i][0],roundedSeries[i][1],crimePol[i][1]];
+          let multiplePoint = [roundedSeries[i][0],roundedSeries[i][1],crimePol[i][1]];
           multipleArray.push(multiplePoint);
         }
 
         let correctedReg = new smr.Regression({ numX: 2, numY: 1 });
 
+        let testList = [];
+
         for(let i=0;i<OBS;i++){
           correctedReg.push({ x: [multipleArray[i][0], multipleArray[i][1]], y: [multipleArray[i][2]] });
         }
 
+
         const correctedSlopes = correctedReg.calculateCoefficients();
         console.log(correctedSlopes);
-
-        let testy = correctedReg.hypothesize({ x: [0, 0] }); // Returns [20.93]
-        console.log(testy);
+        //let testy = correctedReg.hypothesize({ x: [0, 0] }); // Returns [20.93]
 
         let correctedLine = this.generatePoints(parseFloat(correctedSlopes[0]),INT);
         if(stage === 0){
