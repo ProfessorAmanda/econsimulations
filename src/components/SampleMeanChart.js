@@ -14,13 +14,18 @@ class SampleMeanChart extends Component {
               "Chi-Squared" : 8,
               "Mystery" : 62.5
             },
-            sd : undefined
+            sd : undefined,
+            curve: false
         }
     }
     render(){
         this.state.chart && this.show();
         return(
+          <div>
             <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
+            <button style={{marginTop:"20px",marginLeft:"110px"}} onClick={() => {
+              this.setState({curve : !this.state.curve})}}>Plot Normal Curve</button>
+          </div>
         );
     }
     componentDidMount(){
@@ -49,8 +54,9 @@ class SampleMeanChart extends Component {
             }
             yMax = Math.max(count, yMax);
             sampleMeanSeries.data[i] = [val, count];
+            // console.log(sampleMeanSeries.data);
         }
-        console.log(sampleMeanSeries.data);
+        // console.log(sampleMeanSeries.data);
         let xMin;
         let xMax;
         let xLabel;
@@ -64,6 +70,58 @@ class SampleMeanChart extends Component {
           xMax = 3;
           xLabel = "Standard Deviations";
         }
+
+        let sampleMax=0;
+        let sampleMin=1000000000;
+        let sampleMaxX = 0;
+        for(let i=0;i<sampleMeanSeries.data.length;i++){
+          if(sampleMeanSeries.data[i][1] > sampleMax){
+            sampleMax = sampleMeanSeries.data[i][1];
+          }
+          if(sampleMeanSeries.data[i][0] < sampleMin){
+            sampleMin = sampleMeanSeries.data[i][0];
+          }
+          if(sampleMeanSeries.data[i][0] > sampleMaxX){
+            sampleMaxX = sampleMeanSeries.data[i][0];
+          }
+        }
+        // console.log(sampleMax);
+        // console.log(sampleMin);
+        // console.log(sampleMaxX);
+
+        const lowerBound = sampleMin - 2, upperBound = sampleMaxX + 2;
+
+        const normalY = (x, mean, stdDev) => Math.exp((-0.5) * Math.pow((x - mean) / stdDev, 2)) * (sampleMax+3);
+
+        const getMean = (lowerBound, upperBound) => (upperBound + lowerBound) / 2;
+
+        // distance between mean and each bound of a 95% confidence interval
+        // is 2 stdDeviation, so distance between the bounds is 4
+        const getStdDeviation = (lowerBound, upperBound) => (upperBound - lowerBound) / 4;
+
+        const generatePoints = (lowerBound, upperBound) => {
+          let stdDev = getStdDeviation(lowerBound, upperBound);
+          let min = lowerBound - 2 * stdDev;
+          let max = upperBound + 2 * stdDev;
+          let unit = (max - min) / 40;
+          let list = [];
+          for(let i=min;i<max;i+=unit){
+            list.push(i);
+          }
+          //return _.range(min, max, unit);
+          return list;
+        }
+
+        let mean = getMean(lowerBound, upperBound);
+        let stdDev = getStdDeviation(lowerBound, upperBound);
+        let points = generatePoints(lowerBound, upperBound);
+
+
+        let seriesData = points.map(x => ({ x, y: normalY(x, mean, stdDev)}));
+        const bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
+
+        //console.log(seriesData);
+
         if (!this.state.chart) {
             this.setState({chart: Highcharts.chart('sim-container', {
                             chart: {
@@ -105,8 +163,18 @@ class SampleMeanChart extends Component {
                             },
                             series: [sampleMeanSeries]
                             })});
-        } else {
-            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
+                          }
+        else {
+            console.log("running");
+
+
+            if(this.state.curve === true && this.state.chart.series.length < 2){
+              this.state.chart.addSeries({bellSeries});
+            }
+            if(this.state.curve == false && this.state.chart.series.length === 2){
+              this.state.chart.series[1].remove();
+            }
+            this.state.chart.update({series:[sampleMeanSeries,bellSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
         }
     }
 }

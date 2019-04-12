@@ -15,7 +15,7 @@ class SampleAreaCLT extends Component {
             <div>
                 <span> Sample Size: </span>
                 <input type="number" onKeyPress={(e) => this.onKey(e)} onChange={(event) => {this.setState({sampleSize: event.target.value})}} value={this.state.sampleSize} />
-                <button disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1} onClick={()=>{
+                <button disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1 || this.props.disabled} onClick={()=>{
                   this.props.sample(this.state.sampleSize);
                   this.props.redraw();
                   const array = this.newSample(this.state.sampleSize,this.props.popArray[this.props.popType]);

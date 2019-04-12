@@ -1,9 +1,32 @@
 import React, { Component } from 'react';
+import './dropdown.css';
 import styled from 'styled-components';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
 const quantile = require("distributions-exponential-quantile");
 const cdf = require( 'distributions-normal-cdf' );
+
+const ToolBarButton=styled.a`
+  background-color: white;
+  border: 2px solid black;
+  color: #555555;
+  padding: 10px 24px;
+  margin-left: 580px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 12px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+   transition-duration: 0.4s;
+   cursor: pointer;
+   &:focus {outline:0}
+   &:hover {
+       background-color: #555555;
+       color: white;
+   }
+
+`;
 
 
 
@@ -11,8 +34,8 @@ function SharkInput(props){
   return(
     <div>
         <h4> Choose the Mean and Standard Deviation for Shark Attacks </h4>
-        <label >Shark Attack Mean </label>
-        <input type="number" step="any" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
+        <label >Shark Attack Mean</label><span>:  {props.sharkMean}</span>
+        <input type="range" className="slider" min={0} max={5} step=".1" value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
 
     </div>
   );
@@ -22,10 +45,12 @@ function IceInput(props){
   return(
     <div>
         <h4> Choose the Mean and Standard Deviation for Ice Cream Cones </h4>
-        <label >Ice Cream Cone Mean </label>
-        <input type="number" min={10} step="any" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
-        <label >Ice Cream Cone SD </label>
-        <input type="number" value={props.iceSD} onChange={(event) => {
+        <label >Ice Cream Cone Mean: </label><span>{props.iceMean}</span>
+        <input type="range" className="slider" min={10} max={500} step="1" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
+        <br></br>
+        <br></br>
+        <label >Ice Cream Cone SD: </label><span>{props.iceSD}</span>
+        <input type="range" className="slider" min={1} max={5} value={props.iceSD} onChange={(event) => {
           //const copy = this.state.covMatrix;
           const sd = parseFloat(event.target.value);
           //const temp = [copy[0],[copy[1][0],variance]];
@@ -46,7 +71,9 @@ class JointDistributions extends Component {
             covMatrix : [[1,1], [1,1]],
             sharkSD : 1,
             iceSD : 1,
-            covariance : 1
+            covariance : 1,
+            covSelected: 0,
+            selectedCov: "low"
         }
     }
 
@@ -61,6 +88,7 @@ class JointDistributions extends Component {
                   const temp = [[variance,copy[0][1]],copy[1]];
                   this.setState({sharkSD : sd});
                   this.setState({covMatrix : temp});
+                  this.setState({covSelected : 0 });
               }}/>
               <IceInput iceMean={this.state.meanVector[1]} iceSD={this.state.iceSD} saveMean={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}}
                   saveSD={(sd) => {
@@ -69,6 +97,7 @@ class JointDistributions extends Component {
                     const temp = [copy[0],[copy[1][0],variance]];
                     this.setState({iceSD : sd});
                     this.setState({covMatrix : temp});
+                    this.setState({covSelected : 0 });
                   }}/>
               {/*<div>
                   <h4> Set the Mean Vector </h4>
@@ -78,7 +107,7 @@ class JointDistributions extends Component {
               <div>
                   <h4> Set the Covariance</h4>
                   <div>
-                      <input value={this.state.covariance} type="number" step="any" min={-this.findMax()}
+                      {/*}<input value={this.state.covariance} type="range" className="slider" step=".1" min={-this.findMax()}
                         max={this.findMax()} onChange={(event) => {
                           this.setState({covariance : parseFloat(event.target.value)});
                           const copy = this.state.covMatrix;
@@ -86,7 +115,32 @@ class JointDistributions extends Component {
                           this.setState({covMatrix : temp});
                         }}
                   //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
-                  />
+                  />*/}
+                  {/*}<span>{this.state.covariance}</span>*/}
+                  {/* Code for dropdown menu found at https://www.w3schools.com/howto/howto_css_dropdown.asp */}
+                  <ToolBarButton style={this.setStyle("low")} onClick={()=>{
+                    this.setState({ covariance : 0, covSelected : 1, selectedCov:"low" });
+                    console.log("setting variance low");
+                  }}>Low</ToolBarButton>
+                  <ToolBarButton style={this.setStyle("med")} onClick={()=>{
+                    this.setState({ covariance : (this.findMax()/2), covSelected : 1, selectedCov:"med" });
+                    console.log("setting variance medium");
+                  }}>Medium</ToolBarButton>
+                  <ToolBarButton style={this.setStyle("hi")} onClick={()=>{
+                    this.setState({ covariance : (this.findMax()), covSelected : 1, selectedCov:"hi" });
+                    console.log("setting variance high");
+                  }}>High</ToolBarButton>
+
+                  {/*<div className="dropdown">
+                    <button className="dropbtn">Dropdown</button>
+                    <div className="dropdown-content">
+                      <a onClick={()=>{
+                        console.log("test dropdown");
+                      }}>High</a>
+                      <a >Medium</a>
+                      <a >Low</a>
+                    </div>
+                  </div>*/}
                   </div>
                   {/*<div>
                       <input type="number" value={Math.pow(this.state.sharkSD,2)}
@@ -106,7 +160,7 @@ class JointDistributions extends Component {
                       />
                   </div>*/}
               </div>
-              <button style={{margin:"10px"}} onClick={()=>{this.generate()}}> Generate! </button>
+              <button style={{margin:"10px"}} disabled={!this.state.covSelected} onClick={()=>{this.generate()}}> Generate! </button>
               <div>
                   <span style={{width:"30%", float: "left"}} id="sharks"/>
                   <span style={{width:"30%", float: "left"}} id="icecream"/>
@@ -260,6 +314,16 @@ class JointDistributions extends Component {
             },
             series: [jointSeries]
         });
+    }
+
+    setStyle(button){
+      if(button === this.state.selectedCov && this.state.covSelected === 1){
+        return {
+            background: '#555555',
+            color: 'white'
+        };
+      }
+      return {};
     }
 
     findMax(){

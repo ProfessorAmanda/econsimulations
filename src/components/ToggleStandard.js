@@ -48,7 +48,7 @@ class ToggleStandard extends Component {
     render() {
         this.state.selected = this.props.section;
         let modes;
-        modes = ["Normalized"];
+        modes = ["Standardized"];
 
         const sections = modes.map((section)=>{
             const style = this.state.selected === 1 ? {
