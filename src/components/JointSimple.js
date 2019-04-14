@@ -159,7 +159,7 @@ class JointSimple extends Component {
         for (let i = 0; i < 1000; i++){
             series.data.push(distribution.sample());
         }
-        let sharkSeries = {data : [], color: '#006D75', name:"Shark Attacks per Day"}
+        let sharkSeries = {data : [], color: '#006D75', name:""}
         let sharkDict = {};
         let rawSharks = series.data.map((s) => {return s[0]});
         // raw sharks is the sample without the double array thing

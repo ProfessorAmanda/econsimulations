@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
+import NormalDistribution from 'normal-distribution';
 
 class SampleMeanChart extends Component {
     constructor(props){
@@ -56,6 +57,7 @@ class SampleMeanChart extends Component {
             sampleMeanSeries.data[i] = [val, count];
             // console.log(sampleMeanSeries.data);
         }
+        console.log(sampleMeanSeries.data);
         // console.log(sampleMeanSeries.data);
         let xMin;
         let xMax;
@@ -118,7 +120,26 @@ class SampleMeanChart extends Component {
 
 
         let seriesData = points.map(x => ({ x, y: normalY(x, mean, stdDev)}));
-        const bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
+        let bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
+
+        /* Try making normal curve other way  */
+        
+        console.log(this.props.resampleSize[this.props.type])
+        const normDist = new NormalDistribution(64,3/Math.sqrt(this.props.resampleSize[this.props.type]));
+        let normalPoints = [];
+        let nPoint;
+        let sd = 3/Math.sqrt(10);
+        let meanN = 64;
+        for(let i=60;i<=70;i+=.1){
+          //nPoint = (1/(Math.sqrt(2*Math.PI*Math.pow(sd,2))))*(Math.pow(Math.E,-(Math.pow(i - meanN,2)/(2*Math.pow(sd,2)))));
+          nPoint = normDist.probabilityBetween(i,i+.1);
+          normalPoints.push([i,nPoint * this.props.numberResamples[this.props.type]]);
+        }
+
+        //console.log(normDist.probabilityBetween(61.5,67));
+
+        console.log(normalPoints);
+        bellSeries.data = normalPoints;
 
         //console.log(seriesData);
 
@@ -131,8 +152,8 @@ class SampleMeanChart extends Component {
                                 text: 'Sample Mean Distribution'
                             },
                             xAxis: {
-                                min: xMin,
-                                max: xMax,
+                                min: 60,
+                                max: 70,
                                 title : {
                                     enabled: true,
                                     text: xLabel
