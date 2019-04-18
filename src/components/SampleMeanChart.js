@@ -125,65 +125,65 @@ class SampleMeanChart extends Component {
         /* Try making normal curve other way  */
         
         console.log(this.props.resampleSize[this.props.type])
-        const normDist = new NormalDistribution(64,3/Math.sqrt(this.props.resampleSize[this.props.type]));
-        let normalPoints = [];
-        let nPoint;
-        let sd = 3/Math.sqrt(10);
-        let meanN = 64;
-        for(let i=60;i<=70;i+=.1){
-          //nPoint = (1/(Math.sqrt(2*Math.PI*Math.pow(sd,2))))*(Math.pow(Math.E,-(Math.pow(i - meanN,2)/(2*Math.pow(sd,2)))));
-          nPoint = normDist.probabilityBetween(i,i+.1);
-          normalPoints.push([i,nPoint * this.props.numberResamples[this.props.type]]);
-        }
+        // const normDist = new NormalDistribution(64,3/Math.sqrt(this.props.resampleSize[this.props.type]));
+        // let normalPoints = [];
+        // let nPoint;
+        // let sd = 3/Math.sqrt(10);
+        // let meanN = 64;
+        // for(let i=60;i<=70;i+=.1){
+        //   //nPoint = (1/(Math.sqrt(2*Math.PI*Math.pow(sd,2))))*(Math.pow(Math.E,-(Math.pow(i - meanN,2)/(2*Math.pow(sd,2)))));
+        //   nPoint = normDist.probabilityBetween(i,i+.1);
+        //   normalPoints.push([i,nPoint * this.props.numberResamples[this.props.type]]);
+        // }
 
-        //console.log(normDist.probabilityBetween(61.5,67));
+        // //console.log(normDist.probabilityBetween(61.5,67));
 
-        console.log(normalPoints);
-        bellSeries.data = normalPoints;
+        // console.log(normalPoints);
+        // bellSeries.data = normalPoints;
 
-        //console.log(seriesData);
+        // //console.log(seriesData);
 
         if (!this.state.chart) {
-            this.setState({chart: Highcharts.chart('sim-container', {
-                            chart: {
-                                type: 'scatter'
-                            },
-                            title: {
-                                text: 'Sample Mean Distribution'
-                            },
-                            xAxis: {
-                                min: 60,
-                                max: 70,
-                                title : {
-                                    enabled: true,
-                                    text: xLabel
-                                },
-                                startOnTick: true,
-                                endOnTick: true,
-                                showLastLabel: true
-                            },
-                            yAxis: {
-                                max: yMax,
-                                title: {
-                                    text: 'Observations of Sample Mean'
-                                }
-                            },
-                            tooltip: {
-                              enabled: false
-                            },
-                            plotOptions: {
-                              series: {
-                                point: {
-                                  events: {
-                                    mouseOver: function() {
-                                      //console.log('hehehe');
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            series: [sampleMeanSeries]
-                            })});
+        //     this.setState({chart: Highcharts.chart('sim-container', {
+        //                     chart: {
+        //                         type: 'scatter'
+        //                     },
+        //                     title: {
+        //                         text: 'Sample Mean Distribution'
+        //                     },
+        //                     xAxis: {
+        //                         min: 60,
+        //                         max: 70,
+        //                         title : {
+        //                             enabled: true,
+        //                             text: xLabel
+        //                         },
+        //                         startOnTick: true,
+        //                         endOnTick: true,
+        //                         showLastLabel: true
+        //                     },
+        //                     yAxis: {
+        //                         max: yMax,
+        //                         title: {
+        //                             text: 'Observations of Sample Mean'
+        //                         }
+        //                     },
+        //                     tooltip: {
+        //                       enabled: false
+        //                     },
+        //                     plotOptions: {
+        //                       series: {
+        //                         point: {
+        //                           events: {
+        //                             mouseOver: function() {
+        //                               //console.log('hehehe');
+        //                             }
+        //                           }
+        //                         }
+        //                       }
+        //                     },
+        //                     series: [sampleMeanSeries]
+        //                     })});
                           }
         else {
             console.log("running");
