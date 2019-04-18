@@ -24,8 +24,8 @@ class SampleMeanChart extends Component {
         return(
           <div>
             <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
-            <button style={{marginTop:"20px",marginLeft:"110px"}} onClick={() => {
-              this.setState({curve : !this.state.curve})}}>Plot Normal Curve</button>
+            {/* <button style={{marginTop:"20px",marginLeft:"110px"}} onClick={() => {
+              this.setState({curve : !this.state.curve})}}>Plot Normal Curve</button> */}
           </div>
         );
     }
@@ -189,13 +189,14 @@ class SampleMeanChart extends Component {
             console.log("running");
 
 
-            if(this.state.curve === true && this.state.chart.series.length < 2){
-              this.state.chart.addSeries({bellSeries});
-            }
-            if(this.state.curve == false && this.state.chart.series.length === 2){
-              this.state.chart.series[1].remove();
-            }
-            this.state.chart.update({series:[sampleMeanSeries,bellSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
+            // if(this.state.curve === true && this.state.chart.series.length < 2){
+            //   this.state.chart.addSeries({bellSeries});
+            // }
+            // if(this.state.curve == false && this.state.chart.series.length === 2){
+            //   this.state.chart.series[1].remove();
+            // }
+            // this.state.chart.update({series:[sampleMeanSeries,bellSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
+            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
         }
     }
 }

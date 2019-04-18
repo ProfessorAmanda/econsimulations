@@ -151,7 +151,7 @@ class LawOfLargeNumbers extends Component{
                     {/*{ this.state.stage >= 2 ? <MeanButton string={"Sample"} calculable={true} setmean={(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/> : null}*/}
                     { this.state.stage >= 3 ? <DifferenceOfMeans popMean={this.state.popMean[this.state.popType]} sampleMean={this.state.sampleMean[this.state.popType]}/> : null}
                 </span> : null}
-                { this.state.stage >= 2 && popDrawn ? <div style={{width:"100%"}}> <h4> Step 5: Run the Simulation </h4> <SimulateSamples type={this.state.popType} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/>
+                { this.state.stage >= 2 && popDrawn ? <div style={{width:"100%"}}> <h4> Step 4: Run the Simulation </h4> <SimulateSamples type={this.state.popType} sample={(size, pop) => {return this.sample(size, pop)}} pop={this.state.popArray[this.state.popType]}/>
                 </div> : null}
 
                 {/* Done with the Stages */}
