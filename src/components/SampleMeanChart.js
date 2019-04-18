@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
-import NormalDistribution from 'normal-distribution';
+// import NormalDistribution from 'normal-distribution';
 
 class SampleMeanChart extends Component {
     constructor(props){
@@ -144,46 +144,46 @@ class SampleMeanChart extends Component {
         // //console.log(seriesData);
 
         if (!this.state.chart) {
-        //     this.setState({chart: Highcharts.chart('sim-container', {
-        //                     chart: {
-        //                         type: 'scatter'
-        //                     },
-        //                     title: {
-        //                         text: 'Sample Mean Distribution'
-        //                     },
-        //                     xAxis: {
-        //                         min: 60,
-        //                         max: 70,
-        //                         title : {
-        //                             enabled: true,
-        //                             text: xLabel
-        //                         },
-        //                         startOnTick: true,
-        //                         endOnTick: true,
-        //                         showLastLabel: true
-        //                     },
-        //                     yAxis: {
-        //                         max: yMax,
-        //                         title: {
-        //                             text: 'Observations of Sample Mean'
-        //                         }
-        //                     },
-        //                     tooltip: {
-        //                       enabled: false
-        //                     },
-        //                     plotOptions: {
-        //                       series: {
-        //                         point: {
-        //                           events: {
-        //                             mouseOver: function() {
-        //                               //console.log('hehehe');
-        //                             }
-        //                           }
-        //                         }
-        //                       }
-        //                     },
-        //                     series: [sampleMeanSeries]
-        //                     })});
+            this.setState({chart: Highcharts.chart('sim-container', {
+                            chart: {
+                                type: 'scatter'
+                            },
+                            title: {
+                                text: 'Sample Mean Distribution'
+                            },
+                            xAxis: {
+                                min: 60,
+                                max: 70,
+                                title : {
+                                    enabled: true,
+                                    text: xLabel
+                                },
+                                startOnTick: true,
+                                endOnTick: true,
+                                showLastLabel: true
+                            },
+                            yAxis: {
+                                max: yMax,
+                                title: {
+                                    text: 'Observations of Sample Mean'
+                                }
+                            },
+                            tooltip: {
+                              enabled: false
+                            },
+                            plotOptions: {
+                              series: {
+                                point: {
+                                  events: {
+                                    mouseOver: function() {
+                                      //console.log('hehehe');
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            series: [sampleMeanSeries]
+                            })});
                           }
         else {
             console.log("running");
