@@ -49,7 +49,7 @@ class OmmittedVariable extends Component {
                     <br></br>
                     <label> Covariance beween Police and Density: </label>
                     <span>{this.state.cov}</span>
-                    <input type="range" className="slider" step={.1} value={this.state.cov} min={-12} max={12} onChange={(event) => {
+                    <input type="range" className="slider" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
                       this.setState({cov:parseFloat(event.target.value)});
                     }}/>
                     <br></br>
@@ -72,9 +72,12 @@ class OmmittedVariable extends Component {
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
         let covarianceMatrix = [
-            [ 4, 2],
-            [ 2, 3]
+            [ 4, this.state.cov],
+            [ this.state.cov, 3]
         ];
+
+        console.log('changing covariance');
+        console.log(covarianceMatrix);
 
         let beta_X = this.state.beta;
         let delta_V = this.state.delta;

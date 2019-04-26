@@ -438,7 +438,7 @@ class LawOfLargeNumbers extends Component{
                 }
             }
         }
-        console.log("shit should be changing");
+        
         const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: 25;
         const xminval = (popType == "Uniform" || popType == "Normal") ? 56 : 0;
         const ymaxval = (popType == "Uniform" || popType == "Normal") ? 30 : popType == "Exponential" ? 10 : 20;
