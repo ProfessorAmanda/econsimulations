@@ -7,8 +7,10 @@ const smr = require('smr');
 const quantile = require("distributions-exponential-quantile");
 const cdf = require( 'distributions-normal-cdf' );
 const random = require( 'distributions-normal-random' );
-const OBS =300;
-const INT = 10;
+const jsregression = require('js-regression');
+const mathjs = require('mathjs');
+const OBS = 300;
+const INT = 20;
 
 
 class OmmittedVariable extends Component {
@@ -47,7 +49,7 @@ class OmmittedVariable extends Component {
                     <br></br>
                     <label> Covariance beween Police and Density: </label>
                     <span>{this.state.cov}</span>
-                    <input type="range" className="slider" step={.1} value={this.state.cov} min={-12} max={12} onChange={(event) => {
+                    <input type="range" className="slider" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
                       this.setState({cov:parseFloat(event.target.value)});
                     }}/>
                     <br></br>
@@ -70,9 +72,12 @@ class OmmittedVariable extends Component {
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
         let covarianceMatrix = [
-            [ 4, 2],
-            [ 2, 3]
+            [ 4, this.state.cov],
+            [ this.state.cov, 3]
         ];
+
+        console.log('changing covariance');
+        console.log(covarianceMatrix);
 
         let beta_X = this.state.beta;
         let delta_V = this.state.delta;
@@ -91,19 +96,32 @@ class OmmittedVariable extends Component {
           Math.round(s[1]*100)/100]});
         newSeries.data = roundedSeries;
 
+        
+
+        console.log(roundedSeries);
+
         // generate epsilon
         let epsilon = random( OBS, {
             'mu': 0,
             'sigma': 5,
         });
 
+        // matrix data
+        let ones = [];
+        let colOne = [];
+        let colTwo = [];
 
         // generate crime data
         let crime = [];
         for(let i=0;i<OBS;i++){
           let crimePoint = INT + beta_X*roundedSeries[i][0] + delta_V*roundedSeries[i][1] + epsilon[i];
           crime.push(Math.round(crimePoint*100)/100);
+          ones.push(1);
+          colOne.push(roundedSeries[i][0]);
+          colTwo.push(roundedSeries[i][1]);
         }
+
+
 
         // get series with police vs crime
         let crimePol = [];
@@ -115,11 +133,19 @@ class OmmittedVariable extends Component {
         const naiveReg = regression.linear(crimePol);
         const naiveSlope = (naiveReg.equation[0]);
         const naiveInt = (naiveReg.equation[1]);
-        console.log(naiveInt);
-        console.log(naiveReg.string);
         const naiveLine = this.generatePoints(naiveSlope,naiveInt);
 
         // Corrected regression
+
+
+        // using matrices
+        const X = mathjs.transpose(mathjs.matrix([ones,colOne, colTwo]));
+        const Y = mathjs.transpose(mathjs.matrix([crime]));
+        let inv = mathjs.inv(mathjs.multiply(mathjs.transpose(X),X));  
+        let bHat = mathjs.multiply(mathjs.multiply(inv,mathjs.transpose(X)),Y);
+        console.log(bHat);
+        console.log(bHat.get([1,0]));
+        
 
         let multipleArray = [];
         for(let i=0;i<OBS;i++){
@@ -135,12 +161,31 @@ class OmmittedVariable extends Component {
           correctedReg.push({ x: [multipleArray[i][0], multipleArray[i][1]], y: [multipleArray[i][2]] });
         }
 
+        /* TRY NEW LIBRARY */
+
+        let regData = [];
+        for(let x = 0; x < OBS; x++) {
+          regData.push([roundedSeries[x][0], roundedSeries[x][1], crimePol[x][1]]); // Note that the last column should be y the output
+        }
+
+        // === Create the linear regression === //
+        let jsreg = new jsregression.LinearRegression();
+
+        // === Train the linear regression === //
+        let newModel = jsreg.fit(regData);
+
+        // === Print the trained model === //
+        console.log(newModel);
+
+        /***************************************************************/
 
         const correctedSlopes = correctedReg.calculateCoefficients();
         console.log(correctedSlopes);
+        let calcInt = correctedReg.hypothesize({ x: [0, 0] });
+        console.log(calcInt);
         //let testy = correctedReg.hypothesize({ x: [0, 0] }); // Returns [20.93]
 
-        let correctedLine = this.generatePoints(parseFloat(correctedSlopes[0]),INT);
+        let correctedLine = this.generatePoints(parseFloat(bHat.get([1,0])),parseFloat(bHat.get([0,0])));
         if(stage === 0){
           correctedLine = null;
         }
@@ -197,7 +242,7 @@ class OmmittedVariable extends Component {
     generatePoints(slope,int){
       let points = [];
 
-      for(let i=0;i<OBS;i++){
+      for(let i=0;i<11;i++){
         points[i] = int + i*slope;
       }
 

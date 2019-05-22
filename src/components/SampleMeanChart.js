@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
+// import NormalDistribution from 'normal-distribution';
 
 class SampleMeanChart extends Component {
     constructor(props){
@@ -23,8 +24,8 @@ class SampleMeanChart extends Component {
         return(
           <div>
             <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
-            <button style={{marginTop:"20px",marginLeft:"110px"}} onClick={() => {
-              this.setState({curve : !this.state.curve})}}>Plot Normal Curve</button>
+            {/* <button style={{marginTop:"20px",marginLeft:"110px"}} onClick={() => {
+              this.setState({curve : !this.state.curve})}}>Plot Normal Curve</button> */}
           </div>
         );
     }
@@ -56,6 +57,7 @@ class SampleMeanChart extends Component {
             sampleMeanSeries.data[i] = [val, count];
             // console.log(sampleMeanSeries.data);
         }
+        console.log(sampleMeanSeries.data);
         // console.log(sampleMeanSeries.data);
         let xMin;
         let xMax;
@@ -118,9 +120,28 @@ class SampleMeanChart extends Component {
 
 
         let seriesData = points.map(x => ({ x, y: normalY(x, mean, stdDev)}));
-        const bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
+        let bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
 
-        //console.log(seriesData);
+        /* Try making normal curve other way  */
+        
+        console.log(this.props.resampleSize[this.props.type])
+        // const normDist = new NormalDistribution(64,3/Math.sqrt(this.props.resampleSize[this.props.type]));
+        // let normalPoints = [];
+        // let nPoint;
+        // let sd = 3/Math.sqrt(10);
+        // let meanN = 64;
+        // for(let i=60;i<=70;i+=.1){
+        //   //nPoint = (1/(Math.sqrt(2*Math.PI*Math.pow(sd,2))))*(Math.pow(Math.E,-(Math.pow(i - meanN,2)/(2*Math.pow(sd,2)))));
+        //   nPoint = normDist.probabilityBetween(i,i+.1);
+        //   normalPoints.push([i,nPoint * this.props.numberResamples[this.props.type]]);
+        // }
+
+        // //console.log(normDist.probabilityBetween(61.5,67));
+
+        // console.log(normalPoints);
+        // bellSeries.data = normalPoints;
+
+        // //console.log(seriesData);
 
         if (!this.state.chart) {
             this.setState({chart: Highcharts.chart('sim-container', {
@@ -131,8 +152,8 @@ class SampleMeanChart extends Component {
                                 text: 'Sample Mean Distribution'
                             },
                             xAxis: {
-                                min: xMin,
-                                max: xMax,
+                                min: 60,
+                                max: 70,
                                 title : {
                                     enabled: true,
                                     text: xLabel
@@ -168,13 +189,14 @@ class SampleMeanChart extends Component {
             console.log("running");
 
 
-            if(this.state.curve === true && this.state.chart.series.length < 2){
-              this.state.chart.addSeries({bellSeries});
-            }
-            if(this.state.curve == false && this.state.chart.series.length === 2){
-              this.state.chart.series[1].remove();
-            }
-            this.state.chart.update({series:[sampleMeanSeries,bellSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
+            // if(this.state.curve === true && this.state.chart.series.length < 2){
+            //   this.state.chart.addSeries({bellSeries});
+            // }
+            // if(this.state.curve == false && this.state.chart.series.length === 2){
+            //   this.state.chart.series[1].remove();
+            // }
+            // this.state.chart.update({series:[sampleMeanSeries,bellSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
+            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
         }
     }
 }

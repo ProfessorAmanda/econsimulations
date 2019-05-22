@@ -126,10 +126,16 @@ class CentralLimitTheorem extends Component {
                         }}/>
                     </div>
                     <div>
-                        <button onClick={()=>{ this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
+                        <button onClick={()=>{
+                          this.clearState();
+                          if(this.myChart){
+                            this.myChart.destroy();
+                          }
+                          this.myChart = null;
+                        }}> CLEAR </button>
                     </div>
                     <span style={{float: "left", width:"30%"}} id="container"></span>
-                    {popDrawn ? <SampleMeanChart mean={math.mean(this.state.popArray[this.state.popType])} sd={math.std(this.state.popArray[this.state.popType])} normalized={this.state.standardNormal} sampleSize={this.state.sampleSize} type={this.state.popType} normal={this.state.standardNormal} sampleMeans={this.state.sampleMean[this.state.popType]}/> : null}
+                    {popDrawn ? <SampleMeanChart numberResamples={this.state.numberResamples} resampleSize={this.state.resampleSize} mean={math.mean(this.state.popArray[this.state.popType])} sd={math.std(this.state.popArray[this.state.popType])} normalized={this.state.standardNormal} sampleSize={this.state.sampleSize} type={this.state.popType} normal={this.state.standardNormal} sampleMeans={this.state.sampleMean[this.state.popType]}/> : null}
                     {popDrawn ? <span style={{width:"25%"}}>
                         <MeanButton string={"Population"} calculable={true}
                         setmean={(mean) => this.setState({popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})}
