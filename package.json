@@ -5,30 +5,31 @@
   "engines": {
     "node": "10.15.x"
   },
+  "license": "Apache-2.0",
   "dependencies": {
     "chi-squared": "^1.1.0",
-    "cumulative-distribution-function": "^1.0.2",
+    "cumulative-distribution-function": "^1.0.3",
     "distributions-exponential-cdf": "0.0.1",
     "distributions-exponential-quantile": "0.0.1",
     "distributions-normal-cdf": "0.0.2",
     "distributions-normal-random": "0.0.1",
     "distriprob": "^0.2.0",
-    "highcharts": "^5.0.14",
+    "highcharts": "^5.0.15",
     "js-regression": "^1.0.10",
     "math": "0.0.3",
-    "mathjs": "^3.20.1",
+    "mathjs": "^3.20.2",
     "multivariate-normal": "^0.1.1",
     "react": "^15.6.1",
     "react-addons-pure-render-mixin": "^15.6.2",
     "react-buttons": "0.0.11",
     "react-dom": "^15.6.1",
     "react-icons": "^2.2.7",
-    "react-icons-kit": "^1.0.7",
-    "react-modal": "^3.1.11",
+    "react-icons-kit": "^1.3.1",
+    "react-modal": "^3.8.1",
     "react-scripts": "1.0.10",
     "regression": "^2.0.1",
     "smr": "^0.12.6",
-    "styled-components": "^2.1.1"
+    "styled-components": "^2.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -46,6 +47,6 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.17.3"
   }
 }
