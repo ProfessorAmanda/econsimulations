@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import SimBar from './SimBar.js';
 import LawOfLargeNumbers from './LawOfLargeNumbers.js'
 import CentralLimitTheorem from './CentralLimitTheorem.js'
-import JointDistributions from './JointDistributions.js'
-import JointSimple from './JointSimple.js'
 import JointWrapper from './JointWrapper.js'
 import LeastSim from './LeastSim.js'
 import OmmittedVariable from './OmmittedVariable.js'
@@ -18,7 +15,6 @@ class SimulationContainer extends Component{
     }
 }
     render(){
-        const data = [3,4,5,6,7,8,9,10];
         return(
             <div>
               <h1> {this.state.mode} </h1>

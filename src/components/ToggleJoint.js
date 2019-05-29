@@ -49,7 +49,7 @@ class ToggleJoint extends Component {
     }
     render() {
         let modes;
-        modes = ["Basic","Advanced"];
+        modes = ["Basic"]; // ,"Advanced"];
 
         const sections = modes.map((section)=>{
             const style = this.state.current === section ? {

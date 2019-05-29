@@ -19,13 +19,14 @@ class JointWrapper extends Component{
             mode: 'Basic'
     }
 }
+// <div><ToggleJoint toggleSwitch={(section) => this.setState({mode:section})} /></div>
     render(){
         return(
             <div>
-              <div><ToggleJoint toggleSwitch={(section) => this.setState({mode:section})} /></div>
               <div>
                 {this.state.mode === 'Basic' && <JointSimple/>}
-                {this.state.mode === 'Advanced' && <JointDistributions/>}
+                { // this.state.mode === 'Advanced' && <JointDistributions/>
+                }
               </div>
             </div>
         );

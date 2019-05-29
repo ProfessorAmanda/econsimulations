@@ -23,7 +23,7 @@ class SampleMeanChart extends Component {
         this.state.chart && this.show();
         return(
           <div>
-            <span style={{float:"left", width:"30%"}} id="sim-container"> </span>
+            <span style={{float:"left", width:"30%"}} id="sim-container" />
             {/* <button style={{marginTop:"20px",marginLeft:"110px"}} onClick={() => {
               this.setState({curve : !this.state.curve})}}>Plot Normal Curve</button> */}
           </div>
@@ -34,10 +34,10 @@ class SampleMeanChart extends Component {
     }
     show(){
         //console.log(this.props.type);
-        let sampleMeanSeries = {name: "Sample Means", data : []};
+        const sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
         const popMean = Math.round(this.props.mean *4)/4;
-        for (let i in this.props.sampleMeans){
+        for (const i in this.props.sampleMeans){
             //const val = ((Math.round(this.props.sampleMeans[i] * 4) / 4)-64)/3;
             // console.log('here we go');
             // console.log(this.props.sampleMeans[i]);
@@ -48,7 +48,7 @@ class SampleMeanChart extends Component {
             // console.log(Math.round(((this.props.mean-this.props.sampleMeans[i])/(this.props.sd/100))*4)/4);
             const val = this.props.normalized === 0 ? Math.round(this.props.sampleMeans[i] * 10) / 10 : Math.round(((this.props.sampleMeans[i]-this.props.mean)/(this.props.sd/Math.sqrt(this.props.sampleSize)))*10)/10;
             let count = 1;
-            for (let j of sampleMeanSeries.data){
+            for (const j of sampleMeanSeries.data){
                 if (Math.round(j[0] * 10) / 10 === val){
                     count += 1;
                 }
@@ -68,8 +68,8 @@ class SampleMeanChart extends Component {
             xLabel = (this.props.type == "Uniform" || this.props.type == "Normal" || this.props.type == "Mystery") ? "Sample Mean (in)" : this.props.type == "Exponential" ? "Sample Mean (seconds)" : "Sample Mean (dollars)";
         }
         else{
-          xMin = -3;
-          xMax = 3;
+          xMin = -2;
+          xMax = 2;
           xLabel = "Standard Deviations";
         }
 
@@ -102,11 +102,11 @@ class SampleMeanChart extends Component {
         const getStdDeviation = (lowerBound, upperBound) => (upperBound - lowerBound) / 4;
 
         const generatePoints = (lowerBound, upperBound) => {
-          let stdDev = getStdDeviation(lowerBound, upperBound);
-          let min = lowerBound - 2 * stdDev;
-          let max = upperBound + 2 * stdDev;
-          let unit = (max - min) / 40;
-          let list = [];
+          const stdDev = getStdDeviation(lowerBound, upperBound);
+          const min = lowerBound - 2 * stdDev;
+          const max = upperBound + 2 * stdDev;
+          const unit = (max - min) / 40;
+          const list = [];
           for(let i=min;i<max;i+=unit){
             list.push(i);
           }
@@ -114,13 +114,13 @@ class SampleMeanChart extends Component {
           return list;
         }
 
-        let mean = getMean(lowerBound, upperBound);
-        let stdDev = getStdDeviation(lowerBound, upperBound);
-        let points = generatePoints(lowerBound, upperBound);
+        const mean = getMean(lowerBound, upperBound);
+        const stdDev = getStdDeviation(lowerBound, upperBound);
+        const points = generatePoints(lowerBound, upperBound);
 
 
-        let seriesData = points.map(x => ({ x, y: normalY(x, mean, stdDev)}));
-        let bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
+        const seriesData = points.map(x => ({ x, y: normalY(x, mean, stdDev)}));
+        const bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
 
         /* Try making normal curve other way  */
         

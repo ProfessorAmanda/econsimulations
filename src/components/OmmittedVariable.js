@@ -15,45 +15,45 @@ const INT = 20;
 
 class OmmittedVariable extends Component {
     constructor(props){
-        super(props);
-        this.state = {
-          stage: 0,
-          points: null,
-          beta: -2.5,
-          delta: 6,
-          cov: 2
-        }
+      super(props);
+      this.state = {
+        stage: 0,
+        points: null,
+        beta: -2.5,
+        delta: 6,
+        cov: 2
+      }
     }
 
     render() {
         return(
-            <div style={{ marginLeft: 0,marginTop: 10 }}>
+          <div style={{ marginLeft: 0,marginTop: 10 }}>
                 <span style={{width:"30%", float: "left", marginLeft: 100}} id="sharks"/>
                 <span>
                     <div style={{marginLeft: -84}}>
                     <h4>Step 1: Choose Population Parameters</h4>
-                    <label> Beta, the Police Coefficient: </label>
+                    <label> Beta, the Coefficient on Police: </label>
                     <span>{this.state.beta}</span>
                     <input style={{}} type="range" className="slider" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
                       this.setState({beta:parseFloat(event.target.value)});
                     }}/>
                     </div>
-                    <br></br>
+                    <br />
                     <div style={{marginLeft: -70}}>
-                        <label> Delta, the Density Coefficient: </label>
+                        <label> Delta, the Coefficient on Density: </label>
                         <span>{this.state.delta}</span>
                         <input type="range" className="slider" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
                           this.setState({delta:parseFloat(event.target.value)});
                         }}/>
                     </div>
-                    <br></br>
+                    <br />
                     <label> Covariance beween Police and Density: </label>
                     <span>{this.state.cov}</span>
                     <input type="range" className="slider" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
                       this.setState({cov:parseFloat(event.target.value)});
                     }}/>
-                    <br></br>
-                    <h4> Step 2: Generate Regression Using Crime and Police Data </h4>
+                    <br />
+                    <h4> Step 2: Estimate Regression Using Crime and Police Data </h4>
                     <button style={{margin:"10px"}} onClick={()=>{this.generate(0); this.setState({stage:1})}}> Generate! </button>
                     {this.state.stage < 1 ? null : <div><h4> Step 3: Add Omitted Variable, Density, to Regression </h4><button onClick={() => {
                       this.setState({stage:2});
@@ -67,11 +67,11 @@ class OmmittedVariable extends Component {
 
 
     generate(stage) {
-        let meanVector = [5, .8];
+        const meanVector = [5, .8];
 
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
-        let covarianceMatrix = [
+        const covarianceMatrix = [
             [ 4, this.state.cov],
             [ this.state.cov, 3]
         ];
@@ -79,20 +79,20 @@ class OmmittedVariable extends Component {
         console.log('changing covariance');
         console.log(covarianceMatrix);
 
-        let beta_X = this.state.beta;
-        let delta_V = this.state.delta;
-        let cov_XV = this.state.cov;
+        const beta_X = this.state.beta;
+        const delta_V = this.state.delta;
+        const cov_XV = this.state.cov;
 
         // lets you sample from distribution
-        let distribution = MultivariateNormal(meanVector, covarianceMatrix);
-        let series = {data : [], color: '#1F242A ', name:"Population"}
+        const distribution = MultivariateNormal(meanVector, covarianceMatrix);
+        const series = {data : [], color: '#1F242A ', name:"Population"}
         // samples 1000
         for (let i = 0; i < OBS; i++){
             series.data.push(distribution.sample());
         }
-        let newSeries = {data : [], color: '#006D75', name:"Shark Attacks per Day"}
+        const newSeries = {data : [], color: '#006D75', name:"Shark Attacks per Day"}
         // police vs density
-        let roundedSeries = series.data.map((s) => {return [Math.round(s[0]*100)/100,
+        const roundedSeries = series.data.map((s) => {return [Math.round(s[0]*100)/100,
           Math.round(s[1]*100)/100]});
         newSeries.data = roundedSeries;
 
@@ -101,20 +101,20 @@ class OmmittedVariable extends Component {
         console.log(roundedSeries);
 
         // generate epsilon
-        let epsilon = random( OBS, {
+        const epsilon = random( OBS, {
             'mu': 0,
             'sigma': 5,
         });
 
         // matrix data
-        let ones = [];
-        let colOne = [];
-        let colTwo = [];
+        const ones = [];
+        const colOne = [];
+        const colTwo = [];
 
         // generate crime data
-        let crime = [];
+        const crime = [];
         for(let i=0;i<OBS;i++){
-          let crimePoint = INT + beta_X*roundedSeries[i][0] + delta_V*roundedSeries[i][1] + epsilon[i];
+          const crimePoint = INT + beta_X*roundedSeries[i][0] + delta_V*roundedSeries[i][1] + epsilon[i];
           crime.push(Math.round(crimePoint*100)/100);
           ones.push(1);
           colOne.push(roundedSeries[i][0]);
@@ -124,7 +124,7 @@ class OmmittedVariable extends Component {
 
 
         // get series with police vs crime
-        let crimePol = [];
+        const crimePol = [];
         for(let i=0;i<OBS;i++){
           crimePol.push([roundedSeries[i][0],crime[i]]);
         }
@@ -141,21 +141,21 @@ class OmmittedVariable extends Component {
         // using matrices
         const X = mathjs.transpose(mathjs.matrix([ones,colOne, colTwo]));
         const Y = mathjs.transpose(mathjs.matrix([crime]));
-        let inv = mathjs.inv(mathjs.multiply(mathjs.transpose(X),X));  
-        let bHat = mathjs.multiply(mathjs.multiply(inv,mathjs.transpose(X)),Y);
+        const inv = mathjs.inv(mathjs.multiply(mathjs.transpose(X),X));  
+        const bHat = mathjs.multiply(mathjs.multiply(inv,mathjs.transpose(X)),Y);
         console.log(bHat);
         console.log(bHat.get([1,0]));
         
 
-        let multipleArray = [];
+        const multipleArray = [];
         for(let i=0;i<OBS;i++){
-          let multiplePoint = [roundedSeries[i][0],roundedSeries[i][1],crimePol[i][1]];
+          const multiplePoint = [roundedSeries[i][0],roundedSeries[i][1],crimePol[i][1]];
           multipleArray.push(multiplePoint);
         }
 
-        let correctedReg = new smr.Regression({ numX: 2, numY: 1 });
+        const correctedReg = new smr.Regression({ numX: 2, numY: 1 });
 
-        let testList = [];
+        const testList = [];
 
         for(let i=0;i<OBS;i++){
           correctedReg.push({ x: [multipleArray[i][0], multipleArray[i][1]], y: [multipleArray[i][2]] });
@@ -163,16 +163,16 @@ class OmmittedVariable extends Component {
 
         /* TRY NEW LIBRARY */
 
-        let regData = [];
+        const regData = [];
         for(let x = 0; x < OBS; x++) {
           regData.push([roundedSeries[x][0], roundedSeries[x][1], crimePol[x][1]]); // Note that the last column should be y the output
         }
 
         // === Create the linear regression === //
-        let jsreg = new jsregression.LinearRegression();
+        const jsreg = new jsregression.LinearRegression();
 
         // === Train the linear regression === //
-        let newModel = jsreg.fit(regData);
+        const newModel = jsreg.fit(regData);
 
         // === Print the trained model === //
         console.log(newModel);
@@ -181,7 +181,7 @@ class OmmittedVariable extends Component {
 
         const correctedSlopes = correctedReg.calculateCoefficients();
         console.log(correctedSlopes);
-        let calcInt = correctedReg.hypothesize({ x: [0, 0] });
+        const calcInt = correctedReg.hypothesize({ x: [0, 0] });
         console.log(calcInt);
         //let testy = correctedReg.hypothesize({ x: [0, 0] }); // Returns [20.93]
 
@@ -240,7 +240,7 @@ class OmmittedVariable extends Component {
     }
 
     generatePoints(slope,int){
-      let points = [];
+      const points = [];
 
       for(let i=0;i<11;i++){
         points[i] = int + i*slope;
@@ -249,7 +249,7 @@ class OmmittedVariable extends Component {
       return points;
     }
     generateCorrected(x1,x2,int){
-      let points = [];
+      const points = [];
       for(let i=0;i<OBS;i++){
         points[i] = i*x1 + i*x2;
       }
