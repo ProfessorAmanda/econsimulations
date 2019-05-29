@@ -611,8 +611,8 @@ class CentralLimitTheorem extends Component {
                 text: title
             }
             const xvals = {
-                min: xminval,
-                max: xmaxval,
+                // min: xminval,
+                // max: xmaxval,
                 title : {
                     enabled: true,
                     text: xLabel
@@ -622,7 +622,7 @@ class CentralLimitTheorem extends Component {
                 showLastLabel: true
             }
             const yvals = {
-                max: ymaxval,
+                // max: ymaxval,
                 title: {
                     text: 'Count'
                 }
