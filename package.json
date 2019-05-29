@@ -7,6 +7,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "webworker-threads": "0.7.17",
     "chi-squared": "^1.1.0",
     "cumulative-distribution-function": "^1.0.3",
     "distributions-exponential-cdf": "0.0.1",
