@@ -2,6 +2,9 @@
   "name": "econ-sims",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.15.x"
+  },
   "dependencies": {
     "chi-squared": "^1.1.0",
     "cumulative-distribution-function": "^1.0.2",
