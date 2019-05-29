@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './dropdown.css';
+// import './dropdown.css';
 import styled from 'styled-components';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
@@ -28,8 +28,6 @@ const ToolBarButton=styled.a`
 
 `;
 
-
-
 function SharkInput(props){
   return(
     <div>
@@ -47,8 +45,8 @@ function IceInput(props){
         <h4> Choose the Mean and Standard Deviation for Ice Cream Cones </h4>
         <label >Ice Cream Cone Mean: </label><span>{props.iceMean}</span>
         <input type="range" className="slider" min={10} max={500} step="1" value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
-        <br></br>
-        <br></br>
+        <br />
+        <br />
         <label >Ice Cream Cone SD: </label><span>{props.iceSD}</span>
         <input type="range" className="slider" min={1} max={5} value={props.iceSD} onChange={(event) => {
           //const copy = this.state.covMatrix;
@@ -173,11 +171,11 @@ class JointDistributions extends Component {
 
 
     generate() {
-        var meanVector = [1, 10];
+        const meanVector = [1, 10];
 
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
-        var covarianceMatrix = [
+        const covarianceMatrix = [
             [ 1.0, 1.0],
             [ 1.0, 1.0]
         ];
@@ -190,25 +188,25 @@ class JointDistributions extends Component {
         }
 
         // lets you sample from distribution
-        var distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
-        let series = {data : [], color: '#1F242A ', name:"Population"}
+        const distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
+        const series = {data : [], color: '#1F242A ', name:"Population"}
         // samples 1000
         for (let i = 0; i < 1000; i++){
             series.data.push(distribution.sample());
         }
-        let sharkSeries = {data : [], color: '#006D75', name:"Shark Attacks per Day"}
-        let sharkDict = {};
-        let rawSharks = series.data.map((s) => {return s[0]});
+        const sharkSeries = {data : [], color: '#006D75', name:"Shark Attacks per Day"}
+        const sharkDict = {};
+        const rawSharks = series.data.map((s) => {return s[0]});
         // raw sharks is the sample without the double array thing
-        let sharkCDF = cdf(rawSharks);
-        let sharkExp = quantile(sharkCDF);
+        const sharkCDF = cdf(rawSharks);
+        const sharkExp = quantile(sharkCDF);
         console.log(sharkExp);
         // for (let s of sharkCDF) {
         //     sharkPois.push();
         // }
 
         // building dictionary for histogram
-        for (let i of sharkExp){
+        for (const i of sharkExp){
             const sharkFreq = Math.round(i * 100) / 100;
             if (sharkDict[sharkFreq]){
                 sharkDict[sharkFreq]++;
@@ -216,7 +214,7 @@ class JointDistributions extends Component {
                 sharkDict[sharkFreq] = 1;
             }
         }
-        for (let i in sharkDict){
+        for (const i in sharkDict){
             for (let j = 0; j < sharkDict[i]; j++){
                 sharkSeries.data.push([parseFloat(i), j+1]);
             }
@@ -246,9 +244,9 @@ class JointDistributions extends Component {
             series: [sharkSeries]
         });
 
-        let icecreamSeries = {data : [], color: '#e8bd68', name:"Ice Cream Cones bought per Day"}
-        let icecreamDict = {};
-        for (let i of series.data){
+        const icecreamSeries = {data : [], color: '#e8bd68', name:"Ice Cream Cones bought per Day"}
+        const icecreamDict = {};
+        for (const i of series.data){
             const icecreamFreq = Math.round(i[1] * 100) / 100;
             if (icecreamDict[icecreamFreq]){
                 icecreamDict[icecreamFreq]++;
@@ -256,7 +254,7 @@ class JointDistributions extends Component {
                 icecreamDict[icecreamFreq] = 1;
             }
         }
-        for (let i in icecreamDict){
+        for (const i in icecreamDict){
             for (let j = 0; j < icecreamDict[i]; j++){
                 icecreamSeries.data.push([parseFloat(i), j+1]);
             }
@@ -286,8 +284,8 @@ class JointDistributions extends Component {
             series: [icecreamSeries]
         });
 
-        let jointSeries = {data : [], color: '#EA7200', name:"Sharks vs Ice Creams"}
-        for (let i in sharkExp){
+        const jointSeries = {data : [], color: '#EA7200', name:"Sharks vs Ice Creams"}
+        for (const i in sharkExp){
             jointSeries.data.push([Math.round(sharkExp[i] * 100) / 100, Math.round(series.data[i][1] * 100) / 100]);
         }
         Highcharts.chart('joint', {

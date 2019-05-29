@@ -12,11 +12,19 @@ import SimulateSamples from './SimulateSamples.js'
 const SAMPLE_SIZE = 1000;
 
 function PopTable(props) {
+    let showTable;
+    if (props.popArray[props.popType]) {
+        showTable = 'visible';
+    }
+    else {
+        showTable = 'hidden';
+    }
+
     const popArr = props.popArray[props.popType] || [];
     const samples = props.samples[props.popType];
     const rows = popArr.map( (val, index) => {
         if (val){
-            for (let i of samples) {
+            for (const i of samples) {
                 if (index === i[0]){
                     return (<tr style={{background:"#747EF2"}}><td>{index + 1}</td><td>{Math.round(val * 10) / 10}</td></tr>);
                 }
@@ -24,21 +32,32 @@ function PopTable(props) {
             return(<tr><td>{index + 1}</td><td>{Math.round(val * 10) / 10}</td></tr>);
         }
     });
+    const tableBody = (
+        <table style={{width: "100%", border:"1px solid black"}}>
+            <tbody style={{ overflow: "scroll" }}>
+                {rows}
+            </tbody>
+        </table>
+    );
+
+    const values = { 
+        Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)"},
+        Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", xLabel: "Gallons" },
+        Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
+        "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", xLabel: "Dollars"}
+    };
+
     return (
-            <div style={{float:"left", width:"10%", height:"300px", overflow:"scroll"}}>
+            <div style={{float:"left", width:"10%", height:"300px", visibility: showTable, overflowX: "hidden" }}>
                 <table style={{width: "100%", border:"1px solid black"}}>
                     <tbody>
                         <tr>
-                            <th> Subject </th>
-                            <th> Height </th>
+                            <th>Subject</th>
+                            <th>{props.popType && values[props.popType].xLabel}</th>
                         </tr>
                     </tbody>
                 </table>
-                <table style={{width: "100%", border:"1px solid black"}}>
-                    <tbody>
-                        {rows}
-                    </tbody>
-                </table>
+                {tableBody}
             </div>
         );
 }
@@ -114,8 +133,11 @@ class LawOfLargeNumbers extends Component{
         return(
             <div>
                 <div style={{width:"10%"}}>
-                    <PopBar section={this.state.popType} mode="LLN" setPop={(pop) => {
-                      let copy = this.state.stages;
+                    <PopBar 
+                    section={this.state.popType}
+                    mode="LLN"
+                    setPop={(pop) => {
+                      const copy = Object.assign({} , this.state.stages);
                       copy[this.state.popType] = this.state.stage;
                       //copy[this.state.popType] = 0;
                       this.setState({stages : copy});
@@ -130,20 +152,19 @@ class LawOfLargeNumbers extends Component{
                       // new dist
                       this.setState({newPop : 1});
                       this.setState({popType:pop});
-                      this.setState({stage : this.state.stages[pop]});
+                      this.setState({stage : copy[pop]});
                       this.selectPop(pop);
                     }}/>
                 </div>
                 <div>
                     <button onClick={()=>{ this.state.clearedArray[this.popType] = this.state.popArray[this.popType]; this.clearState(); this.myChart.destroy(); this.myChart = null;}}> CLEAR </button>
                 </div>
-                {popDrawn ? popTable : null}
-                <span style={{float:'left', width:"30%"}} id="container"></span>
+                {popTable}
+                <span style={{float:'left', width:"30%"}} id="container" />
 
                 {/* Going through the Stages */}
-
                 {popDrawn ? <span style={{width:"20%"}}>
-                    <MeanButton string={"Population"} reset={this.state.newPop} calculable={true} setmean={(mean) => this.setState({stage:1,popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
+                    <MeanButton string={"Population"} reset={this.state.newPop} calculable setmean={(mean) => this.setState({stage:1,popMean:Object.assign(this.state.popMean, {[this.state.popType] : mean})})} popArray = {this.state.popArray} popType={this.state.popType}/>
                     <h4> {this.state.popType} Mean: {this.state.popMean[this.state.popType] || ''} </h4>
                     { this.state.stage >= 1 ? <span> <h4> Step 3: Sampling </h4>
                          </span> : null }
@@ -171,12 +192,12 @@ class LawOfLargeNumbers extends Component{
         }, 500);
     }
     sample(size, array) {
-        let sampled = []
+        const sampled = []
         const currentPop = array;
 
         while (sampled.length < size){
             // index to sample ?
-            let r = Math.round(Math.random() * (currentPop.length - 1))
+            const r = Math.round(Math.random() * (currentPop.length - 1))
             let shouldSample = true;
             for (let i = 0; i < sampled.length; i++){
                  if (sampled[i][0] === r) {
@@ -212,21 +233,22 @@ class LawOfLargeNumbers extends Component{
             case "Chi-Squared":
                 this.setState({popArray : Object.assign(this.state.popArray, {"Chi-Squared" : this.state.popArray[popType].concat(this.generateChiSquared())})});
                 break;
+            default:
+            // do nothing
         }
         this.setState({newPop : 0});
     }
 
     clearState() {
-        let tempArray = this.state.popArray;
-        let tempCleared = this.state.clearedArray;
+        const tempArray = this.state.popArray;
+        const tempCleared = this.state.clearedArray;
         tempCleared[this.state.popType] = tempArray[this.state.popType];
         this.setState({clearedArray : tempCleared});
 
-        for (let i in this.state){
+        for (const i in this.state){
             // Changed these to and from or because I don't think it was checking any of these
             if (i !== "poptype" && i !== "stage" && i !== "clearedArray"){
-              console.log(i);
-              for (let j of ["Normal", "Uniform", "Exponential", "Chi-Squared"]){
+              for (const j of ["Normal", "Uniform", "Exponential", "Chi-Squared"]){
                 this.setState({i: Object.assign(this.state[i], {[j] : []})});
               }
 
@@ -243,16 +265,15 @@ class LawOfLargeNumbers extends Component{
             clearInterval(this.timer);
             return [];
         }
-        const MEAN = 64;
-        const STANDARD_DEV = 3;
+        const MEAN = 64; // 74.44; // 64
+        const STANDARD_DEV = 3; // 13.48; // 3
         const ITERATES = 9;
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
         const popArray = []
         const sampleSize =  this.sum(this.state.popDict["Normal"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) / 4 + 1;
-        let newCleared = this.state.clearedArray[this.state.popType];
+        const newCleared = this.state.clearedArray[this.state.popType];
 
-        console.log(sampleSize);
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
             if(this.state.clearedArray[this.state.popType].length === 0){
@@ -275,10 +296,25 @@ class LawOfLargeNumbers extends Component{
             else {
                 this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)] = 1;
             }
+
+            // More correct but way slower
+            // const stateCopy = Object.assign({}, this.state.popDict);
+            // if (this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)]){
+            //     stateCopy["Normal"][Math.round(sum / ITERATES * 10)] += 1;
+            // }
+            // // Adds first instance of a point
+            // else {
+            //     stateCopy["Normal"][Math.round(sum / ITERATES * 10)] = 1;
+            // }
+            // this.setState((prevState) => {
+            //     return {popDict: Object.assign({}, prevState.popDict, stateCopy)};
+            // })
+
+
             popArray.push(sum / ITERATES);
         }
         if(this.state.clearedArray[this.state.popType].length > 0){
-          let tempCleared = this.state.clearedArray;
+          const tempCleared = this.state.clearedArray;
           //const tempL = tempCleared[this.state.popType].length;
           //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
           tempCleared[this.state.popType] = newCleared;
@@ -300,7 +336,7 @@ class LawOfLargeNumbers extends Component{
         const range = HI - LOW;
         const popArray = []
         const sampleSize = this.sum(this.state.popDict["Uniform"]) > SAMPLE_SIZE * 1/2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Uniform"]) : this.sum(this.state.popDict["Uniform"]) / 2 + 1
-        let newCleared = this.state.clearedArray[this.state.popType];
+        const newCleared = this.state.clearedArray[this.state.popType];
 
         for (let i = 0; i < sampleSize; i++){
             let val;
@@ -319,7 +355,7 @@ class LawOfLargeNumbers extends Component{
             popArray.push(val);
         }
         if(this.state.clearedArray[this.state.popType].length > 0){
-          let tempCleared = this.state.clearedArray;
+          const tempCleared = this.state.clearedArray;
           //const tempL = tempCleared[this.state.popType].length;
           //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
           tempCleared[this.state.popType] = newCleared;
@@ -338,7 +374,7 @@ class LawOfLargeNumbers extends Component{
         const LAMBDA = 1/64;
         const popArray = [];
         const sampleSize = this.sum(this.state.popDict["Exponential"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Exponential"]) : this.sum(this.state.popDict["Exponential"]) + 1
-        let newCleared = this.state.clearedArray[this.state.popType];
+        const newCleared = this.state.clearedArray[this.state.popType];
         for (let i = 0; i < sampleSize; i++){
             let val;
             if(this.state.clearedArray[this.state.popType].length === 0){
@@ -356,7 +392,7 @@ class LawOfLargeNumbers extends Component{
             popArray.push(val);
         }
         if(this.state.clearedArray[this.state.popType].length > 0){
-          let tempCleared = this.state.clearedArray;
+          const tempCleared = this.state.clearedArray;
           //const tempL = tempCleared[this.state.popType].length;
           //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
           tempCleared[this.state.popType] = newCleared;
@@ -372,12 +408,12 @@ class LawOfLargeNumbers extends Component{
             return [];
         }
         const DEGREES_OF_FREEDOM = 8;
-        let newCleared = this.state.clearedArray[this.state.popType];
+        const newCleared = this.state.clearedArray[this.state.popType];
         const popArray = [];
-        let chiArray = [];
+        const chiArray = [];
         const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM);
         for (let i = 0; i < 20; i+=.1){
-            let tmp = chi.pdf(i, DEGREES_OF_FREEDOM)
+            const tmp = chi.pdf(i, DEGREES_OF_FREEDOM)
             for (let j = 0; j < tmp / chiMin; j++){
                 chiArray.push(i)
             }
@@ -399,7 +435,7 @@ class LawOfLargeNumbers extends Component{
             popArray.push(val);
         }
         if(this.state.clearedArray[this.state.popType].length > 0){
-          let tempCleared = this.state.clearedArray;
+          const tempCleared = this.state.clearedArray;
           //const tempL = tempCleared[this.state.popType].length;
           //tempCleared[this.state.popType] = tempCleared[this.state.popType].slice(sampleSize,tempL);
           tempCleared[this.state.popType] = newCleared;
@@ -411,14 +447,14 @@ class LawOfLargeNumbers extends Component{
     // changePop seems to build graph
 
     changePop(popDict, popType) {
-        let pseries = {data : [], color: '#F27474', name:"Population"}
-        let sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
-        let sampledCopy = this.state.sampled[popType];
-        let sampleVals = [[]];
-        let samplePop = [];
+        const pseries = {data : [], color: '#F27474', name:"Population"}
+        const sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
+        const sampledCopy = this.state.sampled[popType];
+        const sampleVals = [[]];
+        const samplePop = [];
 
         // Rounding everything??? Multiplies by 10, rounds, and then divides by 10
-        for (let j in sampledCopy){
+        for (const j in sampledCopy){
             sampleVals[j] = [];
             sampleVals[j][0] = Math.round(this.state.popArray[popType][sampledCopy[j][0]] * 10)
             sampleVals[j][1] = sampledCopy[j][1];
@@ -426,10 +462,10 @@ class LawOfLargeNumbers extends Component{
         }
 
         // Adds everything in popDict to the highcharts plot
-        for (let i in popDict) {
+        for (const i in popDict) {
             if (i) {
                 for (let j = 1; j < popDict[i] + 1; j++) {
-                    for (let subArr of sampleVals){
+                    for (const subArr of sampleVals){
                         if (subArr[0] == i && subArr[1] == j){
                             sampleSeries.data.push([i / 10, j]);
                         }
@@ -438,11 +474,21 @@ class LawOfLargeNumbers extends Component{
                 }
             }
         }
-        const xmaxval = (popType == "Uniform" || popType == "Normal") ? 74 : popType == "Exponential" ? 350: 25;
-        const xminval = (popType == "Uniform" || popType == "Normal") ? 56 : 0;
-        const ymaxval = (popType == "Uniform" || popType == "Normal") ? 30 : popType == "Exponential" ? 10 : 20;
-        const title = (popType == "Uniform" || popType == "Normal") ? "Female Height" : popType == "Exponential" ? "Duration of Telemarketer Call" : "Money Spent on Lunch";
-        const xLabel = (popType == "Uniform" || popType == "Normal" || popType == "Mystery") ? "Height (in)" : popType == "Exponential" ? "Duration (seconds)" : "Dollars";
+        const values = { 
+            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)"},
+            Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", xLabel: "Gallons" },
+            Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
+            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", xLabel: "Dollars"}
+        };
+        const { xmaxval, xminval, ymaxval, title, xLabel } = values[popType];
+
+        // const xmaxval = (popType === "Uniform" || popType === "Normal") ? 74 : popType === "Exponential" ? 350: 25;
+        // const xminval = (popType === "Uniform" || popType === "Normal") ? 56 : 0;
+        // const ymaxval = (popType === "Uniform" || popType === "Normal") ? 30 : popType === "Exponential" ? 10 : 20;
+
+
+        // const title = (popType === "Uniform" || popType === "Normal") ? "Female Height" : popType === "Exponential" ? "Duration of Telemarketer Call" : "Money Spent on Lunch";
+        // const xLabel = (popType === "Uniform" || popType === "Normal" || popType === "Mystery") ? "Height (in)" : popType === "Exponential" ? "Duration (seconds)" : "Dollars";
         if (!this.myChart) {
             this.myChart = Highcharts.chart('container', {
             chart: {
@@ -453,8 +499,8 @@ class LawOfLargeNumbers extends Component{
                 text: title
             },
             xAxis: {
-                min: xminval,
-                max: xmaxval,
+                // min: xminval,
+                // max: xmaxval,
                 title : {
                     enabled: true,
                     text: xLabel
@@ -464,7 +510,7 @@ class LawOfLargeNumbers extends Component{
                 showLastLabel: true
             },
             yAxis: {
-                max: ymaxval,
+                // max: ymaxval,
                 title: {
                     text: 'Count'
                 }
@@ -490,8 +536,8 @@ class LawOfLargeNumbers extends Component{
                 text: title
             }
             const xvals = {
-                min: xminval,
-                max: xmaxval,
+                // min: xminval,
+                // max: xmaxval,
                 title : {
                     enabled: true,
                     text: xLabel
@@ -501,7 +547,7 @@ class LawOfLargeNumbers extends Component{
                 showLastLabel: true
             }
             const yvals = {
-                max: ymaxval,
+                // max: ymaxval,
                 title: {
                     text: 'Count'
                 }
@@ -517,7 +563,7 @@ class LawOfLargeNumbers extends Component{
     // Actually just sums population, kind of a misleading name
     sum(pop){
         let val = 0
-        for (let i of pop){
+        for (const i of pop){
             if (i){
                 val += i
             }

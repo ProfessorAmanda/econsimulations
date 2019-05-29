@@ -37,12 +37,12 @@ class SampleArea extends Component {
     }
 
     newSample(size, array) {
-        let sampled = []
+        const sampled = []
         const currentPop = array;
 
         while (sampled.length < size){
             // index to sample ?
-            let r = Math.round(Math.random() * (currentPop.length - 1))
+            const r = Math.round(Math.random() * (currentPop.length - 1))
             let shouldSample = true;
             for (let i = 0; i < sampled.length; i++){
                  if (sampled[i][0] === r) {
@@ -58,11 +58,11 @@ class SampleArea extends Component {
             // only pushes if shouldSample is true
             shouldSample && sampled.push([r, count]);
         }
-        let sampledCopy = sampled;
-        let sampleVals = [[]];
-        let samplePop = [];
+        const sampledCopy = sampled;
+        const sampleVals = [[]];
+        const samplePop = [];
 
-        for (let j in sampledCopy){
+        for (const j in sampledCopy){
             sampleVals[j] = [];
             sampleVals[j][0] = Math.round(this.props.popArray[this.props.popType][sampledCopy[j][0]] * 10)
             sampleVals[j][1] = sampledCopy[j][1];

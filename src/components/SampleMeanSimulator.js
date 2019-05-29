@@ -46,13 +46,13 @@ class SampleMeanSimulator extends Component{
     }
     resample(resampleSize, numberResamples, population, callback, n){
         let samplePop = [];
-        let sampleMeans = [];
+        const sampleMeans = [];
         for (let i = 0; i < numberResamples / NUMBER_OF_STEPS;i++){
             for (let j = 0; j < resampleSize; j++){
-                let r = Math.floor(Math.random() * population.length);
+                const r = Math.floor(Math.random() * population.length);
                 samplePop.push(population[r]);
             }
-            let sampleMean = math.mean(samplePop);
+            const sampleMean = math.mean(samplePop);
             sampleMeans.push(sampleMean);
             samplePop = [];
         }

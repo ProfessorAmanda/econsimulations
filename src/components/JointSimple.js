@@ -13,8 +13,8 @@ function ParentInput(props){
         <h4> Choose the Mean and Standard Deviation for Parent Height </h4>
         <label >Parent Height Mean: </label><span>{props.sharkMean} </span>
         <input type="range" className="slider" min={60} max={80} step={1} value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
-        <br></br>
-        <br></br>
+        <br />
+        <br />
         <label >Parent Height SD: </label>
         <span>{props.sharkSD} </span>
         <input type="range" className="slider" min={1} max={7} value={props.sharkSD} onChange={(event) => {
@@ -36,9 +36,9 @@ function ChildInput(props){
         <h4> Choose the Mean and Standard Deviation for Child Height </h4>
         <label >Child Height Mean: </label> <span>{props.iceMean} </span>
         <input type="range" className="slider" min={60} max={80} step={1} value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
-        <br></br>
+        <br />
 
-        <br></br>
+        <br />
         <label >Child Height SD: </label><span>{props.iceSD} </span>
         <input type="range" className="slider" min={1} max={7} value={props.iceSD} onChange={(event) => {
           //const copy = this.state.covMatrix;
@@ -102,7 +102,7 @@ class JointSimple extends Component {
                           }}
                     //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
                     />
-                    <br></br>
+                    <br />
                     <span>{this.state.covariance} </span>
                     </div>
                     {/*<div>
@@ -136,11 +136,11 @@ class JointSimple extends Component {
 
 
     generate() {
-        var meanVector = [1, 10];
+        const meanVector = [1, 10];
 
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
-        var covarianceMatrix = [
+        const covarianceMatrix = [
             [ 1.0, 1.0],
             [ 1.0, 1.0]
         ];
@@ -153,24 +153,24 @@ class JointSimple extends Component {
         }
 
         // lets you sample from distribution
-        var distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
-        let series = {data : [], color: '#1F242A ', name:"Population"}
+        const distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
+        const series = {data : [], color: '#1F242A ', name:"Population"}
         // samples 1000
         for (let i = 0; i < 1000; i++){
             series.data.push(distribution.sample());
         }
-        let sharkSeries = {data : [], color: '#006D75', name:""}
-        let sharkDict = {};
-        let rawSharks = series.data.map((s) => {return s[0]});
+        const sharkSeries = {data : [], color: '#006D75', name:""}
+        const sharkDict = {};
+        const rawSharks = series.data.map((s) => {return s[0]});
         // raw sharks is the sample without the double array thing
-        let sharkCDF = cdf(rawSharks);
-        let sharkExp = quantile(sharkCDF);
+        const sharkCDF = cdf(rawSharks);
+        const sharkExp = quantile(sharkCDF);
         // for (let s of sharkCDF) {
         //     sharkPois.push();
         // }
 
         // building dictionary for histogram
-        for (let i of rawSharks){
+        for (const i of rawSharks){
             const sharkFreq = Math.round(i * 100) / 100;
             if (sharkDict[sharkFreq]){
                 sharkDict[sharkFreq]++;
@@ -178,7 +178,7 @@ class JointSimple extends Component {
                 sharkDict[sharkFreq] = 1;
             }
         }
-        for (let i in sharkDict){
+        for (const i in sharkDict){
             for (let j = 0; j < sharkDict[i]; j++){
                 sharkSeries.data.push([parseFloat(i), j+1]);
             }
@@ -192,8 +192,8 @@ class JointSimple extends Component {
                 text: 'Parent Height'
             },
             xAxis: {
-                min: 55,
-                max: 85,
+                // min: 55,
+                // max: 85,
                 title : {
                     enabled: true,
                     text: 'Parent Height (inches)'
@@ -210,9 +210,9 @@ class JointSimple extends Component {
             series: [sharkSeries]
         });
 
-        let icecreamSeries = {data : [], color: '#e8bd68', name:"Ice Cream Cones bought per Day"}
-        let icecreamDict = {};
-        for (let i of series.data){
+        const icecreamSeries = {data : [], color: '#e8bd68', name:"Ice Cream Cones bought per Day"}
+        const icecreamDict = {};
+        for (const i of series.data){
             const icecreamFreq = Math.round(i[1] * 100) / 100;
             if (icecreamDict[icecreamFreq]){
                 icecreamDict[icecreamFreq]++;
@@ -220,7 +220,7 @@ class JointSimple extends Component {
                 icecreamDict[icecreamFreq] = 1;
             }
         }
-        for (let i in icecreamDict){
+        for (const i in icecreamDict){
             for (let j = 0; j < icecreamDict[i]; j++){
                 icecreamSeries.data.push([parseFloat(i), j+1]);
             }
@@ -234,8 +234,8 @@ class JointSimple extends Component {
                 text: 'Child Height'
             },
             xAxis: {
-                min: 55,
-                max: 85,
+                // min: 55,
+                // max: 85,
                 title : {
                     enabled: true,
                     text: 'Child Height (inches)'
@@ -252,8 +252,8 @@ class JointSimple extends Component {
             series: [icecreamSeries]
         });
 
-        let jointSeries = {data : [], color: '#EA7200', name:"Parent Height vs Child Height (inches)"}
-        for (let i in rawSharks){
+        const jointSeries = {data : [], color: '#EA7200', name:"Parent Height vs Child Height (inches)"}
+        for (const i in rawSharks){
             jointSeries.data.push([Math.round(rawSharks[i] * 100) / 100, Math.round(series.data[i][1] * 100) / 100]);
         }
 
@@ -266,11 +266,11 @@ class JointSimple extends Component {
                 text: 'Parent Height vs Child Height'
             },
             xAxis: {
-                min: 55,
-                max: 85,
+                // min: 55,
+                // max: 85,
                 title : {
                     enabled: true,
-                    text: 'Child Height (inches)'
+                    text: 'Parent Height (inches)'
                 },
                 startOnTick: true,
                 endOnTick: true,
@@ -278,7 +278,7 @@ class JointSimple extends Component {
             },
             yAxis: {
                 title: {
-                    text: 'Parent Height (inches)'
+                    text: 'Child Height (inches)'
                 }
             },
             series: [jointSeries]

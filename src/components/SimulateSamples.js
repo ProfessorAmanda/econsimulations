@@ -20,7 +20,7 @@ class SimulateSamples extends Component {
         return(
             <div>
                 <button disabled = {this.timer} onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[], type:''}); this.simulate()}}> Run Simulation </button>
-                <div id="sim-container"> </div>
+                <div id="sim-container" />
             </div>
         );
     }
@@ -45,8 +45,8 @@ class SimulateSamples extends Component {
     }
 
     chart(){
-        let popMeanSeries = {name: "Population Mean", data: []};
-        let sampleMeanSeries = {name: "Sample Means", data : []};
+        const popMeanSeries = {name: "Population Mean", data: []};
+        const sampleMeanSeries = {name: "Sample Means", data : []};
         // making arrays null
         for (let i = 0; i < 100; i++){
             popMeanSeries.data[i] = null;
@@ -58,7 +58,7 @@ class SimulateSamples extends Component {
             sampleMeanSeries.data[i] = this.state.sampleMeans[i];
         }
         if (!this.state.chart) {
-            let myCategories = [];
+            const myCategories = [];
             // this is x axis
             for (let i=0; i < 50; i++){
                 myCategories[i]= (2 * (i+1));
@@ -66,8 +66,18 @@ class SimulateSamples extends Component {
             for (let i=50; i < 100; i++){
                 myCategories[i]= 100 + (18 * (i-49));
             }
-            const yMax = this.props.type === "Chi-Squared" ? 10 : this.props.type === "Exponential" ? 90 : 67;
-            const yMin = this.props.type === "Chi-Squared" ? 6 : this.props.type === "Exponential" ? 40 : 61
+
+            const values = { 
+                Uniform: { ymax: 110, ymin: 40},
+                Normal: { ymax: 85, ymin: 68 },
+                Exponential: { ymax: 90, ymin: 40 },
+                'Chi-Squared': { ymax: 10, ymin: 6 }
+            };
+
+            const yMax = values[this.props.type].ymax;
+            const yMin = values[this.props.type].ymin;
+            // const yMax = this.props.type === "Chi-Squared" ? 10 : this.props.type === "Exponential" ? 90 : 67;
+            // const yMin = this.props.type === "Chi-Squared" ? 6 : this.props.type === "Exponential" ? 40 : 61
             this.setState({chart: Highcharts.chart('sim-container', {
                             chart: {
                                 type: 'line'
@@ -87,8 +97,8 @@ class SimulateSamples extends Component {
 
                             },
                             yAxis: {
-                                min: yMin,
-                                max: yMax,
+                                // min: yMin,
+                                // max: yMax,
                                 title: {
                                     text: 'Mean'
                                 }
@@ -127,8 +137,8 @@ class SimulateSamples extends Component {
               size = 100 + (18 * (i-50));
             }
             const sample = this.props.sample(size, pop);
-            let vals = [];
-            for (let j of sample){
+            const vals = [];
+            for (const j of sample){
                 vals.push(pop[j[0]]);
             }
             // adds pop means to this.state.sampleMeans

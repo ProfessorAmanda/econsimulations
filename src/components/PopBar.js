@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import HelpModal from './HelpModal.js';
-
-// test
 
 const SelectPop=styled.ul`
   list-style: none;
@@ -10,14 +7,7 @@ const SelectPop=styled.ul`
   margin: 10px
 `;
 
-const SectionItem=styled.li`
-  padding: 5px;
-  font-weight: bold;
-`;
-const label=styled.p`
-  float: left;
-  margin: 10px;
-`
+
 const ToolBarButton=styled.a`
   background-color: white;
   border: 2px solid black;
@@ -47,7 +37,6 @@ class PopBar extends Component {
         }
     }
     render() {
-        this.state.selected = this.props.section;
         let modes;
         if(this.props.mode === "CLT"){
           modes = ["Normal", "Uniform", "Exponential", "Chi-Squared","Mystery"];
