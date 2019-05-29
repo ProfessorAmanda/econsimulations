@@ -522,25 +522,27 @@ class CentralLimitTheorem extends Component {
     }
 
     changePop(popDict, popType) {
-        const pseries = {data : [], color: '#F27474', name:"Population"}
-        const sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
+        const pseries = {data : [], color: '#F27474', name:"Population"};
+        const sampleSeries = {data : [], color: '#747EF2', name:"Sample"};
         const sampledCopy = this.state.sampled[popType];
         const sampleVals = [[]];
-        const samplePop = []
-        for (const j in sampledCopy){
-            sampleVals[j] = [];
-            sampleVals[j][0] = Math.round(this.state.popArray[popType][sampledCopy[j][0]] * 10);
-            console.log(sampleVals[j][0]);
-            sampleVals[j][1] = sampledCopy[j][1];
-            samplePop.push(sampleVals[j][0] / 10);
+        const samplePop = [];
+        for (const a in sampledCopy) {
+            sampleVals[a] = [];
+            sampleVals[a][0] = Math.round(this.state.popArray[popType][sampledCopy[a][0]] * 10);
+            sampleVals[a][1] = sampledCopy[a][1];
+            samplePop.push(sampleVals[a][0] / 10);
         }
+
+
         for (const i in popDict) {
             if (i) {
-                for (let j = 1; j < popDict[i] + 1; j++) {
-                    for (const subArr of sampleVals){
-                        //console.log(subArr);
-                        if (subArr[0] == i && subArr[1] == j){
-                            sampleSeries.data.push([i / 10, j]);
+                for (let j = 1; j < (popDict[i] + 1); j++) {
+                    for (const subArr of sampleVals) {
+                        if (subArr) {
+                            if (subArr[0] === i && subArr[1] === j) {
+                                sampleSeries.data.push([i / 10, j]);
+                            }
                         }
                     }
                     pseries.data.push([i / 10, j])
@@ -585,7 +587,7 @@ class CentralLimitTheorem extends Component {
                 showLastLabel: true
             },
             yAxis: {
-                //max: ymaxval,
+                // max: ymaxval,
                 title: {
                     text: 'Count'
                 }
@@ -628,6 +630,7 @@ class CentralLimitTheorem extends Component {
                 }
             }
             this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals,title:titleNew});
+            console.log("me", this.myChart);
         }
         this.setState({samplePop : Object.assign(this.state.samplePop, {[this.state.popType]: samplePop})});
     }
