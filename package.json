@@ -34,10 +34,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "heroku-postbuild": "npm install --prefix client && npm install --only=dev --no-shrinkwrap --prefix client && npm run build --prefix client && npm install --prefix server"
   },
   "browserslist": [
     ">0.2%",

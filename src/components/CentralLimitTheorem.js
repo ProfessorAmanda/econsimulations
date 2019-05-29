@@ -608,6 +608,7 @@ class CentralLimitTheorem extends Component {
               }
             }
             });
+            console.log("you", this.myChart);
         } else {
             const titleNew = {
                 text: title
@@ -629,7 +630,7 @@ class CentralLimitTheorem extends Component {
                     text: 'Count'
                 }
             }
-            this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals,title:titleNew});
+            this.myChart.update({series:[pseries, sampleSeries]});
             console.log("me", this.myChart);
         }
         this.setState({samplePop : Object.assign(this.state.samplePop, {[this.state.popType]: samplePop})});
