@@ -167,7 +167,9 @@ class LawOfLargeNumbers extends Component{
                                         this.setState({
                                             stage: 2,
                                             sampled: Object.assign( {}, this.state.sampled, { [this.state.popType]: sampleObject.pop})
-                                        }, this.changePop(this.state.popDict[this.state.popType], this.state.popType));
+                                        }, () => {
+                                            this.changePop(this.state.popDict[this.state.popType], this.state.popType);
+                                         });
                                         return sampleObject;
                                         }}
                                     popArray={this.state.popArray} 
