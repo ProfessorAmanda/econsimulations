@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import math from 'mathjs';
+
 
 
 class SampleArea extends Component {
     constructor(props){
         super(props);
         this.state = {
-            sampleSize: undefined,
+            sampleSize: '',
             popMean: undefined
         }
     }
@@ -15,15 +15,26 @@ class SampleArea extends Component {
         return (
             <div>
                 <span> Sample Size: </span>
-                <input type="number" onKeyPress={(e) => this.onKey(e)} onChange={(event) => {this.setState({sampleSize: event.target.value})}} value={this.state.sampleSize} />
-                <button disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1}
-                    onClick={()=>{
-                      this.props.sample(this.state.sampleSize);
-                      this.props.redraw();
-                      const array = this.newSample(this.state.sampleSize,this.props.popArray[this.props.popType]);
-                      console.log(array);
-                      this.setState({popMean:Math.round(math.mean(array) * 100) / 100});
-                      this.props.setmean(Math.round(math.mean(array) * 100) / 100);
+                <input 
+                    type="number" 
+                    onKeyPress={(e) => this.onKey(e)} 
+                    onChange={(event) => { 
+                        this.setState({ 
+                            sampleSize: event.target.value 
+                        })
+                    }} 
+                    value={this.state.sampleSize} 
+                />
+                <button 
+                    disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1}
+                    onClick={()=> {
+                        const sampleObject = this.props.sample(this.state.sampleSize);
+                        const mue = sampleObject.mue; 
+                        this.setState({
+                            popMean: mue 
+                        });
+                        this.props.setmean(mue);
+                        this.props.redraw();
                     }}> Sample </button>
                 {/*<h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>*/}
             </div>
@@ -31,7 +42,12 @@ class SampleArea extends Component {
     }
     onKey(e) {
         if (e.key === "Enter" && this.state.sampleSize && this.state.sampleSize <= this.props.popArray[this.props.popType].length && this.state.sampleSize >= 1) {
-            this.props.sample(this.state.sampleSize);
+            const sampleObject = this.props.sample(this.state.sampleSize);
+            const mue = sampleObject.mue; 
+            this.setState({
+                popMean: mue 
+            });
+            this.props.setmean(mue);
             this.props.redraw();
         }
     }
@@ -49,14 +65,19 @@ class SampleArea extends Component {
                      shouldSample = false;
                  }
             }
-            let count = 1;
-            currentPop.forEach( (val, index) => {
-                if (index < r && Math.round(val * 10) === Math.round(currentPop[r] * 10)) {
-                    count += 1;
-                }
-            });
-            // only pushes if shouldSample is true
-            shouldSample && sampled.push([r, count]);
+            
+            if (shouldSample) {
+                let count = 1;
+                // currentPop.forEach( (val, index) => {
+                //     // if the value 
+                //     if (index < r && Math.round(val * 10) === Math.round(currentPop[r] * 10)) {
+                //         count += 1;
+                //     }
+                // });
+                // only pushes if shouldSample is true
+                sampled.push([r, count]);
+            }
+            console.log(sampled);
         }
         const sampledCopy = sampled;
         const sampleVals = [[]];
@@ -68,7 +89,7 @@ class SampleArea extends Component {
             sampleVals[j][1] = sampledCopy[j][1];
             samplePop.push(sampleVals[j][0] / 10)
         }
-
+        console.log("pop", sampled);
         return samplePop;
     }
 }

@@ -145,7 +145,7 @@ class CentralLimitTheorem extends Component {
                         <div>
                             <h4> Step 3: Try drawing some samples and calculating means </h4>
                             <SampleAreaCLT disabled={this.state.disableSample} redraw = {() => {this.changePop(this.state.popDict[this.state.popType], this.state.popType)}}
-                            sample={(size) => this.setState({stage: this.state.stage + 1, sampleSize: parseInt(size), calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})})}
+                            sample={(size) => this.setState((prevState) => ({stage: this.state.stage , sampleSize: parseInt(size), calculable: true, sampled: Object.assign(this.state.sampled, {[this.state.popType] : this.sample(size, this.state.popArray[this.state.popType])})}))}
                             popArray = {this.state.popArray}
                             popType={this.state.popType} setmean = {(mean) => {
                               let sum = 0;
@@ -308,7 +308,6 @@ class CentralLimitTheorem extends Component {
             }
             else{
 
-              //console.log(this.state.clearedArray[this.state.popType]);
               sum = newCleared.pop() * ITERATES;
               //sum = this.state.clearedArray[this.state.popType][i]*ITERATES;
             }
@@ -551,13 +550,13 @@ class CentralLimitTheorem extends Component {
         }
 
         const values = { 
-            Mystery: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)"},
-            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)"},
-            Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", xLabel: "Gallons" },
-            Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
-            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", xLabel: "Dollars"}
+            Mystery: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)", yLabel: "Subject"},
+            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)", yLabel: "Subject" },
+            Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", xLabel: "Gallons", yLabel: "Cow" },
+            Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)", yLabel: "Call"},
+            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", xLabel: "Dollars", yLabel: "Person" }
         };
-        const { xmaxval, xminval, ymaxval, title, xLabel } = values[popType];
+        const { xmaxval, xminval, ymaxval, title, xLabel, yLabel } = values[popType];
 
 
 
@@ -569,8 +568,7 @@ class CentralLimitTheorem extends Component {
         if (!this.myChart) {
             this.myChart = Highcharts.chart('container', {
             chart: {
-                type: 'scatter',
-                zoomtype: 'xy'
+                type: 'scatter'
             },
             title: {
                 text: title
@@ -601,14 +599,13 @@ class CentralLimitTheorem extends Component {
                 point: {
                   events: {
                     mouseOver: function() {
-                      //console.log('hehehe');
+                      // console.log('hehehe');
                     }
                   }
                 }
               }
             }
             });
-            console.log("you", this.myChart);
         } else {
             const titleNew = {
                 text: title
@@ -630,9 +627,7 @@ class CentralLimitTheorem extends Component {
                     text: 'Count'
                 }
             }
-            this.myChart.update({series:[pseries, sampleSeries]});
-            console.log("me", this.myChart);
-        }
+            this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals, title:titleNew});        }
         this.setState({samplePop : Object.assign(this.state.samplePop, {[this.state.popType]: samplePop})});
     }
 }

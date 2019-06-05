@@ -144,7 +144,7 @@ class JointSimple extends Component {
         //     [ 1.0, 1.0],
         //     [ 1.0, 1.0]
         // ];
-        console.log(this.state);
+        // console.log(this.state);
 
         // Check for non symmetric Matrix
         if (this.state.covMatrix[0][1] !== this.state.covMatrix[1][0]) {

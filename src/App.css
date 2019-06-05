@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin: 0 0 0 0;
 }
 
 .App-logo {
@@ -14,8 +15,22 @@
   color: white;
 }
 
+.marge {
+  margin: 0%;
+}
+
+.Logo {
+  display: block;
+  margin: auto;
+  animation: Logo-intro 1500ms 2000ms ease forwards; 
+}
+
 .App-intro {
   font-size: large;
+}
+
+@keyframes Logo-intro {
+  to { transform: scale(.5, .5); }
 }
 
 @keyframes App-logo-spin {

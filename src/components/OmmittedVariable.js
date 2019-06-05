@@ -76,8 +76,8 @@ class OmmittedVariable extends Component {
             [ this.state.cov, 3]
         ];
 
-        console.log('changing covariance');
-        console.log(covarianceMatrix);
+        // console.log('changing covariance');
+        // console.log(covarianceMatrix);
 
         const beta_X = this.state.beta;
         const delta_V = this.state.delta;
@@ -98,7 +98,7 @@ class OmmittedVariable extends Component {
 
         
 
-        console.log(roundedSeries);
+        // console.log(roundedSeries);
 
         // generate epsilon
         const epsilon = random( OBS, {
@@ -143,8 +143,8 @@ class OmmittedVariable extends Component {
         const Y = mathjs.transpose(mathjs.matrix([crime]));
         const inv = mathjs.inv(mathjs.multiply(mathjs.transpose(X),X));  
         const bHat = mathjs.multiply(mathjs.multiply(inv,mathjs.transpose(X)),Y);
-        console.log(bHat);
-        console.log(bHat.get([1,0]));
+        // console.log(bHat);
+        // console.log(bHat.get([1,0]));
         
 
         const multipleArray = [];
@@ -175,14 +175,14 @@ class OmmittedVariable extends Component {
         const newModel = jsreg.fit(regData);
 
         // === Print the trained model === //
-        console.log(newModel);
+        // console.log(newModel);
 
         /***************************************************************/
 
         const correctedSlopes = correctedReg.calculateCoefficients();
-        console.log(correctedSlopes);
+        // console.log(correctedSlopes);
         const calcInt = correctedReg.hypothesize({ x: [0, 0] });
-        console.log(calcInt);
+        // console.log(calcInt);
         //let testy = correctedReg.hypothesize({ x: [0, 0] }); // Returns [20.93]
 
         let correctedLine = this.generatePoints(parseFloat(bHat.get([1,0])),parseFloat(bHat.get([0,0])));

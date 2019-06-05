@@ -59,7 +59,7 @@ class SampleAreaCLT extends Component {
         const sampledCopy = sampled;
         const sampleVals = [[]];
         const samplePop = [];
-        console.log(sampledCopy);
+        // console.log(sampledCopy);
 
         for (const j in sampledCopy){
             sampleVals[j] = [];
@@ -67,7 +67,7 @@ class SampleAreaCLT extends Component {
             sampleVals[j][1] = sampledCopy[j][1];
             samplePop.push(sampleVals[j][0] / 10)
         }
-        console.log(samplePop);
+        // console.log(samplePop);
         return samplePop;
     }
 }

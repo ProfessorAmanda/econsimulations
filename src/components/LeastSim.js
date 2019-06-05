@@ -167,7 +167,7 @@ class LeastSim extends Component {
         const secondL = 36*Math.abs(diff);
         sumSquares += diff*diff;
 
-        console.log("running this");
+        // console.log("running this");
 
         if(i == 1 && this.state.step > 1){
           //console.log(this.state.isRec);
@@ -272,7 +272,7 @@ class LeastSim extends Component {
     b = (this.sum(yPoints) - m*this.sum(xPoints))/4;
     m = Math.round(m*10)/10;
     b = Math.round(b*10)/10;
-    console.log(b);
+    // console.log(b);
     return [m,b];
 
   }

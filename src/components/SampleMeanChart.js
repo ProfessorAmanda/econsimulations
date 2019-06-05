@@ -57,7 +57,7 @@ class SampleMeanChart extends Component {
             sampleMeanSeries.data[i] = [val, count];
             // console.log(sampleMeanSeries.data);
         }
-        console.log(sampleMeanSeries.data);
+        // console.log(sampleMeanSeries.data);
         // console.log(sampleMeanSeries.data);
         let xMin;
         let xMax;
@@ -124,7 +124,7 @@ class SampleMeanChart extends Component {
 
         /* Try making normal curve other way  */
         
-        console.log(this.props.resampleSize[this.props.type])
+        // console.log(this.props.resampleSize[this.props.type])
         // const normDist = new NormalDistribution(64,3/Math.sqrt(this.props.resampleSize[this.props.type]));
         // let normalPoints = [];
         // let nPoint;
@@ -136,12 +136,12 @@ class SampleMeanChart extends Component {
         //   normalPoints.push([i,nPoint * this.props.numberResamples[this.props.type]]);
         // }
 
-        // //console.log(normDist.probabilityBetween(61.5,67));
+        // console.log(normDist.probabilityBetween(61.5,67));
 
         // console.log(normalPoints);
         // bellSeries.data = normalPoints;
 
-        // //console.log(seriesData);
+        // console.log(seriesData);
 
         if (!this.state.chart) {
             this.setState({chart: Highcharts.chart('sim-container', {
@@ -186,7 +186,7 @@ class SampleMeanChart extends Component {
                             })});
                           }
         else {
-            console.log("running");
+            // console.log("running");
 
 
             // if(this.state.curve === true && this.state.chart.series.length < 2){

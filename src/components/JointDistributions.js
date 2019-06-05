@@ -118,15 +118,15 @@ class JointDistributions extends Component {
                   {/* Code for dropdown menu found at https://www.w3schools.com/howto/howto_css_dropdown.asp */}
                   <ToolBarButton style={this.setStyle("low")} onClick={()=>{
                     this.setState({ covariance : 0, covSelected : 1, selectedCov:"low" });
-                    console.log("setting variance low");
+                    // console.log("setting variance low");
                   }}>Low</ToolBarButton>
                   <ToolBarButton style={this.setStyle("med")} onClick={()=>{
                     this.setState({ covariance : (this.findMax()/2), covSelected : 1, selectedCov:"med" });
-                    console.log("setting variance medium");
+                    // console.log("setting variance medium");
                   }}>Medium</ToolBarButton>
                   <ToolBarButton style={this.setStyle("hi")} onClick={()=>{
                     this.setState({ covariance : (this.findMax()), covSelected : 1, selectedCov:"hi" });
-                    console.log("setting variance high");
+                    // console.log("setting variance high");
                   }}>High</ToolBarButton>
 
                   {/*<div className="dropdown">
@@ -179,7 +179,7 @@ class JointDistributions extends Component {
             [ 1.0, 1.0],
             [ 1.0, 1.0]
         ];
-        console.log(this.state);
+        // console.log(this.state);
 
         // Check for non symmetric Matrix
         if(this.state.covMatrix[0][1] != this.state.covMatrix[1][0]){
@@ -200,7 +200,7 @@ class JointDistributions extends Component {
         // raw sharks is the sample without the double array thing
         const sharkCDF = cdf(rawSharks);
         const sharkExp = quantile(sharkCDF);
-        console.log(sharkExp);
+        // console.log(sharkExp);
         // for (let s of sharkCDF) {
         //     sharkPois.push();
         // }

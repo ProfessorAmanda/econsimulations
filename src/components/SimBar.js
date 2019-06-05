@@ -14,7 +14,7 @@ const SectionItem=styled.li`
 
 const ToolBarButton=styled.button`
   background-color: white;
-  border: 2px solid black;
+  border: 2px solid #c46907;
   color: #555555;
   padding: 10px 24px;
   text-align: center;
@@ -26,8 +26,9 @@ const ToolBarButton=styled.button`
    cursor: pointer;
    &:focus {outline:0}
    &:hover {
-       background-color: #555555;
+       background-color: #c06b20;
        color: white;
+       border: 0px solid white;
    }
 
 `;
@@ -43,8 +44,9 @@ class SimBar extends Component {
         const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
         const sections = modes.map((section)=>{
             const style = section === this.state.selected ? {
-                background: '#555555',
-                color: 'white'
+                background: '#c06b20',
+                color: 'white',
+                border: "1px solid white"
             } : {};
             return (<SectionItem key={section}> <ToolBarButton style={style} onClick={()=>{this.props.setSection(section); this.setState({selected:section})}}> {section} </ToolBarButton></SectionItem>);
         });

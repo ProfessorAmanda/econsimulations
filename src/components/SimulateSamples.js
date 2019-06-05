@@ -111,7 +111,7 @@ class SimulateSamples extends Component {
                                 point: {
                                   events: {
                                     mouseOver: function() {
-                                      //console.log('hehehe');
+                                    //   console.log('hehehe');
                                     }
                                   }
                                 }
@@ -141,6 +141,7 @@ class SimulateSamples extends Component {
             for (const j of sample){
                 vals.push(pop[j[0]]);
             }
+            console.log(sample);
             // adds pop means to this.state.sampleMeans
             this.state.sampleMeans.push(Math.round(math.mean(vals) * 10) / 10);
             this.state.meanDiffs.push(this.state.popMean - math.mean(vals));

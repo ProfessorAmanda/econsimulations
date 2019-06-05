@@ -10,7 +10,8 @@ const SelectPop=styled.ul`
 
 const ToolBarButton=styled.a`
   background-color: white;
-  border: 2px solid black;
+  border-left: 1px solid #207ec0;
+  border-right: 1px solid #207ec0;
   color: #555555;
   padding: 10px 24px;
   width: 80px;
@@ -23,7 +24,7 @@ const ToolBarButton=styled.a`
    cursor: pointer;
    &:focus {outline:0}
    &:hover {
-       background-color: #555555;
+       background-color: #207ec0;
        color: white;
    }
 
@@ -47,13 +48,12 @@ class PopBar extends Component {
 
         const sections = modes.map((section)=>{
             const style = section === this.state.selected ? {
-                background: '#555555',
+                background: '#207ec0',
                 color: 'white'
             } : {};
             return (<ToolBarButton style={style} onClick={()=> {this.props.setPop(section); this.setState({selected:section})}}> {section} </ToolBarButton>);
         });
         return(
-
             <div id="section-list">
                  <SelectPop> <h4> Step 1: Select a Distribution Type
                   </h4> {sections} </SelectPop>
