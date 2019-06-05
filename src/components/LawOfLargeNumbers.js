@@ -119,6 +119,7 @@ class LawOfLargeNumbers extends Component{
                         this.setState({popType: pop}); // population type
                         this.setState({stage : copy[pop]}); // update the current stage?
                         this.selectPop(pop);
+                        
                     }}/>
                 </div>
                 {popTable}
@@ -220,13 +221,16 @@ class LawOfLargeNumbers extends Component{
     // called upon selection of population type
     selectPop(popType){
         // poptype is a string indicating the population type
-        // this.changePop(this.state.popDict[popType], popType);
         setTimeout(() => {
             clearInterval(this.timer); //stop any populating that may be happening
-            this.timer = setInterval( () => {
-                this.generate(popType);
-            }, 10);
-        }, 100);
+                this.timer = setInterval( () => {
+                    this.changePop(this.state.popDict[popType], popType);
+                        this.generate(popType);
+                    }, 100);
+                }, 100);
+        // setTimeout(() => {
+        //     this.generate(popType);
+        // }, 100);
     }
 
     sample(size, array) {
@@ -275,7 +279,9 @@ class LawOfLargeNumbers extends Component{
           // Looks like it concatenates instead of reassigning?
           // Can't generate it twice though so no issues
             case "Normal":
-                this.setState({popArray : Object.assign({}, this.state.popArray, {"Normal" : this.state.popArray[popType].concat(this.generateNormal())})});
+                this.setState({
+                    popArray : Object.assign({}, this.state.popArray, {"Normal" : this.state.popArray[popType].concat(this.generateNormal())})
+                });
                 break;
             case "Uniform":
                 this.setState({popArray : Object.assign({}, this.state.popArray, {"Uniform" : this.state.popArray[popType].concat(this.generateUniform())})});
@@ -312,9 +318,10 @@ class LawOfLargeNumbers extends Component{
     }
 
     generateNormal(){
-        this.changePop(this.state.popDict["Normal"], "Normal");
         // if pop is already fully drawn
+        // this.changePop(this.state.popDict["Normal"], "Normal");
         if (this.sum(this.state.popDict["Normal"]) === SAMPLE_SIZE){
+            console.log(this.state.popDict['Normal']);
             clearInterval(this.timer);
             return [];
         }
@@ -326,8 +333,8 @@ class LawOfLargeNumbers extends Component{
         const popArray = []
         // if more than 500: 1000 - current length of sample
         // if less than 500: ( current length / 4 ) + 1
-        const sampleSize =  this.sum(this.state.popDict["Normal"]) > SAMPLE_SIZE / 2 ? SAMPLE_SIZE - this.sum(this.state.popDict["Normal"]) : this.sum(this.state.popDict["Normal"]) / 4 + 1;
-        const newCleared = this.state.clearedArray && this.state.clearedArray[this.state.popType].slice();
+        const sampleSize = SAMPLE_SIZE;
+        const newCleared = this.state.clearedArray && this.state.clearedArray[this.state.popType];
 
         const stateCopy = Object.assign({}, this.state.popDict);
         for (let i = 0; i < sampleSize; i++){
@@ -346,14 +353,15 @@ class LawOfLargeNumbers extends Component{
             }
 
             // More correct but way slower
-            // const stateCopy = Object.assign({}, this.state.popDict);
-            if (this.state.popDict["Normal"][Math.round(sum / ITERATES * 10)]){
-                stateCopy["Normal"][Math.round(sum / ITERATES * 10)] += 1;
+            if (stateCopy["Normal"][Math.round(sum / ITERATES * 10)]){
+                stateCopy["Normal"][Math.round(sum  / ITERATES * 10)] += 1;
             }
             // Adds first instance of a point
             else {
                 stateCopy["Normal"][Math.round(sum / ITERATES * 10)] = 1;
             }
+
+            // stateCopy["Normal"].push(1);
             
             popArray.push(sum / ITERATES);
         }
@@ -364,10 +372,11 @@ class LawOfLargeNumbers extends Component{
           tempCleared[this.state.popType] = newCleared;
           this.setState({clearedArray : tempCleared});
         }
-        this.setState((prevState) => {
-            return {popDict: Object.assign({}, prevState.popDict, stateCopy)};
+        this.setState({
+            popDict: Object.assign({}, this.state.popDict, stateCopy)
         })
-        return popArray
+
+        return popArray;
     }
 
     generateUniform(){
@@ -491,11 +500,14 @@ class LawOfLargeNumbers extends Component{
 
     // changePop seems to build graph
     changePop(popDict, popType) {
-        const pseries = {data : [], color: '#F27474', name:"Population"}
+        console.log(popDict.length);
+        const pseries = {data : [], color: '#F27474', name:"Population", updatePoints: false}
         const sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
         const sampledCopy = this.state.sampled[popType];
         const sampleVals = [[]];
         const samplePop = [];
+
+        const tmp = Object.assign({}, pseries);
 
         // Rounding everything??? Multiplies by 10, rounds, and then divides by 10
         for (const j in sampledCopy){
@@ -523,7 +535,7 @@ class LawOfLargeNumbers extends Component{
 
         const values = { 
             Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)"},
-            Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", xLabel: "Gallons" },
+            Normal: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Milk Production", xLabel: "Gallons" },
             Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
             "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", xLabel: "Dollars"}
         };
@@ -538,8 +550,8 @@ class LawOfLargeNumbers extends Component{
                 text: title
             },
             xAxis: {
-                // min: xminval,
-                // max: xmaxval,
+                min: xminval,
+                max: xmaxval,
                 title : {
                     enabled: true,
                     text: xLabel
@@ -549,7 +561,7 @@ class LawOfLargeNumbers extends Component{
                 showLastLabel: true
             },
             yAxis: {
-                // max: ymaxval,
+                max: ymaxval,
                 title: {
                     text: 'Count'
                 }
@@ -575,8 +587,8 @@ class LawOfLargeNumbers extends Component{
                 text: title
             }
             const xvals = {
-                // min: xminval,
-                // max: xmaxval,
+                min: xminval,
+                max: xmaxval,
                 title : {
                     enabled: true,
                     text: xLabel
@@ -586,16 +598,24 @@ class LawOfLargeNumbers extends Component{
                 showLastLabel: true
             }
             const yvals = {
-                // max: ymaxval,
+                max: ymaxval,
                 title: {
                     text: 'Count'
                 }
             }
-            this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals, title:titleNew});
+
+            // console.log('data', pseries.data);
+            // console.log('popdict', popDict.length, this.sum(popDict));
+            // console.log('tmp', tmp.data);
+            this.myChart.update({ 
+                series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals, title:titleNew}
+                );
         }
 
         // when called for generating initial population, it doesn't return anything
-        this.setState({samplePop : Object.assign({}, this.state.samplePop, {[this.state.popType]: samplePop})})
+        this.setState({
+            samplePop : Object.assign({}, this.state.samplePop, {[this.state.popType]: samplePop})
+        })
     }
 
 
