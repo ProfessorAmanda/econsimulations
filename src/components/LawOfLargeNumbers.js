@@ -195,7 +195,7 @@ class LawOfLargeNumbers extends Component{
                         <h4> Step 4: Run the Simulation </h4> 
                         <SimulateSamples 
                         type={this.state.popType} 
-                        sample={(size, pop) => { return this.sample(size, pop).arr }} 
+                        sample={(size, pop) => { return this.sample(size, pop).pop }} 
                         pop={this.state.popArray[this.state.popType]}
                         />
                     </div> 
@@ -593,8 +593,6 @@ class LawOfLargeNumbers extends Component{
             }
             this.myChart.update({series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals, title:titleNew});
         }
-
-        console.log(sampleSeries);
 
         // when called for generating initial population, it doesn't return anything
         this.setState({samplePop : Object.assign({}, this.state.samplePop, {[this.state.popType]: samplePop})})

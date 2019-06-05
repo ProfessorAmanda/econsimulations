@@ -13,13 +13,23 @@ class SimulateSamples extends Component {
         }
     }
     render(){
-        if (this.props.type !== this.state.type) {
-            this.state.chart && this.state.chart.destroy();
-            this.state = {chart:undefined,sampleMeans:[],meanDiffs:[], type:this.props.type};
-        }
+        
         return(
             <div>
-                <button disabled = {this.timer} onClick={() => {this.setState({chart:undefined,sampleMeans:[],meanDiffs:[], type:''}); this.simulate()}}> Run Simulation </button>
+                <button 
+                    disabled={this.timer} 
+                    onClick={() => {
+                        this.setState({
+                            chart:undefined, 
+                            sampleMeans:[],
+                            meanDiffs:[], 
+                            type:''
+                        }); 
+                        this.simulate()
+                        }
+                    }> 
+                    Run Simulation 
+                </button>
                 <div id="sim-container" />
             </div>
         );
@@ -28,7 +38,7 @@ class SimulateSamples extends Component {
 
     simulate(){
         this.chart();
-        setTimeout(()=> {
+        setTimeout(() => {
             let n = 1;
             // iterations of this add points to the graph
             this.timer = setInterval( () => {
@@ -141,7 +151,6 @@ class SimulateSamples extends Component {
             for (const j of sample){
                 vals.push(pop[j[0]]);
             }
-            console.log(sample);
             // adds pop means to this.state.sampleMeans
             this.state.sampleMeans.push(Math.round(math.mean(vals) * 10) / 10);
             this.state.meanDiffs.push(this.state.popMean - math.mean(vals));
