@@ -1,62 +1,83 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-
-const SelectPop=styled.ul`
-  list-style: none;
-  float: left;
-  margin: 10px
-`;
+// import styled from 'styled-components';
+import { Nav, NavItem, NavLink, Navbar } from 'reactstrap';  
+import classnames from 'classnames';
 
 
-const ToolBarButton=styled.a`
-  background-color: white;
-  border-left: 1px solid #2b908f;
-  border-right: 1px solid #2b908f;
-  color: #555555;
-  padding: 10px 24px;
-  width: 80px;
-  text-align: center;
-  text-decoration: none;
-  display: block;
-  font-size: 12px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-   transition-duration: 0.4s;
-   cursor: pointer;
-   &:focus {outline:0}
-   &:hover {
-       background-color: #2b908f;
-       color: white;
-   }
+// const ToolBarButton=styled.a`
+//   background-color: white;
+//   border-left: 1px solid #2b908f;
+//   border-right: 1px solid #2b908f;
+//   color: #555555;
+//   padding: 10px 24px;
+//   width: 80px;
+//   text-align: center;
+//   text-decoration: none;
+//   display: block;
+//   font-size: 12px;
+//   -webkit-transition-duration: 0.4s; /* Safari */
+//    transition-duration: 0.4s;
+//    cursor: pointer;
+//    &:focus {outline:0}
+//    &:hover {
+//        background-color: #2b908f;
+//        color: white;
+//    }
 
-`;
+// `;
 
 class PopBar extends Component {
     constructor(props){
         super(props);
         this.state = {
-            selected: props.section
+            selected: 'Normal',
+            activeTab: "1"
         }
     }
     render() {
         let modes;
         if(this.props.mode === "CLT"){
-          modes = ["Normal", "Uniform", "Exponential", "Chi-Squared","Mystery"];
+          modes = 
+          [ 
+              { name: "Normal", id: "1" },
+              { name: "Uniform", id: "2" }, 
+              { name: "Exponential", id: "3" },
+              { name: "Chi-Squared", id: "4" }, 
+              { name: "Mystery", id: "5"} 
+            ];
         }
         else{
-          modes = ["Normal", "Uniform", "Exponential", "Chi-Squared"];
+          modes = [
+            { name: "Normal", id: "1" },
+            { name: "Uniform", id: "2" }, 
+            { name: "Exponential", id: "3" },
+            { name: "Chi-Squared", id: "4" }, 
+          ];
         }
 
         const sections = modes.map((section)=>{
-            const style = section === this.state.selected ? {
-                background: '#2b908f',
-                color: 'white'
-            } : {};
-            return (<ToolBarButton style={style} onClick={()=> {this.props.setPop(section); this.setState({selected:section})}}> {section} </ToolBarButton>);
+            return (
+                <NavItem>
+                    <NavLink
+                        className={classnames({ active: this.state.activeTab === section.id })}
+                        onClick={() => {
+                            this.props.setPop(section.name);
+                            this.setState({ selected:section.name });
+                            this.setState({
+                                activeTab: section.id
+                            })
+                        }}
+                    >
+                        {section.name}
+                    </NavLink>
+                </NavItem>
+            );
         });
         return(
-            <div id="section-list">
-                 <SelectPop> <h4> Step 1: Select a Distribution Type
-                  </h4> {sections} </SelectPop>
+            <div className="TabBar">
+                <Nav tabs>
+                    {sections} 
+                </Nav>
             </div>
         );
     }

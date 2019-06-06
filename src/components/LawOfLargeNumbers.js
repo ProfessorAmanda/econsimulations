@@ -6,11 +6,11 @@ import Highcharts from 'highcharts';
 import '../dark-unica.css';
 // import math from 'mathjs'
 import chi from 'chi-squared'
-import MeanButton from './MeanButton.js'
 // import HelpModal from './HelpModal.js'
 import SimulateSamples from './SimulateSamples.js'
 import PopTable from './PopTable.js'
 import math from 'mathjs';
+import { Alert, Col, Container, Row } from 'reactstrap';
 
 // how many data points
 const SAMPLE_SIZE = 1000;
@@ -20,7 +20,13 @@ function DifferenceOfMeans(props){
         Math.round((props.popMean - props.sampleMean) * 100) / 100) === 0 ? 
         0 : 
         Math.round((props.popMean - props.sampleMean) * 100) / 100 || '';
-    return (<h4> Difference of Means:  {diff} </h4>);
+    return ( 
+        <Alert color="success" style={{ padding: 0, marginTop: '1em' }}>
+            Sample Mean: {props.sampleMean || ''}
+            <br />
+            Difference of Means: {diff} 
+        </Alert>
+    );
 }
 
 class LawOfLargeNumbers extends Component{
@@ -81,10 +87,18 @@ class LawOfLargeNumbers extends Component{
         }
     }
 
+    componentDidMount() {
+        const pop = 'Normal';
+        const copy = Object.assign({} , this.state.stages);
+        copy[pop] = 1;
+        this.setState({ stages: copy, newPop: 1, stage: copy[pop], popType: pop });
+        this.selectPop(pop);
+    }
+
     render(){
         const popTable = (
             <PopTable 
-                style={{width:"50%"}} 
+                style={{ width:"50%"}} 
                 samples={this.state.sampled} 
                 popArray={this.state.popArray} 
                 popType={this.state.popType}/>
@@ -96,107 +110,78 @@ class LawOfLargeNumbers extends Component{
         
         return(
             <div>
-                <div style={{width:"10%"}}>
-                    <PopBar 
-                    section={this.state.popType}
-                    mode="LLN"
-                    setPop={(pop) => {
-                        // assign proper stages
-                        const copy = Object.assign({} , this.state.stages);
-                        copy[this.state.popType] = this.state.stage;
-                        this.setState({stages : copy});
+                <PopBar
+                section={this.state.popType}
+                mode="LLN"
+                setPop={(pop) => {
+                    // assign proper stages
+                    const copy = Object.assign({} , this.state.stages);
+                    copy[pop] = 1;
+                    this.setState({ stages: copy, newPop: 1, stage: copy[pop], popType: pop });
 
-                        // erase means
-                        // let popCopy = this.state.popMean;
-                        // popCopy[this.state.popType] = [];
-                        // this.setState({popMean : popCopy});
-                        //erase means
-                        // let sampCopy = this.state.sampleMean;
-                        // sampCopy[this.state.popType] = [];
-                        // this.setState({sampleMean : sampCopy});
-                        // new dist
-
-                        this.setState({newPop : 1}); // not sure why
-                        this.setState({popType: pop}); // population type
-                        this.setState({stage : copy[pop]}); // update the current stage?
-                        this.selectPop(pop);
-                        
-                    }}/>
-                </div>
-                {popTable}
-                <span style={{float:'left', width:"30%"}} id="container" />
-
+                    this.selectPop(pop);
+                }}/>
+                <Container fluid className='Plate'>
+                    <Row >
+                        <Col lg="2">.
+                            {popTable}
+                        </Col>
+                        <Col lg="8">.
+                            <span className="Center" id="container" />
+                        </Col>
+                        <Col lg="2">.
                 {/* Going through the Stages */}
                 {popDrawn ? 
-                    <span style={{width:"20%"}}>
-                    <MeanButton 
-                        string={"Population"} 
-                        reset={this.state.newPop} 
-                        calculable 
-                        setmean={(mean) => 
-                            this.setState({
-                                stage: 2,
-                                popMean: Object.assign({}, this.state.popMean, { [this.state.popType]: mean })
-                            })} 
-                        popArray={this.state.popArray} 
-                        popType={this.state.popType}/>
-                    <h4> 
-                    {this.state.popType} Mean: {this.state.popMean[this.state.popType] || ''} 
-                    </h4>
-                    { this.state.stage >= 1 ? 
-                        <span> <h4> Step 3: Sampling </h4> </span> 
-                        :null }
+                    <span>
                     { this.state.stage >= 1 ?
                          <div>
                             <span>
-                                <p> Take a Sample:</p> 
-                                { this.state.stage >= 1 ?
-                                    <p> Try a few different sample sizes and compare sample mean to population mean </p> 
-                                    :null}
+                                    <p> Try a few different sample sizes and compare sample mean to population mean </p>
                                 <SampleArea 
                                     setmean={(mean) => {
                                         this.setState({
                                             stage: 3,
                                             sampleMean: Object.assign({}, this.state.sampleMean, { [this.state.popType] : mean })
                                         })
-                                        }}
+                                    }}
                                     redraw = {() => {
-                                        }
-                                        }
-                                    sample={(size) => {
-                                        const sampleObject = this.sample(size, this.state.popArray[this.state.popType]);
-                                        this.setState({
-                                            stage: 2,
-                                            sampled: Object.assign( {}, this.state.sampled, { [this.state.popType]: sampleObject.pop})
-                                        }, () => {
-                                            this.changePop(this.state.popDict[this.state.popType], this.state.popType);
-                                         });
-                                        return sampleObject;
-                                        }}
-                                    popArray={this.state.popArray} 
-                                    popType={this.state.popType}
-                                    />
+                                    }
+                                }
+                                sample={(size) => {
+                                    const sampleObject = this.sample(size, this.state.popArray[this.state.popType]);
+                                    this.setState({
+                                        stage: 2,
+                                        sampled: Object.assign( {}, this.state.sampled, { [this.state.popType]: sampleObject.pop})
+                                    }, () => {
+                                        this.changePop(this.state.popDict[this.state.popType], this.state.popType);
+                                    });
+                                    return sampleObject;
+                                }}
+                                popArray={this.state.popArray} 
+                                popType={this.state.popType}
+                                />
                                 </span>     
-                                <h4> 
-                                    {this.state.popType} Sample Mean: {this.state.sampleMean[this.state.popType] || ''}
-                                </h4>
+                                
                             </div> 
                         :null
                     }
-                    {/*{ this.state.stage >= 2 ? <MeanButton string={"Sample"} calculable={true} setmean={(mean) => this.setState({stage:3,sampleMean:Object.assign(this.state.sampleMean, {[this.state.popType] : mean})})} popArray = {this.state.samplePop} popType={this.state.popType}/> : null}*/}
                     { this.state.stage >= 3 ? 
                         <DifferenceOfMeans 
-                            popMean={this.state.popMean[this.state.popType]} 
-                            sampleMean={this.state.sampleMean[this.state.popType]}
+                        popMean={this.state.popMean[this.state.popType]} 
+                        sampleMean={this.state.sampleMean[this.state.popType]}
                         /> 
                         :null
                     }
                 </span> 
                 :null
-                }
-                { this.state.stage >= 2 && popDrawn ? 
-                    <div style={{width:"100%"}}> 
-                        <h4> Step 4: Run the Simulation </h4> 
+            }
+            </Col>
+            </Row>
+                { this.state.stage >= 3 && popDrawn ?
+                    <div>
+                        <Alert color="info">
+                        According to the law, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed. Make sure to pick several samples, or click below for a simulation to see the law in action.
+                        </Alert>
                         <SimulateSamples 
                         type={this.state.popType} 
                         sample={(size, pop) => { return this.sample(size, pop).pop }} 
@@ -205,8 +190,9 @@ class LawOfLargeNumbers extends Component{
                     </div> 
                     :null
                 }
+                </Container>
                 <div>
-                    <button
+                    {/* <button
                     style={{ position: 'fixed', right: '0px' }}
                     disabled={!popDrawn}
                     onClick={()=> {
@@ -214,7 +200,7 @@ class LawOfLargeNumbers extends Component{
                         this.clearState(); 
                         this.myChart.destroy(); 
                         this.myChart = null;
-                        }}>CLEAR</button>
+                    }}>CLEAR</button> */}
                 </div>
                 {/* Done with the Stages */}
             </div>
@@ -226,28 +212,31 @@ class LawOfLargeNumbers extends Component{
         // poptype is a string indicating the population type
         setTimeout(() => {
             clearInterval(this.timer); //stop any populating that may be happening
-                this.timer = setInterval( () => {
-                    this.changePop(this.state.popDict[popType], popType);
-                        this.generate(popType);
-                    }, 100);
-                }, 100);
+            this.timer = setInterval( () => {
+                this.changePop(this.state.popDict[popType], popType);
+                this.generate(popType);
+                this.setState({ 
+                    popMean: Object.assign( {}, this.state.popMean, { [this.state.popType]: Math.round(math.mean(this.state.popArray[popType]) * 100) / 100
+                }) })
+            }, 100);
+        }, 100);
         // setTimeout(() => {
-        //     this.generate(popType);
-        // }, 100);
-    }
+            //     this.generate(popType);
+            // }, 100);
+        }
 
     sample(size, array) {
         const sampled = []
         const currentPop = array;
-
+        
         while (sampled.length < size){
             // index to sample ?
             const r = Math.round(Math.random() * (currentPop.length - 1))
             let shouldSample = true;
             for (let i = 0; i < sampled.length; i++){
-                 if (sampled[i][0] === r) {
-                     shouldSample = false;
-                 }
+                if (sampled[i][0] === r) {
+                    shouldSample = false;
+                }
             }
             if (shouldSample) {
                 let count = 1;
@@ -263,7 +252,7 @@ class LawOfLargeNumbers extends Component{
         const sampleVals = [[]];
         const sampledCopy = [];
         const samplePop = [];
-
+        
         for (const j in sampled){
             sampleVals[j] = [];
             sampleVals[j][0] = Math.round(this.state.popArray[this.state.popType][sampled[j][0]])
@@ -278,23 +267,23 @@ class LawOfLargeNumbers extends Component{
     generate(popType){
         switch (popType) {
 
-          // Changes Normal of popArray to this.generateNormal
-          // Looks like it concatenates instead of reassigning?
-          // Can't generate it twice though so no issues
+            // Changes Normal of popArray to this.generateNormal
+            // Looks like it concatenates instead of reassigning?
+            // Can't generate it twice though so no issues
             case "Normal":
                 this.setState({
                     popArray : Object.assign({}, this.state.popArray, {"Normal" : this.state.popArray[popType].concat(this.generateNormal())})
                 });
                 break;
-            case "Uniform":
-                this.setState({popArray : Object.assign({}, this.state.popArray, {"Uniform" : this.state.popArray[popType].concat(this.generateUniform())})});
-                break;
-            case "Exponential":
-                this.setState({popArray : Object.assign({}, this.state.popArray, {"Exponential" : this.state.popArray[popType].concat(this.generateExponential())})});
-                break;
-            case "Chi-Squared":
-                this.setState({popArray : Object.assign({}, this.state.popArray, {"Chi-Squared" : this.state.popArray[popType].concat(this.generateChiSquared())})});
-                break;
+                case "Uniform":
+                    this.setState({popArray : Object.assign({}, this.state.popArray, {"Uniform" : this.state.popArray[popType].concat(this.generateUniform())})});
+                    break;
+                    case "Exponential":
+                        this.setState({popArray : Object.assign({}, this.state.popArray, {"Exponential" : this.state.popArray[popType].concat(this.generateExponential())})});
+                        break;
+                        case "Chi-Squared":
+                            this.setState({popArray : Object.assign({}, this.state.popArray, {"Chi-Squared" : this.state.popArray[popType].concat(this.generateChiSquared())})});
+                            break;
             default:
             // do nothing
         }
@@ -535,6 +524,7 @@ class LawOfLargeNumbers extends Component{
                 }
             }
         }
+        const popMean = this.state.popMean[popType];
 
         const values = { 
             Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)"},
@@ -550,7 +540,7 @@ class LawOfLargeNumbers extends Component{
                 type: 'scatter'
             },
             title: {
-                text: title
+                text: `${title} <br /> popMean: ${popMean}`
             },
             xAxis: {
                 min: xminval,
@@ -569,25 +559,15 @@ class LawOfLargeNumbers extends Component{
                     text: 'Count'
                 }
             },
-            plotOptions: {
-              series: {
-                point: {
-                  events: {
-                    mouseOver: function() {
-                      //console.log('hehehe');
-                    }
-                  }
-                }
-              }
-            },
             tooltip: {
-              enabled: true
+              enabled: true,
+              pointFormat: `${xLabel}: <b>{point.x}<b><br />`
             },
             series: [pseries, sampleSeries]
             });
         } else {
             const titleNew = {
-                text: title
+                text: `${title} <br /> Mean: ${popMean}`
             }
             const xvals = {
                 min: xminval,
@@ -606,12 +586,17 @@ class LawOfLargeNumbers extends Component{
                     text: 'Count'
                 }
             }
+            const ttip = {
+                    enabled: true,
+                    pointFormat: `${xLabel}: <b>{point.x}<b><br />`
+            };
+            
 
             // console.log('data', pseries.data);
             // console.log('popdict', popDict.length, this.sum(popDict));
             // console.log('tmp', tmp.data);
             this.myChart.update({ 
-                series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals, title:titleNew}
+                series:[pseries, sampleSeries], xAxis: xvals, yAxis: yvals, title:titleNew, tooltip: ttip}
                 );
         }
 

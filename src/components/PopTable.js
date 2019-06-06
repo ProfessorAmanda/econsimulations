@@ -1,5 +1,6 @@
 // Table of data points
 import React from 'react';
+import { Button, Table } from 'reactstrap';
 
 export default function PopTable(props) {
     /* 
@@ -26,11 +27,9 @@ export default function PopTable(props) {
         }
     });
     const tableBody = (
-        <table style={{width: "100%", border:"1px solid black"}}>
-            <tbody style={{ overflow: "scroll" }}>
-                {rows}
-            </tbody>
-        </table>
+        <tbody>
+            {rows}
+        </tbody>
     );
 
     const values = { 
@@ -41,16 +40,16 @@ export default function PopTable(props) {
     };
 
     return (
-            <div style={{float:"left", width:"10%", height:"300px", visibility: showTable, overflowX: "hidden" }}>
-                <table style={{width: "100%", border:"1px solid black"}}>
-                    <tbody>
+            <div style={{ visibility: showTable}}>
+                <Table striped className="PopTable">
+                    <thead>
                         <tr>
                             <th>{props.popType && values[props.popType].xLabel}</th>
                             <th>{props.popType && values[props.popType].yLabel}</th>
                         </tr>
-                    </tbody>
-                </table>
-                {tableBody}
+                    </thead>
+                    {tableBody}
+                </Table>
             </div>
         );
 }

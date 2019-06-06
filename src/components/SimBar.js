@@ -1,37 +1,8 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import { Button, ButtonGroup, Card, CardText, CardTitle, Col, CardColumns, CardImg } from 'reactstrap';
+import clt from '../clt.png';
+import logo from '../ECONSIMS.png';
 
-
-const HorizontalUL=styled.ul`
-  list-style:none;
-`;
-
-const SectionItem=styled.li`
-  display:inline;
-  padding: 5px;
-  font-weight: bold;
-`;
-
-const ToolBarButton=styled.button`
-  background-color: white;
-  border: 2px solid #c46907;
-  color: #555555;
-  padding: 10px 24px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-   transition-duration: 0.4s;
-   cursor: pointer;
-   &:focus {outline:0}
-   &:hover {
-       background-color: #c06b20;
-       color: white;
-       border: 0px solid white;
-   }
-
-`;
 
 class SimBar extends Component {
     constructor(props){
@@ -41,18 +12,69 @@ class SimBar extends Component {
         }
     }
     render(){
-        const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
+        const modes = 
+        [
+            {
+                name: 'Law of Large Numbers',
+                description: 'a theorem that describes the result of performing the same experiment a large number of times.',
+                extra: 'According to the law, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.',
+                img: clt
+            },
+
+            {
+                name: "Central Limit Theorem",
+                description: "The central limit theorem states that the distribution of sample means approximates a normal distribution as the sample size gets larger (assuming that all samples are identical in size), regardless of population distribution shape.",
+                extra: "",
+                img: ''
+            },
+
+            {
+                name: "Joint Distributions",
+                description: "",
+                extra: "",
+                img: ""
+            },
+
+            {
+                name: "Least Squares",
+                description: "",
+                extra: "",
+                img: ""
+            },
+
+            {
+                name: "Omitted Variable Bias",
+                description: "",
+                extra: "",
+                img: ""
+            }
+        ];
+
+        // const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
         const sections = modes.map((section)=>{
-            const style = section === this.state.selected ? {
-                background: '#c06b20',
-                color: 'white',
-                border: "1px solid white"
-            } : {};
-            return (<SectionItem key={section}> <ToolBarButton style={style} onClick={()=>{this.props.setSection(section); this.setState({selected:section})}}> {section} </ToolBarButton></SectionItem>);
+            return (
+                    <Card body>
+                        <CardImg top width="100%" src={section.img} />
+                        <CardTitle>{section.name}</CardTitle>
+                        <CardText>{section.description}</CardText>
+                    <Button outline
+                        active={section.name === this.state.selected}
+                        onClick={()=>{ 
+                            this.props.setSection(section.name); 
+                            this.setState({ selected:section.name });
+                        }}>
+                        {section.name} 
+                        </Button>
+                    </Card>
+            );
         });
         return(
-            <div id="section-list">
-                <HorizontalUL>{sections}</HorizontalUL>
+            <div>
+                {/* <div className="MiniLogo">
+                </div> */}
+                <CardColumns>
+                    {sections}
+                </CardColumns>
             </div>
         );
     }

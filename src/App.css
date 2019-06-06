@@ -1,16 +1,186 @@
-.App {
+.Wrapper {
   text-align: center;
   margin: 0 0 0 0;
+  height: 100vh;
+  padding: 0 0 0 0;
+}
+
+.App-bg {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  height: 100vh;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-image: url('./Intro.gif');
+  background-position: center;
+  background-size: 100%;
+  position: fixed;
+  z-index: -1;
+  opacity: 0.2;
+}
+
+.Splash {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.835);
+  position: fixed;
+  z-index: 2;
+}
+
+
+.Jumbotron {
+  padding: 200px 0;
+  text-align: center;
+  margin: auto;
+  width: 100vh;
+  background-color: rgba(255, 255, 255, 0.178);
+}
+
+.Sidebar {
+  display: block;
+  left: 0vh;
+  padding: 0 0 0 0;
+  width: 80px;
+  height: 100vh;
+  background-color: rgba(248, 183, 145, 0.767);
+  transition: width .5s;
+}
+
+#Menu {
+  position: absolute;
+  right: 1vh;
+  top: .5vh;
+  z-index: 1;
+}
+
+.MiniLogo {
+  position: absolute;
+  right: 40vh;
+  top: 0vh;
+  z-index: 1;
+  background-color: rgb(255, 255, 255);
+  background-image: url('./ECONSIMS.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 350px;
+  min-height: 250px;
+  padding: 0 0 0 0;
+}
+
+.PopTable {
+  display: block;
+  width: 200px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.PopTable tbody {
+  display: block ;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 40vh;
+  padding-right: 30px;
+  box-sizing: content-box;
+}
+
+.PopTable thead tr {
+  display: block;
+}
+
+
+.PopTable th, .PopTable td {
+  padding: 5px;
+  text-align: center;
+  width: 75px;
+}
+
+.Plate {
+  padding-top: 4vh;
+  width: 100%;
+}
+
+.Border {
+  border: solid;
+}
+
+.TabBar {
+  position: absolute;
+  top: 1vh;
+  width: 100%;
+  background-color: white;
+}
+
+.Center {
+  margin: auto;
+  position: relative;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.nav-tabs {
+  /* color: blue; */
+  border-color: orange;
+}
+
+.nav-tabs .nav-link.active {
+    color: orange;
+    border-color: orange;
+    border-bottom-color: white;
+
+}
+
+a:not([href]):not([tabindex]):hover {
+  color: orange;
+  border-color: orange;
+  border-bottom-color: white;
+  cursor: pointer;
+}
+
+.Sidebar button { 
+  font-size: 0.5em;
+  transition: font-size .5s;
+  border: none;
+  border-radius: 0;
+}
+
+.Sidebar:hover { 
+  width: fit-content;
+}
+
+.Sidebar:hover button {
+    font-size: 1em;
+}
+
+.Nav {
+  padding: 150px 0;
+  margin: 0 0 0 40vh;
+  text-align: center;
+  width: 60%;
+  opacity: .7;
+  position: absolute;
+  z-index: 10;
+}
+
+.App {
+  text-align: center;
+  display: block;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.575);
+  height: 100vh;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
 }
 
 .App-header {
   background-color: #222;
-  height: 150px;
   padding: 20px;
   color: white;
 }

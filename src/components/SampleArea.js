@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-
+import { Button, Container, Badge, Col, Row } from 'reactstrap';
 
 
 class SampleArea extends Component {
@@ -10,22 +9,29 @@ class SampleArea extends Component {
             sampleSize: '',
             popMean: undefined
         }
+        this.handleChange = this.handleChange.bind(this);
     }
+
+    handleChange(event) {
+        this.setState({sampleSize: parseInt(event.target.value, 10)});
+    }
+
     render() {
         return (
             <div>
-                <span> Sample Size: </span>
-                <input 
-                    type="number" 
-                    onKeyPress={(e) => this.onKey(e)} 
-                    onChange={(event) => { 
-                        this.setState({ 
-                            sampleSize: event.target.value 
-                        })
-                    }} 
-                    value={this.state.sampleSize} 
-                />
-                <button 
+                <Container>
+                    <Row className="Center">
+                        <input 
+                            type="range" 
+                            min={1}
+                            value={this.state.sampleSize} 
+                            max={1000}
+                            onChange={this.handleChange} 
+                            />
+                        <Badge style={{ marginLeft: '1em' }} color='secondary'>{this.state.sampleSize}</Badge>
+                    </Row>
+                </Container>
+                <Button 
                     disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1}
                     onClick={()=> {
                         const sampleObject = this.props.sample(this.state.sampleSize);
@@ -35,7 +41,7 @@ class SampleArea extends Component {
                         });
                         this.props.setmean(mue);
                         this.props.redraw();
-                    }}> Sample </button>
+                    }}> Sample </Button>
                 {/*<h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>*/}
             </div>
         )

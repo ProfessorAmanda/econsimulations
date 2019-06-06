@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import math from "mathjs";
 import Highcharts from "highcharts";
+import { Collapse, Button, ButtonGroup, Card, CardBody, Spinner } from 'reactstrap';
 
 class SimulateSamples extends Component {
     constructor(props){
@@ -9,28 +10,81 @@ class SimulateSamples extends Component {
             sampleMeans: [],
             meanDiffs: [],
             chart: undefined,
-            type: ''
+            type: '',
+            started: false,
+            collapsed: true
         }
     }
     render(){
-        
         return(
             <div>
-                <button 
+                { this.state.collapsed ? 
+                <Button 
+                    color='primary'
                     disabled={this.timer} 
                     onClick={() => {
-                        this.setState({
-                            chart:undefined, 
-                            sampleMeans:[],
-                            meanDiffs:[], 
-                            type:''
-                        }); 
-                        this.simulate()
+                        if (this.state.collapsed) {
+                            if (!this.state.started) {
+                                this.setState({
+                                    chart:undefined, 
+                                    sampleMeans:[],
+                                    meanDiffs:[], 
+                                    type:''
+                                }); 
+                                this.simulate()
+                            }
+                            this.setState({
+                                collapsed: false,
+                            })
                         }
-                    }> 
-                    Run Simulation 
-                </button>
-                <div id="sim-container" />
+                        else {
+                            this.setState({
+                                collapsed: true
+                            })
+                        }
+                    }
+                }>
+                    Show Simulation 
+                </Button> 
+                : <ButtonGroup style={{ marginBottom: '1em'}}>
+                    <Button 
+                color='secondary'
+                disabled={this.timer} 
+                onClick={() => {
+                    this.setState({
+                        collapsed: true
+                    })
+                }
+            }> 
+                Hide Simulation 
+            </Button> 
+             <Button 
+             color='info'
+             disabled={this.timer} 
+             onClick={() => {
+                this.setState({
+                    chart:undefined, 
+                    sampleMeans:[],
+                    meanDiffs:[], 
+                    type:''
+                }); 
+                this.simulate()
+                }
+            }> 
+             New Simulation 
+         </Button> 
+            </ButtonGroup>
+            
+
+            }
+            <Collapse isOpen={!this.state.collapsed}>
+                { !this.state.started && <Spinner size="sm" color="primary"/> }
+                    <Card outline style={{ backgroundColor: 'rgba(255, 255, 255, 0)' }}>
+                        <CardBody style={{ backgroundColor: 'rgba(255, 255, 255, 0)' }}>
+                            <div id="sim-container" style={{ display: this.state.started ? 'block' : 'none'}}/>
+                        </CardBody>
+                    </Card>
+                </Collapse>
             </div>
         );
     }
@@ -39,6 +93,11 @@ class SimulateSamples extends Component {
     simulate(){
         this.chart();
         setTimeout(() => {
+            this.setState({
+                started: true,
+                collapsed: false
+            });
+
             let n = 1;
             // iterations of this add points to the graph
             this.timer = setInterval( () => {
@@ -50,8 +109,8 @@ class SimulateSamples extends Component {
                     this.timer = null;
                     this.setState({});
                 }
-            }, 175);
-        }, 600);
+            }, 100);
+        }, 1500);
     }
 
     chart(){
@@ -135,7 +194,6 @@ class SimulateSamples extends Component {
     }
 
     calculate(n, pop){
-        window.scrollBy(0, 400);
         for (let i = n; i < n + 1; i++){
             // controls size!!!  still need to change the x-axis though
             //let size = pop.length / 200 * i;
