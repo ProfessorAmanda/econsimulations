@@ -10,8 +10,8 @@ const SelectPop=styled.ul`
 
 const ToolBarButton=styled.a`
   background-color: white;
-  border-left: 1px solid #207ec0;
-  border-right: 1px solid #207ec0;
+  border-left: 1px solid #2b908f;
+  border-right: 1px solid #2b908f;
   color: #555555;
   padding: 10px 24px;
   width: 80px;
@@ -24,7 +24,7 @@ const ToolBarButton=styled.a`
    cursor: pointer;
    &:focus {outline:0}
    &:hover {
-       background-color: #207ec0;
+       background-color: #2b908f;
        color: white;
    }
 
@@ -48,7 +48,7 @@ class PopBar extends Component {
 
         const sections = modes.map((section)=>{
             const style = section === this.state.selected ? {
-                background: '#207ec0',
+                background: '#2b908f',
                 color: 'white'
             } : {};
             return (<ToolBarButton style={style} onClick={()=> {this.props.setPop(section); this.setState({selected:section})}}> {section} </ToolBarButton>);
