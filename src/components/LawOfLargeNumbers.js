@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PopBar from './PopBar.js';
 import SampleArea from './SampleArea.js'
 import Highcharts from 'highcharts';
+import '../dark-unica.css';
 // import math from 'mathjs'
 import chi from 'chi-squared'
 import MeanButton from './MeanButton.js'
@@ -503,8 +504,8 @@ class LawOfLargeNumbers extends Component{
     // changePop seems to build graph
     changePop(popDict, popType) {
         console.log(popDict.length);
-        const pseries = {data : [], color: '#F27474', name:"Population", updatePoints: false}
-        const sampleSeries = {data : [], color: '#747EF2', name:"Sample"}
+        const pseries = {data : [], name:"Population", updatePoints: false}
+        const sampleSeries = {data : [], name:"Sample"}
         const sampledCopy = this.state.sampled[popType];
         const sampleVals = [[]];
         const samplePop = [];
