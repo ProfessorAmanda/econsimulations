@@ -8,7 +8,6 @@ class StartHere extends Component{
     return(
       <Fade in={this.props.start}>
       <div className="Jumbotron">
-            <h1 className="display-1" color="danger">Hello!</h1>
             <p className="lead">This website is an educational application developed to simulate and visualize
             various statistical concepts. Each module on the website takes students through
             multiple steps of simulations for each respective statistical concept.</p>

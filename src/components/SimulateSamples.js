@@ -12,7 +12,25 @@ class SimulateSamples extends Component {
             chart: undefined,
             type: '',
             started: false,
-            collapsed: true
+            collapsed: true,
+            stage: this.props.stage
+        }
+    }
+
+    componentDidMount() {
+        if (this.state.stage >= 4) {
+            if (!this.state.chart) {
+                this.setState({
+                    chart:undefined, 
+                    sampleMeans:[],
+                    meanDiffs:[], 
+                    type:''
+                });
+                this.simulate()
+            }
+            this.setState({
+                collapsed: false,
+            });
         }
     }
     render(){
@@ -66,7 +84,8 @@ class SimulateSamples extends Component {
                     chart:undefined, 
                     sampleMeans:[],
                     meanDiffs:[], 
-                    type:''
+                    type:'',
+                    started: false
                 }); 
                 this.simulate()
                 }
@@ -92,6 +111,7 @@ class SimulateSamples extends Component {
 
     simulate(){
         this.chart();
+        this.props.setStage(4);
         setTimeout(() => {
             this.setState({
                 started: true,
@@ -109,13 +129,14 @@ class SimulateSamples extends Component {
                     this.timer = null;
                     this.setState({});
                 }
-            }, 100);
-        }, 1500);
+            }, 10);
+        }, 2000);
     }
 
     chart(){
         const popMeanSeries = {name: "Population Mean", data: []};
         const sampleMeanSeries = {name: "Sample Means", data : []};
+        const popType = this.props.type;
         // making arrays null
         for (let i = 0; i < 100; i++){
             popMeanSeries.data[i] = null;
@@ -152,7 +173,7 @@ class SimulateSamples extends Component {
                                 type: 'line'
                             },
                             title: {
-                                text: 'Population vs Sample Means'
+                                text: `Population vs Sample Means <br /> (${popType})`,
                             },
                             xAxis: {
                                 categories: myCategories,

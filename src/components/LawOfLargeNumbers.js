@@ -70,13 +70,13 @@ class LawOfLargeNumbers extends Component{
                 "Exponential": [],
                 "Chi-Squared": []
             },
-            stage : 0,
-            newPop : 0,
+            stage : 1,
+            newPop : 1,
             stages: {
-              "Normal": 0,
-              "Uniform": 0,
-              "Exponential": 0,
-              "Chi-Squared": 0
+              "Normal": 1,
+              "Uniform": 1,
+              "Exponential": 1,
+              "Chi-Squared": 1
             },
             clearedArray: {
               "Normal": [],
@@ -90,7 +90,9 @@ class LawOfLargeNumbers extends Component{
     componentDidMount() {
         const pop = 'Normal';
         const copy = Object.assign({} , this.state.stages);
-        copy[pop] = 1;
+        if (!copy[pop]) {
+            copy[pop] = 1;
+        }
         this.setState({ stages: copy, newPop: 1, stage: copy[pop], popType: pop });
         this.selectPop(pop);
     }
@@ -115,11 +117,10 @@ class LawOfLargeNumbers extends Component{
                 mode="LLN"
                 setPop={(pop) => {
                     // assign proper stages
-                    const copy = Object.assign({} , this.state.stages);
-                    copy[pop] = 1;
-                    this.setState({ stages: copy, newPop: 1, stage: copy[pop], popType: pop });
-
-                    this.selectPop(pop);
+                    if (pop !== this.state.popType) {   
+                        this.setState({ newPop: 1, stage: this.state.stages[pop], popType: pop });
+                        this.selectPop(pop);
+                    }
                 }}/>
                 <Container fluid className='Plate'>
                     <Row >
@@ -139,8 +140,9 @@ class LawOfLargeNumbers extends Component{
                                     <p> Try a few different sample sizes and compare sample mean to population mean </p>
                                 <SampleArea 
                                     setmean={(mean) => {
+                                        const st = this.state.stage > 3 ? this.state.stage : 3;
                                         this.setState({
-                                            stage: 3,
+                                            stage: st,
                                             sampleMean: Object.assign({}, this.state.sampleMean, { [this.state.popType] : mean })
                                         })
                                     }}
@@ -148,9 +150,14 @@ class LawOfLargeNumbers extends Component{
                                     }
                                 }
                                 sample={(size) => {
+                                    const popType = this.state.popType;
+                                    const copy = Object.assign({} , this.state.stages);
+                                    const st = this.state.stage > 3 ? this.state.stage : 3;
+                                    copy[popType] = st;
                                     const sampleObject = this.sample(size, this.state.popArray[this.state.popType]);
                                     this.setState({
-                                        stage: 2,
+                                        stages: copy,
+                                        stage: st,
                                         sampled: Object.assign( {}, this.state.sampled, { [this.state.popType]: sampleObject.pop})
                                     }, () => {
                                         this.changePop(this.state.popDict[this.state.popType], this.state.popType);
@@ -165,7 +172,7 @@ class LawOfLargeNumbers extends Component{
                             </div> 
                         :null
                     }
-                    { this.state.stage >= 3 ? 
+                    { this.state.stage >= 2 ? 
                         <DifferenceOfMeans 
                         popMean={this.state.popMean[this.state.popType]} 
                         sampleMean={this.state.sampleMean[this.state.popType]}
@@ -177,8 +184,7 @@ class LawOfLargeNumbers extends Component{
             }
             </Col>
             </Row>
-                { this.state.stage >= 3 && popDrawn ?
-                    <div>
+                { <div style={{ display: this.state.stage >= 3 && popDrawn ? 'block' : 'none' }}>
                         <Alert color="info">
                         According to the law, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed. Make sure to pick several samples, or click below for a simulation to see the law in action.
                         </Alert>
@@ -186,9 +192,18 @@ class LawOfLargeNumbers extends Component{
                         type={this.state.popType} 
                         sample={(size, pop) => { return this.sample(size, pop).pop }} 
                         pop={this.state.popArray[this.state.popType]}
+                        stage={this.state.stage}
+                        setStage={(stage) => {
+                            const copy = Object.assign({}, this.state.stages);
+                            copy[this.state.popType] = stage;
+                            this.setState({
+                                stage: stage,
+                                stages: copy
+                            })
+                            
+                        }}
                         />
                     </div> 
-                    :null
                 }
                 </Container>
                 <div>
@@ -210,20 +225,20 @@ class LawOfLargeNumbers extends Component{
     // called upon selection of population type
     selectPop(popType){
         // poptype is a string indicating the population type
-        setTimeout(() => {
-            clearInterval(this.timer); //stop any populating that may be happening
-            this.timer = setInterval( () => {
-                this.changePop(this.state.popDict[popType], popType);
-                this.generate(popType);
-                this.setState({ 
-                    popMean: Object.assign( {}, this.state.popMean, { [this.state.popType]: Math.round(math.mean(this.state.popArray[popType]) * 100) / 100
-                }) })
-            }, 100);
-        }, 100);
-        // setTimeout(() => {
-            //     this.generate(popType);
-            // }, 100);
+        if (this.state.stages[popType] === 1) {
+            setTimeout(() => {
+                clearInterval(this.timer); //stop any populating that may be happening
+                this.timer = setInterval( () => {
+                    this.changePop(this.state.popDict[popType], popType);
+                    this.generate(popType);
+                    this.setState({ 
+                        popMean: Object.assign( {}, this.state.popMean, { [this.state.popType]: Math.round(math.mean(this.state.popArray[popType]) * 100) / 100
+                        }) })
+                    }, 100);
+                }, 100);
         }
+        this.changePop(this.state.popDict[popType], popType);
+    } 
 
     sample(size, array) {
         const sampled = []
@@ -372,7 +387,7 @@ class LawOfLargeNumbers extends Component{
     }
 
     generateUniform(){
-        this.changePop(this.state.popDict["Uniform"], "Uniform");
+        //this.changePop(this.state.popDict["Uniform"], "Uniform");
         if (this.sum(this.state.popDict["Uniform"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -412,7 +427,7 @@ class LawOfLargeNumbers extends Component{
     }
 
     generateExponential(){
-        this.changePop(this.state.popDict["Exponential"], "Exponential");
+        //this.changePop(this.state.popDict["Exponential"], "Exponential");
         if (this.sum(this.state.popDict["Exponential"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -448,7 +463,7 @@ class LawOfLargeNumbers extends Component{
     }
 
     generateChiSquared(){
-        this.changePop(this.state.popDict["Chi-Squared"], "Chi-Squared");
+        //this.changePop(this.state.popDict["Chi-Squared"], "Chi-Squared");
         if (this.sum(this.state.popDict["Chi-Squared"]) === SAMPLE_SIZE){
             clearInterval(this.timer);
             return [];
@@ -567,7 +582,7 @@ class LawOfLargeNumbers extends Component{
             });
         } else {
             const titleNew = {
-                text: `${title} <br /> Mean: ${popMean}`
+                text: `${title} <br /> Population Mean: ${popMean}`
             }
             const xvals = {
                 min: xminval,
@@ -601,9 +616,9 @@ class LawOfLargeNumbers extends Component{
         }
 
         // when called for generating initial population, it doesn't return anything
-        this.setState({
-            samplePop : Object.assign({}, this.state.samplePop, {[this.state.popType]: samplePop})
-        })
+        // this.setState({
+        //     samplePop : Object.assign({}, this.state.samplePop, {[this.state.popType]: samplePop})
+        // })
     }
 
 

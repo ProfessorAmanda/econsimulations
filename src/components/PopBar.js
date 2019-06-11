@@ -74,10 +74,15 @@ class PopBar extends Component {
             );
         });
         return(
+            <div>
+
+                 <div className="MiniLogo">
+                </div>
             <div className="TabBar">
                 <Nav tabs>
                     {sections} 
                 </Nav>
+            </div>
             </div>
         );
     }

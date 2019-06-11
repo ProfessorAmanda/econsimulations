@@ -5,6 +5,30 @@
   padding: 0 0 0 0;
 }
 
+.Wrapper:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.1;
+  background-image: url('./bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+@keyframes bg-fade {
+
+}
+
 .App-bg {
   padding: 0 0 0 0;
   margin: 0 0 0 0;
@@ -16,7 +40,13 @@
   background-size: 100%;
   position: fixed;
   z-index: -1;
-  opacity: 0.2;
+  opacity: 1;
+  animation: Move-up 2s 2.9s forwards;
+}
+
+@keyframes Move-up {
+  from { background-position: center; }
+  to { background-position: bottom; }
 }
 
 .Splash {
@@ -24,18 +54,42 @@
   margin: 0 0 0 0;
   height: 100vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.835);
+  background-color: rgba(255, 255, 255, 0.918);
   position: fixed;
   z-index: 2;
 }
 
+.Splash:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.2;
+  background-image: url('./bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
 
 .Jumbotron {
-  padding: 200px 0;
+  padding-top: 50vh;
   text-align: center;
-  margin: auto;
+  margin-right: auto;
+  margin-left: auto;
   width: 100vh;
-  background-color: rgba(255, 255, 255, 0.178);
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.Jumbotron h1 {
+  color: black;
 }
 
 .Sidebar {
@@ -46,28 +100,6 @@
   height: 100vh;
   background-color: rgba(248, 183, 145, 0.767);
   transition: width .5s;
-}
-
-#Menu {
-  position: absolute;
-  right: 1vh;
-  top: .5vh;
-  z-index: 1;
-}
-
-.MiniLogo {
-  position: absolute;
-  right: 40vh;
-  top: 0vh;
-  z-index: 1;
-  background-color: rgb(255, 255, 255);
-  background-image: url('./ECONSIMS.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-width: 350px;
-  min-height: 250px;
-  padding: 0 0 0 0;
 }
 
 .PopTable {
@@ -100,8 +132,9 @@
 }
 
 .Plate {
-  padding-top: 4vh;
+  padding-top: 25vh;
   width: 100%;
+  background-color: rgb(255, 255, 255, 0);
 }
 
 .Border {
@@ -110,9 +143,33 @@
 
 .TabBar {
   position: absolute;
-  top: 1vh;
+  top: 20vh;
   width: 100%;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#Menu {
+  position: absolute;
+  right: 0vh;
+  top: 20vh;
+  z-index: 1;
+  border: solid 1px orange;
+  border-bottom: none;
+}
+
+.MiniLogo {
+  position: absolute;
+  margin-top: 4vh;
+  right: 75vh;
+  top: 0vh;
+  z-index: 0;
+  background-color: rgb(255, 255, 255);
+  background-image: url('./ECONSIMS.png');
+  background-size: contain;
+  background-position: top;
+  background-repeat: no-repeat;
+  width: 400px;
+  height: 300px;
 }
 
 .Center {
@@ -162,7 +219,7 @@ a:not([href]):not([tabindex]):hover {
   margin: 0 0 0 40vh;
   text-align: center;
   width: 60%;
-  opacity: .7;
+  opacity: .8;
   position: absolute;
   z-index: 10;
 }

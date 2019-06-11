@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Spinner } from 'reactstrap';
 import './App.css';
-import SimulationContainer from './components/SimulationContainer.js'
+import SimulationContainer from './components/SimulationContainer.js';
 
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      starting: 1
+      starting: 0
     };
     this.show = this.show.bind(this);
   }
@@ -20,29 +20,15 @@ class App extends Component {
   }
 
   render() {
-    setTimeout(this.show, 1500);
+    //setTimeout(this.show, 4000);
     return (
       <div>
         {document.body.classList.add('Wrapper')}
-          {this.state.starting ? 
-          <div className="Nav">
-          <Spinner type="grow" color="primary" />
-          <Spinner type="grow" color="secondary" />
-          <Spinner type="grow" color="success" />
-          <Spinner type="grow" color="danger" />
-          <Spinner type="grow" color="warning" />
-          <Spinner type="grow" color="info" />
-          <Spinner type="grow" color="light" />
-          <Spinner type="grow" color="dark" />
-        </div>  :
-          <div>
-            <div className="App-bg">
-              </div>
+          { !this.state.starting &&
             <div>
               <SimulationContainer/>
             </div>
-      </div>
-        }
+          }
       </div>
     );
   }

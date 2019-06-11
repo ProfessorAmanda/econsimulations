@@ -14,20 +14,30 @@ class SimulationContainer extends Component{
         this.state = {
             mode: 'Home',
             start: true,
-            collapse: true
+            collapse: true,
+            logo: true
     }
 }
     render(){
+        setTimeout(() => {
+            this.setState({
+                logo: false
+            })
+        }, 3500);
         if (this.state.start === true) {
             return (
-                <StartHere 
-                    showApp={() => {
-                        this.setState({ 
-                            start: false
-                        })
-                    }}
-                    start={this.state.start}
-                />
+                <div>
+                    <div className="App-bg">
+                    </div>
+                    { !this.state.logo && <StartHere 
+                        showApp={() => {
+                            this.setState({ 
+                                start: false
+                            })
+                        }}
+                        start={this.state.start}
+                    /> }
+                </div>
             )
         }
         return(
@@ -42,6 +52,7 @@ class SimulationContainer extends Component{
                     </Fade>
                 }
                 <div className="App">
+                   
                     { !this.state.collapse &&
                     <Navbar color="faded" light>
                         <NavbarToggler

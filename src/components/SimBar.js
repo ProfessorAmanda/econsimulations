@@ -70,8 +70,6 @@ class SimBar extends Component {
         });
         return(
             <div>
-                {/* <div className="MiniLogo">
-                </div> */}
                 <CardColumns>
                     {sections}
                 </CardColumns>
