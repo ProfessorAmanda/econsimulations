@@ -6,7 +6,7 @@ import JointWrapper from './JointWrapper.js';
 import LeastSim from './LeastSim.js';
 import OmmittedVariable from './OmmittedVariable.js';
 import StartHere from './StartHere';
-import { Button, Fade, NavbarToggler, NavbarBrand, Navbar } from 'reactstrap';
+import { Fade, NavbarToggler, Navbar } from 'reactstrap';
 
 class SimulationContainer extends Component{
     constructor(){
@@ -15,15 +15,19 @@ class SimulationContainer extends Component{
             mode: 'Home',
             start: true,
             collapse: true,
-            logo: true
+            logo: false
     }
 }
-    render(){
+
+    componentDidMount() {
         setTimeout(() => {
             this.setState({
                 logo: false
             })
         }, 3500);
+    }
+
+    render(){
         if (this.state.start === true) {
             return (
                 <div>
