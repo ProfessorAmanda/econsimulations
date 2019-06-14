@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Button } from 'reactstrap';
 
 // test
 
@@ -51,17 +52,16 @@ class ToggleStandard extends Component {
         modes = ["Standardized"];
 
         const sections = modes.map((section)=>{
-            const style = this.state.selected === 1 ? {
-                background: '#555555',
-                color: 'white'
-            } : {};
-            return (<ToolBarButton style={style} onClick={()=> {
+            return (<Button
+              color="primary"
+              active={this.state.selected === 1} 
+              onClick={()=> {
                 const sel = this.state.selected;
                 let newSel = 0;
                 newSel = sel === 0 ? 1 : 0;
                 this.setState({selected:newSel});
                 this.props.toggleSwitch(newSel);
-              }}> {section} </ToolBarButton>);
+              }}> {section} </Button>);
         });
         return(
 

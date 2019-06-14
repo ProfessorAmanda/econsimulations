@@ -23,7 +23,7 @@ class SampleMeanChart extends Component {
         this.state.chart && this.show();
         return(
           <div>
-            <span style={{float:"left", width:"30%"}} id="sim-container" />
+            <span id="sim-container" />
             {/* <button style={{marginTop:"20px",marginLeft:"110px"}} onClick={() => {
               this.setState({curve : !this.state.curve})}}>Plot Normal Curve</button> */}
           </div>
@@ -33,20 +33,13 @@ class SampleMeanChart extends Component {
         this.show();
     }
     show(){
-        //console.log(this.props.type);
         const sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
         const popMean = Math.round(this.props.mean *4)/4;
+        console.log('oy', this.props.sampleMeans);
         for (const i in this.props.sampleMeans){
-            //const val = ((Math.round(this.props.sampleMeans[i] * 4) / 4)-64)/3;
-            // console.log('here we go');
-            // console.log(this.props.sampleMeans[i]);
-            // console.log(popMean);
-            // console.log(this.props.sd);
-            // console.log('bigun');
-            // console.log(((this.props.sampleMeans[i]-popMean)/(this.props.sd)));
-            // console.log(Math.round(((this.props.mean-this.props.sampleMeans[i])/(this.props.sd/100))*4)/4);
-            const val = this.props.normalized === 0 ? Math.round(this.props.sampleMeans[i] * 10) / 10 : Math.round(((this.props.sampleMeans[i]-this.props.mean)/(this.props.sd/Math.sqrt(this.props.sampleSize)))*10)/10;
+            const val = this.props.normalized === 0 ? Math.round(this.props.sampleMeans[i][1] * 10) / 10 : Math.round(((this.props.sampleMeans[i][1]-this.props.mean)/(this.props.sd/Math.sqrt(this.props.sampleSize)))*10)/10;
+            console.log(val);
             let count = 1;
             for (const j of sampleMeanSeries.data){
                 if (Math.round(j[0] * 10) / 10 === val){
@@ -57,8 +50,7 @@ class SampleMeanChart extends Component {
             sampleMeanSeries.data[i] = [val, count];
             // console.log(sampleMeanSeries.data);
         }
-        // console.log(sampleMeanSeries.data);
-        // console.log(sampleMeanSeries.data);
+
         let xMin;
         let xMax;
         let xLabel;
@@ -143,6 +135,8 @@ class SampleMeanChart extends Component {
 
         // console.log(seriesData);
 
+        console.log(sampleMeanSeries);
+
         if (!this.state.chart) {
             this.setState({chart: Highcharts.chart('sim-container', {
                             chart: {
@@ -152,8 +146,8 @@ class SampleMeanChart extends Component {
                                 text: 'Sample Mean Distribution'
                             },
                             xAxis: {
-                                min: 60,
-                                max: 70,
+                                // min: 60,
+                                // max: 70,
                                 title : {
                                     enabled: true,
                                     text: xLabel
@@ -169,18 +163,8 @@ class SampleMeanChart extends Component {
                                 }
                             },
                             tooltip: {
-                              enabled: false
-                            },
-                            plotOptions: {
-                              series: {
-                                point: {
-                                  events: {
-                                    mouseOver: function() {
-                                      //console.log('hehehe');
-                                    }
-                                  }
-                                }
-                              }
+                              enabled: true,
+                              pointFormat: `${xLabel}: <b>{point.x}<b><br />`
                             },
                             series: [sampleMeanSeries]
                             })});

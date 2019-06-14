@@ -15,7 +15,7 @@ class SimulationContainer extends Component{
             mode: 'Home',
             start: true,
             collapse: true,
-            logo: false
+            logo: true
     }
 }
 

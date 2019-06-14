@@ -36,7 +36,7 @@ class PopBar extends Component {
     }
     render() {
         let modes;
-        if(this.props.mode === "CLT"){
+        if (this.props.mode === "CLT"){
           modes = 
           [ 
               { name: "Normal", id: "1" },
@@ -46,13 +46,16 @@ class PopBar extends Component {
               { name: "Mystery", id: "5"} 
             ];
         }
-        else{
+        else if (this.props.mode === "LLN") {
           modes = [
             { name: "Normal", id: "1" },
             { name: "Uniform", id: "2" }, 
             { name: "Exponential", id: "3" },
             { name: "Chi-Squared", id: "4" }, 
           ];
+        }
+        else {
+            modes = []
         }
 
         const sections = modes.map((section)=>{
@@ -75,14 +78,13 @@ class PopBar extends Component {
         });
         return(
             <div>
-
-                 <div className="MiniLogo">
+                <div className="MiniLogo">
                 </div>
-            <div className="TabBar">
-                <Nav tabs>
-                    {sections} 
-                </Nav>
-            </div>
+                <div className="TabBar">
+                    <Nav tabs>
+                        {sections} 
+                    </Nav>
+                </div>
             </div>
         );
     }

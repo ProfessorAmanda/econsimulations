@@ -25,6 +25,11 @@
   background-size: cover;
 }
 
+.PopTable {
+  margin: auto;
+  margin-top: 2vh;
+}
+
 @keyframes bg-fade {
 
 }
@@ -160,16 +165,15 @@
 .MiniLogo {
   position: absolute;
   margin-top: 4vh;
-  right: 75vh;
+  right: 80vh;
   top: 0vh;
   z-index: 0;
-  background-color: rgb(255, 255, 255);
   background-image: url('./ECONSIMS.png');
   background-size: contain;
   background-position: top;
   background-repeat: no-repeat;
-  width: 400px;
-  height: 300px;
+  width: 40vh;
+  min-height: 20vh;
 }
 
 .Center {

@@ -114,13 +114,13 @@ class LawOfLargeNumbers extends Component{
                 }}/>
                 <Container fluid className='Plate'>
                     <Row >
-                        <Col lg="2">.
+                        <Col lg="2">
                             {popTable}
                         </Col>
-                        <Col lg="8">.
+                        <Col lg="8">
                             <span className="Center" id="container" />
                         </Col>
-                        <Col lg="2">.
+                        <Col lg="2">
                 {/* Going through the Stages */}
                 {popDrawn ? 
                     <span>

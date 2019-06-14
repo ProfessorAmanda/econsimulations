@@ -14,15 +14,30 @@ class SampleAreaCLT extends Component {
         return (
             <div>
                 <span> Sample Size: </span>
-                <input type="number" onKeyPress={(e) => this.onKey(e)} onChange={(event) => {this.setState({sampleSize: event.target.value})}} value={this.state.sampleSize} />
-                <button disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1 || this.props.disabled} onClick={()=>{
-                  this.props.sample(this.state.sampleSize);
-                  this.props.redraw();
-                  const array = this.newSample(this.state.sampleSize,this.props.popArray[this.props.popType]);
-                  console.log(array);
-                  this.setState({popMean:Math.round(math.mean(array) * 100) / 100});
-                  this.props.setmean(Math.round(math.mean(array) * 100) / 100);
-                }}> Sample </button>
+                <input 
+                    type="number" 
+                    onKeyPress={(e) => { 
+                        this.onKey(e)
+                    }} 
+                    onChange={(event) => { 
+                        this.setState({
+                            sampleSize: event.target.value 
+                        })
+                    }} 
+                    value={this.state.sampleSize} 
+                />
+                <button 
+                    disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1 || this.props.disabled} 
+                    onClick={()=>{
+                        const sampleObject = this.props.sample(this.state.sampleSize);
+                        const mue = sampleObject.mue; 
+                        this.setState({
+                            popMean: mue 
+                        });
+                        this.props.setmean(this.state.sampleSize, mue);
+                        this.props.redraw();
+                    }}
+                > Sample </button>
                 {/*}<h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>*/}
             </div>
         )

@@ -22,7 +22,11 @@ class SampleMeanSimulator extends Component{
                     <span> Number of Replications: </span><input type="number" placeholder="Number of Replications" onKeyPress={(e)=> this.onKey(e)} onChange={(event) => {this.setState({numberResamples : Object.assign(this.state.numberResamples, {[this.props.popType] : event.target.value})})}} value={this.state.numberResamples[this.props.popType]}/>
                 </div>
                 <div style={{float: "left"}}>
-                    <button onClick={()=>{this.runSim(this.state.resampleSize[this.props.popType], this.state.numberResamples[this.props.popType], this.props.population, this.props.sample, this.props.clear)}}
+                    <button 
+                        onClick={() => { 
+                            this.runSim(this.state.resampleSize[this.props.popType], this.state.numberResamples[this.props.popType], this.props.population, this.props.sample, this.props.clear)
+                        }
+                    }
                     disabled={this.timer || !this.state.numberResamples[this.props.popType] || !this.state.resampleSize[this.props.popType] || this.state.resampleSize[this.props.popType] < 1 || this.state.numberResamples[this.props.popType] < 1}> Run </button>
                 </div>
             </div>
@@ -44,6 +48,7 @@ class SampleMeanSimulator extends Component{
             this.resample(resampleSize, numberResamples, population, callback, n);
         }, 200);
     }
+
     resample(resampleSize, numberResamples, population, callback, n){
         let samplePop = [];
         const sampleMeans = [];
@@ -53,7 +58,7 @@ class SampleMeanSimulator extends Component{
                 samplePop.push(population[r]);
             }
             const sampleMean = math.mean(samplePop);
-            sampleMeans.push(sampleMean);
+            sampleMeans.push([resampleSize, sampleMean]);
             samplePop = [];
         }
         callback(sampleMeans, this.state.resampleSize[this.props.popType], this.state.numberResamples[this.props.popType]);

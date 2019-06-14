@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Highcharts from 'highcharts';
+import { Container } from 'reactstrap';
+import PopBar from './PopBar.js';
 
 
 const contatiner = styled.div`
@@ -34,7 +36,11 @@ class LeastSim extends Component {
 	}
 	render(){
     this.state.chart && this.show();
+
     return(
+      <Container fluid className='Plate'>
+        <div className="MiniLogo">
+                </div>
       <div style={{ marginLeft: 250,marginTop: 50 }}>
         <span style={{float:"left", width:"30%"}} id="sim-container" />
         <span>
@@ -56,7 +62,7 @@ class LeastSim extends Component {
             rectTwo = null;
             rectThree = null;
             rectFour = null;
-
+            
           }}>New Data</button>
           <br />
           {this.state.step === 1 ? <h4> Step 1: Choose a Slope and Y Intercept for Your Estimated Line:</h4> :
@@ -83,6 +89,7 @@ class LeastSim extends Component {
 
         </span>
       </div>
+          </Container>
     );
 	}
 	componentDidMount(){
