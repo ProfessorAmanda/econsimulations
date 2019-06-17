@@ -255,7 +255,7 @@ class LawOfLargeNumbers extends Component{
                 }
             });
         }
-        this.draw(popType, popArray);
+        this.draw(popType);
         this.setState({newPop : 0});
     }
 
@@ -496,7 +496,7 @@ class LawOfLargeNumbers extends Component{
                     for (const subArr of sampleVals){
                         // with three equals it doesn't work
                         // also need to take care of state updates. Always one slower.
-                        if (subArr[0] == i && subArr[1] == j){
+                        if (subArr[0] === parseInt(i, 10) && subArr[1] === j){
                             sampleSeries.data.push([i / 10, j]);
                         }
                     }

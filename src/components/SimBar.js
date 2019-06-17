@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Card, CardText, CardTitle, Col, CardColumns, CardImg } from 'reactstrap';
 import clt from '../clt.png';
+import lln from '../lln.png';
+import jd from '../jd.jpg';
+import ls from '../ls.png';
+import ovs from '../ovs.png';
 import logo from '../ECONSIMS.png';
 
 
@@ -16,48 +20,48 @@ class SimBar extends Component {
         [
             {
                 name: 'Law of Large Numbers',
-                description: 'a theorem that describes the result of performing the same experiment a large number of times.',
+                description: 'In probability theory, the law of large numbers (LLN) is a theorem that describes the result of performing the same experiment a large number of times. According to the law, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.',
                 extra: 'According to the law, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.',
-                img: clt
+                img: lln
             },
 
             {
                 name: "Central Limit Theorem",
-                description: "The central limit theorem states that the distribution of sample means approximates a normal distribution as the sample size gets larger (assuming that all samples are identical in size), regardless of population distribution shape.",
+                description: "In probability theory, the central limit theorem establishes that, in some situations, when independent random variables are added, their properly normalized sum tends toward a normal distribution even if the original variables themselves are not normally distributed.",
                 extra: "",
-                img: ''
+                img: clt
             },
 
             {
                 name: "Joint Distributions",
-                description: "",
+                description: "A joint probability distribution shows a probability distribution for two (or more) random variables to look for a relationship between the two variables.",
                 extra: "",
-                img: ""
+                img: jd
             },
 
             {
                 name: "Least Squares",
-                description: "",
+                description: "The method of least squares is a standard approach in regression analysis to approximate the solution of overdetermined systems, i.e., sets of equations in which there are more equations than unknowns.",
                 extra: "",
-                img: ""
+                img: ls
             },
 
             {
                 name: "Omitted Variable Bias",
-                description: "",
+                description: "One of the most common and vexing problems in ordinary least squares. regression. OVB occurs when a variable that is correlated with both the dependent and one or more. included independent variables is omitted from a regression equation",
                 extra: "",
-                img: ""
+                img: ovs
             }
         ];
 
         // const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
         const sections = modes.map((section)=>{
             return (
-                    <Card body>
+                    <Card body outline color="primary">
                         <CardImg top width="100%" src={section.img} />
                         <CardTitle>{section.name}</CardTitle>
                         <CardText>{section.description}</CardText>
-                    <Button outline
+                    <Button outline color='primary'
                         active={section.name === this.state.selected}
                         onClick={()=>{ 
                             this.props.setSection(section.name); 

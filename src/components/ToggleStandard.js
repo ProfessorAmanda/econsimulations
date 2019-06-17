@@ -53,6 +53,7 @@ class ToggleStandard extends Component {
 
         const sections = modes.map((section)=>{
             return (<Button
+              outline
               color="primary"
               active={this.state.selected === 1} 
               onClick={()=> {

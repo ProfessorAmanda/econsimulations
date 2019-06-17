@@ -1,101 +1,96 @@
 import React, {Component} from 'react'
 import PopBar from './PopBar.js';
 import ToggleStandard from './ToggleStandard.js';
-import SampleArea from './SampleArea.js';
 import Highcharts from 'highcharts';
 import math from 'mathjs'
 import chi from 'chi-squared'
-import MeanButton from './MeanButton.js'
-import SimulateSamples from './SimulateSamples.js'
 import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeanSimulator from './SampleMeanSimulator.js'
 import SampleAreaCLT from './SampleAreaCLT.js'
-import { Alert, Col, Container, Row, Table } from 'reactstrap';
-import PopTable from './PopTable.js'
+import { Col, Container, Row, Table } from 'reactstrap';
 
 const SAMPLE_SIZE = 1000;
-const BASE_STATE = {
-    popType: '',
-    popMean: {
-        "Normal": [],
-        "Uniform": [],
-        "Exponential": [],
-        "Chi-Squared": [],
-        "Mystery": []
-    },
-    sampleMean: {
-        "Normal": [],
-        "Uniform": [],
-        "Exponential": [],
-        "Chi-Squared": [],
-        "Mystery": []
-    },
-    popArray:{
-        "Normal": [],
-        "Uniform": [],
-        "Exponential": [],
-        "Chi-Squared": [],
-        "Mystery": []
-    },
-    popDict:{
-        "Normal": [],
-        "Uniform": [],
-        "Exponential": [],
-        "Chi-Squared": [],
-        "Mystery": []
-    },
-    sampled:{
-        "Normal": [],
-        "Uniform": [],
-        "Exponential": [],
-        "Chi-Squared": [],
-        "Mystery": []
-    },
-    samplePop: {
-        "Normal": [],
-        "Uniform": [],
-        "Exponential": [],
-        "Chi-Squared": [],
-        "Mystery": []
-    },
-    stage : 0,
-    numberResamples : {
-        "Normal": 0,
-        "Uniform": 0,
-        "Exponential": 0,
-        "Chi-Squared": 0,
-        "Mystery": 0
-    },
-    resampleSize : {
-        "Normal": 0,
-        "Uniform": 0,
-        "Exponential": 0,
-        "Chi-Squared": 0,
-        "Mystery": 0
-    },
-    stages: {
-      "Normal": 0,
-      "Uniform": 0,
-      "Exponential": 0,
-      "Chi-Squared": 0,
-      "Mystery" : 0
-    },
-    clearedArray: {
-      "Normal": [],
-      "Uniform": [],
-      "Exponential": [],
-      "Chi-Squared": [],
-      "Mystery": []
-    },
-    standardNormal : 0,
-    sampleSize : 1,
-    disableSample : false,
-}
 class CentralLimitTheorem extends Component {
     constructor(props){
         super(props);
-        this.state = BASE_STATE;
-    }
+        this.state = {
+            popType: '',
+            popMean: {
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": [],
+                "Mystery": []
+            },
+            sampleMean: {
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": [],
+                "Mystery": []
+            },
+            popArray:{
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": [],
+                "Mystery": []
+            },
+            popDict:{
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": [],
+                "Mystery": []
+            },
+            sampled:{
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": [],
+                "Mystery": []
+            },
+            samplePop: {
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": [],
+                "Mystery": []
+            },
+            stage : 0,
+            numberResamples : {
+                "Normal": 0,
+                "Uniform": 0,
+                "Exponential": 0,
+                "Chi-Squared": 0,
+                "Mystery": 0
+            },
+            resampleSize : {
+                "Normal": 0,
+                "Uniform": 0,
+                "Exponential": 0,
+                "Chi-Squared": 0,
+                "Mystery": 0
+            },
+            stages: {
+                "Normal": 0,
+                "Uniform": 0,
+                "Exponential": 0,
+                "Chi-Squared": 0,
+                "Mystery" : 0
+            },
+            clearedArray: {
+                "Normal": [],
+                "Uniform": [],
+                "Exponential": [],
+                "Chi-Squared": [],
+                "Mystery": []
+            },
+            standardNormal : 0,
+            sampleSize : 1,
+            disableSample : false
+            }
+        }
 
     render(){
 
@@ -263,8 +258,12 @@ class CentralLimitTheorem extends Component {
     }
 
     componentDidMount() {
-        console.log('me');
-        //this.selectPop('Normal');
+        this.setState({ 
+            newPop: 0, 
+            stage: 1, 
+            popType: 'Normal' 
+        });
+        this.selectPop('Normal');
     }
 
     clearState() {
@@ -651,7 +650,7 @@ class CentralLimitTheorem extends Component {
                     for (const subArr of sampleVals){
                         // with three equals it doesn't work
                         // also need to take care of state updates. Always one slower.
-                        if (subArr[0] == i && subArr[1] == j){
+                        if (subArr[0] === parseInt(i, 10) && subArr[1] === j){
                             sampleSeries.data.push([i / 10, j]);
                         }
                     }
