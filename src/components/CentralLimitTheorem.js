@@ -748,8 +748,6 @@ class CentralLimitTheorem extends Component {
             tooltip: ttip
         });
     }
-
-    
 }
 
 export default CentralLimitTheorem;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Highcharts from "highcharts";
-import { Container } from "reactstrap";
+import { Button, Container, Row, Col } from "reactstrap";
 
 const POINT_SIZE = 5;
 
@@ -13,7 +13,7 @@ let sumSquares;
 class LeastSim extends Component {
   constructor(props) {
     super(props);
-    const p = [null, 1, 4, 6, 3];
+    const p = [];
     this.state = {
       chart: undefined,
       slope: 1,
@@ -27,21 +27,26 @@ class LeastSim extends Component {
       start: 1
     };
   }
+
   render() {
     this.state.chart && this.show();
 
     return (
       <Container fluid className="Plate">
         <div className="MiniLogo"></div>
-        <div style={{ marginLeft: 250, marginTop: 50 }}>
-          <span style={{ float: "left", width: "30%" }} id="sim-container" />
-          <span>
-            <button
+        <Row>
+          <Col>
+            <span style={{ width: "50%" }} className="Center" id="sim-container" />
+          </Col>
+        </Row>
+            <Button
+              outline
+              color="primary"
               onClick={() => {
-                const one = Math.random() * 6;
-                const two = Math.random() * 6;
-                const three = Math.random() * 6;
-                const four = Math.random() * 6;
+                const one = Math.round(Math.random() * 600) / 100;
+                const two = Math.round(Math.random() * 600) / 100;
+                const three = Math.round(Math.random() * 600) / 100;
+                const four = Math.round(Math.random() * 600) / 100;
                 const newPoints = [null, one, two, three, four];
                 this.setState({ points: newPoints, step: 1, cleared: 1 });
                 if (this.state.step > 1) {
@@ -58,17 +63,15 @@ class LeastSim extends Component {
               }}
             >
               New Data
-            </button>
-            <br />
+            </Button>
             {this.state.step === 1 ? (
-              <h4>
-                {" "}
-                Step 1: Choose a Slope and Y Intercept for Your Estimated Line:
-              </h4>
+              <p>
+                Choose a Slope and Y Intercept for Your Estimated Line
+              </p>
             ) : (
-              <h4>
-                Step 2: Change Slope and Y Intercept to Reduce Sum of Squares
-              </h4>
+              <p>
+                Change Slope and Y Intercept to Reduce Sum of Squares
+              </p>
             )}
             <h4>Slope</h4>
             <input
@@ -92,28 +95,30 @@ class LeastSim extends Component {
                 this.setState({ int: parseFloat(event.target.value) });
               }}
             />
-            <br />
-            <br />
+            
             {this.state.step !== 1 ? null : (
-              <button
+              <Button
+                outline
+                color='primary'
                 onClick={() => {
                   this.setState({ step: 2 });
                 }}
               >
-                {" "}
-                Generate Regression Line{" "}
-              </button>
+                Generate Regression Line
+              </Button>
             )}
             {this.state.step === 1 ? null : (
               <div>
                 <h4>
-                  Sum of Squares:{" "}
+                  Sum of Squares:
                   {this.state.step === 1
                     ? 0
                     : Math.round(sumSquares * 100) / 100}
                 </h4>
-                <h4>Step 3: Show Least Squares Line</h4>
-                <button
+                <h4>Show Least Squares Line</h4>
+                <Button
+                  outline
+                  color="info"
                   onClick={() => {
                     const eq = this.generateTrue();
                     this.setState({ slope: eq[0], int: eq[1] });
@@ -121,39 +126,38 @@ class LeastSim extends Component {
                 >
                   {" "}
                   Find Least Squares Line{" "}
-                </button>
+                </Button>
               </div>
             )}
-          </span>
-        </div>
       </Container>
     );
   }
+
   componentDidMount() {
     this.show();
   }
+  
   show() {
     const linePoints = this.generatePoints(this.state.slope, this.state.int);
-    const scatPoints = [null, 1, 5, 3, 6];
     if (!this.state.chart) {
       this.setState({
         chart: Highcharts.chart(
           "sim-container",
           {
-            chart: {
-              width: 400,
-              height: 400
-            },
             title: {
               text: "Least Squares Example"
             },
             xAxis: {
-              min: 0,
-              max: 8
+              min: -1,
+              max: 8,
+              startOnTick: true,
+              endOnTick: true
             },
             yAxis: {
-              min: 0,
-              max: 8
+              min: -4,
+              max: 8,
+              startOnTick: true,
+              endOnTick: true
             },
             series: [
               {
@@ -165,21 +169,11 @@ class LeastSim extends Component {
                 data: linePoints
               }
             ]
-          } // on complete
-
-          // const diff = scatPoints[2] - 5;
-          // const xBox = diff > 0 ? 2 - diff : 2;
-          // const yBox = diff > 0 ? scatPoints[2] : 5;
-          // console.log(diff);
-
-          // else {
-          //     this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
-          // }
+          } 
         )
       });
     } else {
       const copyChart = this.state.chart;
-      copyChart.redraw();
       const newSeries = [
         {
           name: "points",
@@ -192,117 +186,114 @@ class LeastSim extends Component {
           data: linePoints
         }
       ];
-
+      
       copyChart.update({ series: newSeries });
-
+      
       const scatPoints = this.state.points;
-      const lineMax = copyChart.series[1].dataMax;
-      const lineMin = copyChart.series[1].dataMin;
-      const slope = (lineMax - lineMin) / 4;
-      const ids = ["first", "second", "third", "fourth"];
+      // const lineMax = copyChart.series[1].dataMax;
+      // const lineMin = copyChart.series[1].dataMin;
+      // const slope = (lineMax - lineMin) / 4;
+      const ids = [null, "first", "second", "third", "fourth"];
       sumSquares = 0;
       for (let i = 1; i < 5; i++) {
         const lineY = linePoints[i];
         const lineX = i;
         const diff = scatPoints[i] - lineY;
-        const xBox = diff > 0 ? lineX - diff : i;
+        const xBox = diff > 0 ? lineX : lineX;
         const yBox = diff > 0 ? scatPoints[i] : lineY;
-        const firstL = 41 * Math.abs(diff);
-        const secondL = 36 * Math.abs(diff);
+        const firstL = 14 * Math.abs(diff);
+        const secondL = 14 * Math.abs(diff);
         sumSquares += diff * diff;
-
+        
         // console.log("running this");
-
+        
         if (i == 1 && this.state.step > 1) {
           //console.log(this.state.isRec);
           if (rectOne) {
             rectOne.destroy();
           }
-
+          
           rectOne = copyChart.renderer
+          .rect(
+            copyChart.xAxis[0].toPixels(xBox),
+            copyChart.yAxis[0].toPixels(yBox),
+            firstL,
+            secondL,
+            1
+            )
+            .attr({
+              "stroke-width": 1,
+              stroke: "grey",
+              zIndex: 1,
+              id: ids[i]
+            })
+            .add();
+          } else if (i == 2 && this.state.step > 1) {
+            if (rectTwo) {
+              rectTwo.destroy();
+            }
+            
+            rectTwo = copyChart.renderer
             .rect(
               copyChart.xAxis[0].toPixels(xBox),
               copyChart.yAxis[0].toPixels(yBox),
               firstL,
               secondL,
               1
-            )
-            .attr({
-              "stroke-width": 1,
-              stroke: "grey",
-              fill: null,
+              )
+              .attr({
+                "stroke-width": 1,
+                stroke: "grey",
               zIndex: 1,
               id: ids[i]
             })
             .add();
-        } else if (i == 2 && this.state.step > 1) {
-          if (rectTwo) {
-            rectTwo.destroy();
-          }
-
-          rectTwo = copyChart.renderer
-            .rect(
-              copyChart.xAxis[0].toPixels(xBox),
-              copyChart.yAxis[0].toPixels(yBox),
-              firstL,
-              secondL,
-              1
-            )
-            .attr({
-              "stroke-width": 1,
-              stroke: "grey",
-              fill: null,
-              zIndex: 1,
-              id: ids[i]
-            })
-            .add();
-        } else if (i == 3 && this.state.step > 1) {
+          } else if (i == 3 && this.state.step > 1) {
           if (rectThree) {
             rectThree.destroy();
           }
-
+          
           rectThree = copyChart.renderer
-            .rect(
-              copyChart.xAxis[0].toPixels(xBox),
-              copyChart.yAxis[0].toPixels(yBox),
-              firstL,
-              secondL,
-              1
+          .rect(
+            copyChart.xAxis[0].toPixels(xBox),
+            copyChart.yAxis[0].toPixels(yBox),
+            firstL,
+            secondL,
+            1
             )
             .attr({
               "stroke-width": 1,
               stroke: "grey",
-              fill: null,
               zIndex: 1,
               id: ids[i]
             })
             .add();
-        } else if (i == 4 && this.state.step > 1) {
-          if (rectFour) {
+          } else if (i == 4 && this.state.step > 1) {
+            if (rectFour) {
             rectFour.destroy();
           }
 
           rectFour = copyChart.renderer
-            .rect(
-              copyChart.xAxis[0].toPixels(xBox),
-              copyChart.yAxis[0].toPixels(yBox),
-              firstL,
-              secondL,
-              1
+          .rect(
+            copyChart.xAxis[0].toPixels(xBox),
+            copyChart.yAxis[0].toPixels(yBox),
+            firstL,
+            secondL,
+            1
             )
             .attr({
               "stroke-width": 1,
               stroke: "grey",
-              fill: null,
               zIndex: 1,
               id: ids[i]
             })
             .add();
+          }
         }
+        // copyChart.redraw();
       }
     }
-  }
-
+    
   generatePoints(slope, int) {
     let points = [];
 

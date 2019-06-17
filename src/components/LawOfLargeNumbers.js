@@ -526,7 +526,14 @@ class LawOfLargeNumbers extends Component{
         const { xmaxval, xminval, ymaxval, title, xLabel } = values;
         this.myChart = Highcharts.chart('container', {
         chart: {
-            type: 'scatter'
+            type: 'scatter',
+            events: {
+                load: function() {
+                    setInterval(function() {
+                        
+                    })
+                }
+            }
         },
         title: {
             text: `${title} <br /> Population Mean: ${popMean}`
