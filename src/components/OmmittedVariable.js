@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
 import regression from 'regression';
-import PopBar from './PopBar.js';
-import { Container } from 'reactstrap';
+import { Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
 
 const smr = require('smr');
 const quantile = require("distributions-exponential-quantile");
@@ -30,42 +28,62 @@ class OmmittedVariable extends Component {
 
     render() {
         return(
-          <Container fluid className='Plate'>
+          <Container className='Plate'>
             <div className="MiniLogo">
                 </div>
-            <div style={{ marginLeft: 0,marginTop: 10 }}>
-                  <span style={{width:"30%", float: "left", marginLeft: 100}} id="sharks"/>
-                  <span>
-                      <div style={{marginLeft: -84}}>
-                      <h4>Step 1: Choose Population Parameters</h4>
-                      <label> Beta, the Coefficient on Police: </label>
-                      <span>{this.state.beta}</span>
-                      <input style={{}} type="range" className="slider" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
-                        this.setState({beta:parseFloat(event.target.value)});
-                      }}/>
-                      </div>
+            <div>
+                <Row>
+                  <p className="Center">Step 1: Choose Population Parameters</p>
+                </Row>
+                <br />
+                    <Row>
+                      <Col>
+                        <InputGroup>
+                          <InputGroupAddon addonType='prepend'>Beta, the Coefficient on Police:</InputGroupAddon>
+                          <Input type="number" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
+                          this.setState({beta: parseFloat(event.target.value)});
+                        }}/>
+                          
+                        </InputGroup>
+                      </Col>
+
+                      <Col>
+                        <InputGroup>
+                          <InputGroupAddon addonType='prepend'>Delta, the Coefficient on Density: </InputGroupAddon>
+                          <Input type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
+                          this.setState({delta: parseFloat(event.target.value)});
+                        }}/>
+                        </InputGroup>
+                      </Col>
+
+                      <Col>
+                        <InputGroup>
+                          <InputGroupAddon addonType='prepend'>Covariance beween Police and Density: </InputGroupAddon>
+                          <Input type="number" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
+                          this.setState({cov:parseFloat(event.target.value)});
+                        }}/>
+                        </InputGroup>
+                      </Col>
+                      </Row>
                       <br />
-                      <div style={{marginLeft: -70}}>
-                          <label> Delta, the Coefficient on Density: </label>
-                          <span>{this.state.delta}</span>
-                          <input type="range" className="slider" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
-                            this.setState({delta:parseFloat(event.target.value)});
-                          }}/>
-                      </div>
-                      <br />
-                      <label> Covariance beween Police and Density: </label>
-                      <span>{this.state.cov}</span>
-                      <input type="range" className="slider" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
-                        this.setState({cov:parseFloat(event.target.value)});
-                      }}/>
-                      <br />
-                      <h4> Step 2: Estimate Regression Using Crime and Police Data </h4>
-                      <button style={{margin:"10px"}} onClick={()=>{this.generate(0); this.setState({stage:1})}}> Generate! </button>
-                      {this.state.stage < 1 ? null : <div><h4> Step 3: Add Omitted Variable, Density, to Regression </h4><button onClick={() => {
-                        this.setState({stage:2});
-                        this.generate(1);
-                      }}> Show Corrected Regression Line </button></div>}
-                  </span>
+                      <Row className="Center">
+                        <p>Estimate Regression Using Crime and Police Data </p>
+                        <Button color='primary' onClick={()=>{this.generate(0); this.setState({stage:1})}}> Generate! </Button>
+                      </Row>
+                      <Row>
+                        <span className="Center" id="sharks"/>
+                      </Row>
+                      <Row className="Center">
+                        {this.state.stage < 1 ? 
+                          null 
+                          :<div>
+                            <p color='primary'> Add Omitted Variable, Density, to Regression </p>
+                            <Button outline color='primary' onClick={() => {
+                              this.setState({stage:2});
+                              this.generate(1);
+                            }}> Show Corrected Regression Line </Button></div>}
+                    </Row>
+                    
               </div>
             </Container>
 
@@ -92,12 +110,12 @@ class OmmittedVariable extends Component {
 
         // lets you sample from distribution
         const distribution = MultivariateNormal(meanVector, covarianceMatrix);
-        const series = {data : [], color: '#1F242A ', name:"Population"}
+        const series = {data : [], name:"Population"}
         // samples 1000
         for (let i = 0; i < OBS; i++){
             series.data.push(distribution.sample());
         }
-        const newSeries = {data : [], color: '#006D75', name:"Shark Attacks per Day"}
+        const newSeries = {data : [], name:"Shark Attacks per Day"}
         // police vs density
         const roundedSeries = series.data.map((s) => {return [Math.round(s[0]*100)/100,
           Math.round(s[1]*100)/100]});
@@ -201,9 +219,7 @@ class OmmittedVariable extends Component {
         Highcharts.chart('sharks', {
             chart: {
                 type: 'scatter',
-                zoomtype: 'xy',
-                width: 400,
-                height: 400
+                zoomtype: 'xy'
             },
             title: {
                 text: 'Police vs. Crime'
@@ -221,6 +237,7 @@ class OmmittedVariable extends Component {
             },
             yAxis: {
                 min: -20,
+                floor: 0,
                 title: {
                     text: 'Crime'
                 }

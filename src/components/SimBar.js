@@ -48,7 +48,7 @@ class SimBar extends Component {
 
             {
                 name: "Omitted Variable Bias",
-                description: "One of the most common and vexing problems in ordinary least squares. regression. OVB occurs when a variable that is correlated with both the dependent and one or more. included independent variables is omitted from a regression equation",
+                description: "One of the most common and vexing problems in ordinary least squares regression. OVB occurs when a variable that is correlated with both the dependent and one or more included independent variables is omitted from a regression equation.",
                 extra: "",
                 img: ovs
             }
