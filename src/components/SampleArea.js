@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, Badge, Col, Row } from 'reactstrap';
+import { Button, Container, InputGroup, InputGroupAddon, Input,  Row } from 'reactstrap';
 
 
 class SampleArea extends Component {
@@ -21,27 +21,28 @@ class SampleArea extends Component {
             <div>
                 <Container>
                     <Row className="Center">
-                        <input 
-                            type="range" 
-                            min={1}
-                            value={this.state.sampleSize} 
-                            max={1000}
-                            onChange={this.handleChange} 
+                        <InputGroup>
+                            <Input 
+                                type="number" 
+                                min={1}
+                                value={this.state.sampleSize} 
+                                max={2000}
+                                onChange={this.handleChange} 
                             />
-                        <Badge style={{ marginLeft: '1em' }} color='secondary'>{this.state.sampleSize}</Badge>
+                            <Button 
+                            disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1}
+                            onClick={()=> {
+                                const sampleObject = this.props.sample(this.state.sampleSize);
+                                const mue = sampleObject.mue; 
+                                this.setState({
+                                    popMean: mue 
+                                });
+                                this.props.setmean(mue);
+                                this.props.redraw();
+                            }}> Sample </Button>
+                        </InputGroup>
                     </Row>
                 </Container>
-                <Button 
-                    disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray[this.props.popType].length || this.state.sampleSize < 1}
-                    onClick={()=> {
-                        const sampleObject = this.props.sample(this.state.sampleSize);
-                        const mue = sampleObject.mue; 
-                        this.setState({
-                            popMean: mue 
-                        });
-                        this.props.setmean(mue);
-                        this.props.redraw();
-                    }}> Sample </Button>
                 {/*<h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>*/}
             </div>
         )

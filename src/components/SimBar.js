@@ -20,14 +20,14 @@ class SimBar extends Component {
         [
             {
                 name: 'Law of Large Numbers',
-                description: 'In probability theory, the law of large numbers (LLN) is a theorem that describes the result of performing the same experiment a large number of times. According to the law, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.',
-                extra: 'According to the law, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.',
+                description: 'The Law of Large Numbers tells us that that the sample mean approaches the mean of the population as we increase the sample size. This simulations investigates the behavior of the sample mean as we change the sample size.',
+                extra: '',
                 img: lln
             },
 
             {
                 name: "Central Limit Theorem",
-                description: "In probability theory, the central limit theorem establishes that, in some situations, when independent random variables are added, their properly normalized sum tends toward a normal distribution even if the original variables themselves are not normally distributed.",
+                description: "The Central Limit Theorem states that, for sufficiently large samples, the sample mean is approximately normally distributed, even if the underlying population is not normally distributed (or if we have no idea what the underlying population looks like). This simulation investigates how the distribution of the sample mean is affected by the sample size and the shape of the population distribution.",
                 extra: "",
                 img: clt
             },
@@ -58,8 +58,8 @@ class SimBar extends Component {
         const sections = modes.map((section)=>{
             return (
                     <Card body outline color="primary">
-                        <CardImg top width="100%" src={section.img} />
                         <CardTitle>{section.name}</CardTitle>
+                        <CardImg top width="100%" src={section.img} />
                         <CardText>{section.description}</CardText>
                     <Button outline color='primary'
                         active={section.name === this.state.selected}

@@ -10,7 +10,7 @@ import math from 'mathjs';
 import { Alert, Col, Container, Row } from 'reactstrap';
 
 // how many data points
-const SAMPLE_SIZE = 1000;
+const SAMPLE_SIZE = 2000;
 
 function DifferenceOfMeans(props){
     const diff = (
@@ -506,10 +506,10 @@ class LawOfLargeNumbers extends Component{
         }
 
         const values = { 
-            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)"},
-            Normal: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Milk Production", xLabel: "Gallons" },
-            Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
-            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", xLabel: "Dollars"}
+            Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
+            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
+            Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
+            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"}
         };
         
         if (!this.myChart) {

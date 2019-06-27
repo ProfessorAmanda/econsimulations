@@ -112,17 +112,16 @@
   width: 200px;
   table-layout: fixed;
   border-collapse: collapse;
-  overflow: hidden;
+  overflow: auto;
+  box-sizing: content-box;
 }
 
 .PopTable tbody {
   display: block ;
   width: 100%;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 40vh;
-  padding-right: 30px;
-  box-sizing: content-box;
 }
 
 .PopTable thead tr {
@@ -137,7 +136,7 @@
 }
 
 .Plate {
-  padding-top: 25vh;
+  padding-top: 30vh;
   width: 100%;
   background-color: rgb(255, 255, 255, 0);
 }
@@ -148,18 +147,18 @@
 
 .TabBar {
   position: absolute;
-  top: 20vh;
+  top: 19.5vh;
   width: 100%;
   background-color: rgba(255, 255, 255, 0);
 }
 
 #Menu {
   position: absolute;
-  right: 0vh;
+  right: 0;
   top: 20vh;
   z-index: 1;
-  border: solid 1px orange;
-  border-bottom: none;
+  /* border: solid 1px orange; */
+  /* border-bottom: none; */
 }
 
 .MiniLogo {

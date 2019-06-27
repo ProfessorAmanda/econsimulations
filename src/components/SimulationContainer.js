@@ -6,7 +6,7 @@ import JointWrapper from './JointWrapper.js';
 import LeastSim from './LeastSim.js';
 import OmmittedVariable from './OmmittedVariable.js';
 import StartHere from './StartHere';
-import { Fade, NavbarToggler, Navbar } from 'reactstrap';
+import { Button, Fade } from 'reactstrap';
 
 class SimulationContainer extends Component{
     constructor(){
@@ -58,15 +58,17 @@ class SimulationContainer extends Component{
                 <div className="App">
                    
                     { !this.state.collapse &&
-                    <Navbar color="faded" light>
-                        <NavbarToggler
-                        // className="mr-2"
+
+                    <Button 
+                        outline 
+                        color='danger'
                         id="Menu"
                         onClick={() => {
                             this.setState({ collapse: true });
                         }}
-                        />
-                    </Navbar>
+                    >
+                            MENU
+                    </Button>
                     }
                     {this.state.mode === 'Law of Large Numbers' && <LawOfLargeNumbers/>}
                     {this.state.mode === 'Central Limit Theorem' && <CentralLimitTheorem/>}

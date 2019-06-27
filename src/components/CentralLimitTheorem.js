@@ -7,9 +7,9 @@ import chi from 'chi-squared'
 import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeanSimulator from './SampleMeanSimulator.js'
 import SampleAreaCLT from './SampleAreaCLT.js'
-import { Col, Container, Row, Table } from 'reactstrap';
+import { Alert, Col, Container, Row, Table } from 'reactstrap';
 
-const SAMPLE_SIZE = 1000;
+const SAMPLE_SIZE = 2000;
 class CentralLimitTheorem extends Component {
     constructor(props){
         super(props);
@@ -95,7 +95,7 @@ class CentralLimitTheorem extends Component {
     render(){
 
         const popTable = (
-            <Table striped className="PopTable">
+            <Table hover className="PopTable">
                     <thead>
                         <tr>
                             <th>Sample</th>
@@ -110,7 +110,7 @@ class CentralLimitTheorem extends Component {
                             <td>{index + 1}</td>
                             <td>{mean[0]}</td>
                             <td>{Math.round(mean[1] * 10) / 10}</td>
-                            </tr>
+                        </tr>
                         ))}
                     </tbody>
                 </Table>
@@ -121,139 +121,144 @@ class CentralLimitTheorem extends Component {
         return(
             <div>
                 <div>
-                    <div>
-                        <PopBar 
-                            section={this.state.popType} 
-                            mode = "CLT" 
-                            setPop={(pop) => {
-                                const copy = this.state.stages;
-                                copy[this.state.popType] = this.state.stage;
-                                this.setState({stages : copy});
-                                
-                                this.setState({popType:pop});
-                                this.setState({popType:pop});
-                                this.setState({stage : this.state.stages[pop]});
-                                this.selectPop(pop);
-                                this.setState({disableSample : false});
-                            }}
-                        />
-                    </div>
-                    {/* <div>
-                        <button 
-                            onClick={() => {
-                                this.clearState();
-                                if(this.myChart){
-                                    this.myChart.destroy();
-                                }
-                                this.myChart = null;
-                        }}> CLEAR </button>
-                    </div> */}
-
-                    <Container fluid className='Plate'>
-                        
-                        <Row>
-                            <Col>
-                                <span className="Center" id="container" />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
+                    <PopBar 
+                        section={this.state.popType} 
+                        mode = "CLT" 
+                        setPop={(pop) => {
+                            const copy = this.state.stages;
+                            copy[this.state.popType] = this.state.stage;
+                            this.setState({stages : copy});
                             
-                    {popDrawn ? 
-                        <div>
-                            <ToggleStandard 
-                            section={this.state.standardNormal} 
-                            toggleSwitch={(set) => {
-                                this.setState({ 
-                                    standardNormal : set 
-                                })
-                            }} />
-                            <SampleMeanChart 
-                                numberResamples={this.state.numberResamples} 
-                                resampleSize={this.state.resampleSize} 
-                                mean={math.mean(this.state.popArray[this.state.popType])} 
-                                sd={math.std(this.state.popArray[this.state.popType])}
-                                normalized={this.state.standardNormal} 
-                                sampleSize={this.state.sampleSize} 
-                                type={this.state.popType} 
-                                normal={this.state.standardNormal} 
-                                sampleMeans={this.state.sampleMean[this.state.popType]}
-                            /> 
-                        </div>
-                        :null
-                    }
-                    </Col>
-                    <Col>
+                            this.setState({popType:pop});
+                            this.setState({popType:pop});
+                            this.setState({stage : this.state.stages[pop]});
+                            this.selectPop(pop);
+                            this.setState({disableSample : false});
+                        }}
+                    />
+                </div>
 
-                    {popDrawn ? 
-                        <div>
-                            <p>Try drawing some samples and calculating means </p>
-                            <SampleAreaCLT 
-                                disabled={this.state.disableSample} 
-                                redraw={() => 
-                                    {}
-                                }
-                                sample={(size) => {
-                                    const popType = this.state.popType;
-                                    const copy = Object.assign({} , this.state.stages);
-                                    const st = this.state.stage > 3 ? this.state.stage : 3;
-                                    copy[popType] = st;
-                                    const sampleObject = this.sample(size, this.state.popArray[this.state.popType]);
+                {/* <div>
+                    <button 
+                        onClick={() => {
+                            this.clearState();
+                            if(this.myChart){
+                                this.myChart.destroy();
+                            }
+                            this.myChart = null;
+                    }}> CLEAR </button>
+                </div> */}
 
-                                    this.setState({
-                                        stages: copy,
-                                        stage: st,
-                                        sampled: Object.assign( {}, this.state.sampled, { [this.state.popType]: sampleObject.arr})
-                                    }, () => {
-                                        this.draw(popType);
-                                    });
-                                    return sampleObject;
-                                        
-                                }}
-                                popArray={this.state.popArray}
-                                popType={this.state.popType}
-                                setmean={(size, mue) => {
-                                    const means = this.state.sampleMean;
-                                    const thisMean = means[this.state.popType];
-                                    thisMean.push([size, mue]);
-                                    means[this.state.popType] = thisMean;
-                                    this.setState({stage:3, sampleMean: means});
-                                }}
-                            />
-                            {!this.state.disableSample && this.state.stage >= 3 && 
-                                popTable}
-                        </div>
-                        :null
-                    }
-                        
-                        {this.state.stage >= 3 ?
-                            <div>
-                                <p> Simulate drawing many many samples </p>
-                                <SampleMeanSimulator 
-                                style={{margin: 'auto', marginBottom: '2vh'}}
-                                clear={() => {
-                                    this.setState({
-                                        calculable: false, 
-                                        sampleMean: Object.assign({}, this.state.sampleMean, {[this.state.popType] : []})
-                                    })}
-                                }
-                                population={this.state.popArray[this.state.popType]}
-                                resampleSize={this.state.resampleSize}
-                                numberResamples={this.state.numberResamples}
-                                popType={this.state.popType}
-                                sample={(means, resampleSize, numberResamples) => {
-                                    this.updateSampleMeansFromArray(means, resampleSize, numberResamples);
-                                    this.setState({disableSample : true});
-                                }}
-                                />
-                            </div>
-                            :null
-                        }
+                <Container fluid className='Plate'>
+                    <Row>
+                        <Col>
+                            <span className="Center" id="container" />
                         </Col>
                     </Row>
+                    <Row>
+                        <Col>
+                            { popDrawn ?
+                                // samples chart
+                                <div>
+                                    <ToggleStandard
+                                    section={this.state.standardNormal} 
+                                    toggleSwitch={(set) => {
+                                        this.setState({ 
+                                            standardNormal : set 
+                                        })
+                                    }} />
+                                    <SampleMeanChart
+                                        numberResamples={this.state.numberResamples} 
+                                        resampleSize={this.state.resampleSize[this.state.popType]} 
+                                        mean={this.state.popMean[this.state.popType]} 
+                                        sd={math.std(this.state.popArray[this.state.popType])}
+                                        normalized={this.state.standardNormal} 
+                                        sampleSize={this.state.sampleSize} 
+                                        type={this.state.popType} 
+                                        normal={this.state.standardNormal} 
+                                        sampleMeans={this.state.sampleMean[this.state.popType]}
+                                    />
+                                </div>
+                                :null
+                            }
+                        </Col>
+
+                        <Col>
+                            {popDrawn ?
+                                // first control 
+                                <div>
+                                    <Row>
+                                        <Alert color='light'>
+                                            <p>Try drawing some samples and calculating means </p>
+                                            <SampleAreaCLT 
+                                                disabled={this.state.disableSample} 
+                                                redraw={() => 
+                                                    {}
+                                                }
+                                                sample={(size) => {
+                                                    const popType = this.state.popType;
+                                                    const copy = Object.assign({} , this.state.stages);
+                                                    const st = this.state.stage > 3 ? this.state.stage : 3;
+                                                    copy[popType] = st;
+                                                    const sampleObject = this.sample(size, this.state.popArray[this.state.popType]);
+                                                    
+                                                    this.setState({
+                                                        stages: copy,
+                                                        stage: st,
+                                                        sampled: Object.assign( {}, this.state.sampled, { [this.state.popType]: sampleObject.pop})
+                                                    }, () => {
+                                                        this.draw(popType);
+                                                    });
+                                                    return sampleObject;
+                                                    
+                                                }}
+                                                popArray={this.state.popArray}
+                                                popType={this.state.popType}
+                                                setmean={(size, mue) => {
+                                                    const means = this.state.sampleMean;
+                                                    const thisMean = means[this.state.popType];
+                                                    thisMean.push([size, mue]);
+                                                    means[this.state.popType] = thisMean;
+                                                    this.setState({stage:3, sampleMean: means});
+                                                }}
+                                            />
+                                        </Alert>
+                                    </Row>
+                                    <Row>
+                                        {this.state.stage >= 3 ?
+                                            <Alert color='light'>
+                                                <p> Simulate drawing many many samples </p>
+                                                <SampleMeanSimulator 
+                                                style={{margin: 'auto', marginBottom: '2vh'}}
+                                                clear={() => {
+                                                    this.setState({
+                                                        calculable: false, 
+                                                        sampleMean: Object.assign({}, this.state.sampleMean, {[this.state.popType] : []})
+                                                    })}
+                                                }
+                                                population={this.state.popArray[this.state.popType]}
+                                                resampleSize={this.state.resampleSize}
+                                                numberResamples={this.state.numberResamples}
+                                                popType={this.state.popType}
+                                                sample={(means, resampleSize, numberResamples) => {
+                                                    this.updateSampleMeansFromArray(means, resampleSize, numberResamples);
+                                                    this.setState({disableSample : true});
+                                                }}
+                                                />
+                                            </Alert>
+                                        :null
+                                        }
+                                    </Row>
+                                </div>
+                            :null
+                            }  
+                        </Col>
+                        <Col>
+                            { this.state.stage >= 3 && popTable}
+                        </Col>                        
+                    </Row>
             </Container>
-                </div>
-            </div>
+        </div>
         );
     }
 
@@ -629,7 +634,7 @@ class CentralLimitTheorem extends Component {
 
     draw(popType) {
         
-        const pseries = {data : [], name:"Population", updatePoints: false};
+        const pseries = {data : [], name:"Population"};
         const sampleSeries = {data : [], name:"Sample"};
         const popDict = this.state.popDict[popType];
 
@@ -660,11 +665,11 @@ class CentralLimitTheorem extends Component {
         }
 
         const values = { 
-            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)"},
-            Normal: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Milk Production", xLabel: "Gallons" },
-            Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
-            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", xLabel: "Dollars"},
-            Mystery: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", xLabel: "Height (in)" }
+            Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
+            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
+            Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
+            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
+            Mystery: { xmaxval: 80, xminval: 50, ymaxval: 50, title: "Alien Female Height", xLabel: "Height (in)" }
         };
         
         if (!this.myChart) {

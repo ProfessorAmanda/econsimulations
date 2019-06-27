@@ -35,11 +35,11 @@ class SampleMeanChart extends Component {
     show(){
         const sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
-        const popMean = Math.round(this.props.mean *4)/4;
-        console.log('oy', this.props.sampleMeans);
+        // const popMean = Math.round(this.props.mean *4)/4;
         for (const i in this.props.sampleMeans){
-            const val = this.props.normalized === 0 ? Math.round(this.props.sampleMeans[i][1] * 10) / 10 : Math.round(((this.props.sampleMeans[i][1]-this.props.mean)/(this.props.sd/Math.sqrt(this.props.sampleSize)))*10)/10;
-            console.log(val);
+            const val = this.props.normalized === 0 ? 
+              Math.round(this.props.sampleMeans[i][1] * 10) / 10 
+              : Math.round(( (this.props.sampleMeans[i][1] - this.props.mean) / (this.props.sd/Math.sqrt(this.props.resampleSize)) )*10)/10;
             let count = 1;
             for (const j of sampleMeanSeries.data){
                 if (Math.round(j[0] * 10) / 10 === val){
