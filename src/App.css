@@ -14,7 +14,7 @@
   width: 100%;
   height: 100%;
   z-index: -1;
-  opacity: 0.1;
+  opacity: 0.05;
   background-image: url('./bg.png');
   background-repeat: no-repeat;
   background-position: center;
@@ -73,7 +73,7 @@
   width: 100%;
   height: 100%;
   z-index: -1;
-  opacity: 0.1;
+  opacity: 0.01;
   background-image: url('./bg.png');
   background-repeat: no-repeat;
   background-position: center;
@@ -128,6 +128,10 @@
   display: block;
 }
 
+::-webkit-scrollbar {
+  width: 0px; /* remove scrollbar space */
+  background: transparent; 
+}
 
 .PopTable th, .PopTable td {
   padding: 5px;
@@ -164,7 +168,7 @@
 .MiniLogo {
   position: absolute;
   margin-top: 4vh;
-  right: 80vh;
+  right: 85vh;
   top: 0vh;
   z-index: 0;
   background-image: url('./ECONSIMS.png');
@@ -173,6 +177,11 @@
   background-repeat: no-repeat;
   width: 40vh;
   min-height: 20vh;
+}
+
+.highcharts-grid-line {
+  stroke-width: 0px;
+	stroke: #d8d8d8;
 }
 
 .Center {
@@ -225,6 +234,7 @@ a:not([href]):not([tabindex]):hover {
   opacity: .8;
   position: absolute;
   z-index: 10;
+  overflow: hidden;
 }
 
 .App {

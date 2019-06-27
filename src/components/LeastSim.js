@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import Highcharts from "highcharts";
-import { Button, Container, Row, Col } from "reactstrap";
+import { Button, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Col } from "reactstrap";
 
-const POINT_SIZE = 5;
-
-let rectOne;
-let rectTwo;
-let rectThree;
-let rectFour;
 let sumSquares;
+let placeHolders = [];
 
 class LeastSim extends Component {
   constructor(props) {
@@ -24,7 +19,9 @@ class LeastSim extends Component {
       trueM: null,
       trueb: null,
       isRec: 0,
-      start: 1
+      start: 1,
+      pointSize: 5,
+      tmpPS: 5
     };
   }
 
@@ -36,84 +33,102 @@ class LeastSim extends Component {
         <div className="MiniLogo"></div>
         <Row>
           <Col>
-            <span style={{ width: "50%" }} className="Center" id="sim-container" />
+            <span className="Center" id="sim-container" />
           </Col>
-        </Row>
-            <Button
-              outline
-              color="primary"
-              onClick={() => {
-                const one = Math.round(Math.random() * 600) / 100;
-                const two = Math.round(Math.random() * 600) / 100;
-                const three = Math.round(Math.random() * 600) / 100;
-                const four = Math.round(Math.random() * 600) / 100;
-                const newPoints = [null, one, two, three, four];
-                this.setState({ points: newPoints, step: 1, cleared: 1 });
-                if (this.state.step > 1) {
-                  // this.setState({isRec : 0});
-                  rectOne.destroy();
-                  rectTwo.destroy();
-                  rectThree.destroy();
-                  rectFour.destroy();
-                }
-                rectOne = null;
-                rectTwo = null;
-                rectThree = null;
-                rectFour = null;
+          <Col>
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>Generate</InputGroupText>
+            </InputGroupAddon>
+            <Input
+              type='number'
+              min='4'
+              max='10'
+              step='1'
+              value={this.state.tmpPS}
+              onChange={(event) => {
+                this.setState({
+                  tmpPS: parseInt(event.target.value, 10)
+                })
               }}
-            >
-              New Data
-            </Button>
-            {this.state.step === 1 ? (
+              />
+            <InputGroupAddon addonType="append">
+              <Button
+                outline
+                color="primary"
+                zIndex="1"
+                onClick={() => {
+                  const newPoints = [null];
+                  for (let i = 0; i < this.state.tmpPS; i++) {
+                    newPoints.push(Math.round(Math.random() * 600) / 100);
+                  }
+                  this.setState({ points: newPoints, step: 2, cleared: 1, pointSize: this.state.tmpPS, int: 0, slope: 0 });                
+                }}
+                >
+                New Points
+              </Button>
+              </InputGroupAddon>
+          </InputGroup>
+            
+            {
+              this.state.step === 2 &&
               <p>
                 Choose a Slope and Y Intercept for Your Estimated Line
               </p>
-            ) : (
+            }
+
+            {
+              this.state.step === 3 && 
               <p>
                 Change Slope and Y Intercept to Reduce Sum of Squares
               </p>
-            )}
-            <h4>Slope</h4>
-            <input
-              type="number"
-              step={0.1}
-              value={this.state.slope}
-              min={-5}
-              max={2}
-              onChange={event => {
-                this.setState({ slope: parseFloat(event.target.value) });
-              }}
-            />
-            <h4>Y Intercept</h4>
-            <input
-              type="number"
-              step={0.1}
-              value={this.state.int}
-              min={-10}
-              max={10}
-              onChange={event => {
-                this.setState({ int: parseFloat(event.target.value) });
-              }}
-            />
+            }
+
+            {
+              this.state.step <= 1 ?
+              null
+              : <div>
+                    <h4>Slope</h4>
+                    <input
+                    type="number"
+                    step={0.1}
+                    value={this.state.slope}
+                    min={-5}
+                    max={2}
+                    onChange={event => {
+                      this.setState({ slope: parseFloat(event.target.value) });
+                    }}
+                    />
+                    <h4>Y Intercept</h4>
+                    <input
+                    type="number"
+                    step={0.1}
+                    value={this.state.int}
+                    min={-10}
+                    max={10}
+                    onChange={event => {
+                      this.setState({ int: parseFloat(event.target.value) });
+                    }}
+                    />
+                  </div>
+          }
             
-            {this.state.step !== 1 ? null : (
+            {this.state.step === 2 && (
               <Button
-                outline
-                color='primary'
-                onClick={() => {
-                  this.setState({ step: 2 });
-                }}
+              outline
+              color='primary'
+              onClick={() => {
+                this.setState({ step: 3 });
+              }}
               >
-                Generate Regression Line
+                Plot Estimated Line
               </Button>
             )}
-            {this.state.step === 1 ? null : (
+            {this.state.step === 3 && (
               <div>
                 <h4>
                   Sum of Squares:
-                  {this.state.step === 1
-                    ? 0
-                    : Math.round(sumSquares * 100) / 100}
+                  {Math.round(sumSquares * 100) / 100}
                 </h4>
                 <h4>Show Least Squares Line</h4>
                 <Button
@@ -123,12 +138,14 @@ class LeastSim extends Component {
                     const eq = this.generateTrue();
                     this.setState({ slope: eq[0], int: eq[1] });
                   }}
-                >
+                  >
                   {" "}
                   Find Least Squares Line{" "}
                 </Button>
               </div>
             )}
+            </Col>
+          </Row>
       </Container>
     );
   }
@@ -154,7 +171,9 @@ class LeastSim extends Component {
               endOnTick: true
             },
             yAxis: {
-              min: -4,
+              gridLineColor: 'white',
+
+              min: -1,
               max: 8,
               startOnTick: true,
               endOnTick: true
@@ -190,30 +209,28 @@ class LeastSim extends Component {
       copyChart.update({ series: newSeries });
       
       const scatPoints = this.state.points;
-      // const lineMax = copyChart.series[1].dataMax;
-      // const lineMin = copyChart.series[1].dataMin;
-      // const slope = (lineMax - lineMin) / 4;
-      const ids = [null, "first", "second", "third", "fourth"];
       sumSquares = 0;
-      for (let i = 1; i < 5; i++) {
+
+      const ph = [];
+
+      if (placeHolders.length > 0) {
+        placeHolders.forEach(point => {
+          point.destroy();
+        })
+      }
+
+      for (let i = 1; i <= this.state.pointSize; i++) {
         const lineY = linePoints[i];
         const lineX = i;
         const diff = scatPoints[i] - lineY;
-        const xBox = diff > 0 ? lineX : lineX;
+        const xBox = lineX;
         const yBox = diff > 0 ? scatPoints[i] : lineY;
-        const firstL = 14 * Math.abs(diff);
+        const firstL =  14 * Math.abs(diff);
         const secondL = 14 * Math.abs(diff);
         sumSquares += diff * diff;
         
-        // console.log("running this");
-        
-        if (i == 1 && this.state.step > 1) {
-          //console.log(this.state.isRec);
-          if (rectOne) {
-            rectOne.destroy();
-          }
-          
-          rectOne = copyChart.renderer
+        if (this.state.step > 2) {
+          const tmp = copyChart.renderer
           .rect(
             copyChart.xAxis[0].toPixels(xBox),
             copyChart.yAxis[0].toPixels(yBox),
@@ -224,84 +241,24 @@ class LeastSim extends Component {
             .attr({
               "stroke-width": 1,
               stroke: "grey",
-              zIndex: 1,
-              id: ids[i]
+              zIndex: 1
             })
             .add();
-          } else if (i == 2 && this.state.step > 1) {
-            if (rectTwo) {
-              rectTwo.destroy();
-            }
-            
-            rectTwo = copyChart.renderer
-            .rect(
-              copyChart.xAxis[0].toPixels(xBox),
-              copyChart.yAxis[0].toPixels(yBox),
-              firstL,
-              secondL,
-              1
-              )
-              .attr({
-                "stroke-width": 1,
-                stroke: "grey",
-              zIndex: 1,
-              id: ids[i]
-            })
-            .add();
-          } else if (i == 3 && this.state.step > 1) {
-          if (rectThree) {
-            rectThree.destroy();
-          }
-          
-          rectThree = copyChart.renderer
-          .rect(
-            copyChart.xAxis[0].toPixels(xBox),
-            copyChart.yAxis[0].toPixels(yBox),
-            firstL,
-            secondL,
-            1
-            )
-            .attr({
-              "stroke-width": 1,
-              stroke: "grey",
-              zIndex: 1,
-              id: ids[i]
-            })
-            .add();
-          } else if (i == 4 && this.state.step > 1) {
-            if (rectFour) {
-            rectFour.destroy();
-          }
-
-          rectFour = copyChart.renderer
-          .rect(
-            copyChart.xAxis[0].toPixels(xBox),
-            copyChart.yAxis[0].toPixels(yBox),
-            firstL,
-            secondL,
-            1
-            )
-            .attr({
-              "stroke-width": 1,
-              stroke: "grey",
-              zIndex: 1,
-              id: ids[i]
-            })
-            .add();
-          }
+          ph.push(tmp);
         }
-        // copyChart.redraw();
+      }
+      placeHolders = ph;
       }
     }
     
   generatePoints(slope, int) {
-    let points = [];
+    let points = [null];
 
-    for (let i = 0; i < POINT_SIZE; i++) {
-      points[i] = int + i * slope;
+    for (let i = 1; i <= this.state.pointSize; i++) {
+      points[i] = (int + i * slope);
     }
-    if (this.state.step === 1) {
-      points = [null, null, null, null, null];
+    if (this.state.step <= 2) {
+      points = [null, null, null, null, null, null, null, null, null, null];
     }
     return points;
   }
@@ -314,25 +271,32 @@ class LeastSim extends Component {
   }
 
   generateTrue() {
-    const yPoints = [null, null, null, null];
-    for (let j = 1; j < 5; j++) {
-      yPoints[j - 1] = this.state.points[j];
+    let xy = [];
+    let yPoints = [];
+    let xPoints = [];
+    let x_sq = [];
+
+    for (let a = 1; a <= this.state.pointSize; a++) {
+      yPoints.push(null);
+      xy.push(null);
+      xPoints.push(a);
+      x_sq.push(a*a);
     }
-    const xPoints = [1, 2, 3, 4];
-    const x_sq = [1, 4, 9, 16];
-    const xy = [null, null, null, null];
+
+
+    for (let j = 1; j <= this.state.pointSize; j++) {
+      yPoints[j-1] = this.state.points[j];
+    }
+
     let m;
     let b;
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < this.state.pointSize; i++) {
       xy[i] = xPoints[i] * yPoints[i];
     }
-    m =
-      (4 * this.sum(xy) - this.sum(xPoints) * this.sum(yPoints)) /
-      (4 * this.sum(x_sq) - this.sum(xPoints) * this.sum(xPoints));
-    b = (this.sum(yPoints) - m * this.sum(xPoints)) / 4;
-    m = Math.round(m * 10) / 10;
-    b = Math.round(b * 10) / 10;
-    // console.log(b);
+    m = ( (this.state.pointSize * this.sum(xy)) - (this.sum(xPoints) * this.sum(yPoints))) / ( (this.state.pointSize * this.sum(x_sq)) - (this.sum(xPoints) * this.sum(xPoints))) ;
+    b = ( this.sum(yPoints) - (m * this.sum(xPoints)) ) / this.state.pointSize;
+    m = Math.round(m * 1000) / 1000;
+    b = Math.round(b * 1000) / 1000;
     return [m, b];
   }
 

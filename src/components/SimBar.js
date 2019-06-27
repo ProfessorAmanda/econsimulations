@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Card, CardText, CardTitle, Col, CardColumns, CardImg } from 'reactstrap';
+import { Button, Card, CardText, CardDeck, CardTitle, CardColumns, CardImg } from 'reactstrap';
 import clt from '../clt.png';
 import lln from '../lln.png';
 import jd from '../jd.jpg';
@@ -57,10 +57,10 @@ class SimBar extends Component {
         // const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
         const sections = modes.map((section)=>{
             return (
-                    <Card body outline color="primary">
-                        <CardTitle>{section.name}</CardTitle>
+                    <Card body outline color="primary" style={{ maxHeight: '75vh', overflow: 'hidden' }}>
+                        {/* <CardTitle>{section.name}</CardTitle> */}
                         <CardImg top width="100%" src={section.img} />
-                        <CardText>{section.description}</CardText>
+                        <CardText style={{overflowY: 'auto', boxSizing: 'content-box' }}>{section.description}</CardText>
                     <Button outline color='primary'
                         active={section.name === this.state.selected}
                         onClick={()=>{ 
@@ -74,9 +74,9 @@ class SimBar extends Component {
         });
         return(
             <div>
-                <CardColumns>
+                <CardDeck>
                     {sections}
-                </CardColumns>
+                </CardDeck>
             </div>
         );
     }
