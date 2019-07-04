@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PopBar from './PopBar.js';
 import SampleArea from './SampleArea.js'
+import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+import ChartContainer from './ChartContainer.js'
 import '../dark-unica.css';
 import chi from 'chi-squared'
 import SimulateSamples from './SimulateSamples.js'
@@ -80,7 +82,8 @@ class LawOfLargeNumbers extends Component{
               "Uniform": [],
               "Exponential": [],
               "Chi-Squared": []
-            }
+            },
+            pseries: []
         }
     }
 
@@ -115,10 +118,12 @@ class LawOfLargeNumbers extends Component{
                 <Container fluid className='Plate'>
                     <Row >
                         <Col lg="2">
-                            {popTable}
+                            {/* {popTable} */}
                         </Col>
                         <Col lg="8">
-                            <span className="Center" id="container" />
+                            {
+                                this.myChart && <ChartContainer pseries={this.state.pseries}/>
+                            }
                         </Col>
                         <Col lg="2">
                 {/* Going through the Stages */}
@@ -483,6 +488,18 @@ class LawOfLargeNumbers extends Component{
         const sampleVals = [[]];
         const samplePop = [];
 
+        const values = { 
+            Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
+            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
+            Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
+            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"}
+        };
+        
+
+        if (!this.myChart) {
+            this.createChart(values[popType], popType, pseries, sampleSeries);
+        }
+
         for (const j in sampled){
             sampleVals[j] = [];
             sampleVals[j][0] = Math.round(this.state.popArray[popType][sampled[j][0]] * 10)
@@ -505,36 +522,41 @@ class LawOfLargeNumbers extends Component{
             }
         }
 
-        const values = { 
-            Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
-            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
-            Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
-            "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"}
-        };
+        // const tmparr = Array(pseries.length).fill().map(() => Math.round(Math.random() * pseries.length));
+        // console.log(pseries);
+
+        this.setState({
+            pseries: pseries.data
+        })
         
-        if (!this.myChart) {
-            this.createChart(values[popType], popType, pseries, sampleSeries);
-        }
-        else {
-            this.updateChart(values[popType], popType, pseries, sampleSeries);
-        }
+        
+        // else {
+        //     this.updateChart(values[popType], popType, pseries, sampleSeries);
+        // }
     }
 
     createChart(values, popType, pseries, sampleSeries) {
 
         const popMean = this.state.popMean[popType];
         const { xmaxval, xminval, ymaxval, title, xLabel } = values;
-        this.myChart = Highcharts.chart('container', {
+
+        const first = {data : [], name:"Population"};
+        const second = {data : [], name:"Sample"};
+
+
+        this.myChart = {
         chart: {
             type: 'scatter',
-            events: {
-                load: function() {
-                    setInterval(function() {
-                        
-                    })
+        },
+        plotOptions: {
+            series: {
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutBounce'
                 }
             }
         },
+        
         title: {
             text: `${title} <br /> Population Mean: ${popMean}`
         },
@@ -559,8 +581,8 @@ class LawOfLargeNumbers extends Component{
             enabled: true,
             pointFormat: `${xLabel}: <b>{point.x}<b><br />`
         },
-        series: [pseries, sampleSeries]
-        });
+        series: [first, second]
+        };
     }
 
     updateChart(values, popType, pseries, sampleSeries) {
@@ -592,13 +614,13 @@ class LawOfLargeNumbers extends Component{
                 pointFormat: `${xLabel}: <b>{point.x}<b><br />`
         };
         
-        this.myChart.update({ 
+        this.myChart = { 
             series:[pseries, sampleSeries],
             xAxis: xvals, 
             yAxis: yvals, 
             title:titleNew, 
             tooltip: ttip
-        });
+        };
     }
 
     sum(pop){

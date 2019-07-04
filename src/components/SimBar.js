@@ -57,7 +57,7 @@ class SimBar extends Component {
         // const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
         const sections = modes.map((section)=>{
             return (
-                    <Card body outline color="primary" style={{ maxHeight: '75vh', overflow: 'hidden' }}>
+                    <Card body outline color="primary" style={{ maxHeight: '60vh', overflow: 'hidden' }}>
                         {/* <CardTitle>{section.name}</CardTitle> */}
                         <CardImg top width="100%" src={section.img} />
                         <CardText style={{overflowY: 'auto', boxSizing: 'content-box' }}>{section.description}</CardText>

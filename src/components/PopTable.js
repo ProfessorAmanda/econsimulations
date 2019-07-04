@@ -7,14 +7,14 @@ export default function PopTable(props) {
         Props.popArray: 
      */
     let showTable;
-    if (props.popArray[props.popType]) {
+    if (props.popArray) {
         showTable = 'visible';
     }
     else {
         showTable = 'hidden';
     }
 
-    const popArr = props.popArray[props.popType] || [];
+    const popArr = props.popArray || [];
     const samples = props.samples[props.popType];
     const rows = popArr.map( (val, index) => {
         if (val){

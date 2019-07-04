@@ -5,13 +5,14 @@
   "engines": {
     "node": "10.15.x"
   },
-  "husky": { 
-    "hooks": { 
-      "pre-commit": "pretty-quick --staged" 
-    } 
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@nivo/scatterplot": "^0.59.1",
     "bootstrap": "^4.3.1",
     "chi-squared": "^1.1.0",
     "cumulative-distribution-function": "^1.0.3",
@@ -20,11 +21,13 @@
     "distributions-normal-cdf": "0.0.2",
     "distributions-normal-random": "0.0.1",
     "distriprob": "^0.2.0",
-    "highcharts": "^6.0.0",
+    "highcharts": "^7.1.2",
+    "highcharts-react-official": "^2.2.2",
     "js-regression": "^1.0.10",
     "math": "0.0.3",
     "mathjs": "^3.20.2",
     "multivariate-normal": "^0.1.1",
+    "nivo": "^0.31.0",
     "react": "^16.8.6",
     "react-addons-pure-render-mixin": "^15.6.2",
     "react-dom": "^16.8.6",
