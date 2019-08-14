@@ -3,12 +3,13 @@
   margin: 0 0 0 0;
   height: 100vh;
   padding: 0 0 0 0;
+  position: relative;
 }
 
 .Wrapper:before {
   content: ' ';
   display: block;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -140,36 +141,71 @@
 }
 
 .Plate {
-  padding-top: 30vh;
-  width: 100%;
-  background-color: rgb(255, 255, 255, 0);
+  padding-top: 10vh;
+  width: 75%;
+  background-color: rgb(255, 255, 255, .1);
 }
 
 .Border {
   border: solid;
 }
 
+.boom:before {
+  content: '';
+  background-color: black;
+  position: relative;
+  /* display: block; */
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  top: 0;
+  left: 0;
+}
+
+.MainContainer {
+  margin: auto;
+  width: 75%;
+  height: 100%;
+}
+
+p, h1 {
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
 .TabBar {
-  position: absolute;
-  top: 19.5vh;
+  position: relative;
+  margin:auto;
+  /* display: block; */
   width: 100%;
   background-color: rgba(255, 255, 255, 0);
 }
 
-#Menu {
-  position: absolute;
+#DistLabel {
+  position: relative;
+  top: 0;
   right: 0;
-  top: 20vh;
+}
+
+#Menu {
+  position: relative;
+  right: 0;
+  top: 0;
   z-index: 1;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
   /* border: solid 1px orange; */
   /* border-bottom: none; */
 }
 
 .MiniLogo {
-  position: absolute;
-  margin-top: 4vh;
-  right: 85vh;
-  top: 0vh;
+  /* position: absolute; */
+  margin:auto;
+  /* margin-top: 3em; */
   z-index: 0;
   background-image: url('./ECONSIMS.png');
   background-size: contain;
@@ -240,9 +276,9 @@ a:not([href]):not([tabindex]):hover {
 .App {
   text-align: center;
   display: block;
+  position: relative;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.575);
-  height: 100vh;
+  height: 100%;
 }
 
 .App-logo {

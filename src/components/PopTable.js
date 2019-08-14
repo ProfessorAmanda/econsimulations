@@ -1,6 +1,6 @@
 // Table of data points
 import React from 'react';
-import { Button, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 export default function PopTable(props) {
     /* 
@@ -15,16 +15,23 @@ export default function PopTable(props) {
     }
 
     const popArr = props.popArray || [];
-    const samples = props.samples[props.popType];
-    const rows = popArr.map( (val, index) => {
-        if (val){
+    const samples = props.samples;
+    const rows = popArr.map((val, index) => {
             for (const i of samples) {
-                if (index === i[0]){
-                    return (<tr style={{background:"#747EF2"}}><td>{index + 1}</td><td>{Math.round(val * 10) / 10}</td></tr>);
+                // console.log(i);
+                if (val == i){
+                    return (<tr style={{background:"#747EF2"}}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
                 }
             }
-            return(<tr><td>{index + 1}</td><td>{Math.round(val * 10) / 10}</td></tr>);
-        }
+            if (index !== popArr.length - 1) {
+                return(<tr key={index}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
+            }
+            else {
+                if (val[0]) {
+                    return(<tr key={index}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
+                }
+            }
+        
     });
     const tableBody = (
         <tbody>

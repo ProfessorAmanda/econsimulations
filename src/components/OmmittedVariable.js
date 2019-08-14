@@ -78,7 +78,9 @@ class OmmittedVariable extends Component {
                           null 
                           :<div>
                             <p color='primary'> Add Omitted Variable, Density, to Regression </p>
-                            <Button outline color='primary' onClick={() => {
+                            <Button 
+                            style={{marginBottom: '2em'}}
+                            outline color='primary' onClick={() => {
                               this.setState({stage:2});
                               this.generate(1);
                             }}> Show Corrected Regression Line </Button></div>}

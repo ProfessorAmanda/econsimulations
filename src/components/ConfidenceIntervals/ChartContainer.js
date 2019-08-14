@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import '../dark-unica.css';
+import '../../dark-unica.css';
 import Highcharts from 'highcharts';
 import 'highcharts/modules/annotations';
 import { Alert, Button, Container, Col, Input, Label, Row } from 'reactstrap';
-import PopTable from './PopTable.js'
-import '../boost.js';
 import math from 'mathjs';
 
 require("highcharts/modules/annotations")(Highcharts);
@@ -15,9 +13,9 @@ class ChartContainer extends Component {
     super(props);
     // const popMean = this.state.popMean[popType];
     this.state = {
-        speed: 50,
+        speed: 100,
         popMean: this.props.popMean,
-        popArray: [],
+        popArray: this.props.popArray,
         sampled: [],
         done: false,
         values: { 
@@ -54,11 +52,6 @@ componentDidMount() {
                 }
             }
         },
-        legend: {
-            symbolHeight: 12,
-            symbolWidth: 12,
-            symbolRadius: 6
-        },
         xAxis: {
             min: xminval,
             max: xmaxval,
@@ -84,7 +77,7 @@ componentDidMount() {
             enabled: true,
             pointFormat: `${xLabel}: <b>{point.x}<b><br />`
         },
-        series: [{name: 'Population Observations', data: this.state.popArray}, {name: 'Sampled Observations', data: this.state.sampled}],
+        series: [{name: 'Population', data: this.props.popArray}, {name: 'Samples', data: this.state.sampled}],
         boost: {
             enabled: true,
             useGPUTranslations: true
@@ -151,73 +144,29 @@ componentDidMount() {
       var that = this;
 
       if (this.state.popArray.length <= 0) {
-          this.dropPoints(that);
+            this.faster();
+            this.myChart.series[0].setData(that.props.popArray, true, true, true)
       }
 
         if (prevState.sampled !== this.props.sampled) {
             this.myChart.series[1].setData(that.props.sampled, true, true, true);
-            if (this.line) {
-                this.line.destroy();
-            }
-            this.line = this.myChart.renderer.rect(that.myChart.xAxis[0].toPixels(math.mean(that.props.sampled.map(p => p[0]))), 200 , 1, 100)
-            .attr({
-                'stroke-width': 1,
-                stroke: 'orange',
-                zIndex: 3
-            })
-            .add();
         }
   }
 
   render() {
     return (
       <div>
-           <Container fluid style={{marginBottom: "2vh"}}>
+           <Container fluid >
                <Row>
                    <Alert color="secondary" className="Center">
                         <p>We queried the {this.state.texts[this.props.popType][0]} of {this.props.popArray.length} {this.state.texts[this.props.popType][1]} and plotted the results on the following chart.</p>
-                        <Alert color="success" className="Center">
-                            <p>subject number {this.state.popArray.length} produces an average of {this.state.popArray[0]} gallons a month.</p>
-                        </Alert>
                     </Alert>
                </Row>
                 <Row >
-                    <Col lg="2">
-                        <PopTable 
-                            samples={this.props.sampled} 
-                            popArray={this.state.popArray}
-                            popType={this.props.popType}
-                        />
-                    </Col>
-                    <Col lg="8">
+                    <Col lg="12">
                         {
                             <div id="container" className="Center" />
                         }
-                    </Col>
-                    <Col lg="2">
-                        <Label className="text-muted" for="speed">Pick a plotting speed</Label>
-                        <Input
-                            id="speed"
-                            type="range"
-                            min="1"
-                            max="2000"
-                            step="-50"
-                            value={2000 - this.state.speed}
-                            onChange={(event) => {
-                                this.setState({
-                                    speed: (2000 - event.target.value)
-                                })
-                            }}
-                        />
-                        <Button
-                            onClick={() => {
-                                this.setState({
-                                    done: true
-                                }, () => {
-                                   
-                                });
-                            }}
-                        >Finish</Button>
                     </Col>
                 </Row>
             </Container>

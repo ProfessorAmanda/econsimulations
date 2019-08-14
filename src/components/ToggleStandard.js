@@ -43,11 +43,10 @@ class ToggleStandard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            selected: 0
+            selected: this.props.section
         }
     }
     render() {
-        this.state.selected = this.props.section;
         let modes;
         modes = ["Standardized"];
 

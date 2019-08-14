@@ -39,6 +39,7 @@ class PopBar extends Component {
         if (this.props.mode === "CLT"){
           modes = 
           [ 
+              { name: "Pick a Distribution:", id: "0"},
               { name: "Normal", id: "1" },
               { name: "Uniform", id: "2" }, 
               { name: "Exponential", id: "3" },
@@ -48,6 +49,7 @@ class PopBar extends Component {
         }
         else if (this.props.mode === "LLN") {
           modes = [
+            { name: "Pick a Distribution:", id: "0"},
             { name: "Normal", id: "1" },
             { name: "Uniform", id: "2" }, 
             { name: "Exponential", id: "3" },
@@ -62,7 +64,8 @@ class PopBar extends Component {
             return (
                 <NavItem>
                     <NavLink
-                        className={classnames({ active: this.state.activeTab === section.id })}
+                        className={classnames({ active: this.state.activeTab === section.id }, {disabled: section.id === "0"})}
+                        // disabled={section.id === "0"}
                         onClick={() => {
                             this.props.setPop(section.name);
                             this.setState({ selected:section.name });
@@ -78,12 +81,12 @@ class PopBar extends Component {
         });
         return(
             <div>
-                <div className="MiniLogo">
-                </div>
                 <div className="TabBar">
+                    {/* <p id="DistLabel">Dist Type</p> */}
                     <Nav tabs>
                         {sections} 
                     </Nav>
+                    
                 </div>
             </div>
         );

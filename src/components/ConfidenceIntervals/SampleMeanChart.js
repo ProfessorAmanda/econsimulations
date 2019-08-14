@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
-import { Col } from 'reactstrap';
+import { Alert, Col } from 'reactstrap';
 
 class SampleMeanChart extends Component {
     constructor(props){
@@ -24,22 +24,49 @@ class SampleMeanChart extends Component {
             sd : undefined,
             curve: false
         }
+        this.upperConf = 1;
+        this.lowerConf = 0;
+        this.label = 'no';
     }
     render(){
+        const all = this.props.sampleMeans.slice();
+        const point = all.pop();
+        if (point) {
+          this.upperConf = point[4];
+          this.lowerConf = point[3];
+          this.label = (this.props.mean >= this.lowerConf && this.props.mean <= this.upperConf) ? 'yes' : 'no' ;
+        }
         this.state.chart && this.show();
         return(
           <div>
-              {
-                  <div id="sim-container" className="Center" />
-              }
+            {
+              point && 
+            <Alert color={this.label === 'no' ? "danger" : "success"} className="Center">
+                <p>Sample number {this.props.sampleMeans.length} has a mean of {point[1]}, with 95% CI ({Math.round(this.lowerConf * 100) /100}, {Math.round(this.upperConf * 100)/100}). CI contains the true mean? {this.label}</p>
+            </Alert>
+            }
+            <div id="sim-container" className="Center" />
             {/* <button style={{marginTop:"20px",marginLeft:"110px"}} onClick={() => {
               this.setState({curve : !this.state.curve})}}>Plot Normal Curve</button> */}
           </div>
         );
     }
+
+    // componentDidUpdate(prevProps) {
+    //   if (this.props.sampleMeans.length >= 1) {
+    //     const all = this.props.sampleMeans.slice();
+    //     const point = all.pop();
+    //     this.upperConf = (point[1] + ( (1.960 * point[2]) / Math.sqrt(point[0])) );
+    //     this.lowerConf = (point[1] - ( (1.960 * point[2]) / Math.sqrt(point[0])) );
+    //     this.label = (this.props.mean >= this.lowerConf && this.props.mean <= this.upperConf) ? 'yes' : 'no' ;
+    //     console.log(this.lowerConf, this.upperConf);
+    //   }
+    // }
+    
     componentDidMount(){
         this.show();
     }
+
     show(){
         console.log(this.props.sampleMeans);
         const sampleMeanSeries = {name: "Sample Means", data : []};
@@ -145,7 +172,6 @@ class SampleMeanChart extends Component {
 
         // console.log(seriesData);
 
-
         if (!this.state.chart) {
             this.setState({chart: Highcharts.chart('sim-container', {
                             chart: {
@@ -192,7 +218,7 @@ class SampleMeanChart extends Component {
             //   this.state.chart.series[1].remove();
             // }
             // this.state.chart.update({series:[sampleMeanSeries,bellSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
-            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin}});
+            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin, plotBands: [{ from: this.lowerConf, to: this.upperConf }, {from: this.props.mean, to: this.props.mean + 0.001, label: { text: "true mean"}}]}});
         }
 
         // console.log(sampleMeanSeries);

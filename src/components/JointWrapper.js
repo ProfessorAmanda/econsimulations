@@ -17,9 +17,9 @@ class JointWrapper extends Component{
     render(){
         return(
           <Container fluid className='Plate'>
-            {this.state.mode === 'Basic' && <JointSimple/>}
             <div className="MiniLogo">
                 </div>
+            {this.state.mode === 'Basic' && <JointSimple/>}
             { // this.state.mode === 'Advanced' && <JointDistributions/>
             }
           </Container>

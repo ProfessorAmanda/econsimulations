@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PopBar from './PopBar.js';
 import { Alert, Input } from 'reactstrap';
-import Normal from './CentralLimitTheorem/Normal.js';
-import Uniform from './CentralLimitTheorem/Uniform.js';
-import Exponential from './CentralLimitTheorem/Exponential.js';
-import ChiSquared from './CentralLimitTheorem/ChiSquared.js';
+import Normal from './ConfidenceIntervals/Normal.js';
+import Uniform from './ConfidenceIntervals/Uniform.js';
+import Exponential from './ConfidenceIntervals/Exponential.js';
+import ChiSquared from './ConfidenceIntervals/ChiSquared.js';
 
 const SAMPLE_SIZE = 2000;
 
 
-class CentralLimitTheorem extends Component{
+class ConfidenceIntervals extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -29,7 +29,7 @@ class CentralLimitTheorem extends Component{
             <div className="MainContainer">
                 {/* <div className="MiniLogo"></div> */}
                 <Alert style={{ width: "50%", margin: 'auto' }} color="primary">
-                    Central Limit Theorem
+                    Confidence Intervals
                 </Alert>
                 <PopBar
                     section={this.state.popType}
@@ -62,4 +62,4 @@ class CentralLimitTheorem extends Component{
     }
 }
 
-export default CentralLimitTheorem;
+export default ConfidenceIntervals;

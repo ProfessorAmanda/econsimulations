@@ -5,6 +5,7 @@ import lln from '../lln.png';
 import jd from '../jd.jpg';
 import ls from '../ls.png';
 import ovs from '../ovs.png';
+import ci from '../ci.jpg';
 import logo from '../ECONSIMS.png';
 
 
@@ -51,13 +52,20 @@ class SimBar extends Component {
                 description: "One of the most common and vexing problems in ordinary least squares regression. OVB occurs when a variable that is correlated with both the dependent and one or more included independent variables is omitted from a regression equation.",
                 extra: "",
                 img: ovs
+            },
+
+            {
+                name: "Confidence Intervals",
+                description: "A confidence interval is a type of interval estimate, computed from the statistics of the observed data, that might contain the true value of an unknown population parameter. The interval has an associated confidence level that, loosely speaking, quantifies the level of confidence that the parameter lies in the interval. ",
+                extra: "",
+                img: ci
             }
         ];
 
         // const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
         const sections = modes.map((section)=>{
             return (
-                    <Card body outline color="primary" style={{ maxHeight: '60vh', overflow: 'hidden' }}>
+                    <Card body outline color="primary" style={{}}>
                         {/* <CardTitle>{section.name}</CardTitle> */}
                         <CardImg top width="100%" src={section.img} />
                         <CardText style={{overflowY: 'auto', boxSizing: 'content-box' }}>{section.description}</CardText>
@@ -74,9 +82,9 @@ class SimBar extends Component {
         });
         return(
             <div>
-                <CardDeck>
+                <CardColumns>
                     {sections}
-                </CardDeck>
+                </CardColumns>
             </div>
         );
     }

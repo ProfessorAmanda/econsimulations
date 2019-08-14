@@ -23,7 +23,10 @@ function ParentInput(props){
         <InputGroupAddon addonType='prepend'>Parent Height SD:</InputGroupAddon>
         <Input type="number" className="slider" min={1} max={7} value={props.sharkSD} onChange={(event) => {
           // const variance = parseFloat(event.target.value)*parseFloat(event.target.value);
-          const sd = parseFloat(event.target.value);
+          var sd = parseFloat(event.target.value);
+          if (sd > 7) {
+            sd = 7;
+        }
           // const temp = [[variance,copy[0][1]],copy[1]];
           props.saveSD(sd);
           //this.setState({sharkSD : sd});
@@ -51,7 +54,10 @@ function ChildInput(props){
         <InputGroupAddon addonType='prepend'>Child Height SD: </InputGroupAddon>
         <Input type="number" className="slider" min={1} max={7} value={props.iceSD} onChange={(event) => {
             //const copy = this.state.covMatrix;
-            const sd = parseFloat(event.target.value);
+            var sd = parseFloat(event.target.value);
+            if (sd > 7) {
+                sd = 7;
+            }
           //const temp = [copy[0],[copy[1][0],variance]];
           props.saveSD(sd);
           //this.setState({covMatrix : temp});
@@ -140,7 +146,7 @@ class JointSimple extends Component {
                 </Row>
                 
                 <Row className='Center'>
-                    <Button outline color='primary' style={{margin:"10px"}} onClick={()=>{this.generate()}}> Generate! </Button>
+                    <Button outline color='primary' style={{margin:"3vh"}} onClick={()=>{this.generate()}}> Generate! </Button>
                 </Row>
 
                 <Row>
@@ -193,7 +199,7 @@ class JointSimple extends Component {
         const distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
         const series = {data : [], color: '#1F242A ', name:"Population"}
         // samples 1000
-        for (let i = 0; i < 1000; i++){
+        for (let i = 0; i < 500; i++){
             series.data.push(distribution.sample());
         }
         const sharkSeries = {data : [], color: '#006D75', name:""}
@@ -224,7 +230,7 @@ class JointSimple extends Component {
         const MINX = 40;
         const MAXX = 120;
 
-        Highcharts.chart('sharks', {
+        this.sharks = Highcharts.chart('sharks', {
             chart: {
                 type: 'scatter',
                 zoomtype: 'xy'
@@ -267,7 +273,7 @@ class JointSimple extends Component {
                 icecreamSeries.data.push([parseFloat(i), j+1]);
             }
         }
-        Highcharts.chart('icecream', {
+        this.icecream = Highcharts.chart('icecream', {
             chart: {
                 type: 'scatter',
                 zoomtype: 'xy'
@@ -300,6 +306,8 @@ class JointSimple extends Component {
             jointSeries.data.push([Math.round(rawSharks[i] * 100) / 100, Math.round(series.data[i][1] * 100) / 100]);
         }
 
+        var that = this;
+
         Highcharts.chart('joint', {
             chart: {
                 type: 'scatter',
@@ -322,6 +330,21 @@ class JointSimple extends Component {
             yAxis: {
                 title: {
                     text: 'Child Height (inches)'
+                }
+            },
+            plotOptions: {
+                series: {
+                    allowPointSelect: true,
+                    point: {
+                        events: {
+                            mouseOver: function() {
+                                const x = that.sharks.series[0].data.find(p => p.x === this.x);
+                                x.onMouseOver();
+                                const y = that.icecream.series[0].data.find(p => p.x === this.y);
+                                y.onMouseOver();
+                            }
+                        }
+                    }
                 }
             },
             series: [jointSeries]

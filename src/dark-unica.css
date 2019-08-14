@@ -96,7 +96,7 @@
 }
 
 .highcharts-background {
-  fill: rgba(255, 255, 255, 0.534);
+  fill: rgba(255, 255, 255, 0);
 }
 
 .highcharts-plot-border, .highcharts-plot-background {
@@ -113,7 +113,7 @@
 
 .highcharts-tracker-line {
   stroke-linejoin: round;
-  stroke: rgba(192, 192, 192, 0.0001);
+  stroke: rgba(187, 45, 45, 0);
   stroke-width: 22;
   fill: none;
 }
@@ -269,12 +269,12 @@ g.highcharts-series,
 /* Default colors */
 .highcharts-color-0 {
   fill: #2b908f;
-  stroke: #2b908f;
+  stroke: #4a7473;
 }
 
 .highcharts-color-1 {
   fill: #ff8401;
-  stroke: #00000094;
+  stroke: #f1b269;
 }
 
 .highcharts-color-2 {
@@ -536,8 +536,8 @@ circle.highcharts-legend-nav-active, circle.highcharts-legend-nav-inactive {
 
 /* Plot bands and polar pane backgrounds */
 .highcharts-plot-band, .highcharts-pane {
-  fill: rgba(255, 255, 255, 0);
-  fill-opacity: 0.05;
+  fill: rgba(19, 100, 19, 0.322);
+  fill-opacity: 1;
 }
 
 .highcharts-plot-line {
