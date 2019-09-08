@@ -2,8 +2,9 @@
   "name": "econ-sims",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://professoramanda.github.io/econ-sims",
   "engines": {
-    "node": "10.15.x"
+    "node": "10.16.x"
   },
   "husky": {
     "hooks": {
@@ -46,6 +47,9 @@
   "scripts": {
     "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom",
+    "build": "react-scripts build",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "heroku-postbuild": "npm install && npm run build"
