@@ -34,9 +34,9 @@ class SimulationContainer extends Component{
                 <div>
                     <div className="App-bg">
                     </div>
-                    { !this.state.logo && <StartHere 
+                    { !this.state.logo && <StartHere
                         showApp={() => {
-                            this.setState({ 
+                            this.setState({
                                 start: false
                             })
                         }}
@@ -47,7 +47,7 @@ class SimulationContainer extends Component{
         }
         return(
             <div>
-                { 
+                {
                     <Fade in={this.state.collapse} style={{ display: !this.state.collapse ? 'none' : 'block' }}>
                         <div className="Splash">
                         </div>
@@ -57,11 +57,11 @@ class SimulationContainer extends Component{
                     </Fade>
                 }
                 <div className="App">
-                   
+
                     { !this.state.collapse &&
 
-                    <Button 
-                        outline 
+                    <Button
+                        outline
                         color='danger'
                         id="Menu"
                         onClick={() => {
