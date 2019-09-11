@@ -17,7 +17,7 @@ class SimBar extends Component {
         }
     }
     render(){
-        const modes = 
+        const modes =
         [
             {
                 name: 'Law of Large Numbers',
@@ -52,13 +52,6 @@ class SimBar extends Component {
                 description: "One of the most common and vexing problems in ordinary least squares regression. OVB occurs when a variable that is correlated with both the dependent and one or more included independent variables is omitted from a regression equation.",
                 extra: "",
                 img: ovs
-            },
-
-            {
-                name: "Confidence Intervals",
-                description: "A confidence interval is a type of interval estimate, computed from the statistics of the observed data, that might contain the true value of an unknown population parameter. The interval has an associated confidence level that, loosely speaking, quantifies the level of confidence that the parameter lies in the interval. ",
-                extra: "",
-                img: ci
             }
         ];
 
@@ -71,11 +64,11 @@ class SimBar extends Component {
                         <CardText style={{overflowY: 'auto', boxSizing: 'content-box' }}>{section.description}</CardText>
                     <Button outline color='primary'
                         active={section.name === this.state.selected}
-                        onClick={()=>{ 
-                            this.props.setSection(section.name); 
+                        onClick={()=>{
+                            this.props.setSection(section.name);
                             this.setState({ selected:section.name });
                         }}>
-                        {section.name} 
+                        {section.name}
                         </Button>
                     </Card>
             );
