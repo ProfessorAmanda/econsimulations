@@ -8,7 +8,7 @@ import '../boost.js';
 import math from 'mathjs';
 
 require("highcharts/modules/annotations")(Highcharts);
-   
+
 
 class ChartContainer extends Component {
   constructor(props) {
@@ -20,17 +20,17 @@ class ChartContainer extends Component {
         popArray: [],
         sampled: [],
         done: false,
-        values: { 
+        values: {
             Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
             Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
             Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
             "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"}
         },
         texts: {
-            Normal: ["monthly Milk Production", "cows"],
-            Uniform: ['the height', 'Alien Females from planet Stata'],
-            Exponential: ["duration", "Telemarketer Calls"],
-            "Chi-Squared": ["expenditure", "workers on lunch"]
+            Normal: ["monthly Milk Production", "cows","produced an average of", " gallons a month."],
+            Uniform: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
+            Exponential: ["duration", "Telemarketer Calls","reported a duration of", " seconds on a call."],
+            "Chi-Squared": ["expenditure", "workers on lunch","reported an expenditure of"," dollars on lunch."]
         }
     };
 
@@ -177,14 +177,14 @@ componentDidMount() {
                    <Alert color="secondary" className="Center">
                         <p>We queried the {this.state.texts[this.props.popType][0]} of {this.props.popArray.length} {this.state.texts[this.props.popType][1]} and plotted the results on the following chart.</p>
                         <Alert color="success" className="Center">
-                            <p>subject number {this.state.popArray.length} produces an average of {this.state.popArray[0]} gallons a month.</p>
+                            <p>Subject number {this.state.popArray.length} {this.state.texts[this.props.popType][2]} {this.state.popArray[0]}{this.state.texts[this.props.popType][3]}</p>
                         </Alert>
                     </Alert>
                </Row>
                 <Row >
                     <Col lg="2">
-                        <PopTable 
-                            samples={this.props.sampled} 
+                        <PopTable
+                            samples={this.props.sampled}
                             popArray={this.state.popArray}
                             popType={this.props.popType}
                         />
@@ -214,7 +214,7 @@ componentDidMount() {
                                 this.setState({
                                     done: true
                                 }, () => {
-                                   
+
                                 });
                             }}
                         >Finish</Button>
