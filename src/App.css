@@ -131,7 +131,7 @@
 
 ::-webkit-scrollbar {
   width: 0px; /* remove scrollbar space */
-  background: transparent; 
+  background: transparent;
 }
 
 .PopTable th, .PopTable td {
@@ -247,14 +247,14 @@ a:not([href]):not([tabindex]):hover {
   cursor: pointer;
 }
 
-.Sidebar button { 
+.Sidebar button {
   font-size: 0.5em;
   transition: font-size .5s;
   border: none;
   border-radius: 0;
 }
 
-.Sidebar:hover { 
+.Sidebar:hover {
   width: fit-content;
 }
 
@@ -298,7 +298,7 @@ a:not([href]):not([tabindex]):hover {
 .Logo {
   display: block;
   margin: auto;
-  animation: Logo-intro 1500ms 2000ms ease forwards; 
+  animation: Logo-intro 1500ms 2000ms ease forwards;
 }
 
 .App-intro {
