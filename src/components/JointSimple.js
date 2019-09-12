@@ -5,9 +5,6 @@ import { Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 
 const quantile = require("distributions-exponential-quantile");
 const cdf = require( 'distributions-normal-cdf' );
 
-
-
-
 function ParentInput(props){
   return(
     <div>
@@ -106,13 +103,29 @@ class JointSimple extends Component {
                         this.setState({iceSD : sd});
                         this.setState({covMatrix : temp});
                         }}/>
-                    
+
                     </Col>
-                    
+
                     <Col>
                     <div>
                     <p> Set the Covariance</p>
                     <div>
+                        <input
+                        value={this.state.covariance}
+                        type="range"
+                        step=".1"
+                        min="-1"
+                        max="1"
+                        onChange={(event) => {
+                            this.setState({covariance : parseFloat(event.target.value)});
+                            const copy = this.state.covMatrix;
+                            const temp = [[copy[0][0],parseFloat(event.target.value)],[parseFloat(event.target.value),copy[1][1]]];
+                            this.setState({covMatrix : temp});
+                          }}
+                    />
+                    <p>{this.state.covariance}</p>
+                    </div>
+                    {/*<div>
                         <Input value={this.state.covariance} type="number" className="slider" step={.1} min={-this.findMax()}
                           max={this.findMax()} onChange={(event) => {
                             this.setState({covariance : parseFloat(event.target.value)});
@@ -122,7 +135,8 @@ class JointSimple extends Component {
                           }}
                     //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
                     />
-                    </div>
+                    </div>*/}
+
                     {/*<div>
                         <input type="number" value={Math.pow(this.state.sharkSD,2)}
                         //onChange={(event) => {this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});}}
@@ -141,10 +155,10 @@ class JointSimple extends Component {
                         />
                     </div>*/}
                 </div>
-                    
+
                     </Col>
                 </Row>
-                
+
                 <Row className='Center'>
                     <Button outline color='primary' style={{margin:"3vh"}} onClick={()=>{this.generate()}}> Generate! </Button>
                 </Row>
@@ -157,21 +171,21 @@ class JointSimple extends Component {
                     <Col>
                         <span className="Center" id="icecream"/>
                     </Col>
-                    
+
                     <Col>
-                        <span className="Center" id="joint"/>                    
+                        <span className="Center" id="joint"/>
                     </Col>
                 </Row>
 
-               
-                
-                
+
+
+
                 {/*<div>
                     <h4> Set the Mean Vector </h4>
                     <input type="number" onChange={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}} />
                     <input type="number" onChange={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}} />
                 </div>*/}
-                
+
             </Container>
 
         )
@@ -255,6 +269,14 @@ class JointSimple extends Component {
                     text: 'Count'
                 }
             },
+
+            tooltip: {
+              enabled: false
+            },
+
+            legend: {
+              enabled: false
+            },
             series: [sharkSeries]
         });
 
@@ -298,6 +320,14 @@ class JointSimple extends Component {
                     text: 'Count'
                 }
             },
+            tooltip: {
+              enabled: false
+            },
+
+            legend: {
+              enabled: false
+            },
+
             series: [icecreamSeries]
         });
 
@@ -332,6 +362,15 @@ class JointSimple extends Component {
                     text: 'Child Height (inches)'
                 }
             },
+
+            tooltip: {
+              enabled: false
+            },
+
+            legend: {
+              enabled: false
+            },
+
             plotOptions: {
                 series: {
                     allowPointSelect: true,
