@@ -12,7 +12,7 @@ class StartHere extends Component{
             various statistical concepts. Each module on the website takes students through
             multiple steps of simulations for each respective statistical concept.</p>
             <hr className="my2" />
-            <p>Project of Professor Tanya Byker and Professor Amanda Gregg at Middlebury College, worked on by research assistants Kevin Serrao, Class of 2018, Dylan Mortimer, Class of 2019, and Ammar Almahdy, Class of 2020</p>
+            <p>Project of Professor Tanya Byker and Professor Amanda Gregg at Middlebury College, with research assistants Kevin Serrao, Class of 2018, Dylan Mortimer, Class of 2019, Ammar Almahdy, Class of 2020, and Jacqueline Palacios, Class of 2020</p>
             <Button
               outline color='danger'
               onClick={this.props.showApp}
