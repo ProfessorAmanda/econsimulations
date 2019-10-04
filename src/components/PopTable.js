@@ -3,8 +3,8 @@ import React from 'react';
 import { Table } from 'reactstrap';
 
 export default function PopTable(props) {
-    /* 
-        Props.popArray: 
+    /*
+        Props.popArray:
      */
     let showTable;
     if (props.popArray) {
@@ -31,7 +31,7 @@ export default function PopTable(props) {
                     return(<tr key={index}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
                 }
             }
-        
+
     });
     const tableBody = (
         <tbody>
@@ -39,11 +39,12 @@ export default function PopTable(props) {
         </tbody>
     );
 
-    const values = { 
+    const values = {
         Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", yLabel: "Height (in)", xLabel: "Subject" },
         Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", yLabel: "Gallons", xLabel: "Cow" },
         Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", yLabel: "Seconds", xLabel: "Call" },
-        "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", yLabel: "Dollars", xLabel: "Person" }
+        "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", yLabel: "Dollars", xLabel: "Person" },
+        Mystery: {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", yLabel: "Dollars", xLabel: "Person" }
     };
 
     return (
