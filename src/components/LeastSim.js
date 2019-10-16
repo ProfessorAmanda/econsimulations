@@ -5,7 +5,8 @@ import { Button, Container, Input, InputGroup, InputGroupAddon, InputGroupText, 
 let sumSquares;
 let placeHolders = [];
 let newPoints = [];
-
+let holdXValues =[];
+let lin =[];
 class LeastSim extends Component {
   constructor(props) {
     super(props);
@@ -62,7 +63,10 @@ class LeastSim extends Component {
                 onClick={() => {
                   newPoints =[];
                   for (let i = 0; i < this.state.tmpPS; i++) {
-                    newPoints.push([Math.round(Math.random() * 600) / 100 , Math.round(Math.random() * 600) / 100]);
+                    let x = Math.round(Math.random() * 600) / 100;
+                    let y = Math.round(Math.random() * 600) / 100;
+                    newPoints.push([x, y]);
+                    holdXValues.push([x]);
                   }
                   this.setState({
                     original_random_points: newPoints,
@@ -142,7 +146,8 @@ class LeastSim extends Component {
               </Button>
             )}
             <p>{this.state.original_random_points}</p>
-
+            <p>{holdXValues}</p>
+            <p>{lin}</p>
             {this.state.step === 3 && (
               <div>
               <br/>
@@ -175,6 +180,7 @@ class LeastSim extends Component {
 
   show() {
       const linearizedGuessedPoints = this.generate_guessed_points(this.state.slope, this.state.int);
+
       if (!this.state.chart) {
       this.setState({
         chart: Highcharts.chart(
@@ -226,17 +232,23 @@ class LeastSim extends Component {
   }
 
   generate_guessed_points(slope, int) {
-    let points = [[1,2],[2,3],[9,0]];
+    let linear = [];
+    let xvalue;
+    let yvalue ;
+    let points = holdXValues;
 
     if (this.state.step <= 2) {
-      points = [null];
+      linear = [null];
     }
     else{
       for (let i = 0; i < points.length; i++) {
-        points[i][1] = (int + points[i][0] * slope);
+        xvalue = points[i][0];
+        yvalue = (xvalue * slope) + int;
+        linear.push([xvalue, yvalue]);
       }
     }
-    return points;
+    lin = linear;
+    return linear;
   }
 
   generateSquare(lineX, lineY) {
