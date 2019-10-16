@@ -62,6 +62,7 @@ class LeastSim extends Component {
                 zIndex="1"
                 onClick={() => {
                   newPoints =[];
+                  holdXValues =[[0]];
                   for (let i = 0; i < this.state.tmpPS; i++) {
                     let x = Math.round(Math.random() * 600) / 100;
                     let y = Math.round(Math.random() * 600) / 100;
@@ -145,9 +146,6 @@ class LeastSim extends Component {
                 Plot Your Guess
               </Button>
             )}
-            <p>{this.state.original_random_points}</p>
-            <p>{holdXValues}</p>
-            <p>{lin}</p>
             {this.state.step === 3 && (
               <div>
               <br/>
@@ -213,10 +211,16 @@ class LeastSim extends Component {
             series: [
               {
                 type: "scatter",
+                marker: {
+                  radius: 5,
+                },
                 data: this.state.original_random_points,
               },
             {
               type: 'line',
+              marker: {
+                radius: 5,
+              },
               data: linearizedGuessedPoints,
             }
           ]
