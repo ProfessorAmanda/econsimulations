@@ -7,6 +7,7 @@ let placeHolders = [];
 let newPoints = [];
 let holdXValues =[];
 let lin =[];
+
 class LeastSim extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +44,7 @@ class LeastSim extends Component {
             <InputGroupAddon addonType="prepend">
             </InputGroupAddon>
             <Input
-              type='number'
+              type='range'
               min='4'
               max='10'
               step='1'
@@ -64,8 +65,8 @@ class LeastSim extends Component {
                   newPoints =[];
                   holdXValues =[[0]];
                   for (let i = 0; i < this.state.tmpPS; i++) {
-                    let x = Math.round(Math.random() * 600) / 100;
-                    let y = Math.round(Math.random() * 600) / 100;
+                    let x = Math.round(Math.random() * 1000) / 100;
+                    let y = Math.round(Math.random() * 1000) / 100;
                     newPoints.push([x, y]);
                     holdXValues.push([x]);
                   }
@@ -95,7 +96,7 @@ class LeastSim extends Component {
             {
               this.state.step === 3 &&
               <p>
-                Guess A Different Slope and Y Intercept to Reduce Sum of Squares
+                Guess a different slope and y-intercept to reduce the Sum of Squares!
               </p>
             }
 
@@ -116,7 +117,7 @@ class LeastSim extends Component {
                       });
                     }}
                     />
-                    <p>{this.state.slope}</p>
+                    <InputGroupText>{this.state.slope}</InputGroupText>
                     <h4>Intercept</h4>
                     <input
                     type="range"
@@ -129,7 +130,7 @@ class LeastSim extends Component {
                         int: parseFloat(event.target.value)
                     })}}
                     />
-                    <p>{this.state.int}</p>
+                    <InputGroupText>{this.state.int}</InputGroupText>
                   </div>
           }
 
@@ -218,9 +219,6 @@ class LeastSim extends Component {
               },
             {
               type: 'line',
-              marker: {
-                radius: 5,
-              },
               data: linearizedGuessedPoints,
             }
           ]
@@ -232,8 +230,52 @@ class LeastSim extends Component {
       const copyChart = this.state.chart;
       copyChart.series[0].setData(this.state.original_random_points);
       copyChart.series[1].setData(linearizedGuessedPoints);
+      sumSquares = 0;
+      const ph = [];
+
+      if (placeHolders.length > 0) {
+        placeHolders.forEach(point => {
+          point.destroy();
+        })
+      }
+
+      let ogScatterPoints = this.state.original_random_points.slice();
+      let guessedLinePoints = linearizedGuessedPoints.slice();
+
+      if (this.state.step > 2){
+        for (let i = 0; i < this.state.tmpPS; i++) {
+          const lineX = ogScatterPoints[i][0];
+
+          const originalY = ogScatterPoints[i][1];
+          const guessedY = guessedLinePoints[i+1][1];
+          const diff = originalY - guessedY;
+          const xBox = lineX;
+          const yBox = diff > 0 ? originalY : guessedY;
+          const firstL =  27 * Math.abs(diff);
+          const secondL = 27 * Math.abs(diff);
+          sumSquares += Math.round(Math.abs(diff) * Math.abs(diff));
+
+          const tmp = copyChart.renderer
+          .rect(
+            copyChart.xAxis[0].toPixels(xBox),
+            copyChart.yAxis[0].toPixels(yBox),
+            firstL,
+            secondL,
+            1
+            )
+            .attr({
+              "stroke-width": 1,
+              stroke: "grey",
+              zIndex: 1
+            })
+            .add();
+          ph.push(tmp);
+        }
+      }
+      placeHolders = ph;
     }
   }
+
 
   generate_guessed_points(slope, int) {
     let linear = [];
