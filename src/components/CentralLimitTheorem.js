@@ -58,10 +58,6 @@ class CentralLimitTheorem extends Component{
                     <ChiSquared
                         mainSampleSize={SAMPLE_SIZE}
                     />}
-                {this.state.popType === "Mystery" &&
-                    <Mystery
-                        mainSampleSize={SAMPLE_SIZE}
-                    />}
 
             </div>
         )

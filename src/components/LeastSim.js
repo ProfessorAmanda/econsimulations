@@ -6,7 +6,8 @@ let sumSquares;
 let placeHolders = [];
 let newPoints = [];
 let holdXValues =[];
-let lin =[];
+let holdXSingleValues =[];
+let holdYSingleValues =[];
 
 class LeastSim extends Component {
   constructor(props) {
@@ -64,11 +65,15 @@ class LeastSim extends Component {
                 onClick={() => {
                   newPoints =[];
                   holdXValues =[[0]];
+                  holdXSingleValues =[];
+                  holdYSingleValues =[];
                   for (let i = 0; i < this.state.tmpPS; i++) {
                     let x = Math.round(Math.random() * 1000) / 100;
                     let y = Math.round(Math.random() * 1000) / 100;
                     newPoints.push([x, y]);
                     holdXValues.push([x]);
+                    holdXSingleValues.push(x);
+                    holdYSingleValues.push(y);
                   }
                   this.setState({
                     original_random_points: newPoints,
@@ -107,7 +112,7 @@ class LeastSim extends Component {
                     <h4>Slope</h4>
                     <input
                     type="range"
-                    step={0.1}
+                    step={0.01}
                     value={this.state.slope}
                     min={-5}
                     max={5}
@@ -117,11 +122,11 @@ class LeastSim extends Component {
                       });
                     }}
                     />
-                    <InputGroupText>{this.state.slope}</InputGroupText>
+                    <InputGroupText>{Math.round(this.state.slope* 100) / 100}</InputGroupText>
                     <h4>Intercept</h4>
                     <input
                     type="range"
-                    step={0.1}
+                    step={0.01}
                     value={this.state.int}
                     min={0}
                     max={10}
@@ -130,7 +135,7 @@ class LeastSim extends Component {
                         int: parseFloat(event.target.value)
                     })}}
                     />
-                    <InputGroupText>{this.state.int}</InputGroupText>
+                    <InputGroupText>{Math.round(this.state.int * 100) / 100}</InputGroupText>
                   </div>
           }
 
@@ -197,13 +202,13 @@ class LeastSim extends Component {
 
             xAxis: {
               min: 0,
-              max: 10,
+              max: 15,
               startOnTick: true,
               tickInterval: 2
             },
             yAxis: {
               min: 0,
-              max: 10,
+              max: 15,
               startOnTick: true,
               endOnTick: true,
               tickInterval: 2
@@ -251,8 +256,8 @@ class LeastSim extends Component {
           const diff = originalY - guessedY;
           const xBox = lineX;
           const yBox = diff > 0 ? originalY : guessedY;
-          const firstL =  27 * Math.abs(diff);
-          const secondL = 27 * Math.abs(diff);
+          const firstL =  17 * Math.abs(diff);
+          const secondL = 17 * Math.abs(diff);
           sumSquares += Math.round(Math.abs(diff) * Math.abs(diff));
 
           const tmp = copyChart.renderer
@@ -293,50 +298,39 @@ class LeastSim extends Component {
         linear.push([xvalue, yvalue]);
       }
     }
-    lin = linear;
     return linear;
   }
 
-  generateSquare(lineX, lineY) {
-    const diff = this.state.points[lineX] - lineY;
-    const xBox = diff > 0 ? lineX - diff : lineX;
-    const yBox = diff > 0 ? this.state.points[lineX] : lineY;
-    return xBox;
-  }
 
   generateTrue() {
-    let xy = [];
-    let yPoints = [];
-    let xPoints = [];
-    let x_sq = [];
+    let xpoints = holdXSingleValues;
+    let ypoints = holdYSingleValues;
 
-    for (let a = 1; a <= this.state.pointSize; a++) {
-      yPoints.push(null);
-      xy.push(null);
-      xPoints.push(a);
-      x_sq.push(a*a);
+    let averageX = this.sum(xpoints)/xpoints.length;
+    let averageY = this.sum(ypoints)/ypoints.length;
+
+    let scovXY = 0;
+    for (let i = 0; i < xpoints.length; i++){
+      scovXY += (ypoints[i] - averageY)*(xpoints[i] - averageX);
     }
+    scovXY = scovXY/xpoints.length;
 
-
-    for (let j = 1; j <= this.state.pointSize; j++) {
-      yPoints[j-1] = this.state.points[j];
+    let svarX = 0;
+    for (let i = 0; i < xpoints.length; i++){
+      svarX += (xpoints[i] - averageX)*(xpoints[i] - averageX);
     }
+    svarX = svarX/xpoints.length;
 
-    let m;
-    let b;
-    for (let i = 0; i < this.state.pointSize; i++) {
-      xy[i] = xPoints[i] * yPoints[i];
-    }
-    m = ( (this.state.pointSize * this.sum(xy)) - (this.sum(xPoints) * this.sum(yPoints))) / ( (this.state.pointSize * this.sum(x_sq)) - (this.sum(xPoints) * this.sum(xPoints))) ;
-    b = ( this.sum(yPoints) - (m * this.sum(xPoints)) ) / this.state.pointSize;
-    m = Math.round(m * 1000) / 1000;
-    b = Math.round(b * 1000) / 1000;
-    return [m, b];
+    let olsSlope = scovXY/svarX;
+    let olsIntercept = averageY - (olsSlope*averageX);
+
+    return [olsSlope, olsIntercept];
+
   }
 
   sum(array) {
-    const ret = array.reduce((a, b) => a + b, 0);
-    return ret;
+    const total_add = array.reduce((prev, current) => current += prev);
+    return total_add;
   }
 }
 export default LeastSim;
