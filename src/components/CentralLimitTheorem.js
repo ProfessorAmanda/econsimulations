@@ -5,6 +5,7 @@ import Normal from './CentralLimitTheorem/Normal.js';
 import Uniform from './CentralLimitTheorem/Uniform.js';
 import Exponential from './CentralLimitTheorem/Exponential.js';
 import ChiSquared from './CentralLimitTheorem/ChiSquared.js';
+import Mystery from './CentralLimitTheorem/Mystery.js';
 
 const SAMPLE_SIZE = 2000;
 
@@ -33,30 +34,31 @@ class CentralLimitTheorem extends Component{
                 </Alert>
                 <PopBar
                     section={this.state.popType}
-                    mode="LLN"
+                    mode="CLT"
                     setPop={(pop) => {
                             this.selectPop(pop);
                         }
                     }
                 />
-                {this.state.popType === "Normal" && 
+                {this.state.popType === "Normal" &&
                     <Normal
                         mainSampleSize={SAMPLE_SIZE}
                     />}
-                {this.state.popType === "Uniform" && 
+                {this.state.popType === "Uniform" &&
                     <Uniform
                         mainSampleSize={SAMPLE_SIZE}
                     />}
 
-                {this.state.popType === "Exponential" && 
+                {this.state.popType === "Exponential" &&
                     <Exponential
                         mainSampleSize={SAMPLE_SIZE}
                     />}
 
-                {this.state.popType === "Chi-Squared" && 
+                {this.state.popType === "Chi-Squared" &&
                     <ChiSquared
                         mainSampleSize={SAMPLE_SIZE}
                     />}
+
             </div>
         )
     }

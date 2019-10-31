@@ -110,12 +110,13 @@ class JointSimple extends Component {
                     <div>
                     <p> Set the Covariance</p>
                     <div>
-                        <input
+                    <Input
                         value={this.state.covariance}
-                        type="range"
-                        step=".1"
-                        min="-1"
-                        max="1"
+                        type="number"
+                        className="slider"
+                        step={.1}
+                        min={-this.findMax()}
+                        max={this.findMax()}
                         onChange={(event) => {
                             this.setState({covariance : parseFloat(event.target.value)});
                             const copy = this.state.covMatrix;
@@ -125,6 +126,8 @@ class JointSimple extends Component {
                     />
                     <p>{this.state.covariance}</p>
                     </div>
+
+
                     {/*<div>
                         <Input value={this.state.covariance} type="number" className="slider" step={.1} min={-this.findMax()}
                           max={this.findMax()} onChange={(event) => {

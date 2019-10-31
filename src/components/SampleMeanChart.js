@@ -15,11 +15,12 @@ class SampleMeanChart extends Component {
               "Chi-Squared" : 8,
               "Mystery" : 62.5
             },
-            values: { 
+            values: {
               Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
               Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
               Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
-              "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"}
+              "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
+              Mystery: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
           },
             sd : undefined,
             curve: false
@@ -46,8 +47,8 @@ class SampleMeanChart extends Component {
         let yMax = 30;
         // const popMean = Math.round(this.props.mean *4)/4;
         for (const i in this.props.sampleMeans){
-            const val = this.props.normalized === 0 ? 
-              Math.round(this.props.sampleMeans[i][1] * 10) / 10 
+            const val = this.props.normalized === 0 ?
+              Math.round(this.props.sampleMeans[i][1] * 10) / 10
               : Math.round(( (this.props.sampleMeans[i][1] - this.props.mean) / (this.props.sd/Math.sqrt(this.props.sampleMeans.length)) )*10)/10;
             let count = 1;
             for (const j of sampleMeanSeries.data){
@@ -64,7 +65,7 @@ class SampleMeanChart extends Component {
         let xMax;
         let xLabel;
         if(!this.props.normalized){
-          console.log(this.props.type)   
+          console.log(this.props.type)
           xMin = this.state.values[this.props.type].xminval;
           xMax = this.state.values[this.props.type].xmaxval;
           xLabel = this.state.values[this.props.type].xLabel;
@@ -125,7 +126,7 @@ class SampleMeanChart extends Component {
         const bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
 
         /* Try making normal curve other way  */
-        
+
         // console.log(this.props.resampleSize[this.props.type])
         // const normDist = new NormalDistribution(64,3/Math.sqrt(this.props.resampleSize[this.props.type]));
         // let normalPoints = [];
@@ -152,7 +153,7 @@ class SampleMeanChart extends Component {
                                 type: 'scatter',
                                 animation: false
                             },
-                            
+
                             title: {
                                 text: 'Sample Mean Distribution'
                             },
