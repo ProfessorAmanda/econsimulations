@@ -45,6 +45,7 @@ class SampleMeanChart extends Component {
         console.log(this.props.sampleMeans);
         const sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
+        let xAxisMeasurement =[];
         // const popMean = Math.round(this.props.mean *4)/4;
         for (const i in this.props.sampleMeans){
             const val = this.props.normalized === 0 ?
@@ -58,6 +59,7 @@ class SampleMeanChart extends Component {
             }
             yMax = Math.max(count, yMax);
             sampleMeanSeries.data[i] = [val, count];
+            xAxisMeasurement.push(val);
             // console.log(sampleMeanSeries.data);
         }
 
@@ -71,8 +73,8 @@ class SampleMeanChart extends Component {
           xLabel = this.state.values[this.props.type].xLabel;
         }
         else{
-          xMin = -2;
-          xMax = 2;
+          xMin = Math.min.apply(Math, xAxisMeasurement);
+          xMax = Math.max.apply(Math, xAxisMeasurement) ;
           xLabel = "Standard Deviations";
         }
 

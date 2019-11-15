@@ -54,7 +54,7 @@ class ToggleStandard extends Component {
             return (<Button
               outline
               color="primary"
-              active={this.state.selected === 1} 
+              active={this.state.selected === 1}
               onClick={()=> {
                 const sel = this.state.selected;
                 let newSel = 0;
