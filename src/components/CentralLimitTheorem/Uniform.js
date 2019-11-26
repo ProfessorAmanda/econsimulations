@@ -79,8 +79,9 @@ class Uniform extends React.Component {
 
 
 
-        popArray.sort(() => Math.random() - 0.3);
-        popArray.sort((a,b) => b[1] - a[1]);
+        popArray.sort(() => Math.random() - 0.5);
+        //Commented code makes graph plot points row by row
+        //popArray.sort((a,b) => b[1] - a[1]);
         this.setState({
             popMean: math.mean(popArray.map(p => p[0]))
         })

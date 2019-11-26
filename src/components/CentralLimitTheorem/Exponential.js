@@ -78,7 +78,8 @@ class Exponential extends React.Component {
             }
         }
         popArray.sort(() => Math.random() - 0.5);
-        popArray.sort((a,b) => b[1] - a[1]);
+        //Commented code makes graph plot points row by row
+        //popArray.sort((a,b) => b[1] - a[1]);
         this.setState({
             popMean: math.mean(popArray.map(p => p[0]))
         })
