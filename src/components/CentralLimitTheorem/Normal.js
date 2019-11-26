@@ -35,11 +35,18 @@ class Normal extends React.Component {
             disableSample : false,
             popType: 'Normal'
         }
+        this.handleInputSampleSize = this.handleInputSampleSize.bind(this);
         this.changeStage = this.changeStage.bind(this);
     }
 
     changeStage(stage) {
         this.setState({stage: stage});
+    }
+
+    handleInputSampleSize(event){
+      this.setState({
+        sampleSize : event.target.value
+      });
     }
 
     generateNormal(){
@@ -256,12 +263,15 @@ class Normal extends React.Component {
                                                 </Table>
                                                 </Col>
                                             </Row>
+                                            <p>This is the standard dev for Normal js {math.std(this.state.popArray)}</p>
+                                            <p>This is the sample size for Normal js{this.state.sampleSize}</p>
                                             <Row style={{width: "60%", margin:'auto'}}>
                                                 <Alert color='light' className="Center">
                                                     <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
                                                         <p> Simulate drawing many many samples </p>
                                                     </Alert>
                                                     <SampleMeanSimulator
+                                                        setsamplesize={this.handleInputSampleSize}
                                                         style={{margin: 'auto'}}
                                                         clear={() => {
                                                             this.setState({

@@ -30,6 +30,7 @@ class SampleMeanChart extends Component {
         this.state.chart && this.show();
         return(
           <div>
+          <p>This is the sample means length for Samplemeanchart js{this.props.sampleMeans.length}</p>
               {
                   <div id="sim-container" className="Center" />
               }
@@ -49,11 +50,11 @@ class SampleMeanChart extends Component {
         // const popMean = Math.round(this.props.mean *4)/4;
         for (const i in this.props.sampleMeans){
             const val = this.props.normalized === 0 ?
-              Math.round(this.props.sampleMeans[i][1] * 10) / 10
-              : Math.round(( (this.props.sampleMeans[i][1] - this.props.mean) / (this.props.sd/Math.sqrt(this.props.sampleMeans.length)) )*10)/10;
+              Math.round(this.props.sampleMeans[i][1] * 100) / 100
+              : Math.round(((this.props.sampleMeans[i][1] - this.props.mean) / (this.props.sd/Math.sqrt(this.props.sampleSize)) )*100)/100;
             let count = 1;
             for (const j of sampleMeanSeries.data){
-                if (Math.round(j[0] * 10) / 10 === val){
+                if (Math.round(j[0] * 100) / 100 === val){
                     count += 1;
                 }
             }
