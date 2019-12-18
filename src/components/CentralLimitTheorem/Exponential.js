@@ -8,6 +8,9 @@ import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Row, Table } from 'reactstrap';
 
+
+let xvalue = [];
+
 class Exponential extends React.Component {
     constructor(props){
         super(props);
@@ -74,12 +77,12 @@ class Exponential extends React.Component {
             if (point !== -1) {
                 for (let count = 1; count < dict[point] + 2; count++) {
                     popArray.push([point/10, count]);
+                    xvalue.push(point/10);
                 }
             }
         }
         popArray.sort(() => Math.random() - 0.5);
-        //Commented code makes graph plot points row by row
-        //popArray.sort((a,b) => b[1] - a[1]);
+        popArray.sort((a,b) => b[1] - a[1]);
         this.setState({
             popMean: math.mean(popArray.map(p => p[0]))
         })
@@ -200,7 +203,7 @@ class Exponential extends React.Component {
                                                     numberResamples={this.state.numberResamples}
                                                     resampleSize={this.state.resampleSize[this.state.popType]}
                                                     mean={this.state.popMean}
-                                                    sd={math.std(this.state.popArray)}
+                                                    sd={math.std(xvalue)}
                                                     normalized={this.state.standardNormal}
                                                     sampleSize={this.state.sampleSize}
                                                     type={this.state.popType}
@@ -257,8 +260,6 @@ class Exponential extends React.Component {
                                                 </Table>
                                                 </Col>
                                             </Row>
-                                            <p>This is the standard dev for Exponential js {math.std(this.state.popArray)}</p>
-                                            <p>This is the sample size for Exponential js{this.state.sampleSize}</p>
                                             <Row style={{width: "60%", margin:'auto'}}>
                                                 <Alert color='light' className="Center">
                                                     <Alert color="primary" style={{width: "50%", margin: 'auto'}}>

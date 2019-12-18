@@ -19,13 +19,13 @@ class ChartContainer extends Component {
         popMean: this.props.popMean,
         popArray: [],
         sampled: [],
-        done: false,
+        done: true,
         values: {
             Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
             Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
             Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
             "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
-            Mystery: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"}
+            Mystery: { xmaxval: 80, xminval: 50, ymaxval: 40, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"}
         },
         texts: {
             Normal: ["monthly Milk Production", "cows","produced", " gallons a month."],
@@ -122,6 +122,7 @@ componentDidMount() {
         text: `${this.state.values[this.props.popType].title} <br /> Population Mean: ${Math.round(this.props.popMean * 100) / 100}`
     });
 
+
     this.setState({ popArray: this.props.popArray })
   }
 
@@ -178,9 +179,6 @@ componentDidMount() {
                <Row>
                    <Alert color="secondary" className="Center">
                         <p>We queried the {this.state.texts[this.props.popType][0]} of {this.props.popArray.length} {this.state.texts[this.props.popType][1]} and plotted the results on the following chart.</p>
-                        <Alert color="success" className="Center">
-                            <p>Subject number {this.state.popArray.length} {this.state.texts[this.props.popType][2]} {this.state.popArray[0]}{this.state.texts[this.props.popType][3]}</p>
-                        </Alert>
                     </Alert>
                </Row>
                 <Row >
@@ -196,32 +194,6 @@ componentDidMount() {
                             <div id="container" className="Center" />
                         }
                     </Col>
-                    <Col lg="2">
-                        <Label className="text-muted" for="speed">Pick a plotting speed</Label>
-                        <Input
-                            id="speed"
-                            type="range"
-                            min="1"
-                            max="2000"
-                            step="-50"
-                            value={2000 - this.state.speed}
-                            onChange={(event) => {
-                                this.setState({
-                                    speed: (2000 - event.target.value)
-                                })
-                            }}
-                        />
-                        <Button
-                            onClick={() => {
-                                this.setState({
-                                    done: true
-                                }, () => {
-
-                                });
-                            }}
-                        >Finish</Button>
-
-                    </Col>
                 </Row>
             </Container>
       </div>
@@ -230,3 +202,42 @@ componentDidMount() {
 }
 
 export default ChartContainer
+
+
+/*
+//Taken from around line 182 this is meant to report each point as it is plotted,
+Include when the rain feature works correctly.
+
+<Alert color="success" className="Center">
+    <p>Subject number {this.state.popArray.length} {this.state.texts[this.props.popType][2]} {this.state.popArray[0]}{this.state.texts[this.props.popType][3]}</p>
+</Alert>
+
+This is the code to add the rainfall feature to the population distribution. removed from
+around line 199, note this sets state to true, so it could originally be false in line 22
+<Col lg="2">
+    <Label className="text-muted" for="speed">Pick a plotting speed</Label>
+    <Input
+        id="speed"
+        type="range"
+        min="1"
+        max="2000"
+        step="-50"
+        value={2000 - this.state.speed}
+        onChange={(event) => {
+            this.setState({
+                speed: (2000 - event.target.value)
+            })
+        }}
+    />
+    <Button
+        onClick={() => {
+            this.setState({
+                done: true
+            }, () => {
+
+            });
+        }}
+    >Finish</Button>
+
+</Col>
+*/

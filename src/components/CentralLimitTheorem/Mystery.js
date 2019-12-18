@@ -13,13 +13,7 @@ class Mystery extends React.Component {
         super(props);
 
         this.state = {
-          popDict:{
-              "Normal": [],
-              "Uniform": [],
-              "Exponential": [],
-              "Chi-Squared": [],
-              "Mystery": []
-          },
+          popDict:[],
             numberResamples : {
                 "Normal": 0,
                 "Uniform": 0,
@@ -34,6 +28,9 @@ class Mystery extends React.Component {
                 "Chi-Squared": 0,
                 "Mystery": 0
             },
+
+            clearedArray: [],
+
             sampleMean: [],
             sampled: [],
             mainSampleSize: this.props.mainSampleSize,
@@ -43,8 +40,15 @@ class Mystery extends React.Component {
             disableSample : false,
             popType: 'Mystery'
         }
+        this.handleInputSampleSize = this.handleInputSampleSize.bind(this);
         this.changeStage = this.changeStage.bind(this);
         this.sum = this.sum.bind(this);
+    }
+
+    handleInputSampleSize(event){
+      this.setState({
+        sampleSize : event.target.value
+      });
     }
 
     changeStage(stage) {
@@ -63,10 +67,11 @@ class Mystery extends React.Component {
 
     generateMystery(){
 
-      if (this.sum(this.state.popDict["Mystery"]) === this.state.mainSampleSize){
-          clearInterval(this.timer);
-          return [];
+      if (this.state.popArray.length >= this.state.mainSampleSize){
+          return null;
       }
+
+      const popArray = [];
 
       const firstMEAN = 70;
       const firstSTANDARD_DEV = 3;
@@ -78,40 +83,82 @@ class Mystery extends React.Component {
       const secondITERATES = 9;
       const secondrange = Math.sqrt(12) * secondSTANDARD_DEV * secondSTANDARD_DEV;
       const secondpopMin = secondMEAN - (secondrange / 2);
-      const sampleSize = (this.sum(this.state.popDict["Mystery"]) > this.state.mainSampleSize / 2 ? this.state.mainSampleSize - this.sum(this.state.popDict["Mystery"]) : this.sum(this.state.popDict["Mystery"]) / 4 + 1)/2;
 
-      const popArray = this.state.popArray ? this.state.popArray.slice() : []
-      let dict = [];
+      const sampleSize = this.props.mainSampleSize;
 
-      for (let i = 0; i < sampleSize; i++){
-          let sum = 0;
-          for (let j = 0; j < firstITERATES; j++){
-              sum += Math.random() * firstrange + firstpopMin;
-          }
-          if (dict[Math.round(sum / firstITERATES * 10)]){
-              dict[Math.round(sum / firstITERATES * 10)] += 1
-          }
-          else {
-              dict[Math.round(sum / firstITERATES * 10)] = 1
-          }
-          popArray.push(sum / firstITERATES)
-      }
+      const newCleared = this.state.clearedArray;
+      const stateCopy = this.state.popDict;
 
-      for (let i = 0; i < sampleSize; i++){
-          let sum = 0;
-          for (let j = 0; j < secondITERATES; j++){
-              sum += Math.random() * secondrange + secondpopMin;
-          }
-          if (dict[Math.round(sum / secondITERATES * 10)]){
-              dict[Math.round(sum / secondITERATES * 10)] += 1
-          }
-          else {
-              dict[Math.round(sum / secondITERATES * 10)] = 1
-          }
-          popArray.push(sum / secondITERATES)
-      }
-      return popArray
+
+      for (let i = 0; i < sampleSize/2; i++){
+        let sum = 0;
+        if(this.state.clearedArray.length === 0){
+            for (let j = 0; j < firstITERATES; j++){
+                sum += Math.random() * firstrange + firstpopMin;
+            }
+        }
+        else{
+            sum = newCleared.pop() * firstITERATES;
+        }
+        if (this.state.popDict[Math.round(sum / firstITERATES * 10)]){
+            stateCopy[Math.round(sum / firstITERATES * 10)] += 1
+        }
+        else {
+            stateCopy[Math.round(sum / firstITERATES * 10)] = 1
+        }
+        popArray.push(Math.round((sum / firstITERATES)*100)/100)
     }
+
+    for (let i = 0; i < sampleSize/2; i++){
+        let sum = 0;
+        if(this.state.clearedArray.length === 0){
+            for (let j = 0; j < secondITERATES; j++){
+                sum += Math.random() * secondrange + secondpopMin;
+            }
+        }
+        else{
+            sum = newCleared.pop() * secondITERATES;
+        }
+        if (this.state.popDict[Math.round(sum / secondITERATES * 10)]){
+            stateCopy[Math.round(sum / secondITERATES * 10)] += 1
+        }
+        else {
+            stateCopy[Math.round(sum / secondITERATES * 10)] = 1
+        }
+        popArray.push(Math.round((sum / secondITERATES)*100)/100)
+    }
+    if(this.state.clearedArray.length > 0){
+      const tempCleared = this.state.clearedArray;
+      tempCleared = newCleared;
+      this.setState({clearedArray : tempCleared});
+    }
+
+    const finalPopArray = [];
+
+    let count = Array(sampleSize).fill(-1);
+    for (let i = 0; i < sampleSize; i++){
+
+        let val = popArray[i];
+
+        if (count[Math.round(val * 10)] !== -1){
+            count[Math.round(val * 10)] += 1;
+        }
+        else {
+            count[Math.round(val * 10)] = 1;
+        }
+
+        finalPopArray.push([(Math.round(val * 10)/10), count[Math.round(val * 10)] ])
+    }
+
+
+    finalPopArray.sort(() => Math.random() - 0.5);
+    finalPopArray.sort((a,b) => b[1] - a[1]);
+    this.setState({
+        popMean: math.mean(finalPopArray.map(p => p[0]))
+    })
+
+    return finalPopArray
+  }
 
     updateSampleMeansFromArray(means){
         let sampleMeans = this.state.sampleMean;
@@ -268,6 +315,7 @@ class Mystery extends React.Component {
                                                         <p> Simulate drawing many many samples </p>
                                                     </Alert>
                                                     <SampleMeanSimulator
+                                                        setsamplesize={this.handleInputSampleSize}
                                                         style={{margin: 'auto'}}
                                                         clear={() => {
                                                             this.setState({

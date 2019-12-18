@@ -20,7 +20,7 @@ class SampleMeanChart extends Component {
               Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
               Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
               "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
-              Mystery: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
+              Mystery: { xmaxval: 80, xminval: 50, ymaxval: 40, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"}
           },
             sd : undefined,
             curve: false
@@ -30,7 +30,6 @@ class SampleMeanChart extends Component {
         this.state.chart && this.show();
         return(
           <div>
-          <p>This is the sample means length for Samplemeanchart js{this.props.sampleMeans.length}</p>
               {
                   <div id="sim-container" className="Center" />
               }
@@ -43,7 +42,7 @@ class SampleMeanChart extends Component {
         this.show();
     }
     show(){
-        console.log(this.props.sampleMeans);
+        //console.log(this.props.sampleMeans);
         const sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
         let xAxisMeasurement =[];
