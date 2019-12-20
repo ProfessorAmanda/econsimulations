@@ -102,7 +102,7 @@ class Exponential extends React.Component {
 
     componentDidMount() {
         this.setState({
-            stage: 0
+            stage: 1
         })
     }
 
@@ -114,27 +114,6 @@ class Exponential extends React.Component {
                     changeStage={this.changeStage}
                     parentStage={this.state.stage}
                 >
-                    <div>
-                        <h1
-                        // style={{ display: 'inline' }}
-                        >
-                            Introduction
-                        </h1>
-
-                    </div>
-
-                    <p>The Law of Large Numbers (LLN) is a statement about the relationship between a population and a random sample drawn from that population. Let 𝜇 denote the true mean of a variable when calculated using the entire population, let 𝜎 denote the true standard deviation of that variable when calculated using the entire population, let 𝑥̅ denote the mean calculated from a sample drawn from that population, and let 𝑠 denote the standard deviation calculated from that sample. We would like to use information from the sample to make conclusions about the population. The LLN is helpful in this endeavor, because it states that as the sample size gets larger, the sample mean approaches the true population mean. This simulation’s goal is to demonstrate this handy property.</p>
-
-                    <Button outline
-                        onClick={
-                            () => {
-                                this.changeStage(1);
-                            }
-                        }
-                    >
-                        Continue
-                    </Button>
-
                     <div>
                         {
                             this.state.stage >= 1 ?

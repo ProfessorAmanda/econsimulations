@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Collapse from 'react-collapse';
 import { presets } from 'react-motion';
-import '../MarzEg.css'; 
+import '../MarzEg.css';
 
 class Collapsable extends Component {
     constructor(props) {

@@ -18,7 +18,10 @@ class SimBar extends Component {
             selected: 'Home'
         }
     }
+
+
     render(){
+
         const modes =
         [
             {
@@ -37,21 +40,21 @@ class SimBar extends Component {
 
             {
                 name: "Joint Distributions",
-                description: "A joint probability distribution shows a probability distribution for two (or more) random variables to look for a relationship between the two variables.",
+                description: "A joint probability distribution describes the simultaneous behavior of two random variables.",
                 extra: "",
                 img: jd
             },
 
             {
                 name: "Least Squares",
-                description: "The method of least squares is a standard approach in regression analysis to approximate the solution of overdetermined systems, i.e., sets of equations in which there are more equations than unknowns.",
+                description: "Ordinary least squares regression estimates the slope(s) and intercept of a line to best fit data for two (or more) variables by minimizing the sum of the squared distances from the data points to the line.",
                 extra: "",
                 img: ls
             },
 
             {
                 name: "Omitted Variable Bias",
-                description: "One of the most common and vexing problems in ordinary least squares regression. OVB occurs when a variable that is correlated with both the dependent and one or more included independent variables is omitted from a regression equation.",
+                description: "Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one on the included regressors is omitted from the regression model.",
                 extra: "",
                 img: ovs
             }
@@ -83,11 +86,13 @@ class SimBar extends Component {
             );
         });
         return(
-            <div>
+            <div >
             <div className="MiniLogo"></div>
                     {sections}
             </div>
         );
     }
 }
+
+
 export default SimBar;
