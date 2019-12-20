@@ -20,7 +20,7 @@ class SampleMeanChart extends Component {
               Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
               Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
               "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
-              Mystery: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
+              Mystery: { xmaxval: 80, xminval: 50, ymaxval: 40, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"}
           },
             sd : undefined,
             curve: false
@@ -42,24 +42,26 @@ class SampleMeanChart extends Component {
         this.show();
     }
     show(){
-        console.log(this.props.sampleMeans);
+        //console.log(this.props.sampleMeans);
         const sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
         let xAxisMeasurement =[];
+        let yAxisMeasurement =[];
         // const popMean = Math.round(this.props.mean *4)/4;
         for (const i in this.props.sampleMeans){
             const val = this.props.normalized === 0 ?
-              Math.round(this.props.sampleMeans[i][1] * 10) / 10
-              : Math.round(( (this.props.sampleMeans[i][1] - this.props.mean) / (this.props.sd/Math.sqrt(this.props.sampleMeans.length)) )*10)/10;
+              Math.round(this.props.sampleMeans[i][1] * 100) / 100
+              : Math.round(((this.props.sampleMeans[i][1] - this.props.mean) / (this.props.sd/Math.sqrt(this.props.sampleSize)) )*100)/100;
             let count = 1;
             for (const j of sampleMeanSeries.data){
-                if (Math.round(j[0] * 10) / 10 === val){
+                if (Math.round(j[0] * 100) / 100 === val){
                     count += 1;
                 }
             }
             yMax = Math.max(count, yMax);
             sampleMeanSeries.data[i] = [val, count];
             xAxisMeasurement.push(val);
+            yAxisMeasurement.push(count);
             // console.log(sampleMeanSeries.data);
         }
 
@@ -74,7 +76,8 @@ class SampleMeanChart extends Component {
         }
         else{
           xMin = Math.min.apply(Math, xAxisMeasurement);
-          xMax = Math.max.apply(Math, xAxisMeasurement) ;
+          xMax = Math.max.apply(Math, xAxisMeasurement);
+          yMax = Math.max.apply(Math, yAxisMeasurement);
           xLabel = "Standard Deviations";
         }
 

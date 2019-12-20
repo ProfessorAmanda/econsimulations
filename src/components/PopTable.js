@@ -18,7 +18,7 @@ export default function PopTable(props) {
     const samples = props.samples;
     const rows = popArr.map((val, index) => {
             for (const i of samples) {
-                // console.log(i);
+                //console.log(i);
                 if (val == i){
                     return (<tr style={{background:"#747EF2"}}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
                 }

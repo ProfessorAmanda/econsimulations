@@ -23,9 +23,12 @@ class SampleMeanSimulator extends Component {
             placeholder="Sample Size"
             onKeyPress={e => this.onKey(e)}
             onChange={event => {
+              
+              this.props.setsamplesize(event);
               this.setState({
                 resampleSize: event.target.value
               });
+
             }}
             value={this.state.resampleSize}
           />

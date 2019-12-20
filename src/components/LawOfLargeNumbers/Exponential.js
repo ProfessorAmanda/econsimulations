@@ -8,14 +8,14 @@ import { Alert, Button } from 'reactstrap';
 
 function DifferenceOfMeans(props){
     const diff = (
-        Math.round((props.popMean - props.sampleMean) * 100) / 100) === 0 ? 
-        0 : 
+        Math.round((props.popMean - props.sampleMean) * 100) / 100) === 0 ?
+        0 :
         Math.round((props.popMean - props.sampleMean) * 100) / 100 || '';
-    return ( 
+    return (
         <Alert color="success" style={{ padding: 0, marginTop: '1em' }}>
             Sample Mean: {props.sampleMean || ''}
             <br />
-            Difference of Means: {diff} 
+            Difference of Means: {diff}
         </Alert>
     );
 }
@@ -42,7 +42,7 @@ class Exponential extends React.Component {
         const sampleSize = this.state.mainSampleSize;
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
 
-        let dict = Array(sampleSize).fill(-1); 
+        let dict = Array(sampleSize).fill(-1);
 
         for (let i = 0; i < sampleSize; i++){
             const val = -Math.log(Math.random()) / LAMBDA
@@ -68,12 +68,12 @@ class Exponential extends React.Component {
         })
         return popArray;
 
-  
+
     }
 
     sample(size, popArray) {
         const sampled = []
-        
+
         while (sampled.length < size){
             // index to sample ?
             const r = Math.round(Math.random() * (popArray.length - 1))
@@ -115,14 +115,14 @@ class Exponential extends React.Component {
                     parentStage={this.state.stage}
                 >
                     <div>
-                        <h1 
+                        <h1
                         // style={{ display: 'inline' }}
                         >
                             Introduction
                         </h1>
-                         
+
                     </div>
-                    
+
                     <p>The Law of Large Numbers (LLN) is a statement about the relationship between a population and a random sample drawn from that population. Let 𝜇 denote the true mean of a variable when calculated using the entire population, let 𝜎 denote the true standard deviation of that variable when calculated using the entire population, let 𝑥̅ denote the mean calculated from a sample drawn from that population, and let 𝑠 denote the standard deviation calculated from that sample. We would like to use information from the sample to make conclusions about the population. The LLN is helpful in this endeavor, because it states that as the sample size gets larger, the sample mean approaches the true population mean. This simulation’s goal is to demonstrate this handy property.</p>
 
                     <Button outline
@@ -139,7 +139,7 @@ class Exponential extends React.Component {
                         {
                             this.state.stage >= 1 ?
                                 <div>
-                                    <ChartContainer 
+                                    <ChartContainer
                                         popArray={this.state.popArray}
                                         popMean={this.state.popMean}
                                         sampled={this.state.sampled}
@@ -149,7 +149,7 @@ class Exponential extends React.Component {
                                     <div>
                                         <span>
                                             <p> Try a few different sample sizes and compare sample mean to population mean </p>
-                                            <SampleArea 
+                                            <SampleArea
                                                 setmean={(mean) => {
                                                     this.setState({
                                                         sampleMean: mean
@@ -165,15 +165,15 @@ class Exponential extends React.Component {
                                                     this.changeStage(2);
                                                     return sampleObject;
                                                 }}
-                                            popArray={this.state.popArray} 
+                                            popArray={this.state.popArray}
                                             popType={this.state.popType}
                                             />
                                         </span>
 
                                         {
-                                            this.state.stage >= 2 ? 
-                                                <DifferenceOfMeans 
-                                                popMean={this.state.popMean} 
+                                            this.state.stage >= 2 ?
+                                                <DifferenceOfMeans
+                                                popMean={this.state.popMean}
                                                 sampleMean={this.state.sampleMean}
                                                 />
                                             :
@@ -186,15 +186,15 @@ class Exponential extends React.Component {
                                             <Alert color="info">
                                                 According to the law, the average of the results obtained from a large enough sample should be close to the total average of the population, and will tend to become closer the larger the sample is. Make sure to pick several samples, or click below for a simulation to see the law in action.
                                             </Alert>
-                                            <SimulateSamples 
-                                                type={this.state.popType} 
-                                                sample={(size) => { return this.sample(size, this.state.popArray).pop }} 
+                                            <SimulateSamples
+                                                type={this.state.popType}
+                                                sample={(size) => { return this.sample(size, this.state.popArray).pop }}
                                                 pop={this.state.popMean}
                                             />
                                         </div>
                                         :<div></div>
                                         }
-                       
+
                                     </div>
                                 </div>
                             :

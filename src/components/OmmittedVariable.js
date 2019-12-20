@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
 import regression from 'regression';
-import { Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
+import { Alert, Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
 
 const smr = require('smr');
 const quantile = require("distributions-exponential-quantile");
@@ -29,41 +29,47 @@ class OmmittedVariable extends Component {
     render() {
         return(
           <Container className='Plate'>
-            <div className="MiniLogo">
-                </div>
+            <div className="MiniLogo"></div>
+            <Alert style={{ width: "50%", margin: 'auto' }} color="primary">
+                Omitted Variable Bias
+            </Alert>
+            <br/>
             <div>
                 <Row>
-                  <p className="Center">Step 1: Choose Population Parameters</p>
+                  <p className="Center">We are studying the relationship between crime and the size of the police force:</p>
+                  <p className="Center">Crimeᵢ = β₀ + β₁Policeᵢ + 𝛿Densityᵢ + uᵢ</p>
+                  <br/>
+                  <p className="Center">Choose Population Parameters:</p>
                 </Row>
                 <br />
                     <Row>
                       <Col>
                         <InputGroup>
-                          <InputGroupAddon addonType='prepend'>Beta, the Coefficient on Police:</InputGroupAddon>
-                          <Input type="number" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
+                          <InputGroupAddon className="Center" addonType='prepend'>β₁, the Coefficient on Police:</InputGroupAddon>
+                          <Input className="Center" type="number" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
                           this.setState({beta: parseFloat(event.target.value)});
                         }}/>
-                          
                         </InputGroup>
                       </Col>
 
                       <Col>
                         <InputGroup>
-                          <InputGroupAddon addonType='prepend'>Delta, the Coefficient on Density: </InputGroupAddon>
-                          <Input type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
+                          <InputGroupAddon className="Center" addonType='prepend'>𝛿, the Coefficient on Density: </InputGroupAddon>
+                          <Input className="Center" type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
                           this.setState({delta: parseFloat(event.target.value)});
                         }}/>
                         </InputGroup>
                       </Col>
 
                       <Col>
-                        <InputGroup>
-                          <InputGroupAddon addonType='prepend'>Covariance beween Police and Density: </InputGroupAddon>
-                          <Input type="number" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
-                          this.setState({cov:parseFloat(event.target.value)});
-                        }}/>
-                        </InputGroup>
+                      <InputGroup>
+                        <InputGroupAddon className="Center" addonType='prepend'>Covariance between Police and Density: </InputGroupAddon>
+                        <Input className="Center" type="number" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
+                        this.setState({cov:parseFloat(event.target.value)});
+                      }}/>
+                      </InputGroup>
                       </Col>
+
                       </Row>
                       <br />
                       <Row className="Center">
@@ -74,18 +80,18 @@ class OmmittedVariable extends Component {
                         <span className="Center" id="sharks"/>
                       </Row>
                       <Row className="Center">
-                        {this.state.stage < 1 ? 
-                          null 
+                        {this.state.stage < 1 ?
+                          null
                           :<div>
                             <p color='primary'> Add Omitted Variable, Density, to Regression </p>
-                            <Button 
+                            <Button
                             style={{marginBottom: '2em'}}
                             outline color='primary' onClick={() => {
                               this.setState({stage:2});
                               this.generate(1);
                             }}> Show Corrected Regression Line </Button></div>}
                     </Row>
-                    
+
               </div>
             </Container>
 
@@ -123,7 +129,7 @@ class OmmittedVariable extends Component {
           Math.round(s[1]*100)/100]});
         newSeries.data = roundedSeries;
 
-        
+
 
         // console.log(roundedSeries);
 
@@ -168,11 +174,11 @@ class OmmittedVariable extends Component {
         // using matrices
         const X = mathjs.transpose(mathjs.matrix([ones,colOne, colTwo]));
         const Y = mathjs.transpose(mathjs.matrix([crime]));
-        const inv = mathjs.inv(mathjs.multiply(mathjs.transpose(X),X));  
+        const inv = mathjs.inv(mathjs.multiply(mathjs.transpose(X),X));
         const bHat = mathjs.multiply(mathjs.multiply(inv,mathjs.transpose(X)),Y);
         // console.log(bHat);
         // console.log(bHat.get([1,0]));
-        
+
 
         const multipleArray = [];
         for(let i=0;i<OBS;i++){
@@ -248,17 +254,20 @@ class OmmittedVariable extends Component {
             	{
             		type: 'scatter',
                 data: crimePol,
-                name: "Crime"
+                name: "Crime",
+                color: '#33A5FF'
             	},
               {
             		type: 'line',
                 data: naiveLine,
-                name: "Naive Regression"
+                name: "Naive Regression",
+                color: '#E30404'
             	},
               {
             		type: 'line',
                 data: correctedLine,
-                name: "Corrected Regression"
+                name: "Corrected Regression",
+                color: '#2AC208'
             	}
             ]
         });

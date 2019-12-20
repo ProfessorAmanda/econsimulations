@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Highcharts from "highcharts";
-import { Button, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Col } from "reactstrap";
+import { Alert, Button, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Col } from "reactstrap";
 
 let sumSquares;
 let placeHolders = [];
@@ -34,13 +34,22 @@ class LeastSim extends Component {
   render() {
     this.state.chart && this.show();
     return (
-      <Container fluid className="Plate">
+
+        <Container fluid className="Plate">
         <div className="MiniLogo"></div>
+        <Alert style={{ width: "50%", margin: 'auto' }} color="primary">
+            Least Squares
+        </Alert>
+        <br/>
         <Row>
           <Col>
             <span className="Center" id="sim-container" />
           </Col>
           <Col>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
           <InputGroup>
             <InputGroupAddon addonType="prepend">
             </InputGroupAddon>
@@ -68,8 +77,8 @@ class LeastSim extends Component {
                   holdXSingleValues =[];
                   holdYSingleValues =[];
                   for (let i = 0; i < this.state.tmpPS; i++) {
-                    let x = Math.round(Math.random() * 1000) / 100;
-                    let y = Math.round(Math.random() * 1000) / 100;
+                    let x = Math.floor(Math.random() * 11) + 2;
+                    let y = Math.floor(Math.random() * 11) + 2;
                     newPoints.push([x, y]);
                     holdXValues.push([x]);
                     holdXSingleValues.push(x);
@@ -83,8 +92,8 @@ class LeastSim extends Component {
                     cleared: 1,
                     pointSize: this.state.tmpPS,
                     linePoints: [],
-                    int: 0,
-                    slope: 0});
+                    int: 1,
+                    slope: 1});
                 }}
                 >
                 New Points
@@ -92,16 +101,17 @@ class LeastSim extends Component {
               </InputGroupAddon>
           </InputGroup>
 
+
             {
               this.state.step === 2 &&
               <p>
-                Estimated Line: Guess the Slope and Y Intercept
+                Guess a Slope and Y-Intercept to fit the points
               </p>
             }
             {
               this.state.step === 3 &&
               <p>
-                Guess a different slope and y-intercept to reduce the Sum of Squares!
+                Want to try again? Guess a different slope and y-intercept to reduce the Sum of Squares!
               </p>
             }
 
@@ -110,8 +120,9 @@ class LeastSim extends Component {
               null
               : <div>
                     <h4>Slope</h4>
+                    <InputGroupText>
                     <input
-                    type="range"
+                    type="number"
                     step={0.01}
                     value={this.state.slope}
                     min={-5}
@@ -122,10 +133,12 @@ class LeastSim extends Component {
                       });
                     }}
                     />
-                    <InputGroupText>{Math.round(this.state.slope* 100) / 100}</InputGroupText>
+                    </InputGroupText>
+
                     <h4>Intercept</h4>
+                    <InputGroupText>
                     <input
-                    type="range"
+                    type="number"
                     step={0.01}
                     value={this.state.int}
                     min={0}
@@ -135,7 +148,7 @@ class LeastSim extends Component {
                         int: parseFloat(event.target.value)
                     })}}
                     />
-                    <InputGroupText>{Math.round(this.state.int * 100) / 100}</InputGroupText>
+                    </InputGroupText>
                   </div>
           }
 
@@ -164,7 +177,7 @@ class LeastSim extends Component {
                   color="info"
                   onClick={() => {
                     const eq = this.generateTrue();
-                    this.setState({ slope: eq[0], int: eq[1] });
+                    this.setState({ slope: Math.round(eq[0]*100)/100, int: Math.round(eq[1]*100)/100 });
                   }}
                   >
                   {" "}Click to Reveal the Least Squares Line{" "}
@@ -191,24 +204,27 @@ class LeastSim extends Component {
           'sim-container',
           {
             title: {
-              text: "Least Squares Example"
+              text: ""
             },
 
             chart: {
               type: 'line',
               plotBorderColor: '#000000',
-              plotBorderWidth: 1
+              plotBorderWidth: 1,
+              margin : [100,100,100,100],
+              width  : 600,
+              height : 600
             },
 
             xAxis: {
               min: 0,
-              max: 15,
+              max: 20,
               startOnTick: true,
               tickInterval: 2
             },
             yAxis: {
               min: 0,
-              max: 15,
+              max: 20,
               startOnTick: true,
               endOnTick: true,
               tickInterval: 2
@@ -256,8 +272,8 @@ class LeastSim extends Component {
           const diff = originalY - guessedY;
           const xBox = lineX;
           const yBox = diff > 0 ? originalY : guessedY;
-          const firstL =  17 * Math.abs(diff);
-          const secondL = 17 * Math.abs(diff);
+          const firstL =  20 * Math.abs(diff);
+          const secondL = 20 * Math.abs(diff);
           sumSquares += Math.round(Math.abs(diff) * Math.abs(diff));
 
           const tmp = copyChart.renderer

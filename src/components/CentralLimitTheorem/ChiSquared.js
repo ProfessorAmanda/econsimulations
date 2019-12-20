@@ -9,6 +9,8 @@ import math from 'mathjs';
 import { Alert, Button, Col, Row, Table } from 'reactstrap';
 import chi from 'chi-squared';
 
+let xvalue = [];
+
 class ChiSquared extends React.Component {
     constructor(props){
         super(props);
@@ -36,7 +38,14 @@ class ChiSquared extends React.Component {
             disableSample : false,
             popType: 'Chi-Squared'
         }
+        this.handleInputSampleSize = this.handleInputSampleSize.bind(this);
         this.changeStage = this.changeStage.bind(this);
+    }
+
+    handleInputSampleSize(event){
+      this.setState({
+        sampleSize : event.target.value
+      });
     }
 
     changeStage(stage) {
@@ -57,11 +66,11 @@ class ChiSquared extends React.Component {
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
 
         const sampleSize = this.state.mainSampleSize;
-        let dict = Array(sampleSize).fill(-1); 
-        
+        let dict = Array(sampleSize).fill(-1);
+
         for (let i = 0; i < sampleSize; i++){
             const val = chiArray[Math.round(Math.random() * chiArray.length)];
-            
+
             if (dict[Math.round(val * 10)]){
                 dict[Math.round(val * 10)] += 1;
             } else {
@@ -73,6 +82,7 @@ class ChiSquared extends React.Component {
             if (point !== -1) {
                 for (let count = 1; count < dict[point] + 2; count++) {
                     popArray.push([point/10, count]);
+                    xvalue.push(point/10);
                 }
             }
         }
@@ -90,7 +100,7 @@ class ChiSquared extends React.Component {
 
     sample(size, popArray) {
         const sampled = []
-        
+
         while (sampled.length < size){
             // index to sample ?
             const r = Math.round(Math.random() * (popArray.length - 1))
@@ -141,14 +151,14 @@ class ChiSquared extends React.Component {
                     parentStage={this.state.stage}
                 >
                     <div>
-                        <h1 
+                        <h1
                         // style={{ display: 'inline' }}
                         >
                             Introduction
                         </h1>
-                         
+
                     </div>
-                    
+
                     <p> This simulation demonstrates the shape of the sampling distribution of the sample mean. Suppose I draw a large number of samples, each of size 𝑛, from some population. For each sample, I calculate a sample mean 𝑥̅. I now plot a histogram of those sample means. For a sufficiently large sample size, the shape of that histogram will look like a beautiful bell-shaped curve, no matter what shape the underlying population had.</p>
 
                     <Button outline
@@ -166,7 +176,7 @@ class ChiSquared extends React.Component {
                             this.state.stage >= 1 ?
                                 <div>
                                     <div>
-                                    <ChartContainer 
+                                    <ChartContainer
                                         popArray={this.state.popArray}
                                         popMean={this.state.popMean}
                                         sampled={this.state.sampled}
@@ -184,28 +194,28 @@ class ChiSquared extends React.Component {
                                         >Continue
                                     </Button>
                                         {
-                                            this.state.stage >= 2 ? 
+                                            this.state.stage >= 2 ?
                                         <span>
                                         <Row>
                                             <Col
                                                 lg="8">
                                                 <ToggleStandard
-                                                    section={this.state.standardNormal} 
+                                                    section={this.state.standardNormal}
                                                     toggleSwitch={(set) => {
-                                                        this.setState({ 
-                                                            standardNormal : set 
+                                                        this.setState({
+                                                            standardNormal : set
                                                         })
                                                     }}
                                                 />
                                                 <SampleMeanChart
-                                                    numberResamples={this.state.numberResamples} 
-                                                    resampleSize={this.state.resampleSize[this.state.popType]} 
-                                                    mean={this.state.popMean} 
+                                                    numberResamples={this.state.numberResamples}
+                                                    resampleSize={this.state.resampleSize[this.state.popType]}
+                                                    mean={this.state.popMean}
                                                     sd={math.std(this.state.popArray)}
-                                                    normalized={this.state.standardNormal} 
-                                                    sampleSize={this.state.sampleSize} 
-                                                    type={this.state.popType} 
-                                                    normal={this.state.standardNormal} 
+                                                    normalized={this.state.standardNormal}
+                                                    sampleSize={this.state.sampleSize}
+                                                    type={this.state.popType}
+                                                    normal={this.state.standardNormal}
                                                     sampleMeans={this.state.sampleMean}
                                                 />
                                             </Col>
@@ -214,19 +224,19 @@ class ChiSquared extends React.Component {
 
                                             <Alert color='light'>
                                                 <p>Try drawing some samples and calculating means </p>
-                                                <SampleAreaCLT 
-                                                    disabled={this.state.disableSample} 
-                                                    redraw={() => 
+                                                <SampleAreaCLT
+                                                    disabled={this.state.disableSample}
+                                                    redraw={() =>
                                                         {}
                                                     }
                                                     sample={(size) => {
                                                         const sampleObject = this.sample(size, this.state.popArray);
-                                                        
+
                                                         this.setState({
                                                             sampled: sampleObject.pop
                                                         });
                                                         return sampleObject;
-                                                        
+
                                                     }}
                                                     popArray={this.state.popArray}
                                                     popType={this.state.popType}
@@ -263,11 +273,12 @@ class ChiSquared extends React.Component {
                                                     <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
                                                         <p> Simulate drawing many many samples </p>
                                                     </Alert>
-                                                    <SampleMeanSimulator 
+                                                    <SampleMeanSimulator
+                                                        setsamplesize={this.handleInputSampleSize}
                                                         style={{margin: 'auto'}}
                                                         clear={() => {
                                                             this.setState({
-                                                                calculable: false, 
+                                                                calculable: false,
                                                                 sampleMean: []
                                                             })}
                                                         }

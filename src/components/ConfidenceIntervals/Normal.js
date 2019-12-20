@@ -44,16 +44,16 @@ class Normal extends React.Component {
     }
 
     generateNormal(){
-        const MEAN = 64; 
+        const MEAN = 64;
         const STANDARD_DEV = 3;
         const ITERATES = 9;
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
-        
+
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
-        
+
         const sampleSize = this.state.mainSampleSize;
-        let dict = Array(sampleSize).fill(-1); 
+        let dict = Array(sampleSize).fill(-1);
 
         // creates data points for population and stores it in popArray
         for (let i = 0; i < sampleSize; i++){
@@ -89,7 +89,7 @@ class Normal extends React.Component {
 
     sample(size, popArray) {
         const sampled = []
-        
+
         while (sampled.length < size){
             // index to sample ?
             const r = Math.round(Math.random() * (popArray.length - 1))
@@ -140,16 +140,15 @@ class Normal extends React.Component {
                     parentStage={this.state.stage}
                 >
                     <div>
-                        <h1 
+                        <h1
                         // style={{ display: 'inline' }}
                         >
                             Introduction
                         </h1>
-                         
-                    </div>
-                    
-                    <p> The purpose of this simulation is to show that the formula we develop in class for a “reasonable margin of error” around the sample mean works. About 95 out of 100 intervals we generate using the formula for a 95% confidence interval will contain the true population mean 𝜇. And, what is cooler, this formula will work regardless of the underlying population distribution.</p>
 
+                    </div>
+
+                    <p> </p>
                     <Button outline
                         style={{ marginBottom: '2em' }}
                         onClick={
@@ -171,7 +170,7 @@ class Normal extends React.Component {
                                         <Col
                                             lg="6">
 
-                                            <ChartContainer 
+                                            <ChartContainer
                                                 popArray={this.state.popArray}
                                                 popMean={this.state.popMean}
                                                 sampled={this.state.sampled}
@@ -183,14 +182,14 @@ class Normal extends React.Component {
                                         <Col
                                             lg="6">
                                             <SampleMeanChart
-                                                numberResamples={this.state.numberResamples} 
-                                                resampleSize={this.state.resampleSize[this.state.popType]} 
-                                                mean={this.state.popMean} 
+                                                numberResamples={this.state.numberResamples}
+                                                resampleSize={this.state.resampleSize[this.state.popType]}
+                                                mean={this.state.popMean}
                                                 sd={this.state.popArray.length > 0 ? math.std(this.state.popArray) : 1}
-                                                normalized={this.state.standardNormal} 
-                                                sampleSize={this.state.sampleSize} 
-                                                type={this.state.popType} 
-                                                normal={this.state.standardNormal} 
+                                                normalized={this.state.standardNormal}
+                                                sampleSize={this.state.sampleSize}
+                                                type={this.state.popType}
+                                                normal={this.state.standardNormal}
                                                 sampleMeans={this.state.sampleMean}
                                                 confidence={this.state.confidence}
                                                 />
@@ -215,26 +214,26 @@ class Normal extends React.Component {
                                                     </Col>
                                                 </Row> */}
                                         {
-                                            
+
                                         <span>
                                         <Row>
-                                            
+
                                             <Col lg="6">
                                                 <Alert color='light'>
                                                     <p>Try drawing some samples and calculating means </p>
-                                                    <SampleAreaCLT 
-                                                        disabled={this.state.disableSample} 
-                                                        redraw={() => 
+                                                    <SampleAreaCLT
+                                                        disabled={this.state.disableSample}
+                                                        redraw={() =>
                                                             {}
                                                         }
                                                         sample={(size) => {
                                                             const sampleObject = this.sample(size, this.state.popArray);
-                                                            
+
                                                             this.setState({
                                                                 sampled: sampleObject.pop
                                                             });
                                                             return sampleObject;
-                                                            
+
                                                         }}
                                                         mean={this.state.popMean}
                                                         popArray={this.state.popArray}
@@ -250,11 +249,11 @@ class Normal extends React.Component {
                                                     <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
                                                         <p> Simulate drawing many many samples </p>
                                                     </Alert>
-                                                    <SampleMeanSimulator 
+                                                    <SampleMeanSimulator
                                                         style={{margin: 'auto'}}
                                                         clear={() => {
                                                             this.setState({
-                                                                calculable: false, 
+                                                                calculable: false,
                                                                 sampleMean: []
                                                             })}
                                                         }
@@ -286,7 +285,7 @@ class Normal extends React.Component {
                                                             <td>{index + 1}</td>
                                                             <td>{mean[0]}</td>
                                                             <td>{Math.round(mean[1] * 10) / 10}</td>
-                                                            
+
                                                         </tr>
                                                         ))}
                                                     </tbody>

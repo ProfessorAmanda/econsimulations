@@ -8,6 +8,8 @@ import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Row, Table } from 'reactstrap';
 
+let xvalue = [];
+
 class Normal extends React.Component {
     constructor(props){
         super(props);
@@ -35,11 +37,19 @@ class Normal extends React.Component {
             disableSample : false,
             popType: 'Normal'
         }
+        this.handleInputSampleSize = this.handleInputSampleSize.bind(this);
+
         this.changeStage = this.changeStage.bind(this);
     }
 
     changeStage(stage) {
         this.setState({stage: stage});
+    }
+
+    handleInputSampleSize(event){
+      this.setState({
+        sampleSize : event.target.value
+      });
     }
 
     generateNormal(){
@@ -74,6 +84,7 @@ class Normal extends React.Component {
             if (point !== -1) {
                 for (let count = 1; count < dict[point] + 1; count++) {
                     popArray.push([point/10, count]);
+                    xvalue.push(point/10);
                 }
             }
         }
@@ -83,7 +94,6 @@ class Normal extends React.Component {
             popMean: math.mean(popArray.map(p => p[0]))
         })
         return popArray;
-
     }
 
     sample(size, popArray) {
@@ -199,7 +209,7 @@ class Normal extends React.Component {
                                                     numberResamples={this.state.numberResamples}
                                                     resampleSize={this.state.resampleSize[this.state.popType]}
                                                     mean={this.state.popMean}
-                                                    sd={math.std(this.state.popArray)}
+                                                    sd={math.std(xvalue)}
                                                     normalized={this.state.standardNormal}
                                                     sampleSize={this.state.sampleSize}
                                                     type={this.state.popType}
@@ -262,6 +272,7 @@ class Normal extends React.Component {
                                                         <p> Simulate drawing many many samples </p>
                                                     </Alert>
                                                     <SampleMeanSimulator
+                                                        setsamplesize={this.handleInputSampleSize}
                                                         style={{margin: 'auto'}}
                                                         clear={() => {
                                                             this.setState({
