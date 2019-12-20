@@ -34,7 +34,8 @@ class LeastSim extends Component {
   render() {
     this.state.chart && this.show();
     return (
-      <Container fluid className="Plate">
+
+        <Container fluid className="Plate">
         <div className="MiniLogo"></div>
         <Row>
           <Col>
@@ -95,6 +96,7 @@ class LeastSim extends Component {
               </Button>
               </InputGroupAddon>
           </InputGroup>
+
 
             {
               this.state.step === 2 &&

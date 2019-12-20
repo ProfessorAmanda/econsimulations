@@ -109,6 +109,7 @@ class JointSimple extends Component {
                     <Col>
                     <div>
                     <p> Set the Covariance</p>
+                    <br/>
                     <div>
                     <Input
                         value={this.state.covariance}
@@ -124,7 +125,6 @@ class JointSimple extends Component {
                             this.setState({covMatrix : temp});
                           }}
                     />
-                    <p>{this.state.covariance}</p>
                     </div>
 
 

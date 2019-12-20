@@ -27,7 +27,8 @@ class LawOfLargeNumbers extends Component{
     render() {
         return (
             <div className="MainContainer">
-                {/* <div className="MiniLogo"></div> */}
+                <br/>
+                <div className="MiniLogo"></div>
                 <Alert style={{ width: "50%", margin: 'auto' }} color="primary">
                     Law Of Large Numbers
                 </Alert>
@@ -39,26 +40,26 @@ class LawOfLargeNumbers extends Component{
                         }
                     }
                 />
-                {this.state.popType === "Normal" && 
+                {this.state.popType === "Normal" &&
                     <Normal
                         mainSampleSize={SAMPLE_SIZE}
                     />}
-                {this.state.popType === "Uniform" && 
+                {this.state.popType === "Uniform" &&
                     <Uniform
                         mainSampleSize={SAMPLE_SIZE}
                     />}
 
-                {this.state.popType === "Exponential" && 
+                {this.state.popType === "Exponential" &&
                     <Exponential
                         mainSampleSize={SAMPLE_SIZE}
                     />}
 
-                {this.state.popType === "Chi-Squared" && 
+                {this.state.popType === "Chi-Squared" &&
                     <ChiSquared
                         mainSampleSize={SAMPLE_SIZE}
                     />}
 
-                
+
             </div>
         )
     }
