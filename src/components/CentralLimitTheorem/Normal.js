@@ -8,6 +8,8 @@ import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Row, Table } from 'reactstrap';
 
+let xvalue = [];
+
 class Normal extends React.Component {
     constructor(props){
         super(props);
@@ -36,6 +38,7 @@ class Normal extends React.Component {
             popType: 'Normal'
         }
         this.handleInputSampleSize = this.handleInputSampleSize.bind(this);
+
         this.changeStage = this.changeStage.bind(this);
     }
 
@@ -81,6 +84,7 @@ class Normal extends React.Component {
             if (point !== -1) {
                 for (let count = 1; count < dict[point] + 1; count++) {
                     popArray.push([point/10, count]);
+                    xvalue.push(point/10);
                 }
             }
         }
@@ -205,7 +209,7 @@ class Normal extends React.Component {
                                                     numberResamples={this.state.numberResamples}
                                                     resampleSize={this.state.resampleSize[this.state.popType]}
                                                     mean={this.state.popMean}
-                                                    sd={math.std(this.state.popArray)}
+                                                    sd={math.std(xvalue)}
                                                     normalized={this.state.standardNormal}
                                                     sampleSize={this.state.sampleSize}
                                                     type={this.state.popType}

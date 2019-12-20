@@ -42,31 +42,31 @@ class OmmittedVariable extends Component {
                     <Row>
                       <Col>
                         <InputGroup>
-                          <InputGroupAddon addonType='prepend'>β₁, the Coefficient on Police:</InputGroupAddon>
-                          <Input type="number" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
+                          <InputGroupAddon className="Center" addonType='prepend'>β₁, the Coefficient on Police:</InputGroupAddon>
+                          <Input className="Center" type="number" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
                           this.setState({beta: parseFloat(event.target.value)});
                         }}/>
-
                         </InputGroup>
                       </Col>
 
                       <Col>
                         <InputGroup>
-                          <InputGroupAddon addonType='prepend'>𝛿, the Coefficient on Density: </InputGroupAddon>
-                          <Input type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
+                          <InputGroupAddon className="Center" addonType='prepend'>𝛿, the Coefficient on Density: </InputGroupAddon>
+                          <Input className="Center" type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
                           this.setState({delta: parseFloat(event.target.value)});
                         }}/>
                         </InputGroup>
                       </Col>
 
                       <Col>
-                        <InputGroup>
-                          <InputGroupAddon addonType='prepend'>Covariance beween Police and Density: </InputGroupAddon>
-                          <Input type="number" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
-                          this.setState({cov:parseFloat(event.target.value)});
-                        }}/>
-                        </InputGroup>
+                      <InputGroup>
+                        <InputGroupAddon className="Center" addonType='prepend'>Covariance between Police and Density: </InputGroupAddon>
+                        <Input className="Center" type="number" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
+                        this.setState({cov:parseFloat(event.target.value)});
+                      }}/>
+                      </InputGroup>
                       </Col>
+
                       </Row>
                       <br />
                       <Row className="Center">

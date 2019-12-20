@@ -8,6 +8,8 @@ import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Row, Table } from 'reactstrap';
 
+let xvalue = [];
+
 class Mystery extends React.Component {
     constructor(props){
         super(props);
@@ -40,7 +42,9 @@ class Mystery extends React.Component {
             disableSample : false,
             popType: 'Mystery'
         }
+
         this.handleInputSampleSize = this.handleInputSampleSize.bind(this);
+
         this.changeStage = this.changeStage.bind(this);
         this.sum = this.sum.bind(this);
     }
@@ -148,8 +152,8 @@ class Mystery extends React.Component {
         }
 
         finalPopArray.push([(Math.round(val * 10)/10), count[Math.round(val * 10)] ])
+        xvalue.push((Math.round(val * 10)/10))
     }
-
 
     finalPopArray.sort(() => Math.random() - 0.5);
     finalPopArray.sort((a,b) => b[1] - a[1]);
@@ -252,7 +256,7 @@ class Mystery extends React.Component {
                                                     numberResamples={this.state.numberResamples}
                                                     resampleSize={this.state.resampleSize[this.state.popType]}
                                                     mean={this.state.popMean}
-                                                    sd={math.std(this.state.popArray)}
+                                                    sd={math.std(xvalue)}
                                                     normalized={this.state.standardNormal}
                                                     sampleSize={this.state.sampleSize}
                                                     type={this.state.popType}

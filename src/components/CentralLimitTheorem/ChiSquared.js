@@ -9,6 +9,8 @@ import math from 'mathjs';
 import { Alert, Button, Col, Row, Table } from 'reactstrap';
 import chi from 'chi-squared';
 
+let xvalue = [];
+
 class ChiSquared extends React.Component {
     constructor(props){
         super(props);
@@ -80,6 +82,7 @@ class ChiSquared extends React.Component {
             if (point !== -1) {
                 for (let count = 1; count < dict[point] + 2; count++) {
                     popArray.push([point/10, count]);
+                    xvalue.push(point/10);
                 }
             }
         }

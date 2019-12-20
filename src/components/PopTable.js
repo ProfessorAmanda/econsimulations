@@ -49,10 +49,6 @@ export default function PopTable(props) {
 
     return (
             <div style={{ visibility: showTable}}>
-
-            <div>
-            {popArr}
-            </div>
                 <Table striped className="PopTable">
                     <thead>
                         <tr>
