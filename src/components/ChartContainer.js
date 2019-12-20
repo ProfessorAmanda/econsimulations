@@ -22,17 +22,17 @@ class ChartContainer extends Component {
         done: true,
         values: {
             Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
-            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
+            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Wait Time at the DMV in VT", xLabel: "Minutes (min)"},
             Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
             "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
-            Mystery: { xmaxval: 80, xminval: 50, ymaxval: 40, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"}
+            Mystery: { xmaxval: 80, xminval: 50, ymaxval: 40, title:"Alien Female Height", xLabel: "Height (in)"}
         },
         texts: {
             Normal: ["monthly Milk Production", "cows","produced", " gallons a month."],
-            Uniform: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
+            Uniform: ['the wait time', 'people at the DMV in VT', "reported a total time of", " minutes."],
             Exponential: ["duration", "Telemarketer Calls","reported a duration of", " seconds on a call."],
             "Chi-Squared": ["expenditure", "workers on lunch","reported an expenditure of"," dollars on lunch."],
-            Mystery: ["expenditure", "workers on lunch","reported an expenditure of"," dollars on lunch."]
+            Mystery: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
         }
     };
 

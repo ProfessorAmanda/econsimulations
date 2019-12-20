@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
-import { Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
+import { Alert, Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
 const quantile = require("distributions-exponential-quantile");
 const cdf = require( 'distributions-normal-cdf' );
 
@@ -14,6 +14,7 @@ function ParentInput(props){
         <Input type="number" className="slider" min={60} max={80} step={1} value={props.sharkMean} onChange={(event) => {props.saveMean(event)}} />
     </InputGroup>
 
+    <br />
     <br />
 
     <InputGroup>
@@ -45,6 +46,7 @@ function ChildInput(props){
         <Input type="number" min={60} max={80} step={1} value={props.iceMean} onChange={(event) => {props.saveMean(event)}} />
     </InputGroup>
 
+    <br />
     <br />
 
     <InputGroup>
@@ -157,9 +159,12 @@ class JointSimple extends Component {
                         //onChange={(event) => {this.setState({covMatrix: [this.state.covMatrix[0], [this.state.covMatrix[1][0]].concat(parseFloat(event.target.value))]})}}
                         />
                     </div>*/}
-                </div>
-
-                    </Col>
+                    </div>
+                    <p> Correlation </p>
+                    <Alert style={{ width: "100%", margin: 'auto' }} color="dark">
+                      {Math.round((this.state.covariance/(this.state.sharkSD * this.state.iceSD))*1000)/1000}
+                    </Alert>
+                  </Col>
                 </Row>
 
                 <Row className='Center'>

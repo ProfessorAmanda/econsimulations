@@ -164,6 +164,28 @@ class Mystery extends React.Component {
     return finalPopArray
   }
 
+
+  sample(size, popArray) {
+      const sampled = []
+
+      while (sampled.length < size){
+          // index to sample ?
+          const r = Math.round(Math.random() * (popArray.length - 1))
+          let shouldSample = true;
+          for (let i = 0; i < sampled.length; i++){
+              if (sampled[i][0] === r) {
+                  shouldSample = false;
+              }
+          }
+          if (shouldSample) {
+              // only pushes if shouldSample is true
+              sampled.push(popArray[r]);
+          }
+      }
+
+      return { pop: sampled, mue: Math.round(math.mean(sampled.map(p => p[0])) * 100)/100 };
+  }
+
     updateSampleMeansFromArray(means){
         let sampleMeans = this.state.sampleMean;
         const roundedMeans = means;
@@ -183,7 +205,7 @@ class Mystery extends React.Component {
 
     componentDidMount() {
         this.setState({
-            stage: 0
+            stage: 1
         })
     }
 
@@ -195,27 +217,6 @@ class Mystery extends React.Component {
                     changeStage={this.changeStage}
                     parentStage={this.state.stage}
                 >
-                    <div>
-                        <h1
-                        // style={{ display: 'inline' }}
-                        >
-                            Introduction
-                        </h1>
-
-                    </div>
-
-                    <p> This simulation demonstrates the shape of the sampling distribution of the sample mean. Suppose I draw a large number of samples, each of size 𝑛, from some population. For each sample, I calculate a sample mean 𝑥̅. I now plot a histogram of those sample means. For a sufficiently large sample size, the shape of that histogram will look like a beautiful bell-shaped curve, no matter what shape the underlying population had.</p>
-
-                    <Button outline
-                        onClick={
-                            () => {
-                                this.changeStage(1);
-                            }
-                        }
-                    >
-                        Continue
-                    </Button>
-
                     <div>
                         {
                             this.state.stage >= 1 ?
