@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 // import styled from 'styled-components';
-import { Nav, NavItem, NavLink, Navbar } from 'reactstrap';  
+import { Nav, NavItem, NavLink, Navbar } from 'reactstrap';
 import classnames from 'classnames';
+import { Button} from 'reactstrap';
+
+
 
 
 // const ToolBarButton=styled.a`
@@ -37,23 +40,21 @@ class PopBar extends Component {
     render() {
         let modes;
         if (this.props.mode === "CLT"){
-          modes = 
-          [ 
-              { name: "Pick a Distribution:", id: "0"},
+          modes =
+          [
               { name: "Normal", id: "1" },
-              { name: "Uniform", id: "2" }, 
+              { name: "Uniform", id: "2" },
               { name: "Exponential", id: "3" },
-              { name: "Chi-Squared", id: "4" }, 
-              { name: "Mystery", id: "5"} 
+              { name: "Chi-Squared", id: "4" },
+              { name: "Mystery", id: "5"}
             ];
         }
         else if (this.props.mode === "LLN") {
           modes = [
-            { name: "Pick a Distribution:", id: "0"},
             { name: "Normal", id: "1" },
-            { name: "Uniform", id: "2" }, 
+            { name: "Uniform", id: "2" },
             { name: "Exponential", id: "3" },
-            { name: "Chi-Squared", id: "4" }, 
+            { name: "Chi-Squared", id: "4" },
           ];
         }
         else {
@@ -61,9 +62,8 @@ class PopBar extends Component {
         }
 
         const sections = modes.map((section)=>{
-            return (
-                <NavItem>
-                    <NavLink
+            return(
+                    <Button
                         className={classnames({ active: this.state.activeTab === section.id }, {disabled: section.id === "0"})}
                         // disabled={section.id === "0"}
                         onClick={() => {
@@ -72,22 +72,15 @@ class PopBar extends Component {
                             this.setState({
                                 activeTab: section.id
                             })
-                        }}
-                    >
+                        }}>
                         {section.name}
-                    </NavLink>
-                </NavItem>
+                      </Button>
             );
         });
         return(
             <div>
-                <div className="TabBar">
-                    {/* <p id="DistLabel">Dist Type</p> */}
-                    <Nav tabs>
-                        {sections} 
-                    </Nav>
-                    
-                </div>
+            <p>Pick a Population Distribution: </p>
+              {sections}
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Highcharts from "highcharts";
-import { Button, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Col } from "reactstrap";
+import { Alert, Button, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Col } from "reactstrap";
 
 let sumSquares;
 let placeHolders = [];
@@ -37,6 +37,10 @@ class LeastSim extends Component {
 
         <Container fluid className="Plate">
         <div className="MiniLogo"></div>
+        <Alert style={{ width: "50%", margin: 'auto' }} color="primary">
+            Least Squares
+        </Alert>
+        <br/>
         <Row>
           <Col>
             <span className="Center" id="sim-container" />

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
 import regression from 'regression';
-import { Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
+import { Alert, Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
 
 const smr = require('smr');
 const quantile = require("distributions-exponential-quantile");
@@ -29,8 +29,11 @@ class OmmittedVariable extends Component {
     render() {
         return(
           <Container className='Plate'>
-            <div className="MiniLogo">
-                </div>
+            <div className="MiniLogo"></div>
+            <Alert style={{ width: "50%", margin: 'auto' }} color="primary">
+                Omitted Variable Bias
+            </Alert>
+            <br/>
             <div>
                 <Row>
                   <p className="Center">We are studying the relationship between crime and the size of the police force:</p>

@@ -4,7 +4,7 @@ import JointSimple from './JointSimple.js';
 import JointDistributions from './JointDistributions.js';
 import ToggleJoint from './ToggleJoint.js';
 import PopBar from './PopBar.js';
-import { Container } from 'reactstrap';
+import { Container, Alert } from 'reactstrap';
 
 class JointWrapper extends Component{
     constructor(){
@@ -16,13 +16,18 @@ class JointWrapper extends Component{
 // <div><ToggleJoint toggleSwitch={(section) => this.setState({mode:section})} /></div>
     render(){
         return(
+          <div>
           <Container fluid className='Plate'>
-            <div className="MiniLogo">
-                </div>
+            <div className="MiniLogo"></div>
+            <Alert style={{ width: "50%", margin: 'auto' }} color="primary">
+                Joint Distributions
+            </Alert>
+            <br/>
             {this.state.mode === 'Basic' && <JointSimple/>}
             { // this.state.mode === 'Advanced' && <JointDistributions/>
             }
           </Container>
+          </div>
         );
     }
 }
