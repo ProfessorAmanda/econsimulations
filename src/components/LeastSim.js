@@ -207,6 +207,10 @@ class LeastSim extends Component {
               text: ""
             },
 
+            legend: {
+              enabled: false
+            },
+
             chart: {
               type: 'line',
               plotBorderColor: '#000000',
