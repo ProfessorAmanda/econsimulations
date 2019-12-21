@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
-import { Alert, Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
+import { Alert, Container, Row, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
 const quantile = require("distributions-exponential-quantile");
 const cdf = require( 'distributions-normal-cdf' );
 
@@ -113,20 +113,28 @@ class JointSimple extends Component {
                     <p> Set the Covariance</p>
                     <br/>
                     <div>
-                    <Input
-                        value={this.state.covariance}
-                        type="number"
-                        className="slider"
-                        step={.1}
-                        min={-this.findMax()}
-                        max={this.findMax()}
-                        onChange={(event) => {
-                            this.setState({covariance : parseFloat(event.target.value)});
-                            const copy = this.state.covMatrix;
-                            const temp = [[copy[0][0],parseFloat(event.target.value)],[parseFloat(event.target.value),copy[1][1]]];
-                            this.setState({covMatrix : temp});
-                          }}
-                    />
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                      </InputGroupAddon>
+                      <Input
+                          value={this.state.covariance}
+                          type="range"
+                          className="slider"
+                          step={.1}
+                          min={-this.findMax()}
+                          max={this.findMax()}
+                          onChange={(event) => {
+                              this.setState({covariance : parseFloat(event.target.value)});
+                              const copy = this.state.covMatrix;
+                              const temp = [[copy[0][0],parseFloat(event.target.value)],[parseFloat(event.target.value),copy[1][1]]];
+                              this.setState({covMatrix : temp});
+                            }}
+                      />
+
+                      <InputGroupAddon addonType="append">
+                      <InputGroupText>{this.state.covariance}</InputGroupText>
+                      </InputGroupAddon>
+                    </InputGroup>
                     </div>
 
 
@@ -161,9 +169,9 @@ class JointSimple extends Component {
                     </div>*/}
                     </div>
                     <p> Correlation </p>
-                    <Alert style={{ width: "100%", margin: 'auto' }} color="dark">
+                    <InputGroupText>
                       {Math.round((this.state.covariance/(this.state.sharkSD * this.state.iceSD))*1000)/1000}
-                    </Alert>
+                    </InputGroupText>
                   </Col>
                 </Row>
 
@@ -288,7 +296,7 @@ class JointSimple extends Component {
             series: [sharkSeries]
         });
 
-        const icecreamSeries = {data : [], color: '#e8bd68', name:"Ice Cream Cones bought per Day"}
+        const icecreamSeries = {data : [], color: '#ff0000', name:"Ice Cream Cones bought per Day"}
         const icecreamDict = {};
         for (const i of series.data){
             const icecreamFreq = Math.round(i[1] * 100) / 100;
