@@ -280,7 +280,9 @@ class JointSimple extends Component {
                 showLastLabel: true
             },
             yAxis: {
-                max: 12,
+                max: 7,
+                lineWidth: 1,
+                tickInterval: 1,
                 title: {
                     text: 'Count'
                 }
@@ -331,7 +333,9 @@ class JointSimple extends Component {
                 showLastLabel: true
             },
             yAxis: {
-                max: 12,
+                max: 7,
+                lineWidth: 1,
+                tickInterval: 1,
                 title: {
                     text: 'Count'
                 }
