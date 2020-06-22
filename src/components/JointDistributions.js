@@ -281,7 +281,10 @@ class JointDistributions extends Component {
                     text: 'Days of Occurence'
                 }
             },
-            series: [icecreamSeries]
+            series: {
+                data:[icecreamSeries],
+                color: 'rgba(119, 152, 191, .5)'
+            }
         });
 
         const jointSeries = {data : [], color: '#EA7200', name:"Sharks vs Ice Creams"}

@@ -121,14 +121,14 @@ class CentralLimitTheorem extends Component {
         return(
             <div>
                 <div>
-                    <PopBar 
-                        section={this.state.popType} 
-                        mode = "CLT" 
+                    <PopBar
+                        section={this.state.popType}
+                        mode = "CLT"
                         setPop={(pop) => {
                             const copy = this.state.stages;
                             copy[this.state.popType] = this.state.stage;
                             this.setState({stages : copy});
-                            
+
                             this.setState({popType:pop});
                             this.setState({popType:pop});
                             this.setState({stage : this.state.stages[pop]});
@@ -139,7 +139,7 @@ class CentralLimitTheorem extends Component {
                 </div>
 
                 {/* <div>
-                    <button 
+                    <button
                         onClick={() => {
                             this.clearState();
                             if(this.myChart){
@@ -161,21 +161,21 @@ class CentralLimitTheorem extends Component {
                                 // samples chart
                                 <div>
                                     <ToggleStandard
-                                    section={this.state.standardNormal} 
+                                    section={this.state.standardNormal}
                                     toggleSwitch={(set) => {
-                                        this.setState({ 
-                                            standardNormal : set 
+                                        this.setState({
+                                            standardNormal : set
                                         })
                                     }} />
                                     <SampleMeanChart
-                                        numberResamples={this.state.numberResamples} 
-                                        resampleSize={this.state.resampleSize[this.state.popType]} 
-                                        mean={this.state.popMean[this.state.popType]} 
+                                        numberResamples={this.state.numberResamples}
+                                        resampleSize={this.state.resampleSize[this.state.popType]}
+                                        mean={this.state.popMean[this.state.popType]}
                                         sd={math.std(this.state.popArray[this.state.popType])}
-                                        normalized={this.state.standardNormal} 
-                                        sampleSize={this.state.sampleSize} 
-                                        type={this.state.popType} 
-                                        normal={this.state.standardNormal} 
+                                        normalized={this.state.standardNormal}
+                                        sampleSize={this.state.sampleSize}
+                                        type={this.state.popType}
+                                        normal={this.state.standardNormal}
                                         sampleMeans={this.state.sampleMean[this.state.popType]}
                                     />
                                 </div>
@@ -185,14 +185,14 @@ class CentralLimitTheorem extends Component {
 
                         <Col>
                             {popDrawn ?
-                                // first control 
+                                // first control
                                 <div>
-                                    <Row>
+                                    <Row className="Center">
                                         <Alert color='light'>
-                                            <p>Try drawing some samples and calculating means </p>
-                                            <SampleAreaCLT 
-                                                disabled={this.state.disableSample} 
-                                                redraw={() => 
+                                            <p>Try drawing some samples and calculating means</p>
+                                            <SampleAreaCLT
+                                                disabled={this.state.disableSample}
+                                                redraw={() =>
                                                     {}
                                                 }
                                                 sample={(size) => {
@@ -201,7 +201,7 @@ class CentralLimitTheorem extends Component {
                                                     const st = this.state.stage > 3 ? this.state.stage : 3;
                                                     copy[popType] = st;
                                                     const sampleObject = this.sample(size, this.state.popArray[this.state.popType]);
-                                                    
+
                                                     this.setState({
                                                         stages: copy,
                                                         stage: st,
@@ -210,7 +210,7 @@ class CentralLimitTheorem extends Component {
                                                         this.draw(popType);
                                                     });
                                                     return sampleObject;
-                                                    
+
                                                 }}
                                                 popArray={this.state.popArray}
                                                 popType={this.state.popType}
@@ -228,11 +228,11 @@ class CentralLimitTheorem extends Component {
                                         {this.state.stage >= 3 ?
                                             <Alert color='light'>
                                                 <p> Simulate drawing many many samples </p>
-                                                <SampleMeanSimulator 
+                                                <SampleMeanSimulator
                                                 style={{margin: 'auto', marginBottom: '2vh'}}
                                                 clear={() => {
                                                     this.setState({
-                                                        calculable: false, 
+                                                        calculable: false,
                                                         sampleMean: Object.assign({}, this.state.sampleMean, {[this.state.popType] : []})
                                                     })}
                                                 }
@@ -251,11 +251,11 @@ class CentralLimitTheorem extends Component {
                                     </Row>
                                 </div>
                             :null
-                            }  
+                            }
                         </Col>
                         <Col>
                             { this.state.stage >= 3 && popTable}
-                        </Col>                        
+                        </Col>
                     </Row>
             </Container>
         </div>
@@ -263,10 +263,10 @@ class CentralLimitTheorem extends Component {
     }
 
     componentDidMount() {
-        this.setState({ 
-            newPop: 0, 
-            stage: 1, 
-            popType: 'Normal' 
+        this.setState({
+            newPop: 0,
+            stage: 1,
+            popType: 'Normal'
         });
         this.selectPop('Normal');
     }
@@ -314,7 +314,7 @@ class CentralLimitTheorem extends Component {
     sample(size, array) {
         const sampled = []
         const currentPop = array;
-        
+
         while (sampled.length < size){
             // index to sample ?
             const r = Math.round(Math.random() * (currentPop.length - 1))
@@ -338,7 +338,7 @@ class CentralLimitTheorem extends Component {
         const sampleVals = [[]];
         const sampledCopy = [];
         const samplePop = [];
-        
+
         for (const j in sampled){
             sampleVals[j] = [];
             sampleVals[j][0] = Math.round(this.state.popArray[this.state.popType][sampled[j][0]])
@@ -375,7 +375,7 @@ class CentralLimitTheorem extends Component {
             const popMean = this.state.popMean;
             popMean[popType] = Math.round(math.mean(popArray) * 100)/100;
             this.setState((prevState) => {
-                return { 
+                return {
                     popArray: Object.assign({}, prevState.popArray, {[popType]: popArray}),
                     popMean: popMean
                 }
@@ -390,13 +390,13 @@ class CentralLimitTheorem extends Component {
         if (this.state.popArray['Normal'].length >= SAMPLE_SIZE) {
             return null;
         }
-        
+
         const MEAN = 64; // 74.44; // 64
         const STANDARD_DEV = 3; // 13.48; // 3
         const ITERATES = 9;
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
-        
+
         const popArray = []
 
         const sampleSize = SAMPLE_SIZE;
@@ -435,7 +435,7 @@ class CentralLimitTheorem extends Component {
     }
 
     generateMystery(){
-        
+
         if (this.state.popArray["Mystery"].length >= SAMPLE_SIZE){
             return null;
         }
@@ -457,7 +457,7 @@ class CentralLimitTheorem extends Component {
         const newCleared = this.state.clearedArray['Mystery'];
 
         const stateCopy = this.state.popDict;
-        
+
         for (let i = 0; i < sampleSize/2; i++){
           let sum = 0;
           if(this.state.clearedArray['Mystery'].length === 0){
@@ -552,14 +552,14 @@ class CentralLimitTheorem extends Component {
         }
 
         const LAMBDA = 1/64;
-        
+
         const popArray = [];
-        
+
         const sampleSize = SAMPLE_SIZE;
         const newCleared = this.state.clearedArray["Exponential"];
 
         const stateCopy = this.state.popDict;
-        
+
         for (let i = 0; i < sampleSize; i++){
             let val;
             if(this.state.clearedArray["Exponential"].length === 0){
@@ -589,11 +589,11 @@ class CentralLimitTheorem extends Component {
         if (this.state.popArray["Chi-Squared"].length === SAMPLE_SIZE){
             return null;
         }
-        
+
         const DEGREES_OF_FREEDOM = 8;
         const chiArray = [];
         const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM);
-        
+
         for (let i = 0; i < 20; i+=.1){
             const tmp = chi.pdf(i, DEGREES_OF_FREEDOM)
             for (let j = 0; j < tmp / chiMin; j++){
@@ -608,7 +608,7 @@ class CentralLimitTheorem extends Component {
         const newCleared = this.state.clearedArray["Chi-Squared"];
 
         const stateCopy = this.state.popDict;
-        
+
         for (let i = 0; i < sampleSize; i++){
             let val;
             if(this.state.clearedArray["Chi-Squared"].length === 0){
@@ -633,7 +633,7 @@ class CentralLimitTheorem extends Component {
     }
 
     draw(popType) {
-        
+
         const pseries = {data : [], name:"Population"};
         const sampleSeries = {data : [], name:"Sample"};
         const popDict = this.state.popDict[popType];
@@ -664,14 +664,14 @@ class CentralLimitTheorem extends Component {
             }
         }
 
-        const values = { 
+        const values = {
             Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
             Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
             Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
             "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
             Mystery: { xmaxval: 80, xminval: 50, ymaxval: 50, title: "Alien Female Height", xLabel: "Height (in)" }
         };
-        
+
         if (!this.myChart) {
             this.createChart(values[popType], popType, pseries, sampleSeries);
         }
@@ -744,12 +744,12 @@ class CentralLimitTheorem extends Component {
                 enabled: true,
                 pointFormat: `${xLabel}: <b>{point.x}<b><br />`
         };
-        
-        this.myChart.update({ 
+
+        this.myChart.update({
             series:[pseries, sampleSeries],
-            xAxis: xvals, 
-            yAxis: yvals, 
-            title:titleNew, 
+            xAxis: xvals,
+            yAxis: yvals,
+            title:titleNew,
             tooltip: ttip
         });
     }

@@ -100,6 +100,7 @@ componentDidMount() {
   insertPoint() {
     this.setState((prev) => {
         const parr = prev.popArray ? prev.popArray.slice() : [];
+        console.log(parr);
         parr.unshift(this.last);
         return {
             popArray: parr
@@ -110,6 +111,7 @@ componentDidMount() {
   samplePoint() {
     this.setState((prev) => {
         const parr = prev.sampled ? prev.sampled.slice() : [];
+        console.log(parr);
         parr.unshift(this.last);
         return {
             sampled: parr

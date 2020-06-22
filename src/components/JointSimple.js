@@ -110,7 +110,7 @@ class JointSimple extends Component {
 
                     <Col>
                     <div>
-                    <p> Set the Covariance</p>
+                    <p> Set the Correlation</p>
                     <br/>
                     <div>
                     <InputGroup>
@@ -119,10 +119,10 @@ class JointSimple extends Component {
                       <Input
                           value={this.state.covariance}
                           type="range"
-                          className="slider"
+                          className="custom-range"
                           step={.1}
-                          min={-this.findMax()}
-                          max={this.findMax()}
+                          min={-1}
+                          max={1}
                           onChange={(event) => {
                               this.setState({covariance : parseFloat(event.target.value)});
                               const copy = this.state.covMatrix;
@@ -168,9 +168,9 @@ class JointSimple extends Component {
                         />
                     </div>*/}
                     </div>
-                    <p> Correlation </p>
+                    <p> Covariance </p>
                     <InputGroupText>
-                      {Math.round((this.state.covariance/(this.state.sharkSD * this.state.iceSD))*1000)/1000}
+                      {Math.round((this.state.covariance/(this.state.sharkSD * this.state.iceSD))*1000)/1000} //change
                     </InputGroupText>
                   </Col>
                 </Row>
@@ -291,6 +291,28 @@ class JointSimple extends Component {
             tooltip: {
               enabled: false
             },
+            plotOptions: {
+                scatter: {
+         marker: {
+            radius: 3,
+            states: {
+               hover: {
+                  enabled: true,
+                  radiusPlus:10,
+                  lineColor: 'rgb(100,100,100)'
+
+               }
+            }
+         },
+         states: {
+            hover: {
+               marker: {
+                  enabled: false
+               }
+            }
+         }
+     },
+            },
 
             legend: {
               enabled: false
@@ -340,6 +362,29 @@ class JointSimple extends Component {
                     text: 'Count'
                 }
             },
+
+            plotOptions: {
+                scatter: {
+         marker: {
+            radius: 3,
+            states: {
+               hover: {
+                  enabled: true,
+                  radiusPlus:10,
+                  lineColor: 'rgb(100,100,100)'
+
+               }
+            }
+         },
+         states: {
+            hover: {
+               marker: {
+                  enabled: false
+               }
+            }
+         }
+     },
+            },
             tooltip: {
               enabled: false
             },
@@ -351,7 +396,7 @@ class JointSimple extends Component {
             series: [icecreamSeries]
         });
 
-        const jointSeries = {data : [], color: '#EA7200', name:"Parent Height vs Child Height (inches)"}
+        const jointSeries = {data : [], color: '#FF9655', name:"Parent Height vs Child Height (inches)"}
         for (const i in rawSharks){
             jointSeries.data.push([Math.round(rawSharks[i] * 100) / 100, Math.round(series.data[i][1] * 100) / 100]);
         }
@@ -392,6 +437,27 @@ class JointSimple extends Component {
             },
 
             plotOptions: {
+                scatter: {
+         marker: {
+            radius: 3,
+            states: {
+               hover: {
+                  enabled: true,
+                  radiusPlus:10,
+                  lineColor: 'rgb(100,100,100)'
+
+               }
+            }
+         },
+         states: {
+            hover: {
+               marker: {
+                  enabled: false
+               }
+            }
+         }
+     },
+
                 series: {
                     allowPointSelect: true,
                     point: {

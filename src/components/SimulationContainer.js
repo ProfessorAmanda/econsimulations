@@ -7,6 +7,7 @@ import LeastSim from './LeastSim.js';
 import OmmittedVariable from './OmmittedVariable.js';
 import ConfidenceIntervals from './ConfidenceIntervals.js'
 import StartHere from './StartHere';
+import Test from './Test.js';
 import { Button, Fade } from 'reactstrap';
 
 class SimulationContainer extends Component{
@@ -65,7 +66,7 @@ class SimulationContainer extends Component{
                         color='danger'
                         id="Menu"
                         onClick={() => {
-                            this.setState({ collapse: true });
+                            this.setState({ collapse: true, mode:'Home' });
                         }}
                     >
                             MENU
@@ -78,6 +79,9 @@ class SimulationContainer extends Component{
                     {this.state.mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
                     {this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals />}
                     {this.state.mode === 'Start Here' && <StartHere/>}
+
+
+
                 </div>
             </div>
         );

@@ -57,7 +57,17 @@ class SimBar extends Component {
                 description: "Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one on the included regressors is omitted from the regression model.",
                 extra: "",
                 img: ovs
+            },
+
+            
+            {
+                name: "Confidence Intervals",
+                description: "test",
+                extra: "",
+                img: undefined
             }
+
+
         ];
 
         // const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];

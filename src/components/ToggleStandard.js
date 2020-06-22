@@ -48,7 +48,7 @@ class ToggleStandard extends Component {
     }
     render() {
         let modes;
-        modes = ["Standardized"];
+        modes = ["Convert to Std.Normal"];
 
         const sections = modes.map((section)=>{
             return (<Button

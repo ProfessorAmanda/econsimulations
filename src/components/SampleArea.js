@@ -22,26 +22,27 @@ class SampleArea extends Component {
             <div>
                 <Container>
                     <Row className="Center">
-                        <InputGroup>
-                            <Input 
+                            <Input
+                                
+                                align="right"
                                 type="number"
-                                placeholder="Sample Size:" 
+                                placeholder="Sample Size:"
                                 min={1}
-                                value={this.state.sampleSize} 
+                                value={this.state.sampleSize}
                                 max={this.props.popArray.length}
-                                onChange={this.handleChange} 
+                                onChange={this.handleChange}
                             />
-                            <Button 
+                            <Button
                             disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray.length || this.state.sampleSize < 1}
                             onClick={()=> {
                                 const sampleObject = this.props.sample(this.state.sampleSize);
-                                const mue = sampleObject.mue; 
+                                const mue = sampleObject.mue;
                                 this.setState({
-                                    popMean: mue 
+                                    popMean: mue
                                 });
                                 this.props.setmean(mue);
                             }}> Sample </Button>
-                        </InputGroup>
+
                     </Row>
                 </Container>
                 {/*<h4> {this.props.type} Sample Mean: {this.state.popMean || ''} </h4>*/}
@@ -51,9 +52,9 @@ class SampleArea extends Component {
     onKey(e) {
         if (e.key === "Enter" && this.state.sampleSize && this.state.sampleSize <= this.props.popArray.length && this.state.sampleSize >= 1) {
             const sampleObject = this.props.sample(this.state.sampleSize);
-            const mue = sampleObject.mue; 
+            const mue = sampleObject.mue;
             this.setState({
-                popMean: mue 
+                popMean: mue
             });
             this.props.setmean(mue);
             this.props.redraw();
@@ -73,11 +74,11 @@ class SampleArea extends Component {
     //                  shouldSample = false;
     //              }
     //         }
-            
+
     //         if (shouldSample) {
     //             let count = 1;
     //             // currentPop.forEach( (val, index) => {
-    //             //     // if the value 
+    //             //     // if the value
     //             //     if (index < r && Math.round(val * 10) === Math.round(currentPop[r] * 10)) {
     //             //         count += 1;
     //             //     }

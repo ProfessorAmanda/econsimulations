@@ -11,7 +11,7 @@ const random = require( 'distributions-normal-random' );
 const jsregression = require('js-regression');
 const mathjs = require('mathjs');
 const OBS = 300;
-const INT = 20;
+const INT = 65; //intercept
 
 
 class OmmittedVariable extends Component {
@@ -20,9 +20,9 @@ class OmmittedVariable extends Component {
       this.state = {
         stage: 0,
         points: null,
-        beta: -2.5,
-        delta: 6,
-        cov: 2
+        beta: 3,
+        delta: 3,
+        cov: -3
       }
     }
 
@@ -36,8 +36,8 @@ class OmmittedVariable extends Component {
             <br/>
             <div>
                 <Row>
-                  <p className="Center">We are studying the relationship between crime and the size of the police force:</p>
-                  <p className="Center">Crimeᵢ = β₀ + β₁Policeᵢ + 𝛿Densityᵢ + uᵢ</p>
+                  <p className="Center">We are studying the relationship between test socre and study hours:</p>
+                  <p className="Center">Test Score β₀ + β₁Study Hoursᵢ + 𝛿Sleep Hoursᵢ + uᵢ</p>
                   <br/>
                   <p className="Center">Choose Population Parameters:</p>
                 </Row>
@@ -45,7 +45,7 @@ class OmmittedVariable extends Component {
                     <Row>
                       <Col>
                         <InputGroup>
-                          <InputGroupAddon className="Center" addonType='prepend'>β₁, the Coefficient on Police:</InputGroupAddon>
+                          <InputGroupAddon className="Center" addonType='prepend'>β₁, the Coefficient on Study Hours:</InputGroupAddon>
                           <Input className="Center" type="number" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
                           this.setState({beta: parseFloat(event.target.value)});
                         }}/>
@@ -54,7 +54,7 @@ class OmmittedVariable extends Component {
 
                       <Col>
                         <InputGroup>
-                          <InputGroupAddon className="Center" addonType='prepend'>𝛿, the Coefficient on Density: </InputGroupAddon>
+                          <InputGroupAddon className="Center" addonType='prepend'>𝛿, the Coefficient on Sleep Hours: </InputGroupAddon>
                           <Input className="Center" type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
                           this.setState({delta: parseFloat(event.target.value)});
                         }}/>
@@ -63,7 +63,7 @@ class OmmittedVariable extends Component {
 
                       <Col>
                       <InputGroup>
-                        <InputGroupAddon className="Center" addonType='prepend'>Covariance between Police and Density: </InputGroupAddon>
+                        <InputGroupAddon className="Center" addonType='prepend'>Covariance between Study Hours and Sleep Hours: </InputGroupAddon>
                         <Input className="Center" type="number" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
                         this.setState({cov:parseFloat(event.target.value)});
                       }}/>
@@ -73,7 +73,7 @@ class OmmittedVariable extends Component {
                       </Row>
                       <br />
                       <Row className="Center">
-                        <p>Estimate Regression Using Crime and Police Data </p>
+                        <p>Estimate Regression Using Test Score and Study Hours Data </p>
                         <Button color='primary' onClick={()=>{this.generate(0); this.setState({stage:1})}}> Generate! </Button>
                       </Row>
                       <Row>
@@ -100,13 +100,14 @@ class OmmittedVariable extends Component {
 
 
     generate(stage) {
-        const meanVector = [5, .8];
+        const meanVector = [5, 2];
 
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
         const covarianceMatrix = [
-            [ 4, this.state.cov],
-            [ this.state.cov, 3]
+
+            [3, this.state.cov],
+            [this.state.cov, 6]
         ];
 
         // console.log('changing covariance');
@@ -119,10 +120,12 @@ class OmmittedVariable extends Component {
         // lets you sample from distribution
         const distribution = MultivariateNormal(meanVector, covarianceMatrix);
         const series = {data : [], name:"Population"}
+
         // samples 1000
         for (let i = 0; i < OBS; i++){
             series.data.push(distribution.sample());
         }
+
         const newSeries = {data : [], name:"Shark Attacks per Day"}
         // police vs density
         const roundedSeries = series.data.map((s) => {return [Math.round(s[0]*100)/100,
@@ -230,14 +233,14 @@ class OmmittedVariable extends Component {
                 zoomtype: 'xy'
             },
             title: {
-                text: 'Police vs. Crime'
+                text: 'Study Hours vs. Test Score'
             },
             xAxis: {
                 min: 0,
                 max: 10,
                 title : {
                     enabled: true,
-                    text: 'Police'
+                    text: 'Study Hours'
                 },
                 startOnTick: true,
                 endOnTick: true,
@@ -247,14 +250,14 @@ class OmmittedVariable extends Component {
                 min: -20,
                 floor: 0,
                 title: {
-                    text: 'Crime'
+                    text: 'Test Score'
                 }
             },
             series: [
             	{
             		type: 'scatter',
                 data: crimePol,
-                name: "Crime",
+                name: "Test Score",
                 color: '#33A5FF'
             	},
               {

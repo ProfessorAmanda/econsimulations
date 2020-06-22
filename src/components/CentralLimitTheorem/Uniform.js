@@ -169,6 +169,33 @@ class Uniform extends React.Component {
                                         {
                                             this.state.stage >= 2 ?
                                         <span>
+                                        <Row className="Center">
+                                        <Alert color='light'>
+                                            <p>Try drawing some samples and calculating means </p>
+                                            <SampleAreaCLT
+                                                disabled={this.state.disableSample}
+                                                redraw={() =>
+                                                    {}
+                                                }
+                                                sample={(size) => {
+                                                    const sampleObject = this.sample(size, this.state.popArray);
+
+                                                    this.setState({
+                                                        sampled: sampleObject.pop
+                                                    });
+                                                    return sampleObject;
+
+                                                }}
+                                                popArray={this.state.popArray}
+                                                popType={this.state.popType}
+                                                setmean={(size, mue) => {
+                                                    const means = this.state.sampleMean;
+                                                    means.push([size, mue]);
+                                                    this.setState({sampleMean: means});
+                                                }}
+                                                />
+                                        </Alert>
+                                        </Row>
                                         <Row>
                                             <Col
                                                 lg="8">
@@ -195,31 +222,7 @@ class Uniform extends React.Component {
                                             <Col
                                                 lg="4">
 
-                                            <Alert color='light'>
-                                                <p>Try drawing some samples and calculating means </p>
-                                                <SampleAreaCLT
-                                                    disabled={this.state.disableSample}
-                                                    redraw={() =>
-                                                        {}
-                                                    }
-                                                    sample={(size) => {
-                                                        const sampleObject = this.sample(size, this.state.popArray);
 
-                                                        this.setState({
-                                                            sampled: sampleObject.pop
-                                                        });
-                                                        return sampleObject;
-
-                                                    }}
-                                                    popArray={this.state.popArray}
-                                                    popType={this.state.popType}
-                                                    setmean={(size, mue) => {
-                                                        const means = this.state.sampleMean;
-                                                        means.push([size, mue]);
-                                                        this.setState({sampleMean: means});
-                                                    }}
-                                                    />
-                                            </Alert>
                                             <Table hover className="PopTable">
                                                     <thead>
                                                         <tr>

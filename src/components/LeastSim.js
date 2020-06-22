@@ -55,9 +55,11 @@ class LeastSim extends Component {
             </InputGroupAddon>
             <Input
               type='range'
+              className="custom-range"
               min='4'
               max='10'
               step='1'
+
               value={this.state.tmpPS}
               onChange={(event) => {
                 this.setState({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, InputGroup, Input, Row } from 'reactstrap';
+import { Button, Container, InputGroup, Input, Row, Col} from 'reactstrap';
 import math from 'mathjs';
 
 class SampleAreaCLT extends Component {
@@ -19,40 +19,37 @@ class SampleAreaCLT extends Component {
 
     render() {
         return (
-            <div>
-                 <Container>
-                    <Row className="Center">
-                        <Row>
-                            <Input 
-                                style={{margin: 'auto'}}
-                                type="number" 
+            <div class = "center">
+
+                            <Input
+                                style={{margin:"auto"}}
+                                type="number"
                                 min={1}
-                                value={this.state.sampleSize} 
+                                value={this.state.sampleSize}
                                 max={this.props.popArray.length}
                                 onChange={(event) => {
                                     this.setState({
                                         sampleSize: event.target.value
                                     })
-                                }} 
+                                }}
                             />
+
 
                             <Button
                                 style={{margin: 'auto'}}
                                 disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray.length || this.state.sampleSize < 1}
                                 onClick={()=> {
                                     const sampleObject = this.props.sample(this.state.sampleSize);
-                                    const mue = sampleObject.mue; 
+                                    const mue = sampleObject.mue;
                                     this.setState({
-                                        popMean: mue 
+                                        popMean: mue
                                     });
                                     this.props.setmean(this.state.sampleSize, mue);
                                 }}
                             >
-                                Sample 
+                                Sample
                             </Button>
-                        </Row>
-                    </Row>
-                </Container>
+
             </div>
         )
     }
