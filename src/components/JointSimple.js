@@ -60,8 +60,7 @@ function ChildInput(props){
           //const temp = [copy[0],[copy[1][0],variance]];
           props.saveSD(sd);
           //this.setState({covMatrix : temp});
-          //console.log(this.state.covMatrix);
-          //this.setState({covMatrix: [this.state.covMatrix[0], [parseFloat(event.target.value)].concat(this.state.covMatrix[1][1]) ]})
+
         }} />
     </InputGroup>
     </div>
@@ -76,7 +75,8 @@ class JointSimple extends Component {
             covMatrix : [[1,1], [1,1]],
             sharkSD : 1,
             iceSD : 1,
-            covariance : 1
+            covariance : 0,
+            correlation: 0
         }
     }
 
@@ -117,22 +117,23 @@ class JointSimple extends Component {
                       <InputGroupAddon addonType="prepend">
                       </InputGroupAddon>
                       <Input
-                          value={this.state.covariance}
+                          value={this.state.correlation}
                           type="range"
                           className="custom-range"
                           step={.1}
                           min={-1}
                           max={1}
                           onChange={(event) => {
-                              this.setState({covariance : parseFloat(event.target.value)});
+                              this.setState({correlation : parseFloat(event.target.value)});
+                              this.setState({covariance : parseFloat(event.target.value*(this.state.sharkSD * this.state.iceSD))});
                               const copy = this.state.covMatrix;
-                              const temp = [[copy[0][0],parseFloat(event.target.value)],[parseFloat(event.target.value),copy[1][1]]];
+                              const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
                               this.setState({covMatrix : temp});
                             }}
                       />
 
                       <InputGroupAddon addonType="append">
-                      <InputGroupText>{this.state.covariance}</InputGroupText>
+                      <InputGroupText>{this.state.correlation}</InputGroupText>
                       </InputGroupAddon>
                     </InputGroup>
                     </div>
@@ -170,7 +171,7 @@ class JointSimple extends Component {
                     </div>
                     <p> Covariance </p>
                     <InputGroupText>
-                      {Math.round((this.state.covariance/(this.state.sharkSD * this.state.iceSD))*1000)/1000} //change
+                      {Math.round((this.state.correlation*(this.state.sharkSD * this.state.iceSD))*1000)/1000}
                     </InputGroupText>
                   </Col>
                 </Row>
@@ -259,6 +260,11 @@ class JointSimple extends Component {
 
         const MINX = 40;
         const MAXX = 120;
+        console.log(this.state.correlation);
+        console.log(this.state.covariance);
+        console.log([sharkSeries]);
+
+
 
         this.sharks = Highcharts.chart('sharks', {
             chart: {
@@ -395,14 +401,14 @@ class JointSimple extends Component {
 
             series: [icecreamSeries]
         });
-
+        console.log([jointSeries]);
         const jointSeries = {data : [], color: '#FF9655', name:"Parent Height vs Child Height (inches)"}
         for (const i in rawSharks){
             jointSeries.data.push([Math.round(rawSharks[i] * 100) / 100, Math.round(series.data[i][1] * 100) / 100]);
         }
 
         var that = this;
-
+        console.log([jointSeries]);
         Highcharts.chart('joint', {
             chart: {
                 type: 'scatter',
