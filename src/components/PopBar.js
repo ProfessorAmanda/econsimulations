@@ -33,7 +33,7 @@ class PopBar extends Component {
     constructor(props){
         super(props);
         this.state = {
-            selected: 'Normal',
+            selected: undefined,
             activeTab: "1"
         }
     }

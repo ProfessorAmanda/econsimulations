@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
 import regression from 'regression';
-import { Alert, Container, Row, Col, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
+import { Alert, Container, Row, Col, Input, InputGroup, InputGroupText,InputGroupAddon, Button } from 'reactstrap';
 
 const smr = require('smr');
 const quantile = require("distributions-exponential-quantile");
@@ -22,7 +22,9 @@ class OmmittedVariable extends Component {
         points: null,
         beta: 3,
         delta: 3,
-        cov: -3
+        cov: 0,
+        covStr:'0',
+        corr:0
       }
     }
 
@@ -63,11 +65,41 @@ class OmmittedVariable extends Component {
 
                       <Col>
                       <InputGroup>
+
                         <InputGroupAddon className="Center" addonType='prepend'>Covariance between Study Hours and Sleep Hours: </InputGroupAddon>
-                        <Input className="Center" type="number" step={.1} value={this.state.cov} min={-3.4} max={3.4} onChange={(event) => {
-                        this.setState({cov:parseFloat(event.target.value)});
-                      }}/>
+                        <Input className="Center" type="number" step={.1} value={this.state.covStr}  />
                       </InputGroup>
+
+
+                      <p> Set the Correlation between Study Hours and Sleep Hours:</p>
+                      <br/>
+                      <div>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                        </InputGroupAddon>
+                        <Input
+                            value={this.state.correlation}
+                            type="range"
+                            className="custom-range"
+                            step={.1}
+                            min={-1}
+                            max={1}
+                            onChange={(event) => {
+                                this.setState({corr : parseFloat(event.target.value)});
+                                this.setState({cov : parseFloat(event.target.value*(1.732 * 2.449))});
+                                this.setState({covStr : parseFloat(event.target.value*(1.732 * 2.449)).toFixed(1)});
+                                //const copy = this.state.covMatrix;
+                                // const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
+                                // this.setState({covMatrix : temp});
+                              }}
+                        />
+                        <InputGroupAddon addonType="append">
+                        <InputGroupText>{this.state.corr}</InputGroupText>
+                        </InputGroupAddon>
+                      </InputGroup>
+
+
+                      </div>
                       </Col>
 
                       </Row>
@@ -77,7 +109,9 @@ class OmmittedVariable extends Component {
                         <Button color='primary' onClick={()=>{this.generate(0); this.setState({stage:1})}}> Generate! </Button>
                       </Row>
                       <Row>
+                      <Col sm="12" md={{ size: 6, offset: 3 }}>
                         <span className="Center" id="sharks"/>
+                        </Col>
                       </Row>
                       <Row className="Center">
                         {this.state.stage < 1 ?
@@ -109,6 +143,7 @@ class OmmittedVariable extends Component {
             [3, this.state.cov],
             [this.state.cov, 6]
         ];
+        //std : genhao 3 genhao 6
 
         // console.log('changing covariance');
         // console.log(covarianceMatrix);
@@ -247,8 +282,8 @@ class OmmittedVariable extends Component {
                 showLastLabel: true
             },
             yAxis: {
-                min: -20,
-                floor: 0,
+                min: 20,
+                floor: 20,
                 title: {
                     text: 'Test Score'
                 }

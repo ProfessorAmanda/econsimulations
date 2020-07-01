@@ -17,7 +17,7 @@ class ChartContainer extends Component {
     this.state = {
         speed: 50,
         popMean: this.props.popMean,
-        popArray: [],
+        popArray: this.props.popArray,
         sampled: [],
         done: true,
         values: {
@@ -86,7 +86,7 @@ componentDidMount() {
             enabled: true,
             pointFormat: `${xLabel}: <b>{point.x}<b><br />`
         },
-        series: [{name: 'Population Observations', data: this.state.popArray}, {name: 'Sampled Observations', data: this.state.sampled}],
+        series: [{name: 'Population Observations', data: this.props.popArray}, {name: 'Sampled Observations', data: this.state.sampled}],
         boost: {
             enabled: true,
             useGPUTranslations: true
@@ -94,8 +94,9 @@ componentDidMount() {
 
       });
 
-      this.dropPoints(this);
+      //this.dropPoints(this);
   }
+
 
   insertPoint() {
     this.setState((prev) => {
@@ -153,10 +154,11 @@ componentDidMount() {
   }
 
   componentDidUpdate(prevState) {
+      const { xmaxval, xminval, ymaxval, title, xLabel } = this.state.values[this.props.popType];
       var that = this;
 
       if (this.state.popArray.length <= 0) {
-          this.dropPoints(that);
+          //this.dropPoints(that);
       }
 
         if (prevState.sampled !== this.props.sampled) {
@@ -172,6 +174,55 @@ componentDidMount() {
             })
             .add();
         }
+        this.myChart = Highcharts.chart('container', {
+          chart: {
+              type: 'scatter',
+          },
+          plotOptions: {
+              series: {
+                  animation: {
+                      duration: 100,
+                      easing: 'easeOutBounce'
+                  }
+              }
+          },
+          legend: {
+              symbolHeight: 12,
+              symbolWidth: 12,
+              symbolRadius: 6
+          },
+          xAxis: {
+              min: xminval,
+              max: xmaxval,
+              title : {
+                  enabled: true,
+                  text: xLabel
+              },
+              startOnTick: true,
+              endOnTick: true
+          },
+          title: {
+              text: `${title}`
+          },
+          yAxis: {
+              max: ymaxval,
+              startOnTick: true,
+              endOnTick: true,
+              title: {
+                  text: 'Count'
+              }
+          },
+          tooltip: {
+              enabled: true,
+              pointFormat: `${xLabel}: <b>{point.x}<b><br />`
+          },
+          series: [{name: 'Population Observations', data: this.props.popArray}, {name: 'Sampled Observations', data: this.state.sampled}],
+          boost: {
+              enabled: true,
+              useGPUTranslations: true
+          },
+
+        });
   }
 
   render() {
@@ -187,7 +238,7 @@ componentDidMount() {
                     <Col lg="2">
                         <PopTable
                             samples={this.props.sampled}
-                            popArray={this.state.popArray}
+                            popArray={this.props.popArray}
                             popType={this.props.popType}
                         />
                     </Col>

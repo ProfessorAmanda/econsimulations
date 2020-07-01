@@ -20,9 +20,14 @@ class SampleAreaCLT extends Component {
     render() {
         return (
             <div class = "center">
+            <Container>
+            <Row>
+            <Col xs="6" sm="4"></Col>
+            <Col xs="6" sm="4">
 
                             <Input
-                                style={{margin:"auto"}}
+                                maxlength="5"
+                                size="sm"
                                 type="number"
                                 min={1}
                                 value={this.state.sampleSize}
@@ -49,7 +54,11 @@ class SampleAreaCLT extends Component {
                             >
                                 Sample
                             </Button>
+                            </Col>
 
+                            <Col sm="4"></Col>
+                            </Row>
+                            </Container>
             </div>
         )
     }

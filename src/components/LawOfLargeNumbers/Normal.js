@@ -20,16 +20,99 @@ function DifferenceOfMeans(props){
     );
 }
 
+
+function sortNormal(arr){
+    const obj = {}
+    arr.forEach(item=>{
+        if(!obj[item[0]]){
+            obj[item[0]] = [];
+            obj[item[0]].push(item);
+        }else{
+            obj[item[0]].push(item);
+        }
+    })
+    return obj;
+
+}
+function generateNormal(){
+    const MEAN = 64;
+    const STANDARD_DEV = 3;
+    const ITERATES = 9;
+    const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
+    const popMin = MEAN - (range / 2);
+
+    const popArray = [];
+
+    const sampleSize = 2000;
+    let dict = Array(sampleSize).fill(-1);
+
+    // creates data points for population and stores it in popArray
+    for (let i = 0; i < sampleSize; i++){
+        let sum = 0;
+        for (let j = 0; j < ITERATES; j++){
+            sum += Math.random() * range + popMin;
+        }
+
+        if (dict[Math.round(sum / ITERATES * 10)] !== -1){
+            dict[Math.round(sum / ITERATES * 10)] += 1;
+        }
+        // Adds first instance of a point
+        else {
+            dict[Math.round(sum / ITERATES * 10)] = 1;
+        }
+    }
+
+    for (const point in dict) {
+        if (point !== -1) {
+            for (let count = 1; count < dict[point] + 1; count++) {
+                popArray.push([point/10, count]);
+            }
+        }
+    }
+    popArray.sort(() => Math.random() - 0.5);
+    popArray.sort((a,b) => b[1] - a[1]);
+
+    return popArray;
+
+}
+
+const distributionArr=generateNormal();
+console.log(distributionArr);
+
+var distribution = sortNormal(distributionArr);
+
+const distributionCopy = Object.create(distribution);
+
+
+
+
+const distributionKeys = Object.keys(distribution);
+
+
 class Normal extends React.Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        //console.log(props);
+        super();
         this.state = {
             sampled: [],
-            mainSampleSize: this.props.mainSampleSize,
-            popArray: [],
+
+            stage:1,
+            mainSampleSize: 2000,
+            popArray: distributionArr,
+            //popObj:Object.assign({}, distribution),
+            popMean:63.894,
+            currPopArray:[],
             popType: 'Normal'
         }
+
+        console.log(distributionArr);
+        console.log(distribution.length);
+
         this.changeStage = this.changeStage.bind(this);
+        console.log('hey');
+        console.log(distribution);
+
+
     }
 
     changeStage(stage) {
@@ -37,48 +120,58 @@ class Normal extends React.Component {
     }
 
     generateNormal(){
-        const MEAN = 64;
-        const STANDARD_DEV = 3;
-        const ITERATES = 9;
-        const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
-        const popMin = MEAN - (range / 2);
 
-        const popArray = this.state.popArray ? this.state.popArray.slice() : []
-
-        const sampleSize = this.state.mainSampleSize;
-        let dict = Array(sampleSize).fill(-1);
-
-        // creates data points for population and stores it in popArray
-        for (let i = 0; i < sampleSize; i++){
-            let sum = 0;
-            for (let j = 0; j < ITERATES; j++){
-                sum += Math.random() * range + popMin;
-            }
-
-            if (dict[Math.round(sum / ITERATES * 10)] !== -1){
-                dict[Math.round(sum / ITERATES * 10)] += 1;
-            }
-            // Adds first instance of a point
-            else {
-                dict[Math.round(sum / ITERATES * 10)] = 1;
-            }
-        }
-
-        for (const point in dict) {
-            if (point !== -1) {
-                for (let count = 1; count < dict[point] + 1; count++) {
-                    popArray.push([point/10, count]);
-                }
-            }
-        }
-        popArray.sort(() => Math.random() - 0.5);
-        popArray.sort((a,b) => b[1] - a[1]);
-        this.setState({
-            popMean: math.mean(popArray.map(p => p[0]))
-        })
-        return popArray;
 
     }
+    grabFromNormal(){
+
+        //deep copy avoiding modifying state
+        const currKeys = Object.keys(distribution);
+        console.log(Object.keys(distribution).length); //length=116
+
+        let popArrayTemp = [];
+        let speed;
+
+
+        if(this.state.currPopArray.length<100){
+            speed = 20
+        }else{
+            speed = 300;
+        }
+        let i = 0;
+
+        //
+        //
+        while(i<speed){
+            // console.log('empty');
+            // console.log(this.state.currPopArray.length);
+
+            const j = Math.floor(Math.random()*currKeys.length)+1;
+            const key = currKeys[j];
+            const objArr = distribution[key];
+            // console.log(objArr);
+
+            if(objArr){
+                popArrayTemp.push(objArr[objArr.length - 1 ]);
+                distribution[key].pop();
+                i+=1;
+            }
+
+
+
+        }
+        let temp = this.state.currPopArray;
+
+        popArrayTemp=popArrayTemp.filter(function(val){
+            return !(!val || val === "");
+        });
+        // console.log(popArrayTemp);
+
+        let addedArray = temp.concat(popArrayTemp);
+        return addedArray;
+
+    }
+
 
     sample(size, popArray) {
         const sampled = []
@@ -102,33 +195,43 @@ class Normal extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.state.popArray.length <= 0 && this.state.stage === 1) {
-            this.setState({
-                popArray: this.generateNormal()
-            })
+        if(this.state.currPopArray.length>=1996){
+             clearInterval(this.interval);
         }
+
     }
 
     componentDidMount() {
-        this.setState({
-            stage: 1
-        })
+
+
+            this.interval = setInterval(() => this.setState({ currPopArray: this.grabFromNormal()}), 600);
+
+
+
     }
+    componentWillUnmount() {
+
+
+}
 
     render() {
+
         return (
             <div>
+
                 <Collapsable
                     stage={[0, 1, 2]}
                     changeStage={this.changeStage}
                     parentStage={this.state.stage}
                 >
+
                     <div>
                         {
                             this.state.stage >= 1 ?
                                 <div>
+
                                     <ChartContainer
-                                        popArray={this.state.popArray}
+                                        popArray={this.state.currPopArray}
                                         popMean={this.state.popMean}
                                         sampled={this.state.sampled}
                                         popType={'Normal'}
@@ -146,14 +249,14 @@ class Normal extends React.Component {
                                                 redraw = {() => {
                                                 }}
                                                 sample={(size) => {
-                                                    const sampleObject = this.sample(size,this.state.popArray);
+                                                    const sampleObject = this.sample(size,distributionArr);
                                                     this.setState({
                                                         sampled: sampleObject.pop
                                                     });
                                                     this.changeStage(2);
                                                     return sampleObject;
                                                 }}
-                                            popArray={this.state.popArray}
+                                            popArray={distributionArr}
                                             popType={this.state.popType}
                                             />
                                         </span>
