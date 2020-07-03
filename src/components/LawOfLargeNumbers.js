@@ -46,7 +46,8 @@ class LawOfLargeNumbers extends Component{
                 />
                 {this.state.popType === "Normal" &&
                     <Normal
-                        mainSampleSize={SAMPLE_SIZE}
+                        
+
                     />}
                 {this.state.popType === "Uniform" &&
                     <Uniform

@@ -20,7 +20,7 @@ class Collapsable extends Component {
 
     render() {
         const { stiffness, damping } = this.state;
-        console.log(this.state.stage);
+        
         const height = this.state.stage.includes(this.props.parentStage) ? "100%" : 20;
 
         return (
