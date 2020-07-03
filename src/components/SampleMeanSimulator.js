@@ -19,12 +19,13 @@ class SampleMeanSimulator extends Component {
         <div style={{ float: "center" }}>
           <span> Sample Size: </span>{" "}
           <Input
+            min={0}
             type="number"
             placeholder="Sample Size"
             onKeyPress={e => this.onKey(e)}
             onChange={event => {
-              
-              this.props.setsamplesize(event);
+
+              //this.props.setsamplesize(event);
               this.setState({
                 resampleSize: event.target.value
               });
@@ -36,6 +37,8 @@ class SampleMeanSimulator extends Component {
         <div style={{ float: "center" }}>
           <span> Number of Replications: </span>
           <Input
+            min={0}
+
             type="number"
             placeholder="Number of Replications"
             onKeyPress={e => this.onKey(e)}

@@ -52,9 +52,7 @@ class OmmittedVariable extends Component {
                           this.setState({beta: parseFloat(event.target.value)});
                         }}/>
                         </InputGroup>
-                      </Col>
 
-                      <Col>
                         <InputGroup>
                           <InputGroupAddon className="Center" addonType='prepend'>𝛿, the Coefficient on Sleep Hours: </InputGroupAddon>
                           <Input className="Center" type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
@@ -64,15 +62,11 @@ class OmmittedVariable extends Component {
                       </Col>
 
                       <Col>
-                      <InputGroup>
 
-                        <InputGroupAddon className="Center" addonType='prepend'>Covariance between Study Hours and Sleep Hours: </InputGroupAddon>
-                        <Input className="Center" type="number" step={.1} value={this.state.covStr}  />
-                      </InputGroup>
 
 
                       <p> Set the Correlation between Study Hours and Sleep Hours:</p>
-                      <br/>
+
                       <div>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
@@ -100,16 +94,25 @@ class OmmittedVariable extends Component {
 
 
                       </div>
+                      <InputGroup>
+
+                        <InputGroupAddon className="Center" addonType='prepend'>Covariance between Study Hours and Sleep Hours: </InputGroupAddon>
+                        <InputGroupText className="Center">
+                        {this.state.covStr}
+                        </InputGroupText>
+                      </InputGroup>
                       </Col>
 
                       </Row>
-                      <br />
-                      <Row className="Center">
-                        <p>Estimate Regression Using Test Score and Study Hours Data </p>
-                        <Button color='primary' onClick={()=>{this.generate(0); this.setState({stage:1})}}> Generate! </Button>
+
+                      <Row class = "Center">
+
                       </Row>
+
                       <Row>
                       <Col sm="12" md={{ size: 6, offset: 3 }}>
+                      <p>Estimate Regression Using Test Score and Study Hours Data </p>
+                      <Button color='primary' onClick={()=>{this.generate(0); this.setState({stage:1})}}> Generate! </Button>
                         <span className="Center" id="sharks"/>
                         </Col>
                       </Row>
@@ -124,10 +127,15 @@ class OmmittedVariable extends Component {
                               this.setState({stage:2});
                               this.generate(1);
                             }}> Show Corrected Regression Line </Button></div>}
-                    </Row>
+
+
+                            </Row>
+
+
+                      <br />
 
               </div>
-            </Container>
+  </Container>
 
         )
     }
