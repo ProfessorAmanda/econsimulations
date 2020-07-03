@@ -192,6 +192,7 @@ class Normal extends React.Component {
                                                 normal={this.state.standardNormal}
                                                 sampleMeans={this.state.sampleMean}
                                                 confidence={this.state.confidence}
+                                                
                                                 />
                                         </Col>
                                                 </Row>

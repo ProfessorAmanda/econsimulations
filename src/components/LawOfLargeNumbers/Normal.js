@@ -81,7 +81,7 @@ console.log(distributionArr);
 
 var distribution = sortNormal(distributionArr);
 
-const distributionCopy = Object.create(distribution);
+//const distributionCopy = Object.create(distribution);
 
 
 
@@ -104,13 +104,10 @@ class Normal extends React.Component {
             currPopArray:[],
             popType: 'Normal'
         }
-
-        console.log(distributionArr);
-        console.log(distribution.length);
+        this.distribution = JSON.parse(JSON.stringify(distribution));
 
         this.changeStage = this.changeStage.bind(this);
-        console.log('hey');
-        console.log(distribution);
+
 
 
     }
@@ -126,17 +123,19 @@ class Normal extends React.Component {
     grabFromNormal(){
 
         //deep copy avoiding modifying state
-        const currKeys = Object.keys(distribution);
-        console.log(Object.keys(distribution).length); //length=116
+        const currKeys = Object.keys(this.distribution);
+        console.log(Object.keys(this.distribution).length); //length=116
 
         let popArrayTemp = [];
         let speed;
 
 
-        if(this.state.currPopArray.length<100){
-            speed = 20
+        if(this.state.currPopArray.length<50){
+            speed = 10;
+        }else if(this.state.currPopArray.length<250){
+            speed = 100;
         }else{
-            speed = 300;
+            speed = 1000
         }
         let i = 0;
 
@@ -148,12 +147,12 @@ class Normal extends React.Component {
 
             const j = Math.floor(Math.random()*currKeys.length)+1;
             const key = currKeys[j];
-            const objArr = distribution[key];
+            const objArr = this.distribution[key];
             // console.log(objArr);
 
             if(objArr){
                 popArrayTemp.push(objArr[objArr.length - 1 ]);
-                distribution[key].pop();
+                this.distribution[key].pop();
                 i+=1;
             }
 
