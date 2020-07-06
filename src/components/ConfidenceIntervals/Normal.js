@@ -34,6 +34,8 @@ class Normal extends React.Component {
             sampleSize : 1,
             disableSample : false,
             popType: 'Normal',
+            ciLevel: '95%',
+            zScore:1.960,
             confidence: ''
         }
         this.changeStage = this.changeStage.bind(this);
@@ -132,6 +134,31 @@ class Normal extends React.Component {
     }
 
     render() {
+        const ciLevels = [
+        {level:'90%', zValue:1.645},
+        {level:'95%', zValue:1.960},
+        {level:'99%', zValue:2.576}
+    ];
+        const ciBar = ciLevels.map(obj=>{
+            return(
+                <Button
+                    //className={classnames({ active: this.state.activeTab === section.id }, {disabled: section.id === "0"})}
+                    // disabled={section.id === "0"}
+                    style={{ backgroundColor: this.state.ciLevel===obj.level? '#4CAF50':'#555555'  }}
+                    onClick={() => {
+
+                        this.setState({ ciLevel:obj.level });
+                        this.setState({ zScore:obj.zValue });
+                        this.setState({ sampleMean:[]});
+                        console.log(this.state.zScore);
+                        }
+                    }>
+                    {obj.level}
+                  </Button>
+            )
+
+        });
+
         return (
             <div>
                 <Collapsable
@@ -192,7 +219,7 @@ class Normal extends React.Component {
                                                 normal={this.state.standardNormal}
                                                 sampleMeans={this.state.sampleMean}
                                                 confidence={this.state.confidence}
-                                                
+
                                                 />
                                         </Col>
                                                 </Row>
@@ -221,8 +248,15 @@ class Normal extends React.Component {
 
                                             <Col lg="6">
                                                 <Alert color='light'>
+
+                                                <p>Confidence Level: {ciBar}</p>
+
+
                                                     <p>Try drawing some samples and calculating means </p>
+
                                                     <SampleAreaCLT
+                                                        conLevel = {this.state.ciLevel}
+                                                        zScore = {this.state.zScore}
                                                         disabled={this.state.disableSample}
                                                         redraw={() =>
                                                             {}
@@ -251,6 +285,9 @@ class Normal extends React.Component {
                                                         <p> Simulate drawing many many samples </p>
                                                     </Alert>
                                                     <SampleMeanSimulator
+                                                        conLevel = {this.state.ciLevel}
+                                                        zScore = {this.state.zScore}
+
                                                         style={{margin: 'auto'}}
                                                         clear={() => {
                                                             this.setState({

@@ -8,8 +8,10 @@ class SampleMeanSimulator extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        ciLevel: this.props.conLevel,
+        zScore:this.props.zScore,
       numberResamples: 0,
-      resampleSize: 0
+      resampleSize: 0,
     };
   }
   render() {
@@ -116,8 +118,8 @@ class SampleMeanSimulator extends Component {
       }
       const sampleMean = math.mean(samplePop);
       const sd = math.std(samplePop);
-      const upperConf = (sampleMean + ( (1.960 * sd) / Math.sqrt(resampleSize)) );
-      const lowerConf = (sampleMean - ( (1.960 * sd) / Math.sqrt(resampleSize)) );
+      const upperConf = (sampleMean + ( (this.props.zScore * sd) / Math.sqrt(resampleSize)) );
+      const lowerConf = (sampleMean - ( (this.props.zScore * sd) / Math.sqrt(resampleSize)) );
       const label = (this.props.mean >= lowerConf && this.props.mean <= upperConf) ? 'yes' : 'no' ;
       sampleMeans.push([resampleSize, sampleMean, sd, lowerConf, upperConf, label]);
       samplePop = [];

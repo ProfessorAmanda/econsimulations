@@ -8,6 +8,8 @@ class SampleAreaCLT extends Component {
         this.state = {
             sampleSize: undefined,
             popMean: undefined,
+            ciLevel: this.props.conLevel,
+            zScore:this.props.zScore,
             resampleSize: 0
         }
         this.handleChange = this.handleChange.bind(this);
@@ -18,41 +20,47 @@ class SampleAreaCLT extends Component {
     }
 
     render() {
+
+
         return (
             <div>
                  <Container>
+
                     <Row className="Center">
                         <Row>
-                            <Input 
+
+
+                            <Input
                                 style={{margin: 'auto'}}
-                                type="number" 
+                                type="number"
                                 min={1}
-                                value={this.state.sampleSize} 
+                                value={this.state.sampleSize}
                                 max={this.props.popArray.length}
                                 onChange={(event) => {
                                     this.setState({
                                         sampleSize: event.target.value
                                     })
-                                }} 
+                                }}
                             />
 
                             <Button
                                 style={{margin: 'auto'}}
                                 disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray.length || this.state.sampleSize < 1}
                                 onClick={()=> {
+                                    console.log(this.state.ciLevel);
                                     const sampleObject = this.props.sample(this.state.sampleSize);
                                     const mue = sampleObject.mue;
                                     const sd = sampleObject.sd;
-                                    const upperConf = (mue + ( (1.960 * sd) / Math.sqrt(this.state.sampleSize)) );
-                                    const lowerConf = (mue - ( (1.960 * sd) / Math.sqrt(this.state.sampleSize)) );
+                                    const upperConf = (mue + ( (this.props.zScore* sd) / Math.sqrt(this.state.sampleSize)) );
+                                    const lowerConf = (mue - ( (this.props.zScore * sd) / Math.sqrt(this.state.sampleSize)) );
                                     const label = (this.props.mean >= lowerConf && this.props.mean <= upperConf) ? 'yes' : 'no' ;
                                     this.setState({
-                                        popMean: mue 
+                                        popMean: mue
                                     });
                                     this.props.setmean(this.state.sampleSize, mue, sd, lowerConf, upperConf, label);
                                 }}
                             >
-                                Sample 
+                                Sample
                             </Button>
                         </Row>
                     </Row>
