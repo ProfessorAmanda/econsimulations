@@ -279,12 +279,12 @@ class OmmittedVariable extends Component {
                 text: 'Study Hours vs. Test Score'
             },
             xAxis: {
-                plotBands: [{
-                color: 'pink', // Color value
-                from: 3, // Start of the plot band
-                to: 4,
-                colour: 'pink' // End of the plot band
-              }],
+              //   plotBands: [{
+              //   color: 'pink', // Color value
+              //   from: 3, // Start of the plot band
+              //   to: 4,
+              //   colour: 'pink' // End of the plot band
+              // }],
                 min: 0,
                 max: 10,
                 title : {
