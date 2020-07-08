@@ -7,6 +7,7 @@ import SampleAreaCLT from './SampleAreaCLT.js'
 import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Label, Input, Row, Table } from 'reactstrap';
+//var { jStat } = require('jstat');
 
 class Normal extends React.Component {
     constructor(props){
@@ -134,6 +135,7 @@ class Normal extends React.Component {
     }
 
     render() {
+        //console.log(jStat.normal.inv(0, 1));
         const ciLevels = [
         {level:'90%', zValue:1.645},
         {level:'95%', zValue:1.960},

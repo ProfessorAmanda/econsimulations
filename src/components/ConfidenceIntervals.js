@@ -6,6 +6,9 @@ import Uniform from './ConfidenceIntervals/Uniform.js';
 import Exponential from './ConfidenceIntervals/Exponential.js';
 import ChiSquared from './ConfidenceIntervals/ChiSquared.js';
 
+
+
+
 const SAMPLE_SIZE = 2000;
 
 
@@ -39,21 +42,21 @@ class ConfidenceIntervals extends Component{
                         }
                     }
                 />
-                {this.state.popType === "Normal" && 
+                {this.state.popType === "Normal" &&
                     <Normal
                         mainSampleSize={SAMPLE_SIZE}
                     />}
-                {this.state.popType === "Uniform" && 
+                {this.state.popType === "Uniform" &&
                     <Uniform
                         mainSampleSize={SAMPLE_SIZE}
                     />}
 
-                {this.state.popType === "Exponential" && 
+                {this.state.popType === "Exponential" &&
                     <Exponential
                         mainSampleSize={SAMPLE_SIZE}
                     />}
 
-                {this.state.popType === "Chi-Squared" && 
+                {this.state.popType === "Chi-Squared" &&
                     <ChiSquared
                         mainSampleSize={SAMPLE_SIZE}
                     />}

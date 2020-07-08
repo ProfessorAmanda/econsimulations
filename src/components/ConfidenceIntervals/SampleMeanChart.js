@@ -185,6 +185,11 @@ class SampleMeanChart extends Component {
                                 text: 'Sample Mean Distribution'
                             },
                             xAxis: {
+                                plotBands: [{
+                                            color: 'orange', // Color value
+                                            from: 3, // Start of the plot band
+                                            to: 4 // End of the plot band
+                                          }],
                                 min: xMin,
                                 max: xMax,
                                 title : {
@@ -211,7 +216,7 @@ class SampleMeanChart extends Component {
                           }
         else {
 
-            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin, plotBands: [{ from: this.lowerConf, to: this.upperConf, color:'#FCFFC5' }, {from: this.props.mean, to: this.props.mean + 0.001, label: { text: "true mean"}}]}});
+            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin, plotBands: [{ color:'orange',from: this.lowerConf, to: this.upperConf }, {from: this.props.mean, to: this.props.mean + 0.001, label: { text: "true mean"}}]}});
             console.log(this.state.chart);
         }
 

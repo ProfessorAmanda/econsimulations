@@ -203,7 +203,7 @@ class Normal extends React.Component {
     componentDidMount() {
 
 
-            this.interval = setInterval(() => this.setState({ currPopArray: this.grabFromNormal()}), 600);
+            //this.interval = setInterval(() => this.setState({ currPopArray: this.grabFromNormal()}), 600);
 
 
 
@@ -230,7 +230,7 @@ class Normal extends React.Component {
                                 <div>
 
                                     <ChartContainer
-                                        popArray={this.state.currPopArray}
+                                        popArray={this.state.popArray}
                                         popMean={this.state.popMean}
                                         sampled={this.state.sampled}
                                         popType={'Normal'}
