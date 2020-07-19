@@ -9,6 +9,8 @@ import math from 'mathjs';
 import { Alert, Button, Col, Label, Input, Row, Table } from 'reactstrap';
 //var { jStat } = require('jstat');
 
+
+
 class Normal extends React.Component {
     constructor(props){
         super(props);
@@ -135,7 +137,7 @@ class Normal extends React.Component {
     }
 
     render() {
-        //console.log(jStat.normal.inv(0, 1));
+        //console.log(jStat.normal.cdf(0,1));
         const ciLevels = [
         {level:'90%', zValue:1.645},
         {level:'95%', zValue:1.960},
@@ -162,6 +164,7 @@ class Normal extends React.Component {
         });
 
         return (
+
             <div>
                 <Collapsable
                     stage={[0, 1, 2]}
@@ -355,6 +358,7 @@ class Normal extends React.Component {
                     </div>
                 </Collapsable>
             </div>
+
         )
     }
 }

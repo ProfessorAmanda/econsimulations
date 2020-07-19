@@ -77,7 +77,8 @@ class SimulationContainer extends Component{
                     {this.state.mode === 'Joint Distributions' && <JointWrapper/>}
                     {this.state.mode === 'Least Squares' && <LeastSim/>}
                     {this.state.mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
-                    
+
+
                     {this.state.mode === 'Start Here' && <StartHere/>}
 
 
