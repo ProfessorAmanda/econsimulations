@@ -11,7 +11,9 @@ const random = require( 'distributions-normal-random' );
 const jsregression = require('js-regression');
 const mathjs = require('mathjs');
 const OBS = 300;
-const INT = 65; //intercept
+const INT = 40; //intercept
+const stdX = 3;
+const stdY = 6;
 
 
 class OmmittedVariable extends Component {
@@ -48,14 +50,14 @@ class OmmittedVariable extends Component {
                       <Col>
                         <InputGroup>
                           <InputGroupAddon className="Center" addonType='prepend'>β₁, the Coefficient on Study Hours:</InputGroupAddon>
-                          <Input className="Center" type="number" step={.1} value={this.state.beta} min={-10} max={10} onChange={(event) => {
+                          <Input className="Center" type="number" step={.1} value={this.state.beta} min={-4} max={4} onChange={(event) => {
                           this.setState({beta: parseFloat(event.target.value)});
                         }}/>
                         </InputGroup>
 
                         <InputGroup>
                           <InputGroupAddon className="Center" addonType='prepend'>𝛿, the Coefficient on Sleep Hours: </InputGroupAddon>
-                          <Input className="Center" type="number" step={.1} value={this.state.delta} min={-10} max={10} onChange={(event) => {
+                          <Input className="Center" type="number" step={.1} value={this.state.delta} min={-4} max={4} onChange={(event) => {
                           this.setState({delta: parseFloat(event.target.value)});
                         }}/>
                         </InputGroup>
@@ -79,9 +81,29 @@ class OmmittedVariable extends Component {
                             min={-1}
                             max={1}
                             onChange={(event) => {
-                                this.setState({corr : parseFloat(event.target.value)});
-                                this.setState({cov : parseFloat(event.target.value*(1.732 * 2.449))});
-                                this.setState({covStr : parseFloat(event.target.value*(1.732 * 2.449)).toFixed(1)});
+                                //Avoid extreme value errors
+                                var corrPro=0;
+                                if(event.target.value==1){
+                                    corrPro = 0.9;
+                                    console.log(corrPro);
+                                }else if(event.target.value==-1){
+                                    corrPro = -0.9;
+                                    console.log(corrPro);
+                                }else{
+                                    corrPro = event.target.value;
+                                }
+
+                                //console.log(event.target.value);
+                                // console.log('target');
+                                // console.log(event.target.value);
+                                // console.log(event.target.value==1);
+
+                                //(event.target.value===1)&&(console.log(corrPro));
+
+
+                                this.setState({corr : parseFloat(corrPro)});
+                                this.setState({cov : parseFloat(corrPro*(Math.sqrt(stdX * stdY)))});
+                                this.setState({covStr : parseFloat(corrPro*(Math.sqrt(stdX * stdY))).toFixed(1)});
                                 //const copy = this.state.covMatrix;
                                 // const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
                                 // this.setState({covMatrix : temp});
@@ -148,8 +170,8 @@ class OmmittedVariable extends Component {
         // dimensions highly correlated, and the second dimension independent.
         const covarianceMatrix = [
 
-            [3, this.state.cov],
-            [this.state.cov, 6]
+            [stdX, this.state.cov],
+            [this.state.cov, stdY]
         ];
         //std : genhao 3 genhao 6
 

@@ -43,7 +43,8 @@
     "regression": "^2.0.1",
     "smr": "^0.12.6",
     "styled-components": "^2.4.1",
-    "webworker-threads": "0.7.17"
+    "webworker-threads": "0.7.17",
+    "jStat ":"v1.9.3"
   },
   "scripts": {
       "start": "BROWSER='google chrome' react-scripts start",
