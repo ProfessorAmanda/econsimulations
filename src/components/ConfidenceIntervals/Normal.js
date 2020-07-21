@@ -137,7 +137,7 @@ class Normal extends React.Component {
     }
 
     render() {
-        //console.log(jStat.normal.cdf(0,1));
+        
         const ciLevels = [
         {level:'90%', zValue:1.645},
         {level:'95%', zValue:1.960},
