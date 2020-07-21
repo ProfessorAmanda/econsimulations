@@ -8,7 +8,7 @@ import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Label, Input, Row, Table } from 'reactstrap';
 
-
+//jstat deleted
 
 
 class Normal extends React.Component {
