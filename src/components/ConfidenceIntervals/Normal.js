@@ -7,7 +7,7 @@ import SampleAreaCLT from './SampleAreaCLT.js'
 import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Label, Input, Row, Table } from 'reactstrap';
-//var { jStat } = require('jstat');
+
 
 
 
