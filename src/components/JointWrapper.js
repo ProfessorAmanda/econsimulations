@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import JointSimple from './JointSimple.js';
-import JointDistributions from './JointDistributions.js';
-import ToggleJoint from './ToggleJoint.js';
-import PopBar from './PopBar.js';
+//import ToggleJoint from './ToggleJoint.js';
+
 import { Container, Alert } from 'reactstrap';
 
 class JointWrapper extends Component{

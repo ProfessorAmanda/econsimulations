@@ -19,7 +19,7 @@ export default function PopTable(props) {
     const rows = popArr.map((val, index) => {
             for (const i of samples) {
                 //console.log(i);
-                if (val == i){
+                if (val === i){
                     return (<tr style={{background:"#747EF2"}}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
                 }
             }
@@ -31,6 +31,7 @@ export default function PopTable(props) {
                     return(<tr key={index}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
                 }
             }
+            return popArr;
 
     });
     const tableBody = (

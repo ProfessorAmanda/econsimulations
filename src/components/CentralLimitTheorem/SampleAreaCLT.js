@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, InputGroup, Input, Row, Col} from 'reactstrap';
+import { Button, Container, Input, Row, Col} from 'reactstrap';
 import math from 'mathjs';
 
 class SampleAreaCLT extends Component {

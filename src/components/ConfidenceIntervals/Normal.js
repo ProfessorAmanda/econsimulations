@@ -8,8 +8,9 @@ import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Label, Input, Row, Table } from 'reactstrap';
 
-//jstat deleted
 
+
+const pairedVal = {'0.01': 2.575829304, '0.05': 1.959963985, '0.1': 1.644853627, '0.2': 1.281551566, '0.3': 1.036433389, '0.4': 0.841621234, '0.5': 0.67448975, '0.6': 0.524400513, '0.7': 0.385320466, '0.8': 0.253347103, '0.9': 0.125661347, '1': 0.0}
 
 class Normal extends React.Component {
     constructor(props){
@@ -137,7 +138,8 @@ class Normal extends React.Component {
     }
 
     render() {
-        
+
+]
         const ciLevels = [
         {level:'90%', zValue:1.645},
         {level:'95%', zValue:1.960},

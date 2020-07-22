@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PopBar from './PopBar.js';
-import { Alert, Input } from 'reactstrap';
+import { Alert } from 'reactstrap';
 import Normal from './CentralLimitTheorem/Normal.js';
 import Uniform from './CentralLimitTheorem/Uniform.js';
 import Exponential from './CentralLimitTheorem/Exponential.js';
 import ChiSquared from './CentralLimitTheorem/ChiSquared.js';
 import Mystery from './CentralLimitTheorem/Mystery.js';
-import Intro from './CLTLLNIntro.js';
+//import Intro from './CLTLLNIntro.js';
 
 const SAMPLE_SIZE = 2000;
 

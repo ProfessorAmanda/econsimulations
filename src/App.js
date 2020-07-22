@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Spinner } from 'reactstrap';
 import './App.css';
 import SimulationContainer from './components/SimulationContainer.js';
 

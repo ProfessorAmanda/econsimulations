@@ -4,7 +4,7 @@ import ChartContainer from '../ChartContainer.js';
 import SampleArea from '../SampleArea.js';
 import SimulateSamples from '../SimulateSamples.js';
 import math from 'mathjs';
-import { Alert, Button } from 'reactstrap';
+import { Alert } from 'reactstrap';
 
 function DifferenceOfMeans(props){
     const diff = (
@@ -77,16 +77,9 @@ function generateNormal(){
 }
 
 const distributionArr=generateNormal();
-console.log(distributionArr);
+//console.log(distributionArr);
 
 var distribution = sortNormal(distributionArr);
-
-//const distributionCopy = Object.create(distribution);
-
-
-
-
-const distributionKeys = Object.keys(distribution);
 
 
 class Normal extends React.Component {

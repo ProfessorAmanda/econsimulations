@@ -5,7 +5,7 @@ import SampleArea from '../SampleArea.js';
 import SimulateSamples from '../SimulateSamples.js';
 
 import math from 'mathjs';
-import { Alert, Button } from 'reactstrap';
+import { Alert } from 'reactstrap';
 
 function DifferenceOfMeans(props){
     const diff = (
