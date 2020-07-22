@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, InputGroup, Input,  Row } from 'reactstrap';
+import { Button, Container, Input,  Row } from 'reactstrap';
 
 
 
@@ -23,7 +23,7 @@ class SampleArea extends Component {
                 <Container>
                     <Row className="Center">
                             <Input
-                                
+
                                 align="right"
                                 type="number"
                                 placeholder="Sample Size:"

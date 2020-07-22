@@ -171,18 +171,18 @@ class JointDistributions extends Component {
 
 
     generate() {
-        const meanVector = [1, 10];
+        //const meanVector = [1, 10];
 
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
-        const covarianceMatrix = [
-            [ 1.0, 1.0],
-            [ 1.0, 1.0]
-        ];
+        // const covarianceMatrix = [
+        //     [ 1.0, 1.0],
+        //     [ 1.0, 1.0]
+        // ];
         // console.log(this.state);
 
         // Check for non symmetric Matrix
-        if(this.state.covMatrix[0][1] != this.state.covMatrix[1][0]){
+        if(this.state.covMatrix[0][1] !== this.state.covMatrix[1][0]){
           //alert("these gotta be the same yo");
           return;
         }

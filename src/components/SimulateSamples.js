@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import math from "mathjs";
 import Highcharts from "highcharts";
-import { Collapse, Button, ButtonGroup, Card, CardBody, Spinner } from 'reactstrap';
+import { Collapse, Card, CardBody } from 'reactstrap';
 import '../dark-unica.css';
 import '../boost.js';
 
@@ -47,7 +47,7 @@ class SimulateSamples extends Component {
                 },
                 min: 0,
                 max: 1000,
-                
+
             },
             yAxis: {
                 // min: yMin,

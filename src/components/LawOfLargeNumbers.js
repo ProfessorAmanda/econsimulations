@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PopBar from './PopBar.js';
-import { Alert, Input } from 'reactstrap';
+import { Alert } from 'reactstrap';
 import Normal from './LawOfLargeNumbers/Normal.js';
 import Uniform from './LawOfLargeNumbers/Uniform.js';
 import Exponential from './LawOfLargeNumbers/Exponential.js';
@@ -46,7 +46,7 @@ class LawOfLargeNumbers extends Component{
                 />
                 {this.state.popType === "Normal" &&
                     <Normal
-                        
+
 
                     />}
                 {this.state.popType === "Uniform" &&

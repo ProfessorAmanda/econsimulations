@@ -5,10 +5,10 @@ import regression from 'regression';
 import { Alert, Container, Row, Col, Input, InputGroup, InputGroupText,InputGroupAddon, Button } from 'reactstrap';
 
 const smr = require('smr');
-const quantile = require("distributions-exponential-quantile");
-const cdf = require( 'distributions-normal-cdf' );
+// const quantile = require("distributions-exponential-quantile");
+// const cdf = require( 'distributions-normal-cdf' );
 const random = require( 'distributions-normal-random' );
-const jsregression = require('js-regression');
+//const jsregression = require('js-regression');
 const mathjs = require('mathjs');
 const OBS = 300;
 const INT = 40; //intercept
@@ -83,10 +83,10 @@ class OmmittedVariable extends Component {
                             onChange={(event) => {
                                 //Avoid extreme value errors
                                 var corrPro=0;
-                                if(event.target.value==1){
+                                if(event.target.value===1){
                                     corrPro = 0.9;
                                     console.log(corrPro);
-                                }else if(event.target.value==-1){
+                                }else if(event.target.value===-1){
                                     corrPro = -0.9;
                                     console.log(corrPro);
                                 }else{
@@ -180,7 +180,7 @@ class OmmittedVariable extends Component {
 
         const beta_X = this.state.beta;
         const delta_V = this.state.delta;
-        const cov_XV = this.state.cov;
+        //const cov_XV = this.state.cov;
 
         // lets you sample from distribution
         const distribution = MultivariateNormal(meanVector, covarianceMatrix);
@@ -256,7 +256,7 @@ class OmmittedVariable extends Component {
 
         const correctedReg = new smr.Regression({ numX: 2, numY: 1 });
 
-        const testList = [];
+        //const testList = [];
 
         for(let i=0;i<OBS;i++){
           correctedReg.push({ x: [multipleArray[i][0], multipleArray[i][1]], y: [multipleArray[i][2]] });
@@ -270,19 +270,19 @@ class OmmittedVariable extends Component {
         }
 
         // === Create the linear regression === //
-        const jsreg = new jsregression.LinearRegression();
+        //const jsreg = new jsregression.LinearRegression();
 
         // === Train the linear regression === //
-        const newModel = jsreg.fit(regData);
+        //const newModel = jsreg.fit(regData);
 
         // === Print the trained model === //
         // console.log(newModel);
 
         /***************************************************************/
 
-        const correctedSlopes = correctedReg.calculateCoefficients();
+        //const correctedSlopes = correctedReg.calculateCoefficients();
         // console.log(correctedSlopes);
-        const calcInt = correctedReg.hypothesize({ x: [0, 0] });
+        //const calcInt = correctedReg.hypothesize({ x: [0, 0] });
         // console.log(calcInt);
         //let testy = correctedReg.hypothesize({ x: [0, 0] }); // Returns [20.93]
 

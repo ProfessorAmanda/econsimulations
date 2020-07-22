@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../dark-unica.css';
 import Highcharts from 'highcharts';
 import 'highcharts/modules/annotations';
-import { Alert, Button, Container, Col, Input, Label, Row } from 'reactstrap';
+import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import '../boost.js';
 import math from 'mathjs';

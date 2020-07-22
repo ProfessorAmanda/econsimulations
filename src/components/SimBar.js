@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { Button, Card, CardText, CardDeck, CardTitle, CardColumns, CardImg } from 'reactstrap';
-import { Container, Row, Col, Input, InputGroup, InputGroupAddon} from 'reactstrap';
+import { Button, Card, CardText } from 'reactstrap';
+import { Row, Col} from 'reactstrap';
 
 import clt from '../clt.png';
 import lln from '../lln.png';
 import jd from '../jd.jpg';
 import ls from '../ls.png';
 import ovs from '../ovs.png';
-import ci from '../ci.jpg';
-import logo from '../ECONSIMS.png';
+
 
 
 class SimBar extends Component {
@@ -73,7 +72,7 @@ class SimBar extends Component {
         // const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
         const sections = modes.map((section)=>{
             return (
-              <div>
+              <div key={'key'}>
               <Row className="Center">
               <Col>
                     <Card body outline color="primary" style={{}}>
@@ -96,7 +95,7 @@ class SimBar extends Component {
             );
         });
         return(
-            <div >
+            <div key={'key23'}>
             <div className="MiniLogo"></div>
                     {sections}
             </div>

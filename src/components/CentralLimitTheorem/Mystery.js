@@ -132,7 +132,7 @@ class Mystery extends React.Component {
         popArray.push(Math.round((sum / secondITERATES)*100)/100)
     }
     if(this.state.clearedArray.length > 0){
-      const tempCleared = this.state.clearedArray;
+      var tempCleared = this.state.clearedArray;
       tempCleared = newCleared;
       this.setState({clearedArray : tempCleared});
     }

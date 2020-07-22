@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import PopBar from './PopBar.js';
-import { Alert, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 class CLTLLNIntro extends Component{
-    constructor(props){
-        super(props);
-
-        }
 
     render() {
         return (

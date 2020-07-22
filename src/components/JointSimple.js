@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
-import { Alert, Container, Row, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
-const quantile = require("distributions-exponential-quantile");
-const cdf = require( 'distributions-normal-cdf' );
+import {  Container, Row, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
+//const quantile = require("distributions-exponential-quantile");
+//const cdf = require( 'distributions-normal-cdf' );
 
 function ParentInput(props){
   return(
@@ -237,8 +237,8 @@ class JointSimple extends Component {
         const sharkDict = {};
         const rawSharks = series.data.map((s) => {return s[0]});
         // raw sharks is the sample without the double array thing
-        const sharkCDF = cdf(rawSharks);
-        const sharkExp = quantile(sharkCDF);
+        //const sharkCDF = cdf(rawSharks);
+        //const sharkExp = quantile(sharkCDF);
         // for (let s of sharkCDF) {
         //     sharkPois.push();
         // }
@@ -401,7 +401,7 @@ class JointSimple extends Component {
 
             series: [icecreamSeries]
         });
-        console.log([jointSeries]);
+        //console.log([jointSeries]);
         const jointSeries = {data : [], color: '#FF9655', name:"Parent Height vs Child Height (inches)"}
         for (const i in rawSharks){
             jointSeries.data.push([Math.round(rawSharks[i] * 100) / 100, Math.round(series.data[i][1] * 100) / 100]);

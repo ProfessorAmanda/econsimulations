@@ -9,14 +9,9 @@ const SelectPop=styled.ul`
   margin: 0px
 `;
 
-const SectionItem=styled.li`
-  padding: 5px;
-  font-weight: bold;
-`;
-const label=styled.p`
-  float: left;
-  margin: 10px;
-`
+
+
+
 const ToolBarButton=styled.a`
   background-color: white;
   border: 2px solid black;

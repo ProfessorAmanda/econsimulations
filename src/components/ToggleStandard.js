@@ -10,34 +10,28 @@ const SelectPop=styled.ul`
   margin: 10px
 `;
 
-const SectionItem=styled.li`
-  padding: 5px;
-  font-weight: bold;
-`;
-const label=styled.p`
-  float: left;
-  margin: 10px;
-`
-const ToolBarButton=styled.a`
-  background-color: white;
-  border: 2px solid black;
-  color: #555555;
-  padding: 10px 24px;
-  width: 80px;
-  text-align: center;
-  text-decoration: none;
-  display: block;
-  font-size: 12px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-   transition-duration: 0.4s;
-   cursor: pointer;
-   &:focus {outline:0}
-   &:hover {
-       background-color: #555555;
-       color: white;
-   }
 
-`;
+// 
+// const ToolBarButton=styled.a`
+//   background-color: white;
+//   border: 2px solid black;
+//   color: #555555;
+//   padding: 10px 24px;
+//   width: 80px;
+//   text-align: center;
+//   text-decoration: none;
+//   display: block;
+//   font-size: 12px;
+//   -webkit-transition-duration: 0.4s; /* Safari */
+//    transition-duration: 0.4s;
+//    cursor: pointer;
+//    &:focus {outline:0}
+//    &:hover {
+//        background-color: #555555;
+//        color: white;
+//    }
+//
+// `;
 
 class ToggleStandard extends Component {
     constructor(props){

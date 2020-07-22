@@ -5,9 +5,8 @@ import CentralLimitTheorem from './CentralLimitTheorem.js';
 import JointWrapper from './JointWrapper.js';
 import LeastSim from './LeastSim.js';
 import OmmittedVariable from './OmmittedVariable.js';
-import ConfidenceIntervals from './ConfidenceIntervals.js'
+//import ConfidenceIntervals from './ConfidenceIntervals.js'
 import StartHere from './StartHere';
-import Test from './Test.js';
 import { Button, Fade } from 'reactstrap';
 
 class SimulationContainer extends Component{
@@ -52,7 +51,7 @@ class SimulationContainer extends Component{
                     <Fade in={this.state.collapse} style={{ display: !this.state.collapse ? 'none' : 'block' }}>
                         <div className="Splash">
                         </div>
-                        <div className="Nav">
+                        <div className="Nav" key={'unkey'}>
                             <SimBar section= {this.state.mode} setSection={(section) => this.setState({mode:section, collapse: false})} />
                         </div>
                     </Fade>
@@ -89,3 +88,4 @@ class SimulationContainer extends Component{
     }
 }
 export default SimulationContainer;
+//{this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
