@@ -6,9 +6,10 @@ class SampleMeanChart extends Component {
     constructor(props){
         super(props);
         this.state = {
+
+            ifChart:this.props.chart,
             chart: undefined,
             sampleMeans:[],
-
             popMeans:{
               "Normal" : 64,
               "Uniform" : 64,
@@ -29,8 +30,10 @@ class SampleMeanChart extends Component {
         this.upperConf = 1;
         this.lowerConf = 0;
         this.label = 'no';
+
     }
     render(){
+        console.log(this.props.chart)
         const all = this.props.sampleMeans.slice();
         const point = all.pop();
         if (point) {
@@ -70,7 +73,7 @@ class SampleMeanChart extends Component {
     }
 
     show(){
-        console.log(this.props.sampleMeans);
+        //console.log(this.props.sampleMeans);
         const sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
         // const popMean = Math.round(this.props.mean *4)/4;
@@ -173,7 +176,8 @@ class SampleMeanChart extends Component {
         // bellSeries.data = normalPoints;
 
         // console.log(seriesData);
-
+        console.log('check');
+        console.log(this.state.chart);
         if (!this.state.chart) {
             this.setState({chart: Highcharts.chart('sim-container', {
                             chart: {
@@ -185,7 +189,7 @@ class SampleMeanChart extends Component {
                                 text: 'Sample Mean Distribution'
                             },
                             xAxis: {
-                                plotBands: [{
+                                plotBands: !this.props.chart? []:[{
                                             color: 'orange', // Color value
                                             from: 3, // Start of the plot band
                                             to: 4 // End of the plot band
@@ -215,9 +219,9 @@ class SampleMeanChart extends Component {
                             })});
                           }
         else {
+            console.log(this.props.chart);
+            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin, plotBands: !this.props.chart? []:[{ color:'orange',from: this.lowerConf, to: this.upperConf }, {from: this.props.mean, to: this.props.mean + 0.001, label: { text: "true mean"}}]}});
 
-            this.state.chart.update({series:[sampleMeanSeries], yAxis: {max: yMax}, xAxis : {title: {text:xLabel},max: xMax, min: xMin, plotBands: [{ color:'orange',from: this.lowerConf, to: this.upperConf }, {from: this.props.mean, to: this.props.mean + 0.001, label: { text: "true mean"}}]}});
-            console.log(this.state.chart);
         }
 
         // console.log(sampleMeanSeries);
