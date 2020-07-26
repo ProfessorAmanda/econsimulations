@@ -2,15 +2,17 @@ import React from 'react';
 import Collapsable from '../Collapsable.js';
 import ChartContainer from './ChartContainer.js';
 import ToggleStandard from '../ToggleStandard.js';
-import SampleMeanChart from './SampleMeanChart.js'
-import SampleAreaCLT from './SampleAreaCLT.js'
-import SampleMeanSimulator from '../SampleMeanSimulator.js'
+import SampleMeanChart from './SampleMeanChart.js';
+import SampleAreaCLT from './SampleAreaCLT.js';
+import SampleMeanSimulator from '../SampleMeanSimulator.js';
+import TTable from './TTable.js'
 import math from 'mathjs';
-import { Alert, Button, Col, Label, Input, Row, Table } from 'reactstrap';
+import { Alert, Button, Col, Label, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
 
 
 
-const pairedVal = {'0.01': 2.575829304, '0.05': 1.959963985, '0.1': 1.644853627, '0.2': 1.281551566, '0.3': 1.036433389, '0.4': 0.841621234, '0.5': 0.67448975, '0.6': 0.524400513, '0.7': 0.385320466, '0.8': 0.253347103, '0.9': 0.125661347, '1': 0.0}
+
+const pairedVal = {'0.99': 2.575829304, '0.98': 2.326347874, '0.97': 2.170090378, '0.96': 2.053748911, '0.95': 1.959963985, '0.94': 1.880793608, '0.93': 1.811910673, '0.92': 1.750686071, '0.91': 1.69539771, '0.9': 1.644853627, '0.89': 1.59819314, '0.88': 1.554773595, '0.87': 1.514101888, '0.86': 1.475791028, '0.85': 1.439531471, '0.84': 1.40507156, '0.83': 1.372203809, '0.82': 1.340755034, '0.81': 1.310579112, '0.8': 1.281551566, '0.79': 1.253565438, '0.78': 1.22652812, '0.77': 1.200358858, '0.76': 1.174986792, '0.75': 1.15034938, '0.74': 1.126391129, '0.73': 1.103062556, '0.72': 1.080319341, '0.71': 1.058121618, '0.7': 1.036433389, '0.69': 1.015222033, '0.68': 0.994457883, '0.67': 0.974113877, '0.66': 0.954165253, '0.65': 0.934589291, '0.64': 0.915365088, '0.63': 0.896473364, '0.62': 0.877896295, '0.61': 0.859617364, '0.6': 0.841621234, '0.59': 0.82389363, '0.58': 0.806421247, '0.57': 0.789191653, '0.56': 0.772193214, '0.55': 0.755415026, '0.54': 0.738846849, '0.53': 0.722479052, '0.52': 0.706302563, '0.51': 0.690308824, '0.5': 0.67448975, '0.49': 0.658837693, '0.48': 0.643345405, '0.47': 0.628006014, '0.46': 0.612812991, '0.45': 0.597760126, '0.44': 0.582841507, '0.43': 0.568051498, '0.42': 0.55338472, '0.41': 0.53883603, '0.4': 0.524400513, '0.39': 0.510073457, '0.38': 0.495850347, '0.37': 0.48172685, '0.36': 0.467698799, '0.35': 0.45376219, '0.34': 0.439913166, '0.33': 0.426148008, '0.32': 0.412463129, '0.31': 0.398855066, '0.3': 0.385320466, '0.29': 0.371856089, '0.28': 0.358458793, '0.27': 0.345125531, '0.26': 0.331853346, '0.25': 0.318639364, '0.24': 0.305480788, '0.23': 0.292374896, '0.22': 0.279319034, '0.21': 0.266310613, '0.2': 0.253347103, '0.19': 0.240426031, '0.18': 0.227544977, '0.17': 0.214701568, '0.16': 0.201893479, '0.15': 0.189118426, '0.14': 0.176374165, '0.13': 0.163658486, '0.12': 0.150969215, '0.11': 0.138304208, '0.1': 0.125661347, '0.09': 0.113038541, '0.08': 0.100433721, '0.07': 0.087844838, '0.06': 0.075269862, '0.05': 0.062706778, '0.04': 0.050153583, '0.03': 0.037608288, '0.02': 0.025068908, '0.01': 0.01253347, '0': 0.0}
 
 class Normal extends React.Component {
     constructor(props){
@@ -30,6 +32,7 @@ class Normal extends React.Component {
                 "Chi-Squared": 0,
                 "Mystery": 0
             },
+            zORt:'t',
             sampleMean: [],
             sampled: [],
             mainSampleSize: this.props.mainSampleSize,
@@ -40,7 +43,10 @@ class Normal extends React.Component {
             popType: 'Normal',
             ciLevel: '95%',
             zScore:1.960,
-            confidence: ''
+            confidence: '',
+            freUsedVal:[],
+            dOf:1,
+            chart:0
         }
         this.changeStage = this.changeStage.bind(this);
     }
@@ -122,6 +128,23 @@ class Normal extends React.Component {
             sampleMean: sampleMeans
         })
     }
+    updateDisTable(){
+        if(this.state.zORt==='z'){
+            this.state.freUsedVal=[
+            {level:'90%', zValue:1.645},
+            {level:'95%', zValue:1.960},
+            {level:'99%', zValue:2.576}
+        ];
+        }
+        else{
+            this.state.freUsedVal=[
+            {level:'90%', zValue:parseFloat(TTable[this.state.dOf - 1][9])},
+            {level:'95%', zValue:parseFloat(TTable[this.state.dOf - 1][4])},
+            {level:'99%', zValue:parseFloat(TTable[this.state.dOf - 1][0])}
+        ];
+
+        }
+    }
 
     componentDidUpdate() {
         if (this.state.popArray.length <= 0 && this.state.stage === 1) {
@@ -137,30 +160,39 @@ class Normal extends React.Component {
         })
     }
 
-    render() {
 
-]
-        const ciLevels = [
-        {level:'90%', zValue:1.645},
-        {level:'95%', zValue:1.960},
-        {level:'99%', zValue:2.576}
-    ];
-        const ciBar = ciLevels.map(obj=>{
+
+    render() {
+        //console.log(TTable[0][0]);
+
+        this.updateDisTable();
+
+
+
+        const ciBar = this.state.freUsedVal.map(obj=>{
             return(
+
                 <Button
                     //className={classnames({ active: this.state.activeTab === section.id }, {disabled: section.id === "0"})}
                     // disabled={section.id === "0"}
                     style={{ backgroundColor: this.state.ciLevel===obj.level? '#4CAF50':'#555555'  }}
                     onClick={() => {
 
-                        this.setState({ ciLevel:obj.level });
-                        this.setState({ zScore:obj.zValue });
-                        this.setState({ sampleMean:[]});
-                        console.log(this.state.zScore);
+
+                        this.setState({ ciLevel:obj.level,
+                                        zScore:obj.zValue,
+                                        sampleMean:[],
+                                        chart:0
+                                        });
+
+                        console.log(this.state.chart);
+
+
                         }
                     }>
                     {obj.level}
                   </Button>
+                 
             )
 
         });
@@ -199,6 +231,84 @@ class Normal extends React.Component {
                             this.state.stage >= 1 ?
                                 <div>
                                     <div>
+                                    <Row>
+                                    <ButtonGroup>
+                                    <Button
+                                    style={{ backgroundColor: this.state.zORt==='z'? '#4CAF50':'#555555'  }}
+                                    onClick={
+                                        () => {
+                                            this.setState({
+                                                zORt: 'z',
+                                                sampleMean:[],
+                                                sampled:[],
+                                                chart:0
+                                            });
+
+                                        }
+                                    }>Z</Button>
+                                    <Button
+                                    style={{ backgroundColor: this.state.zORt==='t'? '#4CAF50':'#555555'  }}
+                                    onClick={
+                                        () => {
+                                            this.setState({
+                                                zORt: 't',
+                                                sampleMean:[],
+                                                sampled:[],
+                                                chart:0
+                                            });
+
+                                        }
+                                    }>T</Button>
+                                    </ButtonGroup>
+                                    </Row>
+                                    <Row>
+                                    <Col>
+                                    <p>Confidence Level: {ciBar}</p>
+                                    </Col>
+
+                                    <Col>
+                                    <InputGroup>
+                                    <p>More Levels:  </p>
+                                    <Input
+
+                                        type="range"
+                                        className="custom-range"
+                                        step={.01}
+                                        min={0.01}
+                                        max={0.99}
+                                        onChange={(event) => {
+                                            var pOft;
+                                            if(this.state.zORt == 't'){
+
+                                                pOft = parseInt(event.target.value *100)>50 ? 1-event.target.value: event.target.value;
+
+                                            }
+                                            console.log('poft')
+                                            console.log(pOft)
+
+                                            this.setState({zScore: this.state.zORt==='z'? pairedVal[event.target.value.toString()]: parseFloat(TTable[this.state.dOf-1][parseInt(pOft*100) -1]),
+                                                            sampleMean:[],
+                                                            sampled:[],
+                                                            chart:0,
+                                                            ciLevel: Math.floor(event.target.value*100).toString()+'%'
+
+                                                        });
+                                            console.log('tCheck');
+                                            console.log(this.state.zScore);
+                                            //this.setState({ciLevel: this.state.zOrt==='z'? (Math.floor(event.target.value*100)).toString()+'%': parseFloat(TTable[this.state.dOf-1][parseInt(event.target.value *100)]) });
+
+
+
+                                          }}
+                                    />
+                                    <InputGroupAddon addonType="append">
+                                    <InputGroupText>{this.state.ciLevel}</InputGroupText>
+                                    </InputGroupAddon>
+                                     </InputGroup>
+                                    </Col>
+                                    </Row>
+
+
                                         <Row>
 
                                         <Col
@@ -216,6 +326,7 @@ class Normal extends React.Component {
                                         <Col
                                             lg="6">
                                             <SampleMeanChart
+                                                chart = {this.state.chart}
                                                 numberResamples={this.state.numberResamples}
                                                 resampleSize={this.state.resampleSize[this.state.popType]}
                                                 mean={this.state.popMean}
@@ -256,7 +367,7 @@ class Normal extends React.Component {
                                             <Col lg="6">
                                                 <Alert color='light'>
 
-                                                <p>Confidence Level: {ciBar}</p>
+
 
 
                                                     <p>Try drawing some samples and calculating means </p>
@@ -269,6 +380,14 @@ class Normal extends React.Component {
                                                             {}
                                                         }
                                                         sample={(size) => {
+
+                                                            this.setState({
+                                                                chart: 1,
+                                                                dOf:size,
+
+                                                            });
+                                                            console.log('dofCheck')
+                                                            console.log(this.state.dOf)
                                                             const sampleObject = this.sample(size, this.state.popArray);
 
                                                             this.setState({
