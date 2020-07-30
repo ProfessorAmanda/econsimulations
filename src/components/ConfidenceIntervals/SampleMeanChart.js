@@ -47,7 +47,7 @@ class SampleMeanChart extends Component {
             {
               point &&
             <Alert color={this.label === 'no' ? "danger" : "success"} className="Center">
-                <p>Sample number {this.props.sampleMeans.length} has a mean of {point[1]}, with 95% CI ({Math.round(this.lowerConf * 100) /100}, {Math.round(this.upperConf * 100)/100}). CI contains the true mean? {this.label}</p>
+                <p>Sample number {this.props.sampleMeans.length} has a mean of {point[1].toFixed(2)}, with 95% CI ({Math.round(this.lowerConf * 100) /100}, {Math.round(this.upperConf * 100)/100}). CI contains the true mean? {this.label}</p>
             </Alert>
             }
             <div id="sim-container" className="Center" />

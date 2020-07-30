@@ -158,7 +158,7 @@ componentDidMount() {
       var that = this;
 
       if (this.state.popArray.length <= 0) {
-          //this.dropPoints(that);
+          this.dropPoints(that);
       }
 
         if (prevState.sampled !== this.props.sampled) {
@@ -174,55 +174,55 @@ componentDidMount() {
             })
             .add();
         }
-        this.myChart = Highcharts.chart('container', {
-          chart: {
-              type: 'scatter',
-          },
-          plotOptions: {
-              series: {
-                  animation: {
-                      duration: 100,
-                      easing: 'easeOutBounce'
-                  }
-              }
-          },
-          legend: {
-              symbolHeight: 12,
-              symbolWidth: 12,
-              symbolRadius: 6
-          },
-          xAxis: {
-              min: xminval,
-              max: xmaxval,
-              title : {
-                  enabled: true,
-                  text: xLabel
-              },
-              startOnTick: true,
-              endOnTick: true
-          },
-          title: {
-              text: `${title}`
-          },
-          yAxis: {
-              max: ymaxval,
-              startOnTick: true,
-              endOnTick: true,
-              title: {
-                  text: 'Count'
-              }
-          },
-          tooltip: {
-              enabled: true,
-              pointFormat: `${xLabel}: <b>{point.x}<b><br />`
-          },
-          series: [{name: 'Population Observations', data: this.props.popArray}, {name: 'Sampled Observations', data: this.state.sampled}],
-          boost: {
-              enabled: true,
-              useGPUTranslations: true
-          },
-
-        });
+        // this.myChart = Highcharts.chart('container', {
+        //   chart: {
+        //       type: 'scatter',
+        //   },
+        //   plotOptions: {
+        //       series: {
+        //           animation: {
+        //               duration: 100,
+        //               easing: 'easeOutBounce'
+        //           }
+        //       }
+        //   },
+        //   legend: {
+        //       symbolHeight: 12,
+        //       symbolWidth: 12,
+        //       symbolRadius: 6
+        //   },
+        //   xAxis: {
+        //       min: xminval,
+        //       max: xmaxval,
+        //       title : {
+        //           enabled: true,
+        //           text: xLabel
+        //       },
+        //       startOnTick: true,
+        //       endOnTick: true
+        //   },
+        //   title: {
+        //       text: `${title}`
+        //   },
+        //   yAxis: {
+        //       max: ymaxval,
+        //       startOnTick: true,
+        //       endOnTick: true,
+        //       title: {
+        //           text: 'Count'
+        //       }
+        //   },
+        //   tooltip: {
+        //       enabled: true,
+        //       pointFormat: `${xLabel}: <b>{point.x}<b><br />`
+        //   },
+        //   series: [{name: 'Population Observations', data: this.props.popArray}, {name: 'Sampled Observations', data: this.state.sampled}],
+        //   boost: {
+        //       enabled: true,
+        //       useGPUTranslations: true
+        //   },
+        //
+        // });
   }
 
   render() {

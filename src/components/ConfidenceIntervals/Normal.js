@@ -32,7 +32,7 @@ class Normal extends React.Component {
                 "Chi-Squared": 0,
                 "Mystery": 0
             },
-            zORt:'t',
+            zORt:'z',
             sampleMean: [],
             sampled: [],
             mainSampleSize: this.props.mainSampleSize,
@@ -95,6 +95,7 @@ class Normal extends React.Component {
         this.setState({
             popMean: math.mean(popArray.map(p => p[0]))
         })
+
         return popArray;
 
     }
@@ -127,6 +128,8 @@ class Normal extends React.Component {
         this.setState({calculable: false,
             sampleMean: sampleMeans
         })
+        console.log('sampleMeans?');
+        console.log(sampleMeans);
     }
     updateDisTable(){
         if(this.state.zORt==='z'){
@@ -135,15 +138,24 @@ class Normal extends React.Component {
             {level:'95%', zValue:1.960},
             {level:'99%', zValue:2.576}
         ];
+        //this.setState({zScore: pairedVal[this.state.ciLevel.substring(0,this.state.ciLevel.length)]});
         }
         else{
+            console.log("DOF DOUBLE");
+            console.log(this.state.dOf);
             this.state.freUsedVal=[
             {level:'90%', zValue:parseFloat(TTable[this.state.dOf - 1][9])},
             {level:'95%', zValue:parseFloat(TTable[this.state.dOf - 1][4])},
             {level:'99%', zValue:parseFloat(TTable[this.state.dOf - 1][0])}
         ];
 
+        console.log('zScore update check')
+        console.log(this.state.zScore);
+
         }
+        console.log('tableCheck')
+        console.log(this.state.freUsedVal);
+        console.log('stateCheck'+this.state.zORt);
     }
 
     componentDidUpdate() {
@@ -164,8 +176,9 @@ class Normal extends React.Component {
 
     render() {
         //console.log(TTable[0][0]);
-
         this.updateDisTable();
+
+
 
 
 
@@ -192,12 +205,13 @@ class Normal extends React.Component {
                     }>
                     {obj.level}
                   </Button>
-                 
+
             )
 
         });
 
         return (
+
 
             <div>
                 <Collapsable
@@ -214,7 +228,7 @@ class Normal extends React.Component {
 
                     </div>
 
-                    <p> </p>
+                    <p>This simulation demonstrates how confidence intervals provide an estimate for the location of the true population mean µ. In this exercise you will first choose 1) whether to assume that you know the true population standard deviation and 2) what confidence level to impose. Then, you will take random samples from the population, calculation a sample mean for each, and construct confidence intervals around those sample means. The proportion of confidence intervals that contain the true mean corresponds to the chosen confidence level! </p>
                     <Button outline
                         style={{ marginBottom: '2em' }}
                         onClick={
@@ -232,17 +246,35 @@ class Normal extends React.Component {
                                 <div>
                                     <div>
                                     <Row>
-                                    <ButtonGroup>
+                                    <Col>
+
+                                    <Row>
+                                    <p>
+                                    1) Do you want to assume that you know σ? If yes, choose Z. If no, choose T.
+
+                                    </p>
+                                    </Row>
+                                    <Row className="Center">
+                                    <ButtonGroup >
                                     <Button
-                                    style={{ backgroundColor: this.state.zORt==='z'? '#4CAF50':'#555555'  }}
+                                    style={{ backgroundColor: this.state.zORt==='z'? '#4CAF50':'#555555' }}
                                     onClick={
                                         () => {
+
                                             this.setState({
                                                 zORt: 'z',
+                                                ciLevel: '95%',
                                                 sampleMean:[],
                                                 sampled:[],
+
                                                 chart:0
                                             });
+                                            this.updateDisTable();
+                                            console.log('zSocre ch ch' + this.state.ciLevel.substring(0,this.state.ciLevel.length));
+                                            this.setState({zScore: pairedVal['0.'+this.state.ciLevel.substring(0,this.state.ciLevel.length-1)]});
+
+                                            console.log(this.state.zScore);
+                                            console.log("update ci level check "+this.state.ciLevel);
 
                                         }
                                     }>Z</Button>
@@ -250,25 +282,40 @@ class Normal extends React.Component {
                                     style={{ backgroundColor: this.state.zORt==='t'? '#4CAF50':'#555555'  }}
                                     onClick={
                                         () => {
+
                                             this.setState({
                                                 zORt: 't',
                                                 sampleMean:[],
                                                 sampled:[],
+
                                                 chart:0
                                             });
+                                            this.updateDisTable();
+
+                                            const temp = parseInt(this.state.ciLevel.substring(0,this.state.ciLevel.length))
+                                            const p = temp>50? 100-temp: temp;
+                                            console.log('pCheck ' + p)
+
+
+                                            this.setState({zScore: TTable[this.state.dOf - 1][p - 1],
+                                                ciLevel: '95%'
+
+                                            });
+                                            console.log("update zscorere level check "+this.state.zScore);
 
                                         }
                                     }>T</Button>
                                     </ButtonGroup>
                                     </Row>
-                                    <Row>
-                                    <Col>
-                                    <p>Confidence Level: {ciBar}</p>
                                     </Col>
 
                                     <Col>
+                                    <Row className="Center">
+                                    <p>2) Confidence Level: <ButtonGroup>{ciBar}</ButtonGroup></p>
+                                    </Row>
+                                    <Row className="Center">
                                     <InputGroup>
-                                    <p>More Levels:  </p>
+                                    <p>More Levels: &nbsp;  </p>
                                     <Input
 
                                         type="range"
@@ -281,6 +328,7 @@ class Normal extends React.Component {
                                             if(this.state.zORt == 't'){
 
                                                 pOft = parseInt(event.target.value *100)>50 ? 1-event.target.value: event.target.value;
+                                                this.setState({ciLevel: Math.floor(event.target.value*100).toString()+'%'});
 
                                             }
                                             console.log('poft')
@@ -305,9 +353,11 @@ class Normal extends React.Component {
                                     <InputGroupText>{this.state.ciLevel}</InputGroupText>
                                     </InputGroupAddon>
                                      </InputGroup>
+                                     </Row>
                                     </Col>
                                     </Row>
-
+                                    <br />
+                                    <br />
 
                                         <Row>
 
@@ -373,19 +423,24 @@ class Normal extends React.Component {
                                                     <p>Try drawing some samples and calculating means </p>
 
                                                     <SampleAreaCLT
+                                                        distribution ={this.state.zORt}
                                                         conLevel = {this.state.ciLevel}
                                                         zScore = {this.state.zScore}
                                                         disabled={this.state.disableSample}
+
                                                         redraw={() =>
                                                             {}
                                                         }
                                                         sample={(size) => {
+                                                            console.log('zORt')
+                                                            console.log(this.state.zORt);
 
                                                             this.setState({
                                                                 chart: 1,
-                                                                dOf:size,
+                                                                dOf:size - 1,
 
                                                             });
+
                                                             console.log('dofCheck')
                                                             console.log(this.state.dOf)
                                                             const sampleObject = this.sample(size, this.state.popArray);
@@ -413,7 +468,12 @@ class Normal extends React.Component {
                                                     <SampleMeanSimulator
                                                         conLevel = {this.state.ciLevel}
                                                         zScore = {this.state.zScore}
+                                                        setDOF={size=>{
+                                                            this.setState({dOf:size - 1});
+                                                            this.updateDisTable();
+                                                            console.log(this.state.dOf);
 
+                                                        }}
                                                         style={{margin: 'auto'}}
                                                         clear={() => {
                                                             this.setState({

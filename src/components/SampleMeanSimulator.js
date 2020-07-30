@@ -21,13 +21,15 @@ class SampleMeanSimulator extends Component {
         <div style={{ float: "center" }}>
           <span> Sample Size: </span>{" "}
           <Input
-            min={0}
+            min={1}
+            max={101}
             type="number"
             placeholder="Sample Size"
             onKeyPress={e => this.onKey(e)}
             onChange={event => {
 
               //this.props.setsamplesize(event);
+              this.props.setDOF(event.target.value);
               this.setState({
                 resampleSize: event.target.value
               });
@@ -62,6 +64,7 @@ class SampleMeanSimulator extends Component {
                 this.props.sample,
                 this.props.clear
               );
+
             }}
             disabled={
               this.timer ||
@@ -118,6 +121,7 @@ class SampleMeanSimulator extends Component {
       }
       const sampleMean = math.mean(samplePop);
       const sd = math.std(samplePop);
+      console.log(this.props.zScore);
       const upperConf = (sampleMean + ( (this.props.zScore * sd) / Math.sqrt(resampleSize)) );
       const lowerConf = (sampleMean - ( (this.props.zScore * sd) / Math.sqrt(resampleSize)) );
       const label = (this.props.mean >= lowerConf && this.props.mean <= upperConf) ? 'yes' : 'no' ;

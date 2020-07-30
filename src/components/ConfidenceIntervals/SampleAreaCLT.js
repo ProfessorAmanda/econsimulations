@@ -4,8 +4,12 @@ import math from 'mathjs';
 
 class SampleAreaCLT extends Component {
     constructor(props){
+
+
         super(props);
+
         this.state = {
+            zORt:this.props.distribution,
             sampleSize: undefined,
             popMean: undefined,
             ciLevel: this.props.conLevel,
@@ -33,7 +37,8 @@ class SampleAreaCLT extends Component {
                             <Input
                                 style={{margin: 'auto'}}
                                 type="number"
-                                min={1}
+                                min={2}
+                                max={101}
                                 value={this.state.sampleSize}
                                 max={this.props.popArray.length}
                                 onChange={(event) => {
@@ -49,8 +54,14 @@ class SampleAreaCLT extends Component {
                                 onClick={()=> {
                                     console.log(this.state.ciLevel);
                                     const sampleObject = this.props.sample(this.state.sampleSize);
-                                    const mue = sampleObject.mue;
+
+
+                                    const mue = this.props.distribution === 'z'? 64:sampleObject.mue;
+                                    console.log(this.state.zORt)
+                                    console.log('mue');
+                                    console.log(mue)
                                     const sd = sampleObject.sd;
+                                    console.log("sd"+sd);
                                     const upperConf = (mue + ( (this.props.zScore* sd) / Math.sqrt(this.state.sampleSize)) );
                                     const lowerConf = (mue - ( (this.props.zScore * sd) / Math.sqrt(this.state.sampleSize)) );
                                     const label = (this.props.mean >= lowerConf && this.props.mean <= upperConf) ? 'yes' : 'no' ;
