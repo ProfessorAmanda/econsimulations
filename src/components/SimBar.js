@@ -57,14 +57,14 @@ class SimBar extends Component {
                 extra: "",
                 img: ovs
             }
-                ,
+//                 ,
 
-            {
-                name: "Confidence Intervals",
-                description: "test",
-                extra: "",
-                img: undefined
-            }
+//             {
+//                 name: "Confidence Intervals",
+//                 description: "test",
+//                 extra: "",
+//                 img: undefined
+//             }
 
 
         ];

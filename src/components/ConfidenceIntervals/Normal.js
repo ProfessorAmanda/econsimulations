@@ -7,7 +7,9 @@ import SampleMeanSimulator from '../SampleMeanSimulator.js';
 import TTable from './TTable.js';
 import ZTable from './ZTable.js';
 import math from 'mathjs';
+
 import { Alert, Button, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
+
 
 
 class Normal extends React.Component {
