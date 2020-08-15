@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, InputGroup, Input, Row } from 'reactstrap';
+import { Button, Container, Input, Row } from 'reactstrap';
 import math from 'mathjs';
 
 class SampleAreaCLT extends Component {
@@ -40,7 +40,7 @@ class SampleAreaCLT extends Component {
                                 min={2}
                                 max={101}
                                 value={this.state.sampleSize}
-                                max={this.props.popArray.length}
+                                //max={this.props.popArray.length}
                                 onChange={(event) => {
                                     this.setState({
                                         sampleSize: event.target.value

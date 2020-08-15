@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PopBar from './PopBar.js';
-import { Alert, Input } from 'reactstrap';
+import { Alert } from 'reactstrap';
 import Normal from './ConfidenceIntervals/Normal.js';
 import Uniform from './ConfidenceIntervals/Uniform.js';
 import Exponential from './ConfidenceIntervals/Exponential.js';

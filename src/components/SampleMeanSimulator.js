@@ -21,8 +21,8 @@ class SampleMeanSimulator extends Component {
         <div style={{ float: "center" }}>
           <span> Sample Size: </span>{" "}
           <Input
-            min={1}
-            max={101}
+            min={2}
+            
             type="number"
             placeholder="Sample Size"
             onKeyPress={e => this.onKey(e)}

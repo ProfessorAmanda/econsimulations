@@ -154,7 +154,7 @@ componentDidMount() {
   }
 
   componentDidUpdate(prevState) {
-      const { xmaxval, xminval, ymaxval, title, xLabel } = this.state.values[this.props.popType];
+      //const { xmaxval, xminval, ymaxval, title, xLabel } = this.state.values[this.props.popType];
       var that = this;
 
       if (this.state.popArray.length <= 0) {
