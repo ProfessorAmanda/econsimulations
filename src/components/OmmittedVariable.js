@@ -50,9 +50,7 @@ class OmmittedVariable extends Component {
                       <Col>
                         <InputGroup>
                           <InputGroupAddon className="Center" addonType='prepend'>β₁, the Coefficient on Study Hours:</InputGroupAddon>
-                          <Input className="Center" type="number" step={.1} value={this.state.beta} min={-4} max={4} onChange={(event) => {
-                          this.setState({beta: parseFloat(event.target.value)});
-                        }}/>
+                          <Input className="Center" type="number" step={.1} value={this.state.beta} min={-4} max={4} />
                         </InputGroup>
 
                         <InputGroup>
@@ -93,20 +91,10 @@ class OmmittedVariable extends Component {
                                     corrPro = event.target.value;
                                 }
 
-                                //console.log(event.target.value);
-                                // console.log('target');
-                                // console.log(event.target.value);
-                                // console.log(event.target.value==1);
-
-                                //(event.target.value===1)&&(console.log(corrPro));
-
-
                                 this.setState({corr : parseFloat(corrPro)});
                                 this.setState({cov : parseFloat(corrPro*(Math.sqrt(stdX * stdY)))});
                                 this.setState({covStr : parseFloat(corrPro*(Math.sqrt(stdX * stdY))).toFixed(1)});
-                                //const copy = this.state.covMatrix;
-                                // const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
-                                // this.setState({covMatrix : temp});
+
                               }}
                         />
                         <InputGroupAddon addonType="append">

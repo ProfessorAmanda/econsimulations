@@ -177,8 +177,6 @@ class Normal extends React.Component {
                     // disabled={section.id === "0"}
                     style={{ backgroundColor: this.state.ciLevel===obj.level? '#4CAF50':'#555555'  }}
                     onClick={() => {
-
-
                         this.setState({ ciLevel:obj.level,
                                         zScore:obj.zValue,
                                         sampleMean:[],
@@ -268,7 +266,6 @@ class Normal extends React.Component {
                                             const modDof = this.state.dOf > 121? 122: this.state.dOf;
                                             this.setState({zScore: TTable[modDof - 1][p - 1],
                                                 ciLevel: '95%'
-
                                             });
 
 

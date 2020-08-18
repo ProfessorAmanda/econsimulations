@@ -65,6 +65,14 @@ class SimBar extends Component {
                 extra: "",
                 img: undefined
             }
+            ,
+
+                        {
+                            name: "Hypothesis Testing",
+                            description: "test",
+                            extra: "",
+                            img: undefined
+                        }
 
 
         ];

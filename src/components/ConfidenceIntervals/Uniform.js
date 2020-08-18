@@ -59,6 +59,7 @@ class Uniform extends React.Component {
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
 
         const sampleSize = this.state.mainSampleSize;
+        
         let dict = Array(sampleSize).fill(-1);
 
         for (let i = 0; i < sampleSize; i++){
@@ -79,15 +80,11 @@ class Uniform extends React.Component {
             }
         }
 
-
-
         popArray.sort(() => Math.random() - 0.3);
         popArray.sort((a,b) => b[1] - a[1]);
         this.setState({
             popMean: math.mean(popArray.map(p => p[0]))
         })
-
-        console.log(popArray, dict);
         return popArray;
     }
 
@@ -138,7 +135,7 @@ class Uniform extends React.Component {
             {level:'95%', zValue:parseFloat(TTable[modDof - 1][4])},
             {level:'99%', zValue:parseFloat(TTable[modDof - 1][0])}
         ]
-            
+
 
         }
 

@@ -6,6 +6,8 @@ import JointWrapper from './JointWrapper.js';
 import LeastSim from './LeastSim.js';
 import OmmittedVariable from './OmmittedVariable.js';
 import ConfidenceIntervals from './ConfidenceIntervals.js'
+import HypothesisTesting from './HypothesisTesting.js'
+import HypothesisTestingNew from './HypothesisTestingNew.js'
 import StartHere from './StartHere';
 import { Button, Fade } from 'reactstrap';
 
@@ -77,7 +79,7 @@ class SimulationContainer extends Component{
                     {this.state.mode === 'Least Squares' && <LeastSim/>}
                     {this.state.mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
                     {this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
-
+                    {this.state.mode === 'Hypothesis Testing' && <HypothesisTestingNew/>}
                     {this.state.mode === 'Start Here' && <StartHere/>}
 
 
