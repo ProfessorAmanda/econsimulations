@@ -1,17 +1,16 @@
 import React, {useState}  from 'react';
 import TTest from './HypothesisTesting/TTest.js';
-import ChartContainer from './ChartContainer.js';
 import math from 'mathjs';
 import { Alert,Container, Row, Col,ButtonGroup,Button,Input, InputGroup, InputGroupAddon, InputGroupText, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const HypothesisTestingNew=()=>{
+const HypothesisTestingNew=(v)=>{
     const [pplShape,setPplShape]=useState('');
     const [testType, setTestType]= useState('');
     const [mue_0, setMue_0]=useState(0);
     const [hypo, setHypo]=useState(0);
     const [sampleSize, setSampleSize] = useState(0);
     const [popMean, setPopMean]=useState(0);
-    const [sim, setSim]=useState(0);
+    const [showChart, setShowChart] = useState(0);
     const [mainSampleSize, setMainSampleSize] = useState(2000);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [popArr, setPopArr]=useState([]);
@@ -59,7 +58,7 @@ const HypothesisTestingNew=()=>{
 // Helper functions
 // Generste 4 kinds of distributions
     const generatePop=(shape)=>{
-
+        setPopArr([]);
         (shape==='Normal') && setPopArr(generateNormal());
         (shape==='Uniform') && setPopArr(generateUniform());
         (shape==='Mystery') && setPopArr(generateMystery());
@@ -144,9 +143,104 @@ const HypothesisTestingNew=()=>{
 
     }
 
+// Double-humped Distribution
     const generateMystery=()=>{
+    let xvalue = [];
 
+      if (popArr.length >= mainSampleSize){
+          return null;
+      }
+
+      const popArray = [];
+
+      const firstMEAN = 70;
+      const firstSTANDARD_DEV = 3;
+      const firstITERATES = 9;
+      const firstrange = Math.sqrt(12) * firstSTANDARD_DEV * firstSTANDARD_DEV;
+      const firstpopMin = firstMEAN - (firstrange / 2);
+      const secondMEAN = 55;
+      const secondSTANDARD_DEV = 2;
+      const secondITERATES = 9;
+      const secondrange = Math.sqrt(12) * secondSTANDARD_DEV * secondSTANDARD_DEV;
+      const secondpopMin = secondMEAN - (secondrange / 2);
+
+      const sampleSize = mainSampleSize;
+
+      const newCleared = []
+      const stateCopy = [];
+
+      const clearedArray = [];
+      const popDict = [];
+
+
+      for (let i = 0; i < sampleSize/2; i++){
+        let sum = 0;
+        if(clearedArray.length === 0){
+            for (let j = 0; j < firstITERATES; j++){
+                sum += Math.random() * firstrange + firstpopMin;
+            }
+        }
+        else{
+            sum = newCleared.pop() * firstITERATES;
+        }
+        if (popDict[Math.round(sum / firstITERATES * 10)]){
+            stateCopy[Math.round(sum / firstITERATES * 10)] += 1
+        }
+        else {
+            stateCopy[Math.round(sum / firstITERATES * 10)] = 1
+        }
+        popArray.push(Math.round((sum / firstITERATES)*100)/100)
     }
+
+    for (let i = 0; i < sampleSize/2; i++){
+        let sum = 0;
+        if(clearedArray === 0){
+            for (let j = 0; j < secondITERATES; j++){
+                sum += Math.random() * secondrange + secondpopMin;
+            }
+        }
+        else{
+            sum = newCleared.pop() * secondITERATES;
+        }
+        if (popDict[Math.round(sum / secondITERATES * 10)]){
+            stateCopy[Math.round(sum / secondITERATES * 10)] += 1
+        }
+        else {
+            stateCopy[Math.round(sum / secondITERATES * 10)] = 1
+        }
+        popArray.push(Math.round((sum / secondITERATES)*100)/100)
+    }
+    if(clearedArray.length > 0){
+      var tempCleared = clearedArray;
+      tempCleared = newCleared;
+     clearedArray =tempCleared
+ };
+
+
+    const finalPopArray = [];
+
+    let count = Array(sampleSize).fill(-1);
+    for (let i = 0; i < sampleSize; i++){
+
+        let val = popArray[i];
+
+        if (count[Math.round(val * 10)] !== -1){
+            count[Math.round(val * 10)] += 1;
+        }
+        else {
+            count[Math.round(val * 10)] = 1;
+        }
+
+        finalPopArray.push([(Math.round(val * 10)/10), count[Math.round(val * 10)] ])
+        xvalue.push((Math.round(val * 10)/10))
+    }
+
+    finalPopArray.sort(() => Math.random() - 0.5);
+    finalPopArray.sort((a,b) => b[1] - a[1]);
+    setPopMean(math.mean(finalPopArray.map(p => p[0])));
+
+    return finalPopArray
+  }
 
     const generateUnknown=()=>{
         const ranNum = Math.floor(Math.random()*3);
@@ -293,8 +387,6 @@ const HypothesisTestingNew=()=>{
             </Row>
             <br />
             <Row>
-
-
             <Alert color="secondary" className="Center" >
               <p>This means our null and alternative hypotheses are given by:</p>
               <p>{hypoOptions[hypo].nullH} {testType==='oneSample'&&mue_0}</p>
@@ -302,44 +394,29 @@ const HypothesisTestingNew=()=>{
 
               </Alert>
               </Row>
+              </Container>
+              }
               <br />
-                <TTest
+
+                {testType && pplShape&&popArr&&
+                    <Container>
+                    <Row className = 'Center'>
+                     {console.log(popArr)}
+                    <TTest
                 ppl = {popArr}
                 testType={testType}
                 hypo = {hypo}
                 mue_0={mue_0}
-
                 />
-                <br />
-
-
-                <Row className = 'Center'>
-                <p>Press here to reveal the true population distribution and mean.&nbsp; <Button
-                color='primary'
-                onClick={
-                    () => {setSim(1)}
-                }
-                >Reveal</Button></p>
-
-                <p>Our hypothesis test conclusion was therefore…[Correct or incorrect]. </p>
                 </Row>
-                <Row className = 'Center'>
-
-
-                {sim===1 && <ChartContainer
-                    popArray={popArr}
-                    popMean={popMean}
-                    sampled={[[0,0]]}
-                    popType={pplShape}
-                    mainSampleSize={2000}
-                />}
-                </Row>
-
                 </Container>
-            }
+
+                }
+                <br />
 </div>
 
     )
 }
+
 
 export default HypothesisTestingNew;

@@ -117,6 +117,7 @@ componentDidMount() {
   }
 
   dropPoints(that) {
+      console.log(this.props.popArray);
     let tmp = this.props.popArray.slice();
     const ymaxval = this.state.values[this.props.popType].ymaxval;
     this.timer = setTimeout(function run() {
