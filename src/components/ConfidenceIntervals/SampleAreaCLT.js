@@ -52,16 +52,10 @@ class SampleAreaCLT extends Component {
                                 style={{margin: 'auto'}}
                                 disabled={!this.state.sampleSize || this.state.sampleSize > this.props.popArray.length || this.state.sampleSize < 1}
                                 onClick={()=> {
-                                    console.log(this.state.ciLevel);
+
                                     const sampleObject = this.props.sample(this.state.sampleSize);
-
-
                                     const mue = this.props.distribution === 'z'? 64:sampleObject.mue;
-                                    console.log(this.state.zORt)
-                                    console.log('mue');
-                                    console.log(mue)
                                     const sd = sampleObject.sd;
-                                    console.log("sd"+sd);
                                     const upperConf = (mue + ( (this.props.zScore* sd) / Math.sqrt(this.state.sampleSize)) );
                                     const lowerConf = (mue - ( (this.props.zScore * sd) / Math.sqrt(this.state.sampleSize)) );
                                     const label = (this.props.mean >= lowerConf && this.props.mean <= upperConf) ? 'yes' : 'no' ;
