@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
-import { Alert, Col } from 'reactstrap';
+import { Alert } from 'reactstrap';
 
 class SampleMeanChart extends Component {
     constructor(props){
@@ -47,7 +47,7 @@ class SampleMeanChart extends Component {
             {
               point &&
             <Alert color={this.label === 'no' ? "danger" : "success"} className="Center">
-                <p>Sample number {this.props.sampleMeans.length} has a mean of {point[1]}, with 95% CI ({Math.round(this.lowerConf * 100) /100}, {Math.round(this.upperConf * 100)/100}). CI contains the true mean? {this.label}</p>
+                <p>Sample number {this.props.sampleMeans.length} has a mean of {point[1].toFixed(2)}, with 95% CI ({Math.round(this.lowerConf * 100) /100}, {Math.round(this.upperConf * 100)/100}). CI contains the true mean? {this.label}</p>
             </Alert>
             }
             <div id="sim-container" className="Center" />
@@ -121,40 +121,37 @@ class SampleMeanChart extends Component {
             sampleMaxX = sampleMeanSeries.data[i][0];
           }
         }
-        // console.log(sampleMax);
-        // console.log(sampleMin);
-        // console.log(sampleMaxX);
 
-        const lowerBound = sampleMin - 2, upperBound = sampleMaxX + 2;
+        //const lowerBound = sampleMin - 2, upperBound = sampleMaxX + 2;
 
-        const normalY = (x, mean, stdDev) => Math.exp((-0.5) * Math.pow((x - mean) / stdDev, 2)) * (sampleMax+3);
+        //const normalY = (x, mean, stdDev) => Math.exp((-0.5) * Math.pow((x - mean) / stdDev, 2)) * (sampleMax+3);
 
-        const getMean = (lowerBound, upperBound) => (upperBound + lowerBound) / 2;
+        //const getMean = (lowerBound, upperBound) => (upperBound + lowerBound) / 2;
 
         // distance between mean and each bound of a 95% confidence interval
         // is 2 stdDeviation, so distance between the bounds is 4
-        const getStdDeviation = (lowerBound, upperBound) => (upperBound - lowerBound) / 4;
+        //const getStdDeviation = (lowerBound, upperBound) => (upperBound - lowerBound) / 4;
 
-        const generatePoints = (lowerBound, upperBound) => {
-          const stdDev = getStdDeviation(lowerBound, upperBound);
-          const min = lowerBound - 2 * stdDev;
-          const max = upperBound + 2 * stdDev;
-          const unit = (max - min) / 40;
-          const list = [];
-          for(let i=min;i<max;i+=unit){
-            list.push(i);
-          }
-          //return _.range(min, max, unit);
-          return list;
-        }
+        // const generatePoints = (lowerBound, upperBound) => {
+        //   const stdDev = getStdDeviation(lowerBound, upperBound);
+        //   const min = lowerBound - 2 * stdDev;
+        //   const max = upperBound + 2 * stdDev;
+        //   const unit = (max - min) / 40;
+        //   const list = [];
+        //   for(let i=min;i<max;i+=unit){
+        //     list.push(i);
+        //   }
+        //   //return _.range(min, max, unit);
+        //   return list;
+        // }
 
-        const mean = getMean(lowerBound, upperBound);
-        const stdDev = getStdDeviation(lowerBound, upperBound);
-        const points = generatePoints(lowerBound, upperBound);
+        //const mean = getMean(lowerBound, upperBound);
+        //const stdDev = getStdDeviation(lowerBound, upperBound);
+        //const points = generatePoints(lowerBound, upperBound);
 
 
-        const seriesData = points.map(x => ({ x, y: normalY(x, mean, stdDev)}));
-        const bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
+        //const seriesData = points.map(x => ({ x, y: normalY(x, mean, stdDev)}));
+        //const bellSeries = {data : seriesData, color: 'black', name:"Normal Curve", plotOptions: {series: {marker: {symbol: "diamond"}}}};
 
         /* Try making normal curve other way  */
 

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import '../../dark-unica.css';
 import Highcharts from 'highcharts';
 import 'highcharts/modules/annotations';
-import { Alert, Button, Container, Col, Input, Label, Row } from 'reactstrap';
-import math from 'mathjs';
+import { Alert, Container, Col, Row } from 'reactstrap';
+
 
 require("highcharts/modules/annotations")(Highcharts);
-   
+
 
 class ChartContainer extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class ChartContainer extends Component {
         popArray: this.props.popArray,
         sampled: [],
         done: false,
-        values: { 
+        values: {
             Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
             Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
             Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},

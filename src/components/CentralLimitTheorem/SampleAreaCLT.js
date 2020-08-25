@@ -50,6 +50,9 @@ class SampleAreaCLT extends Component {
                                         popMean: mue
                                     });
                                     this.props.setmean(this.state.sampleSize, mue);
+                                    console.log(this.state.sampleSize);
+                                    console.log(mue);
+
                                 }}
                             >
                                 Sample

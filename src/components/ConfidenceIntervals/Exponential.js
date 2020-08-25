@@ -1,12 +1,13 @@
 import React from 'react';
 import Collapsable from '../Collapsable.js';
 import ChartContainer from './ChartContainer.js';
-import ToggleStandard from '../ToggleStandard.js';
 import SampleMeanChart from './SampleMeanChart.js'
 import SampleAreaCLT from './SampleAreaCLT.js'
 import SampleMeanSimulator from '../SampleMeanSimulator.js'
+import TTable from './TTable.js';
+import ZTable from './ZTable.js';
 import math from 'mathjs';
-import { Alert, Button, Col, Label, Input, Row, Table } from 'reactstrap';
+import { Alert, Button, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
 
 class Exponential extends React.Component {
     constructor(props){
@@ -26,6 +27,7 @@ class Exponential extends React.Component {
                 "Chi-Squared": 0,
                 "Mystery": 0
             },
+            zORt:'z',
             sampleMean: [],
             sampled: [],
             mainSampleSize: this.props.mainSampleSize,
@@ -33,8 +35,13 @@ class Exponential extends React.Component {
             standardNormal : 0,
             sampleSize : 1,
             disableSample : false,
-            popType: 'Exponential',
-            confidence: ''
+            popType: 'Normal',
+            ciLevel: '95%',
+            zScore:1.960,
+            confidence: '',
+            freUsedVal:[],
+            dOf:1,
+            chart:0
         }
         this.changeStage = this.changeStage.bind(this);
     }
@@ -49,7 +56,7 @@ class Exponential extends React.Component {
         const sampleSize = this.state.mainSampleSize;
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
 
-        let dict = Array(sampleSize).fill(-1); 
+        let dict = Array(sampleSize).fill(-1);
 
         for (let i = 0; i < sampleSize; i++){
             const val = -Math.log(Math.random()) / LAMBDA
@@ -75,12 +82,12 @@ class Exponential extends React.Component {
         })
         return popArray;
 
-  
+
     }
 
     sample(size, popArray) {
         const sampled = []
-        
+
         while (sampled.length < size){
             // index to sample ?
             const r = Math.round(Math.random() * (popArray.length - 1))
@@ -107,6 +114,27 @@ class Exponential extends React.Component {
             sampleMean: sampleMeans
         })
     }
+    updateDisTable(){
+        if(this.state.zORt==='z'){
+            this.state.freUsedVal=[
+            {level:'90%', zValue:1.645},
+            {level:'95%', zValue:1.960},
+            {level:'99%', zValue:2.576}
+        ];
+        //this.setState({zScore: ZTable[this.state.ciLevel.substring(0,this.state.ciLevel.length)]});
+        }
+        else{
+
+            const modDof = this.state.dOf > 120? 121: this.state.dOf;
+
+            this.state.freUsedVal=[
+            {level:'90%', zValue:parseFloat(TTable[modDof - 1][9])},
+            {level:'95%', zValue:parseFloat(TTable[modDof - 1][4])},
+            {level:'99%', zValue:parseFloat(TTable[modDof - 1][0])}
+        ]
+        }
+
+    }
 
     componentDidUpdate() {
         if (this.state.popArray.length <= 0 && this.state.stage === 1) {
@@ -123,6 +151,30 @@ class Exponential extends React.Component {
     }
 
     render() {
+        this.updateDisTable();
+        const ciBar = this.state.freUsedVal.map(obj=>{
+            return(
+
+                <Button
+                    //className={classnames({ active: this.state.activeTab === section.id }, {disabled: section.id === "0"})}
+                    // disabled={section.id === "0"}
+                    style={{ backgroundColor: this.state.ciLevel===obj.level? '#4CAF50':'#555555'  }}
+                    onClick={() => {
+
+
+                        this.setState({ ciLevel:obj.level,
+                                        zScore:obj.zValue,
+                                        sampleMean:[],
+                                        chart:0
+                                        });
+                        }
+                    }>
+                    {obj.level}
+                  </Button>
+
+            )
+
+        });
         return (
             <div>
                 <Collapsable
@@ -131,14 +183,14 @@ class Exponential extends React.Component {
                     parentStage={this.state.stage}
                 >
                     <div>
-                        <h1 
+                        <h1
                         // style={{ display: 'inline' }}
                         >
                             Introduction
                         </h1>
-                         
+
                     </div>
-                    
+
                     <p> The purpose of this simulation is to show that the formula we develop in class for a “reasonable margin of error” around the sample mean works. About 95 out of 100 intervals we generate using the formula for a 95% confidence interval will contain the true population mean 𝜇. And, what is cooler, this formula will work regardless of the underlying population distribution.</p>
 
                     <Button outline
@@ -157,12 +209,107 @@ class Exponential extends React.Component {
                             this.state.stage >= 1 ?
                                 <div>
                                     <div>
+                                    <Row>
+
+                                    <Row className = 'Center'>
+                                    <p>
+                                    1) Do you want to assume that you know σ? If yes, choose Z. If no, choose T. &nbsp;
+                                    <ButtonGroup >
+                                    <Button
+                                    style={{ backgroundColor: this.state.zORt==='z'? '#4CAF50':'#555555' }}
+                                    onClick={
+                                        () => {
+
+                                            this.setState({
+                                                zORt: 'z',
+                                                ciLevel: '95%',
+                                                sampleMean:[],
+                                                sampled:[],
+                                                chart:0
+                                            });
+                                            this.updateDisTable();
+                                            this.setState({zScore: ZTable['0.'+this.state.ciLevel.substring(0,this.state.ciLevel.length-1)]});
+
+                                        }
+                                    }>Z</Button>
+                                    <Button
+                                    style={{ backgroundColor: this.state.zORt==='t'? '#4CAF50':'#555555'  }}
+                                    onClick={
+                                        () => {
+
+                                            this.setState({
+                                                zORt: 't',
+                                                sampleMean:[],
+                                                sampled:[],
+                                                chart:0
+                                            });
+                                            this.updateDisTable();
+                                            const temp = parseInt(this.state.ciLevel.substring(0,this.state.ciLevel.length))
+                                            const p = temp>50? 100-temp: temp;
+                                            const modDof = this.state.dOf > 121? 122: this.state.dOf;
+                                            this.setState({zScore: TTable[modDof - 1][p - 1],
+                                                ciLevel: '95%'
+
+                                            });
+
+
+                                        }
+                                    }>T</Button>
+                                    </ButtonGroup>
+                                    </p>
+
+
+                                    </Row>
+
+                                    <Row className="Center">
+                                    <br />
+
+                                    <p>2) Confidence Level: <ButtonGroup>{ciBar}</ButtonGroup></p>
+                                    </Row>
+                                    <Row className="Center">
+                                    <Col sm="12" md={{ size: 6, offset: 3 }}>
+                                    <InputGroup>
+                                    <p>More Levels: &nbsp;  </p>
+                                    <Input
+                                        type="range"
+                                        className="custom-range"
+                                        step={.01}
+                                        min={0.01}
+                                        max={0.99}
+                                        onChange={(event) => {
+                                            var pOft;
+                                            if(this.state.zORt === 't'){
+
+                                                pOft = parseInt(event.target.value *100)>50 ? 1-event.target.value: event.target.value;
+                                                this.setState({ciLevel: Math.floor(event.target.value*100).toString()+'%'});
+                                            }
+                                            const modDof = this.state.dOf > 121? 122: this.state.dOf;
+
+
+                                            this.setState({zScore: this.state.zORt==='z'? ZTable[event.target.value.toString()]: parseFloat(TTable[modDof-1][parseInt(pOft*100) -1]),
+                                                            sampleMean:[],
+                                                            sampled:[],
+                                                            chart:0,
+                                                            ciLevel: Math.floor(event.target.value*100).toString()+'%'
+                                                        });
+                                          }}
+                                    />
+                                    <InputGroupAddon addonType="append">
+                                    <InputGroupText>{this.state.ciLevel}</InputGroupText>
+                                    </InputGroupAddon>
+                                     </InputGroup>
+                                     </Col>
+                                     </Row>
+
+                                    </Row>
+                                    <br />
+                                    <br />
                                         <Row>
 
                                         <Col
                                             lg="6">
 
-                                            <ChartContainer 
+                                            <ChartContainer
                                                 popArray={this.state.popArray}
                                                 popMean={this.state.popMean}
                                                 sampled={this.state.sampled}
@@ -174,14 +321,15 @@ class Exponential extends React.Component {
                                         <Col
                                             lg="6">
                                             <SampleMeanChart
-                                                numberResamples={this.state.numberResamples} 
-                                                resampleSize={this.state.resampleSize[this.state.popType]} 
-                                                mean={this.state.popMean} 
+                                                chart = {this.state.chart}
+                                                numberResamples={this.state.numberResamples}
+                                                resampleSize={this.state.resampleSize[this.state.popType]}
+                                                mean={this.state.popMean}
                                                 sd={this.state.popArray.length > 0 ? math.std(this.state.popArray) : 1}
-                                                normalized={this.state.standardNormal} 
-                                                sampleSize={this.state.sampleSize} 
-                                                type={this.state.popType} 
-                                                normal={this.state.standardNormal} 
+                                                normalized={this.state.standardNormal}
+                                                sampleSize={this.state.sampleSize}
+                                                type={this.state.popType}
+                                                normal={this.state.standardNormal}
                                                 sampleMeans={this.state.sampleMean}
                                                 confidence={this.state.confidence}
                                                 />
@@ -206,26 +354,29 @@ class Exponential extends React.Component {
                                                     </Col>
                                                 </Row> */}
                                         {
-                                            
+
                                         <span>
                                         <Row>
-                                            
+
                                             <Col lg="6">
                                                 <Alert color='light'>
                                                     <p>Try drawing some samples and calculating means </p>
-                                                    <SampleAreaCLT 
-                                                        disabled={this.state.disableSample} 
-                                                        redraw={() => 
+                                                    <SampleAreaCLT
+                                                    distribution ={this.state.zORt}
+                                                    conLevel = {this.state.ciLevel}
+                                                    zScore = {this.state.zScore}
+                                                        disabled={this.state.disableSample}
+                                                        redraw={() =>
                                                             {}
                                                         }
                                                         sample={(size) => {
                                                             const sampleObject = this.sample(size, this.state.popArray);
-                                                            
+
                                                             this.setState({
                                                                 sampled: sampleObject.pop
                                                             });
                                                             return sampleObject;
-                                                            
+
                                                         }}
                                                         mean={this.state.popMean}
                                                         popArray={this.state.popArray}
@@ -241,11 +392,22 @@ class Exponential extends React.Component {
                                                     <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
                                                         <p> Simulate drawing many many samples </p>
                                                     </Alert>
-                                                    <SampleMeanSimulator 
+                                                    <SampleMeanSimulator
+                                                    conLevel = {this.state.ciLevel}
+                                                    zScore = {this.state.zScore}
+                                                    setDOF={size=>{
+
+                                                        const modSize = size<2? 2: size;
+
+                                                        this.setState({dOf:modSize - 1});
+                                                        this.updateDisTable();
+
+
+                                                    }}
                                                         style={{margin: 'auto'}}
                                                         clear={() => {
                                                             this.setState({
-                                                                calculable: false, 
+                                                                calculable: false,
                                                                 sampleMean: []
                                                             })}
                                                         }
@@ -277,7 +439,7 @@ class Exponential extends React.Component {
                                                             <td>{index + 1}</td>
                                                             <td>{mean[0]}</td>
                                                             <td>{Math.round(mean[1] * 10) / 10}</td>
-                                                            
+
                                                         </tr>
                                                         ))}
                                                     </tbody>
