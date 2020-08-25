@@ -41,7 +41,7 @@ class OmmittedVariable extends Component {
             <div>
                 <Row>
                   <p className="Center">We are studying the relationship between test score and study hours:</p>
-                  <p className="Center">Test Score β₀ + β₁Study Hoursᵢ + 𝛿Sleep Hoursᵢ + uᵢ</p>
+                  <p className="Center">Test Score = β₀ + β₁Study Hoursᵢ + 𝛿Sleep Hoursᵢ + uᵢ</p>
                   <br/>
                   <p className="Center">Choose Population Parameters:</p>
                 </Row>

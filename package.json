@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://professoramanda.github.io/econ-sims",
   "engines": {
-    "node": "10.16.x"
+    "node": "12.18.x"
   },
   "husky": {
     "hooks": {

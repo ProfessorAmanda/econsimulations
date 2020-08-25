@@ -80,7 +80,7 @@ class SimulationContainer extends Component{
                     {this.state.mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
                     {this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
                     {this.state.mode === 'Hypothesis Testing' && <HypothesisTestingNew v= {1}/>}
-                    {this.state.mode === 'Start Here' && <StartHere/>}
+
 
 
 
@@ -90,4 +90,4 @@ class SimulationContainer extends Component{
     }
 }
 export default SimulationContainer;
-//
+//{this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
