@@ -5,6 +5,7 @@ import { Alert, Button, Container, Col, Input, Row, Table,InputGroupText,InputGr
 
 
 const TTest = ({ppl,testType,hypo,mue_0})=>{
+    
     const [mue_0Copy, setMue_0Copy]=useState(mue_0);
     const [popArr, setPopArr]=useState(ppl);
     const [popMean, setPopMean]=useState(0);
@@ -19,14 +20,13 @@ const TTest = ({ppl,testType,hypo,mue_0})=>{
 
 // Helper functions
 // Take a sample given a sample size and a population, update sampleMean and sampleSd
-const sample = (size,pop)=>{
-    console.log(size);
-    console.log(pop);
+const handleSample = (size,pop)=>{
+
+// Sampling randomly from the population by index
         var index = {};
         for(let i = 0; i < size; i++){
             index[i]=false;
-        }
-        console.log(index);
+        } // Can be used to check if the index has been generated before
         var sampleArr = [];
         var j = 0;
 
@@ -35,30 +35,35 @@ const sample = (size,pop)=>{
             if(!index[ranNum]){
                 index[j] = true;
                 sampleArr.push(pop[j][0]);
-
-
                 j += 1;
             }
         }
-        console.log("sampleArrsampleArr");
-        console.log(sampleArr);
 
-        setSampleMean(Math.round(math.mean(sampleArr) * 1000)/1000);
-        setSampleSd(Math.round(math.std(sampleArr)*1000)/1000);
+        const x_bar = Math.round(math.mean(sampleArr) * 1000)/1000;
+        const mue_0 = mue_0Copy;
+        const sd = Math.round(math.std(sampleArr)*1000)/1000;
+
+        setSampleMean(x_bar);
+        setSampleSd(sd);
+        setTScore(getT(x_bar, mue_0, sd, size));
+        setSim(1);
     }
 
     const getT = (x_bar, mue_0, sd, sampleSize)=>{
-        console.log([x_bar, mue_0, sd, sampleSize]);
         return Math.round(((x_bar - mue_0)/(sd/Math.sqrt(sampleSize)))*1000)/1000;
     }
+
+
 
     const getPVal = (hypo,t,degreeOF)=>{
 
     }
 
 
+
+
     return(
-        console.log(popArr),
+
         <Container fluid>
         <p>Let’s test your assertion by taking a sample and setting our tolerance for making a type-one error α! </p>
         <Row>
@@ -80,7 +85,7 @@ const sample = (size,pop)=>{
         </Col>
         </Row>
         <br />
-         <Button color='primary' onClick={()=>{setSim(1);sample(sampleSize,popArr);setTScore(getT(sampleMean, mue_0Copy, sampleSd, sampleSize));}}> Sample </Button>
+         <Button color='primary' onClick={()=>handleSample(sampleSize, popArr)}> Sample </Button>
          <br />
          <br />
          {sim>=1 && <Container>
@@ -97,6 +102,7 @@ const sample = (size,pop)=>{
              </Container>
 
          }
+          <br />
 
          {sim >=1 &&
          <Row className = 'Center'>

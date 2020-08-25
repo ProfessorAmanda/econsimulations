@@ -3,7 +3,7 @@ import TTest from './HypothesisTesting/TTest.js';
 import math from 'mathjs';
 import { Alert,Container, Row, Col,ButtonGroup,Button,Input, InputGroup, InputGroupAddon, InputGroupText, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const HypothesisTestingNew=(v)=>{
+const HypothesisTestingNew=()=>{
     const [pplShape,setPplShape]=useState('');
     const [testType, setTestType]= useState('');
     const [mue_0, setMue_0]=useState(0);
@@ -281,16 +281,6 @@ const HypothesisTestingNew=(v)=>{
 
         )})
 
-    const revealButton = () =>{
-        return(
-        <Button
-        color='primary'
-        onClick={
-            () => {}
-        }
-        >Reveal</Button>
-    )
-    }
 
     const HypoDropdown = (hypoOptions) =>{
 
@@ -344,9 +334,6 @@ const HypothesisTestingNew=(v)=>{
             When we conduct a test of hypotheses, we use the information provided by a sample to make a conclusion about population parameters that we cannot directly observe. We are able to make a connection between the sample and the population by using the rules that govern probability distributions. Due to the central limit theorem, we can make a variety of assertions about the probable location of points in a distribution, which allows us to make assertions about where population parameters might be located relative to the data we have collected from a sample. This allows us to test hypotheses.
             </p>
 
-            <p>
-            The goal of this exercise, then, is to try out our decision-making framework for hypothesis testing with simulated population data. At first, the user must make decisions from samples collected from that population without seeing that population. Then, the true population is revealed, and the user can compare the result of the hypothesis test to the “truth.”  Finally, we allow the user to automate this process, taking many samples and testing each, to see how often hypothesis testing leads us to the correct conclusion.
-            </p>
 
             </Alert>
             <br />
