@@ -1,20 +1,22 @@
 import React, {useState}  from 'react';
 import TTest from './HypothesisTesting/TTest.js';
+import MysteryPop from './HypothesisTesting/MysteryPop.js';
 import math from 'mathjs';
 import { Alert,Container, Row, Col,ButtonGroup,Button,Input, InputGroup, InputGroupAddon, InputGroupText, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const HypothesisTestingNew=()=>{
+
     const [pplShape,setPplShape]=useState('');
     const [testType, setTestType]= useState('');
-    const [mue_0, setMue_0]=useState(0);
     const [hypo, setHypo]=useState(0);
+    const [mue_0, setMue_0]=useState(0);
     const [sampleSize, setSampleSize] = useState(0);
     const [popMean, setPopMean]=useState(0);
-    const [showChart, setShowChart] = useState(0);
+    const [showTTest, setShowTTest] = useState(0);
     const [mainSampleSize, setMainSampleSize] = useState(2000);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [popArr, setPopArr]=useState([]);
-    const [hypoOptions, setHypoOptions] = useState([]);
+    const [hypoOptions, setHypoOptions] = useState([oneSampleHypos]);
 
 // Test types and population distribution shapes
     const testLst = ['oneSample','twoSample'];
@@ -22,17 +24,20 @@ const HypothesisTestingNew=()=>{
 
 // Text materials
     const oneSampleHypos = [
-        {hypoText: "Option 1: These cows produce more than ",
+        {type: '≤',
+        hypoText: "Option 1: These cows produce more than ",
         nullH:'H_0: μ ≤  ',
         alterH:'H_a: μ >  '
         },
 
-        {hypoText:"Option 2: These cows produce less than " ,
+        {type:'≥',
+        hypoText:"Option 2: These cows produce less than " ,
         nullH:'H_0: μ ≥  ',
         alterH:'H_a: μ <  '
         },
 
-        {hypoText:"Option 3: These cows produce an amount not equal to ",
+        {type:'=',
+        hypoText:"Option 3: These cows produce an amount not equal to ",
         nullH:'H_0: μ =  ',
         alterH:'H_a: μ ≠  '
     }
@@ -59,10 +64,23 @@ const HypothesisTestingNew=()=>{
 // Generste 4 kinds of distributions
     const generatePop=(shape)=>{
         setPopArr([]);
-        (shape==='Normal') && setPopArr(generateNormal());
-        (shape==='Uniform') && setPopArr(generateUniform());
-        (shape==='Mystery') && setPopArr(generateMystery());
-        (shape==='Unknown') && setPopArr(generateUnknown());
+        switch(shape){
+            case 'Normal':
+            setPopArr(generateNormal());
+            break;
+
+            case 'Uniform':
+            setPopArr(generateUniform());
+            break;
+
+            case 'Mystery':
+            setPopArr(generateMystery());
+            break;
+
+            case 'Unknown':
+            setPopArr(generateUnknown());
+            break;
+        }
 
     }
 
@@ -73,7 +91,7 @@ const HypothesisTestingNew=()=>{
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
 
-        const popArray = popArr ? popArr.slice() : []
+        const popArray = [];
 
         const sampleSize = mainSampleSize;
         let dict = Array(sampleSize).fill(-1);
@@ -112,7 +130,7 @@ const HypothesisTestingNew=()=>{
         const LOW = 54;
         const range = HI - LOW;
 
-        const popArray = popArr ? popArr.slice() : []
+        const popArray = [];
 
         const sampleSize = mainSampleSize;
 
@@ -145,109 +163,33 @@ const HypothesisTestingNew=()=>{
 
 // Double-humped Distribution
     const generateMystery=()=>{
-    let xvalue = [];
+        // The generageMystery() function in Cental Limit Theorem/Mystery.js may not be usable, so a pre-generated Mystery pop is used.
 
-      if (popArr.length >= mainSampleSize){
-          return null;
-      }
-
-      const popArray = [];
-
-      const firstMEAN = 70;
-      const firstSTANDARD_DEV = 3;
-      const firstITERATES = 9;
-      const firstrange = Math.sqrt(12) * firstSTANDARD_DEV * firstSTANDARD_DEV;
-      const firstpopMin = firstMEAN - (firstrange / 2);
-      const secondMEAN = 55;
-      const secondSTANDARD_DEV = 2;
-      const secondITERATES = 9;
-      const secondrange = Math.sqrt(12) * secondSTANDARD_DEV * secondSTANDARD_DEV;
-      const secondpopMin = secondMEAN - (secondrange / 2);
-
-      const sampleSize = mainSampleSize;
-
-      const newCleared = []
-      const stateCopy = [];
-
-      const clearedArray = [];
-      const popDict = [];
+    setPopMean(math.mean(MysteryPop.map(p => p[0])));
 
 
-      for (let i = 0; i < sampleSize/2; i++){
-        let sum = 0;
-        if(clearedArray.length === 0){
-            for (let j = 0; j < firstITERATES; j++){
-                sum += Math.random() * firstrange + firstpopMin;
-            }
-        }
-        else{
-            sum = newCleared.pop() * firstITERATES;
-        }
-        if (popDict[Math.round(sum / firstITERATES * 10)]){
-            stateCopy[Math.round(sum / firstITERATES * 10)] += 1
-        }
-        else {
-            stateCopy[Math.round(sum / firstITERATES * 10)] = 1
-        }
-        popArray.push(Math.round((sum / firstITERATES)*100)/100)
-    }
-
-    for (let i = 0; i < sampleSize/2; i++){
-        let sum = 0;
-        if(clearedArray === 0){
-            for (let j = 0; j < secondITERATES; j++){
-                sum += Math.random() * secondrange + secondpopMin;
-            }
-        }
-        else{
-            sum = newCleared.pop() * secondITERATES;
-        }
-        if (popDict[Math.round(sum / secondITERATES * 10)]){
-            stateCopy[Math.round(sum / secondITERATES * 10)] += 1
-        }
-        else {
-            stateCopy[Math.round(sum / secondITERATES * 10)] = 1
-        }
-        popArray.push(Math.round((sum / secondITERATES)*100)/100)
-    }
-    if(clearedArray.length > 0){
-      var tempCleared = clearedArray;
-      tempCleared = newCleared;
-     clearedArray =tempCleared
- };
-
-
-    const finalPopArray = [];
-
-    let count = Array(sampleSize).fill(-1);
-    for (let i = 0; i < sampleSize; i++){
-
-        let val = popArray[i];
-
-        if (count[Math.round(val * 10)] !== -1){
-            count[Math.round(val * 10)] += 1;
-        }
-        else {
-            count[Math.round(val * 10)] = 1;
-        }
-
-        finalPopArray.push([(Math.round(val * 10)/10), count[Math.round(val * 10)] ])
-        xvalue.push((Math.round(val * 10)/10))
-    }
-
-    finalPopArray.sort(() => Math.random() - 0.5);
-    finalPopArray.sort((a,b) => b[1] - a[1]);
-    setPopMean(math.mean(finalPopArray.map(p => p[0])));
-
-    return finalPopArray
+    return MysteryPop;
   }
 
     const generateUnknown=()=>{
         const ranNum = Math.floor(Math.random()*3);
         var arr;
-        (ranNum ===0) && (arr = generateNormal());
-        (ranNum ===1) && (arr = generateUniform());
-        (ranNum ===2) && (arr = generateMystery());
+
+        switch(ranNum){
+            case 0:
+            arr = generateNormal();
+            break;
+
+            case 1:
+            arr = generateUniform();
+            break;
+
+            case 2:
+            arr = generateMystery();
+            break;
+
+        }
+
         return arr;
 
     }
@@ -263,6 +205,7 @@ const HypothesisTestingNew=()=>{
                     setTestType(test);
                     setHypoOptions(testType==='oneSample'? twoSampleHypos:oneSampleHypos);
                     setHypo(0);
+                    setShowTTest(0);
                 }
             }>{test}</Button>
     )})
@@ -273,8 +216,10 @@ const HypothesisTestingNew=()=>{
             style={{ backgroundColor: pplShape===shape? '#4CAF50':'#555555' }}
             onClick={
                 () => {
+
                     setPplShape(shape);
                     generatePop(shape);
+                    setShowTTest(0);
                     console.log(popArr);
                 }
             }>{shape}</Button>
@@ -292,9 +237,9 @@ const HypothesisTestingNew=()=>{
              {hypoOptions[hypo].hypoText}
             </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem onClick={()=>{setHypo(0)}}>{hypoOptions[0].hypoText}</DropdownItem>
-            <DropdownItem onClick={()=>{setHypo(1)}}>{hypoOptions[1].hypoText}</DropdownItem>
-            <DropdownItem onClick={()=>{setHypo(2)}}>{hypoOptions[2].hypoText}</DropdownItem>
+            <DropdownItem onClick={()=>{setHypo(0);setShowTTest(0);}}>{hypoOptions[0].hypoText}</DropdownItem>
+            <DropdownItem onClick={()=>{setHypo(1);setShowTTest(0);}}>{hypoOptions[1].hypoText}</DropdownItem>
+            <DropdownItem onClick={()=>{setHypo(2);setShowTTest(0);}}>{hypoOptions[2].hypoText}</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       );
@@ -373,6 +318,11 @@ const HypothesisTestingNew=()=>{
 
             </Row>
             <br />
+            <Button color='primary' onClick={()=>{setShowTTest(1);}}> Continue </Button>
+            <br />
+            <br />
+
+            {showTTest===1&&<Container>
             <Row>
             <Alert color="secondary" className="Center" >
               <p>This means our null and alternative hypotheses are given by:</p>
@@ -381,14 +331,14 @@ const HypothesisTestingNew=()=>{
 
               </Alert>
               </Row>
+              </Container>}
               </Container>
               }
               <br />
 
-                {testType && pplShape&&popArr&&
+                {showTTest===1&&
                     <Container>
                     <Row className = 'Center'>
-                     {console.log(popArr)}
                     <TTest
                 ppl = {popArr}
                 testType={testType}
