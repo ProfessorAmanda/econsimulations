@@ -161,6 +161,8 @@ class Mystery extends React.Component {
         popMean: math.mean(finalPopArray.map(p => p[0]))
     })
 
+    console.log(JSON.stringify(finalPopArray));
+
     return finalPopArray
   }
 
@@ -222,6 +224,7 @@ class Mystery extends React.Component {
                             this.state.stage >= 1 ?
                                 <div>
                                     <div>
+
                                     <ChartContainer
                                         popArray={this.state.popArray}
                                         popMean={this.state.popMean}
@@ -229,6 +232,7 @@ class Mystery extends React.Component {
                                         popType={'Mystery'}
                                         mainSampleSize={this.state.mainSampleSize}
                                         />
+
 
                                     <Button
                                         color="success"
