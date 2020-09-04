@@ -48,9 +48,6 @@ const handleSample = (size,pop)=>{
         console.log(sampleArr);
 
         const x_bar = Math.round(math.mean(sampleArr) * 1000)/1000;
-        //const mue_0 = mue_0Copy;
-        console.log('mue0Check');
-        console.log(mue_0);
         const sd = Math.round(math.std(sampleArr)*1000)/1000;
         const tScore = getT(x_bar, mue_0, sd, size);
         const pVal = getPVal(hypo,tScore,sampleSize - 1);
@@ -66,6 +63,8 @@ const handleSample = (size,pop)=>{
         console.log(x_bar, mue_0, sd, sampleSize);
         return Math.round(((x_bar - mue_0)/(sd/Math.sqrt(sampleSize)))*1000)/1000;
     }
+
+
 
 
 
