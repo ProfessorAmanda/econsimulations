@@ -63,7 +63,6 @@ const HypothesisTestingNew=()=>{
 // Helper functions
 // Generste 4 kinds of distributions
     const generatePop=(shape)=>{
-        setPopArr([]);
         switch(shape){
             case 'Normal':
             setPopArr(generateNormal());
@@ -77,7 +76,7 @@ const HypothesisTestingNew=()=>{
             setPopArr(generateMystery());
             break;
 
-            case 'Unknown':
+            case '??Unknown??':
             setPopArr(generateUnknown());
             break;
         }
@@ -85,7 +84,7 @@ const HypothesisTestingNew=()=>{
     }
 
     const generateNormal=()=>{
-        const MEAN = 64;
+        const MEAN = 69;
         const STANDARD_DEV = 3;
         const ITERATES = 9;
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
@@ -126,8 +125,8 @@ const HypothesisTestingNew=()=>{
 
     }
     const generateUniform=()=>{
-        const HI = 74;
-        const LOW = 54;
+        const HI = 76.5;
+        const LOW = 56.5;
         const range = HI - LOW;
 
         const popArray = [];
@@ -165,7 +164,7 @@ const HypothesisTestingNew=()=>{
     const generateMystery=()=>{
         // The generageMystery() function in Cental Limit Theorem/Mystery.js may not be usable, so a pre-generated Mystery pop is used.
 
-    setPopMean(math.mean(MysteryPop.map(p => p[0])));
+    //setPopMean(math.mean(MysteryPop.map(p => p[0])));
 
 
     return MysteryPop;
@@ -174,6 +173,7 @@ const HypothesisTestingNew=()=>{
     const generateUnknown=()=>{
         const ranNum = Math.floor(Math.random()*3);
         var arr;
+        console.log(ranNum);
 
         switch(ranNum){
             case 0:
@@ -189,6 +189,7 @@ const HypothesisTestingNew=()=>{
             break;
 
         }
+        console.log(arr);
 
         return arr;
 
@@ -216,6 +217,7 @@ const HypothesisTestingNew=()=>{
             style={{ backgroundColor: pplShape===shape? '#4CAF50':'#555555' }}
             onClick={
                 () => {
+                    setPopArr([]);
 
                     setPplShape(shape);
                     generatePop(shape);

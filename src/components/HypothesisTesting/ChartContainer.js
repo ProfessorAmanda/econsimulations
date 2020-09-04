@@ -19,7 +19,7 @@ class ChartContainer extends Component {
         sampled: [],
         done: false,
         values: {
-            Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
+            Normal: { xmaxval: 82, xminval: 57, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
             Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
             Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
             "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"}

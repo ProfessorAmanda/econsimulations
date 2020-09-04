@@ -77,12 +77,12 @@ class Mystery extends React.Component {
 
       const popArray = [];
 
-      const firstMEAN = 70;
+      const firstMEAN = 75.5;
       const firstSTANDARD_DEV = 3;
       const firstITERATES = 9;
       const firstrange = Math.sqrt(12) * firstSTANDARD_DEV * firstSTANDARD_DEV;
       const firstpopMin = firstMEAN - (firstrange / 2);
-      const secondMEAN = 55;
+      const secondMEAN = 60.5;
       const secondSTANDARD_DEV = 2;
       const secondITERATES = 9;
       const secondrange = Math.sqrt(12) * secondSTANDARD_DEV * secondSTANDARD_DEV;
@@ -160,8 +160,10 @@ class Mystery extends React.Component {
     this.setState({
         popMean: math.mean(finalPopArray.map(p => p[0]))
     })
+    console.log( math.mean(finalPopArray.map(p => p[0])));
 
     console.log(JSON.stringify(finalPopArray));
+
 
     return finalPopArray
   }
@@ -212,6 +214,7 @@ class Mystery extends React.Component {
     }
 
     render() {
+
         return (
             <div>
                 <Collapsable
