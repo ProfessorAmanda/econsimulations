@@ -77,7 +77,9 @@ class SimulationContainer extends Component{
                     {this.state.mode === 'Joint Distributions' && <JointWrapper/>}
                     {this.state.mode === 'Least Squares' && <LeastSim/>}
                     {this.state.mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
+
                     {this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
+
                     {this.state.mode === 'Hypothesis Testing' && <HypothesisTestingNew/>}
                     {this.state.mode === 'Start Here' && <StartHere/>}
 
@@ -89,4 +91,4 @@ class SimulationContainer extends Component{
     }
 }
 export default SimulationContainer;
-//
+//{this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}

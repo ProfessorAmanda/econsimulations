@@ -174,6 +174,7 @@ componentDidMount() {
             })
             .add();
         }
+
         // this.myChart = Highcharts.chart('container', {
         //   chart: {
         //       type: 'scatter',
@@ -223,6 +224,7 @@ componentDidMount() {
         //   },
         //
         // });
+
   }
 
   render() {
