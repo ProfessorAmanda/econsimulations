@@ -84,7 +84,7 @@ const HypothesisTestingNew=()=>{
     }
 
     const generateNormal=()=>{
-        const MEAN = 69;
+        const MEAN = 68;
         const STANDARD_DEV = 3;
         const ITERATES = 9;
         const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
@@ -125,8 +125,8 @@ const HypothesisTestingNew=()=>{
 
     }
     const generateUniform=()=>{
-        const HI = 76.5;
-        const LOW = 56.5;
+        const HI = 77;
+        const LOW = 59;
         const range = HI - LOW;
 
         const popArray = [];
@@ -164,7 +164,7 @@ const HypothesisTestingNew=()=>{
     const generateMystery=()=>{
         // The generageMystery() function in Cental Limit Theorem/Mystery.js may not be usable, so a pre-generated Mystery pop is used.
 
-    //setPopMean(math.mean(MysteryPop.map(p => p[0])));
+    setPopMean(math.mean(MysteryPop.map(p => p[0])));
 
 
     return MysteryPop;
@@ -297,7 +297,7 @@ const HypothesisTestingNew=()=>{
                 <Row>
                     <Alert color="secondary" className="Center">
                     <p>The true population distribution will be revealed at the end.</p>
-                    {testType==="oneSample"? <p>Suppose that our farmer has changed the variety of feed the cows eat. It might be reasonable to think that the cows now produce more or less milk than they had before. As a researcher, what assertion would you like to make about these cows’ milk production now? Choose an Option and specify a hypothesized amount.
+                    {testType==="oneSample"? <p> Suppose that our farmer has changed the variety of feed the cows eat. It might be reasonable to think that the cows now produce more or less milk than they had before. As a researcher, what assertion would you like to make about these cows’ milk production now? Choose an Option and specify a hypothesized amount. To help make an informed guess, note that the distribution of millk production before we changed the feed had a mean of about 64 gallons
                      </p>: <p>
                       Suppose that our farmer has changed the variety of feed the cows eat. It might be reasonable to think that the cows now produce more or less milk than they had before. As a researcher, what assertion would you like to make about these cows’ milk production now? Let Population 1 denote the cows before the feed change and Population 2 denote the cows after the change. Choose an Option below.
                       </p>}
@@ -346,6 +346,7 @@ const HypothesisTestingNew=()=>{
                 testType={testType}
                 hypo = {hypo}
                 mue_0={mue_0}
+                popMean={popMean}
                 />
                 </Row>
                 </Container>

@@ -5,10 +5,10 @@ import TToPval from './TToPval.js';
 import { Alert, Button, Container, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
 
 
-const TTest = ({ppl,testType,hypo,mue_0})=>{
+const TTest = ({ppl,testType,hypo,mue_0,popMean})=>{
 
     const [popArr, setPopArr]=useState(ppl);
-    const [popMean, setPopMean]=useState(0);
+    //const [popMean, setPopMean]=useState(0);
     const [sampleMean, setSampleMean]=useState(0);
     const [sampleSd, setSampleSd]=useState(0);
     const [mainSampleSize, setMainSampleSize] = useState(2000);
@@ -82,8 +82,18 @@ const handleSample = (size,pop)=>{
 
 
         if((t > 3)||(t < -3)){
-            return 0;
-        }else{
+            switch(hypo){
+                case 0:
+                return 0;
+
+
+                case 1:
+                return 1;
+
+
+                case 2:
+                return 0;
+        }}else{
             const p1 = TToPval[dof - 1][t.toFixed(1)];
 
             switch(hypo){
