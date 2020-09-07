@@ -19,7 +19,7 @@ class ChartContainer extends Component {
         sampled: [],
         done: false,
         values: {
-            Normal: { xmaxval: 82, xminval: 57, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
+            Normal: { xmaxval: 81, xminval: 55, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
             Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
             Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
             "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"}
@@ -161,6 +161,7 @@ componentDidMount() {
                <Row>
                    <Alert color="secondary" className="Center">
                         <p>We queried the {this.state.texts[this.props.popType][0]} of {this.props.popArray.length} {this.state.texts[this.props.popType][1]} and plotted the results on the following chart.</p>
+                        <p>The population mean is {Math.round(this.state.popMean * 1000)/1000}.</p>
                     </Alert>
                </Row>
                 <Row >
