@@ -81,29 +81,36 @@ class JointSimple extends Component {
     }
 
     render() {
-
         return(
             <Container fluid>
                 <Row>
                     <Col>
                         <ParentInput cov={this.state.covariance} sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD} saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
                         saveSD={(sd) => {
+                            this.setState({covariance : parseFloat(this.state.correlation*(sd * this.state.iceSD))});
                             const copy = this.state.covMatrix;
                             const variance = Math.pow(sd,2);
-                            const temp = [[variance,copy[0][1]],copy[1]];
+                            const temp = [[variance,this.state.covariance],[this.state.covariance,copy[1][1]]];
+
                             this.setState({sharkSD : sd});
                             this.setState({covMatrix : temp});
+
+
                         }}/>
                     </Col>
 
                     <Col>
                         <ChildInput cov={this.state.covariance} iceMean={this.state.meanVector[1]} iceSD={this.state.iceSD} saveMean={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}}
                         saveSD={(sd) => {
+                        this.setState({covariance : parseFloat(this.state.correlation*(this.state.sharkSD * sd))});
                         const copy = this.state.covMatrix;
                         const variance = Math.pow(sd,2);
-                        const temp = [copy[0],[copy[1][0],variance]];
+                        const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,variance]];
+
                         this.setState({iceSD : sd});
                         this.setState({covMatrix : temp});
+
+                        console.log(temp);
                         }}/>
 
                     </Col>
@@ -128,6 +135,8 @@ class JointSimple extends Component {
                               this.setState({covariance : parseFloat(event.target.value*(this.state.sharkSD * this.state.iceSD))});
                               const copy = this.state.covMatrix;
                               const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
+                              console.log("tempcheck");
+                              console.log(temp);
                               this.setState({covMatrix : temp});
                             }}
                       />
@@ -221,6 +230,9 @@ class JointSimple extends Component {
         // console.log(this.state);
 
         // Check for non symmetric Matrix
+        console.log("tempcheck222");
+        console.log(this.state.covMatrix);
+        console.log(this.state.covMatrix[0], this.state.covMatrix[1][0]);
         if (this.state.covMatrix[0][1] !== this.state.covMatrix[1][0]) {
           //alert("these gotta be the same yo");
           return;
