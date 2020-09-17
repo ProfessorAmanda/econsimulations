@@ -152,7 +152,7 @@ const handleSample = (size,pop)=>{
 
              <p>The test statistic is &nbsp;{tScore}</p>
 
-             <p>This test statistic yields a p-value of P(Z>teststat)= &nbsp;{pVal}. </p>
+             <p>This test statistic yields a p-value of P(Z>teststat) = &nbsp;{pVal}. </p>
              <p>Therefore we {pVal<alpha? 'reject':'fail to reject'} the null hypothesis. </p>
 
 
@@ -190,7 +190,7 @@ const handleSample = (size,pop)=>{
          <Row className = 'Center'>
 
 
-         <p>Our hypothesis test conclusion was therefore…[Correct or incorrect]. </p>
+         <p>Our hypothesis test conclusion was therefore {pVal<alpha? 'correct':'incorrect'}. </p>
          </Row>
          </Container>}
         </Container>

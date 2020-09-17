@@ -16,6 +16,7 @@ const HypothesisTestingNew=()=>{
     const [mainSampleSize, setMainSampleSize] = useState(2000);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [popArr, setPopArr]=useState([]);
+    const [popArr2, setPopArr2]=useState([]);
     const [hypoOptions, setHypoOptions] = useState([oneSampleHypos]);
 
 // Test types and population distribution shapes
