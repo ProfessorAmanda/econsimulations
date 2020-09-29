@@ -59,22 +59,22 @@ class SimBar extends Component {
             }
 
 
-                ,
+//                 ,
 
-            {
-                name: "Confidence Intervals",
-                description: "test",
-                extra: "",
-                img: undefined
-            }
-            ,
+//             {
+//                 name: "Confidence Intervals",
+//                 description: "test",
+//                 extra: "",
+//                 img: undefined
+//             }
+//             ,
 
-                        {
-                            name: "Hypothesis Testing",
-                            description: "test",
-                            extra: "",
-                            img: undefined
-                        }
+//                         {
+//                             name: "Hypothesis Testing",
+//                             description: "test",
+//                             extra: "",
+//                             img: undefined
+//                         }
 
 
 
