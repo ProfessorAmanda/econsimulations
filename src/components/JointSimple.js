@@ -22,8 +22,8 @@ function ParentInput(props){
         <Input type="number" className="slider" min={1} max={7} value={props.sharkSD} onChange={(event) => {
           // const variance = parseFloat(event.target.value)*parseFloat(event.target.value);
           var sd = parseFloat(event.target.value);
-          if (sd > 7) {
-            sd = 7;
+          if (sd > 6) {
+            sd = 6;
         }
           // const temp = [[variance,copy[0][1]],copy[1]];
           props.saveSD(sd);
@@ -73,8 +73,8 @@ class JointSimple extends Component {
         this.state = {
             meanVector : [70,70],
             covMatrix : [[1,1], [1,1]],
-            sharkSD : 6,
-            iceSD : 4,
+            sharkSD : 1,
+            iceSD : 1,
             covariance : 0,
             correlation: 0
         }
