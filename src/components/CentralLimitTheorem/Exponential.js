@@ -4,7 +4,7 @@ import ChartContainer from '../ChartContainer.js';
 import ToggleStandard from '../ToggleStandard.js';
 import SampleMeanChart from '../SampleMeanChart.js'
 import SampleAreaCLT from './SampleAreaCLT.js'
-import SampleMeanSimulator from '../SampleMeanSimulator.js'
+import SampleMeanSimulator_CLT from '../SampleMeanSimulator_CLT.js'
 import math from 'mathjs';
 import { Alert, Button, Col, Row, Table } from 'reactstrap';
 
@@ -250,7 +250,7 @@ class Exponential extends React.Component {
                                                     <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
                                                         <p> Simulate drawing many many samples </p>
                                                     </Alert>
-                                                    <SampleMeanSimulator
+                                                    <SampleMeanSimulator_CLT
                                                         setsamplesize={this.handleInputSampleSize}
                                                         style={{margin: 'auto'}}
                                                         clear={() => {

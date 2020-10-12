@@ -87,13 +87,12 @@ class JointSimple extends Component {
                     <Col>
                         <ParentInput cov={this.state.covariance} sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD} saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
                         saveSD={(sd) => {
-                            this.setState({sharkSD : sd});
                             this.setState({covariance : parseFloat(this.state.correlation*(sd * this.state.iceSD))});
                             const copy = this.state.covMatrix;
                             const variance = Math.pow(sd,2);
                             const temp = [[variance,this.state.covariance],[this.state.covariance,copy[1][1]]];
 
-
+                            this.setState({sharkSD : sd});
                             this.setState({covMatrix : temp});
 
 
@@ -103,13 +102,12 @@ class JointSimple extends Component {
                     <Col>
                         <ChildInput cov={this.state.covariance} iceMean={this.state.meanVector[1]} iceSD={this.state.iceSD} saveMean={(event) => {this.setState({meanVector: [this.state.meanVector[0]].concat(parseFloat(event.target.value))})}}
                         saveSD={(sd) => {
-                        this.setState({iceSD : sd});
                         this.setState({covariance : parseFloat(this.state.correlation*(this.state.sharkSD * sd))});
                         const copy = this.state.covMatrix;
                         const variance = Math.pow(sd,2);
                         const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,variance]];
 
-
+                        this.setState({iceSD : sd});
                         this.setState({covMatrix : temp});
 
                         console.log(temp);
