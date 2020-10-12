@@ -51,11 +51,11 @@ function ChildInput(props){
 
     <InputGroup>
         <InputGroupAddon addonType='prepend'>Child Height SD: </InputGroupAddon>
-        <Input type="number" className="slider" min={1} max={7} value={props.iceSD} onChange={(event) => {
+        <Input type="number" className="slider" min={1} max={6} value={props.iceSD} onChange={(event) => {
             //const copy = this.state.covMatrix;
             var sd = parseFloat(event.target.value);
-            if (sd > 7) {
-                sd = 7;
+            if (sd > 6) {
+                sd = 6;
             }
           //const temp = [copy[0],[copy[1][0],variance]];
           props.saveSD(sd);
@@ -232,6 +232,14 @@ class JointSimple extends Component {
         // console.log(this.state);
 
         // Check for non symmetric Matrix
+
+        const copy = this.state.covMatrix;
+        const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
+        console.log("tempcheck");
+        console.log(temp);
+        this.setState({covMatrix : temp});
+
+
         console.log("tempcheck222");
         console.log(this.state.covMatrix);
         console.log(this.state.covMatrix[0], this.state.covMatrix[1][0]);
