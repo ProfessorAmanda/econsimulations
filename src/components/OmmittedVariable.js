@@ -50,7 +50,9 @@ class OmmittedVariable extends Component {
                       <Col>
                         <InputGroup>
                           <InputGroupAddon className="Center" addonType='prepend'>β₁, the Coefficient on Study Hours:</InputGroupAddon>
-                          <Input className="Center" type="number" step={.1} value={this.state.beta} min={-4} max={4} />
+                          <Input className="Center" type="number" step={.1} value={this.state.beta} min={-4} max={4} onChange={(event) => {
+                          this.setState({beta: parseFloat(event.target.value)});
+                        }}/>
                         </InputGroup>
 
                         <InputGroup>
