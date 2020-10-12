@@ -73,8 +73,8 @@ class JointSimple extends Component {
         this.state = {
             meanVector : [70,70],
             covMatrix : [[1,1], [1,1]],
-            sharkSD : 1,
-            iceSD : 1,
+            sharkSD : 6,
+            iceSD : 4,
             covariance : 0,
             correlation: 0
         }
