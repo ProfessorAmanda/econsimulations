@@ -58,7 +58,6 @@ class SimBar extends Component {
                 img: ovs
             }
 
-
 //                 ,
 
 //             {
