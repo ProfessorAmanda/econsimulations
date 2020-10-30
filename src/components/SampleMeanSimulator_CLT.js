@@ -28,7 +28,7 @@ class SampleMeanSimulator_CLT extends Component {
             onKeyPress={e => this.onKey(e)}
             onChange={event => {
 
-              //this.props.setsamplesize(event);
+              this.props.setsamplesize(event);
               //this.props.setDOF(event.target.value);
               this.setState({
                 resampleSize: event.target.value

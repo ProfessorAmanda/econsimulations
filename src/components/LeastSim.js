@@ -122,35 +122,49 @@ class LeastSim extends Component {
               null
               : <div>
                     <h4>Slope</h4>
-                    <InputGroupText>
-                    <input
-                    type="number"
-                    step={0.01}
-                    value={this.state.slope}
-                    min={-5}
-                    max={5}
-                    onChange={event => {
-                      this.setState({
-                        slope: parseFloat(event.target.value)
-                      });
-                    }}
-                    />
-                    </InputGroupText>
+                    <InputGroup>
+                    <Input
+                      type='range'
+                      className="custom-range"
+                      min='-5'
+                      max='5'
+                      step='0.1'
+
+                      value={this.state.slope}
+                      onChange={(event) => {
+                        this.setState({
+
+                          slope: parseFloat(event.target.value, 10)
+                        })
+                      }}
+                      />
+                      <InputGroupAddon addonType="append">
+                      <InputGroupText>{this.state.slope}</InputGroupText>
+                      </InputGroupAddon>
+                  </InputGroup>
+
 
                     <h4>Intercept</h4>
-                    <InputGroupText>
-                    <input
-                    type="number"
-                    step={0.01}
-                    value={this.state.int}
-                    min={0}
-                    max={10}
-                    onChange={event => {
-                      this.setState({
-                        int: parseFloat(event.target.value)
-                    })}}
-                    />
-                    </InputGroupText>
+                    <InputGroup>
+                    <Input
+                      type='range'
+                      className="custom-range"
+                      min='-10'
+                      max='10'
+                      step='0.1'
+
+                      value={this.state.intercept}
+                      onChange={(event) => {
+                        this.setState({
+
+                          intercept: parseFloat(event.target.value, 10)
+                        })
+                      }}
+                      />
+                      <InputGroupAddon addonType="append">
+                      <InputGroupText>{this.state.intercept}</InputGroupText>
+                      </InputGroupAddon>
+                  </InputGroup>
                   </div>
           }
 
