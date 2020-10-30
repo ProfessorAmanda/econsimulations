@@ -89,4 +89,4 @@ class SimulationContainer extends Component{
     }
 }
 export default SimulationContainer;
-//
+//{this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
