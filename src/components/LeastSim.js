@@ -157,7 +157,7 @@ class LeastSim extends Component {
                       onChange={(event) => {
                         this.setState({
 
-                          intercept: parseFloat(event.target.value, 10)
+                          int: parseFloat(event.target.value, 10)
                         })
                       }}
                       />
