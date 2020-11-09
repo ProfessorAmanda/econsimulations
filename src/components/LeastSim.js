@@ -126,8 +126,8 @@ class LeastSim extends Component {
                     <Input
                       type='range'
                       className="custom-range"
-                      min='-5'
-                      max='5'
+                      min='-10'
+                      max='10'
                       step='0.1'
 
                       value={this.state.slope}
@@ -149,11 +149,11 @@ class LeastSim extends Component {
                     <Input
                       type='range'
                       className="custom-range"
-                      min='-10'
-                      max='10'
+                      min='-20'
+                      max='20'
                       step='0.1'
 
-                      value={this.state.intercept}
+                      value={this.state.int}
                       onChange={(event) => {
                         this.setState({
 
@@ -162,7 +162,7 @@ class LeastSim extends Component {
                       }}
                       />
                       <InputGroupAddon addonType="append">
-                      <InputGroupText>{this.state.intercept}</InputGroupText>
+                      <InputGroupText>{this.state.int}</InputGroupText>
                       </InputGroupAddon>
                   </InputGroup>
                   </div>
