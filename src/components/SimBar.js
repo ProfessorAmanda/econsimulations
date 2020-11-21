@@ -75,6 +75,7 @@ class SimBar extends Component {
                         }
 
 
+
         ];
 
         // const modes = ["Law of Large Numbers", "Central Limit Theorem", "Joint Distributions", "Least Squares", "Omitted Variable Bias"];
