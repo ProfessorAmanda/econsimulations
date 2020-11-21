@@ -78,14 +78,15 @@ class SimulationContainer extends Component{
                     {this.state.mode === 'Least Squares' && <LeastSim/>}
                     {this.state.mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
                     {this.state.mode === 'Start Here' && <StartHere/>}
+                    {this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
+                    {this.state.mode === 'Hypothesis Testing' && <HypothesisTestingNew/>}
 
 
 
                 </div>
             </div>
         );
-        // {this.state.mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
-        // {this.state.mode === 'Hypothesis Testing' && <HypothesisTestingNew/>}
+
     }
 }
 export default SimulationContainer;
