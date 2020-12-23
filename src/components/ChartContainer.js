@@ -72,7 +72,8 @@ componentDidMount() {
             endOnTick: true
         },
         title: {
-            text: `${title}`
+            text: `${this.state.values[this.props.popType].title}
+            <br /> Population Mean: ${Math.round(this.props.popMean * 100) / 100}`
         },
         yAxis: {
             max: ymaxval,
@@ -122,7 +123,8 @@ componentDidMount() {
 
   faster() {
     this.myChart.title.update({
-        text: `${this.state.values[this.props.popType].title} <br /> Population Mean: ${Math.round(this.props.popMean * 100) / 100}`
+        text: `${this.state.values[this.props.popType].title}
+        <br /> Population Mean: ${Math.round(this.props.popMean * 100) / 100}`
     });
 
 
@@ -165,13 +167,22 @@ componentDidMount() {
             this.myChart.series[1].setData(that.props.sampled, true, true, true);
             if (this.line) {
                 this.line.destroy();
+                this.label.destroy();
             }
-            this.line = this.myChart.renderer.rect(that.myChart.xAxis[0].toPixels(math.mean(that.props.sampled.map(p => p[0]))), 200 , 1, 100)
+            var sampleMean = Math.round(math.mean(that.props.sampled.map(p => p[0]))*1000)/1000;
+            this.line = this.myChart.renderer.rect(that.myChart.xAxis[0].toPixels(sampleMean), 52 , 1, 250)
             .attr({
                 'stroke-width': 1,
                 stroke: 'orange',
                 zIndex: 3
             })
+            .add();
+
+            this.label=this.myChart.renderer.label("Sample Mean: "+(that.myChart.xAxis[0].toPixels(sampleMean)).toString(), that.myChart.xAxis[0].toPixels(sampleMean) , 40)
+            .css({
+            color: 'orange'
+        })
+
             .add();
         }
 

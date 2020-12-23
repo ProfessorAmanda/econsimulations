@@ -89,9 +89,12 @@ class ChiSquared extends React.Component {
 
         popArray.sort(() => Math.random() - 0.5);
         popArray.sort((a,b) => b[1] - a[1]);
+
         this.setState({
             popMean: math.mean(popArray.map(p => p[0]))
         })
+        console.log('check pop mean');
+        console.log(this.state.popMean);
 
         console.log(popArray, dict);
         return popArray;
@@ -140,6 +143,11 @@ class ChiSquared extends React.Component {
         this.setState({
             stage: 1
         })
+
+            this.setState({
+                popArray: this.generateChiSquared()
+            })
+
     }
 
     render() {

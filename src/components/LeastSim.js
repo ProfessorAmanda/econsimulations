@@ -197,7 +197,7 @@ class LeastSim extends Component {
                     this.setState({ slope: Math.round(eq[0]*100)/100, int: Math.round(eq[1]*100)/100 });
                   }}
                   >
-                  {" "}Click to Reveal the Least Squares Line{" "}
+                  {" "}Reveal the Least Squares Line{" "}
                 </Button>
               </div>
             )}

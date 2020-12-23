@@ -160,9 +160,9 @@ class Mystery extends React.Component {
     this.setState({
         popMean: math.mean(finalPopArray.map(p => p[0]))
     })
-    console.log( math.mean(finalPopArray.map(p => p[0])));
-
-    console.log(JSON.stringify(finalPopArray));
+    // console.log( math.mean(finalPopArray.map(p => p[0])));
+    //
+    // console.log(JSON.stringify(finalPopArray));
 
 
     return finalPopArray
@@ -211,6 +211,8 @@ class Mystery extends React.Component {
         this.setState({
             stage: 1
         })
+
+    
     }
 
     render() {
