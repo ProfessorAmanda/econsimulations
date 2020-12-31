@@ -52,13 +52,13 @@ class Uniform extends React.Component {
     }
 
     generateUniform(){
-        const HI = 74;
-        const LOW = 54;
+        const HI = 10;
+        const LOW = -10;
         const range = HI - LOW;
 
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
 
-        const sampleSize = this.state.mainSampleSize;
+        const sampleSize = this.state.mainSampleSize-100;
         let dict = Array(sampleSize).fill(-1);
 
         for (let i = 0; i < sampleSize; i++){

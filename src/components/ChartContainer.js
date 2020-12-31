@@ -22,14 +22,14 @@ class ChartContainer extends Component {
         done: true,
         values: {
             Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
-            Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Wait Time at the DMV in VT", xLabel: "Minutes (min)"},
+            Uniform: { xmaxval: 10, xminval: -10, ymaxval: 25, title: "Lottery Outcome", xLabel: "Dollars"},
             Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
             "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
             Mystery: { xmaxval: 80, xminval: 50, ymaxval: 40, title:"Alien Female Height", xLabel: "Height (in)"}
         },
         texts: {
             Normal: ["monthly Milk Production", "cows","produced", " gallons a month."],
-            Uniform: ['the wait time', 'people at the DMV in VT', "reported a total time of", " minutes."],
+            //Uniform: ['the wait time', 'people at the DMV in VT', "reported a total time of", " minutes."],
             Exponential: ["duration", "Telemarketer Calls","reported a duration of", " seconds on a call."],
             "Chi-Squared": ["expenditure", "workers on lunch","reported an expenditure of"," dollars on lunch."],
             Mystery: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
@@ -178,7 +178,7 @@ componentDidMount() {
             })
             .add();
 
-            this.label=this.myChart.renderer.label("Sample Mean: "+(that.myChart.xAxis[0].toPixels(sampleMean)).toString(), that.myChart.xAxis[0].toPixels(sampleMean) , 40)
+            this.label=this.myChart.renderer.label("Sample Mean", that.myChart.xAxis[0].toPixels(sampleMean) , 50)
             .css({
             color: 'orange'
         })
@@ -242,7 +242,8 @@ componentDidMount() {
            <Container fluid style={{marginBottom: "2vh"}}>
                <Row>
                    <Alert color="secondary" className="Center">
-                        <p>We queried the {this.state.texts[this.props.popType][0]} of {this.props.popArray.length} {this.state.texts[this.props.popType][1]} and plotted the results on the following chart.</p>
+                        {this.props.popType!=="Uniform" && <p>We queried the {this.state.texts[this.props.popType][0]} of {this.props.popArray.length} {this.state.texts[this.props.popType][1]} and plotted the results on the following chart.</p>}
+                        {this.props.popType=="Uniform" && <p>Behavioral economists studying loss aversion design a lottery among 2000 participants where each amount between -10 and +10 is equally likely.  We plotted the winnings and losses below.</p>}
                     </Alert>
                </Row>
                 <Row >
