@@ -38,13 +38,13 @@ class Uniform extends React.Component {
     }
 
     generateUniform(){
-        const HI = 74;
-        const LOW = 54;
+        const HI = 10;
+        const LOW = -10;
         const range = HI - LOW;
 
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
 
-        const sampleSize = this.state.mainSampleSize;
+        const sampleSize = this.state.mainSampleSize-100;
         let dict = Array(sampleSize).fill(-1);
 
         for (let i = 0; i < sampleSize; i++){
@@ -65,15 +65,18 @@ class Uniform extends React.Component {
             }
         }
 
-
-
         popArray.sort(() => Math.random() - 0.3);
         popArray.sort((a,b) => b[1] - a[1]);
         this.setState({
             popMean: math.mean(popArray.map(p => p[0]))
         })
 
-        console.log(popArray, dict);
+        console.log("check check");
+
+
+        console.log(popArray.length);
+        console.log(sampleSize);
+
         return popArray;
     }
 

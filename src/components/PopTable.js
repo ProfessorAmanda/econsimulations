@@ -41,7 +41,7 @@ export default function PopTable(props) {
     );
 
     const values = {
-        Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Female Height", yLabel: "Minutes (min)", xLabel: "Subject" },
+        Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Lottery Outcome", yLabel: "Gain/Loss", xLabel: "Participant" },
         Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", yLabel: "Gallons", xLabel: "Cow" },
         Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", yLabel: "Seconds", xLabel: "Call" },
         "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", yLabel: "Dollars", xLabel: "Person" },
