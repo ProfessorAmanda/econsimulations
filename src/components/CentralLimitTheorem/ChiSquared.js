@@ -153,13 +153,6 @@ class ChiSquared extends React.Component {
             stage: 1
         })
 
-        // var arr = await this.generateChiSquared();
-        // this.setState({
-        //     popArray: arr,
-        //     popMean:math.mean(arr.map(p => p[0]))
-        //
-        // })
-
     }
 
     render() {
