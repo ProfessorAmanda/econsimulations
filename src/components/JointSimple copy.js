@@ -131,6 +131,8 @@ class JointSimple extends Component {
                           min={-1}
                           max={1}
                           onChange={(event) => {
+
+
                               this.setState({correlation : parseFloat(event.target.value)});
                               this.setState({covariance : parseFloat(event.target.value*(this.state.sharkSD * this.state.iceSD))});
                               const copy = this.state.covMatrix;

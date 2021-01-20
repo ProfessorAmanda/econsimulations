@@ -76,9 +76,24 @@ class JointSimple extends Component {
             sharkSD : 1,
             iceSD : 1,
             covariance : 0,
-            correlation: 0
+            covariance_shown : 0,
+            correlation: 0,
+            correlation_shown:0
         }
     }
+
+    // async componentDidUpdate() {
+    //     if (this.state.popArray.length <= 0 && this.state.stage === 1) {
+    //         var arr = await this.generateChiSquared();
+    //         this.setState({
+    //             popArray: arr,
+    //             popMean:math.mean(arr.map(p => p[0]))
+    //
+    //         })
+    //
+    //
+    //     }
+    // }
 
     render() {
         return(
@@ -126,25 +141,43 @@ class JointSimple extends Component {
                       <InputGroupAddon addonType="prepend">
                       </InputGroupAddon>
                       <Input
-                          value={this.state.correlation}
+                          value={this.state.correlation_shown}
                           type="range"
                           className="custom-range"
-                          step={.1}
+                          step={0.1}
                           min={-1}
                           max={1}
                           onChange={(event) => {
-                              this.setState({correlation : parseFloat(event.target.value)});
-                              this.setState({covariance : parseFloat(event.target.value*(this.state.sharkSD * this.state.iceSD))});
+
+                              // let tempCorr= event.target.value;
+                              // console.log('event.target.value');
+                              // console.log(event.target.value);
+                              if (event.target.value== 1){
+                                  this.setState({correlation : parseFloat(0.99)});
+                              }else if (event.target.value==-1){
+                                  this.setState({correlation : parseFloat(-0.99)});
+                              }else{
+                                  this.setState({correlation : event.target.value});
+                              }
+
+
+
+
+                              this.setState({correlation_shown : parseFloat(event.target.value)});
+                              //this.setState({correlation : parseFloat(tempCorr)});
+                              this.setState({covariance : parseFloat(this.state.correlation*(this.state.sharkSD * this.state.iceSD))});
+                              this.setState({covariance_shown : parseFloat(event.target.value*(this.state.sharkSD * this.state.iceSD))});
                               const copy = this.state.covMatrix;
+
                               const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
-                              console.log("tempcheck");
-                              console.log(temp);
+                              console.log("corr check");
+                              console.log(this.state.correlation);
                               this.setState({covMatrix : temp});
                             }}
                       />
 
                       <InputGroupAddon addonType="append">
-                      <InputGroupText>{this.state.correlation}</InputGroupText>
+                      <InputGroupText>{this.state.correlation_shown}</InputGroupText>
                       </InputGroupAddon>
                     </InputGroup>
                     </div>
@@ -182,7 +215,7 @@ class JointSimple extends Component {
                     </div>
                     <p> Covariance </p>
                     <InputGroupText>
-                      {Math.round((this.state.correlation*(this.state.sharkSD * this.state.iceSD))*1000)/1000}
+                      {Math.round((this.state.correlation_shown*(this.state.sharkSD * this.state.iceSD))*1000)/1000}
                     </InputGroupText>
                   </Col>
                 </Row>
@@ -220,7 +253,7 @@ class JointSimple extends Component {
     }
 
 
-    generate() {
+     generate() {
         // const meanVector = [1, 10];
 
         // covariance between dimensions. This examples makes the first and third
@@ -232,6 +265,8 @@ class JointSimple extends Component {
         // console.log(this.state);
 
         // Check for non symmetric Matrix
+        console.log("corr check");
+        console.log(this.state.correlation);
 
         const copy = this.state.covMatrix;
         const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
@@ -280,8 +315,8 @@ class JointSimple extends Component {
             }
         }
 
-        const MINX = 40;
-        const MAXX = 120;
+        const MINX = 50;
+        const MAXX = 100;
         console.log(this.state.correlation);
         console.log(this.state.covariance);
         console.log([sharkSeries]);
