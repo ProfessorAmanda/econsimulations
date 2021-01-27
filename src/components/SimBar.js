@@ -25,7 +25,7 @@ class SimBar extends Component {
         [
             {
                 name: 'Law of Large Numbers',
-                description: 'The Law of Large Numbers tells us that that the sample mean approaches the mean of the population as we increase the sample size. This simulations investigates the behavior of the sample mean as we change the sample size.',
+                description: 'The Law of Large Numbers tells us that that the sample mean approaches the mean of the population as we increase the sample size. This simulation investigates the behavior of the sample mean as we change the sample size.',
                 extra: '',
                 img: lln
             },

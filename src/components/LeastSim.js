@@ -237,6 +237,13 @@ class LeastSim extends Component {
               height : 600
             },
 
+            tooltip:
+			{
+				enabled: false
+			},
+
+
+
             xAxis: {
               min: 0,
               max: 20,
