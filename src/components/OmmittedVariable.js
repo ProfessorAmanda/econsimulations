@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';

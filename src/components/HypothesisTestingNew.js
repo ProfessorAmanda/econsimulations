@@ -190,7 +190,7 @@ const HypothesisTestingNew=()=>{
             break;
 
         }
-        console.log(arr);
+        
 
         return arr;
 
