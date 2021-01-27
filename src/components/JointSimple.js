@@ -78,22 +78,12 @@ class JointSimple extends Component {
             covariance : 0,
             covariance_shown : 0,
             correlation: 0,
-            correlation_shown:0
+            correlation_shown:0,
+            stage:0
         }
     }
 
-    // async componentDidUpdate() {
-    //     if (this.state.popArray.length <= 0 && this.state.stage === 1) {
-    //         var arr = await this.generateChiSquared();
-    //         this.setState({
-    //             popArray: arr,
-    //             popMean:math.mean(arr.map(p => p[0]))
-    //
-    //         })
-    //
-    //
-    //     }
-    // }
+
 
     render() {
         return(
@@ -254,30 +244,13 @@ class JointSimple extends Component {
 
 
      generate() {
-        // const meanVector = [1, 10];
 
-        // covariance between dimensions. This examples makes the first and third
-        // dimensions highly correlated, and the second dimension independent.
-        // const covarianceMatrix = [
-        //     [ 1.0, 1.0],
-        //     [ 1.0, 1.0]
-        // ];
-        // console.log(this.state);
-
-        // Check for non symmetric Matrix
-        console.log("corr check");
-        console.log(this.state.correlation);
 
         const copy = this.state.covMatrix;
         const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
-        console.log("tempcheck");
-        console.log(temp);
+
         this.setState({covMatrix : temp});
 
-
-        console.log("tempcheck222");
-        console.log(this.state.covMatrix);
-        console.log(this.state.covMatrix[0], this.state.covMatrix[1][0]);
         if (this.state.covMatrix[0][1] !== this.state.covMatrix[1][0]) {
           //alert("these gotta be the same yo");
           return;
@@ -290,6 +263,7 @@ class JointSimple extends Component {
         for (let i = 0; i < 500; i++){
             series.data.push(distribution.sample());
         }
+        //generate shark series
         const sharkSeries = {data : [], color: '#006D75', name:""}
         const sharkDict = {};
         const rawSharks = series.data.map((s) => {return s[0]});
@@ -314,75 +288,10 @@ class JointSimple extends Component {
                 sharkSeries.data.push([parseFloat(i), j+1]);
             }
         }
-
-        const MINX = 50;
-        const MAXX = 100;
-        console.log(this.state.correlation);
-        console.log(this.state.covariance);
-        console.log([sharkSeries]);
+        this.setState({sharkSeries : [sharkSeries]});
 
 
-
-        this.sharks = Highcharts.chart('sharks', {
-            chart: {
-                type: 'scatter',
-                zoomtype: 'xy'
-            },
-            title: {
-                text: 'Parent Height'
-            },
-            xAxis: {
-                min: MINX,
-                max: MAXX,
-                title : {
-                    enabled: true,
-                    text: 'Parent Height (inches)'
-                },
-                startOnTick: true,
-                endOnTick: true,
-                showLastLabel: true
-            },
-            yAxis: {
-                max: 7,
-                lineWidth: 1,
-                tickInterval: 1,
-                title: {
-                    text: 'Count'
-                }
-            },
-
-            tooltip: {
-              enabled: false
-            },
-            plotOptions: {
-                scatter: {
-         marker: {
-            radius: 3,
-            states: {
-               hover: {
-                  enabled: true,
-                  radiusPlus:10,
-                  lineColor: 'rgb(100,100,100)'
-
-               }
-            }
-         },
-         states: {
-            hover: {
-               marker: {
-                  enabled: false
-               }
-            }
-         }
-     },
-            },
-
-            legend: {
-              enabled: false
-            },
-            series: [sharkSeries]
-        });
-
+//generate iceseries
         const icecreamSeries = {data : [], color: '#ff0000', name:"Ice Cream Cones bought per Day"}
         const icecreamDict = {};
         for (const i of series.data){
@@ -398,146 +307,285 @@ class JointSimple extends Component {
                 icecreamSeries.data.push([parseFloat(i), j+1]);
             }
         }
-        this.icecream = Highcharts.chart('icecream', {
-            chart: {
-                type: 'scatter',
-                zoomtype: 'xy'
-            },
-            title: {
-                text: 'Child Height'
-            },
-            xAxis: {
-                min: MINX,
-                max: MAXX,
-                title : {
-                    enabled: true,
-                    text: 'Child Height (inches)'
-                },
-                startOnTick: true,
-                endOnTick: true,
-                showLastLabel: true
-            },
-            yAxis: {
-                max: 7,
-                lineWidth: 1,
-                tickInterval: 1,
-                title: {
-                    text: 'Count'
-                }
-            },
 
-            plotOptions: {
-                scatter: {
-         marker: {
-            radius: 3,
-            states: {
-               hover: {
-                  enabled: true,
-                  radiusPlus:10,
-                  lineColor: 'rgb(100,100,100)'
+        this.setState({iceSeries : [icecreamSeries]});
 
-               }
-            }
-         },
-         states: {
-            hover: {
-               marker: {
-                  enabled: false
-               }
-            }
-         }
-     },
-            },
-            tooltip: {
-              enabled: false
-            },
-
-            legend: {
-              enabled: false
-            },
-
-            series: [icecreamSeries]
-        });
+//generate joint series
         //console.log([jointSeries]);
         const jointSeries = {data : [], color: '#FF9655', name:"Parent Height vs Child Height (inches)"}
         for (const i in rawSharks){
             jointSeries.data.push([Math.round(rawSharks[i] * 100) / 100, Math.round(series.data[i][1] * 100) / 100]);
         }
+        this.setState({jointSeries : [jointSeries]});
 
         var that = this;
-        console.log([jointSeries]);
-        Highcharts.chart('joint', {
-            chart: {
-                type: 'scatter',
-                zoomtype: 'xy'
-            },
-            title: {
-                text: 'Parent Height vs Child Height'
-            },
-            xAxis: {
-                min: MINX,
-                max: MAXX,
-                title : {
-                    enabled: true,
-                    text: 'Parent Height (inches)'
+
+
+//if first time rendering
+
+        if(!this.state.stage){
+
+            this.sharks = Highcharts.chart('sharks', {
+                chart: {
+                    type: 'scatter',
+                    zoomtype: 'xy'
                 },
-                startOnTick: true,
-                endOnTick: true,
-                showLastLabel: true
-            },
-            yAxis: {
                 title: {
-                    text: 'Child Height (inches)'
-                }
-            },
+                    text: 'Parent Height'
+                },
+                xAxis: {
+                    tickPositions: [40, 60, 80, 100],
+                    title : {
+                        enabled: true,
+                        text: 'Parent Height (inches)'
+                    },
+                    startOnTick: true,
+                    endOnTick: true,
+                    showLastLabel: true
+                },
+                yAxis: {
+                    max: 7,
+                    lineWidth: 1,
+                    tickInterval: 1,
+                    title: {
+                        text: 'Count'
+                    }
+                },
 
-            tooltip: {
-              enabled: false
-            },
-
-            legend: {
-              enabled: false
-            },
-
-            plotOptions: {
-                scatter: {
-         marker: {
-            radius: 3,
-            states: {
-               hover: {
-                  enabled: true,
-                  radiusPlus:10,
-                  lineColor: 'rgb(100,100,100)'
-
-               }
-            }
-         },
-         states: {
-            hover: {
-               marker: {
+                tooltip: {
                   enabled: false
-               }
-            }
-         }
-     },
+                },
+                plotOptions: {
+                    scatter: {
+             marker: {
+                radius: 3,
+                states: {
+                   hover: {
+                      enabled: true,
+                      radiusPlus:10,
+                      lineColor: 'rgb(100,100,100)'
 
-                series: {
-                    allowPointSelect: true,
-                    point: {
-                        events: {
-                            mouseOver: function() {
+                   }
+                }
+             },
+             states: {
+                hover: {
+                   marker: {
+                      enabled: false
+                   }
+                }
+             }
+         },
+                },
+
+                legend: {
+                  enabled: false
+                },
+                series: [sharkSeries]
+            });
+
+            this.icecream = Highcharts.chart('icecream', {
+                chart: {
+                    type: 'scatter',
+                    zoomtype: 'xy'
+                },
+                title: {
+                    text: 'Child Height'
+                },
+                xAxis: {
+                    tickPositions: [40, 60, 80, 100],
+                    title : {
+                        enabled: true,
+                        text: 'Child Height (inches)'
+                    },
+                    startOnTick: true,
+                    endOnTick: true,
+                    showLastLabel: true
+                },
+                yAxis: {
+                    max: 7,
+                    lineWidth: 1,
+                    tickInterval: 1,
+                    title: {
+                        text: 'Count'
+                    }
+                },
+
+                plotOptions: {
+                    scatter: {
+             marker: {
+                radius: 3,
+                states: {
+                   hover: {
+                      enabled: true,
+                      radiusPlus:10,
+                      lineColor: 'rgb(100,100,100)'
+
+                   }
+                }
+             },
+             states: {
+                hover: {
+                   marker: {
+                      enabled: false
+                   }
+                }
+             }
+         },
+                },
+                tooltip: {
+                  enabled: false
+                },
+
+                legend: {
+                  enabled: false
+                },
+
+                series: [icecreamSeries]
+            });
+
+            this.joint = Highcharts.chart('joint', {
+                chart: {
+                    type: 'scatter',
+                    zoomtype: 'xy'
+                },
+                title: {
+                    text: 'Parent Height vs Child Height'
+                },
+                xAxis: {
+                    tickPositions: [40, 60, 80, 100],
+                    title : {
+                        enabled: true,
+                        text: 'Parent Height (inches)'
+                    },
+                    startOnTick: true,
+                    endOnTick: true,
+                    showLastLabel: true
+                },
+                yAxis: {
+                    title: {
+                        text: 'Child Height (inches)'
+                    }
+                },
+
+                tooltip: {
+                  enabled: false
+                },
+
+                legend: {
+                  enabled: false
+                },
+
+                plotOptions: {
+                    scatter: {
+             marker: {
+                radius: 3,
+                states: {
+                   hover: {
+                      enabled: true,
+                      radiusPlus:10,
+                      lineColor: 'rgb(100,100,100)'
+
+                   }
+                }
+             },
+             states: {
+                hover: {
+                   marker: {
+                      enabled: false
+                   }
+                }
+             }
+            },
+
+                    series: {
+                        allowPointSelect: true,
+                        point: {
+                            events: {
+                                mouseOver: function() {
+                                    //console.log("this.sharks");
+
+                                    //console.log(this.sharks);
+
                                 const x = that.sharks.series[0].data.find(p => p.x === this.x);
-                                x.onMouseOver();
+                                if(x){x.onMouseOver();}
                                 const y = that.icecream.series[0].data.find(p => p.x === this.y);
-                                y.onMouseOver();
+                                if(y){
+                                    y.onMouseOver();
+                                }
+                                }
                             }
                         }
                     }
-                }
-            },
-            series: [jointSeries]
-        });
-    }
+                },
+                series: [jointSeries]
+            });
+
+            this.setState({stage : 1});
+
+
+        }else{ //if updating
+	               this.sharks.update({
+                   series:
+                      [sharkSeries]
+                 });
+
+       	            this.icecream.update({
+                    series:  [icecreamSeries]
+                          });
+
+
+                    this.joint.update({
+                        plotOptions: {
+                            scatter: {
+                     marker: {
+                        radius: 3,
+                        states: {
+                           hover: {
+                              enabled: true,
+                              radiusPlus:10,
+                              lineColor: 'rgb(100,100,100)'
+
+                           }
+                        }
+                     },
+                     states: {
+                        hover: {
+                           marker: {
+                              enabled: false
+                           }
+                        }
+                     }
+                    },
+
+                            series: {
+                                allowPointSelect: true,
+                                point: {
+                                    events: {
+                                        mouseOver: function() {
+                                            //console.log("this.sharks");
+
+                                            //console.log(this.sharks);
+
+                                        const x = that.sharks.series[0].data.find(p => p.x === this.x);
+                                        if(x){x.onMouseOver();}
+
+                                        const y = that.icecream.series[0].data.find(p => p.x === this.y);
+                                        if(y){
+                                            y.onMouseOver();
+                                        }
+
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    series:
+                        [jointSeries]
+                     });
+}}
+
+
 
     findMax(){
       const firstSD = this.state.sharkSD;
