@@ -27,7 +27,9 @@ class OmmittedVariable extends Component {
         delta: 3,
         cov: 0,
         covStr:'0',
-        corr:0
+        corr:0.8,
+        corr_shown:0.8,
+        cov_shown:0
       }
     }
 
@@ -75,7 +77,7 @@ class OmmittedVariable extends Component {
                         <InputGroupAddon addonType="prepend">
                         </InputGroupAddon>
                         <Input
-                            value={this.state.correlation}
+                            value={this.state.corr_shown}
                             type="range"
                             className="custom-range"
                             step={.1}
@@ -83,25 +85,28 @@ class OmmittedVariable extends Component {
                             max={1}
                             onChange={(event) => {
                                 //Avoid extreme value errors
-                                var corrPro=0;
+
                                 if(event.target.value===1){
-                                    corrPro = 0.9;
-                                    console.log(corrPro);
+                                    this.setState({corr : 0.9999});
+
                                 }else if(event.target.value===-1){
-                                    corrPro = -0.9;
-                                    console.log(corrPro);
+
+                                    this.setState({corr : -0.9999});
                                 }else{
-                                    corrPro = event.target.value;
+                                    this.setState({corr : event.target.value});
                                 }
 
-                                this.setState({corr : parseFloat(corrPro)});
-                                this.setState({cov : parseFloat(corrPro*(Math.sqrt(stdX * stdY)))});
-                                this.setState({covStr : parseFloat(corrPro*(Math.sqrt(stdX * stdY))).toFixed(1)});
+                                this.setState({corr_shown : parseFloat(event.target.value)});
+
+
+                                this.setState({cov : parseFloat(this.state.corr*(Math.sqrt(stdX * stdY)))});
+
+                                this.setState({covStr : parseFloat(this.state.corr_shown*(Math.sqrt(stdX * stdY))).toFixed(1)});
 
                               }}
                         />
                         <InputGroupAddon addonType="append">
-                        <InputGroupText>{this.state.corr}</InputGroupText>
+                        <InputGroupText>{this.state.corr_shown}</InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
 
@@ -155,6 +160,9 @@ class OmmittedVariable extends Component {
 
 
     generate(stage) {
+        console.log("corrPro ccc");
+
+        console.log(this.state.corr);
         const meanVector = [5, 2];
 
         // covariance between dimensions. This examples makes the first and third
