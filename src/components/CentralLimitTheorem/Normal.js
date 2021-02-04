@@ -265,7 +265,7 @@ class Normal extends React.Component {
                                                         population={this.state.popArray}
                                                         popType={this.state.popType}
                                                         sample={(means) => {
-                                                            console.log('means', means);
+                                                            //console.log('means', means);
                                                             this.updateSampleMeansFromArray(means);
                                                             this.setState({disableSample : true});
                                                         }}

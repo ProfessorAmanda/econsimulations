@@ -13,7 +13,9 @@ let xvalue = [];
 class Uniform extends React.Component {
     constructor(props){
         super(props);
+
         this.state = {
+          popDict:[],
             numberResamples : {
                 "Normal": 0,
                 "Uniform": 0,
@@ -28,6 +30,9 @@ class Uniform extends React.Component {
                 "Chi-Squared": 0,
                 "Mystery": 0
             },
+
+            clearedArray: [],
+
             sampleMean: [],
             sampled: [],
             mainSampleSize: this.props.mainSampleSize,
@@ -37,8 +42,11 @@ class Uniform extends React.Component {
             disableSample : false,
             popType: 'Uniform'
         }
+
         this.handleInputSampleSize = this.handleInputSampleSize.bind(this);
+
         this.changeStage = this.changeStage.bind(this);
+        this.sum = this.sum.bind(this);
     }
 
     handleInputSampleSize(event){
@@ -49,6 +57,16 @@ class Uniform extends React.Component {
 
     changeStage(stage) {
         this.setState({stage: stage});
+    }
+
+    sum(pop){
+        let val = 0
+        for (const i of pop){
+            if (i){
+                val += i
+            }
+        }
+        return val;
     }
 
     generateUniform(){
@@ -92,26 +110,27 @@ class Uniform extends React.Component {
         return popArray;
     }
 
-    sample(size, popArray) {
-        const sampled = []
 
-        while (sampled.length < size){
-            // index to sample ?
-            const r = Math.round(Math.random() * (popArray.length - 1))
-            let shouldSample = true;
-            for (let i = 0; i < sampled.length; i++){
-                if (sampled[i][0] === r) {
-                    shouldSample = false;
-                }
-            }
-            if (shouldSample) {
-                // only pushes if shouldSample is true
-                sampled.push(popArray[r]);
-            }
-        }
+  sample(size, popArray) {
+      const sampled = []
 
-        return { pop: sampled, mue: Math.round(math.mean(sampled.map(p => p[0])) * 100)/100 };
-    }
+      while (sampled.length < size){
+          // index to sample ?
+          const r = Math.round(Math.random() * (popArray.length - 1))
+          let shouldSample = true;
+          for (let i = 0; i < sampled.length; i++){
+              if (sampled[i][0] === r) {
+                  shouldSample = false;
+              }
+          }
+          if (shouldSample) {
+              // only pushes if shouldSample is true
+              sampled.push(popArray[r]);
+          }
+      }
+
+      return { pop: sampled, mue: Math.round(math.mean(sampled.map(p => p[0])) * 100)/100 };
+  }
 
     updateSampleMeansFromArray(means){
         let sampleMeans = this.state.sampleMean;
@@ -134,9 +153,12 @@ class Uniform extends React.Component {
         this.setState({
             stage: 1
         })
+
+
     }
 
     render() {
+
         return (
             <div>
                 <Collapsable
@@ -144,11 +166,12 @@ class Uniform extends React.Component {
                     changeStage={this.changeStage}
                     parentStage={this.state.stage}
                 >
-                  <div>
+                    <div>
                         {
                             this.state.stage >= 1 ?
                                 <div>
                                     <div>
+
                                     <ChartContainer
                                         popArray={this.state.popArray}
                                         popMean={this.state.popMean}
@@ -156,6 +179,7 @@ class Uniform extends React.Component {
                                         popType={'Uniform'}
                                         mainSampleSize={this.state.mainSampleSize}
                                         />
+
 
                                     <Button
                                         color="success"
@@ -284,5 +308,4 @@ class Uniform extends React.Component {
         )
     }
 }
-
 export default Uniform;

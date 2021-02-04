@@ -90,13 +90,14 @@ class JointSimple extends Component {
             <Container fluid>
                 <Row>
                     <Col>
-                        <ParentInput cov={this.state.covariance} sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD} saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
+                        <ParentInput cov={this.state.covariance} sharkMean={this.state.meanVector[0]} sharkSD={this.state.sharkSD}
+                        saveMean={(event) => {this.setState({meanVector: [parseFloat(event.target.value)].concat(this.state.meanVector[1])})}}
                         saveSD={(sd) => {
                             this.setState({sharkSD : sd});
                             this.setState({covariance : parseFloat(this.state.correlation*(sd * this.state.iceSD))});
                             const copy = this.state.covMatrix;
                             const variance = Math.pow(sd,2);
-                            const temp = [[variance,this.state.covariance],[this.state.covariance,copy[1][1]]];
+                            const temp = [[variance,parseFloat(this.state.correlation*(sd * this.state.iceSD))],[parseFloat(this.state.correlation*(sd * this.state.iceSD)),copy[1][1]]];
 
 
                             this.setState({covMatrix : temp});
@@ -112,7 +113,7 @@ class JointSimple extends Component {
                         this.setState({covariance : parseFloat(this.state.correlation*(this.state.sharkSD * sd))});
                         const copy = this.state.covMatrix;
                         const variance = Math.pow(sd,2);
-                        const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,variance]];
+                        const temp = [[copy[0][0],parseFloat(this.state.correlation*(this.state.sharkSD * sd))],[parseFloat(this.state.correlation*(this.state.sharkSD * sd)),variance]];
 
 
                         this.setState({covMatrix : temp});
@@ -251,10 +252,14 @@ class JointSimple extends Component {
 
         this.setState({covMatrix : temp});
 
-        if (this.state.covMatrix[0][1] !== this.state.covMatrix[1][0]) {
-          //alert("these gotta be the same yo");
-          return;
-        }
+        console.log("this.state.covMatrix check");
+
+        console.log(this.state.covMatrix);
+
+        // if (this.state.covMatrix[0][1] !== this.state.covMatrix[1][0]) {
+        //   //alert("these gotta be the same yo");
+        //   return;
+        // }
 
         // lets you sample from distribution
         const distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
@@ -275,6 +280,8 @@ class JointSimple extends Component {
         // }
 
         // building dictionary for histogram
+
+
         for (const i of rawSharks){
             const sharkFreq = Math.round(i * 100) / 100;
             if (sharkDict[sharkFreq]){
