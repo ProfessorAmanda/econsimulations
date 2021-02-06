@@ -21,10 +21,10 @@ function ParentInput(props){
         <InputGroupAddon addonType='prepend'>Parent Height SD:</InputGroupAddon>
         <Input type="number" className="slider" min={1} max={7} value={props.sharkSD} onChange={(event) => {
           // const variance = parseFloat(event.target.value)*parseFloat(event.target.value);
-          var sd = parseFloat(event.target.value);
-          if (sd > 6) {
-            sd = 6;
-        }
+         var sd = parseFloat(event.target.value);
+        //   if (sd > 6) {
+        //     sd = 6;
+        // }
           // const temp = [[variance,copy[0][1]],copy[1]];
           props.saveSD(sd);
           //this.setState({sharkSD : sd});
@@ -51,12 +51,10 @@ function ChildInput(props){
 
     <InputGroup>
         <InputGroupAddon addonType='prepend'>Child Height SD: </InputGroupAddon>
-        <Input type="number" className="slider" min={1} max={6} value={props.iceSD} onChange={(event) => {
+        <Input type="number" className="slider" min={1} max={7} value={props.iceSD} onChange={(event) => {
             //const copy = this.state.covMatrix;
             var sd = parseFloat(event.target.value);
-            if (sd > 6) {
-                sd = 6;
-            }
+
           //const temp = [copy[0],[copy[1][0],variance]];
           props.saveSD(sd);
           //this.setState({covMatrix : temp});
@@ -72,7 +70,7 @@ class JointSimple extends Component {
         super(props);
         this.state = {
             meanVector : [70,70],
-            covMatrix : [[1,1], [1,1]],
+            covMatrix : [[1,0],[0,1]],
             sharkSD : 1,
             iceSD : 1,
             covariance : 0,
@@ -97,10 +95,10 @@ class JointSimple extends Component {
                             this.setState({covariance : parseFloat(this.state.correlation*(sd * this.state.iceSD))});
                             const copy = this.state.covMatrix;
                             const variance = Math.pow(sd,2);
-                            const temp = [[variance,parseFloat(this.state.correlation*(sd * this.state.iceSD))],[parseFloat(this.state.correlation*(sd * this.state.iceSD)),copy[1][1]]];
+                            //const temp = [[variance,parseFloat(this.state.correlation*(sd * this.state.iceSD))],[parseFloat(this.state.correlation*(sd * this.state.iceSD)),copy[1][1]]];
 
 
-                            this.setState({covMatrix : temp});
+                            //this.setState({covMatrix : temp});
 
 
                         }}/>
@@ -113,12 +111,12 @@ class JointSimple extends Component {
                         this.setState({covariance : parseFloat(this.state.correlation*(this.state.sharkSD * sd))});
                         const copy = this.state.covMatrix;
                         const variance = Math.pow(sd,2);
-                        const temp = [[copy[0][0],parseFloat(this.state.correlation*(this.state.sharkSD * sd))],[parseFloat(this.state.correlation*(this.state.sharkSD * sd)),variance]];
+                        //const temp = [[copy[0][0],parseFloat(this.state.correlation*(this.state.sharkSD * sd))],[parseFloat(this.state.correlation*(this.state.sharkSD * sd)),variance]];
 
 
-                        this.setState({covMatrix : temp});
+                        //this.setState({covMatrix : temp});
 
-                        console.log(temp);
+                        //console.log(temp);
                         }}/>
 
                     </Col>
@@ -144,12 +142,12 @@ class JointSimple extends Component {
                               // console.log('event.target.value');
                               // console.log(event.target.value);
                               if (event.target.value== 1){
-                                  this.setState({correlation : parseFloat(0.99)});
-                              }else if (event.target.value==-1){
-                                  this.setState({correlation : parseFloat(-0.99)});
-                              }else{
-                                  this.setState({correlation : event.target.value});
+                                  this.setState({correlation : parseFloat(0.999999)});
                               }
+                             else{
+                               this.setState({correlation : event.target.value});
+                              }
+                              //this.setState({correlation : event.target.value});
 
 
 
@@ -160,10 +158,10 @@ class JointSimple extends Component {
                               this.setState({covariance_shown : parseFloat(event.target.value*(this.state.sharkSD * this.state.iceSD))});
                               const copy = this.state.covMatrix;
 
-                              const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
+                              //const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
                               console.log("corr check");
                               console.log(this.state.correlation);
-                              this.setState({covMatrix : temp});
+                              //this.setState({covMatrix : temp});
                             }}
                       />
 
@@ -248,13 +246,17 @@ class JointSimple extends Component {
 
 
         const copy = this.state.covMatrix;
-        const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
+        //const temp = [[copy[0][0],this.state.covariance],[this.state.covariance,copy[1][1]]];
+        const cov = this.state.correlation * this.state.sharkSD *this.state.iceSD;
 
-        this.setState({covMatrix : temp});
+        const temp = [[Math.pow(this.state.sharkSD,2), cov],[cov,Math.pow(this.state.iceSD,2) ]];
 
+
+        //this.setState({covMatrix : temp});
+        console.log(this.state.correlation);
         console.log("this.state.covMatrix check");
 
-        console.log(this.state.covMatrix);
+        console.log(temp);
 
         // if (this.state.covMatrix[0][1] !== this.state.covMatrix[1][0]) {
         //   //alert("these gotta be the same yo");
@@ -262,7 +264,7 @@ class JointSimple extends Component {
         // }
 
         // lets you sample from distribution
-        const distribution = MultivariateNormal(this.state.meanVector, this.state.covMatrix);
+        const distribution = MultivariateNormal(this.state.meanVector, temp);
         const series = {data : [], color: '#1F242A ', name:"Population"}
         // samples 1000
         for (let i = 0; i < 500; i++){
@@ -470,6 +472,7 @@ class JointSimple extends Component {
                     showLastLabel: true
                 },
                 yAxis: {
+                    tickPositions: [40, 60, 80, 100],
                     title: {
                         text: 'Child Height (inches)'
                     }
@@ -543,6 +546,7 @@ class JointSimple extends Component {
 
 
                     this.joint.update({
+
                         plotOptions: {
                             scatter: {
                      marker: {
@@ -586,6 +590,17 @@ class JointSimple extends Component {
                                     }
                                 }
                             }
+                        },
+
+                        xAxis: {
+                            tickPositions: [40, 60, 80, 100],
+                            title : {
+                                enabled: true,
+                                text: 'Parent Height (inches)'
+                            },
+                            startOnTick: true,
+                            endOnTick: true,
+                            showLastLabel: true
                         },
                     series:
                         [jointSeries]

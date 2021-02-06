@@ -15,10 +15,10 @@ class JointSimple2 extends Component {
         super(props);
         this.state = {
             meanVector : [70,70],
-            covMatrix : [[1,1], [1,1]],
+            covMatrix : [],
             sharkSD : 1,
             iceSD : 1,
-            covariance : 1,
+            covariance : 0,
             covariance_shown : 0,
             correlation: 0,
             correlation_shown:0,
@@ -131,7 +131,7 @@ class JointSimple2 extends Component {
 
                               this.setState({correlation_shown : parseFloat(event.target.value)});
                               //this.setState({correlation : parseFloat(tempCorr)});
-                              this.setState({covariance : parseFloat(this.state.correlation*(this.state.sharkSD * this.state.iceSD))});
+                              //this.setState({covariance : parseFloat(this.state.correlation*(this.state.sharkSD * this.state.iceSD))});
                               this.setState({covariance_shown : parseFloat(event.target.value*(this.state.sharkSD * this.state.iceSD))});
                               // const copy = this.state.covMatrix;
                               //
@@ -176,6 +176,9 @@ class JointSimple2 extends Component {
 
         console.log("Matrix Check");
         console.log(this.state.covMatrix);
+        //this.setState({covariance : temp});
+        //this.setState({covMatrix: [[parseFloat(event.target.value)].concat(this.state.covMatrix[0][1]), this.state.covMatrix[1]]});
+
 
         const temp = [[Math.pow(this.state.sharkSD,2), this.state.covariance],[this.state.covariance,Math.pow(this.state.iceSD,2) ]];
         this.setState({covMatrix : temp});
