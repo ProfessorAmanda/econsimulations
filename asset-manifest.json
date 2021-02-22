@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/econ-sims/static/css/main.952a9592.chunk.css",
+    "main.js": "/econ-sims/static/js/main.6392ba33.chunk.js",
+    "main.js.map": "/econ-sims/static/js/main.6392ba33.chunk.js.map",
+    "runtime~main.js": "/econ-sims/static/js/runtime~main.4c4c7ca3.js",
+    "runtime~main.js.map": "/econ-sims/static/js/runtime~main.4c4c7ca3.js.map",
+    "static/css/2.1e66eaca.chunk.css": "/econ-sims/static/css/2.1e66eaca.chunk.css",
+    "static/js/2.d542e29a.chunk.js": "/econ-sims/static/js/2.d542e29a.chunk.js",
+    "static/js/2.d542e29a.chunk.js.map": "/econ-sims/static/js/2.d542e29a.chunk.js.map",
+    "index.html": "/econ-sims/index.html",
+    "precache-manifest.592f88d54eb8b580a14f521b664ea66d.js": "/econ-sims/precache-manifest.592f88d54eb8b580a14f521b664ea66d.js",
+    "service-worker.js": "/econ-sims/service-worker.js",
+    "static/css/2.1e66eaca.chunk.css.map": "/econ-sims/static/css/2.1e66eaca.chunk.css.map",
+    "static/css/main.952a9592.chunk.css.map": "/econ-sims/static/css/main.952a9592.chunk.css.map",
+    "static/media/App.css": "/econ-sims/static/media/bg.092239b8.png",
+    "static/media/clt.png": "/econ-sims/static/media/clt.97a1b4bd.png",
+    "static/media/jd.jpg": "/econ-sims/static/media/jd.21417d9f.jpg",
+    "static/media/lln.png": "/econ-sims/static/media/lln.9ccd6e4f.png",
+    "static/media/ovs.png": "/econ-sims/static/media/ovs.b5002431.png"
+  }
+}
