@@ -27,8 +27,8 @@ class OmmittedVariable extends Component {
         delta: 3,
         cov: 0,
         covStr:'0',
-        corr:0.8,
-        corr_shown:0.8,
+        corr:0,
+        corr_shown:0,
         cov_shown:0
       }
     }
