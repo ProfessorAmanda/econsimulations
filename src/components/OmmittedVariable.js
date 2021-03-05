@@ -80,7 +80,7 @@ class OmmittedVariable extends Component {
                             value={this.state.corr_shown}
                             type="range"
                             className="custom-range"
-                            step={.01}
+                            step={.1}
                             min={-1}
                             max={1}
                             onChange={(event) => {
@@ -88,12 +88,12 @@ class OmmittedVariable extends Component {
  
                                 if(event.target.value===1){
                                    
-                                    this.setState({corr : 0.99});
-                                    this.setState({cov : 0.99*(stdX * stdY)});
+                                    this.setState({corr : 0.9});
+                                    this.setState({cov : 0.9*(stdX * stdY)});
                                 
                                 }else if(event.target.value===-1){
-                                    this.setState({corr : -0.99});
-                                    this.setState({cov : -0.99*(stdX * stdY)});
+                                    this.setState({corr : -0.9});
+                                    this.setState({cov : -0.9*(stdX * stdY)});
                                 }else{
                                     this.setState({corr : event.target.value});
                                     this.setState({cov : event.target.value*(stdX * stdY)});
