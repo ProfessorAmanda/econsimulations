@@ -86,9 +86,9 @@ class OmmittedVariable extends Component {
                             onChange={(event) => {
                                 //Avoid extreme value errors
  
-                                if(event.target.value===1){
+                                if(event.target.value===1.00){
                                     this.setState({cov : 0.99*(stdX * stdY)});
-                                }else if(event.target.value===-1){
+                                }else if(event.target.value===-1.00){
                                     this.setState({cov : -0.99*(stdX * stdY)});
                                 }else{
                                     this.setState({cov : event.target.value*(stdX * stdY)});
@@ -159,9 +159,9 @@ class OmmittedVariable extends Component {
         console.log(this.state.corr);
         const meanVector = [5, 2];
 
-        if(this.state.corr===1){
+        if(this.state.corr===1.00){
         this.setState({cov : 0.99*(stdX * stdY)});
-        }else if(this.state.corr===-1) {
+        }else if(this.state.corr===-1.00) {
         this.setState({cov : -0.99*(stdX * stdY)});
         }
         
