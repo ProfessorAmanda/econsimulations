@@ -81,8 +81,8 @@ class OmmittedVariable extends Component {
                             type="range"
                             className="custom-range"
                             step={.01}
-                            min={-1}
-                            max={1}
+                            min={-0.99}
+                            max={0.99}
                             onChange={(event) => {
                                 //Avoid extreme value errors
  
