@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/econsimulations/static/css/main.14c36e27.chunk.css",
-    "main.js": "/econsimulations/static/js/main.31bbb255.chunk.js",
-    "main.js.map": "/econsimulations/static/js/main.31bbb255.chunk.js.map",
+    "main.js": "/econsimulations/static/js/main.0fe526c6.chunk.js",
+    "main.js.map": "/econsimulations/static/js/main.0fe526c6.chunk.js.map",
     "runtime~main.js": "/econsimulations/static/js/runtime~main.4bc5661a.js",
     "runtime~main.js.map": "/econsimulations/static/js/runtime~main.4bc5661a.js.map",
     "static/css/2.1e66eaca.chunk.css": "/econsimulations/static/css/2.1e66eaca.chunk.css",
     "static/js/2.d542e29a.chunk.js": "/econsimulations/static/js/2.d542e29a.chunk.js",
     "static/js/2.d542e29a.chunk.js.map": "/econsimulations/static/js/2.d542e29a.chunk.js.map",
     "index.html": "/econsimulations/index.html",
-    "precache-manifest.2cc55c9cbaa2526d726c58cbcfef9485.js": "/econsimulations/precache-manifest.2cc55c9cbaa2526d726c58cbcfef9485.js",
+    "precache-manifest.0f9d2157eea2464854c66efd70077c9a.js": "/econsimulations/precache-manifest.0f9d2157eea2464854c66efd70077c9a.js",
     "service-worker.js": "/econsimulations/service-worker.js",
     "static/css/2.1e66eaca.chunk.css.map": "/econsimulations/static/css/2.1e66eaca.chunk.css.map",
     "static/css/main.14c36e27.chunk.css.map": "/econsimulations/static/css/main.14c36e27.chunk.css.map",

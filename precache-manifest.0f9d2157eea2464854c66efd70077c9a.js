@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "12fd6a6c095053cacc66e9870223e5fa",
+    "revision": "69ec2f88c8b65f602f69e3475861f41f",
     "url": "/econsimulations/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/econsimulations/static/css/2.1e66eaca.chunk.css"
   },
   {
-    "revision": "2f139d87554b80b4ebfe",
+    "revision": "0385c1088d522a52535d",
     "url": "/econsimulations/static/css/main.14c36e27.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/econsimulations/static/js/2.d542e29a.chunk.js"
   },
   {
-    "revision": "2f139d87554b80b4ebfe",
-    "url": "/econsimulations/static/js/main.31bbb255.chunk.js"
+    "revision": "0385c1088d522a52535d",
+    "url": "/econsimulations/static/js/main.0fe526c6.chunk.js"
   },
   {
     "revision": "3e85759a3ede8ae17377",
