@@ -99,7 +99,7 @@ class OmmittedVariable extends Component {
                                 this.setState({corr_shown : parseFloat(event.target.value)});
 
 
-                                this.setState({cov : parseFloat(event.target.value*(stdX * stdY))});
+                                this.setState({cov : parseFloat(this.state.corr*(stdX * stdY))});
 
                                 this.setState({covStr : parseFloat(event.target.value*(stdX * stdY)).toFixed(1)});
 
