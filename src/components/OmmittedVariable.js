@@ -88,17 +88,17 @@ class OmmittedVariable extends Component {
  
                                 if(event.target.value===1){
                                    
-                                    this.setState({corr : 0.99});
-                                    this.setState({cov : 0.99*(stdX * stdY)});
+                                    this.setState({corr : 0.9999});
+                                    this.setState({cov : 0.9999*(stdX * stdY)});
                                 
                                 }else if(event.target.value===-1){
-                                    this.setState({corr : -0.99});
-                                    this.setState({cov : -0.99*(stdX * stdY)});
+                                    this.setState({corr : -0.9999});
+                                    this.setState({cov : -0.9999*(stdX * stdY)});
                                 }else{
                                     this.setState({corr : event.target.value});
                                     this.setState({cov : event.target.value*(stdX * stdY)});
                                 }
-
+                                console.log(this.state.corr);
                                 this.setState({corr_shown : parseFloat(event.target.value)});
 
                                 this.setState({covStr : parseFloat(event.target.value*(stdX * stdY)).toFixed(1)});
