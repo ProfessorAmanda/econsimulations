@@ -86,6 +86,7 @@ class OmmittedVariable extends Component {
                             onChange={(event) => {
                                 //Avoid extreme value errors
 
+                               /*       
                                 if(event.target.value===1){
                                     this.setState({corr : 0.9999});
 
@@ -95,11 +96,11 @@ class OmmittedVariable extends Component {
                                 }else{
                                     this.setState({corr : event.target.value});
                                 }
-
+                                */
                                 this.setState({corr_shown : parseFloat(event.target.value)});
 
 
-                                this.setState({cov : parseFloat(this.state.corr*(stdX * stdY))});
+                                this.setState({cov : parseFloat(event.target.value*(stdX * stdY))});
 
                                 this.setState({covStr : parseFloat(event.target.value*(stdX * stdY)).toFixed(1)});
 
