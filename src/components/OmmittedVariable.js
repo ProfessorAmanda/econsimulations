@@ -165,9 +165,9 @@ class OmmittedVariable extends Component {
         const meanVector = [5, 2];
 
         if(this.state.corr===1){
-        this.setState({corr : 0.99});
+        this.setState({cov : 0.99*(stdX * stdY)});
         }else if(this.state.corr===-1) {
-        this.setState({corr : 0.-99});
+        this.setState({cov : -0.99*(stdX * stdY)});
         }
         
         // covariance between dimensions. This examples makes the first and third
