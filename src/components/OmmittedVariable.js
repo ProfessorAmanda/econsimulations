@@ -80,7 +80,7 @@ class OmmittedVariable extends Component {
                             value={this.state.corr_shown}
                             type="range"
                             className="custom-range"
-                            step={.1}
+                            step={.01}
                             min={-1}
                             max={1}
                             onChange={(event) => {
@@ -88,19 +88,18 @@ class OmmittedVariable extends Component {
  
                                 if(event.target.value===1){
                                    
-                                    this.setState({corr : 0.9});
-                                    this.setState({cov : 0.9*(stdX * stdY)});
+                                    this.setState({corr : 0.99});
+                                    this.setState({cov : 0.99*(stdX * stdY)});
                                 
                                 }else if(event.target.value===-1){
-                                    this.setState({corr : -0.9});
-                                    this.setState({cov : -0.9*(stdX * stdY)});
+                                    this.setState({corr : -0.99});
+                                    this.setState({cov : -0.99*(stdX * stdY)});
                                 }else{
                                     this.setState({corr : event.target.value});
                                     this.setState({cov : event.target.value*(stdX * stdY)});
                                 }
                                 console.log(this.state.corr);
                                 this.setState({corr_shown : parseFloat(event.target.value)});
-
                                 this.setState({covStr : parseFloat(event.target.value*(stdX * stdY)).toFixed(1)});
 
                               }}
@@ -165,6 +164,12 @@ class OmmittedVariable extends Component {
         console.log(this.state.corr);
         const meanVector = [5, 2];
 
+        if(this.state.corr===1){
+        this.setState({corr : 0.99});
+        }else if(this.state.corr===-1) {
+        this.setState({corr : 0.-99});
+        }
+        
         // covariance between dimensions. This examples makes the first and third
         // dimensions highly correlated, and the second dimension independent.
         const covarianceMatrix = [
