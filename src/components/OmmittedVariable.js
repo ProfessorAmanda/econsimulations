@@ -169,8 +169,8 @@ class OmmittedVariable extends Component {
         // dimensions highly correlated, and the second dimension independent.
         const covarianceMatrix = [
 
-            [stdX, this.state.cov],
-            [this.state.cov, stdY]
+            [stdX*stdX, this.state.cov],
+            [this.state.cov, stdY*stdY]
         ];
         //std : genhao 3 genhao 6
 
