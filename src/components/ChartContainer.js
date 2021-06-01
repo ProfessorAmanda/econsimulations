@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../dark-unica.css';
+import '../styles/dark-unica.css';
 import Highcharts from 'highcharts';
 import 'highcharts/modules/annotations';
 import { Alert, Container, Col, Row } from 'reactstrap';

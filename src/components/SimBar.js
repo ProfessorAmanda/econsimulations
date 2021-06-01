@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Button, Card, CardText } from 'reactstrap';
 import { Row, Col} from 'reactstrap';
 
-import clt from '../clt.png';
-import lln from '../lln.png';
-import jd from '../jd.jpg';
-import ls from '../ls.png';
-import ovs from '../ovs.png';
+import clt from '../images/clt.png';
+import lln from '../images/lln.png';
+import jd from '../images/jd.jpg';
+import ls from '../images/ls.png';
+import ovs from '../images/ovs.png';
 
 
 
