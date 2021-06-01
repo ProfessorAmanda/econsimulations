@@ -40,7 +40,7 @@ class SampleArea extends Component {
                                 this.setState({
                                     popMean: mue
                                 });
-                                this.props.setmean(mue);
+                                this.props.setMean(mue);
                             }}> Sample </Button>
 
                     </Row>
@@ -56,7 +56,7 @@ class SampleArea extends Component {
             this.setState({
                 popMean: mue
             });
-            this.props.setmean(mue);
+            this.props.setMean(mue);
             this.props.redraw();
         }
     }

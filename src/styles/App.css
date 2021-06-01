@@ -318,3 +318,20 @@ a:not([href]):not([tabindex]):hover {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.simBarOptionList {
+  list-style-type: none;
+}
+
+.simOption {
+  margin: 40px;
+}
+
+.simDescription {
+  width: 90%;
+  margin: auto;
+}
+
+.buttonGroup {
+  padding: 15px;
+}

@@ -1,36 +1,13 @@
-import React, { Component } from 'react';
-import './styles/App.css';
-import SimulationContainer from './components/SimulationContainer.js';
+import React from 'react';
+import styles from './styles/App.css';
+import SimulationMenu from './components/SimulationMenu.js';
 
+export default function App() {
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      starting: 0
-    };
-    this.show = this.show.bind(this);
-  }
-
-  show() {
-    this.setState({
-      starting: 0
-    });
-  }
-
-  render() {
-    //setTimeout(this.show, 4000);
-    return (
-      <div>
-        {document.body.classList.add('Wrapper')}
-          { !this.state.starting &&
-            <div>
-              <SimulationContainer/>
-            </div>
-          }
-      </div>
-    );
-  }
+  return (
+    <div>
+      {document.body.classList.add('Wrapper')}
+      <SimulationMenu/>
+    </div>
+  );
 }
-
-export default App;

@@ -7,9 +7,9 @@ corresponding to the flow of the app.
 
 -src/APP.js:
  Contains code responsible for initial "Econ Simulations" animation
- Calls on SimulationContainer.js
+ Calls on SimulationMenu.js
 
---src/components/SimulationContainer.js
+--src/components/SimulationMenu.js
   Code calls on 7 other files. It first executes on StartHere.js. Once The
   "start" button is clicked, the program executes SimBar.js and LawOfLargeNumbers.js,
   CentralLimitTheorem.js, JointWrapper.js, LeastSim.js, OmmittedVariable.js, or
