@@ -30,9 +30,6 @@ class CentralLimitTheorem extends Component{
     render() {
         return (
             <div className="MainContainer">
-                <br/>
-                <div className="MiniLogo"></div>
-
                 <Alert style={{ width: "90%", margin: 'auto' }} color="primary">
                     Central Limit Theorem
                 </Alert>
