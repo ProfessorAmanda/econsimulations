@@ -1,5 +1,12 @@
-import React from 'react';
+/*
 
+  Displays a menu with all the simulations and allows the user to click to start them
+
+  props:
+    setSection - callback function
+
+*/
+import React from 'react';
 import clt from '../images/clt.png';
 import lln from '../images/lln.png';
 import jd from '../images/jd.jpg';

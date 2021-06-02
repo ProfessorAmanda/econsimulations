@@ -1,3 +1,12 @@
+/*
+
+  Displays the introduction to the website and the start button
+
+  props:
+    start   - boolean
+    showApp - callback
+*/
+
 import React from 'react';
 import { Button, Fade } from 'reactstrap';
 

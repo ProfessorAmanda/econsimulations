@@ -42,8 +42,6 @@ class SampleMeanChart extends Component {
         this.show();
     }
     show(){
-        console.log("samplesizeBefore ");
-        console.log(this.props.sampleSize);
         //console.log(this.props.sampleMeans);
         const sampleMeanSeries = {name: "Sample Means", data : []};
         let yMax = 30;
@@ -51,11 +49,9 @@ class SampleMeanChart extends Component {
         let yAxisMeasurement =[];
         // const popMean = Math.round(this.props.mean *4)/4;
         for (const i in this.props.sampleMeans){
-            const val = this.props.normalized === 0 ?
+            const val = !this.props.normalized ?
               Math.round(this.props.sampleMeans[i][1] * 100) / 100
               : Math.round(((this.props.sampleMeans[i][1] - this.props.mean) / (this.props.sd/Math.sqrt(this.props.sampleSize)) )*100)/100;
-              console.log("samplesizeAfter");
-              console.log(this.props.sampleSize);
             let count = 1;
             for (const j of sampleMeanSeries.data){
                 if (Math.round(j[0] * 100) / 100 === val){
@@ -73,7 +69,6 @@ class SampleMeanChart extends Component {
         let xMax;
         let xLabel;
         if(!this.props.normalized){
-          console.log(this.props.type)
           xMin = this.state.values[this.props.type].xminval;
           xMax = this.state.values[this.props.type].xmaxval;
           xLabel = this.state.values[this.props.type].xLabel;

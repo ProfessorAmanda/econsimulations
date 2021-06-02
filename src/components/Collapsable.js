@@ -1,3 +1,11 @@
+/*
+
+  Uses the Collapse element to create a variable-size div for its contents
+
+  props:
+    children - react element
+
+*/
 import React from 'react';
 import Collapse from 'react-collapse';
 import { presets } from 'react-motion';

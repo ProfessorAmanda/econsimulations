@@ -1,6 +1,14 @@
+/*
+
+  A container component for the various simulations
+
+  props:
+    mode    - string
+    setMode - callback function
+*/
 import React from 'react';
-import LawOfLargeNumbers from './LawOfLargeNumbers.js';
-import CentralLimitTheorem from './CentralLimitTheorem.js';
+import LawOfLargeNumbers from './LawOfLargeNumbers/LawOfLargeNumbers.js';
+import CentralLimitTheorem from './CentralLimitTheorem/CentralLimitTheorem.js';
 import JointWrapper from './JointWrapper.js';
 import LeastSim from './LeastSim.js';
 import OmmittedVariable from './OmmittedVariable.js';

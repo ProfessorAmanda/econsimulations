@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import math from "mathjs";
 import Highcharts from "highcharts";
 import { Collapse, Card, CardBody } from 'reactstrap';
-import '../styles/dark-unica.css';
-import '../boost.js';
+import '../../styles/dark-unica.css';
+import '../../boost.js';
 
 class SimulateSamples extends Component {
     constructor(props){

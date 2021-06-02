@@ -46,8 +46,7 @@
     "webworker-threads": "0.7.17"
   },
   "scripts": {
-      "start": "BROWSER='google chrome' react-scripts start",
-
+    "start": "BROWSER='google chrome' react-scripts start",
     "test": "react-scripts test --env=jsdom",
     "build": "react-scripts build",
     "predeploy": "yarn run build",

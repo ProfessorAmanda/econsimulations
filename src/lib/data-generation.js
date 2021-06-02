@@ -1,6 +1,7 @@
 import chi from 'chi-squared';
 
-export const generateNormal = (sampleSize) => {
+// generates a dataset with normal distribution
+export const generateNormal = (sampleSize, xvalue=[]) => {
   const MEAN = 64;
   const STANDARD_DEV = 3;
   const ITERATES = 9;
@@ -31,6 +32,7 @@ export const generateNormal = (sampleSize) => {
       if (point !== -1) {
           for (let count = 1; count < dict[point] + 1; count++) {
               popArray.push([point/10, count]);
+              xvalue.push(point/10);
           }
       }
   }
@@ -40,7 +42,8 @@ export const generateNormal = (sampleSize) => {
   return popArray;
 }
 
-export const generateUniform = (mainSampleSize) => {
+// generates a dataset with uniform distribution
+export const generateUniform = (mainSampleSize, xvalue=[]) => {
   const HI = 10;
   const LOW = -10;
   const range = HI - LOW;
@@ -74,7 +77,8 @@ export const generateUniform = (mainSampleSize) => {
   return popArr;
 }
 
-export const generateExponential = (sampleSize) => {
+// generates a dataset with exponential distribution
+export const generateExponential = (sampleSize, xvalue=[]) => {
   const LAMBDA = 1/64;
 
   const popArray =  [];
@@ -103,8 +107,8 @@ export const generateExponential = (sampleSize) => {
   return popArray;
 }
 
-
-export const generateChiSquared = (sampleSize) => {
+// generates a dataset with chi-squared distribution
+export const generateChiSquared = (sampleSize, xvalue=[]) => {
   const DEGREES_OF_FREEDOM = 8;
   const chiArray = [];
   const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM);
@@ -141,4 +145,108 @@ export const generateChiSquared = (sampleSize) => {
   popArray.sort((a,b) => b[1] - a[1]);
 
   return popArray;
+}
+
+// generates a dataset with 'mystery' distribution
+export const generateMystery = (sampleSize, xvalue=[]) => {
+
+  const popArray = [];
+
+  const firstMEAN = 75.5;
+  const firstSTANDARD_DEV = 3;
+  const firstITERATES = 9;
+  const firstrange = Math.sqrt(12) * firstSTANDARD_DEV * firstSTANDARD_DEV;
+  const firstpopMin = firstMEAN - (firstrange / 2);
+  const secondMEAN = 60.5;
+  const secondSTANDARD_DEV = 2;
+  const secondITERATES = 9;
+  const secondrange = Math.sqrt(12) * secondSTANDARD_DEV * secondSTANDARD_DEV;
+  const secondpopMin = secondMEAN - (secondrange / 2);
+
+  const clearedArray = [];
+  const popDict = [];
+  const newCleared = clearedArray;
+  const stateCopy = popDict;
+
+
+  for (let i = 0; i < sampleSize/2; i++){
+    let sum = 0;
+    if(clearedArray.length === 0){
+        for (let j = 0; j < firstITERATES; j++){
+            sum += Math.random() * firstrange + firstpopMin;
+        }
+    }
+    else{
+        sum = newCleared.pop() * firstITERATES;
+    }
+    if (popDict[Math.round(sum / firstITERATES * 10)]){
+        stateCopy[Math.round(sum / firstITERATES * 10)] += 1
+    }
+    else {
+        stateCopy[Math.round(sum / firstITERATES * 10)] = 1
+    }
+    popArray.push(Math.round((sum / firstITERATES)*100)/100)
+  }
+
+  for (let i = 0; i < sampleSize/2; i++){
+      let sum = 0;
+      if(clearedArray.length === 0){
+          for (let j = 0; j < secondITERATES; j++){
+              sum += Math.random() * secondrange + secondpopMin;
+          }
+      }
+      else{
+          sum = newCleared.pop() * secondITERATES;
+      }
+      if (popDict[Math.round(sum / secondITERATES * 10)]){
+          stateCopy[Math.round(sum / secondITERATES * 10)] += 1
+      }
+      else {
+          stateCopy[Math.round(sum / secondITERATES * 10)] = 1
+      }
+      popArray.push(Math.round((sum / secondITERATES)*100)/100)
+  }
+  if(clearedArray.length > 0){
+    var tempCleared = clearedArray;
+    tempCleared = newCleared;
+    this.setState({clearedArray : tempCleared});
+  }
+
+  const finalPopArray = [];
+
+  let count = Array(sampleSize).fill(-1);
+  for (let i = 0; i < sampleSize; i++){
+
+      let val = popArray[i];
+
+      if (count[Math.round(val * 10)] !== -1){
+          count[Math.round(val * 10)] += 1;
+      }
+      else {
+          count[Math.round(val * 10)] = 1;
+      }
+
+      finalPopArray.push([(Math.round(val * 10)/10), count[Math.round(val * 10)] ])
+      xvalue.push((Math.round(val * 10)/10))
+  }
+
+  finalPopArray.sort(() => Math.random() - 0.5);
+  finalPopArray.sort((a,b) => b[1] - a[1]);
+
+  return finalPopArray
+}
+
+
+
+// returns the data set from the function corresponding with distType
+export const dataFromDistribution = (distType, sampleSize, xvalue=[]) => {
+  const getDistributionFunction = {
+    "Normal": () => generateNormal(sampleSize, xvalue),
+    "Uniform": () => generateUniform(sampleSize, xvalue),
+    "Exponential": () => generateExponential(sampleSize, xvalue),
+    "Chi-Squared": () => generateChiSquared(sampleSize, xvalue),
+    "Mystery": () => generateMystery(sampleSize, xvalue)
+  }
+
+  return getDistributionFunction[distType]();
 }

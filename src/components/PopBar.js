@@ -1,3 +1,10 @@
+/*
+  Allows the user to select simulation variations
+
+  props:
+    sim     - string
+    setPop  - callback
+*/
 import React, { useState } from 'react';
 import { Button} from 'reactstrap';
 

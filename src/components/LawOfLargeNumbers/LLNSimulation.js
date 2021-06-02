@@ -1,40 +1,50 @@
-import React, { useState } from 'react';
-import Collapsable from './Collapsable.js';
-import ChartContainer from './ChartContainer.js';
-import SampleSizeInput from './SampleSizeInput.js';
+/*
+
+  Displays one of the LLN simulations
+
+  props:
+    popType     - string
+    sampleSize  - int
+
+*/
+import React, { useEffect, useState } from 'react';
+import Collapsable from '../Collapsable.js';
+import ChartContainer from '../ChartContainer.js';
+import SampleSizeInput from '../SampleSizeInput.js';
 import SimulateSamples from './SimulateSamples.js';
 import { Alert } from 'reactstrap';
-import { populationMean, sample, differenceOfMeans } from "../lib/stats-utils.js";
-import { generateChiSquared, generateExponential, generateNormal, generateUniform } from '../lib/data-generation.js';
+import { populationMean, sample, differenceOfMeans } from "../../lib/stats-utils.js";
+import { dataFromDistribution } from '../../lib/data-generation.js';
 
 export default function LLNSimulation({ popType, sampleSize }) {
   const [sampled, setSampled] = useState([]);
-  const [expand, setExpand] = useState(false);
+  const [stage, setStage] = useState(1);
   const [sampleMean, setSampleMean] = useState(0);
+  const [popArray, setPopArray] = useState([]);
+  const [popMean, setPopMean] = useState(0);
 
-  const dataFromDistribution = {
-    "Normal": () => generateNormal(sampleSize),
-    "Uniform": () => generateUniform(sampleSize),
-    "Exponential": () => generateExponential(sampleSize),
-    "Chi-Squared": () => generateChiSquared(sampleSize)
-  }
-
-  const popArray = dataFromDistribution[popType]();
-  const popMean = populationMean(popArray);
+  useEffect(() => {
+    setStage(1);
+    const newPop = dataFromDistribution(popType, sampleSize);
+    setPopArray(newPop);
+    const newMean = populationMean(newPop);
+    setPopMean(newMean);
+    setSampled([]);
+  }, [popType, sampleSize]);
 
   const handleClick = (size) => {
     const sampleObject = sample(size, popArray);
     setSampled(sampleObject.pop);
     setSampleMean(sampleObject.mue);
-    setExpand(true);
+    setStage(2);
   }
 
   return (
     <Collapsable>
       <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType} mainSampleSize={sampleSize}/>
-      <p> Try a few different sample sizes and compare sample mean to population mean </p>
+      <p>Try a few different sample sizes and compare sample mean to population mean</p>
       <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
-      {expand &&
+      {(stage >= 2) &&
         <div>
           <Alert color="success" style={{ padding: 0, marginTop: '1em' }}>
             Sample Mean: {sampleMean || ''}
