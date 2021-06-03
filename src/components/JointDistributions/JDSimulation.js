@@ -121,7 +121,7 @@ export default function JDSimulation() {
               onChange={(event) => changeSlider(event.target.value)}
             />
             <InputGroupAddon addonType="append">
-              <InputGroupText style={{ width: "50px", margin: "auto", height: "30px" }}>{correlation}</InputGroupText>
+              <InputGroupText className="inputGroupAppend">{correlation}</InputGroupText>
             </InputGroupAddon>
           </InputGroup>
           <p style={{ margin: "15px" }}>Covariance</p>

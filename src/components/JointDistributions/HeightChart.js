@@ -36,7 +36,9 @@ export default function HeightChart({ heightData, title, xLabel, yLabel, color }
         }
       },
       tooltip: {
-        enabled: false
+        headerFormat: "",
+        pointFormat: `${xLabel}: {point.x:.2f}<br/>${yLabel}: {point.y}`,
+        hideDelay: 100
       },
       plotOptions: {
         scatter: {

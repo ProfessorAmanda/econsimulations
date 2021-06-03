@@ -25,16 +25,20 @@ export default function JointChart({ data, title, xLabel, yLabel, color}) {
         },
         startOnTick: true,
         endOnTick: true,
-        showLastLabel: true
+        showLastLabel: true,
+        crosshair: true
       },
       yAxis: {
         tickPositions: [40, 60, 80, 100],
         title: {
           text: yLabel
-        }
+        },
+        crosshair: true
       },
       tooltip: {
-        enabled: false
+        headerFormat: "",
+        pointFormat: `${xLabel}: {point.x:.2f}<br/>${yLabel}: {point.y:.2f}`,
+        hideDelay: 100
       },
       legend: {
         enabled: false

@@ -335,3 +335,9 @@ a:not([href]):not([tabindex]):hover {
 .buttonGroup {
   padding: 15px;
 }
+
+
+.inputGroupAppend {
+  width: fit-content;
+  justify-content: center;
+}

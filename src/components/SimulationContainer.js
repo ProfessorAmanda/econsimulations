@@ -16,6 +16,7 @@ import ConfidenceIntervals from './ConfidenceIntervals.js'
 import HypothesisTestingNew from './HypothesisTestingNew.js'
 import StartHere from './StartHere';
 import { Button } from 'reactstrap';
+import LeastSquares from './LeastSquares/LeastSquares.js';
 
 export default function SimulationContainer({ mode, setMode }) {
   return (
@@ -25,7 +26,7 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Law of Large Numbers' && <LawOfLargeNumbers/>}
       {mode === 'Central Limit Theorem' && <CentralLimitTheorem/>}
       {mode === 'Joint Distributions' && <JointDistributions/>}
-      {mode === 'Least Squares' && <LeastSim/>}
+      {mode === 'Least Squares' && <LeastSquares/>}
       {mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
       {mode === 'Start Here' && <StartHere/>}
       {mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
