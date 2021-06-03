@@ -1,7 +1,7 @@
 import chi from 'chi-squared';
 
 // generates a dataset with normal distribution
-export const generateNormal = (sampleSize, xvalue=[]) => {
+export const generateNormal = (sampleSize, _xvalue) => {
   const MEAN = 64;
   const STANDARD_DEV = 3;
   const ITERATES = 9;
@@ -9,6 +9,7 @@ export const generateNormal = (sampleSize, xvalue=[]) => {
   const popMin = MEAN - (range / 2);
 
   const popArray = [];
+  const xvalue = _xvalue || [];
 
   let dict = Array(sampleSize).fill(-1);
 
@@ -43,12 +44,13 @@ export const generateNormal = (sampleSize, xvalue=[]) => {
 }
 
 // generates a dataset with uniform distribution
-export const generateUniform = (mainSampleSize, xvalue=[]) => {
+export const generateUniform = (mainSampleSize, _xvalue) => {
   const HI = 10;
   const LOW = -10;
   const range = HI - LOW;
 
   const popArr = []
+  const xvalue = _xvalue || [];
 
   const sampleSize = mainSampleSize - 100;
   let dict = Array(sampleSize).fill(-1);
@@ -78,10 +80,11 @@ export const generateUniform = (mainSampleSize, xvalue=[]) => {
 }
 
 // generates a dataset with exponential distribution
-export const generateExponential = (sampleSize, xvalue=[]) => {
+export const generateExponential = (sampleSize, _xvalue) => {
   const LAMBDA = 1/64;
 
   const popArray =  [];
+  const xvalue = _xvalue || [];
 
   let dict = Array(sampleSize).fill(-1);
 
@@ -108,7 +111,7 @@ export const generateExponential = (sampleSize, xvalue=[]) => {
 }
 
 // generates a dataset with chi-squared distribution
-export const generateChiSquared = (sampleSize, xvalue=[]) => {
+export const generateChiSquared = (sampleSize, _xvalue) => {
   const DEGREES_OF_FREEDOM = 8;
   const chiArray = [];
   const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM);
@@ -120,6 +123,7 @@ export const generateChiSquared = (sampleSize, xvalue=[]) => {
   }
 
   const popArray = [];
+  const xvalue = _xvalue || [];
 
   let dict = Array(sampleSize).fill(-1);
 
@@ -148,9 +152,10 @@ export const generateChiSquared = (sampleSize, xvalue=[]) => {
 }
 
 // generates a dataset with 'mystery' distribution
-export const generateMystery = (sampleSize, xvalue=[]) => {
+export const generateMystery = (sampleSize, _xvalue) => {
 
   const popArray = [];
+  const xvalue = _xvalue || [];
 
   const firstMEAN = 75.5;
   const firstSTANDARD_DEV = 3;
@@ -239,7 +244,7 @@ export const generateMystery = (sampleSize, xvalue=[]) => {
 
 
 // returns the data set from the function corresponding with distType
-export const dataFromDistribution = (distType, sampleSize, xvalue=[]) => {
+export const dataFromDistribution = (distType, sampleSize, xvalue) => {
   const getDistributionFunction = {
     "Normal": () => generateNormal(sampleSize, xvalue),
     "Uniform": () => generateUniform(sampleSize, xvalue),
