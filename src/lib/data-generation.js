@@ -69,6 +69,7 @@ export const generateUniform = (mainSampleSize, _xvalue) => {
       if (point !== -1) {
           for (let count = 1; count < dict[point] + 2; count++) {
               popArr.push([point/10, count]);
+              xvalue.push(point/10);
           }
       }
   }
@@ -102,6 +103,7 @@ export const generateExponential = (sampleSize, _xvalue) => {
       if (point !== -1) {
           for (let count = 1; count < dict[point] + 2; count++) {
               popArray.push([point/10, count]);
+              xvalue.push(point/10);
           }
       }
   }
@@ -141,6 +143,7 @@ export const generateChiSquared = (sampleSize, _xvalue) => {
       if (point !== -1) {
           for (let count = 1; count < dict[point] + 2; count++) {
               popArray.push([point/10, count]);
+              xvalue.push(point/10);
           }
       }
   }

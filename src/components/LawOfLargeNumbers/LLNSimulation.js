@@ -33,7 +33,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
   }, [popType, sampleSize]);
 
   const handleClick = (size) => {
-    const sampleObject = sample(size, popArray);
+    const sampleObject = sample(size, popArray);  // TODO: use a package here? (lodash, underscore)
     setSampled(sampleObject.pop);
     setSampleMean(sampleObject.mue);
     setStage(2);
@@ -41,7 +41,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
 
   return (
     <Collapsable>
-      <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType} mainSampleSize={sampleSize}/>
+      <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType}/>
       <p>Try a few different sample sizes and compare sample mean to population mean</p>
       <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
       {(stage >= 2) &&
