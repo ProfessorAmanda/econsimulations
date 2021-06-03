@@ -71,7 +71,7 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
   return (
     <div>
       <Collapsable>
-        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType} sampleSize={sampleSize}/>
+        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType}/>
         <Button color="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) &&
           <div>

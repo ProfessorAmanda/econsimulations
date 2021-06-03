@@ -9,7 +9,7 @@
 import React from 'react';
 import LawOfLargeNumbers from './LawOfLargeNumbers/LawOfLargeNumbers.js';
 import CentralLimitTheorem from './CentralLimitTheorem/CentralLimitTheorem.js';
-import JointWrapper from './JointWrapper.js';
+import JointDistributions from './JointDistributions/JointDistributions.js';
 import LeastSim from './LeastSim.js';
 import OmmittedVariable from './OmmittedVariable.js';
 import ConfidenceIntervals from './ConfidenceIntervals.js'
@@ -24,7 +24,7 @@ export default function SimulationContainer({ mode, setMode }) {
       <div className="MiniLogo"></div>
       {mode === 'Law of Large Numbers' && <LawOfLargeNumbers/>}
       {mode === 'Central Limit Theorem' && <CentralLimitTheorem/>}
-      {mode === 'Joint Distributions' && <JointWrapper/>}
+      {mode === 'Joint Distributions' && <JointDistributions/>}
       {mode === 'Least Squares' && <LeastSim/>}
       {mode === 'Omitted Variable Bias' && <OmmittedVariable/>}
       {mode === 'Start Here' && <StartHere/>}
