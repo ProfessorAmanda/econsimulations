@@ -35,7 +35,7 @@ export default function SampleMeansSimulator({ setSampleSize, clear, population,
   const runSim = () => {
     const newSamples = [];
     for (let i = 0; i < numberResamples; i++) {
-      newSamples.push(resample())  // TODO: Do we really want a timer here?
+      newSamples.push(resample())
     }
     addSamples(newSamples);
   }

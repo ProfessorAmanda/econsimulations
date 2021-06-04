@@ -18,8 +18,8 @@ export default function LeastSquares() {
   const generatePoints = (num) => {
     const newPoints = [];
     for (let i = 0; i < num; i++) {
-      const x = Math.random() * 20;
-      const y = Math.random() * 20;
+      const x = Math.random() * 15 + 2;
+      const y = Math.random() * 15 + 2;
       newPoints.push({x: x, y: y});
     }
     setPoints(newPoints);

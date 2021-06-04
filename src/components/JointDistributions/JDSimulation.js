@@ -37,7 +37,7 @@ export default function JDSimulation() {
 
   const generate = () => {  // TODO: what is the intended behavior of this function?
 
-    const temp = [[Math.pow(parentSD,2), covariance], [covariance, Math.pow(childSD, 2) ]];
+    const temp = [[Math.pow(parentSD, 2), covariance], [covariance, Math.pow(childSD, 2)]];
 
     // lets you sample from distribution
     const distribution = MultivariateNormal(meanVector, temp);

@@ -110,7 +110,7 @@ export default function LeastSquaresChart({ points, linePoints }) {
           marker: {
             radius: 5,
           },
-          data: points.map((p, i) => {return {...p, id: i}}),
+          data: points,
         },
         {
           type: 'line',
