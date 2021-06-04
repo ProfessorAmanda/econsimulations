@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import { Container, Row, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
 import MeanSDInput from './MeanSDInput';
-import HeightChart from './HeightChart';
-import JointChart from './JointChart';
+import JDCharts from './JDCharts';
 
 const meanVector = [70, 70];
 
@@ -18,6 +17,13 @@ export default function JDSimulation() {
   const [parentData, setParentData] = useState([]);
   const [childData, setChildData] = useState([]);
   const [jointData, setJointData] = useState([]);
+  const [allData, setAllData] = useState({parent: [], child: [], joint: []});
+
+  useEffect(() => {
+    if (stage === 2) {
+      generate();
+    }
+  }, [stage]);
 
   const changeParentSD = (value) => {
     setParentSD(value);
@@ -43,7 +49,7 @@ export default function JDSimulation() {
     const jointSeries = [];
     for (let i = 0; i < 1000; i++) {
       const [parentHeight, childHeight] = distribution.sample();
-      jointSeries.push({x: parentHeight, y: childHeight, id: i});
+      jointSeries.push({x: parentHeight.toFixed(2), y: childHeight.toFixed(2), id: i});
     }
 
     const parentCounts = {};
@@ -52,32 +58,31 @@ export default function JDSimulation() {
     const childSeries = [];
 
     jointSeries.forEach(({x, y, id}) => {
-      const parentHeight = x.toFixed(2);
-      if (parentCounts[parentHeight]) {
-        parentCounts[parentHeight]++
+      if (parentCounts[x]) {
+        parentCounts[x]++
       } else {
-        parentCounts[parentHeight] = 1
+        parentCounts[x] = 1
       }
-      parentSeries.push({x: parentHeight, y: parentCounts[parentHeight], id: id});
-      const childHeight = y.toFixed(2);
-      if (childCounts[childHeight]) {
-        childCounts[childHeight]++
+      parentSeries.push({x: x, y: parentCounts[x], id: id});
+      if (childCounts[y]) {
+        childCounts[y]++
       } else {
-        childCounts[childHeight] = 1
+        childCounts[y] = 1
       }
-      childSeries.push({x: childHeight, y: childCounts[childHeight], id: id});
+      childSeries.push({x: y, y: childCounts[y], id: id});
     });
 
-    setParentData(parentSeries);
-    setChildData(childSeries);
-    setJointData(jointSeries);
-    setStage(2);
+    const data = {parent: parentSeries, child: childSeries, joint: jointSeries}
+    setAllData(data);
+    // setParentData(parentSeries);
+    // setChildData(parentSeries);
+    // setJointData(parentSeries);
+    // setStage(2);
   }
-
-  const maxHeight = Math.max(...parentData.map((point) => point.y), ...childData.map((point) => point.y));
 
   return (
     <Container fluid>
+      <Button onClick={() => setStage(1)}>reset</Button>
       <Row>
         <Col>
           <MeanSDInput title="Parent" mean={parentMean} setMean={setParentMean} sd={parentSD} setSD={changeParentSD}/>
@@ -112,45 +117,12 @@ export default function JDSimulation() {
           color='primary'
           style={{margin:"3vh"}}
           disabled={!parentMean || !parentSD || !childMean || !childSD}
-          onClick={() => generate()}
+          onClick={() => setStage(2)}
         >
           Generate!
         </Button>
       </Row>
-      {
-        (stage === 2) &&
-        <Row>
-          <Col>
-            <HeightChart
-              heightData={parentData}
-              title="Parent Height"
-              xLabel="Child Height (Inches)"
-              yLabel="Count"
-              color='#006D75'
-              maxY={maxHeight + 1}
-            />
-          </Col>
-          <Col>
-            <HeightChart
-              heightData={childData}
-              title="Child Height"
-              xLabel="Parent Height (Inches)"
-              yLabel="Count"
-              color='#ff0000'
-              maxY={maxHeight + 1}
-            />
-          </Col>
-          <Col>
-            <JointChart
-              data={jointData}
-              title="Parent Height vs Child Height"
-              xLabel="Parent Height (Inches)"
-              yLabel="Child Height (Inches)"
-              color='#FF9655'
-            />
-          </Col>
-        </Row>
-      }
+      {(stage === 2) && <JDCharts parentData={allData.parent} childData={allData.child} jointData={allData.joint}/>}
     </Container>
   );
 }

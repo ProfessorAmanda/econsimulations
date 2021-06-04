@@ -1,9 +1,9 @@
 import React from 'react';
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 
-export default function JointChart({ jointData, getNodeSize, handleMouseMove, handleMouseLeave }) {
+export default function ParentChart({ parentData, getNodeSize, handleMouseMove, handleMouseLeave, maxY }) {
 
-  const data = [{id: "data", data: jointData}];
+  const data = [{id: "data", data: parentData}];
 
   return (
     <div style={{ height: 500, width: 500, margin: "auto" }}>
@@ -12,9 +12,8 @@ export default function JointChart({ jointData, getNodeSize, handleMouseMove, ha
         margin={{ top: 60, right: 10, bottom: 70, left: 70 }}
         xScale={{ type: 'linear', min: 40, max: 100 }}
         xFormat={function(e){return e+" in."}}
-        yScale={{ type: 'linear', min: 40, max: 100 }}
-        yFormat={function(e) {return e+" in."}}
-        tooltip={({node}) => <div>{node.data.formattedX}<br/>{node.data.formattedY}</div>}
+        yScale={{ type: 'linear', min: 0, max: maxY }}
+        tooltip={({node}) => <div>{node.data.formattedX}</div>}
         nodeSize={getNodeSize}
         enableGridX={false}
         enableGridY={false}
@@ -34,7 +33,7 @@ export default function JointChart({ jointData, getNodeSize, handleMouseMove, ha
           tickSize: 10,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'Child Height (inches)',
+          legend: 'Count',
           legendPosition: 'middle',
           legendOffset: -60
         }}
