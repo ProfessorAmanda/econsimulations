@@ -8,7 +8,7 @@ import '../styles/dark-unica.css';
 import chi from 'chi-squared'
 import SimulateSamples from './SimulateSamples.js'
 //import PopTable from './PopTable.js'
-import math from 'mathjs';
+import { math } from "mathjs";
 import { Alert, Col, Container, Row } from 'reactstrap';
 
 // how many data points

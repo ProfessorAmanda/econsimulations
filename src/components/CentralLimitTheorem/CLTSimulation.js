@@ -12,7 +12,7 @@ import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
 import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeansSimulator from './SampleMeansSimulator.js'
-import math from 'mathjs';
+import { std } from "mathjs";
 import { Alert, Button, Col, Row } from 'reactstrap';
 import { dataFromDistribution } from '../../lib/data-generation.js';
 import { populationMean, sample } from "../../lib/stats-utils.js";
@@ -94,7 +94,7 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
                   numberResamples={numberResamples}
                   resampleSize={resampleSize[popType]}
                   mean={popMean}
-                  sd={math.std(xvalue)}
+                  sd={std(xvalue)}
                   normalized={standardNormal}
                   sampleSize={sampleSize}
                   type={popType}

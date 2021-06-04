@@ -1,16 +1,16 @@
-import math from "mathjs";
+import { mean, round, random } from "mathjs";
 
 // returns the mean of popArray
 export const populationMean = (popArray) => {
-  return parseFloat(math.mean(popArray.map(p => p[0])).toFixed(2));
+  return parseFloat(mean(popArray.map(p => p[0])).toFixed(2));
 }
 
 
 // returns the difference of means of popMean and sampleMean
 export const differenceOfMeans = (popMean, sampleMean) => {
   const diff = (
-    Math.round((popMean - sampleMean) * 100) / 100) === 0 ? 0 :
-    Math.round((popMean - sampleMean) * 100) / 100 || '';
+    round((popMean - sampleMean) * 100) / 100) === 0 ? 0 :
+    round((popMean - sampleMean) * 100) / 100 || '';
 
   return diff;
 }
@@ -22,7 +22,7 @@ export const sample = (size, popArray) => {
 
   while (sampled.length < size){
     // index to sample ?
-    const r = Math.round(Math.random() * (popArray.length - 1));
+    const r = round(random() * (popArray.length - 1));
     let shouldSample = true;
     for (let i = 0; i < sampled.length; i++){
       if (sampled[i][0] === r) {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Button, Input } from 'reactstrap';
-import math from "mathjs";
+import { max, floor, random, mean, std, sqrt } from "mathjs";
 
 const NUMBER_OF_STEPS = 10;
 
@@ -22,7 +22,7 @@ class SampleMeanSimulator extends Component {
           <span> Sample Size: </span>{" "}
           <Input
             min={2}
-            
+
             type="number"
             placeholder="Sample Size"
             onKeyPress={e => this.onKey(e)}
@@ -104,7 +104,7 @@ class SampleMeanSimulator extends Component {
   runSim(resampleSize, numberResamples, population, callback, clear) {
     clear();
     let n = 0;
-    const step = Math.max(numberResamples / NUMBER_OF_STEPS, 1);
+    const step = max(numberResamples / NUMBER_OF_STEPS, 1);
     this.timer = setInterval(() => {
       n += step;
       this.resample(resampleSize, numberResamples, population, callback, n);
@@ -116,14 +116,14 @@ class SampleMeanSimulator extends Component {
     const sampleMeans = [];
     for (let i = 0; i < numberResamples / NUMBER_OF_STEPS; i++) {
       for (let j = 0; j < resampleSize; j++) {
-        const r = Math.floor(Math.random() * population.length);
+        const r = floor(random() * population.length);
         samplePop.push(population[r][0]);
       }
-      const sampleMean = math.mean(samplePop);
-      const sd = math.std(samplePop);
+      const sampleMean = mean(samplePop);
+      const sd = std(samplePop);
       console.log(this.props.zScore);
-      const upperConf = (sampleMean + ( (this.props.zScore * sd) / Math.sqrt(resampleSize)) );
-      const lowerConf = (sampleMean - ( (this.props.zScore * sd) / Math.sqrt(resampleSize)) );
+      const upperConf = (sampleMean + ( (this.props.zScore * sd) / sqrt(resampleSize)) );
+      const lowerConf = (sampleMean - ( (this.props.zScore * sd) / sqrt(resampleSize)) );
       const label = (this.props.mean >= lowerConf && this.props.mean <= upperConf) ? 'yes' : 'no' ;
       sampleMeans.push([resampleSize, sampleMean, sd, lowerConf, upperConf, label]);
       samplePop = [];

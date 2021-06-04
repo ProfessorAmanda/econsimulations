@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import math from "mathjs";
+import { round, mean } from "mathjs";
 import Highcharts from "highcharts";
 import { Collapse, Card, CardBody } from 'reactstrap';
 import '../../styles/dark-unica.css';
@@ -83,7 +83,7 @@ class SimulateSamples extends Component {
             n++;
             let tmp = that.props.sample(n)
             const series = that.myChart.series[1];
-            const x = Math.round(math.mean(tmp.map(p => p[0])) * 100)/100
+            const x = round(mean(tmp.map(p => p[0])) * 100)/100
             if (x) {
                 series.addPoint({ y: x}, true, false, false);
                 that.myChart.series[0].addPoint( {y: that.props.pop}, true, false, false);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Container, Input, Row } from 'reactstrap';
-import math from 'mathjs';
+import { sqrt, max, floor, random, mean, round } from "mathjs";
 
 class SampleAreaCLT extends Component {
     constructor(props){
@@ -56,8 +56,8 @@ class SampleAreaCLT extends Component {
                                     const sampleObject = this.props.sample(this.state.sampleSize);
                                     const mue = this.props.distribution === 'z'? 64:sampleObject.mue;
                                     const sd = sampleObject.sd;
-                                    const upperConf = (mue + ( (this.props.zScore* sd) / Math.sqrt(this.state.sampleSize)) );
-                                    const lowerConf = (mue - ( (this.props.zScore * sd) / Math.sqrt(this.state.sampleSize)) );
+                                    const upperConf = (mue + ( (this.props.zScore* sd) / sqrt(this.state.sampleSize)) );
+                                    const lowerConf = (mue - ( (this.props.zScore * sd) / sqrt(this.state.sampleSize)) );
                                     const label = (this.props.mean >= lowerConf && this.props.mean <= upperConf) ? 'yes' : 'no' ;
                                     this.setState({
                                         popMean: mue
@@ -82,7 +82,7 @@ class SampleAreaCLT extends Component {
 
     runSim(resampleSize, numberResamples, population, callback, clear){
         let n = 0;
-        const step = Math.max(numberResamples / 10, 1);
+        const step = max(numberResamples / 10, 1);
         this.timer = setInterval(()=>{
             n += step;
             this.resample(resampleSize, numberResamples, population, callback, n);
@@ -94,10 +94,10 @@ class SampleAreaCLT extends Component {
         const sampleMeans = [];
         for (let i = 0; i < numberResamples / 10 ;i++){
             for (let j = 0; j < resampleSize; j++){
-                const r = Math.floor(Math.random() * population.length);
+                const r = floor(random() * population.length);
                 samplePop.push(population[r]);
             }
-            const sampleMean = math.mean(samplePop);
+            const sampleMean = mean(samplePop);
             sampleMeans.push([resampleSize, sampleMean]);
             samplePop = [];
         }
@@ -111,7 +111,7 @@ class SampleAreaCLT extends Component {
 
         while (sampled.length < size){
             // index to sample ?
-            const r = Math.round(Math.random() * (currentPop.length - 1))
+            const r = round(random() * (currentPop.length - 1))
             let shouldSample = true;
             for (let i = 0; i < sampled.length; i++){
                  if (sampled[i][0] === r) {
@@ -120,7 +120,7 @@ class SampleAreaCLT extends Component {
             }
             let count = 1;
             currentPop.forEach( (val, index) => {
-                if (index < r && Math.round(val * 10) === Math.round(currentPop[r] * 10)) {
+                if (index < r && round(val * 10) === round(currentPop[r] * 10)) {
                     count += 1;
                 }
             });
@@ -134,7 +134,7 @@ class SampleAreaCLT extends Component {
 
         for (const j in sampledCopy){
             sampleVals[j] = [];
-            sampleVals[j][0] = Math.round(this.props.popArray[sampledCopy[j][0]] * 10)
+            sampleVals[j][0] = round(this.props.popArray[sampledCopy[j][0]] * 10)
             sampleVals[j][1] = sampledCopy[j][1];
             samplePop.push(sampleVals[j][0] / 10)
         }

@@ -1,5 +1,5 @@
 import React ,{useState}from 'react';
-import math from 'mathjs';
+import { floor, random, mean, round, std, sqrt, abs } from "mathjs";
 import ChartContainer from './ChartContainer.js';
 import TToPval from './TToPval.js';
 import { Alert, Button, Container, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
@@ -36,7 +36,7 @@ const handleSample = (size,pop)=>{
         var j = 0;
 
         while(j < size){
-            const ranNum = Math.floor(Math.random()*mainSampleSize);
+            const ranNum = floor(random()*mainSampleSize);
             console.log(ranNum);
             if(!index[ranNum]){
                 index[ranNum] = true;
@@ -47,8 +47,8 @@ const handleSample = (size,pop)=>{
         }
         console.log(sampleArr);
 
-        const x_bar = Math.round(math.mean(sampleArr) * 1000)/1000;
-        const sd = Math.round(math.std(sampleArr)*1000)/1000;
+        const x_bar = round(mean(sampleArr) * 1000)/1000;
+        const sd = round(std(sampleArr)*1000)/1000;
         const tScore = getT(x_bar, mue_0, sd, size);
         const pVal = getPVal(hypo,tScore,sampleSize - 1);
 
@@ -61,7 +61,7 @@ const handleSample = (size,pop)=>{
 
     const getT = (x_bar, mue_0, sd, sampleSize)=>{
         console.log(x_bar, mue_0, sd, sampleSize);
-        return Math.round(((x_bar - mue_0)/(sd/Math.sqrt(sampleSize)))*1000)/1000;
+        return round(((x_bar - mue_0)/(sd/sqrt(sampleSize)))*1000)/1000;
     }
 
 
@@ -106,7 +106,7 @@ const handleSample = (size,pop)=>{
 
 
                 case 2:
-                return 2*TToPval[dof - 1][Math.abs(t.toFixed(1))/2];
+                return 2*TToPval[dof - 1][abs(t.toFixed(1))/2];
 
             }
 

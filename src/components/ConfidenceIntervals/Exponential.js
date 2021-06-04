@@ -6,7 +6,7 @@ import SampleAreaCLT from './SampleAreaCLT.js'
 import SampleMeanSimulator from '../SampleMeanSimulator.js'
 import TTable from './TTable.js';
 import ZTable from './ZTable.js';
-import math from 'mathjs';
+import { random, log, round, mean, floor, std } from "mathjs";
 import { Alert, Button, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
 
 class Exponential extends React.Component {
@@ -59,12 +59,12 @@ class Exponential extends React.Component {
         let dict = Array(sampleSize).fill(-1);
 
         for (let i = 0; i < sampleSize; i++){
-            const val = -Math.log(Math.random()) / LAMBDA
+            const val = -log(random()) / LAMBDA
 
-            if (dict[Math.round(val * 10)]){
-                dict[Math.round(val * 10)] += 1;
+            if (dict[round(val * 10)]){
+                dict[round(val * 10)] += 1;
             } else {
-                dict[Math.round(val * 10)] = 1;
+                dict[round(val * 10)] = 1;
             }
         }
 
@@ -75,10 +75,10 @@ class Exponential extends React.Component {
                 }
             }
         }
-        popArray.sort(() => Math.random() - 0.5);
+        popArray.sort(() => random() - 0.5);
         popArray.sort((a,b) => b[1] - a[1]);
         this.setState({
-            popMean: math.mean(popArray.map(p => p[0]))
+            popMean: mean(popArray.map(p => p[0]))
         })
         return popArray;
 
@@ -90,7 +90,7 @@ class Exponential extends React.Component {
 
         while (sampled.length < size){
             // index to sample ?
-            const r = Math.round(Math.random() * (popArray.length - 1))
+            const r = round(random() * (popArray.length - 1))
             let shouldSample = true;
             for (let i = 0; i < sampled.length; i++){
                 if (sampled[i][0] === r) {
@@ -103,7 +103,7 @@ class Exponential extends React.Component {
             }
         }
 
-        return { pop: sampled, mue: Math.round(math.mean(sampled.map(p => p[0])) * 100)/100, sd: math.std(sampled.map(p => p[0])) };
+        return { pop: sampled, mue: round(mean(sampled.map(p => p[0])) * 100)/100, sd: std(sampled.map(p => p[0])) };
     }
 
     updateSampleMeansFromArray(means){
@@ -281,7 +281,7 @@ class Exponential extends React.Component {
                                             if(this.state.zORt === 't'){
 
                                                 pOft = parseInt(event.target.value *100)>50 ? 1-event.target.value: event.target.value;
-                                                this.setState({ciLevel: Math.floor(event.target.value*100).toString()+'%'});
+                                                this.setState({ciLevel: floor(event.target.value*100).toString()+'%'});
                                             }
                                             const modDof = this.state.dOf > 121? 122: this.state.dOf;
 
@@ -290,7 +290,7 @@ class Exponential extends React.Component {
                                                             sampleMean:[],
                                                             sampled:[],
                                                             chart:0,
-                                                            ciLevel: Math.floor(event.target.value*100).toString()+'%'
+                                                            ciLevel: floor(event.target.value*100).toString()+'%'
                                                         });
                                           }}
                                     />
@@ -325,7 +325,7 @@ class Exponential extends React.Component {
                                                 numberResamples={this.state.numberResamples}
                                                 resampleSize={this.state.resampleSize[this.state.popType]}
                                                 mean={this.state.popMean}
-                                                sd={this.state.popArray.length > 0 ? math.std(this.state.popArray) : 1}
+                                                sd={this.state.popArray.length > 0 ? std(this.state.popArray) : 1}
                                                 normalized={this.state.standardNormal}
                                                 sampleSize={this.state.sampleSize}
                                                 type={this.state.popType}
@@ -438,7 +438,7 @@ class Exponential extends React.Component {
                                                             style={ mean[5] === 'no' ? {backgroundColor: "rgba(161, 23, 23, 0.233)"} : {backgroundColor: "rgba(23, 161, 80, 0.233)"}}>
                                                             <td>{index + 1}</td>
                                                             <td>{mean[0]}</td>
-                                                            <td>{Math.round(mean[1] * 10) / 10}</td>
+                                                            <td>{round(mean[1] * 10) / 10}</td>
 
                                                         </tr>
                                                         ))}

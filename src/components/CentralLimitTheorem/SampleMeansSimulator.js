@@ -11,7 +11,7 @@
 */
 import React, { useState } from "react";
 import {Button, Input } from 'reactstrap';
-import math from "mathjs";
+import { floor, random, mean } from "mathjs";
 
 export default function SampleMeansSimulator({ setSampleSize, clear, population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -25,10 +25,10 @@ export default function SampleMeansSimulator({ setSampleSize, clear, population,
   const resample = () => {
     const samplePop = [];
     for (let i = 0; i < resampleSize; i++) {
-      const r = Math.floor(Math.random() * population.length);
+      const r = floor(random() * population.length);
       samplePop.push(population[r][0]);
     }
-    const sampleMean = math.mean(samplePop);
+    const sampleMean = mean(samplePop);
     return [resampleSize, sampleMean];
   }
 
