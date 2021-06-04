@@ -5,20 +5,8 @@ import HighchartsReact from 'highcharts-react-official'
 import 'highcharts/modules/annotations';
 import '../../boost.js';
 
-export default function LeastSquaresChart({ points, linePoints }) {
+export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState();
-
-  const generatePairs = () => {
-    const pairs = [];
-    linePoints.forEach((p1) => {
-      points.forEach((p2) => {
-        if (p1.x === p2.x) {
-          pairs.push({p1: p1, p2: p2})
-        }
-      });
-    });
-    return pairs;
-  }
 
   const buildSquare = (p1, p2) => {
     const dist = Math.abs(p1.y - p2.y);
@@ -52,8 +40,18 @@ export default function LeastSquaresChart({ points, linePoints }) {
     ];
   }
 
-  const generateSquares = (pairs) => {
-    return pairs.map(({p1, p2}) => {
+  useEffect(() => {
+    const pairs = [];
+    linePoints.forEach((p1) => {
+      points.forEach((p2) => {
+        if (p1.x === p2.x) {
+          pairs.push({p1: p1, p2: p2})
+        }
+      });
+    });
+    const areas = pairs.map(({p1, p2}) => Math.abs(p1.y - p2.y) ** 2);
+    setSquareAreas(areas);
+    const squares = pairs.map(({p1, p2}) => {
       return {
         dashStyle: "solid",
         fill: "rgba(255, 255, 255, 0)",
@@ -61,12 +59,6 @@ export default function LeastSquaresChart({ points, linePoints }) {
         type: 'path'
       }
     });
-  }
-
-
-  useEffect(() => {
-    const pairs = generatePairs();
-    const squares = generateSquares(pairs);
 
     const newChart = {
       title: {
@@ -124,7 +116,7 @@ export default function LeastSquaresChart({ points, linePoints }) {
     }
 
     setMyChart(newChart);
-  }, [points, linePoints]);
+  }, [points, linePoints, setSquareAreas]);
 
   return (
     <HighchartsReact highcharts={Highcharts} options={myChart}/>

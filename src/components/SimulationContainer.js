@@ -10,7 +10,6 @@ import React from 'react';
 import LawOfLargeNumbers from './LawOfLargeNumbers/LawOfLargeNumbers.js';
 import CentralLimitTheorem from './CentralLimitTheorem/CentralLimitTheorem.js';
 import JointDistributions from './JointDistributions/JointDistributions.js';
-import LeastSim from './LeastSim.js';
 import OmmittedVariable from './OmmittedVariable.js';
 import ConfidenceIntervals from './ConfidenceIntervals.js'
 import HypothesisTestingNew from './HypothesisTestingNew.js'
