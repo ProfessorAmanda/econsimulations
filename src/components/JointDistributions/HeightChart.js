@@ -5,7 +5,7 @@ import HighchartsReact from 'highcharts-react-official'
 import 'highcharts/modules/annotations';
 import '../../boost.js';
 
-export default function HeightChart({ heightData, title, xLabel, yLabel, color }) {
+export default function HeightChart({ heightData, title, xLabel, yLabel, color, maxY }) {
   const [myChart, setMyChart] = useState();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function HeightChart({ heightData, title, xLabel, yLabel, color }
         showLastLabel: true
       },
       yAxis: {
-        max: 7,
+        max: maxY,
         lineWidth: 1,
         tickInterval: 1,
         title: {
@@ -68,7 +68,7 @@ export default function HeightChart({ heightData, title, xLabel, yLabel, color }
     }
 
     setMyChart(newChart);
-  }, [heightData, title, xLabel, yLabel, color]);
+  }, [heightData, title, xLabel, yLabel, color, maxY]);
 
   return (
     <HighchartsReact highcharts={Highcharts} options={myChart}/>

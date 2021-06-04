@@ -31,72 +31,50 @@ export default function JDSimulation() {
 
   const changeSlider = (value) => {
     const newCorrelation = (value === 1) ? 0.999999 : value;
-    setCorrelation(newCorrelation);
+    setCorrelation(value);
     setCovariance(newCorrelation * parentSD * childSD);
   }
 
-  const generate = () => {  // TODO: what is the intended behavior of this function?
-
+  // generate datapoints for parent height and child height
+  const generate = () => {
     const temp = [[Math.pow(parentSD, 2), covariance], [covariance, Math.pow(childSD, 2)]];
-
-    // lets you sample from distribution
     const distribution = MultivariateNormal(meanVector, temp);
-    const series = [];
-    // samples 1000
-    for (let i = 0; i < 500; i++){
-        series.push(distribution.sample());
+
+    const jointSeries = [];
+    for (let i = 0; i < 1000; i++) {
+      const [parentHeight, childHeight] = distribution.sample();
+      jointSeries.push({x: parentHeight, y: childHeight, id: i});
     }
 
-    //generate shark series
+    const parentCounts = {};
     const parentSeries = [];
-    const parentDict = {};
-    const rawParents = series.map((s) => s[0]);
-    // building dictionary for histogram
-    for (const i of rawParents){
-        const parentFreq = Math.round(i * 100) / 100;
-        if (parentDict[parentFreq]){
-            parentDict[parentFreq]++;
-        } else {
-            parentDict[parentFreq] = 1;
-        }
-    }
-    for (const i in parentDict){
-        for (let j = 0; j < parentDict[i]; j++){
-            parentSeries.push([parseFloat(i), j+1]);
-        }
-    }
+    const childCounts = {};
+    const childSeries = [];
+
+    jointSeries.forEach(({x, y, id}) => {
+      const parentHeight = x.toFixed(2);
+      if (parentCounts[parentHeight]) {
+        parentCounts[parentHeight]++
+      } else {
+        parentCounts[parentHeight] = 1
+      }
+      parentSeries.push({x: parentHeight, y: parentCounts[parentHeight], id: id});
+      const childHeight = y.toFixed(2);
+      if (childCounts[childHeight]) {
+        childCounts[childHeight]++
+      } else {
+        childCounts[childHeight] = 1
+      }
+      childSeries.push({x: childHeight, y: childCounts[childHeight], id: id});
+    });
 
     setParentData(parentSeries);
-
-
-    //generate iceseries
-    const childSeries = [];
-    const childDict = {};
-    for (const i of series){
-        const childFreq = Math.round(i[1] * 100) / 100;
-        if (childDict[childFreq]){
-            childDict[childFreq]++;
-        } else {
-            childDict[childFreq] = 1;
-        }
-    }
-    for (const i in childDict){
-        for (let j = 0; j < childDict[i]; j++){
-            childSeries.push([parseFloat(i), j+1]);
-        }
-    }
-
     setChildData(childSeries);
-
-    //generate joint series
-    const jointSeries = [];
-    for (const i in rawParents){
-        jointSeries.push([Math.round(rawParents[i] * 100) / 100, Math.round(series[i][1] * 100) / 100]);
-    }
     setJointData(jointSeries);
-
     setStage(2);
   }
+
+  const maxHeight = Math.max(...parentData.map((point) => point.y), ...childData.map((point) => point.y));
 
   return (
     <Container fluid>
@@ -149,6 +127,7 @@ export default function JDSimulation() {
               xLabel="Child Height (Inches)"
               yLabel="Count"
               color='#006D75'
+              maxY={maxHeight + 1}
             />
           </Col>
           <Col>
@@ -158,6 +137,7 @@ export default function JDSimulation() {
               xLabel="Parent Height (Inches)"
               yLabel="Count"
               color='#ff0000'
+              maxY={maxHeight + 1}
             />
           </Col>
           <Col>

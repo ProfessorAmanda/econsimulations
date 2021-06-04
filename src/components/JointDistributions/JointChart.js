@@ -5,7 +5,7 @@ import HighchartsReact from 'highcharts-react-official'
 import 'highcharts/modules/annotations';
 import '../../boost.js';
 
-export default function JointChart({ data, title, xLabel, yLabel, color}) {
+export default function JointChart({ data, title, xLabel, yLabel, color }) {
   const [myChart, setMyChart] = useState();
 
   useEffect(() => {
@@ -65,20 +65,6 @@ export default function JointChart({ data, title, xLabel, yLabel, color}) {
         },
         series: {
           allowPointSelect: true,
-          // point: {  // TODO: do we need this mouse-over functionality
-          //     events: {
-          //         mouseOver: function() {
-          //             //console.log("this.sharks");
-          //             //console.log(this.sharks);
-          //         const x = that.sharks.series[0].data.find(p => p.x === this.x);
-          //         if(x){x.onMouseOver();}
-          //         const y = that.icecream.series[0].data.find(p => p.x === this.y);
-          //         if(y){
-          //             y.onMouseOver();
-          //         }
-          //         }
-          //     }
-          // }
         }
       },
       series: [{data: data, color: color}]
