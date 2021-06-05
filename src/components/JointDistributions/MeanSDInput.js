@@ -1,3 +1,15 @@
+/*
+
+  Displays sliders for the user to adjust the mean and standard deviation
+
+  props:
+    title   - string
+    mean    - float
+    setMean - callback
+    sd      - float
+    setSD   - callback
+
+*/
 import React from 'react';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 

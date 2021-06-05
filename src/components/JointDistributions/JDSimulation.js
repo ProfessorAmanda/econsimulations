@@ -1,3 +1,11 @@
+/*
+
+  Displays the Joint Distributions simulation
+
+  props:
+    none
+
+*/
 import React, { useEffect, useState } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import { Container, Row, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
@@ -17,10 +25,10 @@ export default function JDSimulation() {
   const [allData, setAllData] = useState({parent: [], child: [], joint: []});
 
   useEffect(() => {
-    if (stage === 2) {
-      generate();
+    if ((allData.parent.length > 0) && (allData.child.length > 0) && (allData.joint.length > 0)) {
+      setStage(2)
     }
-  }, [stage]);
+  }, [allData]);
 
   const changeParentSD = (value) => {
     setParentSD(value);
@@ -38,7 +46,7 @@ export default function JDSimulation() {
     setCovariance(newCorrelation * parentSD * childSD);
   }
 
-  // generate datapoints for parent height and child height
+  // generate datapoints for parent height and child height in a normal distribution
   const generate = () => {
     const temp = [[Math.pow(parentSD, 2), covariance], [covariance, Math.pow(childSD, 2)]];
     const distribution = MultivariateNormal(meanVector, temp);
@@ -46,7 +54,7 @@ export default function JDSimulation() {
     const jointSeries = [];
     for (let i = 0; i < 1000; i++) {
       const [parentHeight, childHeight] = distribution.sample();
-      jointSeries.push({x: parentHeight.toFixed(2), y: childHeight.toFixed(2), id: i});
+      jointSeries.push({x: parentHeight.toFixed(2), y: childHeight.toFixed(2)});
     }
 
     const parentCounts = {};
@@ -54,19 +62,19 @@ export default function JDSimulation() {
     const childCounts = {};
     const childSeries = [];
 
-    jointSeries.forEach(({x, y, id}) => {
+    jointSeries.forEach(({x, y}) => {
       if (parentCounts[x]) {
         parentCounts[x]++
       } else {
         parentCounts[x] = 1
       }
-      parentSeries.push({x: x, y: parentCounts[x], id: id});
+      parentSeries.push({x: x, y: parentCounts[x]});
       if (childCounts[y]) {
         childCounts[y]++
       } else {
         childCounts[y] = 1
       }
-      childSeries.push({x: y, y: childCounts[y], id: id});
+      childSeries.push({x: y, y: childCounts[y]});
     });
 
     const data = {parent: parentSeries, child: childSeries, joint: jointSeries}
@@ -75,7 +83,6 @@ export default function JDSimulation() {
 
   return (
     <Container fluid>
-      <Button onClick={() => setStage(1)}>reset</Button>
       <Row>
         <Col>
           <MeanSDInput title="Parent" mean={parentMean} setMean={setParentMean} sd={parentSD} setSD={changeParentSD}/>
@@ -110,7 +117,7 @@ export default function JDSimulation() {
           color='primary'
           style={{margin:"3vh", width: "fit-content"}}
           disabled={!parentMean || !parentSD || !childMean || !childSD}
-          onClick={() => setStage(2)}
+          onClick={() => generate()}
         >
           Generate!
         </Button>

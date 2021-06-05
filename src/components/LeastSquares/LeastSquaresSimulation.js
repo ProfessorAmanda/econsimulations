@@ -1,3 +1,11 @@
+/*
+
+  Displays the Least Squares simulation
+
+  props:
+    none
+
+*/
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "reactstrap";
 import NewPointsInput from "./NewPointsInput";

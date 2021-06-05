@@ -1,3 +1,13 @@
+/*
+
+  Displays a HighCharts scatterplot for the Least Squares data points
+
+  props:
+    points         - array
+    linePoints     - array
+    setSquareAreas - callback
+
+*/
 import React, { useEffect, useState } from 'react';
 import '../../styles/dark-unica.css';
 import Highcharts from 'highcharts';
@@ -8,6 +18,7 @@ import '../../boost.js';
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState();
 
+  // returns an array of points to create a square shape in highcharts
   const buildSquare = (p1, p2) => {
     const dist = Math.abs(p1.y - p2.y);
     const lowestPt = p1.y < p2.y ? p1 : p2;
@@ -41,6 +52,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
   }
 
   useEffect(() => {
+    // generate pairs for the corresponding points to create squares
     const pairs = [];
     linePoints.forEach((p1) => {
       points.forEach((p2) => {
@@ -49,8 +61,11 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
         }
       });
     });
+
     const areas = pairs.map(({p1, p2}) => Math.abs(p1.y - p2.y) ** 2);
     setSquareAreas(areas);
+
+    // create the actual square objects for highcharts
     const squares = pairs.map(({p1, p2}) => {
       return {
         dashStyle: "solid",

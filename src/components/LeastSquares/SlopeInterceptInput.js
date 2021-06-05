@@ -1,3 +1,14 @@
+/*
+
+  Displays sliders for the user adjust the intercpt and slope for the line
+
+  props:
+    slope        - float
+    setSlope     - callback
+    intercept    - float
+    setIntercept - callback
+
+*/
 import React from "react";
 import { Input, InputGroup, InputGroupAddon } from "reactstrap";
 

@@ -1,3 +1,11 @@
+/*
+
+  A container component that holds the description and simulation for Joint Distribution
+
+  props:
+    none
+
+*/
 import React from 'react';
 import { Alert } from 'reactstrap';
 import JDSimulation from './JDSimulation.js';

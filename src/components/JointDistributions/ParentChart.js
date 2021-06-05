@@ -1,7 +1,17 @@
+/*
+
+  Displays a Nivo scatterplot for the parent data
+
+  props:
+    parentData    - array[Object{x, y}]
+    sharedOptions - object
+    maxY          - number
+
+*/
 import React from 'react';
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 
-export default function ParentChart({ parentData, getNodeSize, handleMouseMove, handleMouseLeave, maxY }) {
+export default function ParentChart({ parentData, sharedOptions, maxY }) {
 
   const data = [{id: "data", data: parentData}];
 
@@ -9,34 +19,12 @@ export default function ParentChart({ parentData, getNodeSize, handleMouseMove, 
     <div style={{ height: 500, width: 500, margin: "auto" }}>
       <ResponsiveScatterPlotCanvas
         data={data}
-        margin={{ top: 60, right: 10, bottom: 70, left: 70 }}
-        xScale={{ type: 'linear', min: 40, max: 100 }}
-        xFormat={function(e){return e+" in."}}
         yScale={{ type: 'linear', min: 0, max: maxY }}
         tooltip={({node}) => <div>{node.data.formattedX}</div>}
-        nodeSize={getNodeSize}
-        enableGridX={false}
-        enableGridY={false}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        axisBottom={{
-          orient: 'bottom',
-          tickSize: 10,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'Parent Height (inches)',
-          legendPosition: 'middle',
-          legendOffset: 46
-        }}
-        axisLeft={{
-          orient: 'left',
-          tickSize: 10,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'Count',
-          legendPosition: 'middle',
-          legendOffset: -60
-        }}
+        colors={{"scheme": "set1"}}
+        {...sharedOptions}
+        axisBottom={{...sharedOptions.axisBottom, legend: 'Parent Height (inches)'}}
+        axisLeft={{...sharedOptions.axisLeft, legend: 'Count'}}
       />
     </div>
   );
