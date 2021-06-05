@@ -10,6 +10,7 @@ export default function SlopeInterceptInput({ slope, setSlope, intercept, setInt
         <Input
           type='range'
           className="custom-range"
+          style={{width: "80%"}}
           min={-20}
           max={20}
           step={0.1}
@@ -33,6 +34,7 @@ export default function SlopeInterceptInput({ slope, setSlope, intercept, setInt
         <Input
           type='range'
           className="custom-range"
+          style={{width: "80%"}}
           min={-10}
           max={10}
           step={0.1}

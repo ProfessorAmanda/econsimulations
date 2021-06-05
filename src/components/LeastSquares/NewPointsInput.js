@@ -9,6 +9,7 @@ export default function NewPointsInput({ generatePoints }) {
       <Input
         type='range'
         className="custom-range"
+        style={{width: "70%"}}
         min={4}
         max={10}
         value={numPoints}
@@ -16,14 +17,14 @@ export default function NewPointsInput({ generatePoints }) {
       />
       <InputGroupAddon addonType="append">
         <InputGroupText>{numPoints}</InputGroupText>
-        <Button
+      </InputGroupAddon>
+      <Button
           outline
           color="primary"
           onClick={() => generatePoints(numPoints)}
         >
           New Points
         </Button>
-      </InputGroupAddon>
     </InputGroup>
   );
 }

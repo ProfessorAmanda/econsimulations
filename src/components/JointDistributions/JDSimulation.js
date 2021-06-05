@@ -14,9 +14,6 @@ export default function JDSimulation() {
   const [correlation, setCorrelation] = useState(0);
   const [covariance, setCovariance] = useState(0);
   const [stage, setStage] = useState(1);
-  const [parentData, setParentData] = useState([]);
-  const [childData, setChildData] = useState([]);
-  const [jointData, setJointData] = useState([]);
   const [allData, setAllData] = useState({parent: [], child: [], joint: []});
 
   useEffect(() => {
@@ -74,10 +71,6 @@ export default function JDSimulation() {
 
     const data = {parent: parentSeries, child: childSeries, joint: jointSeries}
     setAllData(data);
-    // setParentData(parentSeries);
-    // setChildData(parentSeries);
-    // setJointData(parentSeries);
-    // setStage(2);
   }
 
   return (
@@ -92,12 +85,12 @@ export default function JDSimulation() {
         </Col>
         <Col>
           <p>Set the Correlation</p>
-          <InputGroup>
+          <InputGroup style={{height: "30px", width: "500px"}}>
             <Input
               value={correlation}
               type="range"
               className="custom-range"
-              style={{height: "30px"}}
+              style={{width: "85%"}}
               step={0.1}
               min={-1}
               max={1}
@@ -115,7 +108,7 @@ export default function JDSimulation() {
         <Button
           outline
           color='primary'
-          style={{margin:"3vh"}}
+          style={{margin:"3vh", width: "fit-content"}}
           disabled={!parentMean || !parentSD || !childMean || !childSD}
           onClick={() => setStage(2)}
         >

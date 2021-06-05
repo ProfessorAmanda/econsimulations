@@ -11,7 +11,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
   const handleMouseLeave = useCallback(() => setNodeId(), [setNodeId]);
   const getNodeSize = useMemo(() => (node) => (nodeId && (nodeId === node.id)) ? 30 : 8, [nodeId]);
 
-  const maxHeight = 12;
+  const maxHeight = 15;
 
   return (
     <Row>
