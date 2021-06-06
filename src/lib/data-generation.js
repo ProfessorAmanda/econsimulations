@@ -1,152 +1,71 @@
 import chi from 'chi-squared';
+import PD from "probability-distributions";
+import _ from "lodash";
 
 // generates a dataset with normal distribution
+// returns an array of [value, count] pairs
 export const generateNormal = (sampleSize) => {
   const MEAN = 64;
   const STANDARD_DEV = 3;
-  const ITERATES = 9;
-  const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
-  const popMin = MEAN - (range / 2);
-
+  const population = PD.rnorm(sampleSize, MEAN, STANDARD_DEV).map((num) => num.toFixed(1));
+  const counts = _.countBy(population);
   const popArray = [];
-
-  let dict = Array(sampleSize).fill(-1);
-
-  // creates data points for population and stores it in popArray
-  for (let i = 0; i < sampleSize; i++){
-      let sum = 0;
-      for (let j = 0; j < ITERATES; j++){
-          sum += Math.random() * range + popMin;
-      }
-
-      if (dict[Math.round(sum / ITERATES * 10)] !== -1){
-          dict[Math.round(sum / ITERATES * 10)] += 1;
-      }
-      // Adds first instance of a point
-      else {
-          dict[Math.round(sum / ITERATES * 10)] = 1;
-      }
-  }
-
-  for (const point in dict) {
-      if (point !== -1) {
-          for (let count = 1; count < dict[point] + 1; count++) {
-              popArray.push([point/10, count]);
-          }
-      }
-  }
-  popArray.sort(() => Math.random() - 0.5);
-  popArray.sort((a,b) => b[1] - a[1]);
-
-  return popArray;
+  _.entries(counts).forEach(([amt, count]) => {
+    for (let i = 1; i <= count; i++) {
+      popArray.push([+amt, i])
+    }
+  });
+  return _.shuffle(popArray);
 }
 
 // generates a dataset with uniform distribution
-export const generateUniform = (mainSampleSize) => {
+// returns an array of [value, count] pairs
+export const generateUniform = (sampleSize) => {
   const HI = 10;
   const LOW = -10;
-  const range = HI - LOW;
-
-  const popArr = []
-
-  const sampleSize = mainSampleSize - 100;
-  let dict = Array(sampleSize).fill(-1);
-
-  for (let i = 0; i < sampleSize; i++){
-      const val = Math.random() * range + LOW;
-
-      if (dict[Math.round(val * 10)]){
-          dict[Math.round(val * 10)] += 1;
-      } else {
-          dict[Math.round(val * 10)] = 1;
-      }
-  }
-
-  for (const point in dict) {
-      if (point !== -1) {
-          for (let count = 1; count < dict[point] + 2; count++) {
-              popArr.push([point/10, count]);
-          }
-      }
-  }
-
-  popArr.sort(() => Math.random() - 0.3);
-  popArr.sort((a,b) => b[1] - a[1]);
-
-  return popArr;
+  const population = PD.runif(sampleSize, LOW, HI).map((num) => num.toFixed(1));
+  const counts = _.countBy(population);
+  const popArray = [];
+  _.entries(counts).forEach(([amt, count]) => {
+    for (let i = 1; i <= count; i++) {
+      popArray.push([+amt, i])
+    }
+  });
+  return _.shuffle(popArray);
 }
 
 // generates a dataset with exponential distribution
+// returns an array of [value, count] pairs
 export const generateExponential = (sampleSize) => {
   const LAMBDA = 1/64;
-
-  const popArray =  [];
-
-  let dict = Array(sampleSize).fill(-1);
-
-  for (let i = 0; i < sampleSize; i++){
-      const val = -Math.log(Math.random()) / LAMBDA
-
-      if (dict[Math.round(val * 10)]){
-          dict[Math.round(val * 10)] += 1;
-      } else {
-          dict[Math.round(val * 10)] = 1;
-      }
-  }
-
-  for (const point in dict) {
-      if (point !== -1) {
-          for (let count = 1; count < dict[point] + 2; count++) {
-              popArray.push([point/10, count]);
-          }
-      }
-  }
-  popArray.sort(() => Math.random() - 0.5);
-  popArray.sort((a,b) => b[1] - a[1]);
-  return popArray;
+  const population = PD.rexp(sampleSize, LAMBDA).map((num) => num.toFixed(1));
+  const counts = _.countBy(population);
+  const popArray = [];
+  _.entries(counts).forEach(([amt, count]) => {
+    for (let i = 1; i <= count; i++) {
+      popArray.push([+amt, i])
+    }
+  });
+  return _.shuffle(popArray);
 }
 
 // generates a dataset with chi-squared distribution
+// returns an array of [value, count] pairs
 export const generateChiSquared = (sampleSize) => {
   const DEGREES_OF_FREEDOM = 8;
-  const chiArray = [];
-  const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM);
-  for (let i = 0; i < 20; i+=.1){
-      const tmp = chi.pdf(i, DEGREES_OF_FREEDOM)
-      for (let j = 0; j < tmp / chiMin; j++){
-          chiArray.push(i)
-      }
-  }
-
+  const population = PD.rchisq(sampleSize, DEGREES_OF_FREEDOM).map((num) => num.toFixed(1));
+  const counts = _.countBy(population);
   const popArray = [];
-
-  let dict = Array(sampleSize).fill(-1);
-
-  for (let i = 0; i < sampleSize; i++){
-      const val = chiArray[Math.round(Math.random() * chiArray.length)];
-
-      if (dict[Math.round(val * 10)]){
-          dict[Math.round(val * 10)] += 1;
-      } else {
-          dict[Math.round(val * 10)] = 1;
-      }
-  }
-
-  for (const point in dict) {
-      if (point !== -1) {
-          for (let count = 1; count < dict[point] + 2; count++) {
-              popArray.push([point/10, count]);
-          }
-      }
-  }
-
-  popArray.sort(() => Math.random() - 0.5);
-  popArray.sort((a,b) => b[1] - a[1]);
-
-  return popArray;
+  _.entries(counts).forEach(([amt, count]) => {
+    for (let i = 1; i <= count; i++) {
+      popArray.push([+amt, i])
+    }
+  });
+  return _.shuffle(popArray);
 }
 
 // generates a dataset with 'mystery' distribution
+// returns an array of [value, count] pairs
 export const generateMystery = (sampleSize) => {
 
   const popArray = [];

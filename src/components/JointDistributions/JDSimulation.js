@@ -11,6 +11,7 @@ import MultivariateNormal from 'multivariate-normal';
 import { Container, Row, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
 import MeanSDInput from './MeanSDInput';
 import JDCharts from './JDCharts';
+import _ from "lodash";
 
 const meanVector = [70, 70];
 
@@ -57,23 +58,13 @@ export default function JDSimulation() {
       jointSeries.push({x: parentHeight.toFixed(2), y: childHeight.toFixed(2)});
     }
 
-    const parentCounts = {};
+    const parentCounts = _.countBy(jointSeries, (pair) => pair.x);
+    const childCounts = _.countBy(jointSeries, (pair) => pair.y);
     const parentSeries = [];
-    const childCounts = {};
     const childSeries = [];
 
     jointSeries.forEach(({x, y}) => {
-      if (parentCounts[x]) {
-        parentCounts[x]++
-      } else {
-        parentCounts[x] = 1
-      }
       parentSeries.push({x: x, y: parentCounts[x]});
-      if (childCounts[y]) {
-        childCounts[y]++
-      } else {
-        childCounts[y] = 1
-      }
       childSeries.push({x: y, y: childCounts[y]});
     });
 
