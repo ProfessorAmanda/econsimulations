@@ -53,16 +53,14 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
   }, [popType, mainSampleSize]);
 
   const addSampleMeans = (means) => {
-    console.log(sampleMeans, means);
     const newSampleMeans = [...sampleMeans, ...means];
-    console.log("newMeans: ", newSampleMeans);
     setSampleMeans(newSampleMeans);
   }
 
   const handleClick = (size) => {
-    const sampleObject = sample(size, popArray);
-    setSampled(sampleObject.pop);
-    const newMeans = [...sampleMeans, [size, sampleObject.mue]];
+    const {pop, mue} = sample(size, popArray);
+    setSampled(pop);
+    const newMeans = [...sampleMeans, [size, mue]];
     setSampleMeans(newMeans);
   }
 

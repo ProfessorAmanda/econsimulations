@@ -33,9 +33,9 @@ export default function LLNSimulation({ popType, sampleSize }) {
   }, [popType, sampleSize]);
 
   const handleClick = (size) => {
-    const sampleObject = sample(size, popArray);
-    setSampled(sampleObject.pop);
-    setSampleMean(sampleObject.mue);
+    const {pop, mue} = sample(size, popArray);
+    setSampled(pop);
+    setSampleMean(mue);
     setStage(2);
   }
 
@@ -52,12 +52,11 @@ export default function LLNSimulation({ popType, sampleSize }) {
             Difference of Means: {differenceOfMeans(popMean, sampleMean)}
           </Alert>
           <Alert color="info">
-            According to the law, the average of the results obtained from a large enough sample should be close to the total average of the population, and will tend to become closer the larger the sample is. Make sure to pick several samples, or click below for a simulation to see the law in action.
+            According to the law, the average of the results obtained from a large enough sample should be close to the total average of the population, and will tend to become closer the larger the sample is. Make sure to pick several samples, or see below for a simulation to see the law in action.
           </Alert>
           <SimulateSamples type={popType} sample={(size) => sample(size, popArray).pop} pop={popMean}/>
         </div>
       }
     </Collapsable>
   );
-
 }

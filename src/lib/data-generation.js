@@ -1,4 +1,3 @@
-import chi from 'chi-squared';
 import PD from "probability-distributions";
 import _ from "lodash";
 
@@ -147,10 +146,7 @@ export const generateMystery = (sampleSize) => {
       finalPopArray.push([(Math.round(val * 10)/10), count[Math.round(val * 10)] ])
   }
 
-  finalPopArray.sort(() => Math.random() - 0.5);
-  finalPopArray.sort((a,b) => b[1] - a[1]);
-
-  return finalPopArray
+  return _.shuffle(finalPopArray);
 }
 
 
