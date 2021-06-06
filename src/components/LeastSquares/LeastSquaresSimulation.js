@@ -12,6 +12,7 @@ import NewPointsInput from "./NewPointsInput";
 import SlopeInterceptInput from "./SlopeInterceptInput";
 import LeastSquaresChart from "./LeastSquaresChart.js";
 import PlotLine from "./PlotLine.js";
+import regression from "regression";
 
 export default function LeastSquaresSimulation() {
   const [points, setPoints] = useState([]);
@@ -51,29 +52,9 @@ export default function LeastSquaresSimulation() {
   }
 
   const generateBestLine = () => {
-    const xpoints = points.map((p) => p.x);
-    const ypoints = points.map((p) => p.y);
-
-    const averageX = xpoints.reduce((a, b) => a + b, 0)/xpoints.length;
-    const averageY = ypoints.reduce((a, b) => a + b, 0)/ypoints.length;
-
-    let scovXY = 0;
-    for (let i = 0; i < xpoints.length; i++){
-      scovXY += (ypoints[i] - averageY)*(xpoints[i] - averageX);
-    }
-    scovXY = scovXY/xpoints.length;
-
-    let svarX = 0;
-    for (let i = 0; i < xpoints.length; i++){
-      svarX += (xpoints[i] - averageX)*(xpoints[i] - averageX);
-    }
-    svarX = svarX/xpoints.length;
-
-    let olsSlope = scovXY/svarX;
-    let olsIntercept = averageY - (olsSlope * averageX);
-
-    setSlope(olsSlope.toFixed(1));
-    setIntercept(olsIntercept.toFixed(1));
+    const result = regression.linear(points.map(({x, y}) => [x, y]), { precision: 1 });
+    setSlope(result.equation[0]);
+    setIntercept(result.equation[1]);
   }
 
   return (
