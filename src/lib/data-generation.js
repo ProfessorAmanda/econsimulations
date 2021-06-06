@@ -1,7 +1,7 @@
 import chi from 'chi-squared';
 
 // generates a dataset with normal distribution
-export const generateNormal = (sampleSize, _xvalue) => {
+export const generateNormal = (sampleSize) => {
   const MEAN = 64;
   const STANDARD_DEV = 3;
   const ITERATES = 9;
@@ -9,7 +9,6 @@ export const generateNormal = (sampleSize, _xvalue) => {
   const popMin = MEAN - (range / 2);
 
   const popArray = [];
-  const xvalue = _xvalue || [];
 
   let dict = Array(sampleSize).fill(-1);
 
@@ -33,7 +32,6 @@ export const generateNormal = (sampleSize, _xvalue) => {
       if (point !== -1) {
           for (let count = 1; count < dict[point] + 1; count++) {
               popArray.push([point/10, count]);
-              xvalue.push(point/10);
           }
       }
   }
@@ -44,13 +42,12 @@ export const generateNormal = (sampleSize, _xvalue) => {
 }
 
 // generates a dataset with uniform distribution
-export const generateUniform = (mainSampleSize, _xvalue) => {
+export const generateUniform = (mainSampleSize) => {
   const HI = 10;
   const LOW = -10;
   const range = HI - LOW;
 
   const popArr = []
-  const xvalue = _xvalue || [];
 
   const sampleSize = mainSampleSize - 100;
   let dict = Array(sampleSize).fill(-1);
@@ -69,7 +66,6 @@ export const generateUniform = (mainSampleSize, _xvalue) => {
       if (point !== -1) {
           for (let count = 1; count < dict[point] + 2; count++) {
               popArr.push([point/10, count]);
-              xvalue.push(point/10);
           }
       }
   }
@@ -81,11 +77,10 @@ export const generateUniform = (mainSampleSize, _xvalue) => {
 }
 
 // generates a dataset with exponential distribution
-export const generateExponential = (sampleSize, _xvalue) => {
+export const generateExponential = (sampleSize) => {
   const LAMBDA = 1/64;
 
   const popArray =  [];
-  const xvalue = _xvalue || [];
 
   let dict = Array(sampleSize).fill(-1);
 
@@ -103,7 +98,6 @@ export const generateExponential = (sampleSize, _xvalue) => {
       if (point !== -1) {
           for (let count = 1; count < dict[point] + 2; count++) {
               popArray.push([point/10, count]);
-              xvalue.push(point/10);
           }
       }
   }
@@ -113,7 +107,7 @@ export const generateExponential = (sampleSize, _xvalue) => {
 }
 
 // generates a dataset with chi-squared distribution
-export const generateChiSquared = (sampleSize, _xvalue) => {
+export const generateChiSquared = (sampleSize) => {
   const DEGREES_OF_FREEDOM = 8;
   const chiArray = [];
   const chiMin = chi.pdf(20, DEGREES_OF_FREEDOM);
@@ -125,7 +119,6 @@ export const generateChiSquared = (sampleSize, _xvalue) => {
   }
 
   const popArray = [];
-  const xvalue = _xvalue || [];
 
   let dict = Array(sampleSize).fill(-1);
 
@@ -143,7 +136,6 @@ export const generateChiSquared = (sampleSize, _xvalue) => {
       if (point !== -1) {
           for (let count = 1; count < dict[point] + 2; count++) {
               popArray.push([point/10, count]);
-              xvalue.push(point/10);
           }
       }
   }
@@ -155,10 +147,9 @@ export const generateChiSquared = (sampleSize, _xvalue) => {
 }
 
 // generates a dataset with 'mystery' distribution
-export const generateMystery = (sampleSize, _xvalue) => {
+export const generateMystery = (sampleSize) => {
 
   const popArray = [];
-  const xvalue = _xvalue || [];
 
   const firstMEAN = 75.5;
   const firstSTANDARD_DEV = 3;
@@ -235,7 +226,6 @@ export const generateMystery = (sampleSize, _xvalue) => {
       }
 
       finalPopArray.push([(Math.round(val * 10)/10), count[Math.round(val * 10)] ])
-      xvalue.push((Math.round(val * 10)/10))
   }
 
   finalPopArray.sort(() => Math.random() - 0.5);
@@ -247,13 +237,13 @@ export const generateMystery = (sampleSize, _xvalue) => {
 
 
 // returns the data set from the function corresponding with distType
-export const dataFromDistribution = (distType, sampleSize, xvalue) => {
+export const dataFromDistribution = (distType, sampleSize) => {
   const getDistributionFunction = {
-    "Normal": () => generateNormal(sampleSize, xvalue),
-    "Uniform": () => generateUniform(sampleSize, xvalue),
-    "Exponential": () => generateExponential(sampleSize, xvalue),
-    "Chi-Squared": () => generateChiSquared(sampleSize, xvalue),
-    "Mystery": () => generateMystery(sampleSize, xvalue)
+    "Normal": () => generateNormal(sampleSize),
+    "Uniform": () => generateUniform(sampleSize),
+    "Exponential": () => generateExponential(sampleSize),
+    "Chi-Squared": () => generateChiSquared(sampleSize),
+    "Mystery": () => generateMystery(sampleSize)
   }
 
   return getDistributionFunction[distType]();

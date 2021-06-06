@@ -19,8 +19,6 @@ import { populationMean, sample } from "../../lib/stats-utils.js";
 import SampleSizeInput from '../SampleSizeInput.js';
 import SampleMeansTable from './SampleMeansTable.js';
 
-const xvalue = [];
-
 const numberResamples = {
   "Normal": 0,
   "Uniform": 0,
@@ -47,7 +45,7 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
 
   useEffect(() => {
     setStage(1);
-    const newPop = dataFromDistribution(popType, sampleSize, xvalue);
+    const newPop = dataFromDistribution(popType, sampleSize);
     setPopArray(newPop);
     const newMean = populationMean(newPop);
     setPopMean(newMean);
@@ -67,6 +65,8 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
     const newMeans = [...sampleMeans, [size, sampleObject.mue]];
     setSampleMeans(newMeans);
   }
+
+  const xvalue = sampled.length === 0 ? [0] : sampled.map((s) => s[0]);  // provide a placeholder value until 'sampled' is updated
 
   return (
     <div>

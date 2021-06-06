@@ -33,7 +33,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
   }, [popType, sampleSize]);
 
   const handleClick = (size) => {
-    const sampleObject = sample(size, popArray);  // TODO: use a package here? (lodash, underscore)
+    const sampleObject = sample(size, popArray);
     setSampled(sampleObject.pop);
     setSampleMean(sampleObject.mue);
     setStage(2);

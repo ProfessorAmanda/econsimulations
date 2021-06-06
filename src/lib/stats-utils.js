@@ -1,4 +1,5 @@
-import { mean, round, random } from "mathjs";
+import { mean, round } from "mathjs";
+import _ from "lodash";
 
 // returns the mean of popArray
 export const populationMean = (popArray) => {
@@ -18,22 +19,6 @@ export const differenceOfMeans = (popMean, sampleMean) => {
 
 // returns an object with {pop: sample of size 'size', mue: mean of pop} from popArray
 export const sample = (size, popArray) => {
-  const sampled = []
-
-  while (sampled.length < size){
-    // index to sample ?
-    const r = round(random() * (popArray.length - 1));
-    let shouldSample = true;
-    for (let i = 0; i < sampled.length; i++){
-      if (sampled[i][0] === r) {
-        shouldSample = false;
-      }
-    }
-    if (shouldSample) {
-      // only pushes if shouldSample is true
-      sampled.push(popArray[r]);
-    }
-  }
-
+  const sampled = _.sampleSize(popArray, size);
   return { pop: sampled, mue: populationMean(sampled) };
 }
