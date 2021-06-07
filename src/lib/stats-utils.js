@@ -7,12 +7,12 @@ import _ from "lodash";
 export const generateNormal = (sampleSize) => {
   const MEAN = 64;
   const STANDARD_DEV = 3;
-  const population = PD.rnorm(sampleSize, MEAN, STANDARD_DEV).map((num) => num.toFixed(1));
+  const population = PD.rnorm(sampleSize, MEAN, STANDARD_DEV).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push([amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -23,12 +23,12 @@ export const generateNormal = (sampleSize) => {
 export const generateUniform = (sampleSize) => {
   const HI = 10;
   const LOW = -10;
-  const population = PD.runif(sampleSize, LOW, HI).map((num) => num.toFixed(1));
+  const population = PD.runif(sampleSize, LOW, HI).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push([amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -38,12 +38,12 @@ export const generateUniform = (sampleSize) => {
 // returns an array of [value, count] pairs
 export const generateExponential = (sampleSize) => {
   const LAMBDA = 1/64;
-  const population = PD.rexp(sampleSize, LAMBDA).map((num) => num.toFixed(1));
+  const population = PD.rexp(sampleSize, LAMBDA).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push([amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -53,12 +53,12 @@ export const generateExponential = (sampleSize) => {
 // returns an array of [value, count] pairs
 export const generateChiSquared = (sampleSize) => {
   const DEGREES_OF_FREEDOM = 8;
-  const population = PD.rchisq(sampleSize, DEGREES_OF_FREEDOM).map((num) => num.toFixed(1));
+  const population = PD.rchisq(sampleSize, DEGREES_OF_FREEDOM).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push([amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -166,5 +166,5 @@ export const dataFromDistribution = (distType, sampleSize) => {
 
 // returns the mean of popArray
 export const populationMean = (popArray) => {
-  return mean(popArray.map(p => p[0])).toFixed(2);
+  return mean(popArray.map(p => p[0]));
 }

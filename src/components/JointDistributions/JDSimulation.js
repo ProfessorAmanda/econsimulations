@@ -55,7 +55,7 @@ export default function JDSimulation() {
     const jointSeries = [];
     for (let i = 0; i < 1000; i++) {
       const [parentHeight, childHeight] = distribution.sample();
-      jointSeries.push({x: parentHeight.toFixed(2), y: childHeight.toFixed(2)});
+      jointSeries.push({x: _.round(parentHeight, 2), y: _.round(childHeight, 2)});
     }
 
     const parentCounts = _.countBy(jointSeries, (pair) => pair.x);
