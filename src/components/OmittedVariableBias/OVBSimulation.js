@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import { Row, Col, Button } from "reactstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Button, InputGroup, InputGroupText } from "reactstrap";
 import CoefficientInput from "./CoefficientInput.js";
-import CovarianceInput from "./CovarianceInput.js";
 import MultivariateNormal from "multivariate-normal";
 import { round, transpose, matrix, multiply, inv } from "mathjs";
 import regression from "regression";
-import { useEffect } from "react/cjs/react.development";
 import OmittedVariableChart from "./OmittedVariableChart.js";
 import PD from "probability-distributions";
 import _ from "lodash";
+import InputSlider from "../InputSlider.js";
 
 const meanVector = [5, 2];
 const stdX = 3;
@@ -117,6 +116,11 @@ export default function OVBSimulation() {
     });
   }
 
+  const adjustCorrelation = (value) => {
+    setCorrelation(value);
+    setCovariance(value * stdX * stdY);
+  }
+
   return (
     <div>
       <Row>
@@ -128,14 +132,15 @@ export default function OVBSimulation() {
           <CoefficientInput beta={beta} setBeta={setBeta} delta={delta} setDelta={setDelta}/>
         </Col>
         <Col>
-          <CovarianceInput
-            correlation={correlation}
-            setCorrelation={setCorrelation}
-            covariance={covariance}
-            setCovariance={setCovariance}
-          />
+          <InputSlider value={correlation} min={-0.99} max={0.99} step={.01} onChange={(value) => adjustCorrelation(value)}/>
+          <br/>
+          <InputGroup style={{width: "fit-content", margin: "auto"}}>
+            <InputGroupText className="Center" addonType='prepend'>Covariance between Study Hours and Sleep Hours:</InputGroupText>
+            <InputGroupText className="Center">{covariance.toFixed(2)}</InputGroupText>
+          </InputGroup>
         </Col>
       </Row>
+      <br/>
       <Row>
         <Col>
           <p>Estimate Regression Using Test Score and Study Hours Data </p>

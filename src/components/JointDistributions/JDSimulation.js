@@ -8,10 +8,11 @@
 */
 import React, { useEffect, useState } from 'react';
 import MultivariateNormal from 'multivariate-normal';
-import { Container, Row, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
+import { Container, Row, Col, InputGroupText, Button } from 'reactstrap';
 import MeanSDInput from './MeanSDInput';
 import JDCharts from './JDCharts';
 import _ from "lodash";
+import InputSlider from '../InputSlider';
 
 const meanVector = [70, 70];
 
@@ -83,21 +84,7 @@ export default function JDSimulation() {
         </Col>
         <Col>
           <p>Set the Correlation</p>
-          <InputGroup style={{height: "30px", width: "500px"}}>
-            <Input
-              value={correlation}
-              type="range"
-              className="custom-range"
-              style={{width: "85%"}}
-              step={0.1}
-              min={-1}
-              max={1}
-              onChange={(event) => changeSlider(event.target.value)}
-            />
-            <InputGroupAddon addonType="append">
-              <InputGroupText className="inputGroupAppend">{correlation}</InputGroupText>
-            </InputGroupAddon>
-          </InputGroup>
+          <InputSlider value={correlation} min={-1} max={1} step={0.1} onChange={(value) => changeSlider(value)}/>
           <p style={{ margin: "15px" }}>Covariance</p>
           <InputGroupText>{covariance.toFixed(2)}</InputGroupText>
         </Col>

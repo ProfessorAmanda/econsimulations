@@ -9,10 +9,10 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "reactstrap";
 import NewPointsInput from "./NewPointsInput";
-import SlopeInterceptInput from "./SlopeInterceptInput";
 import LeastSquaresChart from "./LeastSquaresChart.js";
 import PlotLine from "./PlotLine.js";
 import regression from "regression";
+import InputSlider from "../InputSlider.js";
 
 export default function LeastSquaresSimulation() {
   const [points, setPoints] = useState([]);
@@ -70,12 +70,11 @@ export default function LeastSquaresSimulation() {
           {(stage === 3) && <p>Want to try again? Guess a different slope and y-intercept to reduce the Sum of Squares!</p>}
           {(stage >= 2) &&
             <div>
-              <SlopeInterceptInput
-                slope={slope}
-                setSlope={setSlope}
-                intercept={intercept}
-                setIntercept={setIntercept}
-              />
+              <h4>Intercept</h4>
+              <InputSlider value={intercept} min={-20} max={20} step={0.1} onChange={(value) => setIntercept(value)}/>
+              <h4>Slope</h4>
+              <InputSlider value={slope} min={-10} max={10} step={0.1} onChange={(value) => setSlope(value)}/>
+              <br/>
               <PlotLine stage={stage} setStage={setStage} squareAreas={squareAreas} generateBestLine={generateBestLine}/>
             </div>
           }
