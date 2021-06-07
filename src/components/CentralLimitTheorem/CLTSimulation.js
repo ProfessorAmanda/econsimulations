@@ -14,10 +14,10 @@ import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeansSimulator from './SampleMeansSimulator.js'
 import { std } from "mathjs";
 import { Alert, Button, Col, Row } from 'reactstrap';
-import { dataFromDistribution } from '../../lib/data-generation.js';
-import { populationMean, sample } from "../../lib/stats-utils.js";
+import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
 import SampleSizeInput from '../SampleSizeInput.js';
 import SampleMeansTable from './SampleMeansTable.js';
+import _ from "lodash";
 
 const numberResamples = {
   "Normal": 0,
@@ -45,7 +45,7 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
 
   useEffect(() => {
     setStage(1);
-    const newPop = dataFromDistribution(popType, sampleSize);
+    const newPop = dataFromDistribution(popType, mainSampleSize);
     setPopArray(newPop);
     const newMean = populationMean(newPop);
     setPopMean(newMean);
@@ -58,9 +58,9 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
   }
 
   const handleClick = (size) => {
-    const {pop, mue} = sample(size, popArray);
-    setSampled(pop);
-    const newMeans = [...sampleMeans, [size, mue]];
+    const sample = _.sampleSize(popArray, size);
+    setSampled(sample);
+    const newMeans = [...sampleMeans, [size, populationMean(sample)]];
     setSampleMeans(newMeans);
   }
 

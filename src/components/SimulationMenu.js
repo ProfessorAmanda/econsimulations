@@ -26,7 +26,7 @@ export default function SimulationMenu() {
   return (
     start ? (
       <div>
-        <div className="App-bg"></div>
+        <div className="App-bg"/>
         {!logo && <StartHere start={start} showApp={() => setStart(false)}/>}
       </div>
     ) : (
@@ -34,7 +34,6 @@ export default function SimulationMenu() {
         {
           (mode === "Home") ? (
             <Fade in={(mode === "Home")} style={{ display: (mode === "Home") ? 'block' : 'none' }}>
-              <div className="Splash"></div>
               <div className="Nav" key={'unkey'}>
                 <SimBar setSection={setMode}/>
               </div>

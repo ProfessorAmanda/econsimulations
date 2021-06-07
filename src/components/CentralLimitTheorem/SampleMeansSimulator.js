@@ -11,7 +11,7 @@
 */
 import React, { useState } from "react";
 import {Button, Input } from 'reactstrap';
-import { floor, random, mean } from "mathjs";
+import { mean } from "mathjs";
 import _ from "lodash";
 
 export default function SampleMeansSimulator({ setSampleSize, clear, population, addSamples }) {
