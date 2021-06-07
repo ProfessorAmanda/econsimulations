@@ -39,32 +39,30 @@ export default function SampleMeansSimulator({ setSampleSize, clear, population,
 
   return (
     <div>
-      <div style={{ float: "center" }}>
       <span> Sample Size: </span>
-        <Input
-          min={1}
-          type="number"
-          placeholder="Sample Size:"
-          onChange={(event) => changeSampleSize(event.target.value)}
-          value={resampleSize}
-        />
-      </div>
-      <div style={{ float: "center" }}>
-        <span> Number of Replications: </span>
-        <Input
-          min={1}
-          type="number"
-          placeholder="Number of Replications:"
-          onChange={(event) => setNumberResamples(event.target.value)}
-          value={numberResamples}
-        />
-      </div>
-      <div style={{ float: "center" }}>
-        <Button onClick={() => runSim()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}>
-          Run
-        </Button>
-        <Button onClick={() => clear()}>Clear</Button>
-      </div>
+      <Input
+        style={{width: "40%", margin: "auto"}}
+        min={1}
+        type="number"
+        placeholder="Sample Size:"
+        onChange={(event) => changeSampleSize(event.target.value)}
+        value={resampleSize}
+      />
+      <br/>
+      <span> Number of Replications: </span>
+      <Input
+        style={{width: "40%", margin: "auto"}}
+        min={1}
+        type="number"
+        placeholder="Number of Replications:"
+        onChange={(event) => setNumberResamples(event.target.value)}
+        value={numberResamples}
+      />
+      <br/>
+      <Button onClick={() => runSim()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}>
+        Run
+      </Button>
+      <Button onClick={() => clear()}>Clear</Button>
     </div>
   );
 }

@@ -15,15 +15,15 @@ export default function InputSlider({ value, min, max, step, onChange }) {
         onChange={(event) => onChange(event.target.value)}
       />
       <InputGroupAddon addonType="append">
-      <Input
-        type="number"
-        className="inputGroupAppend"
-        value={value}
-        min={min}
-        max={max}
-        step={step}
-        onChange={(event) => onChange(event.target.value)}
-      />
+        <Input
+          type="number"
+          className="inputGroupAppend"
+          value={value}
+          min={min}
+          max={max}
+          step={step}
+          onChange={(event) => onChange(event.target.value)}
+        />
       </InputGroupAddon>
     </InputGroup>
   );

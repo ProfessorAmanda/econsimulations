@@ -109,6 +109,7 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
                 <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
                   <p>Simulate drawing many many samples</p>
                 </Alert>
+                <br/>
                 <SampleMeansSimulator
                   setSampleSize={setSampleSize}
                   clear={() => setSampleMeans([])}

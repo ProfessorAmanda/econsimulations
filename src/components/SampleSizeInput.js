@@ -18,23 +18,21 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
   }
 
   return (
-    <div>
-      <InputGroup>
-        <Input
-            align="right"
-            type="number"
-            placeholder="Sample Size:"
-            min={1}
-            value={sampleSize}
-            max={maxSize}
-            onChange={(event) => hangleChange(event)}
-        />
-        <InputGroupAddon addonType="append">
-          <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={()=> handleClick(sampleSize)}>
-            Sample
-          </Button>
-        </InputGroupAddon>
-      </InputGroup>
-    </div>
+    <InputGroup style={{width: "40%", margin: "auto"}}>
+      <Input
+        align="right"
+        type="number"
+        placeholder="Sample Size:"
+        min={1}
+        value={sampleSize}
+        max={maxSize}
+        onChange={(event) => hangleChange(event)}
+      />
+      <InputGroupAddon addonType="append">
+        <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={()=> handleClick(sampleSize)}>
+          Sample
+        </Button>
+      </InputGroupAddon>
+    </InputGroup>
   );
 }
