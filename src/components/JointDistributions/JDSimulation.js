@@ -65,8 +65,12 @@ export default function JDSimulation() {
     const childSeries = [];
 
     jointSeries.forEach(({x, y}) => {
-      parentSeries.push({x: x, y: parentCounts[x]});
-      childSeries.push({x: y, y: childCounts[y]});
+      for (let i = 1; i <= parentCounts[x]; i++) {
+        parentSeries.push({x: x, y: i});
+      }
+      for (let j = 1; j <= childCounts[y]; j++) {
+        childSeries.push({x: y, y: j});
+      }
     });
 
     const data = {parent: parentSeries, child: childSeries, joint: jointSeries}
