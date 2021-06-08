@@ -6,7 +6,7 @@ import SampleAreaCLT from './SampleAreaCLT.js';
 import SampleMeanSimulator from '../SampleMeanSimulator.js';
 import TTable from './TTable.js';
 import ZTable from './ZTable.js';
-import math from 'mathjs';
+import { sqrt, random, round, mean, std, floor } from "mathjs";
 
 import { Alert, Button, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
 
@@ -57,7 +57,7 @@ class Normal extends React.Component {
         const MEAN = 64;
         const STANDARD_DEV = 3;
         const ITERATES = 9;
-        const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
+        const range = sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
 
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
@@ -69,15 +69,15 @@ class Normal extends React.Component {
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
             for (let j = 0; j < ITERATES; j++){
-                sum += Math.random() * range + popMin;
+                sum += random() * range + popMin;
             }
 
-            if (dict[Math.round(sum / ITERATES * 10)] !== -1){
-                dict[Math.round(sum / ITERATES * 10)] += 1;
+            if (dict[round(sum / ITERATES * 10)] !== -1){
+                dict[round(sum / ITERATES * 10)] += 1;
             }
             // Adds first instance of a point
             else {
-                dict[Math.round(sum / ITERATES * 10)] = 1;
+                dict[round(sum / ITERATES * 10)] = 1;
             }
         }
 
@@ -88,10 +88,10 @@ class Normal extends React.Component {
                 }
             }
         }
-        popArray.sort(() => Math.random() - 0.5);
+        popArray.sort(() => random() - 0.5);
         popArray.sort((a,b) => b[1] - a[1]);
         this.setState({
-            popMean: math.mean(popArray.map(p => p[0]))
+            popMean: mean(popArray.map(p => p[0]))
         })
 
         return popArray;
@@ -103,7 +103,7 @@ class Normal extends React.Component {
 
         while (sampled.length < size){
             // index to sample ?
-            const r = Math.round(Math.random() * (popArray.length - 1))
+            const r = round(random() * (popArray.length - 1))
             let shouldSample = true;
             for (let i = 0; i < sampled.length; i++){
                 if (sampled[i][0] === r) {
@@ -116,7 +116,7 @@ class Normal extends React.Component {
             }
         }
 
-        return { pop: sampled, mue: Math.round(math.mean(sampled.map(p => p[0])) * 100)/100, sd: math.std(sampled.map(p => p[0])) };
+        return { pop: sampled, mue: round(mean(sampled.map(p => p[0])) * 100)/100, sd: std(sampled.map(p => p[0])) };
     }
 
     updateSampleMeansFromArray(means){
@@ -299,7 +299,7 @@ class Normal extends React.Component {
                                             if(this.state.zORt === 't'){
 
                                                 pOft = parseInt(event.target.value *100)>50 ? 1-event.target.value: event.target.value;
-                                                this.setState({ciLevel: Math.floor(event.target.value*100).toString()+'%'});
+                                                this.setState({ciLevel: floor(event.target.value*100).toString()+'%'});
                                             }
                                             const modDof = this.state.dOf > 121? 122: this.state.dOf;
 
@@ -308,7 +308,7 @@ class Normal extends React.Component {
                                                             sampleMean:[],
                                                             sampled:[],
                                                             chart:0,
-                                                            ciLevel: Math.floor(event.target.value*100).toString()+'%'
+                                                            ciLevel: floor(event.target.value*100).toString()+'%'
                                                         });
                                           }}
                                     />
@@ -344,7 +344,7 @@ class Normal extends React.Component {
                                                 numberResamples={this.state.numberResamples}
                                                 resampleSize={this.state.resampleSize[this.state.popType]}
                                                 mean={this.state.popMean}
-                                                sd={this.state.popArray.length > 0 ? math.std(this.state.popArray) : 1}
+                                                sd={this.state.popArray.length > 0 ? std(this.state.popArray) : 1}
                                                 normalized={this.state.standardNormal}
                                                 sampleSize={this.state.sampleSize}
                                                 type={this.state.popType}
@@ -466,7 +466,7 @@ class Normal extends React.Component {
                                                             style={ mean[5] === 'no' ? {backgroundColor: "rgba(161, 23, 23, 0.233)"} : {backgroundColor: "rgba(23, 161, 80, 0.233)"}}>
                                                             <td>{index + 1}</td>
                                                             <td>{mean[0]}</td>
-                                                            <td>{Math.round(mean[1] * 10) / 10}</td>
+                                                            <td>{round(mean[1] * 10) / 10}</td>
 
                                                         </tr>
                                                         ))}

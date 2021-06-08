@@ -61,7 +61,7 @@ function IceInput(props){
   );
 }
 
-class JointDistributions extends Component {
+class JointAdvanced extends Component {
     constructor(props){
         super(props);
         this.state = {

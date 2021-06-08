@@ -4,7 +4,7 @@ import MultivariateNormal from 'multivariate-normal';
 import Highcharts from 'highcharts';
 import {  Container, Row, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
 
-import ChartContainerJoint from './ChartContainerJoint.js';
+import ChartContainerJoint from '../ChartContainerJoint.js';
 //const quantile = require("distributions-exponential-quantile");
 //const cdf = require( 'distributions-normal-cdf' );
 

@@ -4,11 +4,11 @@ import SampleArea from './SampleArea.js'
 // import HighchartsReact from 'highcharts-react-official';
 // import Highcharts from 'highcharts';
 import ChartContainer from './ChartContainer.js'
-import '../dark-unica.css';
+import '../styles/dark-unica.css';
 import chi from 'chi-squared'
 import SimulateSamples from './SimulateSamples.js'
 //import PopTable from './PopTable.js'
-import math from 'mathjs';
+import { math } from "mathjs";
 import { Alert, Col, Container, Row } from 'reactstrap';
 
 // how many data points

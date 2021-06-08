@@ -1,7 +1,7 @@
 import React, {useState}  from 'react';
 import TTest from './HypothesisTesting/TTest.js';
 import MysteryPop from './HypothesisTesting/MysteryPop.js';
-import math from 'mathjs';
+import { mean, sqrt, random, floor, round } from 'mathjs';
 import { Alert,Container, Row, Col,ButtonGroup,Button,Input, InputGroup, InputGroupAddon, InputGroupText, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const HypothesisTestingNew=()=>{
@@ -88,7 +88,7 @@ const HypothesisTestingNew=()=>{
         const MEAN = 68;
         const STANDARD_DEV = 3;
         const ITERATES = 9;
-        const range = Math.sqrt(12) * STANDARD_DEV * STANDARD_DEV;
+        const range = sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
 
         const popArray = [];
@@ -100,15 +100,15 @@ const HypothesisTestingNew=()=>{
         for (let i = 0; i < sampleSize; i++){
             let sum = 0;
             for (let j = 0; j < ITERATES; j++){
-                sum += Math.random() * range + popMin;
+                sum += random() * range + popMin;
             }
 
-            if (dict[Math.round(sum / ITERATES * 10)] !== -1){
-                dict[Math.round(sum / ITERATES * 10)] += 1;
+            if (dict[round(sum / ITERATES * 10)] !== -1){
+                dict[round(sum / ITERATES * 10)] += 1;
             }
             // Adds first instance of a point
             else {
-                dict[Math.round(sum / ITERATES * 10)] = 1;
+                dict[round(sum / ITERATES * 10)] = 1;
             }
         }
 
@@ -119,9 +119,9 @@ const HypothesisTestingNew=()=>{
                 }
             }
         }
-        popArray.sort(() => Math.random() - 0.5);
+        popArray.sort(() => random() - 0.5);
         popArray.sort((a,b) => b[1] - a[1]);
-        setPopMean(math.mean(popArray.map(p => p[0])));
+        setPopMean(mean(popArray.map(p => p[0])));
         return popArray;
 
     }
@@ -137,12 +137,12 @@ const HypothesisTestingNew=()=>{
         let dict = Array(sampleSize).fill(-1);
 
         for (let i = 0; i < sampleSize; i++){
-            const val = Math.random() * range + LOW;
+            const val = random() * range + LOW;
 
-            if (dict[Math.round(val * 10)]){
-                dict[Math.round(val * 10)] += 1;
+            if (dict[round(val * 10)]){
+                dict[round(val * 10)] += 1;
             } else {
-                dict[Math.round(val * 10)] = 1;
+                dict[round(val * 10)] = 1;
             }
         }
 
@@ -154,9 +154,9 @@ const HypothesisTestingNew=()=>{
             }
         }
 
-        popArray.sort(() => Math.random() - 0.3);
+        popArray.sort(() => random() - 0.3);
         popArray.sort((a,b) => b[1] - a[1]);
-        setPopMean(math.mean(popArray.map(p => p[0])));
+        setPopMean(mean(popArray.map(p => p[0])));
         return popArray;
 
     }
@@ -165,14 +165,14 @@ const HypothesisTestingNew=()=>{
     const generateMystery=()=>{
         // The generageMystery() function in Cental Limit Theorem/Mystery.js may not be usable, so a pre-generated Mystery pop is used.
 
-    setPopMean(math.mean(MysteryPop.map(p => p[0])));
+    setPopMean(mean(MysteryPop.map(p => p[0])));
 
 
     return MysteryPop;
   }
 
     const generateUnknown=()=>{
-        const ranNum = Math.floor(Math.random()*3);
+        const ranNum = floor(random()*3);
         var arr;
         console.log(ranNum);
 
@@ -190,7 +190,7 @@ const HypothesisTestingNew=()=>{
             break;
 
         }
-        
+
 
         return arr;
 
