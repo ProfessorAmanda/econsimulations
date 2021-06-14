@@ -5,13 +5,12 @@
   props:
     parentData    - array[Object{x, y}]
     sharedOptions - object
-    maxY          - number
 
 */
 import React from 'react';
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 
-export default function ParentChart({ parentData, sharedOptions, maxY }) {
+export default function ParentChart({ parentData, sharedOptions }) {
 
   const data = [{id: "data", data: parentData}];
 
@@ -20,7 +19,7 @@ export default function ParentChart({ parentData, sharedOptions, maxY }) {
       <ResponsiveScatterPlotCanvas
         data={data}
         yScale={{ type: 'linear', min: 0, max: maxY }}
-        tooltip={({node}) => <div>{node.data.formattedX}</div>}
+        tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
         colors={{"scheme": "set1"}}
         {...sharedOptions}
         axisBottom={{...sharedOptions.axisBottom, legend: 'Parent Height (inches)'}}
