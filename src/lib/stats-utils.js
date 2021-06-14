@@ -1,4 +1,4 @@
-import { mean } from "mathjs";
+import { mean, sqrt, random, round } from "mathjs";
 import PD from "probability-distributions";
 import _ from "lodash";
 
@@ -73,12 +73,12 @@ export const generateMystery = (sampleSize) => {
   const firstMEAN = 75.5;
   const firstSTANDARD_DEV = 3;
   const firstITERATES = 9;
-  const firstrange = Math.sqrt(12) * firstSTANDARD_DEV * firstSTANDARD_DEV;
+  const firstrange = sqrt(12) * firstSTANDARD_DEV * firstSTANDARD_DEV;
   const firstpopMin = firstMEAN - (firstrange / 2);
   const secondMEAN = 60.5;
   const secondSTANDARD_DEV = 2;
   const secondITERATES = 9;
-  const secondrange = Math.sqrt(12) * secondSTANDARD_DEV * secondSTANDARD_DEV;
+  const secondrange = sqrt(12) * secondSTANDARD_DEV * secondSTANDARD_DEV;
   const secondpopMin = secondMEAN - (secondrange / 2);
 
   const clearedArray = [];
@@ -91,38 +91,38 @@ export const generateMystery = (sampleSize) => {
     let sum = 0;
     if(clearedArray.length === 0){
         for (let j = 0; j < firstITERATES; j++){
-            sum += Math.random() * firstrange + firstpopMin;
+            sum += random() * firstrange + firstpopMin;
         }
     }
     else{
         sum = newCleared.pop() * firstITERATES;
     }
-    if (popDict[Math.round(sum / firstITERATES * 10)]){
-        stateCopy[Math.round(sum / firstITERATES * 10)] += 1
+    if (popDict[round(sum / firstITERATES * 10)]){
+        stateCopy[round(sum / firstITERATES * 10)] += 1
     }
     else {
-        stateCopy[Math.round(sum / firstITERATES * 10)] = 1
+        stateCopy[round(sum / firstITERATES * 10)] = 1
     }
-    popArray.push(Math.round((sum / firstITERATES)*100)/100)
+    popArray.push(round((sum / firstITERATES)*100)/100)
   }
 
   for (let i = 0; i < sampleSize/2; i++){
       let sum = 0;
       if(clearedArray.length === 0){
           for (let j = 0; j < secondITERATES; j++){
-              sum += Math.random() * secondrange + secondpopMin;
+              sum += random() * secondrange + secondpopMin;
           }
       }
       else{
           sum = newCleared.pop() * secondITERATES;
       }
-      if (popDict[Math.round(sum / secondITERATES * 10)]){
-          stateCopy[Math.round(sum / secondITERATES * 10)] += 1
+      if (popDict[round(sum / secondITERATES * 10)]){
+          stateCopy[round(sum / secondITERATES * 10)] += 1
       }
       else {
-          stateCopy[Math.round(sum / secondITERATES * 10)] = 1
+          stateCopy[round(sum / secondITERATES * 10)] = 1
       }
-      popArray.push(Math.round((sum / secondITERATES)*100)/100)
+      popArray.push(round((sum / secondITERATES)*100)/100)
   }
   if(clearedArray.length > 0){
     var tempCleared = clearedArray;
@@ -137,14 +137,14 @@ export const generateMystery = (sampleSize) => {
 
       let val = popArray[i];
 
-      if (count[Math.round(val * 10)] !== -1){
-          count[Math.round(val * 10)] += 1;
+      if (count[round(val * 10)] !== -1){
+          count[round(val * 10)] += 1;
       }
       else {
-          count[Math.round(val * 10)] = 1;
+          count[round(val * 10)] = 1;
       }
 
-      finalPopArray.push([(Math.round(val * 10)/10), count[Math.round(val * 10)] ])
+      finalPopArray.push([(round(val * 10)/10), count[round(val * 10)] ])
   }
 
   return _.shuffle(finalPopArray);

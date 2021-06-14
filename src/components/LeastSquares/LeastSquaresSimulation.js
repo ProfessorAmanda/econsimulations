@@ -13,6 +13,7 @@ import LeastSquaresChart from "./LeastSquaresChart.js";
 import PlotLine from "./PlotLine.js";
 import regression from "regression";
 import InputSlider from "../InputSlider.js";
+import { random } from "mathjs";
 
 export default function LeastSquaresSimulation() {
   const [points, setPoints] = useState([]);
@@ -48,8 +49,8 @@ export default function LeastSquaresSimulation() {
   const generatePoints = (num) => {
     const newPoints = [];
     for (let i = 0; i < num; i++) {
-      const x = Math.random() * 15 + 2;
-      const y = Math.random() * 15 + 2;
+      const x = random() * 15 + 2;
+      const y = random() * 15 + 2;
       newPoints.push({x: x, y: y});
     }
     setPoints(newPoints);
