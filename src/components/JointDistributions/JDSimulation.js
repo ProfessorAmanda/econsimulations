@@ -59,21 +59,28 @@ export default function JDSimulation() {
       jointSeries.push({x: _.round(parentHeight, 2), y: _.round(childHeight, 2)});
     }
 
-    const parentCounts = _.countBy(jointSeries, (pair) => pair.x);
-    const childCounts = _.countBy(jointSeries, (pair) => pair.y);
+    const parentCounts = {};
     const parentSeries = [];
+    const childCounts = {};
     const childSeries = [];
 
     jointSeries.forEach(({x, y}) => {
-      for (let i = 1; i <= parentCounts[x]; i++) {
-        parentSeries.push({x: x, y: i});
+      if (parentCounts[x]) {
+        parentCounts[x]++
+      } else {
+        parentCounts[x] = 1
       }
-      for (let j = 1; j <= childCounts[y]; j++) {
-        childSeries.push({x: y, y: j});
+      parentSeries.push({x: x, y: parentCounts[x]});
+      if (childCounts[y]) {
+        childCounts[y]++
+      } else {
+        childCounts[y] = 1
       }
+      childSeries.push({x: y, y: childCounts[y]});
     });
 
     const data = {parent: parentSeries, child: childSeries, joint: jointSeries}
+    console.log(data)
     setAllData(data);
   }
 
