@@ -26,11 +26,19 @@ export default function LLNSimulation({ popType, sampleSize }) {
 
   useEffect(() => {
     setStage(1);
-    const newPop = dataFromDistribution(popType, sampleSize);
-    setPopArray(newPop);
-    setPopMean(populationMean(newPop));
+    setPopArray([]);
     setSampled([]);
-  }, [popType, sampleSize]);
+  }, [popType]);
+
+  // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
+  useEffect(() => {
+    if (popArray.length === 0) {
+      const newPop = dataFromDistribution(popType, sampleSize);
+      setPopArray(newPop);
+      const newMean = populationMean(newPop);
+      setPopMean(newMean);
+    }
+  }, [popArray]);  // eslint-disable-line
 
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
@@ -54,7 +62,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
       {(stage >= 2) &&
         <div>
           <Alert color="success" style={{ padding: 0, marginTop: '1em' }}>
-            Sample Mean: {sampleMean || ''}
+            Sample Mean: {_.round(sampleMean, 2) || ''}
             <br/>
             Difference of Means: {differenceOfMeans()}
           </Alert>
