@@ -20,7 +20,7 @@ export default function ChildChart({ childData, sharedOptions, maxY }) {
       <ResponsiveScatterPlotCanvas
         data={data}
         yScale={{ type: 'linear', min: 0, max: maxY }}
-        tooltip={({node}) => <div>{node.data.formattedX}</div>}
+        tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
         colors={{"scheme": "set2"}}
         {...sharedOptions}
         axisBottom={{...sharedOptions.axisBottom, legend: 'Child Height (inches)'}}

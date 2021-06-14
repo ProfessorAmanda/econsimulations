@@ -28,6 +28,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
     setStage(1);
     setPopArray([]);
     setSampled([]);
+    setSampleMean(0);
   }, [popType]);
 
   // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
@@ -43,7 +44,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
-    setSampleMean(populationMean(sample));
+    setSampleMean(_.round(populationMean(sample), 2));
     setStage(2);
   }
 
@@ -56,7 +57,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
 
   return (
     <Collapsable>
-      <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType}/>
+      <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} sampleMean={sampleMean} popType={popType}/>
       <p>Try a few different sample sizes and compare sample mean to population mean</p>
       <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
       {(stage >= 2) &&

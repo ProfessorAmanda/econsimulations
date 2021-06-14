@@ -27,8 +27,14 @@ export default function JointChart({ jointData, sharedOptions }) {
         // TODO: do we want responsive axes?
         yScale={{ type: 'linear', min: minHeight, max: maxHeight }}
         xScale={{ type: 'linear', min: minHeight, max: maxHeight }}
-        yFormat={function(e) {return e+" in."}}
-        tooltip={({node}) => <div>{node.data.formattedX}<br/>{node.data.formattedY}</div>}
+        yFormat={(e) => e + " in."}
+        tooltip={({node}) =>
+          <div>
+            <strong>{node.data.formattedX}</strong>
+            <br/>
+            <strong>{node.data.formattedY}</strong>
+          </div>
+        }
         axisBottom={{...sharedOptions.axisBottom, legend: 'Parent Height (inches)'}}
         axisLeft={{...sharedOptions.axisLeft, legend: 'Child Height (inches)'}}
       />

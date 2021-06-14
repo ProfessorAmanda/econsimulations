@@ -25,7 +25,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
   const sharedOptions = {
     margin: { top: 60, right: 10, bottom: 70, left: 70 },
     xScale: { type: 'linear', min: 40, max: 100 },
-    xFormat: function(e){return e+" in."},
+    xFormat: (e) => e + " in.",
     nodeSize: getNodeSize,
     enableGridX: false,
     enableGridY: false,
