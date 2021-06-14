@@ -34,7 +34,12 @@ export default function LeastSquaresSimulation() {
   useEffect(() => {
     if (stage === 3) {
       setSquareAreas([]);
-      const linearPts = points.map((point) => {return {x: point.x, y: (point.x * +slope) + +intercept}});
+      const linearPts = [{x: 0, y: 0}, ...points].map((point) => {
+        return {
+          x: point.x,
+          y: (point.x * +slope) + +intercept
+        }
+      });
       linearPts.sort((a, b) => a.x - b.x);
       setLinePoints(linearPts);
     }
