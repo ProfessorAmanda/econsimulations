@@ -39,13 +39,19 @@ export default function LeastSquaresChart({ dataPoints, naiveLine, correctedLine
           type: 'line',
           data: naiveLine,
           name: "Naive Regression",
-          color: '#E30404'
+          color: '#E30404',
+          label: {
+            enabled: false
+          }
         },
         {
           type: 'line',
           data: correctedLine,
           name: "Corrected Regression",
-          color: '#2AC208'
+          color: '#2AC208',
+          label: {
+            enabled: false
+          }
         }
       ]
     }

@@ -105,7 +105,10 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
           color: 'red',
           enableMouseTracking: false,
           showInLegend: false,
-          visible: (sampleMean !== undefined) && (sampled.length > 0)
+          visible: (sampleMean !== undefined) && (sampled.length > 0),
+          label: {
+            format: `<div>Sample Mean: ${sampleMean}</div>`
+          }
         }
       ]
     }
