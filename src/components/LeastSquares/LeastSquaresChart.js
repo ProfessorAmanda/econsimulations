@@ -13,7 +13,6 @@ import '../../styles/dark-unica.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import 'highcharts/modules/annotations';
-import '../../boost.js';
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState();
@@ -122,6 +121,10 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
         {
           type: 'line',
           data: linePoints,
+          marker: {
+            enabled: true,
+            fillColor: 'orange'
+          },
         }
       ],
       annotations: [{

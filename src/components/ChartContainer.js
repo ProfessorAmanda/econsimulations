@@ -19,7 +19,9 @@ import HighchartsReact from 'highcharts-react-official'
 import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import _ from "lodash";
-import '../boost.js';
+import Label from 'highcharts/modules/series-label';
+
+Label(Highcharts);
 
 const values = {
   Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -101,18 +103,11 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
           name: 'Sample Mean',
           data: [[sampleMean, 0], [sampleMean, ymaxval]],
           color: 'red',
-          enableMouseTracking: true,
-          showInLegend: (sampleMean !== undefined) && (sampled.length > 0),
-          visible: (sampleMean !== undefined) && (sampled.length > 0),
-          tooltip: {
-            headerFormat: "<b>Sample Mean</b><br/>"
-          },
+          enableMouseTracking: false,
+          showInLegend: false,
+          visible: (sampleMean !== undefined) && (sampled.length > 0)
         }
-      ],
-      boost: {
-        enabled: true,
-        useGPUTranslations: true
-      },
+      ]
     }
 
     setMyChart(newChart);
