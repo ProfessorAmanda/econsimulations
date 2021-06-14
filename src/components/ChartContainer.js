@@ -2,6 +2,8 @@
 
   Displays a table of values and a corresponding HighCharts plot
 
+  Used by Law of Large Numbers and Central Limit Theorem
+
   props:
     popArray   - array
     popMean    - float

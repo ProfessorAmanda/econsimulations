@@ -2,6 +2,8 @@
 
   Displays an input and a button for the user to enter a sample size
 
+  Used by Law of Large Numbers and Central Limit Theorem
+
   props:
     maxSize     - int
     handleClick - callback
