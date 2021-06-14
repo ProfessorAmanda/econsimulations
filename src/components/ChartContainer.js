@@ -14,12 +14,9 @@ import React, { useEffect, useState } from 'react';
 import '../styles/dark-unica.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import 'highcharts/modules/annotations';
 import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import '../boost.js';
-
-require("highcharts/modules/annotations")(Highcharts);
 
 const values = {
   Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -85,7 +82,10 @@ export default function ChartContainer({ popArray, popMean, sampled, popType }) 
         enabled: true,
         pointFormat: `${xLabel}: <b>{point.x}<b><br />`
       },
-      series: [{name: 'Population Observations', data: popArray}, {name: 'Sampled Observations', data: sampled}],
+      series: [
+        {name: 'Population Observations', data: popArray},
+        {name: 'Sampled Observations', data: sampled.map(([x, y]) => {return {x, y}})}
+      ],
       boost: {
         enabled: true,
         useGPUTranslations: true
@@ -93,7 +93,7 @@ export default function ChartContainer({ popArray, popMean, sampled, popType }) 
     }
 
     setMyChart(newChart);
-  }, [popArray, popMean, sampled, popType]);
+  }, [popArray, sampled]);  // eslint-disable-line
 
   return (
     <div>
