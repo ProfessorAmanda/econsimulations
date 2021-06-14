@@ -9,10 +9,8 @@
 */
 import React, { useState, useCallback, useMemo } from "react";
 import { Row, Col } from 'reactstrap';
-import { ceil, floor, max, min } from "mathjs";
-import ChildChart from "./ChildChart.js";
+import { max, min } from "mathjs";
 import JointChart from "./JointChart.js";
-import ParentChart from "./ParentChart.js";
 import _ from "lodash";
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 
