@@ -9,10 +9,10 @@
 */
 import React, { useState, useCallback, useMemo } from "react";
 import { Row, Col } from 'reactstrap';
-import { max } from "mathjs";
-import ChildChart from "./ChildChart.js";
+import { max, min } from "mathjs";
 import JointChart from "./JointChart.js";
-import ParentChart from "./ParentChart.js";
+import _ from "lodash";
+import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 
 export default function JDCharts({ parentData, childData, jointData }) {
   // these functions synchronize the plots - all three corresponding data points increase in size on mouse over
@@ -21,10 +21,15 @@ export default function JDCharts({ parentData, childData, jointData }) {
   const handleMouseLeave = useCallback(() => setNodeId(), [setNodeId]);
   const getNodeSize = useMemo(() => (node) => (nodeId && (nodeId === node.id)) ? 30 : 8, [nodeId]);
 
+  const maxCount = max(...parentData.map((pt) => pt.y), ...childData.map((pt) => pt.y));
+  const minX = _.floor(min(...parentData.map((pt) => pt.x), ...childData.map((pt) => pt.x)), -1);
+  const maxX = _.ceil(max(...parentData.map((pt) => pt.x), ...childData.map((pt) => pt.x)), -1);
+
   // options common to all three plots
   const sharedOptions = {
     margin: { top: 60, right: 10, bottom: 70, left: 70 },
-    xScale: { type: 'linear', min: 40, max: 100 },
+    xScale: { type: 'linear', min: min(40, minX), max: max(100, maxX) },
+    yScale: { type: 'linear', min: 0, max: maxCount },
     xFormat: (e) => e + " in.",
     nodeSize: getNodeSize,
     enableGridX: false,
@@ -32,40 +37,43 @@ export default function JDCharts({ parentData, childData, jointData }) {
     onMouseMove: handleMouseMove,
     onMouseLeave: handleMouseLeave,
     axisBottom: {
-      orient: 'bottom',
       tickSize: 10,
-      tickPadding: 5,
-      tickRotation: 0,
       legendPosition: 'middle',
       legendOffset: 46
     },
     axisLeft: {
-      orient: 'left',
       tickSize: 10,
-      tickPadding: 5,
-      tickRotation: 0,
+      tickValues: _.range(0, maxCount + 1, 1),
       legendPosition: 'middle',
       legendOffset: -60
     }
   }
 
-  const maxHeight = max(...parentData.map((pt) => pt.y), ...childData.map((pt) => pt.y)) + 1;
-
   return (
     <Row>
       <Col>
-        <ParentChart
-          parentData={parentData}
-          sharedOptions={sharedOptions}
-          maxY={maxHeight}
-        />
+        <div style={{ height: 500, width: 500, margin: "auto" }}>
+          <ResponsiveScatterPlotCanvas
+            data={[{id: "data", data: parentData}]}
+            tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
+            colors={{"scheme": "set1"}}
+            {...sharedOptions}
+            axisBottom={{...sharedOptions.axisBottom, legend: 'Parent Height (inches)'}}
+            axisLeft={{...sharedOptions.axisLeft, legend: 'Count'}}
+          />
+        </div>
       </Col>
       <Col>
-        <ChildChart
-          childData={childData}
-          sharedOptions={sharedOptions}
-          maxY={maxHeight}
-        />
+        <div style={{ height: 500, width: 500, margin: "auto" }}>
+          <ResponsiveScatterPlotCanvas
+            data={[{id: "data", data: childData}]}
+            tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
+            colors={{"scheme": "set2"}}
+            {...sharedOptions}
+            axisBottom={{...sharedOptions.axisBottom, legend: 'Child Height (inches)'}}
+            axisLeft={{...sharedOptions.axisLeft, legend: 'Count'}}
+          />
+        </div>
       </Col>
       <Col>
         <JointChart

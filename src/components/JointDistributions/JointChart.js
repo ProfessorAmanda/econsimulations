@@ -35,8 +35,18 @@ export default function JointChart({ jointData, sharedOptions }) {
             <strong>{node.data.formattedY}</strong>
           </div>
         }
-        axisBottom={{...sharedOptions.axisBottom, legend: 'Parent Height (inches)'}}
-        axisLeft={{...sharedOptions.axisLeft, legend: 'Child Height (inches)'}}
+        axisBottom={{
+          tickSize: 10,
+          legendPosition: 'middle',
+          legendOffset: 46,
+          legend: 'Parent Height (inches)'
+        }}
+        axisLeft={{
+          tickSize: 10,
+          legendPosition: 'middle',
+          legendOffset: -60,
+          legend: 'Child Height (inches)'
+        }}
       />
     </div>
   );
