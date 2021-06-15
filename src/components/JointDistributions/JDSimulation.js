@@ -14,8 +14,6 @@ import JDCharts from './JDCharts';
 import _ from "lodash";
 import InputSlider from '../InputSlider';
 
-const meanVector = [70, 70];
-
 export default function JDSimulation() {
   const [parentMean, setParentMean] = useState(70);
   const [childMean, setChildMean] = useState(70);
@@ -51,7 +49,7 @@ export default function JDSimulation() {
   // generate datapoints for parent height and child height in a normal distribution
   const generate = () => {
     const temp = [[Math.pow(parentSD, 2), covariance], [covariance, Math.pow(childSD, 2)]];
-    const distribution = MultivariateNormal(meanVector, temp);
+    const distribution = MultivariateNormal([+parentMean, +childMean], temp);
 
     const jointSeries = [];
     for (let i = 0; i < 1000; i++) {
