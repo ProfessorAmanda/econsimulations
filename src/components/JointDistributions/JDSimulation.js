@@ -34,8 +34,8 @@ export default function JDSimulation() {
   const generate = () => {
     const newCorrelation = ((abs(+correlation) === 1) ? (0.999999 * correlation) : correlation);
     const covariance = newCorrelation * parentSD * childSD;
-    const temp = [[parentSD ** 2, covariance], [covariance, childSD ** 2]];
-    const distribution = MultivariateNormal([+parentMean, +childMean], temp);
+    const covMatrix = [[parentSD ** 2, covariance], [covariance, childSD ** 2]];
+    const distribution = MultivariateNormal([+parentMean, +childMean], covMatrix);
 
     const jointSeries = [];
     for (let i = 0; i < 1000; i++) {
