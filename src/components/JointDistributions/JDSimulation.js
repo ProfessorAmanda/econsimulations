@@ -13,6 +13,7 @@ import MeanSDInput from './MeanSDInput';
 import JDCharts from './JDCharts';
 import _ from "lodash";
 import InputSlider from '../InputSlider';
+import { abs } from 'mathjs';
 
 export default function JDSimulation() {
   const [parentMean, setParentMean] = useState(70);
@@ -20,7 +21,6 @@ export default function JDSimulation() {
   const [parentSD, setParentSD] = useState(1);
   const [childSD, setChildSD] = useState(1);
   const [correlation, setCorrelation] = useState(0);
-  const [covariance, setCovariance] = useState(0);
   const [stage, setStage] = useState(1);
   const [allData, setAllData] = useState({parent: [], child: [], joint: []});
 
@@ -30,24 +30,10 @@ export default function JDSimulation() {
     }
   }, [allData]);
 
-  const changeParentSD = (value) => {
-    setParentSD(value);
-    setCovariance(correlation * value * childSD);
-  }
-
-  const changeChildSD = (value) => {
-    setChildSD(value);
-    setCovariance(correlation * value * parentSD);
-  }
-
-  const changeSlider = (value) => {
-    const newCorrelation = (value === 1) ? 0.999999 : value;
-    setCorrelation(value);
-    setCovariance(newCorrelation * parentSD * childSD);
-  }
-
   // generate datapoints for parent height and child height in a normal distribution
   const generate = () => {
+    const newCorrelation = ((abs(+correlation) === 1) ? (0.999999 * correlation) : correlation);
+    const covariance = newCorrelation * parentSD * childSD;
     const temp = [[parentSD ** 2, covariance], [covariance, childSD ** 2]];
     const distribution = MultivariateNormal([+parentMean, +childMean], temp);
 
@@ -78,7 +64,6 @@ export default function JDSimulation() {
     });
 
     const data = {parent: parentSeries, child: childSeries, joint: jointSeries}
-    console.log(data)
     setAllData(data);
   }
 
@@ -86,16 +71,16 @@ export default function JDSimulation() {
     <Container fluid>
       <Row>
         <Col>
-          <MeanSDInput title="Parent" mean={parentMean} setMean={setParentMean} sd={parentSD} setSD={changeParentSD}/>
+          <MeanSDInput title="Parent" mean={parentMean} setMean={setParentMean} sd={parentSD} setSD={setParentSD}/>
         </Col>
         <Col>
-          <MeanSDInput title="Child" mean={childMean} setMean={setChildMean} sd={childSD} setSD={changeChildSD}/>
+          <MeanSDInput title="Child" mean={childMean} setMean={setChildMean} sd={childSD} setSD={setChildSD}/>
         </Col>
         <Col>
           <p>Set the Correlation</p>
-          <InputSlider value={correlation} min={-1} max={1} step={0.1} onChange={(value) => changeSlider(value)}/>
+          <InputSlider value={correlation} min={-1} max={1} step={0.1} onChange={(value) => setCorrelation(value)}/>
           <p style={{ margin: "15px" }}>Covariance</p>
-          <InputGroupText>{covariance.toFixed(2)}</InputGroupText>
+          <InputGroupText>{(correlation * parentSD * childSD).toFixed(2)}</InputGroupText>
         </Col>
       </Row>
       <Row className='Center'>
