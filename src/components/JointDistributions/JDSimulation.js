@@ -14,8 +14,6 @@ import JDCharts from './JDCharts';
 import _ from "lodash";
 import InputSlider from '../InputSlider';
 
-const meanVector = [70, 70];
-
 export default function JDSimulation() {
   const [parentMean, setParentMean] = useState(70);
   const [childMean, setChildMean] = useState(70);
@@ -50,8 +48,8 @@ export default function JDSimulation() {
 
   // generate datapoints for parent height and child height in a normal distribution
   const generate = () => {
-    const temp = [[Math.pow(parentSD, 2), covariance], [covariance, Math.pow(childSD, 2)]];
-    const distribution = MultivariateNormal(meanVector, temp);
+    const temp = [[parentSD ** 2, covariance], [covariance, childSD ** 2]];
+    const distribution = MultivariateNormal([+parentMean, +childMean], temp);
 
     const jointSeries = [];
     for (let i = 0; i < 1000; i++) {
@@ -59,21 +57,28 @@ export default function JDSimulation() {
       jointSeries.push({x: _.round(parentHeight, 2), y: _.round(childHeight, 2)});
     }
 
-    const parentCounts = _.countBy(jointSeries, (pair) => pair.x);
-    const childCounts = _.countBy(jointSeries, (pair) => pair.y);
+    const parentCounts = {};
     const parentSeries = [];
+    const childCounts = {};
     const childSeries = [];
 
     jointSeries.forEach(({x, y}) => {
-      for (let i = 1; i <= parentCounts[x]; i++) {
-        parentSeries.push({x: x, y: i});
+      if (parentCounts[x]) {
+        parentCounts[x]++
+      } else {
+        parentCounts[x] = 1
       }
-      for (let j = 1; j <= childCounts[y]; j++) {
-        childSeries.push({x: y, y: j});
+      parentSeries.push({x: x, y: parentCounts[x]});
+      if (childCounts[y]) {
+        childCounts[y]++
+      } else {
+        childCounts[y] = 1
       }
+      childSeries.push({x: y, y: childCounts[y]});
     });
 
     const data = {parent: parentSeries, child: childSeries, joint: jointSeries}
+    console.log(data)
     setAllData(data);
   }
 

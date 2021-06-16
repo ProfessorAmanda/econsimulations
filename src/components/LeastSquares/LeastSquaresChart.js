@@ -13,14 +13,14 @@ import '../../styles/dark-unica.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import 'highcharts/modules/annotations';
-import '../../boost.js';
+import { abs } from "mathjs";
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState();
 
   // returns an array of points to create a square shape in highcharts
   const buildSquare = (p1, p2) => {
-    const dist = Math.abs(p1.y - p2.y);
+    const dist = abs(p1.y - p2.y);
     const lowestPt = p1.y < p2.y ? p1 : p2;
     return [{
         x: lowestPt.x,
@@ -62,7 +62,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
       });
     });
 
-    const areas = pairs.map(({p1, p2}) => Math.abs(p1.y - p2.y) ** 2);
+    const areas = pairs.map(({p1, p2}) => abs(p1.y - p2.y) ** 2);
     setSquareAreas(areas);
 
     // create the actual square objects for highcharts
@@ -122,6 +122,13 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
         {
           type: 'line',
           data: linePoints,
+          marker: {
+            enabled: true,
+            fillColor: 'orange'
+          },
+          label: {
+            enabled: false
+          }
         }
       ],
       annotations: [{
@@ -131,7 +138,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     }
 
     setMyChart(newChart);
-  }, [points, linePoints, setSquareAreas]);
+  }, [points, linePoints]);  // eslint-disable-line
 
   return (
     <HighchartsReact highcharts={Highcharts} options={myChart}/>

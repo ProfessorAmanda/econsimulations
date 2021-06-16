@@ -31,7 +31,7 @@ export default function OVBSimulation() {
       generateData();
       setShowCorrect(false);
     }
-  }, [series]);
+  }, [series]);  // eslint-disable-line
 
   useEffect(() => {
     if ((allData.points.length > 0) && (allData.naiveLine.length > 0)) {

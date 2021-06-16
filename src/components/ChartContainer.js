@@ -2,6 +2,8 @@
 
   Displays a table of values and a corresponding HighCharts plot
 
+  Used by Law of Large Numbers and Central Limit Theorem
+
   props:
     popArray   - array
     popMean    - float
@@ -14,12 +16,12 @@ import React, { useEffect, useState } from 'react';
 import '../styles/dark-unica.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import 'highcharts/modules/annotations';
 import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
-import '../boost.js';
+import _ from "lodash";
+import Label from 'highcharts/modules/series-label';
 
-require("highcharts/modules/annotations")(Highcharts);
+Label(Highcharts);
 
 const values = {
   Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -37,7 +39,7 @@ const texts = {
   Mystery: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
 }
 
-export default function ChartContainer({ popArray, popMean, sampled, popType }) {
+export default function ChartContainer({ popArray, popMean, sampled, sampleMean, popType }) {
   const [myChart, setMyChart] = useState();
 
   useEffect(() => {
@@ -52,7 +54,7 @@ export default function ChartContainer({ popArray, popMean, sampled, popType }) 
           animation: {
             duration: 100,
             easing: 'easeOutBounce'
-          }
+          },
         }
       },
       legend: {
@@ -71,7 +73,7 @@ export default function ChartContainer({ popArray, popMean, sampled, popType }) 
         endOnTick: true
       },
       title: {
-        text: `${title} <br /> Population Mean: ${Math.round(popMean * 100) / 100}`
+        text: `${title} <br /> Population Mean: ${_.round(popMean, 2)}`
       },
       yAxis: {
         max: ymaxval,
@@ -83,17 +85,36 @@ export default function ChartContainer({ popArray, popMean, sampled, popType }) 
       },
       tooltip: {
         enabled: true,
-        pointFormat: `${xLabel}: <b>{point.x}<b><br />`
+        pointFormat: `${xLabel}: <b>{point.x}</b><br />`
       },
-      series: [{name: 'Population Observations', data: popArray}, {name: 'Sampled Observations', data: sampled}],
-      boost: {
-        enabled: true,
-        useGPUTranslations: true
-      },
+      series: [
+        {
+          name: 'Population Observations',
+          data: popArray
+        },
+        {
+          name: 'Sampled Observations',
+          turboThreshold: 0,
+          data: sampled.map(([x, y]) => {return {x, y}}),
+          showInLegend: sampled.length > 0
+        },
+        {
+          type: 'line',
+          name: 'Sample Mean',
+          data: [[sampleMean, 0], [sampleMean, ymaxval]],
+          color: 'red',
+          enableMouseTracking: false,
+          showInLegend: false,
+          visible: (sampleMean !== undefined) && (sampled.length > 0),
+          label: {
+            format: `<div>Sample Mean: ${sampleMean}</div>`
+          }
+        }
+      ]
     }
 
     setMyChart(newChart);
-  }, [popArray, popMean, sampled, popType]);
+  }, [popArray, sampled]);  // eslint-disable-line
 
   return (
     <div>

@@ -45,12 +45,20 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
 
   useEffect(() => {
     setStage(1);
-    const newPop = dataFromDistribution(popType, mainSampleSize);
-    setPopArray(newPop);
-    const newMean = populationMean(newPop);
-    setPopMean(newMean);
+    setPopArray([]);
     setSampled([]);
-  }, [popType, mainSampleSize]);
+    setSampleMeans([]);
+  }, [popType]);
+
+  // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
+  useEffect(() => {
+    if (popArray.length === 0) {
+      const newPop = dataFromDistribution(popType, mainSampleSize);
+      setPopArray(newPop);
+      const newMean = populationMean(newPop);
+      setPopMean(newMean);
+    }
+  }, [popArray]);  // eslint-disable-line
 
   const addSampleMeans = (means) => {
     const newSampleMeans = [...sampleMeans, ...means];

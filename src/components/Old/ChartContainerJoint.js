@@ -4,7 +4,6 @@ import Highcharts from 'highcharts';
 import 'highcharts/modules/annotations';
 import { Alert, Container, Col, Row } from 'reactstrap';
 
-import '../boost.js';
 import { math } from "mathjs";
 
 require("highcharts/modules/annotations")(Highcharts);
