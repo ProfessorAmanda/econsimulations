@@ -1,22 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Collapsable from "../Collapsable";
-import ConfidenceInputs from "./ConfidenceInputs";
-import { dataFromDistribution } from "../../lib/stats-utils";
-
-const numberResamples = {
-  "Normal": 0,
-  "Uniform": 0,
-  "Exponential": 0,
-  "Chi-Squared": 0,
-  "Mystery": 0
-  }
-const resampleSize = {
-  "Normal": 0,
-  "Uniform": 0,
-  "Exponential": 0,
-  "Chi-Squared": 0,
-  "Mystery": 0
-  }
+import Collapsable from "../Collapsable.js";
+import ConfidenceInputs from "./ConfidenceInputs.js";
+import { dataFromDistribution } from "../../lib/stats-utils.js";
 
 
 export default function CISimulation({ distType, populationSize }) {
@@ -36,8 +21,7 @@ export default function CISimulation({ distType, populationSize }) {
       const newPop = dataFromDistribution(distType, populationSize);
       setPopArray(newPop);
     }
-  }, [popArray]);
-
+  }, [popArray, distType, populationSize]);
 
   return (
     <Collapsable>
@@ -47,7 +31,6 @@ export default function CISimulation({ distType, populationSize }) {
         confLevel={confLevel}
         setConfLevel={setConfLevel}
       />
-
     </Collapsable>
   );
 }
