@@ -51,8 +51,8 @@ export default function JDCharts({ parentData, childData, jointData }) {
 
   return (
     <Row>
-      <Col>
-        <div style={{ height: 500, width: 500, margin: "auto" }}>
+      <Col style={{ padding:"5px 0px 5px 0px"}}>
+        <div style={{ height: 300, width: 300, float:"left", position:"inline-block"}}>
           <ResponsiveScatterPlotCanvas
             data={[{id: "data", data: parentData}]}
             tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
@@ -63,8 +63,8 @@ export default function JDCharts({ parentData, childData, jointData }) {
           />
         </div>
       </Col>
-      <Col>
-        <div style={{ height: 500, width: 500, margin: "auto" }}>
+      <Col style={{ padding:"5px 0px 5px 0px"}}>
+        <div style={{ height: 300, width: 300, float:"left", position:"inline-block", marginLeft:"5px"}}>
           <ResponsiveScatterPlotCanvas
             data={[{id: "data", data: childData}]}
             tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}

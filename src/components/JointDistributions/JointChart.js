@@ -10,6 +10,7 @@
 import React from 'react';
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 import { max, min } from 'mathjs';
+import { Col } from 'reactstrap';
 
 export default function JointChart({ jointData, sharedOptions }) {
 
@@ -19,7 +20,8 @@ export default function JointChart({ jointData, sharedOptions }) {
   const minHeight = min(...jointData.map((pt) => pt.x), ...jointData.map((pt) => pt.y)) - 2;
 
   return (
-    <div style={{ height: 500, width: 500, margin: "auto" }}>
+    <Col style={{ padding:"5px 0px 5px 0px"}}>
+    <div style={{ height: 300, width: 300, position:"inline-block", float:"right", marginLeft:"5px" }}>
       <ResponsiveScatterPlotCanvas
         {...sharedOptions}
         colors={{"scheme": "category10"}}
@@ -49,5 +51,6 @@ export default function JointChart({ jointData, sharedOptions }) {
         }}
       />
     </div>
+    </Col>
   );
 }
