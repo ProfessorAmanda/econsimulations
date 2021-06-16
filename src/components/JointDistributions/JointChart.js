@@ -20,8 +20,8 @@ export default function JointChart({ jointData, sharedOptions }) {
   const minHeight = min(...jointData.map((pt) => pt.x), ...jointData.map((pt) => pt.y)) - 2;
 
   return (
-    <Col style={{ padding:"5px 0px 5px 0px"}}>
-    <div style={{ height: 300, width: 300, position:"inline-block", float:"right", marginLeft:"5px" }}>
+    <Col style={{ padding:"5px 0px 5px 0px", marginLeft:"-40px", marginRight:"0px", width: "fit-content"}}>
+    <div style={{ height: 358, width: 358, position:"inline-block", float:"right", marginLeft:"0px",}}>
       <ResponsiveScatterPlotCanvas
         {...sharedOptions}
         colors={{"scheme": "category10"}}
@@ -46,7 +46,7 @@ export default function JointChart({ jointData, sharedOptions }) {
         axisLeft={{
           tickSize: 10,
           legendPosition: 'middle',
-          legendOffset: -60,
+          legendOffset: -38,
           legend: 'Child Height (inches)'
         }}
       />
