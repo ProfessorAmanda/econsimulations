@@ -36,7 +36,7 @@ class ConfidenceIntervals extends Component{
                 </Alert>
                 <PopBar
                     section={this.state.popType}
-                    mode="LLN"
+                    sim="LLN"
                     setPop={(pop) => {
                             this.selectPop(pop);
                         }

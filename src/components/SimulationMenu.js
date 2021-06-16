@@ -14,13 +14,13 @@ import SimulationContainer from './SimulationContainer.js';
 export default function SimulationMenu() {
   const [mode, setMode] = useState("Home");
   const [start, setStart] = useState(true);
-  const [logo, setLogo] = useState(true);
+  const [logo, setLogo] = useState(false);  // init to true!!!
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLogo(false);
-    }, 3500);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLogo(false);
+  //   }, 3500);
+  // }, []);
 
   return (
     start ? (

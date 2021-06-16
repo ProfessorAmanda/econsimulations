@@ -23,7 +23,7 @@ export default function Collapsable({ children }) {
             backgroundColor: "rgba(255,255,255,0.4)",
             marginBottom: '1em'
         }}
-        isOpened={true}
+        isOpened
         springConfig={{ ...presets['gentle'] }}
       >
         <div style={{ height: "100%", padding: '2em' }}>
