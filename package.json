@@ -37,7 +37,7 @@
     "regression": "^2.0.1"
   },
   "scripts": {
-    "start": "BROWSER='google chrome' react-scripts start",
+    "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom",
     "build": "react-scripts build",
     "predeploy": "yarn run build",
