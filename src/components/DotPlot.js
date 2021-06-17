@@ -53,10 +53,10 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
       },
       series: series.map((dataObj) => {
         return {
-          ...dataObj,
-          data: dataObj.data.map(([x, y]) => {return {x, y}}),
+          showInLegend: dataObj.data.length > 0,
           turboThreshold: 0,
-          showInLegend: dataObj.data.length > 0
+          ...dataObj,
+          data: dataObj.data.map(([x, y]) => {return {x, y}})
         }
       })
     }

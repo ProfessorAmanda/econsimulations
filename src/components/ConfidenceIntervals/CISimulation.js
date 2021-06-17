@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Collapsable from "../Collapsable.js";
 import ConfidenceInputs from "./ConfidenceInputs.js";
 import SampleSizeInput from "../SampleSizeInput.js";
+import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
 import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
 import { Row, Col } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
@@ -21,6 +22,7 @@ export default function CISimulation({ distType, populationSize }) {
     setStage(0);
     setPopArray([]);
     setSampled([]);
+    setSampleMeans([]);
   }, [distType]);
 
   // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
@@ -37,6 +39,7 @@ export default function CISimulation({ distType, populationSize }) {
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
+    // TODO: the mean object should also include the confidence intervals
     const newMeans = [...sampleMeans, [size, populationMean(sample)]];
     setSampleMeans(newMeans);
   }
@@ -60,9 +63,11 @@ export default function CISimulation({ distType, populationSize }) {
             sampled={sampled}
             distType={distType}
           />
+          <p>Try drawing some samples and calculating means</p>
           <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
         </Col>
         <Col>
+          <ConfidenceIntervalsChart sampleMeans={sampleMeans}/>
         </Col>
       </Row>
     </Collapsable>

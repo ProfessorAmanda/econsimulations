@@ -82,10 +82,10 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
         {(stage >= 2) &&
           <div>
             <Row className="Center">
-              <Alert color='light'>
+              <div style={{padding: "30px"}}>
                 <p>Try drawing some samples and calculating means</p>
                 <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
-              </Alert>
+              </div>
             </Row>
             <Row>
               <Col lg="8">
@@ -113,9 +113,9 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
               </Col>
             </Row>
             <Row style={{width: "60%", margin:'auto'}}>
-              <Alert color='light' className="Center">
+              <div className="Center">
                 <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
-                  <p>Simulate drawing many many samples</p>
+                  Simulate drawing many many samples
                 </Alert>
                 <br/>
                 <SampleMeansSimulator
@@ -124,7 +124,7 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
                   population={popArray}
                   addSamples={addSampleMeans}
                 />
-              </Alert>
+              </div>
             </Row>
           </div>
         }

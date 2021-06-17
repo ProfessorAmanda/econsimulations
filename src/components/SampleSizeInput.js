@@ -20,7 +20,7 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
   }
 
   return (
-    <InputGroup style={{width: "40%", margin: "auto"}}>
+    <InputGroup style={{width: "50%", margin: "auto"}}>
       <Input
         align="right"
         type="number"
