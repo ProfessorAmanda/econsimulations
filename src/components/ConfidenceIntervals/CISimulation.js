@@ -7,22 +7,23 @@ import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
 import { Row, Col } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
+import ZTable from './ZTable.js';
 
 
 export default function CISimulation({ distType, populationSize }) {
   const [stage, setStage] = useState(0);
   const [testType, setTestType] = useState("z");  // can be 'z' or 't'
   const [confLevel, setConfLevel] = useState(95);
+  const [zScore, setZScore] = useState(0);
+  const [dOf, setDOf] = useState(1);
   const [popArray, setPopArray] = useState([]);
   const [popMean, setPopMean] = useState(0);
-  const [sampled, setSampled] = useState([]);
-  const [sampleMeans, setSampleMeans] = useState([]);
+  const [samples, setSamples] = useState([]);
 
   useEffect(() => {
     setStage(0);
     setPopArray([]);
-    setSampled([]);
-    setSampleMeans([]);
+    setSamples([]);
   }, [distType]);
 
   // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
@@ -36,12 +37,30 @@ export default function CISimulation({ distType, populationSize }) {
     }
   }, [popArray, distType, populationSize]);
 
-  const handleClick = (size) => {
+  const changeTestType = (type) => {
+    setSamples([]);
+    setTestType(type);
+    setZScore(ZTable['0.' + confLevel]);
+  }
+
+  const changeConfidenceLevel = (level, score) => {
+    setSamples([]);
+    setConfLevel(level);
+    setZScore(score);
+  }
+
+  const generateSample = (size) => {
     const sample = _.sampleSize(popArray, size);
-    setSampled(sample);
-    // TODO: the mean object should also include the confidence intervals
-    const newMeans = [...sampleMeans, [size, populationMean(sample)]];
-    setSampleMeans(newMeans);
+    const sampleObject = {
+      data: sample,
+      size: +size,
+      mean: populationMean(sample),
+      lowerConf: 0,  // TODO: calculate this
+      upperConf: 1  // TODO: calculate this
+    }
+    console.log(sample)
+    const newSamples = [...samples, sampleObject];
+    setSamples(newSamples);
   }
 
   return (
@@ -49,9 +68,10 @@ export default function CISimulation({ distType, populationSize }) {
       <Row>
         <ConfidenceInputs
           testType={testType}
-          setTestType={setTestType}
+          setTestType={changeTestType}
           confLevel={confLevel}
-          setConfLevel={setConfLevel}
+          changeConfLevel={changeConfidenceLevel}
+          dOf={dOf}
         />
       </Row>
       <br/>
@@ -60,14 +80,17 @@ export default function CISimulation({ distType, populationSize }) {
           <PopulationChart
             popArray={popArray}
             popMean={popMean}
-            sampled={sampled}
+            sampled={(samples.length > 0) ? samples[samples.length - 1].data : []}  // most recent sample data
             distType={distType}
           />
           <p>Try drawing some samples and calculating means</p>
-          <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
+          <SampleSizeInput maxSize={popArray.length} handleClick={generateSample}/>
         </Col>
         <Col>
-          <ConfidenceIntervalsChart sampleMeans={sampleMeans}/>
+          <ConfidenceIntervalsChart
+            confidenceLevel={confLevel}
+            samples={samples}
+          />
         </Col>
       </Row>
     </Collapsable>

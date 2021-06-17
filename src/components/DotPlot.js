@@ -31,6 +31,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
         min: xMin,
         max: xMax,
         title : {
+          enabled: true,
           text: xLabel
         },
         startOnTick: true,
@@ -41,24 +42,24 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
       },
       yAxis: {
         max: yMax,
-        title: {
-          text: yLabel
-        },
         startOnTick: true,
         endOnTick: true,
+        title: {
+          text: yLabel
+        }
       },
       tooltip: {
         enabled: true,
         pointFormat: `${xLabel}: <b>{point.x}</b><br />`
       },
-      series: series.map((dataObj) => {
-        return {
-          showInLegend: dataObj.data.length > 0,
+      series: series.map((seriesObject) => (
+        {
+          showInLegend: seriesObject.data.length > 0,
           turboThreshold: 0,
-          ...dataObj,
-          data: dataObj.data.map(([x, y]) => {return {x, y}})
-        }
-      })
+          ...seriesObject,
+          data: seriesObject.data.map(([x, y]) => ({ x, y }))
+        })
+      )
     }
     setChart(newChart);
   }, [series, title, xMin, xMax, yMax, xLabel, yLabel]);

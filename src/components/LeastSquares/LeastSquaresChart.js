@@ -66,14 +66,14 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     setSquareAreas(areas);
 
     // create the actual square objects for highcharts
-    const squares = pairs.map(({p1, p2}) => {
-      return {
+    const squares = pairs.map(({p1, p2}) => (
+      {
         dashStyle: "solid",
         fill: "rgba(255, 255, 255, 0)",
         points: buildSquare(p1, p2),
         type: 'path'
-      }
-    });
+      })
+    );
 
     const newChart = {
       title: {

@@ -15,10 +15,6 @@ import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 export default function SampleSizeInput({ maxSize, handleClick }) {
   const [sampleSize, setSampleSize] = useState("");
 
-  const hangleChange = (event) => {
-    setSampleSize(parseInt(event.target.value, 10))
-  }
-
   return (
     <InputGroup style={{width: "50%", margin: "auto"}}>
       <Input
@@ -28,7 +24,7 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
         min={1}
         value={sampleSize}
         max={maxSize}
-        onChange={(event) => hangleChange(event)}
+        onChange={(event) => setSampleSize(+event.target.value)}
       />
       <InputGroupAddon addonType="append">
         <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={()=> handleClick(sampleSize)}>

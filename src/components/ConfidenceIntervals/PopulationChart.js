@@ -34,24 +34,18 @@ export default function PopulationChart({ popArray, popMean, sampled, distType }
 
   return (
     <Container fluid>
-      <Row>
-        <Alert color="secondary" className="Center">
-          We queried the {texts[distType][0]} of {popArray.length} {texts[distType][1]} and plotted the results on the following chart.
-        </Alert>
-      </Row>
-      <Row >
-        <Col lg="12">
-          <DotPlot
-            series={series}
-            title={`${title} <br /> Population Mean: ${_.round(popMean, 2)}`}
-            xMin={xminval}
-            xMax={xmaxval}
-            yMax={ymaxval}
-            xLabel={xLabel}
-            yLabel={"Count"}
-          />
-        </Col>
-      </Row>
+      <Alert color="secondary" className="Center">
+        We queried the {texts[distType][0]} of {popArray.length} {texts[distType][1]} and plotted the results on the following chart.
+      </Alert>
+      <DotPlot
+        series={series}
+        title={`${title} <br /> Population Mean: ${_.round(popMean, 2)}`}
+        xMin={xminval}
+        xMax={xmaxval}
+        yMax={ymaxval}
+        xLabel={xLabel}
+        yLabel={"Count"}
+      />
   </Container>
   );
 

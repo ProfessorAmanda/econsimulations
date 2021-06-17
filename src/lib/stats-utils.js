@@ -10,7 +10,7 @@ export const generateNormal = (sampleSize, mean, standardDev) => {
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([amt, i])
+      popArray.push([+amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -24,7 +24,7 @@ export const generateUniform = (sampleSize, low, hi) => {
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([amt, i])
+      popArray.push([+amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -38,7 +38,7 @@ export const generateExponential = (sampleSize, lambda) => {
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([amt, i])
+      popArray.push([+amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -52,7 +52,7 @@ export const generateChiSquared = (sampleSize, degreesOfFreedom) => {
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([amt, i])
+      popArray.push([+amt, i])
     }
   });
   return _.shuffle(popArray);
