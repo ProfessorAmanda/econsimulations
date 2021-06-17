@@ -70,7 +70,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
           <Alert color="info">
             According to the law, the average of the results obtained from a large enough sample should be close to the total average of the population, and will tend to become closer the larger the sample is. Make sure to pick several samples, or see below for a simulation to see the law in action.
           </Alert>
-          <SimulateSamples type={popType} sample={(size) => _.sampleSize(popArray, size)} pop={popMean}/>
+          <SimulateSamples type={popType} popArray={popArray} popMean={_.round(popMean, 2)}/>
         </div>
       }
     </Collapsable>

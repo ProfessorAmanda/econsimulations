@@ -1,117 +1,104 @@
-import React, { Component } from 'react';
-import { round, mean } from "mathjs";
+import React, { useEffect, useState } from 'react';
+import { mean } from "mathjs";
 import Highcharts from "highcharts";
+import HighchartsReact from 'highcharts-react-official';
 import { Collapse, Card, CardBody } from 'reactstrap';
 import '../../styles/dark-unica.css';
+import _ from "lodash";
 
-class SimulateSamples extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            sampled: [],
-            meanDiffs: [],
-            chart: undefined,
-            type: '',
-            started: false,
-            collapsed: true
+export default function SimulateSamples({ type, popArray, popMean }) {
+  const [sampled, setSampled] = useState([]);
+  const [meanLine, setMeanLine] = useState([]);
+  const [chart, setChart] = useState({});
+
+  useEffect(() => {
+    const newChart = {
+      chart: {
+        type: 'line',
+        animation: false
+      },
+      plotOptions: {
+        series: {
+          animation: {
+            duration: 0
+          },
+          states: {
+            hover: {
+              enabled: false
+            },
+            select: {
+              enabled: false
+            },
+            normal: {
+              animation: false
+            },
+            inactive: {
+              enabled: false
+            }
+          }
         }
-    }
-
-    componentDidUpdate() {
-        if (this.state.sampled.length <= 0) {
-            this.dropPoints(this);
+      },
+      title: {
+        text: `Population vs Sample Means <br /> (${type})`,
+      },
+      xAxis: {
+        title : {
+          text: 'Sample Size'
+        },
+        min: 0,
+        max: 1000
+      },
+      yAxis: {
+        title: {
+          text: 'Mean'
         }
-    }
-
-    componentDidMount() {
-        this.myChart = Highcharts.chart('sim-container', {
-            chart: {
-                type: 'line'
-            },
-            plotOptions: {
-                series: {
-                    animation: {
-                        duration: 100,
-                        easing: 'easeOutBounce'
-                    }
-                }
-            },
-            title: {
-                text: `Population vs Sample Means <br /> (${this.props.type})`,
-            },
-            xAxis: {
-                title : {
-                    enabled: true,
-                    text: 'Sample Size'
-                },
-                min: 0,
-                max: 1000,
-
-            },
-            yAxis: {
-                // min: yMin,
-                // max: yMax,
-                title: {
-                    text: 'Mean'
-                }
-            },
-            tooltip: {
-                enabled: true
-            },
-            series: [{name: 'Population Mean', type: 'line', data: []}, {name: 'Sampled Means', data: this.state.sampled }]
-        })
-
-        if (this.state.sampled.length <= 0) {
-            this.dropPoints(this);
+      },
+      tooltip: {
+        enabled: true
+      },
+      series: [
+        {
+          name: 'Population Mean',
+          data: meanLine,
+          label: {
+            enabled: false
+          },
+          color: "red"
+        },
+        {
+          name: 'Sampled Means',
+          data: sampled,
+          label: {
+            enabled: false
+          },
+          color: "black"
         }
+      ]
     }
 
-    samplePoint() {
-        this.setState((prev) => {
-            const parr = prev.sampled ? prev.sampled.slice() : [];
-            parr.push(this.last);
-            return {
-                sampled: parr
-            }
-        })
-      }
+    setChart(newChart);
+  }, [sampled, meanLine]);
 
-    dropPoints(that) {
-        let n = 0;
-        this.timer = setTimeout(function run() {
-            n++;
-            let tmp = that.props.sample(n)
-            const series = that.myChart.series[1];
-            const x = round(mean(tmp.map(p => p[0])) * 100)/100
-            if (x) {
-                series.addPoint({ y: x}, true, false, false);
-                that.myChart.series[0].addPoint( {y: that.props.pop}, true, false, false);
-                that.last = x;
-                that.samplePoint();
-            }
-            if (series.data.length < 1000 ) {
-                setTimeout(run, 0)
-            }
-            else {
-                clearInterval(that.timer);
-            }
-        }, 0);
-      }
-
-    render(){
-        return(
-            <div>
-            <Collapse isOpen={true}>
-                {/* { !this.state.started && <Spinner size="sm" color="primary"/> } */}
-                    <Card outline style={{ backgroundColor: 'rgba(255, 255, 255, 0)' }}>
-                        <CardBody style={{ backgroundColor: 'rgba(255, 255, 255, 0)' }}>
-                            <div id="sim-container" style={{ height: '50vh'}}/>
-                        </CardBody>
-                    </Card>
-                </Collapse>
-            </div>
-        );
+  useEffect(() => {
+    setSampled([]);
+    setMeanLine([]);
+    for (let n = 1; n <= 1000; n++) {
+      setTimeout(function run() {
+        const sample = _.sampleSize(popArray, n).map(p => p[0]);
+        const avg = _.round(mean(sample), 2);
+        setSampled(sampled => [...sampled, {y: avg}]);
+        setMeanLine(meanLine => [...meanLine, {y: popMean}]);
+      }, n);
     }
+  }, []);
+
+  return (
+    <Collapse isOpen>
+      <Card outline style={{ backgroundColor: 'rgba(255, 255, 255, 0)' }}>
+        <CardBody style={{ backgroundColor: 'rgba(255, 255, 255, 0)' }}>
+          <HighchartsReact highcharts={Highcharts} options={chart}/>
+        </CardBody>
+      </Card>
+    </Collapse>
+  );
 }
-
-export default SimulateSamples;
