@@ -45,9 +45,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
     },
     {
       name: 'Sampled Observations',
-      turboThreshold: 0,
-      data: sampled.map(([x, y]) => {return {x, y}}),
-      showInLegend: sampled.length > 0
+      data: sampled
     },
     {
       type: 'line',

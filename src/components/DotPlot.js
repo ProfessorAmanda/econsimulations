@@ -51,7 +51,14 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
         enabled: true,
         pointFormat: `${xLabel}: <b>{point.x}</b><br />`
       },
-      series: series
+      series: series.map((dataObj) => {
+        return {
+          ...dataObj,
+          data: dataObj.data.map(([x, y]) => {return {x, y}}),
+          turboThreshold: 0,
+          showInLegend: dataObj.data.length > 0
+        }
+      })
     }
     setChart(newChart);
   }, [series, title, xMin, xMax, yMax, xLabel, yLabel]);
