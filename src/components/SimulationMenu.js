@@ -14,8 +14,9 @@ import SimulationContainer from './SimulationContainer.js';
 export default function SimulationMenu() {
   const [mode, setMode] = useState("Home");
   const [start, setStart] = useState(true);
-  const [logo, setLogo] = useState(false);  // init to true!!!
+  const [logo, setLogo] = useState(false);  // TODO: init to true!!!
 
+  // TODO: un-comment this!!!
   // useEffect(() => {
   //   setTimeout(() => {
   //     setLogo(false);

@@ -28,6 +28,7 @@ export default function ConfidenceInputs({ testType, setTestType, confLevel, cha
   );
 
   const adjustSlider = (value) => {
+    // TODO: not calculating zScore correctly - probably use package here
     const newZScore = (testType === "z")
       ? ZTable[value]
       : parseFloat(TTable[modDof-1][((value > 50) ? (100 - value) : value) - 1]);

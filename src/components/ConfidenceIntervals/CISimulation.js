@@ -8,6 +8,7 @@ import { Row, Col } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
 import ZTable from './ZTable.js';
+import { std, sqrt } from "mathjs";
 
 
 export default function CISimulation({ distType, populationSize }) {
@@ -17,7 +18,6 @@ export default function CISimulation({ distType, populationSize }) {
   const [zScore, setZScore] = useState(0);
   const [dOf, setDOf] = useState(1);
   const [popArray, setPopArray] = useState([]);
-  const [popMean, setPopMean] = useState(0);
   const [samples, setSamples] = useState([]);
 
   useEffect(() => {
@@ -32,8 +32,6 @@ export default function CISimulation({ distType, populationSize }) {
       // adjust params for uniform distribution to fit example
       const newPop = dataFromDistribution(distType, populationSize, {low: 54, hi: 74});
       setPopArray(newPop);
-      const newMean = populationMean(newPop);
-      setPopMean(newMean);
     }
   }, [popArray, distType, populationSize]);
 
@@ -51,14 +49,18 @@ export default function CISimulation({ distType, populationSize }) {
 
   const generateSample = (size) => {
     const sample = _.sampleSize(popArray, size);
+    const mean = populationMean(sample)
+    const standardDev = std(sample.map((s) => s[0]));
+    const lowerConf = mean - (zScore * standardDev) / sqrt(size);
+    const upperConf = mean + (zScore * standardDev) / sqrt(size);
     const sampleObject = {
       data: sample,
       size: +size,
-      mean: populationMean(sample),
-      lowerConf: 0,  // TODO: calculate this
-      upperConf: 1  // TODO: calculate this
+      mean: mean,
+      lowerConf: lowerConf,
+      upperConf: upperConf,
+      label: (mean >= lowerConf) && (mean <= upperConf)
     }
-    console.log(sample)
     const newSamples = [...samples, sampleObject];
     setSamples(newSamples);
   }
@@ -79,7 +81,7 @@ export default function CISimulation({ distType, populationSize }) {
         <Col>
           <PopulationChart
             popArray={popArray}
-            popMean={popMean}
+            popMean={populationMean(popArray)}
             sampled={(samples.length > 0) ? samples[samples.length - 1].data : []}  // most recent sample data
             distType={distType}
           />

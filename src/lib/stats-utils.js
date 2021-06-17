@@ -172,5 +172,5 @@ export const dataFromDistribution = (
 
 // returns the mean of popArray
 export const populationMean = (popArray) => {
-  return mean(popArray.map(p => p[0]));
+  return (popArray.length > 0) ? mean(popArray.map(p => p[0])) : undefined;
 }

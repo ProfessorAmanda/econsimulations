@@ -7,17 +7,12 @@ import _ from "lodash";
 export default function ConfidenceIntervalsChart({ confidenceLevel, samples }) {
   const sample = samples[samples.length - 1];
 
-  let label;
-  if (sample) {
-    label = (sample.mean >= sample.lowerConf && sample.mean <= sample.upperConf);
-  }
-
   return (
     <div>
       {
         sample &&
-        <Alert color={label ? "success" : "danger"} className="Center">
-          Sample number {samples.length} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the true mean? {label.toString()}
+        <Alert color={sample.label ? "success" : "danger"} className="Center">
+          Sample number {samples.length} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the true mean? {sample.label.toString()}
         </Alert>
       }
       <p>placeholder chart!</p>

@@ -1,6 +1,6 @@
 import React from "react";
 import DotPlot from "../DotPlot";
-import { Row, Alert, Col, Container } from "reactstrap";
+import { Alert, Container } from "reactstrap";
 import _ from "lodash";
 
 export default function PopulationChart({ popArray, popMean, sampled, distType }) {
