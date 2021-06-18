@@ -15,7 +15,7 @@ const values = {
   "Chi-Squared": {xmaxval: 25, xminval: 0, title: "Money Spent on Lunch", xLabel: "Dollars"}
   }
 
-export default function ConfidenceIntervalsChart({ confidenceLevel, samples, popType, popMean }) {
+export default function ConfidenceIntervalsChart({ confidenceLevel, samples, popType, popMean, selected, setSelected }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
@@ -25,10 +25,10 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
     const containsMean = [];
     const doesntContainMean = [];
 
-    samples.forEach((sampleObject, index) => {
+    samples.forEach((sampleObject) => {
       sampleMeans.push({
         ...sampleObject,
-        x: index + 1,
+        x: sampleObject.id,
         y: sampleObject.mean
       });
       if (sampleObject.label) {
@@ -36,21 +36,23 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           ...sampleObject,
           low: sampleObject.lowerConf,
           high: sampleObject.upperConf,
-          x: index + 1
+          x: sampleObject.id
         })
       } else {
         doesntContainMean.push({
           ...sampleObject,
           low: sampleObject.lowerConf,
           high: sampleObject.upperConf,
-          x: index + 1
+          x: sampleObject.id
         })
       }
     });
 
     const tooltipFormat = {
       headerFormat: "",
-      pointFormat: "Sample Size: <b>{point.size}</b><br/>Sample Mean: <b>{point.mean}</b><br/>Lower Bound of CI: <b>{point.lowerConf}</b><br/>Upper Bound of CI: <b>{point.upperConf}</b><br/>Confidence Level: <b>{point.confidenceLevel}%</b><br/>Distribution: <b>{point.distribution}</b><br/>"
+      pointFormat: "Sample Size: <b>{point.size}</b><br/>Sample Mean: <b>{point.mean}</b><br/>Lower Bound of CI: <b>{point.lowerConf}</b><br/>Upper Bound of CI: <b>{point.upperConf}</b><br/>Confidence Level: <b>{point.confidenceLevel}%</b><br/>Distribution: <b>{point.distribution}</b><br/>",
+      outside: true,
+      borderColor: "gray",
     }
 
     const newChart = {
@@ -62,14 +64,17 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       },
       plotOptions: {
         series: {
+          point: {
+            events: {
+              click() {
+                setSelected(this)
+              }
+            }
+          },
           animation: {
             duration: 0
           },
-          states: {
-            hover: {
-              enabled: false
-            }
-          }
+          cursor: "pointer"
         }
       },
       title: {
@@ -103,9 +108,23 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           centerInCategory: true,
           showInLegend: false,
           tooltip: tooltipFormat,
+          allowPointSelect: true,
           animation: {
             duration: 0
           },
+          states: {
+            hover: {
+              color: "rgba(0, 170, 0, 1)"
+            },
+            inactive: {
+              enabled: false,
+              color: "rgba(0, 170, 0, 0.5)"
+            },
+            select: {
+              enabled: false,
+              color: "rgba(0, 170, 0, 1)"
+            }
+          }
         },
         {
           name: "Confidence Interval",
@@ -114,9 +133,23 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           centerInCategory: true,
           showInLegend: false,
           tooltip: tooltipFormat,
+          allowPointSelect: true,
           animation: {
             duration: 0
           },
+          states: {
+            hover: {
+              color: "rgba(255, 0, 0, 1)"
+            },
+            inactive: {
+              enabled: false,
+              color: "rgba(255, 0, 0, 0.5)"
+            },
+            select: {
+              enabled: false,
+              color: "rgba(255, 0, 0, 1)",
+            }
+          }
         },
         {
           name: "Sample Means",
@@ -128,8 +161,17 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
             symbol: "diamond",
             radius: 1
           },
+          allowPointSelect: true,
           animation: {
             duration: 0
+          },
+          states: {
+            hover: {
+              enabled: false
+            },
+            select: {
+              enabled: false,
+            }
           },
           tooltip: tooltipFormat,
         },
@@ -151,16 +193,16 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       ]
     }
     setChart(newChart);
-  }, [confidenceLevel, samples, popType, popMean]);
+  }, [confidenceLevel, samples, popType, popMean, setSelected]);
 
-  const sample = samples[samples.length - 1];
+  const sample = selected || samples[samples.length - 1];
 
   return (
     <div>
       {
         sample ? (
           <Alert color={sample.label ? "success" : "danger"} className="Center">
-            Sample number {samples.length} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the true mean? {sample.label.toString()}
+            Sample number {sample.id} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the true mean? {sample.label.toString()}
           </Alert>
         ) : <div style={{height: 80}}/>
       }

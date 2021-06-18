@@ -16,7 +16,7 @@ import 'highcharts/modules/annotations';
 import { abs } from "mathjs";
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
-  const [myChart, setMyChart] = useState();
+  const [myChart, setMyChart] = useState({});
 
   // returns an array of points to create a square shape in highcharts
   const buildSquare = (p1, p2) => {

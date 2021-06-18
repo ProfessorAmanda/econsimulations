@@ -4,7 +4,7 @@ import ConfidenceInputs from "./ConfidenceInputs.js";
 import SampleSizeInput from "../SampleSizeInput.js";
 import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
 import ManySamplesInput from "./ManySamplesInput.js";
-import ConfidenceTable from "./ConfidenceTable.js";
+import SamplesTable from "./SamplesTable.js";
 import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
 import { Row, Col, Alert } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
@@ -18,6 +18,7 @@ export default function CISimulation({ popType, populationSize }) {
   const [confLevel, setConfLevel] = useState(95);
   const [popArray, setPopArray] = useState([]);
   const [samples, setSamples] = useState([]);
+  const [selected, setSelected] = useState();
 
   useEffect(() => {
     setPopArray([]);
@@ -50,13 +51,21 @@ export default function CISimulation({ popType, populationSize }) {
         upperConf: _.round(upperConf, 2),
         confidenceLevel: confLevel,
         distribution: distType,
-        label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2))
+        label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2)),
       }
       sampleObjects.push(sampleObject);
     }
     const newSamples = [...samples, ...sampleObjects];
-    setSamples(newSamples);
+    const indexedSamples = newSamples.map((sample, index) => ({...sample, id: index + 1}))
+    setSamples(indexedSamples);
   }
+
+  const clear = () => {
+    setSamples([]);
+    setSelected();
+  }
+
+  const displaySample = (selected && selected.data) || ((samples.length > 0) ? samples[samples.length - 1].data : []);
 
   return (
     <Collapsable>
@@ -74,7 +83,7 @@ export default function CISimulation({ popType, populationSize }) {
           <PopulationChart
             popArray={popArray}
             popMean={populationMean(popArray)}
-            sampled={(samples.length > 0) ? samples[samples.length - 1].data : []}  // most recent sample data
+            sampled={displaySample}  // most recent sample data
             distType={popType}
           />
           <p>Try drawing some samples and calculating means</p>
@@ -86,6 +95,8 @@ export default function CISimulation({ popType, populationSize }) {
             samples={samples}
             popType={popType}
             popMean={_.round(populationMean(popArray))}
+            selected={selected}
+            setSelected={setSelected}
           />
         </Col>
       </Row>
@@ -94,11 +105,11 @@ export default function CISimulation({ popType, populationSize }) {
           <ManySamplesInput
             population={popArray}
             addSamples={generateSamples}
-            clear={() => setSamples([])}
+            clear={clear}
           />
         </Col>
         <Col>
-          <ConfidenceTable samples={samples}/>
+          <SamplesTable samples={samples} setSelected={setSelected}/>
         </Col>
       </Row>
       <br/>
