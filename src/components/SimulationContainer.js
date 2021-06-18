@@ -12,7 +12,6 @@ import CentralLimitTheorem from './CentralLimitTheorem/CentralLimitTheorem.js';
 import JointDistributions from './JointDistributions/JointDistributions.js';
 import OmittedVariableBias from "./OmittedVariableBias/OmittedVariableBias.js";
 import ConfidenceIntervals from './ConfidenceIntervals/ConfidenceIntervals.js';
-// import ConfidenceIntervals from './ConfidenceIntervals.js';
 import HypothesisTestingNew from './HypothesisTestingNew.js';
 import StartHere from './StartHere';
 import { Button } from 'reactstrap';
