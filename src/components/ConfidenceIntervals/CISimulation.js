@@ -9,6 +9,7 @@ import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
 import ZTable from './ZTable.js';
 import { std, sqrt } from "mathjs";
+import { jStat } from "jstat";
 
 
 export default function CISimulation({ distType, populationSize }) {
@@ -49,16 +50,21 @@ export default function CISimulation({ distType, populationSize }) {
 
   const generateSample = (size) => {
     const sample = _.sampleSize(popArray, size);
-    const mean = populationMean(sample)
+    const mean = _.round(populationMean(sample), 2);
     const standardDev = std(sample.map((s) => s[0]));
+    // console.log(jStat.normalci(64, 0.95, 3, 2000), jStat.tci(64, 0.95, 3, 2000))
+    // const zscore = jStat.zscore(confLevel, mean, 3)
+    // console.log(jStat.zscore(95, mean, standardDev))
     const lowerConf = mean - (zScore * standardDev) / sqrt(size);
     const upperConf = mean + (zScore * standardDev) / sqrt(size);
+    // const [lowerConf, upperConf] = jStat.normalci(mean, confLevel, 3, 2000)
+    // console.log(lowerConf, upperConf, zScore, zscore)
     const sampleObject = {
       data: sample,
       size: +size,
       mean: mean,
-      lowerConf: lowerConf,
-      upperConf: upperConf,
+      lowerConf: _.round(lowerConf, 2),
+      upperConf: _.round(upperConf, 2),
       label: (mean >= lowerConf) && (mean <= upperConf)
     }
     const newSamples = [...samples, sampleObject];
@@ -92,6 +98,7 @@ export default function CISimulation({ distType, populationSize }) {
           <ConfidenceIntervalsChart
             confidenceLevel={confLevel}
             samples={samples}
+            distType={distType}
           />
         </Col>
       </Row>
