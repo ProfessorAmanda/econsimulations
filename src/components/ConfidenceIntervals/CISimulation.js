@@ -12,8 +12,8 @@ import { std } from "mathjs";
 import { jStat } from "jstat";
 
 
-export default function CISimulation({ distType, populationSize }) {
-  const [testType, setTestType] = useState("z");  // can be 'z' or 't'
+export default function CISimulation({ popType, populationSize }) {
+  const [distType, setDistType] = useState("z");  // can be 'z' or 't'
   const [confLevel, setConfLevel] = useState(95);
   const [popArray, setPopArray] = useState([]);
   const [samples, setSamples] = useState([]);
@@ -21,16 +21,16 @@ export default function CISimulation({ distType, populationSize }) {
   useEffect(() => {
     setPopArray([]);
     setSamples([]);
-  }, [distType]);
+  }, [popType]);
 
   // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
   useEffect(() => {
     if (popArray.length === 0) {
       // adjust params for uniform distribution to fit example
-      const newPop = dataFromDistribution(distType, populationSize, {low: 54, hi: 74});
+      const newPop = dataFromDistribution(popType, populationSize, {low: 54, hi: 74});
       setPopArray(newPop);
     }
-  }, [popArray, distType, populationSize]);
+  }, [popArray, popType, populationSize]);
 
   const generateSamples = (size, replications=1) => {
     const sampleObjects = [];
@@ -38,8 +38,8 @@ export default function CISimulation({ distType, populationSize }) {
       const sample = _.sampleSize(popArray, size);
       const mean = _.round(populationMean(sample), 2);
       const popMean = _.round(populationMean(popArray), 2);
-      const standardDev = std(((testType === "z") ? popArray : sample).map((s) => s[0]));
-      const ciFunction = (testType === "z") ? jStat.normalci : jStat.tci;
+      const standardDev = std(((distType === "z") ? popArray : sample).map((s) => s[0]));
+      const ciFunction = (distType === "z") ? jStat.normalci : jStat.tci;
       const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
       const sampleObject = {
         data: sample,
@@ -47,6 +47,8 @@ export default function CISimulation({ distType, populationSize }) {
         mean: mean,
         lowerConf: _.round(lowerConf, 2),
         upperConf: _.round(upperConf, 2),
+        confidenceLevel: confLevel,
+        distribution: distType,
         label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2))
       }
       sampleObjects.push(sampleObject);
@@ -59,8 +61,8 @@ export default function CISimulation({ distType, populationSize }) {
     <Collapsable>
       <Row>
         <ConfidenceInputs
-          testType={testType}
-          setTestType={setTestType}
+          distType={distType}
+          setDistType={setDistType}
           confLevel={confLevel}
           setConfLevel={setConfLevel}
         />
@@ -72,10 +74,12 @@ export default function CISimulation({ distType, populationSize }) {
             popArray={popArray}
             popMean={populationMean(popArray)}
             sampled={(samples.length > 0) ? samples[samples.length - 1].data : []}  // most recent sample data
-            distType={distType}
+            distType={popType}
           />
           <p>Try drawing some samples and calculating means</p>
           <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
+          <br/>
+          <br/>
           <ManySamplesInput
             population={popArray}
             addSamples={generateSamples}
@@ -86,7 +90,7 @@ export default function CISimulation({ distType, populationSize }) {
           <ConfidenceIntervalsChart
             confidenceLevel={confLevel}
             samples={samples}
-            distType={distType}
+            popType={popType}
             popMean={_.round(populationMean(popArray))}
           />
         </Col>

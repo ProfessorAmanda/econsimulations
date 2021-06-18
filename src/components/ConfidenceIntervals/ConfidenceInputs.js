@@ -2,7 +2,7 @@ import React from "react";
 import { Row, ButtonGroup, Button, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
 
-export default function ConfidenceInputs({ testType, setTestType, confLevel, setConfLevel }) {
+export default function ConfidenceInputs({ distType, setDistType, confLevel, setConfLevel }) {
 
   const confidenceBar = [90, 95, 99].map((level) =>
     <Button
@@ -20,8 +20,8 @@ export default function ConfidenceInputs({ testType, setTestType, confLevel, set
         <div>
           1) Do you want to assume that you know σ? If yes, choose Z. If no, choose T: {" "}
           <ButtonGroup>
-            <Button style={{ backgroundColor: (testType === "z") ? '#4CAF50':'#555555' }} onClick={() => setTestType("z")}>Z</Button>
-            <Button style={{ backgroundColor: (testType === "t") ? '#4CAF50':'#555555' }} onClick={() => setTestType("t")}>T</Button>
+            <Button style={{ backgroundColor: (distType === "z") ? '#4CAF50':'#555555' }} onClick={() => setDistType("z")}>Z</Button>
+            <Button style={{ backgroundColor: (distType === "t") ? '#4CAF50':'#555555' }} onClick={() => setDistType("t")}>T</Button>
           </ButtonGroup>
         </div>
       </Row>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Button, Input } from 'reactstrap';
+import { Button, Input, Alert } from 'reactstrap';
 
 export default function ManySamplesInput({ population, addSamples, clear }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -7,6 +7,9 @@ export default function ManySamplesInput({ population, addSamples, clear }) {
 
   return (
     <div>
+      <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
+        Simulate drawing many many samples
+      </Alert>
       <span> Sample Size: </span>
       <Input
         style={{width: "40%", margin: "auto"}}
