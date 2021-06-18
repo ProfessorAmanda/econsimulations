@@ -31,31 +31,26 @@ export default function CISimulation({ distType, populationSize }) {
     }
   }, [popArray, distType, populationSize]);
 
-  const changeTestType = (type) => {
-    setSamples([]);
-    setTestType(type);
-  }
-
-  const changeConfidenceLevel = (level) => {
-    setSamples([]);
-    setConfLevel(level);
-  }
-
-  const generateSample = (size) => {
+  const generateSamples = (size, replications=1) => {
     const sample = _.sampleSize(popArray, size);
     const mean = _.round(populationMean(sample), 2);
-    const popMean = populationMean(popArray);
-    const standardDev = (testType === "z") ? std(popArray.map((s) => s[0])) : std(sample.map((s) => s[0]));
-    const [lowerConf, upperConf] = jStat.normalci(mean, 1 - (confLevel / 100), standardDev, size);
-    const sampleObject = {
-      data: sample,
-      size: +size,
-      mean: mean,
-      lowerConf: _.round(lowerConf, 2),
-      upperConf: _.round(upperConf, 2),
-      label: (popMean >= lowerConf) && (popMean <= upperConf)
+    const popMean = _.round(populationMean(popArray), 2);
+    const standardDev = std(((testType === "z") ? popArray : sample).map((s) => s[0]));
+    const ciFunction = (testType === "z") ? jStat.normalci : jStat.tci;
+    const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
+    const sampleObjects = [];
+    for (let i = 0; i < replications; i++) {
+      const sampleObject = {
+        data: sample,
+        size: +size,
+        mean: mean,
+        lowerConf: _.round(lowerConf, 2),
+        upperConf: _.round(upperConf, 2),
+        label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2))
+      }
+      sampleObjects.push(sampleObject);
     }
-    const newSamples = [...samples, sampleObject];
+    const newSamples = [...samples, ...sampleObjects];
     setSamples(newSamples);
   }
 
@@ -64,9 +59,9 @@ export default function CISimulation({ distType, populationSize }) {
       <Row>
         <ConfidenceInputs
           testType={testType}
-          setTestType={changeTestType}
+          setTestType={setTestType}
           confLevel={confLevel}
-          changeConfLevel={changeConfidenceLevel}
+          setConfLevel={setConfLevel}
         />
       </Row>
       <br/>
@@ -79,13 +74,14 @@ export default function CISimulation({ distType, populationSize }) {
             distType={distType}
           />
           <p>Try drawing some samples and calculating means</p>
-          <SampleSizeInput maxSize={popArray.length} handleClick={generateSample}/>
+          <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
         </Col>
         <Col>
           <ConfidenceIntervalsChart
             confidenceLevel={confLevel}
             samples={samples}
             distType={distType}
+            popMean={_.round(populationMean(popArray))}
           />
         </Col>
       </Row>

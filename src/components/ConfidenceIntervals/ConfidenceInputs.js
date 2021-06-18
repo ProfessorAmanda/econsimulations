@@ -2,12 +2,12 @@ import React from "react";
 import { Row, ButtonGroup, Button, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
 
-export default function ConfidenceInputs({ testType, setTestType, confLevel, changeConfLevel }) {
+export default function ConfidenceInputs({ testType, setTestType, confLevel, setConfLevel }) {
 
   const confidenceBar = [90, 95, 99].map((level) =>
     <Button
       style={{ backgroundColor: (+confLevel === level) ? '#4CAF50' : '#555555' }}
-      onClick={() => changeConfLevel(level)}
+      onClick={() => setConfLevel(level)}
       key={level}
     >
       {level}%
@@ -37,7 +37,7 @@ export default function ConfidenceInputs({ testType, setTestType, confLevel, cha
         <Col sm="12" md={{ size: 6, offset: 3 }}>
           <div>
             More Levels:
-            <InputSlider value={confLevel} min={1} max={99} step={1} onChange={changeConfLevel}/>
+            <InputSlider value={confLevel} min={1} max={99} step={1} onChange={setConfLevel}/>
           </div>
         </Col>
       </Row>

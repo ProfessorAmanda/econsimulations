@@ -4,6 +4,7 @@ import HighchartsReact from "highcharts-react-official";
 import { Alert } from "reactstrap";
 import _ from "lodash";
 import More from "highcharts/highcharts-more";
+import { max } from "mathjs";
 
 More(Highcharts);
 
@@ -14,7 +15,7 @@ const values = {
   "Chi-Squared": {xmaxval: 25, xminval: 0, title: "Money Spent on Lunch", xLabel: "Dollars"}
   }
 
-export default function ConfidenceIntervalsChart({ confidenceLevel, samples, distType }) {
+export default function ConfidenceIntervalsChart({ confidenceLevel, samples, distType, popMean }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
@@ -24,23 +25,22 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
     const containsMean = [];
     const doesntContainMean = [];
 
-    samples.forEach(({ mean, lowerConf, upperConf, label }, index) => {
-      sampleMeans.push([index, mean]);
-      // intervals.push({
-      //   high: upperConf,
-      //   low: lowerConf,
-      //   colorValue: label ? "rgba(0, 170, 0, 0.5)" : "rgba(255, 0, 0, 0.5)"
-      // });
-      if (label) {
+    samples.forEach((sampleObject, index) => {
+      sampleMeans.push({
+        ...sampleObject,
+        x: index,
+        y: sampleObject.mean
+      });
+      if (sampleObject.label) {
         containsMean.push({
-          low: lowerConf,
-          high: upperConf,
+          low: sampleObject.lowerConf,
+          high: sampleObject.upperConf,
           x: index
         })
       } else {
         doesntContainMean.push({
-          low: lowerConf,
-          high: upperConf,
+          low: sampleObject.lowerConf,
+          high: sampleObject.upperConf,
           x: index
         })
       }
@@ -71,7 +71,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
       xAxis: {
         reversed: false,
         min: 0,
-        max: (samples.length > 10) ? samples.length : 10,
+        max: max(samples.length, 10),
         startOnTick: true,
         title: {
           text: "Sample Number"
@@ -114,7 +114,25 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
           },
           animation: {
             duration: 0
+          },
+          tooltip: {
+            enabled: true
           }
+        },
+        {
+          type: 'line',
+          name: 'Population Mean',
+          data: [[0, popMean], [samples.length, popMean]],
+          color: 'gray',
+          enableMouseTracking: false,
+          showInLegend: false,
+          label: {
+            enabled: false
+          },
+          marker: {
+            enabled: false
+          },
+          zIndex: -5
         }
       ]
     }
