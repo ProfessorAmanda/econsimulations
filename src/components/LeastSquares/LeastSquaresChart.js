@@ -138,7 +138,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     }
 
     setMyChart(newChart);
-  }, [points, linePoints]);  // eslint-disable-line
+  }, [points, linePoints, setSquareAreas]);
 
   return (
     <HighchartsReact highcharts={Highcharts} options={myChart}/>

@@ -7,22 +7,17 @@ import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
 import { Row, Col } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
-import ZTable from './ZTable.js';
-import { std, sqrt } from "mathjs";
+import { std } from "mathjs";
 import { jStat } from "jstat";
 
 
 export default function CISimulation({ distType, populationSize }) {
-  const [stage, setStage] = useState(0);
   const [testType, setTestType] = useState("z");  // can be 'z' or 't'
   const [confLevel, setConfLevel] = useState(95);
-  const [zScore, setZScore] = useState(0);
-  const [dOf, setDOf] = useState(1);
   const [popArray, setPopArray] = useState([]);
   const [samples, setSamples] = useState([]);
 
   useEffect(() => {
-    setStage(0);
     setPopArray([]);
     setSamples([]);
   }, [distType]);
@@ -39,33 +34,26 @@ export default function CISimulation({ distType, populationSize }) {
   const changeTestType = (type) => {
     setSamples([]);
     setTestType(type);
-    setZScore(ZTable['0.' + confLevel]);
   }
 
-  const changeConfidenceLevel = (level, score) => {
+  const changeConfidenceLevel = (level) => {
     setSamples([]);
     setConfLevel(level);
-    setZScore(score);
   }
 
   const generateSample = (size) => {
     const sample = _.sampleSize(popArray, size);
     const mean = _.round(populationMean(sample), 2);
-    const standardDev = std(sample.map((s) => s[0]));
-    // console.log(jStat.normalci(64, 0.95, 3, 2000), jStat.tci(64, 0.95, 3, 2000))
-    // const zscore = jStat.zscore(confLevel, mean, 3)
-    // console.log(jStat.zscore(95, mean, standardDev))
-    const lowerConf = mean - (zScore * standardDev) / sqrt(size);
-    const upperConf = mean + (zScore * standardDev) / sqrt(size);
-    // const [lowerConf, upperConf] = jStat.normalci(mean, confLevel, 3, 2000)
-    // console.log(lowerConf, upperConf, zScore, zscore)
+    const popMean = populationMean(popArray);
+    const standardDev = (testType === "z") ? std(popArray.map((s) => s[0])) : std(sample.map((s) => s[0]));
+    const [lowerConf, upperConf] = jStat.normalci(mean, 1 - (confLevel / 100), standardDev, size);
     const sampleObject = {
       data: sample,
       size: +size,
       mean: mean,
       lowerConf: _.round(lowerConf, 2),
       upperConf: _.round(upperConf, 2),
-      label: (mean >= lowerConf) && (mean <= upperConf)
+      label: (popMean >= lowerConf) && (popMean <= upperConf)
     }
     const newSamples = [...samples, sampleObject];
     setSamples(newSamples);
@@ -79,7 +67,6 @@ export default function CISimulation({ distType, populationSize }) {
           setTestType={changeTestType}
           confLevel={confLevel}
           changeConfLevel={changeConfidenceLevel}
-          dOf={dOf}
         />
       </Row>
       <br/>

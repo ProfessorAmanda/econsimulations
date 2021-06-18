@@ -24,12 +24,25 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
     const containsMean = [];
     const doesntContainMean = [];
 
-    samples.forEach(({ mean, lowerConf, upperConf, label }) => {
-      sampleMeans.push(mean);
+    samples.forEach(({ mean, lowerConf, upperConf, label }, index) => {
+      sampleMeans.push([index, mean]);
+      // intervals.push({
+      //   high: upperConf,
+      //   low: lowerConf,
+      //   colorValue: label ? "rgba(0, 170, 0, 0.5)" : "rgba(255, 0, 0, 0.5)"
+      // });
       if (label) {
-        containsMean.push([lowerConf, upperConf])
+        containsMean.push({
+          low: lowerConf,
+          high: upperConf,
+          x: index
+        })
       } else {
-        doesntContainMean.push([lowerConf, upperConf])
+        doesntContainMean.push({
+          low: lowerConf,
+          high: upperConf,
+          x: index
+        })
       }
     });
 
@@ -80,12 +93,14 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
           name: "Confidence Interval",
           data: containsMean,
           color: "rgba(0, 170, 0, 0.5)",
+          centerInCategory: true,
           showInLegend: false,
         },
         {
           name: "Confidence Interval",
           data: doesntContainMean,
           color: "rgba(255, 0, 0, 0.5)",
+          centerInCategory: true,
           showInLegend: false
         },
         {
@@ -94,7 +109,8 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
           data: sampleMeans,
           color: "#616161",
           marker: {
-            symbol: "diamond"
+            symbol: "diamond",
+            radius: 2
           },
           animation: {
             duration: 0

@@ -58,7 +58,7 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
       const newMean = populationMean(newPop);
       setPopMean(newMean);
     }
-  }, [popArray]);  // eslint-disable-line
+  }, [popArray, popType, mainSampleSize]);
 
   const addSampleMeans = (means) => {
     const newSampleMeans = [...sampleMeans, ...means];

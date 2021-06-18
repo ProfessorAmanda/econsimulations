@@ -1,39 +1,18 @@
 import React from "react";
 import { Row, ButtonGroup, Button, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
-import TTable from './TTable.js';
-import ZTable from './ZTable.js';
 
-export default function ConfidenceInputs({ testType, setTestType, confLevel, changeConfLevel, dOf }) {
-  const modDof = (dOf > 120) ? 121 : dOf;
+export default function ConfidenceInputs({ testType, setTestType, confLevel, changeConfLevel }) {
 
-  const sampleInputs = (testType === "z") ? [
-    {level: 90, zValue: 1.645},
-    {level: 95, zValue: 1.960},
-    {level: 99, zValue: 2.576}
-  ] : [
-    {level: 90, zValue: parseFloat(TTable[modDof - 1][9])},
-    {level: 95, zValue: parseFloat(TTable[modDof - 1][4])},
-    {level: 99, zValue: parseFloat(TTable[modDof - 1][0])}
-  ];
-
-  const confidenceBar = sampleInputs.map(({level, zValue}) =>
+  const confidenceBar = [90, 95, 99].map((level) =>
     <Button
       style={{ backgroundColor: (+confLevel === level) ? '#4CAF50' : '#555555' }}
-      onClick={() => changeConfLevel(level, zValue)}
+      onClick={() => changeConfLevel(level)}
       key={level}
     >
       {level}%
     </Button>
   );
-
-  const adjustSlider = (value) => {
-    // TODO: not calculating zScore correctly - probably use package here
-    const newZScore = (testType === "z")
-      ? ZTable[value]
-      : parseFloat(TTable[modDof-1][((value > 50) ? (100 - value) : value) - 1]);
-    changeConfLevel(value, newZScore);
-  }
 
   return (
     <div>
@@ -58,7 +37,7 @@ export default function ConfidenceInputs({ testType, setTestType, confLevel, cha
         <Col sm="12" md={{ size: 6, offset: 3 }}>
           <div>
             More Levels:
-            <InputSlider value={confLevel} min={1} max={99} step={1} onChange={adjustSlider}/>
+            <InputSlider value={confLevel} min={1} max={99} step={1} onChange={changeConfLevel}/>
           </div>
         </Col>
       </Row>
