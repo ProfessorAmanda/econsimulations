@@ -3,6 +3,7 @@ import Collapsable from "../Collapsable.js";
 import ConfidenceInputs from "./ConfidenceInputs.js";
 import SampleSizeInput from "../SampleSizeInput.js";
 import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
+import ManySamplesInput from "./ManySamplesInput.js";
 import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
 import { Row, Col } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
@@ -32,14 +33,14 @@ export default function CISimulation({ distType, populationSize }) {
   }, [popArray, distType, populationSize]);
 
   const generateSamples = (size, replications=1) => {
-    const sample = _.sampleSize(popArray, size);
-    const mean = _.round(populationMean(sample), 2);
-    const popMean = _.round(populationMean(popArray), 2);
-    const standardDev = std(((testType === "z") ? popArray : sample).map((s) => s[0]));
-    const ciFunction = (testType === "z") ? jStat.normalci : jStat.tci;
-    const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
     const sampleObjects = [];
     for (let i = 0; i < replications; i++) {
+      const sample = _.sampleSize(popArray, size);
+      const mean = _.round(populationMean(sample), 2);
+      const popMean = _.round(populationMean(popArray), 2);
+      const standardDev = std(((testType === "z") ? popArray : sample).map((s) => s[0]));
+      const ciFunction = (testType === "z") ? jStat.normalci : jStat.tci;
+      const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
       const sampleObject = {
         data: sample,
         size: +size,
@@ -75,6 +76,11 @@ export default function CISimulation({ distType, populationSize }) {
           />
           <p>Try drawing some samples and calculating means</p>
           <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
+          <ManySamplesInput
+            population={popArray}
+            addSamples={generateSamples}
+            clear={() => setSamples([])}
+          />
         </Col>
         <Col>
           <ConfidenceIntervalsChart

@@ -33,12 +33,14 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
       });
       if (sampleObject.label) {
         containsMean.push({
+          ...sampleObject,
           low: sampleObject.lowerConf,
           high: sampleObject.upperConf,
           x: index
         })
       } else {
         doesntContainMean.push({
+          ...sampleObject,
           low: sampleObject.lowerConf,
           high: sampleObject.upperConf,
           x: index
@@ -95,20 +97,34 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
           color: "rgba(0, 170, 0, 0.5)",
           centerInCategory: true,
           showInLegend: false,
+          tooltip: {
+            headerFormat: "",
+            pointFormat: "Sample Size: <b>{point.size}</b><br/>Sample Mean: <b>{point.mean}</b><br/>Lower Confidence Interval: <b>{point.lowerConf}</b><br/>Upper Confidence Interval: <b>{point.upperConf}</b><br/>"
+          },
+          animation: {
+            duration: 0
+          },
         },
         {
           name: "Confidence Interval",
           data: doesntContainMean,
           color: "rgba(255, 0, 0, 0.5)",
           centerInCategory: true,
-          showInLegend: false
+          showInLegend: false,
+          tooltip: {
+            headerFormat: "",
+            pointFormat: "Sample Size: <b>{point.size}</b><br/>Sample Mean: <b>{point.mean}</b><br/>Lower Confidence Interval: <b>{point.lowerConf}</b><br/>Upper Confidence Interval: <b>{point.upperConf}</b><br/>"
+          },
+          animation: {
+            duration: 0
+          },
         },
         {
           name: "Sample Means",
           type: "scatter",
           data: sampleMeans,
-          color: "#616161",
           marker: {
+            enabled: (samples.length <= 300),
             symbol: "diamond",
             radius: 2
           },
@@ -116,7 +132,8 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
             duration: 0
           },
           tooltip: {
-            enabled: true
+            headerFormat: "",
+            pointFormat: "Sample Size: <b>{point.size}</b><br/>Sample Mean: <b>{point.mean}</b><br/>Lower Confidence Interval: <b>{point.lowerConf}</b><br/>Upper Confidence Interval: <b>{point.upperConf}</b><br/>"
           }
         },
         {
@@ -137,7 +154,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, dis
       ]
     }
     setChart(newChart);
-  }, [confidenceLevel, samples, distType]);
+  }, [confidenceLevel, samples, distType, popMean]);
 
   const sample = samples[samples.length - 1];
 
