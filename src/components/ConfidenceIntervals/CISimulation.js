@@ -4,8 +4,9 @@ import ConfidenceInputs from "./ConfidenceInputs.js";
 import SampleSizeInput from "../SampleSizeInput.js";
 import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
 import ManySamplesInput from "./ManySamplesInput.js";
+import ConfidenceTable from "./ConfidenceTable.js";
 import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Alert } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
 import { std } from "mathjs";
@@ -78,13 +79,6 @@ export default function CISimulation({ popType, populationSize }) {
           />
           <p>Try drawing some samples and calculating means</p>
           <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
-          <br/>
-          <br/>
-          <ManySamplesInput
-            population={popArray}
-            addSamples={generateSamples}
-            clear={() => setSamples([])}
-          />
         </Col>
         <Col>
           <ConfidenceIntervalsChart
@@ -94,6 +88,29 @@ export default function CISimulation({ popType, populationSize }) {
             popMean={_.round(populationMean(popArray))}
           />
         </Col>
+      </Row>
+      <Row>
+        <Col>
+          <ManySamplesInput
+            population={popArray}
+            addSamples={generateSamples}
+            clear={() => setSamples([])}
+          />
+        </Col>
+        <Col>
+          <ConfidenceTable samples={samples}/>
+        </Col>
+      </Row>
+      <br/>
+      <Row lg="12">
+        {
+          (samples.length > 0) &&
+          <Alert color="info" style={{margin:'auto'}}>
+            {samples.filter(({ label }) => !label).length} intervals did not contain the true mean
+            <br/>
+            {samples.filter(({ label }) => label).length} did
+          </Alert>
+        }
       </Row>
     </Collapsable>
   );

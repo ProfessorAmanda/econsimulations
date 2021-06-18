@@ -28,7 +28,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
     samples.forEach((sampleObject, index) => {
       sampleMeans.push({
         ...sampleObject,
-        x: index,
+        x: index + 1,
         y: sampleObject.mean
       });
       if (sampleObject.label) {
@@ -36,14 +36,14 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           ...sampleObject,
           low: sampleObject.lowerConf,
           high: sampleObject.upperConf,
-          x: index
+          x: index + 1
         })
       } else {
         doesntContainMean.push({
           ...sampleObject,
           low: sampleObject.lowerConf,
           high: sampleObject.upperConf,
-          x: index
+          x: index + 1
         })
       }
     });
@@ -77,7 +77,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       },
       xAxis: {
         reversed: false,
-        min: 0,
+        min: 1,
         max: max(samples.length, 10),
         startOnTick: true,
         title: {
@@ -134,10 +134,10 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           tooltip: tooltipFormat,
         },
         {
-          type: 'line',
-          name: 'Population Mean',
+          type: "line",
+          name: "Population Mean",
           data: [[0, popMean], [samples.length, popMean]],
-          color: 'gray',
+          color: "gray",
           enableMouseTracking: false,
           showInLegend: false,
           label: {
@@ -158,10 +158,11 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
   return (
     <div>
       {
-        sample &&
-        <Alert color={sample.label ? "success" : "danger"} className="Center">
-          Sample number {samples.length} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the true mean? {sample.label.toString()}
-        </Alert>
+        sample ? (
+          <Alert color={sample.label ? "success" : "danger"} className="Center">
+            Sample number {samples.length} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the true mean? {sample.label.toString()}
+          </Alert>
+        ) : <div style={{height: 80}}/>
       }
       <HighchartsReact highcharts={Highcharts} options={chart}/>
     </div>

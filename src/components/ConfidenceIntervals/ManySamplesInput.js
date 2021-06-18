@@ -6,10 +6,11 @@ export default function ManySamplesInput({ population, addSamples, clear }) {
   const [resampleSize, setResampleSize] = useState(0);
 
   return (
-    <div>
+    <div style={{ padding: 50 }}>
       <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
         Simulate drawing many many samples
       </Alert>
+      <br/>
       <span> Sample Size: </span>
       <Input
         style={{width: "40%", margin: "auto"}}
