@@ -20,6 +20,7 @@
     "gh-pages": "^3.2.0",
     "highcharts": "^9.1.1",
     "highcharts-react-official": "^3.0.0",
+    "jstat": "^1.9.4",
     "lodash": "^4.17.21",
     "mathjs": "^9.4.1",
     "multivariate-normal": "^0.1.2",

@@ -4,15 +4,13 @@ import _ from "lodash";
 
 // generates a dataset with normal distribution
 // returns an array of [value, count] pairs
-export const generateNormal = (sampleSize) => {
-  const MEAN = 64;
-  const STANDARD_DEV = 3;
-  const population = PD.rnorm(sampleSize, MEAN, STANDARD_DEV).map((num) => _.round(num, 1));
+export const generateNormal = (sampleSize, mean, standardDev) => {
+  const population = PD.rnorm(sampleSize, mean, standardDev).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([amt, i])
+      popArray.push([+amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -20,15 +18,13 @@ export const generateNormal = (sampleSize) => {
 
 // generates a dataset with uniform distribution
 // returns an array of [value, count] pairs
-export const generateUniform = (sampleSize) => {
-  const HI = 10;
-  const LOW = -10;
-  const population = PD.runif(sampleSize, LOW, HI).map((num) => _.round(num, 1));
+export const generateUniform = (sampleSize, low, hi) => {
+  const population = PD.runif(sampleSize, low, hi).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([amt, i])
+      popArray.push([+amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -36,14 +32,13 @@ export const generateUniform = (sampleSize) => {
 
 // generates a dataset with exponential distribution
 // returns an array of [value, count] pairs
-export const generateExponential = (sampleSize) => {
-  const LAMBDA = 1/64;
-  const population = PD.rexp(sampleSize, LAMBDA).map((num) => _.round(num, 1));
+export const generateExponential = (sampleSize, lambda) => {
+  const population = PD.rexp(sampleSize, lambda).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([amt, i])
+      popArray.push([+amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -51,14 +46,13 @@ export const generateExponential = (sampleSize) => {
 
 // generates a dataset with chi-squared distribution
 // returns an array of [value, count] pairs
-export const generateChiSquared = (sampleSize) => {
-  const DEGREES_OF_FREEDOM = 8;
-  const population = PD.rchisq(sampleSize, DEGREES_OF_FREEDOM).map((num) => _.round(num, 1));
+export const generateChiSquared = (sampleSize, degreesOfFreedom) => {
+  const population = PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([amt, i])
+      popArray.push([+amt, i])
     }
   });
   return _.shuffle(popArray);
@@ -152,12 +146,24 @@ export const generateMystery = (sampleSize) => {
 
 
 // returns the data set from the function corresponding with distType
-export const dataFromDistribution = (distType, sampleSize) => {
+export const dataFromDistribution = (
+    distType,
+    sampleSize,
+    {
+      mean=64,
+      standardDev=3,
+      low=-10,
+      hi=10,
+      lambda=1/64,
+      degreesOfFreedom=8
+    } = {}
+  ) => {
+
   const getDistributionFunction = {
-    "Normal": () => generateNormal(sampleSize),
-    "Uniform": () => generateUniform(sampleSize),
-    "Exponential": () => generateExponential(sampleSize),
-    "Chi-Squared": () => generateChiSquared(sampleSize),
+    "Normal": () => generateNormal(sampleSize, mean, standardDev),
+    "Uniform": () => generateUniform(sampleSize, low, hi),
+    "Exponential": () => generateExponential(sampleSize, lambda),
+    "Chi-Squared": () => generateChiSquared(sampleSize, degreesOfFreedom),
     "Mystery": () => generateMystery(sampleSize)
   }
 
@@ -166,5 +172,5 @@ export const dataFromDistribution = (distType, sampleSize) => {
 
 // returns the mean of popArray
 export const populationMean = (popArray) => {
-  return mean(popArray.map(p => p[0]));
+  return (popArray.length > 0) ? mean(popArray.map(p => p[0])) : undefined;
 }

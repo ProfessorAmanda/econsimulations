@@ -12,16 +12,12 @@
     sampleSize - int
 */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../styles/dark-unica.css';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official'
+import DotPlot from './DotPlot';
 import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import _ from "lodash";
-import Label from 'highcharts/modules/series-label';
-
-Label(Highcharts);
 
 const values = {
   Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -40,81 +36,30 @@ const texts = {
 }
 
 export default function ChartContainer({ popArray, popMean, sampled, sampleMean, popType }) {
-  const [myChart, setMyChart] = useState();
+  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popType];
 
-  useEffect(() => {
-    const { xmaxval, xminval, ymaxval, title, xLabel } = values[popType];
-
-    const newChart = {
-      chart: {
-        type: 'scatter',
-      },
-      plotOptions: {
-        series: {
-          animation: {
-            duration: 100,
-            easing: 'easeOutBounce'
-          },
-        }
-      },
-      legend: {
-        symbolHeight: 12,
-        symbolWidth: 12,
-        symbolRadius: 6
-      },
-      xAxis: {
-        min: xminval,
-        max: xmaxval,
-        title : {
-          enabled: true,
-          text: xLabel
-        },
-        startOnTick: true,
-        endOnTick: true
-      },
-      title: {
-        text: `${title} <br /> Population Mean: ${_.round(popMean, 2)}`
-      },
-      yAxis: {
-        max: ymaxval,
-        startOnTick: true,
-        endOnTick: true,
-        title: {
-          text: 'Count'
-        }
-      },
-      tooltip: {
-        enabled: true,
-        pointFormat: `${xLabel}: <b>{point.x}</b><br />`
-      },
-      series: [
-        {
-          name: 'Population Observations',
-          data: popArray
-        },
-        {
-          name: 'Sampled Observations',
-          turboThreshold: 0,
-          data: sampled.map(([x, y]) => {return {x, y}}),
-          showInLegend: sampled.length > 0
-        },
-        {
-          type: 'line',
-          name: 'Sample Mean',
-          data: [[sampleMean, 0], [sampleMean, ymaxval]],
-          color: 'red',
-          enableMouseTracking: false,
-          showInLegend: false,
-          visible: (sampleMean !== undefined) && (sampled.length > 0),
-          label: {
-            format: `<div>Sample Mean: ${sampleMean}</div>`
-          }
-        }
-      ]
+  const series = [
+    {
+      name: 'Population Observations',
+      data: popArray
+    },
+    {
+      name: 'Sampled Observations',
+      data: sampled
+    },
+    {
+      type: 'line',
+      name: 'Sample Mean',
+      data: [[sampleMean, 0], [sampleMean, ymaxval]],
+      color: 'red',
+      enableMouseTracking: false,
+      showInLegend: false,
+      visible: (sampleMean !== undefined) && (sampled.length > 0),
+      label: {
+        format: `<div>Sample Mean: ${sampleMean}</div>`
+      }
     }
-
-    setMyChart(newChart);
-  }, [popArray, sampled]);  // eslint-disable-line
+  ];
 
   return (
     <div>
@@ -134,7 +79,15 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
               />
             </Col>
             <Col lg="8">
-              <HighchartsReact highcharts={Highcharts} options={myChart}/>
+              <DotPlot
+                series={series}
+                title={`${title} <br /> Population Mean: ${_.round(popMean, 2)}`}
+                xMin={xminval}
+                xMax={xmaxval}
+                yMax={ymaxval}
+                xLabel={xLabel}
+                yLabel={"Count"}
+              />
             </Col>
           </Row>
       </Container>

@@ -39,7 +39,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
       const newMean = populationMean(newPop);
       setPopMean(newMean);
     }
-  }, [popArray]);  // eslint-disable-line
+  }, [popArray, popType, sampleSize]);
 
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);

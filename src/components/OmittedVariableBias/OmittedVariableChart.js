@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 
 export default function LeastSquaresChart({ dataPoints, naiveLine, correctedLine }) {
-  const [myChart, setMyChart] = useState();
+  const [myChart, setMyChart] = useState({});
 
   useEffect(() => {
     const newChart = {

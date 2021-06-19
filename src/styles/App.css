@@ -120,6 +120,7 @@
   border-collapse: collapse;
   overflow: auto;
   box-sizing: content-box;
+
 }
 
 .PopTable tbody {
@@ -340,4 +341,14 @@ a:not([href]):not([tabindex]):hover {
 .inputGroupAppend {
   width: fit-content;
   justify-content: center;
+}
+
+.ciTable {
+  position: relative;
+}
+
+.ciTable th {
+  background: white;
+  position: sticky;
+  top: 0;
 }
