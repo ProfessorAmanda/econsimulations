@@ -6,6 +6,7 @@ import SampleAreaCLT from './SampleAreaCLT.js';
 import SampleMeanSimulator from '../SampleMeanSimulator.js';
 import TTable from './TTable.js';
 import ZTable from './ZTable.js';
+import { jStat } from 'jstat';
 import { sqrt, random, round, mean, std, floor } from "mathjs";
 
 import { Alert, Button, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
@@ -59,6 +60,9 @@ class Normal extends React.Component {
         const ITERATES = 9;
         const range = sqrt(12) * STANDARD_DEV * STANDARD_DEV;
         const popMin = MEAN - (range / 2);
+
+        console.log('THIS IS Z SCORE ---> ', jStat.zscore( (1 - 0.025), MEAN, STANDARD_DEV))
+        
 
         const popArray = this.state.popArray ? this.state.popArray.slice() : []
 

@@ -16,6 +16,7 @@ import { Alert } from 'reactstrap';
 import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
 import _ from "lodash";
 import { round } from "mathjs";
+import {PropTypes} from 'prop-types';
 
 export default function LLNSimulation({ popType, sampleSize }) {
   const [sampled, setSampled] = useState([]);
@@ -75,4 +76,8 @@ export default function LLNSimulation({ popType, sampleSize }) {
       }
     </Collapsable>
   );
+}
+LLNSimulation.PropTypes =  {
+  popType : PropTypes.string , 
+  sampleSize : PropTypes.number,
 }

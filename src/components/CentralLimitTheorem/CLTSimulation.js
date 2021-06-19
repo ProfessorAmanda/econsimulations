@@ -18,6 +18,7 @@ import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
 import SampleSizeInput from '../SampleSizeInput.js';
 import SampleMeansTable from './SampleMeansTable.js';
 import _ from "lodash";
+import { PropTypes } from 'prop-types';
 
 const numberResamples = {
   "Normal": 0,
@@ -131,4 +132,11 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
       </Collapsable>
     </div>
   );
+}
+CLTSimulation.propTypes = {
+
+  popType : PropTypes.string,
+  mainSampleSize : PropTypes.number,
+
+
 }

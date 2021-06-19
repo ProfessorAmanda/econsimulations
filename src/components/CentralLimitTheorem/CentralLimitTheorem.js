@@ -7,6 +7,7 @@
 
 */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import PopBar from '../PopBar.js';
 import { Alert } from 'reactstrap';
 import CLTSimulation from "./CLTSimulation.js";
@@ -26,4 +27,6 @@ export default function CentralLimitTheorem() {
       {popType && <CLTSimulation popType={popType} mainSampleSize={SAMPLE_SIZE}/>}
     </div>
   );
+}
+CentralLimitTheorem.propTypes = {
 }

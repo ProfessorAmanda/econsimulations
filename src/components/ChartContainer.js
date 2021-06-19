@@ -20,6 +20,7 @@ import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import _ from "lodash";
 import Label from 'highcharts/modules/series-label';
+import {PropTypes} from 'prop-types';
 
 Label(Highcharts);
 
@@ -140,4 +141,14 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
       </Container>
     </div>
   );
+}
+
+ChartContainer.PropTypes = {
+
+  popArray : PropTypes.array ,
+  popMean : PropTypes.number, 
+  sampled : PropTypes.array, 
+  sampleMean : PropTypes.number, 
+  popType : PropTypes.string,
+
 }
