@@ -77,7 +77,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
     </Collapsable>
   );
 }
-LLNSimulation.PropTypes =  {
+LLNSimulation.propTypes =  {
   popType : PropTypes.string , 
   sampleSize : PropTypes.number,
 }

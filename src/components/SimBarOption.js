@@ -12,7 +12,7 @@ export default function SimBarOption({ section, setSection }) {
     </Card>
   );
 }
-SimBarOption.PropTypes = {
+SimBarOption.propTypes = {
 
   setSection : PropTypes.func, 
   section : PropTypes.object,

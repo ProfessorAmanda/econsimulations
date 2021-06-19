@@ -77,7 +77,7 @@ export default function SimBar({ setSection }) {
     </div>
   );
 }
-SimBar.PropTypes = {
+SimBar.propTypes = {
 
  setSection : PropTypes.func, 
 }

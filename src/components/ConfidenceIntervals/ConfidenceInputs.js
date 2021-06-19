@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, ButtonGroup, Button, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
+import {PropTypes} from 'prop-types';
 
 export default function ConfidenceInputs({ distType, setDistType, confLevel, setConfLevel }) {
 
@@ -44,3 +45,10 @@ export default function ConfidenceInputs({ distType, setDistType, confLevel, set
     </div>
   );
 }
+
+// ConfidenceInputs.propTypes = {
+//   distType, 
+//   setDistType, 
+//   confLevel, 
+//   setConfLevel
+// }

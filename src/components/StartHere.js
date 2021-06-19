@@ -25,7 +25,7 @@ export default function StartHere({ start, showApp }) {
   );
 }
 
-StartHere.PropTypes = {
+StartHere.propTypes = {
 
   showApp : PropTypes.func.isRequired,
   start : PropTypes.bool.isRequired,

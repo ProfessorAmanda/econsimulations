@@ -28,5 +28,3 @@ export default function CentralLimitTheorem() {
     </div>
   );
 }
-CentralLimitTheorem.propTypes = {
-}

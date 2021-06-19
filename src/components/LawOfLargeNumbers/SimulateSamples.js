@@ -103,7 +103,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
     </Collapse>
   );
 }
-SimulateSamples.PropTypes = {
+SimulateSamples.propTypes = {
 
   type : PropTypes.string, 
   popArray : PropTypes.array, 

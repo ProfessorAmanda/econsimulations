@@ -96,7 +96,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
   );
 }
 
-ChartContainer.PropTypes = {
+ChartContainer.propTypes = {
 
   popArray : PropTypes.array ,
   popMean : PropTypes.number, 

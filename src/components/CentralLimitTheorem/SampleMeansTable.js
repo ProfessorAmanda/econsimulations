@@ -36,7 +36,7 @@ export default function SampleMeansTable({ sampleMeans }) {
   </Table>
   );
 }
-SampleMeansTable.PropTypes = {
+SampleMeansTable.propTypes = {
 
   sampleMeans : PropTypes.array,
 

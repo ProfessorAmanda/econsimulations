@@ -69,7 +69,7 @@ export default function SampleMeansSimulator({ setSampleSize, clear, population,
   );
 }
 
-SampleMeansSimulator.PropTypes = {
+SampleMeansSimulator.propTypes = {
   setSampleSize : PropTypes.func, 
   clear : PropTypes.func, 
   population: PropTypes.array, 
