@@ -47,15 +47,13 @@ export default function SimBar({ setSection }) {
       description: "Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one on the included regressors is omitted from the regression model.",
       extra: "",
       img: ovs
+    },
+    {
+        name: "Confidence Intervals",
+        description: "test",
+        extra: "",
+        img: undefined
     }
-           ,
-      //
-      {
-          name: "Confidence Intervals",
-          description: "test",
-          extra: "",
-          img: undefined
-      }
       // ,
       //
       //             {

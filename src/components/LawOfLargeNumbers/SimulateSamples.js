@@ -78,7 +78,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
     }
 
     setChart(newChart);
-  }, [sampled, meanLine]);
+  }, [sampled, meanLine, type, popArray, popMean]);
 
   useEffect(() => {
     setSampled([]);
@@ -87,11 +87,11 @@ export default function SimulateSamples({ type, popArray, popMean }) {
       setTimeout(function run() {
         const sample = _.sampleSize(popArray, n).map(p => p[0]);
         const avg = _.round(mean(sample), 2);
-        setSampled(sampled => [...sampled, {y: avg}]);
+        setSampled(samples => [...samples, {y: avg}]);
         setMeanLine(meanLine => [...meanLine, {y: popMean}]);
       }, n);
     }
-  }, []);
+  }, []);  // eslint-disable-line
 
   return (
     <Collapse isOpen>

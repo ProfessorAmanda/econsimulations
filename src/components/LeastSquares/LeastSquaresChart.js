@@ -16,7 +16,7 @@ import 'highcharts/modules/annotations';
 import { abs } from "mathjs";
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
-  const [myChart, setMyChart] = useState();
+  const [myChart, setMyChart] = useState({});
 
   // returns an array of points to create a square shape in highcharts
   const buildSquare = (p1, p2) => {
@@ -66,14 +66,14 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     setSquareAreas(areas);
 
     // create the actual square objects for highcharts
-    const squares = pairs.map(({p1, p2}) => {
-      return {
+    const squares = pairs.map(({p1, p2}) => (
+      {
         dashStyle: "solid",
         fill: "rgba(255, 255, 255, 0)",
         points: buildSquare(p1, p2),
         type: 'path'
-      }
-    });
+      })
+    );
 
     const newChart = {
       title: {
@@ -138,7 +138,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     }
 
     setMyChart(newChart);
-  }, [points, linePoints]);  // eslint-disable-line
+  }, [points, linePoints, setSquareAreas]);
 
   return (
     <HighchartsReact highcharts={Highcharts} options={myChart}/>

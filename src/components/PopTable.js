@@ -20,7 +20,7 @@ export default function PopTable(props) {
             for (const i of samples) {
                 //console.log(i);
                 if (val === i){
-                    return (<tr style={{background:"#747EF2"}}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
+                    return (<tr key={index} style={{background:"#747EF2"}}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
                 }
             }
             if (index !== popArr.length - 1) {

@@ -16,7 +16,7 @@ export default function PopBar({ sim, setPop }) {
   let modes = [];
   if (sim === "CLT") {
     modes = [ "Normal", "Uniform", "Exponential", "Chi-Squared", "Mystery" ];
-  } else if (sim === "LLN") {
+  } else if ((sim === "LLN") || (sim === "CI")) {
     modes = [ "Normal", "Uniform", "Exponential", "Chi-Squared" ];
   }
 
