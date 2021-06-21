@@ -2,7 +2,7 @@
   "name": "econ-sims",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://professoramanda.github.io/econ-sims",
+  "homepage": "https://professoramanda.github.io/econsimulations",
   "engines": {
     "node": "12.18.x"
   },

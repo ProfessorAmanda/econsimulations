@@ -48,13 +48,12 @@ export default function SimBar({ setSection }) {
       img: ovs
     },
     {
-        name: "Confidence Intervals",
-        description: "test",
-        extra: "",
-        img: undefined
+      name: "Confidence Intervals",
+      description: "A confidence interval provides a range of values for the likely location of the true population mean, based on information gathered from a sample.",
+      extra: "",
+      img: undefined
     }
       // ,
-      //
       //             {
       //                 name: "Hypothesis Testing",
       //                 description: "test",
