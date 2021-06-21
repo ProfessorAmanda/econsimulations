@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/econ-sims/static/css/main.d8ae2768.chunk.css",
-    "main.js": "/econ-sims/static/js/main.3dee7654.chunk.js",
-    "main.js.map": "/econ-sims/static/js/main.3dee7654.chunk.js.map",
+    "main.js": "/econ-sims/static/js/main.562e1de0.chunk.js",
+    "main.js.map": "/econ-sims/static/js/main.562e1de0.chunk.js.map",
     "runtime-main.js": "/econ-sims/static/js/runtime-main.6f96cc7a.js",
     "runtime-main.js.map": "/econ-sims/static/js/runtime-main.6f96cc7a.js.map",
     "static/css/2.ed48e7f3.chunk.css": "/econ-sims/static/css/2.ed48e7f3.chunk.css",
@@ -23,6 +23,6 @@
     "static/css/2.ed48e7f3.chunk.css",
     "static/js/2.445f8559.chunk.js",
     "static/css/main.d8ae2768.chunk.css",
-    "static/js/main.3dee7654.chunk.js"
+    "static/js/main.562e1de0.chunk.js"
   ]
 }
