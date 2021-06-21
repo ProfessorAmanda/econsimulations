@@ -132,10 +132,11 @@ export default function OVBSimulation() {
           <CoefficientInput beta={beta} setBeta={setBeta} delta={delta} setDelta={setDelta}/>
         </Col>
         <Col>
+          <p>Set the Correlation between Study Hours and Sleep Hours:</p>
           <InputSlider value={correlation} min={-0.99} max={0.99} step={.01} onChange={(value) => adjustCorrelation(value)}/>
           <br/>
           <InputGroup style={{width: "fit-content", margin: "auto"}}>
-            <InputGroupText className="Center" addonType='prepend'>Covariance between Study Hours and Sleep Hours:</InputGroupText>
+            <InputGroupText className="Center">Covariance between Study Hours and Sleep Hours:</InputGroupText>
             <InputGroupText className="Center">{covariance.toFixed(2)}</InputGroupText>
           </InputGroup>
         </Col>
