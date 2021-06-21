@@ -1,22 +1,28 @@
 {
   "files": {
-    "main.css": "/econsimulations/static/css/main.14c36e27.chunk.css",
-    "main.js": "/econsimulations/static/js/main.9a4d3fd5.chunk.js",
-    "main.js.map": "/econsimulations/static/js/main.9a4d3fd5.chunk.js.map",
-    "runtime~main.js": "/econsimulations/static/js/runtime~main.4bc5661a.js",
-    "runtime~main.js.map": "/econsimulations/static/js/runtime~main.4bc5661a.js.map",
-    "static/css/2.1e66eaca.chunk.css": "/econsimulations/static/css/2.1e66eaca.chunk.css",
-    "static/js/2.d542e29a.chunk.js": "/econsimulations/static/js/2.d542e29a.chunk.js",
-    "static/js/2.d542e29a.chunk.js.map": "/econsimulations/static/js/2.d542e29a.chunk.js.map",
-    "index.html": "/econsimulations/index.html",
-    "precache-manifest.b49291a18f9e763f7a0ad38242117756.js": "/econsimulations/precache-manifest.b49291a18f9e763f7a0ad38242117756.js",
-    "service-worker.js": "/econsimulations/service-worker.js",
-    "static/css/2.1e66eaca.chunk.css.map": "/econsimulations/static/css/2.1e66eaca.chunk.css.map",
-    "static/css/main.14c36e27.chunk.css.map": "/econsimulations/static/css/main.14c36e27.chunk.css.map",
-    "static/media/App.css": "/econsimulations/static/media/bg.092239b8.png",
-    "static/media/clt.png": "/econsimulations/static/media/clt.97a1b4bd.png",
-    "static/media/jd.jpg": "/econsimulations/static/media/jd.21417d9f.jpg",
-    "static/media/lln.png": "/econsimulations/static/media/lln.9ccd6e4f.png",
-    "static/media/ovs.png": "/econsimulations/static/media/ovs.b5002431.png"
-  }
+    "main.css": "/econ-sims/static/css/main.d8ae2768.chunk.css",
+    "main.js": "/econ-sims/static/js/main.3dee7654.chunk.js",
+    "main.js.map": "/econ-sims/static/js/main.3dee7654.chunk.js.map",
+    "runtime-main.js": "/econ-sims/static/js/runtime-main.6f96cc7a.js",
+    "runtime-main.js.map": "/econ-sims/static/js/runtime-main.6f96cc7a.js.map",
+    "static/css/2.ed48e7f3.chunk.css": "/econ-sims/static/css/2.ed48e7f3.chunk.css",
+    "static/js/2.445f8559.chunk.js": "/econ-sims/static/js/2.445f8559.chunk.js",
+    "static/js/2.445f8559.chunk.js.map": "/econ-sims/static/js/2.445f8559.chunk.js.map",
+    "index.html": "/econ-sims/index.html",
+    "static/css/2.ed48e7f3.chunk.css.map": "/econ-sims/static/css/2.ed48e7f3.chunk.css.map",
+    "static/css/main.d8ae2768.chunk.css.map": "/econ-sims/static/css/main.d8ae2768.chunk.css.map",
+    "static/js/2.445f8559.chunk.js.LICENSE.txt": "/econ-sims/static/js/2.445f8559.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/econ-sims/static/media/bg.0e1df83b.png",
+    "static/media/clt.00a4da12.png": "/econ-sims/static/media/clt.00a4da12.png",
+    "static/media/jd.d10ad230.jpg": "/econ-sims/static/media/jd.d10ad230.jpg",
+    "static/media/lln.6d91755a.png": "/econ-sims/static/media/lln.6d91755a.png",
+    "static/media/ovs.3727316f.png": "/econ-sims/static/media/ovs.3727316f.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6f96cc7a.js",
+    "static/css/2.ed48e7f3.chunk.css",
+    "static/js/2.445f8559.chunk.js",
+    "static/css/main.d8ae2768.chunk.css",
+    "static/js/main.3dee7654.chunk.js"
+  ]
 }
