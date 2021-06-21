@@ -24,10 +24,10 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
         min={1}
         value={sampleSize}
         max={maxSize}
-        onChange={(event) => setSampleSize(+event.target.value)}
+        onChange={(event) => setSampleSize(event.target.value)}
       />
       <InputGroupAddon addonType="append">
-        <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={()=> handleClick(sampleSize)}>
+        <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={()=> handleClick(+sampleSize)}>
           Sample
         </Button>
       </InputGroupAddon>
