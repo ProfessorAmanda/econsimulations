@@ -82,14 +82,17 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   useEffect(() => {
     setSampled([]);
     setMeanLine([]);
-    for (let n = 1; n <= 1000; n++) {
-      setTimeout(function run() {
-        const sample = _.sampleSize(popArray, n).map(p => p[0]);
-        const avg = _.round(mean(sample), 2);
-        setSampled(samples => [...samples, {y: avg}]);
-        setMeanLine(meanLine => [...meanLine, {y: popMean}]);
-      }, n);
-    }
+    let n = 0;
+    const timer = setInterval(function run() {
+      n += 1;
+      if (n >= 1000) {
+        clearInterval(timer)
+      }
+      const sample = _.sampleSize(popArray, n).map(p => p[0]);
+      const avg = _.round(mean(sample), 2);
+      setSampled(sampled => [...sampled, {y: avg}]);
+      setMeanLine(meanLine => [...meanLine, {y: popMean}]);
+    }, n);
   }, []);  // eslint-disable-line
 
   return (
