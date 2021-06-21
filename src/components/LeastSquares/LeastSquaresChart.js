@@ -16,7 +16,43 @@ import 'highcharts/modules/annotations';
 import { abs } from "mathjs";
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
-  const [myChart, setMyChart] = useState({});
+  const [myChart, setMyChart] = useState({
+    title: {
+      text: ""
+    },
+    legend: {
+      enabled: false
+    },
+    chart: {
+      type: 'line',
+      plotBorderColor: '#000000',
+      plotBorderWidth: 1,
+      margin : [100,100,100,100],
+      width  : 600,
+      height : 600
+    },
+    tooltip: {
+      headerFormat: "",
+      pointFormat: "x: {point.x:.2f}<br/>y: {point.y:.2f}",
+      hideDelay: 100
+    },
+    xAxis: {
+      title : {
+        enabled: false
+      },
+      min: 0,
+      max: 20,
+      tickInterval: 2
+    },
+    yAxis: {
+      title : {
+        enabled: false
+      },
+      min: 0,
+      max: 20,
+      tickInterval: 2
+    }
+  });
 
   // returns an array of points to create a square shape in highcharts
   const buildSquare = (p1, p2) => {
@@ -76,41 +112,6 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     );
 
     const newChart = {
-      title: {
-        text: ""
-      },
-      legend: {
-        enabled: false
-      },
-      chart: {
-        type: 'line',
-        plotBorderColor: '#000000',
-        plotBorderWidth: 1,
-        margin : [100,100,100,100],
-        width  : 600,
-        height : 600
-      },
-      tooltip: {
-        headerFormat: "",
-        pointFormat: "x: {point.x:.2f}<br/>y: {point.y:.2f}",
-        hideDelay: 100
-      },
-      xAxis: {
-        title : {
-          enabled: false
-        },
-        min: 0,
-        max: 20,
-        tickInterval: 2
-      },
-      yAxis: {
-        title : {
-          enabled: false
-        },
-        min: 0,
-        max: 20,
-        tickInterval: 2
-      },
       series: [
         {
           type: "scatter",
