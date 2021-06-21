@@ -13,6 +13,7 @@ import { max, min } from "mathjs";
 import JointChart from "./JointChart.js";
 import _ from "lodash";
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
+import { PropTypes } from 'prop-types';
 
 export default function JDCharts({ parentData, childData, jointData }) {
   // these functions synchronize the plots - all three corresponding data points increase in size on mouse over
@@ -83,4 +84,10 @@ export default function JDCharts({ parentData, childData, jointData }) {
       </Col>
     </Row>
   )
+}
+JDCharts.propTypes = {
+  
+  parentData : PropTypes.arrayOf(PropTypes.object),
+  childData: PropTypes.arrayOf(PropTypes.object), 
+  jointData : PropTypes.arrayOf(PropTypes.object),
 }

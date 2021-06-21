@@ -2,6 +2,7 @@ import React from "react";
 import DotPlot from "../DotPlot";
 import { Alert, Container } from "reactstrap";
 import _ from "lodash";
+import {PropTypes} from 'prop-types';
 
 export default function PopulationChart({ popArray, popMean, sampled, distType }) {
 
@@ -49,4 +50,12 @@ export default function PopulationChart({ popArray, popMean, sampled, distType }
   </Container>
   );
 
+}
+
+PopulationChart.propTypes = {
+
+  popArray : PropTypes.array, 
+  popMean : PropTypes.number, 
+  sampled : PropTypes.array,
+  distType :  PropTypes.oneOf(['z','t']),
 }

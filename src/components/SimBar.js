@@ -13,6 +13,7 @@ import jd from '../images/jd.jpg';
 import ls from '../images/ls.png';
 import ovs from '../images/ovs.png';
 import SimBarOption from './SimBarOption';
+import {PropTypes} from 'prop-types'
 
 export default function SimBar({ setSection }) {
 
@@ -75,4 +76,8 @@ export default function SimBar({ setSection }) {
       <ul className="simBarOptionList">{sections}</ul>
     </div>
   );
+}
+SimBar.propTypes = {
+
+ setSection : PropTypes.func, 
 }
