@@ -2,21 +2,21 @@ import React ,{useState}from 'react';
 import { floor, random, mean, round, std, sqrt, abs } from "mathjs";
 import ChartContainer from './ChartContainer.js';
 import TToPval from './TToPval.js';
-import { Alert, Button, Container, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
+import { Alert, Button, Container, Col, Input, Row, InputGroupText, InputGroupAddon, InputGroup } from 'reactstrap';
 
 
-const TTest = ({ppl,testType,hypo,mue_0,popMean})=>{
+export default function TTest({ testType, hypothesis, mue0 }) {
 
-    const [popArr, setPopArr]=useState(ppl);
-    //const [popMean, setPopMean]=useState(0);
-    const [sampleMean, setSampleMean]=useState(0);
-    const [sampleSd, setSampleSd]=useState(0);
+    const [popArr, setPopArr] = useState();
+    const [sampleMean, setSampleMean] = useState(0);
+    const [sampleSd, setSampleSd] = useState(0);
     const [mainSampleSize, setMainSampleSize] = useState(2000);
     const [sampleSize, setSampleSize] = useState(0);
-    const [alpha, setAlpha]=useState(0);
+    const [alpha, setAlpha] = useState(0);
     const [tScore, setTScore] = useState(0);
-    const [sim, setSim]=useState(0);
-    const [pVal, setPVal]=useState(0);
+    const [sim, setSim] = useState(0);
+    const [pVal, setPVal] = useState(0);
+    const popMean = 0;
 
 
 // Helper functions
@@ -49,8 +49,8 @@ const handleSample = (size,pop)=>{
 
         const x_bar = round(mean(sampleArr) * 1000)/1000;
         const sd = round(std(sampleArr)*1000)/1000;
-        const tScore = getT(x_bar, mue_0, sd, size);
-        const pVal = getPVal(hypo,tScore,sampleSize - 1);
+        const tScore = getT(x_bar, mue0, sd, size);
+        const pVal = getPVal(hypothesis,tScore,sampleSize - 1);
 
         setSampleMean(x_bar);
         setSampleSd(sd);
@@ -59,9 +59,9 @@ const handleSample = (size,pop)=>{
         setSim(1);
     }
 
-    const getT = (x_bar, mue_0, sd, sampleSize)=>{
-        console.log(x_bar, mue_0, sd, sampleSize);
-        return round(((x_bar - mue_0)/(sd/sqrt(sampleSize)))*1000)/1000;
+    const getT = (x_bar, mue0, sd, sampleSize)=>{
+        console.log(x_bar, mue0, sd, sampleSize);
+        return round(((x_bar - mue0)/(sd/sqrt(sampleSize)))*1000)/1000;
     }
 
 
@@ -152,7 +152,7 @@ const handleSample = (size,pop)=>{
 
              <p>The test statistic is &nbsp;{tScore}</p>
 
-             <p>This test statistic yields a p-value of P(Z>teststat) = &nbsp;{pVal}. </p>
+             <p>This test statistic yields a p-value of P(Z&gt;teststat) = &nbsp;{pVal}. </p>
              <p>Therefore we {pVal<alpha? 'reject':'fail to reject'} the null hypothesis. </p>
 
 
@@ -198,6 +198,3 @@ const handleSample = (size,pop)=>{
     )
 
 }
-
-
-export default TTest;

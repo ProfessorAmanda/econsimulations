@@ -12,7 +12,7 @@ import CentralLimitTheorem from './CentralLimitTheorem/CentralLimitTheorem.js';
 import JointDistributions from './JointDistributions/JointDistributions.js';
 import OmittedVariableBias from "./OmittedVariableBias/OmittedVariableBias.js";
 import ConfidenceIntervals from './ConfidenceIntervals/ConfidenceIntervals.js';
-import HypothesisTestingNew from './HypothesisTestingNew.js';
+import HypothesisTesting from './HypothesisTesting/HypothesisTesting.js';
 import StartHere from './StartHere';
 import { Button } from 'reactstrap';
 import LeastSquares from './LeastSquares/LeastSquares.js';
@@ -29,7 +29,7 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Least Squares' && <LeastSquares/>}
       {mode === 'Omitted Variable Bias' && <OmittedVariableBias/>}
       {mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
-      {mode === 'Hypothesis Testing' && <HypothesisTestingNew/>}
+      {mode === 'Hypothesis Testing' && <HypothesisTesting/>}
     </div>
   )
 }

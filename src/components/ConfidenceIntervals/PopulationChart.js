@@ -3,7 +3,7 @@ import DotPlot from "../DotPlot";
 import { Alert, Container } from "reactstrap";
 import _ from "lodash";
 
-export default function PopulationChart({ popArray, popMean, sampled, distType }) {
+export default function PopulationChart({ popArray, popMean, sampled, popType }) {
 
   const values = {
     Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -19,7 +19,7 @@ export default function PopulationChart({ popArray, popMean, sampled, distType }
     "Chi-Squared": ["expenditure", "workers on lunch"]
   }
 
-  const { xmaxval, xminval, ymaxval, title, xLabel } = values[distType];
+  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popType];
 
   const series = [
     {
@@ -35,7 +35,7 @@ export default function PopulationChart({ popArray, popMean, sampled, distType }
   return (
     <Container fluid>
       <Alert color="secondary" className="Center">
-        We queried the {texts[distType][0]} of {popArray.length} {texts[distType][1]} and plotted the results on the following chart.
+        We queried the {texts[popType][0]} of {popArray.length} {texts[popType][1]} and plotted the results on the following chart.
       </Alert>
       <DotPlot
         series={series}

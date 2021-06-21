@@ -36,7 +36,7 @@ export default function SamplesTable({ samples, setSelected }) {
               <td>{sampleObject.lowerConf}</td>
               <td>{sampleObject.upperConf}</td>
               <td>{sampleObject.confidenceLevel}</td>
-              <td>{sampleObject.distribution.toUpperCase()}</td>
+              <td>{sampleObject.distribution}</td>
             </tr>
           )}
         </tbody>
