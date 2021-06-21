@@ -9,32 +9,26 @@
 */
 import React from 'react';
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
-import { max, min } from 'mathjs';
 import { Col } from 'reactstrap';
 
-export default function JointChart({ jointData, sharedOptions }) {
+export default function JointChart({ jointData, sharedOptions, nodeId }) {
 
   const data = [{id: "data", data: jointData}];
-
-  const maxHeight = max(...jointData.map((pt) => pt.x), ...jointData.map((pt) => pt.y)) + 2;
-  const minHeight = min(...jointData.map((pt) => pt.x), ...jointData.map((pt) => pt.y)) - 2;
 
   return (
     <Col style={{ padding:"5px 0px 5px 0px", marginLeft:"-40px", marginRight:"0px", width: "fit-content"}}>
     <div style={{ height: 358, width: 358, position:"inline-block", float:"right", marginLeft:"0px",}}>
       <ResponsiveScatterPlotCanvas
         {...sharedOptions}
-        colors={{"scheme": "category10"}}
+        colors={(node) => (nodeId && (node.id === nodeId)) ? "#003866" : "#008cff"}
         data={data}
-        // TODO: do we want responsive axes?
-        yScale={{ type: 'linear', min: minHeight, max: maxHeight }}
-        xScale={{ type: 'linear', min: minHeight, max: maxHeight }}
+        yScale={{ type: 'linear', min: 40, max: 100 }}
         yFormat={(e) => e + " in."}
         tooltip={({node}) =>
           <div>
-            <strong>{node.data.formattedX}</strong>
+            Parent Height: <strong>{node.data.formattedX}</strong>
             <br/>
-            <strong>{node.data.formattedY}</strong>
+            Child Height: <strong>{node.data.formattedY}</strong>
           </div>
         }
         axisBottom={{
