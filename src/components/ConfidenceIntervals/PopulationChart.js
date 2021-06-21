@@ -44,7 +44,6 @@ export default function PopulationChart({ popArray, popMean, sampled, popType })
         xMax={xmaxval}
         yMax={ymaxval}
         xLabel={xLabel}
-        yLabel={"Count"}
       />
   </Container>
   );

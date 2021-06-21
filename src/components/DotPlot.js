@@ -6,7 +6,7 @@ import Label from 'highcharts/modules/series-label';
 Label(Highcharts);
 
 
-export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel }) {
+export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
         startOnTick: true,
         endOnTick: true,
         title: {
-          text: yLabel
+          text: "Count"
         }
       },
       tooltip: {
@@ -62,7 +62,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
       )
     }
     setChart(newChart);
-  }, [series, title, xMin, xMax, yMax, xLabel, yLabel]);
+  }, [series, title, xMin, xMax, yMax, xLabel]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }

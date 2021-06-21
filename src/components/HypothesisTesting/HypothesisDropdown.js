@@ -7,36 +7,42 @@ const hypothesisOptions = {
       type: "≤",
       hypoText: "Option 1: These cows produce more than ",
       nullH: "H_0: μ ≤  ",
-      alterH: "H_a: μ >  "
+      alterH: "H_a: μ >  ",
+      id: 0
     },
     {
       type: "≥",
       hypoText: "Option 2: These cows produce less than " ,
       nullH: "H_0: μ ≥  ",
-      alterH: "H_a: μ <  "
+      alterH: "H_a: μ <  ",
+      id: 1
     },
     {
       type: "=",
       hypoText: "Option 3: These cows produce an amount not equal to ",
       nullH: "H_0: μ =  ",
-      alterH: "H_a: μ ≠  "
+      alterH: "H_a: μ ≠  ",
+      id: 2
     }
   ],
   twoSample: [
     {
       hypoText: "Option 1: These cows produce more than they did before.",
       nullH: "H_0: μ_1 - μ_2 ≥ 0",
-      alterH: "H_a: μ_1 - μ_2 < 0"
+      alterH: "H_a: μ_1 - μ_2 < 0",
+      id: 0
     },
     {
       hypoText: "Option 2: These cows produce less than they did before",
       nullH: "H_0: μ_1 - μ_2 ≤ 0",
-      alterH: "H_a: μ_1 - μ_2 > 0"
+      alterH: "H_a: μ_1 - μ_2 > 0",
+      id: 1
     },
     {
       hypoText: "Option 3: These cows produce a different amount now compared to before.",
       nullH: "H_0: μ_1 - μ_2 = 0",
-      alterH: "H_a: μ_1 - μ_2 ≠ 0"
+      alterH: "H_a: μ_1 - μ_2 ≠ 0",
+      id: 2
     }
   ]
 }
