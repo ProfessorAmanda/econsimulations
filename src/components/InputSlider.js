@@ -1,6 +1,7 @@
 import React from "react";
 import { Input, InputGroup, InputGroupAddon } from "reactstrap";
-
+import {PropTypes} from 'prop-types';
+ 
 export default function InputSlider({ value, min, max, step, onChange }) {
   return (
     <InputGroup style={{height: "30px", width: "500px", margin: "auto"}}>
@@ -27,4 +28,12 @@ export default function InputSlider({ value, min, max, step, onChange }) {
       </InputGroupAddon>
     </InputGroup>
   );
+}
+InputSlider.propTypes = {
+
+  value : PropTypes.number, 
+  min : PropTypes.number, 
+  max : PropTypes.number, 
+  step : PropTypes.number, 
+  onChange : PropTypes.func,
 }

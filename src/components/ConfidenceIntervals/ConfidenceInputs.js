@@ -46,9 +46,10 @@ export default function ConfidenceInputs({ distType, setDistType, confLevel, set
   );
 }
 
-// ConfidenceInputs.propTypes = {
-//   distType, 
-//   setDistType, 
-//   confLevel, 
-//   setConfLevel
-// }
+ConfidenceInputs.propTypes = {
+
+  distType : PropTypes.oneOf(['z','t']), 
+  setDistType : PropTypes.func, 
+  confLevel : PropTypes.number, 
+  setConfLevel : PropTypes.func,
+}

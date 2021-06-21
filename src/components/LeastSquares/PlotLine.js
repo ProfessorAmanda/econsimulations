@@ -11,6 +11,7 @@
 */
 import React from "react";
 import { Button } from "reactstrap";
+import {PropTypes} from 'prop-types';
 
 export default function PlotLine({ stage, setStage, squareAreas, generateBestLine }) {
 
@@ -22,4 +23,11 @@ export default function PlotLine({ stage, setStage, squareAreas, generateBestLin
           <Button outline color="info" onClick={() => generateBestLine()}>Reveal the Least Squares Line</Button>
         </div>
   );
+}
+PlotLine.propTypes = {
+
+  stage : PropTypes.number,
+  setStage : PropTypes.func,
+  squareAreas : PropTypes.number, 
+  generateBestLine: PropTypes.func,
 }

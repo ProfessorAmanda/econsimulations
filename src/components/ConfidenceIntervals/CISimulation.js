@@ -131,6 +131,4 @@ CISimulation.propTypes = {
 
   popType : PropTypes.string, 
   populationSize : PropTypes.number,
-
-
 }

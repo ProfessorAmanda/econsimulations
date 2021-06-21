@@ -8,9 +8,10 @@ import TTable from './TTable.js';
 import ZTable from './ZTable.js';
 import { jStat } from 'jstat';
 import { sqrt, random, round, mean, std, floor } from "mathjs";
+import {PropTypes} from 'prop-types';
 
 import { Alert, Button, Col, Input, Row, Table,InputGroupText,InputGroupAddon,InputGroup,ButtonGroup } from 'reactstrap';
-
+import { chart } from 'highcharts';
 
 
 class Normal extends React.Component {
@@ -507,3 +508,24 @@ class Normal extends React.Component {
 }
 
 export default Normal;
+
+Normal.propTypes = {
+
+    numberResamples : PropTypes.arrayOf(PropTypes.object),
+    resampleSize : PropTypes.arrayOf(PropTypes.object),
+    zORt : PropTypes.string,
+    sampleMean : PropTypes.array,
+    sampled : PropTypes.array,
+    mainSampleSize: PropTypes.number,
+    popArray : PropTypes.array,
+    standardNormal : PropTypes.number,
+    sampleSize : PropTypes.number,
+    disableSample : PropTypes.bool,
+    popType : PropTypes.string,
+    ciLevel : PropTypes.string,
+    zScore : PropTypes.number,
+    confidence : PropTypes.string,
+    freUsedVal  : PropTypes.array,
+    dOf : PropTypes.number,
+    chart : PropTypes.number,
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import {PropTypes} from 'prop-types';
 
 export default function CoefficientInput({ beta, setBeta, delta, setDelta }){
   return (
@@ -33,4 +34,11 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }){
       </InputGroup>
     </div>
   );
+}
+CoefficientInput.propTypes = {
+
+  beta: PropTypes.number, 
+  setBeta : PropTypes.func, 
+  delta : PropTypes.number, 
+  setDelta : PropTypes.func,
 }
