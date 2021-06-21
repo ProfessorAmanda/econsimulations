@@ -1,6 +1,7 @@
 // Table of data points
 import React from 'react';
 import { Table } from 'reactstrap';
+import {PropTypes} from 'prop-types';
 
 export default function PopTable(props) {
     /*
@@ -61,4 +62,8 @@ export default function PopTable(props) {
                 </Table>
             </div>
         );
+}
+PopTable.propTypes = {
+
+    props : PropTypes.array,
 }

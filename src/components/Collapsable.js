@@ -10,6 +10,7 @@ import React from 'react';
 import Collapse from 'react-collapse';
 import { presets } from 'react-motion';
 import '../styles/MarzEg.css';
+import {PropTypes} from 'prop-types';
 
 export default function Collapsable({ children }) {
 
@@ -34,4 +35,7 @@ export default function Collapsable({ children }) {
       </Collapse>
     </div>
 );
+}
+Collapsable.propTypes = {
+  children : PropTypes.element,
 }

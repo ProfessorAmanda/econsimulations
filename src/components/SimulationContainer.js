@@ -16,6 +16,7 @@ import HypothesisTesting from './HypothesisTesting/HypothesisTesting.js';
 import StartHere from './StartHere';
 import { Button } from 'reactstrap';
 import LeastSquares from './LeastSquares/LeastSquares.js';
+import { PropTypes } from 'prop-types';
 
 export default function SimulationContainer({ mode, setMode }) {
   return (
@@ -32,4 +33,12 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Hypothesis Testing' && <HypothesisTesting/>}
     </div>
   )
+}
+
+SimulationContainer.propTypes = {
+
+  setMode : PropTypes.func,
+  mode : PropTypes.oneOf(['Home','Law of Large Numbers','Central Limit Theorem', 'Joint Distributions',
+  'Least Squares','Omitted Variable Bias', 'Start Here', 'Confidence Intervals' , 'Hypothesis Testing' ]),
+
 }

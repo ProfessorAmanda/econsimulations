@@ -5,6 +5,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { Collapse, Card, CardBody } from 'reactstrap';
 import '../../styles/dark-unica.css';
 import _ from "lodash";
+import {PropTypes} from 'prop-types';
 
 export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
@@ -104,4 +105,10 @@ export default function SimulateSamples({ type, popArray, popMean }) {
       </Card>
     </Collapse>
   );
+}
+SimulateSamples.propTypes = {
+
+  type : PropTypes.string, 
+  popArray : PropTypes.array, 
+  popMean : PropTypes.number,
 }

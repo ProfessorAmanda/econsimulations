@@ -11,6 +11,7 @@ import React from 'react';
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 import { max, min } from 'mathjs';
 import { Col } from 'reactstrap';
+import { PropTypes } from 'prop-types';
 
 export default function JointChart({ jointData, sharedOptions }) {
 
@@ -53,4 +54,9 @@ export default function JointChart({ jointData, sharedOptions }) {
     </div>
     </Col>
   );
+}
+JointChart.propTypes = {
+  
+  sharedOptions : PropTypes.object,
+  jointData : PropTypes.arrayOf(PropTypes.object),
 }

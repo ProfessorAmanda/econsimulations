@@ -11,6 +11,7 @@ import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
 import { std } from "mathjs";
 import { jStat } from "jstat";
+import {PropTypes} from 'prop-types';
 
 
 export default function CISimulation({ popType, populationSize }) {
@@ -125,4 +126,9 @@ export default function CISimulation({ popType, populationSize }) {
       </Row>
     </Collapsable>
   );
+}
+CISimulation.propTypes = {
+
+  popType : PropTypes.string, 
+  populationSize : PropTypes.number,
 }

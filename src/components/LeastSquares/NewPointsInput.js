@@ -8,6 +8,7 @@
 */
 import React, {  useState } from "react";
 import { Button, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
+import {PropTypes} from 'prop-types';
 
 export default function NewPointsInput({ generatePoints }) {
   const [numPoints, setNumPoints] = useState(5);
@@ -35,4 +36,9 @@ export default function NewPointsInput({ generatePoints }) {
         </Button>
     </InputGroup>
   );
+}
+NewPointsInput.propTypes = {
+
+  generatePoints : PropTypes.func,
+
 }

@@ -11,6 +11,7 @@
 */
 import React, { useState } from 'react';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import {PropTypes} from 'prop-types'
 
 export default function SampleSizeInput({ maxSize, handleClick }) {
   const [sampleSize, setSampleSize] = useState("");
@@ -33,4 +34,9 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
       </InputGroupAddon>
     </InputGroup>
   );
+}
+SampleSizeInput.propTypes = {
+
+  maxSize : PropTypes.number, 
+  handleClick: PropTypes.func,
 }
