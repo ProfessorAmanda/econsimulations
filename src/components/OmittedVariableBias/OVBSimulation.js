@@ -15,7 +15,6 @@ const stdY = 6;
 const OBS = 1000;
 const INT = 40;
 
-
 export default function OVBSimulation() {
   const [beta, setBeta] = useState(3);
   const [delta, setDelta] = useState(3);
@@ -145,11 +144,10 @@ export default function OVBSimulation() {
       <Row>
         <Col>
           <p>Estimate Regression Using Test Score and Study Hours Data </p>
-          <Button color='primary' onClick={() => generateSeries()}>Generate!</Button>
+          <Button color="primary" onClick={() => generateSeries()}>Generate!</Button>
         </Col>
       </Row>
-      {
-        (stage >= 2) &&
+      {(stage >= 2) && (
         <div>
           <Row>
             <Col>
@@ -162,12 +160,12 @@ export default function OVBSimulation() {
           </Row>
           <Row>
             <Col>
-              <p color='primary'>Add Omitted Variable, Density, to Regression</p>
-              <Button outline color='primary' onClick={() => setShowCorrect(true)}>Show Corrected Regression Line</Button>
+              <p color="primary">Add Omitted Variable, Density, to Regression</p>
+              <Button outline color="primary" onClick={() => setShowCorrect(true)}>Show Corrected Regression Line</Button>
             </Col>
           </Row>
         </div>
-      }
+      )}
     </div>
   );
 }

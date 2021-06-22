@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types';
+import { popArrayType } from '../../lib/types';
 
-export default function LeastSquaresChart({ dataPoints, naiveLine, correctedLine }) {
-
+export default function OmittedVariableChart({ dataPoints, naiveLine, correctedLine }) {
   const [myChart, setMyChart] = useState({});
+
+  console.log(dataPoints, naiveLine, correctedLine)
 
   useEffect(() => {
     const newChart = {
@@ -66,9 +68,8 @@ export default function LeastSquaresChart({ dataPoints, naiveLine, correctedLine
   );
 }
 
-LeastSquaresChart.propTypes = {
-
-  dataPoints : PropTypes.array,
-  naiveLine: PropTypes.array,
-  correctedLine: PropTypes.array,
+OmittedVariableChart.propTypes = {
+  dataPoints: popArrayType.isRequired,
+  naiveLine: PropTypes.arrayOf(PropTypes.number),
+  correctedLine: PropTypes.arrayOf(PropTypes.number)
 }
