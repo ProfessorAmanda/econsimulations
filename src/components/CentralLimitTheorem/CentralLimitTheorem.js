@@ -7,6 +7,7 @@
 
 */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import PopBar from '../PopBar.js';
 import { Alert } from 'reactstrap';
 import CLTSimulation from "./CLTSimulation.js";

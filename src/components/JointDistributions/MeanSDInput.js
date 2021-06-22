@@ -12,6 +12,7 @@
 */
 import React from 'react';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import { PropTypes } from 'prop-types';
 
 export default function MeanSDInput({ title, mean, setMean, sd, setSD}){
   return (
@@ -32,4 +33,14 @@ export default function MeanSDInput({ title, mean, setMean, sd, setSD}){
       </InputGroup>
     </div>
   );
+}
+
+MeanSDInput.propTypes = {
+  
+title : PropTypes.string,
+mean : PropTypes.number,
+setMean : PropTypes.func,
+sd : PropTypes.number, 
+setSD : PropTypes.func,
+
 }

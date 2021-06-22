@@ -9,6 +9,7 @@
 
 import React from 'react';
 import { Button, Fade } from 'reactstrap';
+import { PropTypes } from 'prop-types';
 
 export default function StartHere({ start, showApp }) {
   return (
@@ -22,4 +23,11 @@ export default function StartHere({ start, showApp }) {
       </div>
     </Fade>
   );
+}
+
+StartHere.propTypes = {
+
+  showApp : PropTypes.func.isRequired,
+  start : PropTypes.bool.isRequired,
+
 }

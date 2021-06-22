@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "reactstrap";
+import {PropTypes} from 'prop-types';
 
 export default function SamplesTable({ samples, setSelected }) {
 
@@ -41,4 +42,11 @@ export default function SamplesTable({ samples, setSelected }) {
       </Table>
     </div>
   )
+}
+SamplesTable.propTypes = {
+
+  samples : PropTypes.array, 
+  setSelected : PropTypes.func,
+
+
 }

@@ -9,6 +9,8 @@
 */
 import React, { useState } from 'react';
 import { Button} from 'reactstrap';
+import {PropTypes} from 'prop-types';
+
 
 export default function PopBar({ sim, setPop }) {
   const [selected, setSelected] = useState();
@@ -37,4 +39,10 @@ export default function PopBar({ sim, setPop }) {
       {sections}
     </div>
   );
+}
+
+PopBar.propTypes = {
+
+  sim : PropTypes.string,
+  setPop : PropTypes.func,
 }

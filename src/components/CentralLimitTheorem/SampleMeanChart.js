@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
+import {PropTypes} from 'prop-types';
+import SampleMeansTable from './SampleMeansTable';
 
 
 class SampleMeanChart extends Component {
@@ -203,3 +205,12 @@ class SampleMeanChart extends Component {
     }
 }
 export default SampleMeanChart;
+
+SampleMeanChart.propTypes = {
+
+  sampleMeans : PropTypes.array,
+  popMeans : PropTypes.object,
+  values: PropTypes.object,
+  sd : PropTypes.number,
+  curve : PropTypes.bool,
+}

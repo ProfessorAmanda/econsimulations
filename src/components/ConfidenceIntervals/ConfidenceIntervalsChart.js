@@ -5,6 +5,7 @@ import { Alert } from "reactstrap";
 import _ from "lodash";
 import More from "highcharts/highcharts-more";
 import { max } from "mathjs";
+import {PropTypes} from 'prop-types';
 
 More(Highcharts);
 
@@ -206,4 +207,13 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       <HighchartsReact highcharts={Highcharts} options={chart}/>
     </div>
   );
+}
+ConfidenceIntervalsChart.propTypes = {
+
+  confidenceLevel : PropTypes.number, 
+  samples : PropTypes.array , 
+  popType : PropTypes.string, 
+  popMean : PropTypes.number, 
+  selected : PropTypes.string, 
+  setSelected : PropTypes.func,
 }
