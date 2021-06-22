@@ -60,14 +60,26 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       chart: {
         type: 'columnrange',
         inverted: true,
-        animation: false
+        animation: false,
+        zoomType: "xy",
+        events: {
+          // hack to allow zoom
+          selection: (event) => {
+            event.target.series.forEach((series) => {
+              series.data.forEach((point) => {
+                point.select(false, false)
+              })
+            })
+          }
+        }
       },
       plotOptions: {
         series: {
           point: {
             events: {
               click() {
-                setSelected(this)
+                setSelected(this);
+                this.select(false, false);
               }
             }
           },

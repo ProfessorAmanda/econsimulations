@@ -6,12 +6,13 @@ import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
 import ManySamplesInput from "./ManySamplesInput.js";
 import SamplesTable from "./SamplesTable.js";
 import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
-import { Row, Col, Alert } from "reactstrap";
+import { Row, Col, Alert, Button } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
 import { std } from "mathjs";
 import { jStat } from "jstat";
 import PropTypes from 'prop-types';
+import Highcharts from "highcharts";
 
 
 export default function CISimulation({ popType, populationSize }) {
@@ -35,7 +36,22 @@ export default function CISimulation({ popType, populationSize }) {
     }
   }, [popArray, popType, populationSize]);
 
+  // this is a hack to get around what I believe is a bug in highcharts
+  // where a point will sometimes turn gray when selected
+  const unselect = () => {
+    Highcharts.charts.forEach((chart) => {
+      if (chart) {
+        chart.series.forEach((series) => {
+          series.data.forEach((point) => {
+            point.select(false, false)
+          })
+        })
+      }
+    });
+  }
+
   const generateSamples = (size, replications=1) => {
+    unselect();
     const sampleObjects = [];
     for (let i = 0; i < replications; i++) {
       const sample = _.sampleSize(popArray, size);
@@ -64,6 +80,11 @@ export default function CISimulation({ popType, populationSize }) {
   const clear = () => {
     setSamples([]);
     setSelected();
+  }
+
+  const selectPoint = (point) => {
+    setSelected(point);
+    unselect();
   }
 
   const displaySample = (selected && selected.data) || ((samples.length > 0) ? samples[samples.length - 1].data : []);
@@ -110,7 +131,7 @@ export default function CISimulation({ popType, populationSize }) {
           />
         </Col>
         <Col>
-          <SamplesTable samples={samples} setSelected={setSelected}/>
+          <SamplesTable samples={samples} setSelected={selectPoint}/>
         </Col>
       </Row>
       <br/>
@@ -124,6 +145,7 @@ export default function CISimulation({ popType, populationSize }) {
           </Alert>
         }
       </Row>
+      <Button onClick={() => unselect()}>unselect</Button>
     </Collapsable>
   );
 }
