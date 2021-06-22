@@ -21,7 +21,7 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
     <div style={{ height: 358, width: 358, position:"inline-block", float:"right", marginLeft:"0px",}}>
       <ResponsiveScatterPlot
         {...sharedOptions}
-        colors={(node) => (nodeId && (node.id === nodeId)) ? "#003866" : "#00b3ff"}
+        colors={(node) => (nodeId && (node.id === nodeId)) ? "#0053a1" : "#00b3ff"}
         data={data}
         yScale={{ type: 'linear', min: 40, max: 100 }}
         yFormat={(e) => e + " in."}

@@ -45,7 +45,7 @@
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build",
     "eject": "react-scripts eject",
-    "lint": "eslint .",
+    "lint": "eslint src",
     "heroku-postbuild": "npm install && npm run build"
   },
   "browserslist": [
