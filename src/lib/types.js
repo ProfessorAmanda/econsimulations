@@ -24,3 +24,10 @@ export const dotPlotSeriesType = PropTypes.arrayOf(
     label: PropTypes.object
   })
 );
+
+export const jointDistributionsDataType = PropTypes.arrayOf(
+  PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  })
+);

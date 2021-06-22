@@ -2,15 +2,12 @@
 
   Displays a Nivo scatterplot for the joint distribution data
 
-  props:
-    jointData     - array[Object{x, y}]
-    sharedOptions - object
-
 */
 import React from 'react';
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
 import { Col } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { jointDistributionsDataType } from '../../lib/types';
 
 export default function JointChart({ jointData, sharedOptions, nodeId }) {
 
@@ -49,7 +46,9 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
     </Col>
   );
 }
+
 JointChart.propTypes = {
-  sharedOptions: PropTypes.object,
-  jointData: PropTypes.arrayOf(PropTypes.object),
+  jointData: jointDistributionsDataType.isRequired,
+  sharedOptions: PropTypes.objectOf(PropTypes.any).isRequired,
+  nodeId: PropTypes.string,
 }

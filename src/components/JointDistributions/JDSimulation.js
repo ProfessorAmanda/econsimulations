@@ -2,9 +2,6 @@
 
   Displays the Joint Distributions simulation
 
-  props:
-    none
-
 */
 import React, { useEffect, useState } from 'react';
 import MultivariateNormal from 'multivariate-normal';
