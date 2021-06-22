@@ -7,7 +7,7 @@ import React from 'react';
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
 import { Col } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { jointDistributionsDataType } from '../../lib/types';
+import { xyPointsType } from '../../lib/types.js';
 
 export default function JointChart({ jointData, sharedOptions, nodeId }) {
 
@@ -48,7 +48,7 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
 }
 
 JointChart.propTypes = {
-  jointData: jointDistributionsDataType.isRequired,
+  jointData: xyPointsType.isRequired,
   sharedOptions: PropTypes.objectOf(PropTypes.any).isRequired,
   nodeId: PropTypes.string,
 }

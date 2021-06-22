@@ -2,9 +2,6 @@
 
   Displays a slider for the user to choose a number of random points and a button to generate them
 
-  props:
-    generatePoints - callback
-
 */
 import React, {  useState } from "react";
 import { Button, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";

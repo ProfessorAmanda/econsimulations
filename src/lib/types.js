@@ -25,7 +25,7 @@ export const dotPlotSeriesType = PropTypes.arrayOf(
   })
 );
 
-export const jointDistributionsDataType = PropTypes.arrayOf(
+export const xyPointsType = PropTypes.arrayOf(
   PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired
