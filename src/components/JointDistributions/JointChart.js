@@ -17,8 +17,8 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
   const data = [{id: "data", data: jointData}];
 
   return (
-    <Col style={{ padding:"5px 0px 5px 0px", marginLeft:"-40px", marginRight:"0px", width: "fit-content"}}>
-    <div style={{ height: 358, width: 358, position:"inline-block", float:"right", marginLeft:"0px",}}>
+    <Col style={{ padding:"5px 0px 5px 0px", marginLeft:"-50px", marginRight:"0px", width: "fit-content"}}>
+    <div style={{ height: 368, width: 366, position:"inline-block", float:"right", marginLeft:"0px",}}>
       <ResponsiveScatterPlot
         {...sharedOptions}
         colors={(node) => (nodeId && (node.id === nodeId)) ? "#0053a1" : "#00b3ff"}
