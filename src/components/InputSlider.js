@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 export default function InputSlider({ value, min, max, step, onChange }) {
   return (
-    <InputGroup style={{height: "30px", width: "500px", margin: "auto"}}>
+    <InputGroup style={{height: "30px", width: "400px", margin: "auto"}}>
       <Input
         type="range"
         className="custom-range"
-        style={{width: "80%"}}
+        style={{width: "60%"}}
         value={value}
         min={min}
         max={max}
@@ -30,10 +30,9 @@ export default function InputSlider({ value, min, max, step, onChange }) {
   );
 }
 InputSlider.propTypes = {
-
-  value : PropTypes.number,
-  min : PropTypes.number,
-  max : PropTypes.number,
-  step : PropTypes.number,
-  onChange : PropTypes.func,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  step: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
 }

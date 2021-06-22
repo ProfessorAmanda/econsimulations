@@ -1,7 +1,7 @@
 /*
 
   A container component to hold the three charts for the Joint Distribution simulation
-  Note that I have used Nivo for these plots instead of HighCharts - was easier to synchronize
+  Note that Nivo is used for these plots instead of HighCharts - easier to synchronize
 
   props:
     parentData, childData, jointData - array[Object{x, y}]
@@ -9,9 +9,7 @@
 */
 import React, { useState, useCallback, useMemo } from "react";
 import { Row, Col } from 'reactstrap';
-import { max, min } from "mathjs";
 import JointChart from "./JointChart.js";
-import _ from "lodash";
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 import PropTypes from 'prop-types';
 
@@ -20,17 +18,14 @@ export default function JDCharts({ parentData, childData, jointData }) {
   const [nodeId, setNodeId] = useState();
   const handleMouseMove = useCallback((node) => setNodeId(node.id), [setNodeId]);
   const handleMouseLeave = useCallback(() => setNodeId(), [setNodeId]);
-  const getNodeSize = useMemo(() => (node) => (nodeId && (nodeId === node.id)) ? 30 : 8, [nodeId]);
-
-  const maxCount = max(...parentData.map((pt) => pt.y), ...childData.map((pt) => pt.y));
-  const minX = _.floor(min(...parentData.map((pt) => pt.x), ...childData.map((pt) => pt.x)), -1);
-  const maxX = _.ceil(max(...parentData.map((pt) => pt.x), ...childData.map((pt) => pt.x)), -1);
+  const getNodeSize = useMemo(() => (node) => (nodeId && (nodeId === node.id)) ? 15 : 5, [nodeId]);
 
   // options common to all three plots
   const sharedOptions = {
+    animate: false,
     margin: { top: 60, right: 10, bottom: 70, left: 70 },
-    xScale: { type: 'linear', min: min(40, minX), max: max(100, maxX) },
-    yScale: { type: 'linear', min: 0, max: maxCount },
+    xScale: { type: 'linear', min: 40, max: 100 },
+    blendMode: "darken",
     xFormat: (e) => e + " in.",
     nodeSize: getNodeSize,
     enableGridX: false,
@@ -44,7 +39,6 @@ export default function JDCharts({ parentData, childData, jointData }) {
     },
     axisLeft: {
       tickSize: 10,
-      tickValues: _.range(0, maxCount + 1, 1),
       legendPosition: 'middle',
       legendOffset: -30
     }
@@ -57,8 +51,9 @@ export default function JDCharts({ parentData, childData, jointData }) {
           <ResponsiveScatterPlotCanvas
             data={[{id: "data", data: parentData}]}
             tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
-            colors={{"scheme": "set1"}}
+            colors={(node) => (node.id === nodeId) ? "#910000" : "#ff0000"}
             {...sharedOptions}
+            yScale={{ type: 'linear', min: 0, max: 8 }}
             axisBottom={{...sharedOptions.axisBottom, legend: 'Parent Height (inches)'}}
             axisLeft={{...sharedOptions.axisLeft, legend: 'Count'}}
           />
@@ -69,8 +64,9 @@ export default function JDCharts({ parentData, childData, jointData }) {
           <ResponsiveScatterPlotCanvas
             data={[{id: "data", data: childData}]}
             tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
-            colors={{"scheme": "set2"}}
+            colors={(node) => (node.id === nodeId) ? "#006607" : "#00ba0c"}
             {...sharedOptions}
+            yScale={{ type: 'linear', min: 0, max: 8 }}
             axisBottom={{...sharedOptions.axisBottom, legend: 'Child Height (inches)'}}
             axisLeft={{...sharedOptions.axisLeft, legend: 'Count'}}
           />
@@ -80,14 +76,14 @@ export default function JDCharts({ parentData, childData, jointData }) {
         <JointChart
           jointData={jointData}
           sharedOptions={sharedOptions}
+          nodeId={nodeId}
         />
       </Col>
     </Row>
   )
 }
 JDCharts.propTypes = {
-
-  parentData : PropTypes.arrayOf(PropTypes.object),
+  parentData: PropTypes.arrayOf(PropTypes.object),
   childData: PropTypes.arrayOf(PropTypes.object),
-  jointData : PropTypes.arrayOf(PropTypes.object),
+  jointData: PropTypes.arrayOf(PropTypes.object),
 }

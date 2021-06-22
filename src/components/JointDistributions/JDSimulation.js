@@ -38,7 +38,7 @@ export default function JDSimulation() {
     const distribution = MultivariateNormal([+parentMean, +childMean], covMatrix);
 
     const jointSeries = [];
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 500; i++) {
       const [parentHeight, childHeight] = distribution.sample();
       jointSeries.push({x: _.round(parentHeight, 2), y: _.round(childHeight, 2)});
     }

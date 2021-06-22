@@ -4,6 +4,24 @@ import PropTypes from 'prop-types';
 
 export default function SamplesTable({ samples, setSelected }) {
 
+  const samplesTable = samples.map((sampleObject) =>
+    <tr
+      style={{ backgroundColor: sampleObject.label ? "rgba(23, 161, 80, 0.233)" : "rgba(161, 23, 23, 0.233)", cursor: "pointer" }}
+      key={sampleObject.id}
+      onClick={() => setSelected(sampleObject)}
+    >
+      <td>{sampleObject.id}</td>
+      <td>{sampleObject.size}</td>
+      <td>{sampleObject.mean}</td>
+      <td>{sampleObject.lowerConf}</td>
+      <td>{sampleObject.upperConf}</td>
+      <td>{sampleObject.confidenceLevel}</td>
+      <td>{sampleObject.distribution.toUpperCase()}</td>
+    </tr>
+  );
+
+  samplesTable.reverse()
+
   return (
     <div style={{ height: 500, overflow: "auto", marginTop: -50 }}>
       <Table hover className="ciTable">
@@ -19,24 +37,7 @@ export default function SamplesTable({ samples, setSelected }) {
           </tr>
         </thead>
         <tbody>
-          {samples.map((sampleObject) =>
-            <tr
-              style={{
-                backgroundColor: sampleObject.label ? "rgba(23, 161, 80, 0.233)" : "rgba(161, 23, 23, 0.233)",
-                cursor: "pointer"
-              }}
-              key={sampleObject.id}
-              onClick={() => setSelected(sampleObject)}
-            >
-              <td>{sampleObject.id}</td>
-              <td>{sampleObject.size}</td>
-              <td>{sampleObject.mean}</td>
-              <td>{sampleObject.lowerConf}</td>
-              <td>{sampleObject.upperConf}</td>
-              <td>{sampleObject.confidenceLevel}</td>
-              <td>{sampleObject.distribution}</td>
-            </tr>
-          )}
+          {samplesTable}
         </tbody>
       </Table>
     </div>

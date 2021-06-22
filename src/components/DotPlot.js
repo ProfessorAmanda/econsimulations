@@ -49,16 +49,15 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel }) {
           text: "Count"
         }
       },
-      tooltip: {
-        enabled: true,
-        pointFormat: `${xLabel}: <b>{point.x}</b><br />`
-      },
       series: series.map((seriesObject) => (
         {
           showInLegend: seriesObject.data.length > 0,
           turboThreshold: 0,
           ...seriesObject,
-          data: seriesObject.data.map(([x, y]) => ({ x, y }))
+          data: seriesObject.data.map(([x, y]) => ({ x, y })),
+          tooltip: {
+            pointFormat: `${xLabel}: <b>{point.x}</b><br />`
+          }
         })
       )
     }

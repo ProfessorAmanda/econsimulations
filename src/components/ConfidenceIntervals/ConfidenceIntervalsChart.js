@@ -60,7 +60,6 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       chart: {
         type: 'columnrange',
         inverted: true,
-        zoomType: 'xy',
         animation: false
       },
       plotOptions: {
@@ -118,12 +117,11 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
               color: "rgba(0, 170, 0, 1)"
             },
             inactive: {
-              enabled: false,
               color: "rgba(0, 170, 0, 0.5)"
             },
             select: {
               enabled: false,
-              color: "rgba(0, 170, 0, 1)"
+              color: "rgba(0, 170, 0, 0.5)"
             }
           }
         },
@@ -143,12 +141,11 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
               color: "rgba(255, 0, 0, 1)"
             },
             inactive: {
-              enabled: false,
               color: "rgba(255, 0, 0, 0.5)"
             },
             select: {
               enabled: false,
-              color: "rgba(255, 0, 0, 1)",
+              color: "rgba(255, 0, 0, 0.5)"
             }
           }
         },
@@ -203,7 +200,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       {
         sample ? (
           <Alert color={sample.label ? "success" : "danger"} className="Center">
-            Sample number {sample.id} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the true mean? {sample.label.toString()}
+            Sample number {sample.id} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the population mean? {sample.label.toString()}
           </Alert>
         ) : <div style={{height: 80}}/>
       }

@@ -14,11 +14,11 @@ export default function NewPointsInput({ generatePoints }) {
   const [numPoints, setNumPoints] = useState(5);
 
   return (
-    <InputGroup>
+    <InputGroup style={{height: "30px", width: "400px", margin: "auto"}}>
       <Input
         type='range'
         className="custom-range"
-        style={{width: "70%"}}
+        style={{width: "50%"}}
         min={4}
         max={10}
         value={numPoints}
@@ -38,7 +38,5 @@ export default function NewPointsInput({ generatePoints }) {
   );
 }
 NewPointsInput.propTypes = {
-
-  generatePoints : PropTypes.func,
-
+  generatePoints: PropTypes.func.isRequired,
 }

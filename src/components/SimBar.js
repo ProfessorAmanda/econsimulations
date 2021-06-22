@@ -50,16 +50,16 @@ export default function SimBar({ setSection }) {
     },
     {
       name: "Confidence Intervals",
-      description: "test",
+      description: "A confidence interval provides a range of values for the likely location of the true population mean, based on information gathered from a sample.",
       extra: "",
       img: undefined
     },
-    {
-      name: "Hypothesis Testing",
-      description: "test",
-      extra: "",
-      img: undefined
-    }
+    // {
+    //   name: "Hypothesis Testing",
+    //   description: "test",
+    //   extra: "",
+    //   img: undefined
+    // }
   ];
 
   const sections = modes.map((section) =>
