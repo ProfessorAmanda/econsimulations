@@ -145,7 +145,6 @@ export default function CISimulation({ popType, populationSize }) {
           </Alert>
         }
       </Row>
-      <Button onClick={() => unselect()}>unselect</Button>
     </Collapsable>
   );
 }
