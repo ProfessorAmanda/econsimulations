@@ -120,9 +120,7 @@ export default function CISimulation({ popType, populationSize }) {
           <Alert color="info" style={{margin:'auto'}}>
             {samples.filter(({ label }) => !label).length} intervals did not contain the population mean
             <br/>
-            {samples.filter(({ label }) => label).length} did
-            <br/>
-            for a total of {_.round(100 * samples.filter(({ label }) => label).length / samples.length, 2)}%
+            {samples.filter(({ label }) => label).length}, or {_.round(100 * samples.filter(({ label }) => label).length / samples.length, 2)}%, did
           </Alert>
         }
       </Row>
@@ -131,6 +129,6 @@ export default function CISimulation({ popType, populationSize }) {
 }
 CISimulation.propTypes = {
 
-  popType : PropTypes.string, 
+  popType : PropTypes.string,
   populationSize : PropTypes.number,
 }
