@@ -53,9 +53,9 @@ export default function LeastSquaresSimulation() {
   }
 
   const generateBestLine = () => {
-    const result = regression.linear(points.map(({x, y}) => [x, y]), { precision: 1 });
-    setSlope(result.equation[0]);
-    setIntercept(result.equation[1]);
+    const { equation } = regression.linear(points.map(({x, y}) => [x, y]), { precision: 1 });
+    setSlope(equation[0]);
+    setIntercept(equation[1]);
   }
 
   return (
@@ -64,7 +64,7 @@ export default function LeastSquaresSimulation() {
         <Col>
           <LeastSquaresChart points={points} linePoints={linePoints} setSquareAreas={setSquareAreas}/>
         </Col>
-        <Col style={{paddingTop: "100px"}}>
+        <Col xl="4" style={{paddingTop: "100px"}}>
           <NewPointsInput generatePoints={generatePoints}/>
           <br/>
           {(stage === 2) && <p>Guess a Slope and Y-Intercept to fit the points</p>}
@@ -73,6 +73,7 @@ export default function LeastSquaresSimulation() {
             <div>
               <h4>Intercept</h4>
               <InputSlider value={intercept} min={-20} max={20} step={0.1} onChange={(value) => setIntercept(value)}/>
+              <br/>
               <h4>Slope</h4>
               <InputSlider value={slope} min={-10} max={10} step={0.1} onChange={(value) => setSlope(value)}/>
               <br/>
