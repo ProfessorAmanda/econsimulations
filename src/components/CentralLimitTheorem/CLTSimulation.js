@@ -2,10 +2,6 @@
 
   Displays one of the CLT simulations
 
-  props:
-    popType        - string
-    mainSampleSize - int
-
 */
 import React, { useState, useEffect } from 'react';
 import Collapsable from '../Collapsable.js';
@@ -19,6 +15,7 @@ import SampleSizeInput from '../SampleSizeInput.js';
 import SampleMeansTable from './SampleMeansTable.js';
 import _ from "lodash";
 import PropTypes from 'prop-types';
+import { popShapeType } from '../../lib/types.js';
 
 const numberResamples = {
   "Normal": 0,
@@ -76,8 +73,8 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
   const xvalue = sampled.length === 0 ? [0] : sampled.map((s) => s[0]);  // provide a placeholder value until 'sampled' is updated
 
   return (
-    <div>
-      <Collapsable>
+    <Collapsable>
+      <div>
         <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType}/>
         <Button color="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) &&
@@ -129,14 +126,13 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
             </Row>
           </div>
         }
-      </Collapsable>
-    </div>
+
+      </div>
+    </Collapsable>
   );
 }
+
 CLTSimulation.propTypes = {
-
-  popType : PropTypes.string,
-  mainSampleSize : PropTypes.number,
-
-
+  popType: popShapeType.isRequired,
+  mainSampleSize: PropTypes.number.isRequired,
 }

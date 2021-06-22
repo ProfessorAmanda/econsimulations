@@ -13,7 +13,6 @@ export default function SimBarOption({ section, setSection }) {
   );
 }
 SimBarOption.propTypes = {
-
-  setSection : PropTypes.func,
-  section : PropTypes.object,
+  setSection: PropTypes.func.isRequired,
+  section: PropTypes.object.isRequired,
 }

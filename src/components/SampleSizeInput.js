@@ -4,10 +4,6 @@
 
   Used by Law of Large Numbers and Central Limit Theorem
 
-  props:
-    maxSize     - int
-    handleClick - callback
-
 */
 import React, { useState } from 'react';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
@@ -36,7 +32,6 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
   );
 }
 SampleSizeInput.propTypes = {
-
-  maxSize : PropTypes.number,
-  handleClick: PropTypes.func,
+  maxSize: PropTypes.number.isRequired,
+  handleClick: PropTypes.func.isRequired,
 }

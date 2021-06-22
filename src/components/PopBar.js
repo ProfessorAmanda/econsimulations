@@ -2,10 +2,6 @@
   Allows the user to select simulation variations
 
   Used by Law of Large Numbers and Central Limit Theorem
-
-  props:
-    sim     - string
-    setPop  - callback
 */
 import React, { useState } from 'react';
 import { Button} from 'reactstrap';
@@ -42,7 +38,6 @@ export default function PopBar({ sim, setPop }) {
 }
 
 PopBar.propTypes = {
-
-  sim : PropTypes.string,
-  setPop : PropTypes.func,
+  sim: PropTypes.string.isRequired,
+  setPop: PropTypes.func.isRequired,
 }

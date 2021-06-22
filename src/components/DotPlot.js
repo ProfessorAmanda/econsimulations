@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import Label from 'highcharts/modules/series-label';
 import PropTypes from 'prop-types';
+import { dotPlotSeriesType } from "../lib/types";
 
 Label(Highcharts);
 
@@ -67,12 +68,11 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel }) {
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
 DotPlot.propTypes = {
-
-    series : PropTypes.object,
-    title  : PropTypes.object,
-    xMin  : PropTypes.number,
-    xMax  : PropTypes.number,
-    yMax : PropTypes.number,
-    xLabel : PropTypes.string,
-    yLabel : PropTypes.string,
+  series: dotPlotSeriesType.isRequired,
+  title: PropTypes.string,
+  xMin: PropTypes.number,
+  xMax: PropTypes.number,
+  yMax: PropTypes.number,
+  xLabel: PropTypes.string,
+  yLabel: PropTypes.string,
 }

@@ -2,15 +2,12 @@
 
   Displays a table of sample means
 
-  props:
-    sampleMeans - array
-
 */
 
 import React from 'react';
 import { Table } from 'reactstrap';
 import { round } from "mathjs";
-import PropTypes from 'prop-types';
+import { sampleMeansType } from '../../lib/types';
 
 export default function SampleMeansTable({ sampleMeans }) {
   const tableBody = sampleMeans.map((mean, index) =>
@@ -37,7 +34,5 @@ export default function SampleMeansTable({ sampleMeans }) {
   );
 }
 SampleMeansTable.propTypes = {
-
-  sampleMeans : PropTypes.array,
-
+  sampleMeans: sampleMeansType.isRequired,
 }

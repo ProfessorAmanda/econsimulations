@@ -6,6 +6,7 @@ import { Collapse, Card, CardBody } from 'reactstrap';
 import '../../styles/dark-unica.css';
 import _ from "lodash";
 import PropTypes from 'prop-types';
+import { popArrayType, popShapeType } from '../../lib/types';
 
 export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
@@ -94,6 +95,8 @@ export default function SimulateSamples({ type, popArray, popMean }) {
       setSampled(sampled => [...sampled, {y: avg}]);
       setMeanLine(meanLine => [...meanLine, {y: popMean}]);
     }, n);
+
+    return () => clearInterval(timer);
   }, []);  // eslint-disable-line
 
   return (
@@ -107,8 +110,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   );
 }
 SimulateSamples.propTypes = {
-
-  type : PropTypes.string,
-  popArray : PropTypes.array,
-  popMean : PropTypes.number,
+  type: popShapeType.isRequired,
+  popArray: popArrayType.isRequired,
+  popMean: PropTypes.number.isRequired,
 }

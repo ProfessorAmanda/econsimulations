@@ -2,9 +2,6 @@
 
   Displays a menu with all the simulations and allows the user to click to start them
 
-  props:
-    setSection - callback function
-
 */
 import React from 'react';
 import clt from '../images/clt.png';
@@ -76,6 +73,5 @@ export default function SimBar({ setSection }) {
   );
 }
 SimBar.propTypes = {
-
- setSection : PropTypes.func,
+  setSection: PropTypes.func.isRequired,
 }

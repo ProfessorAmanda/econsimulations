@@ -2,9 +2,6 @@
 
   Uses the Collapse element to create a variable-size div for its contents
 
-  props:
-    children - react element
-
 */
 import React from 'react';
 import Collapse from 'react-collapse';
@@ -37,5 +34,5 @@ export default function Collapsable({ children }) {
 );
 }
 Collapsable.propTypes = {
-  children : PropTypes.element,
+  children: PropTypes.element.isRequired,
 }

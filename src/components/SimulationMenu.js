@@ -2,8 +2,6 @@
 
   Displays the StartHere button and then the menu once the button is clicked
 
-  props:
-    none
 */
 import React, { useEffect, useState } from 'react';
 import SimBar from './SimBar.js';
@@ -30,17 +28,15 @@ export default function SimulationMenu() {
       </div>
     ) : (
       <div>
-        {
-          (mode === "Home") ? (
-            <Fade in={(mode === "Home")} style={{ display: (mode === "Home") ? 'block' : 'none' }}>
-              <div className="Nav" key={'unkey'}>
-                <SimBar setSection={setMode}/>
-              </div>
-            </Fade>
-          ) : (
-            <SimulationContainer mode={mode} setMode={setMode}/>
-          )
-        }
+        {(mode === "Home") ? (
+          <Fade in={(mode === "Home")} style={{ display: (mode === "Home") ? 'block' : 'none' }}>
+            <div className="Nav" key={'unkey'}>
+              <SimBar setSection={setMode}/>
+            </div>
+          </Fade>
+        ) : (
+          <SimulationContainer mode={mode} setMode={setMode}/>
+        )}
       </div>
     )
   );

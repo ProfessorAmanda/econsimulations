@@ -2,18 +2,13 @@
 
   Displays inputs to allow the user to run a large number of resamples
 
-  props:
-    setSampleSize - callback
-    clear         - callback
-    population    - array
-    addSamples    - callback
-
 */
 import React, { useState } from "react";
 import {Button, Input } from 'reactstrap';
 import { mean } from "mathjs";
 import _ from "lodash";
 import PropTypes from 'prop-types';
+import { popArrayType } from "../../lib/types";
 
 export default function SampleMeansSimulator({ setSampleSize, clear, population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -27,7 +22,7 @@ export default function SampleMeansSimulator({ setSampleSize, clear, population,
   const resample = () => {
     const samplePop = _.sampleSize(population, resampleSize);
     const sampleMean = mean(samplePop.map((s) => s[0]));
-    return [resampleSize, sampleMean];
+    return [+resampleSize, sampleMean];
   }
 
   const runSim = () => {
@@ -69,8 +64,8 @@ export default function SampleMeansSimulator({ setSampleSize, clear, population,
 }
 
 SampleMeansSimulator.propTypes = {
-  setSampleSize : PropTypes.func,
-  clear : PropTypes.func,
-  population: PropTypes.array,
-  addSamples:  PropTypes.func,
+  setSampleSize: PropTypes.func.isRequired,
+  clear: PropTypes.func.isRequired,
+  population: popArrayType.isRequired,
+  addSamples: PropTypes.func.isRequired,
 }

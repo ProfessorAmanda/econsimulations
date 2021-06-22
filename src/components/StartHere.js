@@ -2,11 +2,7 @@
 
   Displays the introduction to the website and the start button
 
-  props:
-    start   - boolean
-    showApp - callback
 */
-
 import React from 'react';
 import { Button, Fade } from 'reactstrap';
 import PropTypes from 'prop-types';
@@ -26,8 +22,6 @@ export default function StartHere({ start, showApp }) {
 }
 
 StartHere.propTypes = {
-
-  showApp : PropTypes.func.isRequired,
-  start : PropTypes.bool.isRequired,
-
+  start: PropTypes.bool.isRequired,
+  showApp: PropTypes.func.isRequired,
 }

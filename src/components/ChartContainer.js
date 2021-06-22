@@ -4,14 +4,7 @@
 
   Used by Law of Large Numbers and Central Limit Theorem
 
-  props:
-    popArray   - array
-    popMean    - float
-    sampled    - array
-    popType    - string
-    sampleSize - int
 */
-
 import React from 'react';
 import '../styles/dark-unica.css';
 import DotPlot from './DotPlot';
@@ -19,6 +12,7 @@ import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import _ from "lodash";
 import PropTypes from 'prop-types';
+import { popArrayType, popShapeType } from '../lib/types';
 
 const values = {
   Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -73,7 +67,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
         </Row>
           <Row >
             <Col lg="2">
-              <PopTable
+              <PopTable  // TODO: fix PopTable
                 samples={sampled}
                 popArray={popArray}
                 popType={popType}
@@ -96,11 +90,9 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
 }
 
 ChartContainer.propTypes = {
-
-  popArray : PropTypes.array ,
-  popMean : PropTypes.number,
-  sampled : PropTypes.array,
-  sampleMean : PropTypes.number,
-  popType : PropTypes.string,
-
+  popArray: popArrayType.isRequired,
+  popMean: PropTypes.number.isRequired,
+  sampled: popArrayType.isRequired,
+  sampleMean: PropTypes.number,
+  popType: popShapeType.isRequired,
 }
