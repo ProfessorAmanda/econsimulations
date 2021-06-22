@@ -36,11 +36,9 @@ export default function MeanSDInput({ title, mean, setMean, sd, setSD}){
 }
 
 MeanSDInput.propTypes = {
-  
-title : PropTypes.string,
-mean : PropTypes.number,
-setMean : PropTypes.func,
-sd : PropTypes.number, 
-setSD : PropTypes.func,
-
+  title: PropTypes.string.isRequired,
+  mean: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  setMean: PropTypes.func.isRequired,
+  sd: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  setSD: PropTypes.func.isRequired,
 }

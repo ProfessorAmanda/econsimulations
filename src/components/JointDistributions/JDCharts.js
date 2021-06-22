@@ -1,7 +1,7 @@
 /*
 
   A container component to hold the three charts for the Joint Distribution simulation
-  Note that I have used Nivo for these plots instead of HighCharts - was easier to synchronize
+  Note that Nivo is used for these plots instead of HighCharts - easier to synchronize
 
   props:
     parentData, childData, jointData - array[Object{x, y}]
@@ -9,9 +9,7 @@
 */
 import React, { useState, useCallback, useMemo } from "react";
 import { Row, Col } from 'reactstrap';
-import { max } from "mathjs";
 import JointChart from "./JointChart.js";
-import _ from "lodash";
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
 import { PropTypes } from 'prop-types';
 
@@ -22,13 +20,12 @@ export default function JDCharts({ parentData, childData, jointData }) {
   const handleMouseLeave = useCallback(() => setNodeId(), [setNodeId]);
   const getNodeSize = useMemo(() => (node) => (nodeId && (nodeId === node.id)) ? 15 : 5, [nodeId]);
 
-  const maxCount = max(...parentData.map((pt) => pt.y), ...childData.map((pt) => pt.y));
-
   // options common to all three plots
   const sharedOptions = {
+    animate: false,
     margin: { top: 60, right: 10, bottom: 70, left: 70 },
     xScale: { type: 'linear', min: 40, max: 100 },
-    yScale: { type: 'linear', min: 0, max: maxCount },
+    blendMode: "darken",
     xFormat: (e) => e + " in.",
     nodeSize: getNodeSize,
     enableGridX: false,
@@ -42,7 +39,6 @@ export default function JDCharts({ parentData, childData, jointData }) {
     },
     axisLeft: {
       tickSize: 10,
-      tickValues: _.range(0, maxCount + 1, 1),
       legendPosition: 'middle',
       legendOffset: -30
     }
@@ -57,6 +53,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
             tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
             colors={(node) => (node.id === nodeId) ? "#910000" : "#ff0000"}
             {...sharedOptions}
+            yScale={{ type: 'linear', min: 0, max: 8 }}
             axisBottom={{...sharedOptions.axisBottom, legend: 'Parent Height (inches)'}}
             axisLeft={{...sharedOptions.axisLeft, legend: 'Count'}}
           />
@@ -69,6 +66,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
             tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
             colors={(node) => (node.id === nodeId) ? "#006607" : "#00ba0c"}
             {...sharedOptions}
+            yScale={{ type: 'linear', min: 0, max: 8 }}
             axisBottom={{...sharedOptions.axisBottom, legend: 'Child Height (inches)'}}
             axisLeft={{...sharedOptions.axisLeft, legend: 'Count'}}
           />
@@ -85,8 +83,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
   )
 }
 JDCharts.propTypes = {
-  
-  parentData : PropTypes.arrayOf(PropTypes.object),
-  childData: PropTypes.arrayOf(PropTypes.object), 
-  jointData : PropTypes.arrayOf(PropTypes.object),
+  parentData: PropTypes.arrayOf(PropTypes.object),
+  childData: PropTypes.arrayOf(PropTypes.object),
+  jointData: PropTypes.arrayOf(PropTypes.object),
 }

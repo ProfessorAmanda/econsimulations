@@ -8,7 +8,7 @@
 
 */
 import React from 'react';
-import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
+import { ResponsiveScatterPlot } from "@nivo/scatterplot";
 import { Col } from 'reactstrap';
 import { PropTypes } from 'prop-types';
 
@@ -19,9 +19,9 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
   return (
     <Col style={{ padding:"5px 0px 5px 0px", marginLeft:"-40px", marginRight:"0px", width: "fit-content"}}>
     <div style={{ height: 358, width: 358, position:"inline-block", float:"right", marginLeft:"0px",}}>
-      <ResponsiveScatterPlotCanvas
+      <ResponsiveScatterPlot
         {...sharedOptions}
-        colors={(node) => (nodeId && (node.id === nodeId)) ? "#003866" : "#008cff"}
+        colors={(node) => (nodeId && (node.id === nodeId)) ? "#003866" : "#00b3ff"}
         data={data}
         yScale={{ type: 'linear', min: 40, max: 100 }}
         yFormat={(e) => e + " in."}
@@ -50,7 +50,6 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
   );
 }
 JointChart.propTypes = {
-  
-  sharedOptions : PropTypes.object,
-  jointData : PropTypes.arrayOf(PropTypes.object),
+  sharedOptions: PropTypes.object,
+  jointData: PropTypes.arrayOf(PropTypes.object),
 }
