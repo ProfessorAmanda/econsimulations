@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from "reactstrap";
 
 const hypothesisOptions = {
@@ -75,5 +76,9 @@ export default function HypothesisDropdown({ testType, setHypothesis }) {
       </DropdownMenu>
     </Dropdown>
   )
+}
 
+HypothesisDropdown.propTypes = {
+  testType: PropTypes.string.isRequired,
+  setHypothesis: PropTypes.func.isRequired
 }

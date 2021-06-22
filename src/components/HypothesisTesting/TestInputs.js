@@ -1,6 +1,7 @@
 import React from "react";
 import SelectorButtonGroup from "../SelectorButtonGroup";
 import { Row } from "reactstrap";
+import PropTypes from "prop-types";
 
 export default function TestInputs({ testType, setTestType, popType, setPopType }) {
 
@@ -20,4 +21,11 @@ export default function TestInputs({ testType, setTestType, popType, setPopType 
       </Row>
     </div>
   )
+}
+
+TestInputs.propTypes = {
+  testType: PropTypes.string.isRequired,
+  setTestType: PropTypes.func.isRequired,
+  popType: PropTypes.string.isRequired,
+  setPopType: PropTypes.func.isRequired
 }

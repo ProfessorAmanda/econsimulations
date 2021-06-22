@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 
 export default function SamplesTable({ samples, setSelected }) {
 
-  console.log(samples.length);
-  console.log(samples.filter((s) => s.id));
-
   return (
     <div style={{ height: 500, overflow: "auto", marginTop: -50 }}>
       <Table hover className="ciTable">

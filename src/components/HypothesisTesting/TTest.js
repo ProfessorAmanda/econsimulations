@@ -4,6 +4,7 @@ import TToPval from "./TToPval.js";
 import DotPlot from "../DotPlot.js";
 import { Alert, Button, Container, Col, Input, Row, InputGroupText, InputGroupAddon, InputGroup } from "reactstrap";
 import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
+import PropTypes from "prop-types";
 
 
 export default function TTest({ shape, hypothesis, mue0 }) {
@@ -33,7 +34,6 @@ export default function TTest({ shape, hypothesis, mue0 }) {
 
     while (j < size) {
       const ranNum = floor(random()*popArr.length);
-      console.log(ranNum);
       if (!index[ranNum]) {
         index[ranNum] = true;
         sampleArr.push(pop[ranNum][0]);
@@ -73,6 +73,8 @@ export default function TTest({ shape, hypothesis, mue0 }) {
           return 1;
         case 2:
           return 0;
+        default:
+          throw new Error();
       }
     } else {
       const p1 = TToPval[dof - 1][t.toFixed(1)];
@@ -83,6 +85,8 @@ export default function TTest({ shape, hypothesis, mue0 }) {
           return 1 - p1;
         case 2:
           return 2*TToPval[dof - 1][abs(t.toFixed(1))/2];
+        default:
+          throw new Error();
       }
     }
   }
@@ -184,4 +188,10 @@ export default function TTest({ shape, hypothesis, mue0 }) {
       </Container>}
     </Container>
   )
+}
+
+TTest.propTypes = {
+  shape: PropTypes.string.isRequired,
+  hypothesis: PropTypes.number.isRequired,
+  mue0: PropTypes.number.isRequired,
 }

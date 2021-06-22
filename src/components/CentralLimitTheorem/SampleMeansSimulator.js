@@ -14,7 +14,6 @@ import {Button, Input } from 'reactstrap';
 import { mean } from "mathjs";
 import _ from "lodash";
 import PropTypes from 'prop-types';
-import { propTypes } from "react-addons-pure-render-mixin";
 
 export default function SampleMeansSimulator({ setSampleSize, clear, population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
