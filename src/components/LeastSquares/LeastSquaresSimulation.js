@@ -64,7 +64,7 @@ export default function LeastSquaresSimulation() {
         <Col>
           <LeastSquaresChart points={points} linePoints={linePoints} setSquareAreas={setSquareAreas}/>
         </Col>
-        <Col xl="4" style={{paddingTop: "100px"}}>
+        <Col xl="4" style={{paddingTop: "100px", width: "40%"}}>
           <NewPointsInput generatePoints={generatePoints}/>
           <br/>
           {(stage === 2) && <p>Guess a Slope and Y-Intercept to fit the points</p>}
