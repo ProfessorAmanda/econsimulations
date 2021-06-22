@@ -13,8 +13,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@nivo/core": "^0.71.0",
-    "@nivo/scatterplot": "^0.71.0",
+    "@nivo/core": "^0.70.1",
+    "@nivo/scatterplot": "^0.70.1",
     "bootstrap": "^5.0.2",
     "chi-squared": "^1.1.0",
     "gh-pages": "^3.2.3",
