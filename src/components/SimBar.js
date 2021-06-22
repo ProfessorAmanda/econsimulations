@@ -13,7 +13,7 @@ import jd from '../images/jd.jpg';
 import ls from '../images/ls.png';
 import ovs from '../images/ovs.png';
 import SimBarOption from './SimBarOption';
-import {PropTypes} from 'prop-types'
+import PropTypes from 'prop-types'
 
 export default function SimBar({ setSection }) {
 
@@ -53,14 +53,13 @@ export default function SimBar({ setSection }) {
       description: "A confidence interval provides a range of values for the likely location of the true population mean, based on information gathered from a sample.",
       extra: "",
       img: undefined
-    }
-      // ,
-      //             {
-      //                 name: "Hypothesis Testing",
-      //                 description: "test",
-      //                 extra: "",
-      //                 img: undefined
-      //             }
+    },
+    // {
+    //   name: "Hypothesis Testing",
+    //   description: "test",
+    //   extra: "",
+    //   img: undefined
+    // }
   ];
 
   const sections = modes.map((section) =>
@@ -78,5 +77,5 @@ export default function SimBar({ setSection }) {
 }
 SimBar.propTypes = {
 
- setSection : PropTypes.func, 
+ setSection : PropTypes.func,
 }

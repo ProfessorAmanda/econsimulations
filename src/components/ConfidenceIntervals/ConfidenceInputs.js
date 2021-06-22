@@ -1,36 +1,28 @@
 import React from "react";
-import { Row, ButtonGroup, Button, Col } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
-import {PropTypes} from 'prop-types';
+import SelectorButtonGroup from "../SelectorButtonGroup.js";
+import PropTypes from 'prop-types';
 
 export default function ConfidenceInputs({ distType, setDistType, confLevel, setConfLevel }) {
-
-  const confidenceBar = [90, 95, 99].map((level) =>
-    <Button
-      style={{ backgroundColor: (+confLevel === level) ? '#4CAF50' : '#555555' }}
-      onClick={() => setConfLevel(level)}
-      key={level}
-    >
-      {level}%
-    </Button>
-  );
 
   return (
     <div>
       <Row className="Center">
         <div>
           1) Do you want to assume that you know σ? If yes, choose Z. If no, choose T: {" "}
-          <ButtonGroup>
-            <Button style={{ backgroundColor: (distType === "z") ? '#4CAF50':'#555555' }} onClick={() => setDistType("z")}>Z</Button>
-            <Button style={{ backgroundColor: (distType === "t") ? '#4CAF50':'#555555' }} onClick={() => setDistType("t")}>T</Button>
-          </ButtonGroup>
+          <SelectorButtonGroup options={["Z", "T"]} select={setDistType} selected={distType}/>
         </div>
       </Row>
       <br/>
       <Row className="Center">
         <div>
           2) Confidence Level: {" "}
-          <ButtonGroup>{confidenceBar}</ButtonGroup>
+          <SelectorButtonGroup
+            options={["90%", "95%", "99%"]}
+            select={(pct) => setConfLevel(pct.slice(0, 2))}
+            selected={confLevel + "%"}
+          />
         </div>
       </Row>
       <br/>
@@ -48,8 +40,8 @@ export default function ConfidenceInputs({ distType, setDistType, confLevel, set
 
 ConfidenceInputs.propTypes = {
 
-  distType : PropTypes.oneOf(['z','t']), 
-  setDistType : PropTypes.func, 
-  confLevel : PropTypes.number, 
+  distType : PropTypes.oneOf(['z','t']),
+  setDistType : PropTypes.func,
+  confLevel : PropTypes.number,
   setConfLevel : PropTypes.func,
 }

@@ -12,7 +12,7 @@
 */
 import React from 'react';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function MeanSDInput({ title, mean, setMean, sd, setSD}){
   return (

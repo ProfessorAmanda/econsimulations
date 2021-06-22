@@ -10,7 +10,7 @@
 import React from 'react';
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
 import { Col } from 'reactstrap';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function JointChart({ jointData, sharedOptions, nodeId }) {
 

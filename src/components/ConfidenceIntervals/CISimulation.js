@@ -11,11 +11,11 @@ import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
 import { std } from "mathjs";
 import { jStat } from "jstat";
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 export default function CISimulation({ popType, populationSize }) {
-  const [distType, setDistType] = useState("z");  // can be 'z' or 't'
+  const [distType, setDistType] = useState("Z");  // can be 'Z' or 'T'
   const [confLevel, setConfLevel] = useState(95);
   const [popArray, setPopArray] = useState([]);
   const [samples, setSamples] = useState([]);
@@ -41,8 +41,8 @@ export default function CISimulation({ popType, populationSize }) {
       const sample = _.sampleSize(popArray, size);
       const mean = _.round(populationMean(sample), 2);
       const popMean = _.round(populationMean(popArray), 2);
-      const standardDev = std(((distType === "z") ? popArray : sample).map((s) => s[0]));
-      const ciFunction = (distType === "z") ? jStat.normalci : jStat.tci;
+      const standardDev = std(((distType === "Z") ? popArray : sample).map((s) => s[0]));
+      const ciFunction = (distType === "Z") ? jStat.normalci : jStat.tci;
       const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
       const sampleObject = {
         data: sample,
@@ -85,7 +85,7 @@ export default function CISimulation({ popType, populationSize }) {
             popArray={popArray}
             popMean={populationMean(popArray)}
             sampled={displaySample}  // most recent sample data
-            distType={popType}
+            popType={popType}
           />
           <p>Try drawing some samples and calculating means</p>
           <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>

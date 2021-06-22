@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card, CardText } from 'reactstrap';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function SimBarOption({ section, setSection }) {
   return (
@@ -14,6 +14,6 @@ export default function SimBarOption({ section, setSection }) {
 }
 SimBarOption.propTypes = {
 
-  setSection : PropTypes.func, 
+  setSection : PropTypes.func,
   section : PropTypes.object,
 }

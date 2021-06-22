@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Highcharts from 'highcharts';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 class SampleMeanChart extends Component {

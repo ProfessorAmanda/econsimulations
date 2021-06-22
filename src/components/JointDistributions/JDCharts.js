@@ -11,7 +11,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import { Row, Col } from 'reactstrap';
 import JointChart from "./JointChart.js";
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function JDCharts({ parentData, childData, jointData }) {
   // these functions synchronize the plots - all three corresponding data points increase in size on mouse over

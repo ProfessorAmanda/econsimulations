@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import {Button, Input } from 'reactstrap';
 import { mean } from "mathjs";
 import _ from "lodash";
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function SampleMeansSimulator({ setSampleSize, clear, population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);

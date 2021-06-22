@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import Label from 'highcharts/modules/series-label';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 Label(Highcharts);
 
 
-export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel }) {
+export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
         startOnTick: true,
         endOnTick: true,
         title: {
-          text: yLabel
+          text: "Count"
         }
       },
       series: series.map((seriesObject) => (
@@ -62,7 +62,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
       )
     }
     setChart(newChart);
-  }, [series, title, xMin, xMax, yMax, xLabel, yLabel]);
+  }, [series, title, xMin, xMax, yMax, xLabel]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
