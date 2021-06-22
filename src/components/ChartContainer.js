@@ -18,7 +18,7 @@ import DotPlot from './DotPlot';
 import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import _ from "lodash";
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 const values = {
   Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -98,9 +98,9 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
 ChartContainer.propTypes = {
 
   popArray : PropTypes.array ,
-  popMean : PropTypes.number, 
-  sampled : PropTypes.array, 
-  sampleMean : PropTypes.number, 
+  popMean : PropTypes.number,
+  sampled : PropTypes.array,
+  sampleMean : PropTypes.number,
   popType : PropTypes.string,
 
 }

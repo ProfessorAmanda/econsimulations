@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
 import SelectorButtonGroup from "../SelectorButtonGroup.js";
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function ConfidenceInputs({ distType, setDistType, confLevel, setConfLevel }) {
 

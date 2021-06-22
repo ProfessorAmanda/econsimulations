@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import {Button, Input } from 'reactstrap';
 import { mean } from "mathjs";
 import _ from "lodash";
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 import { propTypes } from "react-addons-pure-render-mixin";
 
 export default function SampleMeansSimulator({ setSampleSize, clear, population, addSamples }) {
@@ -70,9 +70,8 @@ export default function SampleMeansSimulator({ setSampleSize, clear, population,
 }
 
 SampleMeansSimulator.propTypes = {
-  setSampleSize : PropTypes.func, 
-  clear : PropTypes.func, 
-  population: PropTypes.array, 
+  setSampleSize : PropTypes.func,
+  clear : PropTypes.func,
+  population: PropTypes.array,
   addSamples:  PropTypes.func,
 }
-

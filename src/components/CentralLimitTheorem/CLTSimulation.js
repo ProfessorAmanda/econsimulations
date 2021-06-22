@@ -18,7 +18,7 @@ import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
 import SampleSizeInput from '../SampleSizeInput.js';
 import SampleMeansTable from './SampleMeansTable.js';
 import _ from "lodash";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const numberResamples = {
   "Normal": 0,

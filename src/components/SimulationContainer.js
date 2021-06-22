@@ -16,7 +16,7 @@ import HypothesisTesting from './HypothesisTesting/HypothesisTesting.js';
 import StartHere from './StartHere';
 import { Button } from 'reactstrap';
 import LeastSquares from './LeastSquares/LeastSquares.js';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function SimulationContainer({ mode, setMode }) {
   return (

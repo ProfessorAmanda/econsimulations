@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function LeastSquaresChart({ dataPoints, naiveLine, correctedLine }) {
 
@@ -68,7 +68,7 @@ export default function LeastSquaresChart({ dataPoints, naiveLine, correctedLine
 
 LeastSquaresChart.propTypes = {
 
-  dataPoints : PropTypes.array, 
-  naiveLine: PropTypes.array, 
+  dataPoints : PropTypes.array,
+  naiveLine: PropTypes.array,
   correctedLine: PropTypes.array,
 }
