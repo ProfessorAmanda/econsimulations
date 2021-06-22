@@ -10,7 +10,7 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 import { round } from "mathjs";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function SampleMeansTable({ sampleMeans }) {
   const tableBody = sampleMeans.map((mean, index) =>

@@ -1,11 +1,8 @@
 import React from "react";
 import { Table } from "reactstrap";
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function SamplesTable({ samples, setSelected }) {
-
-  console.log(samples.length);
-  console.log(samples.filter((s) => s.id));
 
   return (
     <div style={{ height: 500, overflow: "auto", marginTop: -50 }}>
@@ -37,7 +34,7 @@ export default function SamplesTable({ samples, setSelected }) {
               <td>{sampleObject.lowerConf}</td>
               <td>{sampleObject.upperConf}</td>
               <td>{sampleObject.confidenceLevel}</td>
-              <td>{sampleObject.distribution.toUpperCase()}</td>
+              <td>{sampleObject.distribution}</td>
             </tr>
           )}
         </tbody>
@@ -47,7 +44,7 @@ export default function SamplesTable({ samples, setSelected }) {
 }
 SamplesTable.propTypes = {
 
-  samples : PropTypes.array, 
+  samples : PropTypes.array,
   setSelected : PropTypes.func,
 
 

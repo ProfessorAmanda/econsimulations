@@ -14,7 +14,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import 'highcharts/modules/annotations';
 import { abs } from "mathjs";
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
