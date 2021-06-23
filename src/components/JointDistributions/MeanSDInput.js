@@ -2,19 +2,13 @@
 
   Displays sliders for the user to adjust the mean and standard deviation
 
-  props:
-    title   - string
-    mean    - float
-    setMean - callback
-    sd      - float
-    setSD   - callback
-
 */
 import React from 'react';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { stringOrNumberType } from '../../lib/types.js';
 
-export default function MeanSDInput({ title, mean, setMean, sd, setSD}){
+export default function MeanSDInput({ title, mean, setMean, sd, setSD }){
   return (
     <div>
       <p> Choose the Mean and Standard Deviation for {title} Height </p>
@@ -37,8 +31,8 @@ export default function MeanSDInput({ title, mean, setMean, sd, setSD}){
 
 MeanSDInput.propTypes = {
   title: PropTypes.string.isRequired,
-  mean: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  mean: stringOrNumberType.isRequired,
   setMean: PropTypes.func.isRequired,
-  sd: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  sd: stringOrNumberType.isRequired,
   setSD: PropTypes.func.isRequired,
 }

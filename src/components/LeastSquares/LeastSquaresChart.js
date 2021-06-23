@@ -2,11 +2,6 @@
 
   Displays a HighCharts scatterplot for the Least Squares data points
 
-  props:
-    points         - array
-    linePoints     - array
-    setSquareAreas - callback
-
 */
 import React, { useEffect, useState } from 'react';
 import '../../styles/dark-unica.css';
@@ -15,7 +10,7 @@ import HighchartsReact from 'highcharts-react-official'
 import 'highcharts/modules/annotations';
 import { abs } from "mathjs";
 import PropTypes from 'prop-types';
-
+import { xyPointsType } from "../../lib/types.js"
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState({
@@ -149,9 +144,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
 }
 
 LeastSquaresChart.propTypes = {
-
-  points : PropTypes.array,
-  linePoints: PropTypes.array,
-  setSquareAreas : PropTypes.func,
-
+  points: xyPointsType.isRequired,
+  linePoints: xyPointsType.isRequired,
+  setSquareAreas: PropTypes.func.isRequired
 }

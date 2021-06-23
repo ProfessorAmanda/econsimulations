@@ -2,9 +2,6 @@
 
   A container component that holds the description and simulation for Least Squares
 
-  props:
-    none
-
 */
 import React from "react";
 import LeastSquaresSimulation from "./LeastSquaresSimulation";

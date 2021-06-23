@@ -1,5 +1,6 @@
 import React from "react";
 import { ButtonGroup, Button } from "reactstrap";
+import PropTypes from "prop-types";
 
 export default function SelectorButtonGroup({ options, select, selected }) {
   const buttons = options.map((option) =>
@@ -17,4 +18,10 @@ export default function SelectorButtonGroup({ options, select, selected }) {
       {buttons}
     </ButtonGroup>
   )
+}
+
+SelectorButtonGroup.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  select: PropTypes.func.isRequired,
+  selected: PropTypes.string
 }

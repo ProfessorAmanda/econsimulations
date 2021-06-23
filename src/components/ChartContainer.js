@@ -4,14 +4,7 @@
 
   Used by Law of Large Numbers and Central Limit Theorem
 
-  props:
-    popArray   - array
-    popMean    - float
-    sampled    - array
-    popType    - string
-    sampleSize - int
 */
-
 import React from 'react';
 import '../styles/dark-unica.css';
 import DotPlot from './DotPlot';
@@ -19,6 +12,7 @@ import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import _ from "lodash";
 import PropTypes from 'prop-types';
+import { popArrayType, popShapeType } from '../lib/types';
 
 const values = {
   Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -36,8 +30,8 @@ const texts = {
   Mystery: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
 }
 
-export default function ChartContainer({ popArray, popMean, sampled, sampleMean, popType }) {
-  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popType];
+export default function ChartContainer({ popArray, popMean, sampled, sampleMean, popShape }) {
+  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popShape];
 
   const series = [
     {
@@ -67,9 +61,9 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
       <Container fluid style={{marginBottom: "2vh"}}>
         <Row>
           <Alert color="secondary" className="Center">
-            {(popType !== "Uniform") ? (
+            {(popShape !== "Uniform") ? (
               <p>
-                We queried the {texts[popType][0]} of {popArray.length} {texts[popType][1]} and plotted the results on the following chart.
+                We queried the {texts[popShape][0]} of {popArray.length} {texts[popShape][1]} and plotted the results on the following chart.
               </p>
             ) : (
               <p>
@@ -83,7 +77,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
             <PopTable
               popArray={popArray}
               sampleIDs={sampled.map((obj) => obj.id)}
-              popShape={popType}
+              popShape={popShape}
             />
           </Col>
           <Col lg={10}>
@@ -103,11 +97,9 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
 }
 
 ChartContainer.propTypes = {
-
-  popArray : PropTypes.array ,
-  popMean : PropTypes.number,
-  sampled : PropTypes.array,
-  sampleMean : PropTypes.number,
-  popType : PropTypes.string,
-
+  popArray: popArrayType.isRequired,
+  popMean: PropTypes.number.isRequired,
+  sampled: popArrayType.isRequired,
+  sampleMean: PropTypes.number,
+  popShape: popShapeType.isRequired,
 }

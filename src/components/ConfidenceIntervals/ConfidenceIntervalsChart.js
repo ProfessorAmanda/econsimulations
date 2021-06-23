@@ -6,6 +6,7 @@ import _ from "lodash";
 import More from "highcharts/highcharts-more";
 import { max } from "mathjs";
 import PropTypes from 'prop-types';
+import { confidenceIntervalsSampleType, popShapeType } from "../../lib/types.js";
 
 More(Highcharts);
 
@@ -16,11 +17,11 @@ const values = {
   "Chi-Squared": {xmaxval: 25, xminval: 0, title: "Money Spent on Lunch", xLabel: "Dollars"}
   }
 
-export default function ConfidenceIntervalsChart({ confidenceLevel, samples, popType, popMean, selected, setSelected }) {
+export default function ConfidenceIntervalsChart({ confidenceLevel, samples, popShape, popMean, selected, setSelected }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
-    const { xmaxval, xminval, title, xLabel } = values[popType];
+    const { xmaxval, xminval, title, xLabel } = values[popShape];
 
     const sampleMeans = [];
     const containsMean = [];
@@ -203,16 +204,14 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       ]
     }
     setChart(newChart);
-  }, [confidenceLevel, samples, popType, popMean, setSelected]);
-
-  const sample = selected || samples[samples.length - 1];
+  }, [confidenceLevel, samples, popShape, popMean, setSelected]);
 
   return (
     <div>
       {
-        sample ? (
-          <Alert color={sample.label ? "success" : "danger"} className="Center">
-            Sample number {sample.id} has a mean of {sample.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(sample.lowerConf, 2)}, {_.round(sample.upperConf, 2)}). CI contains the population mean? {sample.label.toString()}
+        selected ? (
+          <Alert color={selected.label ? "success" : "danger"} className="Center">
+            Sample number {selected.id} has a mean of {selected.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(selected.lowerConf, 2)}, {_.round(selected.upperConf, 2)}). CI contains the population mean? {selected.label.toString()}
           </Alert>
         ) : <div style={{height: 80}}/>
       }
@@ -220,12 +219,12 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
     </div>
   );
 }
-ConfidenceIntervalsChart.propTypes = {
 
-  confidenceLevel : PropTypes.number,
-  samples : PropTypes.array ,
-  popType : PropTypes.string,
-  popMean : PropTypes.number,
-  selected : PropTypes.string,
-  setSelected : PropTypes.func,
+ConfidenceIntervalsChart.propTypes = {
+  confidenceLevel: PropTypes.number.isRequired,
+  samples: PropTypes.arrayOf(confidenceIntervalsSampleType).isRequired,
+  popShape: popShapeType.isRequired,
+  popMean: PropTypes.number.isRequired,
+  selected: confidenceIntervalsSampleType,
+  setSelected: PropTypes.func.isRequired,
 }

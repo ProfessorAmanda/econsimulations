@@ -3,15 +3,12 @@
   A container component to hold the three charts for the Joint Distribution simulation
   Note that Nivo is used for these plots instead of HighCharts - easier to synchronize
 
-  props:
-    parentData, childData, jointData - array[Object{x, y}]
-
 */
 import React, { useState, useCallback, useMemo } from "react";
 import { Row, Col } from 'reactstrap';
 import JointChart from "./JointChart.js";
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
-import PropTypes from 'prop-types';
+import { xyPointsType } from "../../lib/types.js";
 
 export default function JDCharts({ parentData, childData, jointData }) {
   // these functions synchronize the plots - all three corresponding data points increase in size on mouse over
@@ -82,8 +79,9 @@ export default function JDCharts({ parentData, childData, jointData }) {
     </Row>
   )
 }
+
 JDCharts.propTypes = {
-  parentData: PropTypes.arrayOf(PropTypes.object),
-  childData: PropTypes.arrayOf(PropTypes.object),
-  jointData: PropTypes.arrayOf(PropTypes.object),
+  parentData: xyPointsType.isRequired,
+  childData: xyPointsType.isRequired,
+  jointData: xyPointsType.isRequired,
 }
