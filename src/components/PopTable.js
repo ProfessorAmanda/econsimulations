@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "reactstrap";
 import PropTypes from "prop-types";
-import { popArrayType } from "../lib/types";
+import { dataArrayType } from "../lib/types";
 
 export default function PopTable({ popArray, sampleIDs, popShape }) {
   const rows = popArray.map(({ x, id }) => {
@@ -37,7 +37,7 @@ export default function PopTable({ popArray, sampleIDs, popShape }) {
 }
 
 PopTable.propTypes = {
-  popArray: popArrayType.isRequired,
+  popArray: dataArrayType.isRequired,
   sampleIDs: PropTypes.arrayOf(PropTypes.number).isRequired,
   popShape: PropTypes.string.isRequired
 }

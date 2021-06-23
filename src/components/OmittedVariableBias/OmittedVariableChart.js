@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types';
-import { popArrayType } from '../../lib/types.js';
+import { dataArrayType } from '../../lib/types.js';
 
 export default function OmittedVariableChart({ dataPoints, naiveLine, correctedLine }) {
   const [myChart, setMyChart] = useState({});
@@ -69,7 +69,7 @@ export default function OmittedVariableChart({ dataPoints, naiveLine, correctedL
 }
 
 OmittedVariableChart.propTypes = {
-  dataPoints: popArrayType.isRequired,
+  dataPoints: dataArrayType.isRequired,
   naiveLine: PropTypes.arrayOf(PropTypes.number),
   correctedLine: PropTypes.arrayOf(PropTypes.number)
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Input, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { popArrayType } from "../../lib/types.js";
+import { dataArrayType } from "../../lib/types.js";
 
 export default function ManySamplesInput({ population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -45,6 +45,6 @@ export default function ManySamplesInput({ population, addSamples }) {
 }
 
 ManySamplesInput.propTypes = {
-  population: popArrayType.isRequired,
+  population: dataArrayType.isRequired,
   addSamples: PropTypes.func.isRequired,
 }

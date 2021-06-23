@@ -6,7 +6,7 @@ import { Collapse, Card, CardBody } from 'reactstrap';
 import '../../styles/dark-unica.css';
 import _ from "lodash";
 import PropTypes from 'prop-types';
-import { popArrayType, popShapeType } from '../../lib/types.js';
+import { dataArrayType, popShapeType } from '../../lib/types.js';
 
 export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
@@ -112,6 +112,6 @@ export default function SimulateSamples({ type, popArray, popMean }) {
 
 SimulateSamples.propTypes = {
   type: popShapeType.isRequired,
-  popArray: popArrayType.isRequired,
+  popArray: dataArrayType.isRequired,
   popMean: PropTypes.number.isRequired,
 }

@@ -8,12 +8,18 @@ export const popShapeType = PropTypes.oneOf([
   "Mystery"
 ]);
 
-export const popArrayType = PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number));
+export const dataArrayType = PropTypes.arrayOf(
+  PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    id: PropTypes.number
+  })
+);
 
 export const highchartsSeriesType = PropTypes.arrayOf(
   PropTypes.shape({
     name: PropTypes.string.isRequired,
-    data: popArrayType.isRequired,
+    data: dataArrayType.isRequired,
     type: PropTypes.string,
     color: PropTypes.string,
     enableMouseTracking: PropTypes.bool,
@@ -23,15 +29,8 @@ export const highchartsSeriesType = PropTypes.arrayOf(
   })
 );
 
-export const xyPointsType = PropTypes.arrayOf(
-  PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  })
-);
-
 export const confidenceIntervalsSampleType = PropTypes.shape({
-  data: popArrayType.isRequired,
+  data: dataArrayType.isRequired,
   size: PropTypes.number.isRequired,
   mean: PropTypes.number.isRequired,
   lowerConf: PropTypes.number.isRequired,

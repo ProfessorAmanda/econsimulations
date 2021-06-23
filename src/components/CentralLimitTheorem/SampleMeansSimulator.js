@@ -8,7 +8,7 @@ import {Button, Input } from 'reactstrap';
 import { mean } from "mathjs";
 import _ from "lodash";
 import PropTypes from 'prop-types';
-import { popArrayType } from "../../lib/types.js";
+import { dataArrayType } from "../../lib/types.js";
 
 export default function SampleMeansSimulator({ setSampleSize, population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -65,6 +65,6 @@ export default function SampleMeansSimulator({ setSampleSize, population, addSam
 
 SampleMeansSimulator.propTypes = {
   setSampleSize: PropTypes.func.isRequired,
-  population: popArrayType.isRequired,
+  population: dataArrayType.isRequired,
   addSamples: PropTypes.func.isRequired,
 }

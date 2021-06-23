@@ -8,7 +8,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import { Row, Col } from 'reactstrap';
 import JointChart from "./JointChart.js";
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";
-import { xyPointsType } from "../../lib/types.js";
+import { dataArrayType } from "../../lib/types.js";
 
 export default function JDCharts({ parentData, childData, jointData }) {
   // these functions synchronize the plots - all three corresponding data points increase in size on mouse over
@@ -81,7 +81,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
 }
 
 JDCharts.propTypes = {
-  parentData: xyPointsType.isRequired,
-  childData: xyPointsType.isRequired,
-  jointData: xyPointsType.isRequired,
+  parentData: dataArrayType.isRequired,
+  childData: dataArrayType.isRequired,
+  jointData: dataArrayType.isRequired,
 }
