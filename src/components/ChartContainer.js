@@ -67,16 +67,23 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
       <Container fluid style={{marginBottom: "2vh"}}>
         <Row>
           <Alert color="secondary" className="Center">
-            {popType !== "Uniform" && <p>We queried the {texts[popType][0]} of {popArray.length} {texts[popType][1]} and plotted the results on the following chart.</p>}
-            {popType === "Uniform" && <p>Behavioral economists studying loss aversion design a lottery among 2000 participants where each amount between -10 and +10 is equally likely.  We plotted the winnings and losses below.</p>}
+            {(popType !== "Uniform") ? (
+              <p>
+                We queried the {texts[popType][0]} of {popArray.length} {texts[popType][1]} and plotted the results on the following chart.
+              </p>
+            ) : (
+              <p>
+                Behavioral economists studying loss aversion design a lottery among 2000 participants where each amount between -10 and +10 is equally likely.  We plotted the winnings and losses below.
+              </p>
+            )}
           </Alert>
         </Row>
         <Row>
           <Col lg={2} md={12}>
             <PopTable
-              samples={sampled}
               popArray={popArray}
-              popType={popType}
+              sampleIDs={sampled.map((obj) => obj.id)}
+              popShape={popType}
             />
           </Col>
           <Col lg={10}>

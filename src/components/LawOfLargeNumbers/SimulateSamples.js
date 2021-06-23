@@ -89,7 +89,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
       if (n >= 1000) {
         clearInterval(timer)
       }
-      const sample = _.sampleSize(popArray, n).map(p => p[0]);
+      const sample = _.sampleSize(popArray, n).map(p => p.x);
       const avg = _.round(mean(sample), 2);
       setSampled(sampled => [...sampled, {y: avg}]);
       setMeanLine(meanLine => [...meanLine, {y: popMean}]);

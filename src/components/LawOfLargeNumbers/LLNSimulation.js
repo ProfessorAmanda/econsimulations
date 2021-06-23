@@ -15,7 +15,6 @@ import SimulateSamples from './SimulateSamples.js';
 import { Alert } from 'reactstrap';
 import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
 import _ from "lodash";
-import { round } from "mathjs";
 import PropTypes from 'prop-types';
 
 export default function LLNSimulation({ popType, sampleSize }) {
@@ -49,13 +48,6 @@ export default function LLNSimulation({ popType, sampleSize }) {
     setStage(2);
   }
 
-  const differenceOfMeans = () => {
-    const diff = (
-      round((popMean - sampleMean) * 100) / 100) === 0 ? 0 :
-      round((popMean - sampleMean) * 100) / 100 || '';
-    return diff;
-  }
-
   return (
     <Collapsable>
       <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} sampleMean={sampleMean} popType={popType}/>
@@ -66,7 +58,7 @@ export default function LLNSimulation({ popType, sampleSize }) {
           <Alert color="success" style={{ padding: 0, marginTop: '1em' }}>
             Sample Mean: {_.round(sampleMean, 2) || ''}
             <br/>
-            Difference of Means: {differenceOfMeans()}
+            Difference of Means: {_.round(popMean - sampleMean, 2)}
           </Alert>
           <Alert color="info">
             According to the law, the average of the results obtained from a large enough sample should be close to the total average of the population, and will tend to become closer the larger the sample is. Make sure to pick several samples, or see below for a simulation to see the law in action.

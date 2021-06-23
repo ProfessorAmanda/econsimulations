@@ -10,10 +10,10 @@ export const generateNormal = (sampleSize, mean, standardDev) => {
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push({x: +amt, y: i})
     }
   });
-  return _.shuffle(popArray);
+  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
 }
 
 // generates a dataset with uniform distribution
@@ -24,10 +24,10 @@ export const generateUniform = (sampleSize, low, hi) => {
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push({x: +amt, y: i})
     }
   });
-  return _.shuffle(popArray);
+  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
 }
 
 // generates a dataset with exponential distribution
@@ -38,10 +38,10 @@ export const generateExponential = (sampleSize, lambda) => {
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push({x: +amt, y: i})
     }
   });
-  return _.shuffle(popArray);
+  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
 }
 
 // generates a dataset with chi-squared distribution
@@ -52,10 +52,10 @@ export const generateChiSquared = (sampleSize, degreesOfFreedom) => {
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push({x: +amt, y: i})
     }
   });
-  return _.shuffle(popArray);
+  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
 }
 
 // generates a dataset with 'mystery' distribution
@@ -118,11 +118,6 @@ export const generateMystery = (sampleSize) => {
       }
       popArray.push(round((sum / secondITERATES)*100)/100)
   }
-  if(clearedArray.length > 0){
-    var tempCleared = clearedArray;
-    tempCleared = newCleared;
-    this.setState({clearedArray : tempCleared});
-  }
 
   const finalPopArray = [];
 
@@ -138,14 +133,15 @@ export const generateMystery = (sampleSize) => {
           count[round(val * 10)] = 1;
       }
 
-      finalPopArray.push([(round(val * 10)/10), count[round(val * 10)] ])
+      finalPopArray.push({x: +(round(val * 10)/10), y: count[round(val * 10)]})
   }
 
-  return _.shuffle(finalPopArray);
+  return _.shuffle(finalPopArray).map((obj, index) => ({...obj, id: index}));
 }
 
 
 // returns the data set from the function corresponding with distType
+// objects in array are of shape {x, y, id}
 export const dataFromDistribution = (
     distType,
     sampleSize,
@@ -172,5 +168,5 @@ export const dataFromDistribution = (
 
 // returns the mean of popArray
 export const populationMean = (popArray) => {
-  return (popArray.length > 0) ? mean(popArray.map(p => p[0])) : undefined;
+  return (popArray.length > 0) ? mean(popArray.map(p => p.x)) : undefined;
 }
