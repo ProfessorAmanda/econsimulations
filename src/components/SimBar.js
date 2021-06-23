@@ -4,11 +4,6 @@
 
 */
 import React from 'react';
-import clt from '../images/clt.png';
-import lln from '../images/lln.png';
-import jd from '../images/jd.jpg';
-import ls from '../images/ls.png';
-import ovs from '../images/ovs.png';
 import SimBarOption from './SimBarOption';
 import PropTypes from 'prop-types'
 

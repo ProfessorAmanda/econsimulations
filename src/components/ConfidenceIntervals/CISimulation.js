@@ -104,8 +104,8 @@ export default function CISimulation({ popShape, populationSize }) {
           <PopulationChart
             popArray={popArray}
             popMean={populationMean(popArray)}
-            sampled={displaySample}  // most recent sample data
-            popType={popType}
+            sampled={selected ? selected.data : []}  // most recent sample data
+            popShape={popShape}
           />
           <p>Try drawing some samples and calculating means</p>
           <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
@@ -114,7 +114,7 @@ export default function CISimulation({ popShape, populationSize }) {
           <ConfidenceIntervalsChart
             confidenceLevel={confLevel}
             samples={samples}
-            popType={popType}
+            popShape={popShape}
             popMean={_.round(populationMean(popArray))}
             selected={selected}
             setSelected={setSelected}
@@ -126,7 +126,6 @@ export default function CISimulation({ popShape, populationSize }) {
           <ManySamplesInput
             population={popArray}
             addSamples={generateSamples}
-            clear={clear}
           />
         </Col>
         <Col lg={12} xl={7}>

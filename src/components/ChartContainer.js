@@ -67,10 +67,10 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
         </Row>
         <Row>
           <Col lg={2} md={12}>
-            <PopTable
+            <PopTable  // TODO: fix PopTable
               samples={sampled}
               popArray={popArray}
-              popType={popType}
+              popShape={popShape}
             />
           </Col>
           <Col lg={10}>
