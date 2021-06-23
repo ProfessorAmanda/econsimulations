@@ -128,11 +128,11 @@ export default function OVBSimulation() {
       </Row>
       <br/>
       <Row lg={2} sm={1}>
-        <Col style={{margin: "auto"}}>
+        <Col style={{margin: "auto", padding: 10}}>
           <CoefficientInput beta={beta} setBeta={setBeta} delta={delta} setDelta={setDelta}/>
         </Col>
         <Col>
-          <p>Set the Correlation between Study Hours and Sleep Hours:</p>
+          <div style={{padding: 10}}>Set the Correlation between Study Hours and Sleep Hours:</div>
           <InputSlider value={correlation} min={-0.99} max={0.99} step={.01} onChange={(value) => adjustCorrelation(value)}/>
           <br/>
           <InputGroup style={{width: "fit-content", margin: "auto"}}>
@@ -148,11 +148,12 @@ export default function OVBSimulation() {
           <Button color='primary' onClick={() => generateSeries()}>Generate!</Button>
         </Col>
       </Row>
+      <br/>
       {
         (stage >= 2) &&
         <div>
           <Row>
-            <Col>
+            <Col lg={{size: 12, offset: 0}} xl={{size: 8, offset: 2}}>
               <OmittedVariableChart
                 dataPoints={allData.points}
                 naiveLine={allData.naiveLine}
