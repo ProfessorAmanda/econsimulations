@@ -147,6 +147,7 @@ export default function OVBSimulation() {
           <Button color="primary" onClick={() => generateSeries()}>Generate!</Button>
         </Col>
       </Row>
+      <br/>
       {(stage >= 2) && (
         <div>
           <Row>

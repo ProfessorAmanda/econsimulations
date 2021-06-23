@@ -7,7 +7,7 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 import { round } from "mathjs";
-import { dataArrayType } from '../../lib/types.js';
+import { dataObjectArrayType } from '../../lib/types.js';
 
 export default function SampleMeansTable({ sampleMeans }) {
   const tableBody = sampleMeans.map((mean, index) =>
@@ -35,5 +35,5 @@ export default function SampleMeansTable({ sampleMeans }) {
 }
 
 SampleMeansTable.propTypes = {
-  sampleMeans: dataArrayType.isRequired,
+  sampleMeans: dataObjectArrayType.isRequired,
 }

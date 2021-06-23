@@ -12,7 +12,7 @@ import { Alert, Container, Col, Row } from 'reactstrap';
 import PopTable from './PopTable.js'
 import _ from "lodash";
 import PropTypes from 'prop-types';
-import { dataArrayType, popShapeType } from '../lib/types';
+import { dataObjectArrayType, popShapeType } from '../lib/types';
 
 const values = {
   Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -45,7 +45,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
     {
       type: 'line',
       name: 'Sample Mean',
-      data: [[sampleMean, 0], [sampleMean, ymaxval]],
+      data: [{x: sampleMean || 0, y: 0}, {x: sampleMean || 0, y: ymaxval}],
       color: 'red',
       enableMouseTracking: false,
       showInLegend: false,
@@ -97,9 +97,9 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
 }
 
 ChartContainer.propTypes = {
-  popArray: dataArrayType.isRequired,
+  popArray: dataObjectArrayType.isRequired,
   popMean: PropTypes.number.isRequired,
-  sampled: dataArrayType.isRequired,
+  sampled: dataObjectArrayType.isRequired,
   sampleMean: PropTypes.number,
   popShape: popShapeType.isRequired,
 }

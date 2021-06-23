@@ -10,7 +10,7 @@ import HighchartsReact from 'highcharts-react-official'
 import 'highcharts/modules/annotations';
 import { abs } from "mathjs";
 import PropTypes from 'prop-types';
-import { dataArrayType } from "../../lib/types.js"
+import { dataObjectArrayType } from "../../lib/types.js"
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState({
@@ -144,7 +144,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
 }
 
 LeastSquaresChart.propTypes = {
-  points: dataArrayType.isRequired,
-  linePoints: dataArrayType.isRequired,
+  points: dataObjectArrayType.isRequired,
+  linePoints: dataObjectArrayType.isRequired,
   setSquareAreas: PropTypes.func.isRequired
 }
