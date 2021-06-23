@@ -41,3 +41,5 @@ export const confidenceIntervalsSampleType = PropTypes.shape({
   label: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired
 });
+
+export const stringOrNumberType = PropTypes.oneOfType([PropTypes.string, PropTypes.number])

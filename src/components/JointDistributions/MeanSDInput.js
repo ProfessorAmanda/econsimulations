@@ -6,6 +6,7 @@
 import React from 'react';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { stringOrNumberType } from '../../lib/types';
 
 export default function MeanSDInput({ title, mean, setMean, sd, setSD }){
   return (
@@ -30,8 +31,8 @@ export default function MeanSDInput({ title, mean, setMean, sd, setSD }){
 
 MeanSDInput.propTypes = {
   title: PropTypes.string.isRequired,
-  mean: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  mean: stringOrNumberType.isRequired,
   setMean: PropTypes.func.isRequired,
-  sd: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  sd: stringOrNumberType.isRequired,
   setSD: PropTypes.func.isRequired,
 }

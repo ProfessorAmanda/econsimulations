@@ -1,6 +1,7 @@
 import React from "react";
 import { Input, InputGroup, InputGroupAddon } from "reactstrap";
 import PropTypes from 'prop-types';
+import { stringOrNumberType } from "../lib/types";
 
 export default function InputSlider({ value, min, max, step, onChange }) {
   return (
@@ -30,7 +31,7 @@ export default function InputSlider({ value, min, max, step, onChange }) {
   );
 }
 InputSlider.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  value: stringOrNumberType.isRequired,
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
   step: PropTypes.number.isRequired,
