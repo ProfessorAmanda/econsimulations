@@ -31,3 +31,15 @@ export const xyPointsType = PropTypes.arrayOf(
     y: PropTypes.number.isRequired
   })
 );
+
+export const confidenceIntervalsSampleType = PropTypes.shape({
+  data: popArrayType.isRequired,
+  size: PropTypes.number.isRequired,
+  mean: PropTypes.number.isRequired,
+  lowerConf: PropTypes.number.isRequired,
+  upperConf: PropTypes.number.isRequired,
+  confidenceLevel: PropTypes.number.isRequired,
+  distribution: PropTypes.oneOf(["Z","T"]).isRequired,
+  label: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired
+});

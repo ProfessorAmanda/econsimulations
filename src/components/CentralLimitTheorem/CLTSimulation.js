@@ -59,8 +59,12 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
   }, [popArray, popType, mainSampleSize]);
 
   const addSampleMeans = (means) => {
-    const newSampleMeans = [...sampleMeans, ...means];
-    setSampleMeans(newSampleMeans);
+    if (!means) {  // calling addSampleMeans with no arguments clears the data
+      setSampleMeans([])
+    } else {
+      const newSampleMeans = [...sampleMeans, ...means];
+      setSampleMeans(newSampleMeans);
+    }
   }
 
   const handleClick = (size) => {
@@ -118,7 +122,6 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
                 <br/>
                 <SampleMeansSimulator
                   setSampleSize={setSampleSize}
-                  clear={() => setSampleMeans([])}
                   population={popArray}
                   addSamples={addSampleMeans}
                 />

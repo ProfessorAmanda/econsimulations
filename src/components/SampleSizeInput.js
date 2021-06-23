@@ -31,6 +31,7 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
     </InputGroup>
   );
 }
+
 SampleSizeInput.propTypes = {
   maxSize: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,

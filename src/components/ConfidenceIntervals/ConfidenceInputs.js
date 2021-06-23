@@ -5,7 +5,6 @@ import SelectorButtonGroup from "../SelectorButtonGroup.js";
 import PropTypes from 'prop-types';
 
 export default function ConfidenceInputs({ distType, setDistType, confLevel, setConfLevel }) {
-
   return (
     <div>
       <Row className="Center">
@@ -39,9 +38,8 @@ export default function ConfidenceInputs({ distType, setDistType, confLevel, set
 }
 
 ConfidenceInputs.propTypes = {
-
-  distType : PropTypes.oneOf(['z','t']),
-  setDistType : PropTypes.func,
-  confLevel : PropTypes.number,
-  setConfLevel : PropTypes.func,
+  distType: PropTypes.oneOf(["Z","T"]).isRequired,
+  setDistType: PropTypes.func.isRequired,
+  confLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  setConfLevel: PropTypes.func.isRequired,
 }
