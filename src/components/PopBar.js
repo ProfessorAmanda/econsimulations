@@ -8,8 +8,8 @@
     setPop  - callback
 */
 import React, { useState } from 'react';
-import { Button} from 'reactstrap';
 import PropTypes from 'prop-types';
+import SelectorButtonGroup from './SelectorButtonGroup';
 
 
 export default function PopBar({ sim, setPop }) {
@@ -27,16 +27,10 @@ export default function PopBar({ sim, setPop }) {
     setSelected(mode);
   }
 
-  const sections = modes.map((mode)=>
-    <Button key={mode} active={selected === mode} onClick={() => onClick(mode)}>
-      {mode}
-    </Button>
-  );
-
   return (
     <div className="buttonGroup">
       <p>Pick a Population Distribution: </p>
-      {sections}
+      <SelectorButtonGroup options={modes} select={onClick} selected={selected}/>
     </div>
   );
 }

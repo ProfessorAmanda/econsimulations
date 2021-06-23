@@ -6,7 +6,7 @@ import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
 import ManySamplesInput from "./ManySamplesInput.js";
 import SamplesTable from "./SamplesTable.js";
 import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
-import { Row, Col, Alert, Button } from "reactstrap";
+import { Row, Col, Alert } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
 import { std } from "mathjs";
@@ -100,7 +100,7 @@ export default function CISimulation({ popType, populationSize }) {
         />
       </Row>
       <br/>
-      <Row>
+      <Row md={1} lg={2}>
         <Col>
           <PopulationChart
             popArray={popArray}
@@ -123,19 +123,19 @@ export default function CISimulation({ popType, populationSize }) {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col lg={12} xl={5}>
           <ManySamplesInput
             population={popArray}
             addSamples={generateSamples}
             clear={clear}
           />
         </Col>
-        <Col>
+        <Col lg={12} xl={7}>
           <SamplesTable samples={samples} setSelected={selectPoint}/>
         </Col>
       </Row>
       <br/>
-      <Row lg="12">
+      <Row>
         {
           (samples.length > 0) &&
           <Alert color="info" style={{margin:'auto'}}>

@@ -127,7 +127,7 @@ export default function OVBSimulation() {
         <p className="Center">Choose Population Parameters:</p>
       </Row>
       <br/>
-      <Row>
+      <Row lg={2} sm={1}>
         <Col style={{margin: "auto"}}>
           <CoefficientInput beta={beta} setBeta={setBeta} delta={delta} setDelta={setDelta}/>
         </Col>

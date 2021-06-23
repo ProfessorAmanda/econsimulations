@@ -70,13 +70,13 @@ export default function JDSimulation() {
   return (
     <Container fluid>
       <Row>
-        <Col>
+        <Col xl={4} md={6} xs={12} style={{padding: 10}}>
           <MeanSDInput title="Parent" mean={parentMean} setMean={setParentMean} sd={parentSD} setSD={setParentSD}/>
         </Col>
-        <Col>
+        <Col xl={4} md={6} xs={12} style={{padding: 10}}>
           <MeanSDInput title="Child" mean={childMean} setMean={setChildMean} sd={childSD} setSD={setChildSD}/>
         </Col>
-        <Col>
+        <Col xl={4} md={12} style={{padding: 10}}>
           <p>Set the Correlation</p>
           <InputSlider value={correlation} min={-1} max={1} step={0.1} onChange={(value) => setCorrelation(value)}/>
           <p style={{ margin: "15px" }}>Covariance</p>
