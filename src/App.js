@@ -5,8 +5,7 @@ import SimulationMenu from './components/SimulationMenu.js';
 export default function App() {
 
   return (
-    <div>
-      {document.body.classList.add('Wrapper')}
+    <div className="Wrapper">
       <SimulationMenu/>
     </div>
   );

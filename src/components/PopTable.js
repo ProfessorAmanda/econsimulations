@@ -2,6 +2,7 @@ import React from "react";
 import { Table } from "reactstrap";
 import PropTypes from "prop-types";
 import { dataObjectArrayType } from "../lib/types";
+import { VALUES } from "../lib/constants.js";
 
 export default function PopTable({ popArray, sampleIDs, popShape }) {
   const rows = popArray.map(({ x, id }) => {
@@ -13,20 +14,12 @@ export default function PopTable({ popArray, sampleIDs, popShape }) {
     )}
   );
 
-  const values = {
-    Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Lottery Outcome", yLabel: "Gain/Loss", xLabel: "Participant" },
-    Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", yLabel: "Gallons", xLabel: "Cow" },
-    Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", yLabel: "Seconds", xLabel: "Call" },
-    "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", yLabel: "Dollars", xLabel: "Person" },
-    Mystery: {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Female Height", yLabel: "Height (in)", xLabel: "Female" }
-  };
-
   return (
     <Table striped className="PopTable">
       <thead>
         <tr>
-          <th>{values[popShape].xLabel}</th>
-          <th>{values[popShape].yLabel}</th>
+          <th>{VALUES[popShape].xLabel}</th>
+          <th>{VALUES[popShape].yLabel}</th>
         </tr>
       </thead>
       <tbody>

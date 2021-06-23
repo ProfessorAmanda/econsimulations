@@ -13,25 +13,10 @@ import PopTable from './PopTable.js'
 import _ from "lodash";
 import PropTypes from 'prop-types';
 import { dataObjectArrayType, popShapeType } from '../lib/types';
-
-const values = {
-  Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
-  Uniform: { xmaxval: 10, xminval: -10, ymaxval: 25, title: "Lottery Outcome", xLabel: "Dollars"},
-  Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
-  "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"},
-  Mystery: { xmaxval: 80, xminval: 50, ymaxval: 40, title:"Alien Female Height", xLabel: "Height (in)"}
-}
-
-const texts = {
-  Normal: ["monthly Milk Production", "cows","produced", " gallons a month."],
-  //Uniform: ['the wait time', 'people at the DMV in VT', "reported a total time of", " minutes."],
-  Exponential: ["duration", "Telemarketer Calls","reported a duration of", " seconds on a call."],
-  "Chi-Squared": ["expenditure", "workers on lunch","reported an expenditure of"," dollars on lunch."],
-  Mystery: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
-}
+import { TEXTS, VALUES } from '../lib/constants';
 
 export default function ChartContainer({ popArray, popMean, sampled, sampleMean, popShape }) {
-  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popShape];
+  const { xmaxval, xminval, ymaxval, title, xLabel } = VALUES[popShape];
 
   const series = [
     {
@@ -63,7 +48,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
           <Alert color="secondary" className="Center">
             {(popShape !== "Uniform") ? (
               <p>
-                We queried the {texts[popShape][0]} of {popArray.length} {texts[popShape][1]} and plotted the results on the following chart.
+                We queried the {TEXTS[popShape][0]} of {popArray.length} {TEXTS[popShape][1]} and plotted the results on the following chart.
               </p>
             ) : (
               <p>

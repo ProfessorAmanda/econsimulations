@@ -9,12 +9,6 @@ import PD from "probability-distributions";
 import _ from "lodash";
 import InputSlider from "../InputSlider.js";
 
-const meanVector = [5, 2];
-const stdX = 3;
-const stdY = 6;
-const OBS = 1000;
-const INT = 40;
-
 export default function OVBSimulation() {
   const [beta, setBeta] = useState(3);
   const [delta, setDelta] = useState(3);
@@ -38,6 +32,10 @@ export default function OVBSimulation() {
     }
   }, [allData]);
 
+  const stdX = 3;
+  const stdY = 6;
+  const OBS = 1000;
+
   const generatePoints = (slope, int) => {
     const points = [];
 
@@ -57,7 +55,7 @@ export default function OVBSimulation() {
     ];
 
     // lets you sample from distribution
-    const distribution = MultivariateNormal(meanVector, covarianceMatrix);
+    const distribution = MultivariateNormal([5, 2], covarianceMatrix);
     const seriesArr = []
 
     // samples 1000
@@ -69,6 +67,7 @@ export default function OVBSimulation() {
     setSeries(seriesArr);
   }
 
+  // TODO - simplify this
   const generateData = () => {
 
     // generate epsilon
@@ -82,7 +81,7 @@ export default function OVBSimulation() {
     // generate test score data
     const scores = [];
     for(let i=0;i<OBS;i++){
-      const scorePoint = INT + beta * series[i][0] + delta * series[i][1] + epsilon[i];
+      const scorePoint = 40 + beta * series[i][0] + delta * series[i][1] + epsilon[i];
       scores.push(round(scorePoint*100)/100);
       ones.push(1);
       colOne.push(series[i][0]);

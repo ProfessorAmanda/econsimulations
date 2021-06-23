@@ -4,24 +4,10 @@ import { Alert, Container } from "reactstrap";
 import _ from "lodash";
 import PropTypes from 'prop-types';
 import { dataObjectArrayType, popShapeType } from "../../lib/types.js";
+import { TEXTS_ALT, VALUES_ALT } from "../../lib/constants.js";
 
 export default function PopulationChart({ popArray, popMean, sampled, popShape }) {
-
-  const values = {
-    Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
-    Uniform: { xmaxval: 74, xminval: 56, ymaxval: 25, title: "Alien Female Height", xLabel: "Height (in)"},
-    Exponential: { xmaxval: 400, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
-    "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 40, title: "Money Spent on Lunch", xLabel: "Dollars"}
-  }
-
-  const texts = {
-    Normal: ["monthly Milk Production", "cows"],
-    Uniform: ['the height', 'Alien Females from planet Stata'],
-    Exponential: ["duration", "Telemarketer Calls"],
-    "Chi-Squared": ["expenditure", "workers on lunch"]
-  }
-
-  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popShape];
+  const { xmaxval, xminval, ymaxval, title, xLabel } = VALUES_ALT[popShape];
 
   const series = [
     {
@@ -37,7 +23,7 @@ export default function PopulationChart({ popArray, popMean, sampled, popShape }
   return (
     <Container fluid>
       <Alert color="secondary" className="Center">
-        We queried the {texts[popShape][0]} of {popArray.length} {texts[popShape][1]} and plotted the results on the following chart.
+        We queried the {TEXTS_ALT[popShape][0]} of {popArray.length} {TEXTS_ALT[popShape][1]} and plotted the results on the following chart.
       </Alert>
       <DotPlot
         series={series}

@@ -17,21 +17,6 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { popShapeType } from "../../lib/types.js";
 
-const numberResamples = {
-  "Normal": 0,
-  "Uniform": 0,
-  "Exponential": 0,
-  "Chi-Squared": 0,
-  "Mystery": 0
-}
-const resampleSize = {
-  "Normal": 0,
-  "Uniform": 0,
-  "Exponential": 0,
-  "Chi-Squared": 0,
-  "Mystery": 0
-}
-
 export default function CLTSimulation({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampled, setSampled] = useState([]);
@@ -99,8 +84,6 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
                     Convert to Std. Normal
                 </Button>
                 <SampleMeanChart  // TODO: update this
-                  numberResamples={numberResamples}
-                  resampleSize={resampleSize[popShape]}
                   mean={popMean}
                   sd={std(xvalue)}
                   normalized={standardNormal}

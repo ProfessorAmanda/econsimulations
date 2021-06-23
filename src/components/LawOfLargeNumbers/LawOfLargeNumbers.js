@@ -7,8 +7,7 @@ import React, { useState } from 'react';
 import PopBar from '../PopBar.js';
 import { Alert } from 'reactstrap';
 import LLNSimulation from './LLNSimulation.js';
-
-const SAMPLE_SIZE = 2000;
+import { SAMPLE_SIZE } from '../../lib/constants.js';
 
 export default function LawOfLargeNumbers() {
   const [popShape, setPopType] = useState("");

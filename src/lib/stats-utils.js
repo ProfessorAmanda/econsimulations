@@ -3,7 +3,7 @@ import PD from "probability-distributions";
 import _ from "lodash";
 
 // generates a dataset with normal distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateNormal = (sampleSize, mean, standardDev) => {
   const population = PD.rnorm(sampleSize, mean, standardDev).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
@@ -17,7 +17,7 @@ export const generateNormal = (sampleSize, mean, standardDev) => {
 }
 
 // generates a dataset with uniform distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateUniform = (sampleSize, low, hi) => {
   const population = PD.runif(sampleSize, low, hi).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
@@ -31,7 +31,7 @@ export const generateUniform = (sampleSize, low, hi) => {
 }
 
 // generates a dataset with exponential distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateExponential = (sampleSize, lambda) => {
   const population = PD.rexp(sampleSize, lambda).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
@@ -45,7 +45,7 @@ export const generateExponential = (sampleSize, lambda) => {
 }
 
 // generates a dataset with chi-squared distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateChiSquared = (sampleSize, degreesOfFreedom) => {
   const population = PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
@@ -59,7 +59,7 @@ export const generateChiSquared = (sampleSize, degreesOfFreedom) => {
 }
 
 // generates a dataset with 'mystery' distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateMystery = (sampleSize) => {
 
   const popArray = [];
