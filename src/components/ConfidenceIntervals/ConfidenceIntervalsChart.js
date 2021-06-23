@@ -6,7 +6,7 @@ import _ from "lodash";
 import More from "highcharts/highcharts-more";
 import { max } from "mathjs";
 import PropTypes from 'prop-types';
-import { confidenceIntervalsSampleType, popShapeType } from "../../lib/types";
+import { confidenceIntervalsSampleType, popShapeType } from "../../lib/types.js";
 
 More(Highcharts);
 

@@ -3,7 +3,7 @@ import DotPlot from "../DotPlot";
 import { Alert, Container } from "reactstrap";
 import _ from "lodash";
 import PropTypes from 'prop-types';
-import { popArrayType, popShapeType } from "../../lib/types";
+import { popArrayType, popShapeType } from "../../lib/types.js";
 
 export default function PopulationChart({ popArray, popMean, sampled, popShape }) {
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "reactstrap";
 import PropTypes from 'prop-types';
-import { confidenceIntervalsSampleType } from "../../lib/types";
+import { confidenceIntervalsSampleType } from "../../lib/types.js";
 
 export default function SamplesTable({ samples, setSelected }) {
 
