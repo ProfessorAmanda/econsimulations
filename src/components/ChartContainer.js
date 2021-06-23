@@ -65,25 +65,25 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
             {popShape === "Uniform" && <p>Behavioral economists studying loss aversion design a lottery among 2000 participants where each amount between -10 and +10 is equally likely.  We plotted the winnings and losses below.</p>}
           </Alert>
         </Row>
-          <Row >
-            <Col lg="2">
-              <PopTable  // TODO: fix PopTable
-                samples={sampled}
-                popArray={popArray}
-                popShape={popShape}
-              />
-            </Col>
-            <Col lg="8">
-              <DotPlot
-                series={series}
-                title={`${title} <br /> Population Mean: ${_.round(popMean, 2)}`}
-                xMin={xminval}
-                xMax={xmaxval}
-                yMax={ymaxval}
-                xLabel={xLabel}
-              />
-            </Col>
-          </Row>
+        <Row>
+          <Col lg={2} md={12}>
+            <PopTable
+              samples={sampled}
+              popArray={popArray}
+              popType={popType}
+            />
+          </Col>
+          <Col lg={10}>
+            <DotPlot
+              series={series}
+              title={`${title} <br /> Population Mean: ${_.round(popMean, 2)}`}
+              xMin={xminval}
+              xMax={xmaxval}
+              yMax={ymaxval}
+              xLabel={xLabel}
+            />
+          </Col>
+        </Row>
       </Container>
     </div>
   );
