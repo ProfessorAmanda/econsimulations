@@ -2,10 +2,6 @@
 
   Displays one of the CLT simulations
 
-  props:
-    popType        - string
-    mainSampleSize - int
-
 */
 import React, { useState, useEffect } from 'react';
 import Collapsable from '../Collapsable.js';
@@ -19,6 +15,7 @@ import SampleSizeInput from '../SampleSizeInput.js';
 import SampleMeansTable from './SampleMeansTable.js';
 import _ from "lodash";
 import PropTypes from 'prop-types';
+import { popShapeType } from '../../lib/types.js';
 
 const numberResamples = {
   "Normal": 0,
@@ -35,7 +32,7 @@ const resampleSize = {
   "Mystery": 0
 }
 
-export default function CLTSimulation({ popType, mainSampleSize }) {
+export default function CLTSimulation({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampled, setSampled] = useState([]);
   const [sampleSize, setSampleSize] = useState(mainSampleSize);
@@ -49,21 +46,25 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
     setPopArray([]);
     setSampled([]);
     setSampleMeans([]);
-  }, [popType]);
+  }, [popShape]);
 
   // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
   useEffect(() => {
     if (popArray.length === 0) {
-      const newPop = dataFromDistribution(popType, mainSampleSize);
+      const newPop = dataFromDistribution(popShape, mainSampleSize);
       setPopArray(newPop);
       const newMean = populationMean(newPop);
       setPopMean(newMean);
     }
-  }, [popArray, popType, mainSampleSize]);
+  }, [popArray, popShape, mainSampleSize]);
 
   const addSampleMeans = (means) => {
-    const newSampleMeans = [...sampleMeans, ...means];
-    setSampleMeans(newSampleMeans);
+    if (!means) {  // calling addSampleMeans with no arguments clears the data
+      setSampleMeans([])
+    } else {
+      const newSampleMeans = [...sampleMeans, ...means];
+      setSampleMeans(newSampleMeans);
+    }
   }
 
   const handleClick = (size) => {
@@ -76,9 +77,9 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
   const xvalue = sampled.length === 0 ? [0] : sampled.map((s) => s[0]);  // provide a placeholder value until 'sampled' is updated
 
   return (
-    <div>
-      <Collapsable>
-        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType}/>
+    <Collapsable>
+      <div>
+        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape}/>
         <Button color="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) &&
           <div>
@@ -99,12 +100,12 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
                 </Button>
                 <SampleMeanChart  // TODO: update this
                   numberResamples={numberResamples}
-                  resampleSize={resampleSize[popType]}
+                  resampleSize={resampleSize[popShape]}
                   mean={popMean}
                   sd={std(xvalue)}
                   normalized={standardNormal}
                   sampleSize={sampleSize}
-                  type={popType}
+                  type={popShape}
                   normal={standardNormal}
                   sampleMeans={sampleMeans}
                 />
@@ -121,7 +122,6 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
                 <br/>
                 <SampleMeansSimulator
                   setSampleSize={setSampleSize}
-                  clear={() => setSampleMeans([])}
                   population={popArray}
                   addSamples={addSampleMeans}
                 />
@@ -129,14 +129,13 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
             </Row>
           </div>
         }
-      </Collapsable>
-    </div>
+
+      </div>
+    </Collapsable>
   );
 }
+
 CLTSimulation.propTypes = {
-
-  popType : PropTypes.string,
-  mainSampleSize : PropTypes.number,
-
-
+  popShape: popShapeType.isRequired,
+  mainSampleSize: PropTypes.number.isRequired,
 }

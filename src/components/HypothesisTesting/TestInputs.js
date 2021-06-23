@@ -3,7 +3,7 @@ import SelectorButtonGroup from "../SelectorButtonGroup";
 import { Row } from "reactstrap";
 import PropTypes from "prop-types";
 
-export default function TestInputs({ testType, setTestType, popType, setPopType }) {
+export default function TestInputs({ testType, setTestType, popShape, setPopType }) {
 
   return (
     <div style={{ padding: 20 }}>
@@ -16,7 +16,7 @@ export default function TestInputs({ testType, setTestType, popType, setPopType 
       <Row style={{ padding: 10 }}>
         <div>
           <div style={{ padding: 10 }}>Choose a population distribution shape:</div>
-          <SelectorButtonGroup options={["Normal", "Uniform", "Mystery", "??Unknown??"]} select={setPopType} selected={popType}/>
+          <SelectorButtonGroup options={["Normal", "Uniform", "Mystery", "??Unknown??"]} select={setPopType} selected={popShape}/>
         </div>
       </Row>
     </div>
@@ -26,6 +26,6 @@ export default function TestInputs({ testType, setTestType, popType, setPopType 
 TestInputs.propTypes = {
   testType: PropTypes.string.isRequired,
   setTestType: PropTypes.func.isRequired,
-  popType: PropTypes.string.isRequired,
+  popShape: PropTypes.string.isRequired,
   setPopType: PropTypes.func.isRequired
 }

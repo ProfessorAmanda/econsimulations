@@ -13,9 +13,9 @@ import { std } from "mathjs";
 import { jStat } from "jstat";
 import PropTypes from 'prop-types';
 import Highcharts from "highcharts";
+import { popShapeType } from "../../lib/types.js";
 
-
-export default function CISimulation({ popType, populationSize }) {
+export default function CISimulation({ popShape, populationSize }) {
   const [distType, setDistType] = useState("Z");  // can be 'Z' or 'T'
   const [confLevel, setConfLevel] = useState(95);
   const [popArray, setPopArray] = useState([]);
@@ -25,16 +25,16 @@ export default function CISimulation({ popType, populationSize }) {
   useEffect(() => {
     setPopArray([]);
     setSamples([]);
-  }, [popType]);
+  }, [popShape]);
 
   // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
   useEffect(() => {
     if (popArray.length === 0) {
       // adjust params for uniform distribution to fit example
-      const newPop = dataFromDistribution(popType, populationSize, {low: 54, hi: 74});
+      const newPop = dataFromDistribution(popShape, populationSize, {low: 54, hi: 74});
       setPopArray(newPop);
     }
-  }, [popArray, popType, populationSize]);
+  }, [popArray, popShape, populationSize]);
 
   // this is a hack to get around what I believe is a bug in highcharts
   // where a point will sometimes turn gray when selected
@@ -52,42 +52,41 @@ export default function CISimulation({ popType, populationSize }) {
 
   const generateSamples = (size, replications=1) => {
     unselect();
-    const sampleObjects = [];
-    for (let i = 0; i < replications; i++) {
-      const sample = _.sampleSize(popArray, size);
-      const mean = _.round(populationMean(sample), 2);
-      const popMean = _.round(populationMean(popArray), 2);
-      const standardDev = std(((distType === "Z") ? popArray : sample).map((s) => s[0]));
-      const ciFunction = (distType === "Z") ? jStat.normalci : jStat.tci;
-      const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
-      const sampleObject = {
-        data: sample,
-        size: +size,
-        mean: mean,
-        lowerConf: _.round(lowerConf, 2),
-        upperConf: _.round(upperConf, 2),
-        confidenceLevel: confLevel,
-        distribution: distType,
-        label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2)),
+    if (!size) {  // calling generateSamples with no arguments clears the data
+      setSamples([]);
+      setSelected();
+    } else {
+      const sampleObjects = [];
+      for (let i = 0; i < replications; i++) {
+        const sample = _.sampleSize(popArray, size);
+        const mean = _.round(populationMean(sample), 2);
+        const popMean = _.round(populationMean(popArray), 2);
+        const standardDev = std(((distType === "Z") ? popArray : sample).map((s) => s[0]));
+        const ciFunction = (distType === "Z") ? jStat.normalci : jStat.tci;
+        const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
+        const sampleObject = {
+          data: sample,
+          size: +size,
+          mean: mean,
+          lowerConf: _.round(lowerConf, 2),
+          upperConf: _.round(upperConf, 2),
+          confidenceLevel: confLevel,
+          distribution: distType,
+          label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2)),
+        }
+        sampleObjects.push(sampleObject);
       }
-      sampleObjects.push(sampleObject);
+      const newSamples = [...samples, ...sampleObjects];
+      const indexedSamples = newSamples.map((sample, index) => ({...sample, id: index + 1}))
+      setSamples(indexedSamples);
+      setSelected(indexedSamples[indexedSamples.length - 1]);
     }
-    const newSamples = [...samples, ...sampleObjects];
-    const indexedSamples = newSamples.map((sample, index) => ({...sample, id: index + 1}))
-    setSamples(indexedSamples);
-  }
-
-  const clear = () => {
-    setSamples([]);
-    setSelected();
   }
 
   const selectPoint = (point) => {
     setSelected(point);
     unselect();
   }
-
-  const displaySample = (selected && selected.data) || ((samples.length > 0) ? samples[samples.length - 1].data : []);
 
   return (
     <Collapsable>
@@ -105,8 +104,8 @@ export default function CISimulation({ popType, populationSize }) {
           <PopulationChart
             popArray={popArray}
             popMean={populationMean(popArray)}
-            sampled={displaySample}  // most recent sample data
-            popType={popType}
+            sampled={selected ? selected.data : []}  // most recent sample data
+            popShape={popShape}
           />
           <p>Try drawing some samples and calculating means</p>
           <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
@@ -115,7 +114,7 @@ export default function CISimulation({ popType, populationSize }) {
           <ConfidenceIntervalsChart
             confidenceLevel={confLevel}
             samples={samples}
-            popType={popType}
+            popShape={popShape}
             popMean={_.round(populationMean(popArray))}
             selected={selected}
             setSelected={setSelected}
@@ -127,7 +126,6 @@ export default function CISimulation({ popType, populationSize }) {
           <ManySamplesInput
             population={popArray}
             addSamples={generateSamples}
-            clear={clear}
           />
         </Col>
         <Col lg={12} xl={7}>
@@ -148,8 +146,8 @@ export default function CISimulation({ popType, populationSize }) {
     </Collapsable>
   );
 }
-CISimulation.propTypes = {
 
-  popType : PropTypes.string,
-  populationSize : PropTypes.number,
+CISimulation.propTypes = {
+  popShape: popShapeType.isRequired,
+  populationSize: PropTypes.number.isRequired,
 }

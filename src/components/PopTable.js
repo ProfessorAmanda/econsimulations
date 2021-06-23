@@ -54,8 +54,8 @@ export default function PopTable(props) {
                 <Table striped className="PopTable">
                     <thead>
                         <tr>
-                            <th>{props.popType && values[props.popType].xLabel}</th>
-                            <th>{props.popType && values[props.popType].yLabel}</th>
+                            <th>{props.popShape && values[props.popShape].xLabel}</th>
+                            <th>{props.popShape && values[props.popShape].yLabel}</th>
                         </tr>
                     </thead>
                     {tableBody}

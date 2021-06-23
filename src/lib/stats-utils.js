@@ -118,11 +118,6 @@ export const generateMystery = (sampleSize) => {
       }
       popArray.push(round((sum / secondITERATES)*100)/100)
   }
-  if(clearedArray.length > 0){
-    var tempCleared = clearedArray;
-    tempCleared = newCleared;
-    this.setState({clearedArray : tempCleared});
-  }
 
   const finalPopArray = [];
 

@@ -20,7 +20,7 @@ export default function HTSimulation() {
 
   return (
     <div className="MainContainer">
-      <TestInputs testType={testType} setTestType={setTestType} popType={pplShape} setPopType={setPplShape}/>
+      <TestInputs testType={testType} setTestType={setTestType} popShape={pplShape} setPopType={setPplShape}/>
       {(stage >= 2) &&
       <Container fluid>
         <Row>
