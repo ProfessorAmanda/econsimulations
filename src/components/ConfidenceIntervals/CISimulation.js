@@ -5,11 +5,10 @@ import SampleSizeInput from "../SampleSizeInput.js";
 import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
 import ManySamplesInput from "./ManySamplesInput.js";
 import SamplesTable from "./SamplesTable.js";
-import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
+import { dataFromDistribution, populationMean, populationStandardDev } from "../../lib/stats-utils.js";
 import { Row, Col, Alert } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
-import { std } from "mathjs";
 import { jStat } from "jstat";
 import PropTypes from 'prop-types';
 import Highcharts from "highcharts";
@@ -61,7 +60,7 @@ export default function CISimulation({ popShape, populationSize }) {
         const sample = _.sampleSize(popArray, size);
         const mean = _.round(populationMean(sample), 2);
         const popMean = _.round(populationMean(popArray), 2);
-        const standardDev = std(((distType === "Z") ? popArray : sample).map((s) => s[0]));
+        const standardDev = populationStandardDev((distType === "Z") ? popArray : sample);
         const ciFunction = (distType === "Z") ? jStat.normalci : jStat.tci;
         const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
         const sampleObject = {

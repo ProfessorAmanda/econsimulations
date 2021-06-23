@@ -7,8 +7,6 @@ import { dataObjectArrayType } from '../../lib/types.js';
 export default function OmittedVariableChart({ dataPoints, naiveLine, correctedLine }) {
   const [myChart, setMyChart] = useState({});
 
-  console.log(dataPoints, naiveLine, correctedLine)
-
   useEffect(() => {
     const newChart = {
       chart: {

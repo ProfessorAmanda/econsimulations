@@ -70,11 +70,11 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
-    const newMeans = [...sampleMeans, [size, populationMean(sample)]];
+    const newMeans = [...sampleMeans, {x: size, y: populationMean(sample)}];
     setSampleMeans(newMeans);
   }
 
-  const xvalue = sampled.length === 0 ? [0] : sampled.map((s) => s[0]);  // provide a placeholder value until 'sampled' is updated
+  const xvalue = sampled.length === 0 ? [0] : sampled.map((s) => s.x);  // provide a placeholder value until 'sampled' is updated
 
   return (
     <Collapsable>

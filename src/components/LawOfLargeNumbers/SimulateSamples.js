@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { mean } from "mathjs";
 import Highcharts from "highcharts";
 import HighchartsReact from 'highcharts-react-official';
 import { Collapse, Card, CardBody } from 'reactstrap';
@@ -7,6 +6,7 @@ import '../../styles/dark-unica.css';
 import _ from "lodash";
 import PropTypes from 'prop-types';
 import { dataObjectArrayType, popShapeType } from '../../lib/types.js';
+import { populationMean } from '../../lib/stats-utils';
 
 export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
@@ -90,8 +90,8 @@ export default function SimulateSamples({ type, popArray, popMean }) {
       if (n >= 1000) {
         clearInterval(timer)
       }
-      const sample = _.sampleSize(popArray, n).map(p => p.x);
-      const avg = _.round(mean(sample), 2);
+      const sample = _.sampleSize(popArray, n);
+      const avg = _.round(populationMean(sample), 2);
       setSampled(sampled => [...sampled, {y: avg}]);
       setMeanLine(meanLine => [...meanLine, {y: popMean}]);
     }, n);

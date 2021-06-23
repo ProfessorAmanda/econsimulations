@@ -1,4 +1,4 @@
-import { mean, sqrt, random, round } from "mathjs";
+import { mean, sqrt, random, round, std } from "mathjs";
 import PD from "probability-distributions";
 import _ from "lodash";
 
@@ -169,4 +169,9 @@ export const dataFromDistribution = (
 // returns the mean of popArray
 export const populationMean = (popArray) => {
   return (popArray.length > 0) ? mean(popArray.map(p => p.x)) : undefined;
+}
+
+// returns the std of popArray
+export const populationStandardDev = (popArray) => {
+  return (popArray.length > 0) ? std(popArray.map(p => p.x)) : undefined;
 }

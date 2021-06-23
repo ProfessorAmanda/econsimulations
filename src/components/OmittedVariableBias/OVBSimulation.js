@@ -109,7 +109,7 @@ export default function OVBSimulation() {
     const bHat = multiply(multiply(inverse,transpose(X)),Y);
 
     setAllData({
-      points: studyScores,
+      points: studyScores.map(([x, y]) => ({x, y})),
       naiveLine: generatePoints(naiveSlope, naiveInt),
       correctedLine: generatePoints(parseFloat(bHat.get([1,0])),parseFloat(bHat.get([0,0])))
     });
