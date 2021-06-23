@@ -30,8 +30,8 @@ const texts = {
   Mystery: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
 }
 
-export default function ChartContainer({ popArray, popMean, sampled, sampleMean, popType }) {
-  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popType];
+export default function ChartContainer({ popArray, popMean, sampled, sampleMean, popShape }) {
+  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popShape];
 
   const series = [
     {
@@ -61,8 +61,8 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
       <Container fluid style={{marginBottom: "2vh"}}>
         <Row>
           <Alert color="secondary" className="Center">
-            {popType !== "Uniform" && <p>We queried the {texts[popType][0]} of {popArray.length} {texts[popType][1]} and plotted the results on the following chart.</p>}
-            {popType === "Uniform" && <p>Behavioral economists studying loss aversion design a lottery among 2000 participants where each amount between -10 and +10 is equally likely.  We plotted the winnings and losses below.</p>}
+            {popShape !== "Uniform" && <p>We queried the {texts[popShape][0]} of {popArray.length} {texts[popShape][1]} and plotted the results on the following chart.</p>}
+            {popShape === "Uniform" && <p>Behavioral economists studying loss aversion design a lottery among 2000 participants where each amount between -10 and +10 is equally likely.  We plotted the winnings and losses below.</p>}
           </Alert>
         </Row>
           <Row >
@@ -70,7 +70,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
               <PopTable  // TODO: fix PopTable
                 samples={sampled}
                 popArray={popArray}
-                popType={popType}
+                popShape={popShape}
               />
             </Col>
             <Col lg="8">
@@ -94,5 +94,5 @@ ChartContainer.propTypes = {
   popMean: PropTypes.number.isRequired,
   sampled: popArrayType.isRequired,
   sampleMean: PropTypes.number,
-  popType: popShapeType.isRequired,
+  popShape: popShapeType.isRequired,
 }

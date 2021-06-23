@@ -17,11 +17,11 @@ const values = {
   "Chi-Squared": {xmaxval: 25, xminval: 0, title: "Money Spent on Lunch", xLabel: "Dollars"}
   }
 
-export default function ConfidenceIntervalsChart({ confidenceLevel, samples, popType, popMean, selected, setSelected }) {
+export default function ConfidenceIntervalsChart({ confidenceLevel, samples, popShape, popMean, selected, setSelected }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
-    const { xmaxval, xminval, title, xLabel } = values[popType];
+    const { xmaxval, xminval, title, xLabel } = values[popShape];
 
     const sampleMeans = [];
     const containsMean = [];
@@ -204,7 +204,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       ]
     }
     setChart(newChart);
-  }, [confidenceLevel, samples, popType, popMean, setSelected]);
+  }, [confidenceLevel, samples, popShape, popMean, setSelected]);
 
   return (
     <div>
@@ -222,7 +222,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
 ConfidenceIntervalsChart.propTypes = {
   confidenceLevel: PropTypes.number.isRequired,
   samples: PropTypes.arrayOf(confidenceIntervalsSampleType).isRequired,
-  popType: popShapeType.isRequired,
+  popShape: popShapeType.isRequired,
   popMean: PropTypes.number.isRequired,
   selected: confidenceIntervalsSampleType,
   setSelected: PropTypes.func.isRequired,

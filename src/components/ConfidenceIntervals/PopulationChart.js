@@ -5,7 +5,7 @@ import _ from "lodash";
 import PropTypes from 'prop-types';
 import { popArrayType, popShapeType } from "../../lib/types";
 
-export default function PopulationChart({ popArray, popMean, sampled, popType }) {
+export default function PopulationChart({ popArray, popMean, sampled, popShape }) {
 
   const values = {
     Normal: { xmaxval: 74, xminval: 56, ymaxval: 40, title: "Milk Production", xLabel: "Gallons" },
@@ -21,7 +21,7 @@ export default function PopulationChart({ popArray, popMean, sampled, popType })
     "Chi-Squared": ["expenditure", "workers on lunch"]
   }
 
-  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popType];
+  const { xmaxval, xminval, ymaxval, title, xLabel } = values[popShape];
 
   const series = [
     {
@@ -37,7 +37,7 @@ export default function PopulationChart({ popArray, popMean, sampled, popType })
   return (
     <Container fluid>
       <Alert color="secondary" className="Center">
-        We queried the {texts[popType][0]} of {popArray.length} {texts[popType][1]} and plotted the results on the following chart.
+        We queried the {texts[popShape][0]} of {popArray.length} {texts[popShape][1]} and plotted the results on the following chart.
       </Alert>
       <DotPlot
         series={series}
@@ -55,5 +55,5 @@ PopulationChart.propTypes = {
   popArray: popArrayType.isRequired,
   popMean: PropTypes.number,
   sampled: popArrayType.isRequired,
-  popType: popShapeType.isRequired
+  popShape: popShapeType.isRequired
 }

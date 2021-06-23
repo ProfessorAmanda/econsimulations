@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import Highcharts from "highcharts";
 import { popShapeType } from "../../lib/types.js";
 
-export default function CISimulation({ popType, populationSize }) {
+export default function CISimulation({ popShape, populationSize }) {
   const [distType, setDistType] = useState("Z");  // can be 'Z' or 'T'
   const [confLevel, setConfLevel] = useState(95);
   const [popArray, setPopArray] = useState([]);
@@ -25,16 +25,16 @@ export default function CISimulation({ popType, populationSize }) {
   useEffect(() => {
     setPopArray([]);
     setSamples([]);
-  }, [popType]);
+  }, [popShape]);
 
   // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
   useEffect(() => {
     if (popArray.length === 0) {
       // adjust params for uniform distribution to fit example
-      const newPop = dataFromDistribution(popType, populationSize, {low: 54, hi: 74});
+      const newPop = dataFromDistribution(popShape, populationSize, {low: 54, hi: 74});
       setPopArray(newPop);
     }
-  }, [popArray, popType, populationSize]);
+  }, [popArray, popShape, populationSize]);
 
   // this is a hack to get around what I believe is a bug in highcharts
   // where a point will sometimes turn gray when selected
@@ -106,7 +106,7 @@ export default function CISimulation({ popType, populationSize }) {
               popArray={popArray}
               popMean={populationMean(popArray)}
               sampled={selected ? selected.data : []}
-              popType={popType}
+              popShape={popShape}
             />
             <p>Try drawing some samples and calculating means</p>
             <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
@@ -115,7 +115,7 @@ export default function CISimulation({ popType, populationSize }) {
             <ConfidenceIntervalsChart
               confidenceLevel={confLevel}
               samples={samples}
-              popType={popType}
+              popShape={popShape}
               popMean={_.round(populationMean(popArray), 2)}
               selected={selected}
               setSelected={setSelected}
@@ -150,6 +150,6 @@ export default function CISimulation({ popType, populationSize }) {
 }
 
 CISimulation.propTypes = {
-  popType: popShapeType.isRequired,
+  popShape: popShapeType.isRequired,
   populationSize: PropTypes.number.isRequired,
 }

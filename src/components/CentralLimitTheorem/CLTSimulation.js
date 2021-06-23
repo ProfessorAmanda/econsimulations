@@ -32,7 +32,7 @@ const resampleSize = {
   "Mystery": 0
 }
 
-export default function CLTSimulation({ popType, mainSampleSize }) {
+export default function CLTSimulation({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampled, setSampled] = useState([]);
   const [sampleSize, setSampleSize] = useState(mainSampleSize);
@@ -46,17 +46,17 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
     setPopArray([]);
     setSampled([]);
     setSampleMeans([]);
-  }, [popType]);
+  }, [popShape]);
 
   // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
   useEffect(() => {
     if (popArray.length === 0) {
-      const newPop = dataFromDistribution(popType, mainSampleSize);
+      const newPop = dataFromDistribution(popShape, mainSampleSize);
       setPopArray(newPop);
       const newMean = populationMean(newPop);
       setPopMean(newMean);
     }
-  }, [popArray, popType, mainSampleSize]);
+  }, [popArray, popShape, mainSampleSize]);
 
   const addSampleMeans = (means) => {
     if (!means) {  // calling addSampleMeans with no arguments clears the data
@@ -79,7 +79,7 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
   return (
     <Collapsable>
       <div>
-        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popType={popType}/>
+        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape}/>
         <Button color="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) &&
           <div>
@@ -100,12 +100,12 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
                 </Button>
                 <SampleMeanChart  // TODO: update this
                   numberResamples={numberResamples}
-                  resampleSize={resampleSize[popType]}
+                  resampleSize={resampleSize[popShape]}
                   mean={popMean}
                   sd={std(xvalue)}
                   normalized={standardNormal}
                   sampleSize={sampleSize}
-                  type={popType}
+                  type={popShape}
                   normal={standardNormal}
                   sampleMeans={sampleMeans}
                 />
@@ -136,6 +136,6 @@ export default function CLTSimulation({ popType, mainSampleSize }) {
 }
 
 CLTSimulation.propTypes = {
-  popType: popShapeType.isRequired,
+  popShape: popShapeType.isRequired,
   mainSampleSize: PropTypes.number.isRequired,
 }

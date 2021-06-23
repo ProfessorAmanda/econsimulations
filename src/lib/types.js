@@ -10,9 +10,7 @@ export const popShapeType = PropTypes.oneOf([
 
 export const popArrayType = PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number));
 
-export const sampleMeansType = PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number));
-
-export const dotPlotSeriesType = PropTypes.arrayOf(
+export const highchartsSeriesType = PropTypes.arrayOf(
   PropTypes.shape({
     name: PropTypes.string.isRequired,
     data: popArrayType.isRequired,
