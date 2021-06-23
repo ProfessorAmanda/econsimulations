@@ -3,19 +3,19 @@
   Displays one of the CLT simulations
 
 */
-import React, { useState, useEffect } from 'react';
-import Collapsable from '../Collapsable.js';
-import ChartContainer from '../ChartContainer.js';
-import SampleMeanChart from './SampleMeanChart.js'
-import SampleMeansSimulator from './SampleMeansSimulator.js'
+import React, { useState, useEffect } from "react";
+import Collapsable from "../Collapsable.js";
+import ChartContainer from "../ChartContainer.js";
+import SampleMeanChart from "./SampleMeanChart.js"
+import SampleMeansSimulator from "./SampleMeansSimulator.js"
 import { std } from "mathjs";
-import { Alert, Button, Col, Row } from 'reactstrap';
+import { Alert, Button, Col, Row } from "reactstrap";
 import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
-import SampleSizeInput from '../SampleSizeInput.js';
-import SampleMeansTable from './SampleMeansTable.js';
+import SampleSizeInput from "../SampleSizeInput.js";
+import SampleMeansTable from "./SampleMeansTable.js";
 import _ from "lodash";
-import PropTypes from 'prop-types';
-import { popShapeType } from '../../lib/types.js';
+import PropTypes from "prop-types";
+import { popShapeType } from "../../lib/types.js";
 
 const numberResamples = {
   "Normal": 0,
@@ -74,7 +74,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
     setSampleMeans(newMeans);
   }
 
-  const xvalue = sampled.length === 0 ? [0] : sampled.map((s) => s.x);  // provide a placeholder value until 'sampled' is updated
+  const xvalue = sampled.length === 0 ? [0] : sampled.map((s) => s.x);  // provide a placeholder value until "sampled" is updated
 
   return (
     <Collapsable>
@@ -107,16 +107,16 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
                   sampleSize={sampleSize}
                   type={popShape}
                   normal={standardNormal}
-                  sampleMeans={sampleMeans}
+                  sampleMeans={sampleMeans.map(({x, y}) => [x, y])}
                 />
               </Col>
               <Col lg="4">
                 <SampleMeansTable sampleMeans={sampleMeans}/>
               </Col>
             </Row>
-            <Row style={{width: "60%", margin:'auto'}}>
+            <Row style={{width: "60%", margin:"auto"}}>
               <div className="Center">
-                <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
+                <Alert color="primary" style={{width: "50%", margin: "auto"}}>
                   Simulate drawing many many samples
                 </Alert>
                 <br/>
