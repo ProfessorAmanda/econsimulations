@@ -30,6 +30,7 @@ export default function InputSlider({ value, min, max, step, onChange }) {
     </InputGroup>
   );
 }
+
 InputSlider.propTypes = {
   value: stringOrNumberType.isRequired,
   min: PropTypes.number.isRequired,

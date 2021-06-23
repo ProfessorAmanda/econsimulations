@@ -34,6 +34,7 @@ export default function NewPointsInput({ generatePoints }) {
     </InputGroup>
   );
 }
+
 NewPointsInput.propTypes = {
   generatePoints: PropTypes.func.isRequired,
 }

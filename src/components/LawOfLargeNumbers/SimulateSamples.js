@@ -109,6 +109,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
     </Collapse>
   );
 }
+
 SimulateSamples.propTypes = {
   type: popShapeType.isRequired,
   popArray: popArrayType.isRequired,

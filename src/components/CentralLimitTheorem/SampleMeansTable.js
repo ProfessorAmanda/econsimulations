@@ -33,6 +33,7 @@ export default function SampleMeansTable({ sampleMeans }) {
   </Table>
   );
 }
+
 SampleMeansTable.propTypes = {
   sampleMeans: popArrayType.isRequired,
 }

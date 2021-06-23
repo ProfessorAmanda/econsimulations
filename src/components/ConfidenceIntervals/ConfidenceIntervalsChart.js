@@ -219,6 +219,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
     </div>
   );
 }
+
 ConfidenceIntervalsChart.propTypes = {
   confidenceLevel: PropTypes.number.isRequired,
   samples: PropTypes.arrayOf(confidenceIntervalsSampleType).isRequired,

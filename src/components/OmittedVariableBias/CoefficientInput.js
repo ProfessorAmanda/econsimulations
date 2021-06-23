@@ -35,6 +35,7 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }){
     </div>
   );
 }
+
 CoefficientInput.propTypes = {
   beta: PropTypes.number.isRequired,
   setBeta: PropTypes.func.isRequired,

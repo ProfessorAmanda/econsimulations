@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "reactstrap";
 import PropTypes from 'prop-types';
+import { confidenceIntervalsSampleType } from "../../lib/types";
 
 export default function SamplesTable({ samples, setSelected }) {
 
@@ -43,10 +44,8 @@ export default function SamplesTable({ samples, setSelected }) {
     </div>
   )
 }
+
 SamplesTable.propTypes = {
-
-  samples : PropTypes.array,
-  setSelected : PropTypes.func,
-
-
+  samples: PropTypes.arrayOf(confidenceIntervalsSampleType).isRequired,
+  setSelected: PropTypes.func.isRequired,
 }

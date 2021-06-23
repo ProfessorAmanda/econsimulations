@@ -15,11 +15,11 @@ export default function Collapsable({ children }) {
     <div>
       <Collapse
         style={{
-            margin: "auto",
-            width: "100%",
-            textAlign: "center",
-            backgroundColor: "rgba(255,255,255,0.4)",
-            marginBottom: '1em'
+          margin: "auto",
+          width: "100%",
+          textAlign: "center",
+          backgroundColor: "rgba(255,255,255,0.4)",
+          marginBottom: '1em'
         }}
         isOpened
         springConfig={{ ...presets['gentle'] }}
@@ -31,8 +31,9 @@ export default function Collapsable({ children }) {
         </div>
       </Collapse>
     </div>
-);
+  );
 }
+
 Collapsable.propTypes = {
   children: PropTypes.element.isRequired,
 }

@@ -24,6 +24,7 @@ export default function PlotLine({ stage, setStage, squareAreas, generateBestLin
         </div>
   );
 }
+
 PlotLine.propTypes = {
   stage: PropTypes.number.isRequired,
   setStage: PropTypes.func.isRequired,

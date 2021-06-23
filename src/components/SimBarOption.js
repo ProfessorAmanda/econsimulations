@@ -12,7 +12,11 @@ export default function SimBarOption({ section, setSection }) {
     </Card>
   );
 }
+
 SimBarOption.propTypes = {
   setSection: PropTypes.func.isRequired,
-  section: PropTypes.object.isRequired,
+  section: PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string
+  }).isRequired,
 }

@@ -67,6 +67,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel }) {
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
+
 DotPlot.propTypes = {
   series: highchartsSeriesType.isRequired,
   title: PropTypes.string,
