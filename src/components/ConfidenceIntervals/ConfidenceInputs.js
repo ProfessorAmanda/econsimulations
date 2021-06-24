@@ -3,7 +3,7 @@ import { Row, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
 import SelectorButtonGroup from "../SelectorButtonGroup.js";
 import PropTypes from 'prop-types';
-import { stringOrNumberType } from "../../lib/types.js";
+import { distributionType, stringOrNumberType } from "../../lib/types.js";
 
 export default function ConfidenceInputs({ distType, setDistType, confLevel, setConfLevel }) {
   return (
@@ -39,7 +39,7 @@ export default function ConfidenceInputs({ distType, setDistType, confLevel, set
 }
 
 ConfidenceInputs.propTypes = {
-  distType: PropTypes.oneOf(["Z","T"]).isRequired,
+  distType: distributionType.isRequired,
   setDistType: PropTypes.func.isRequired,
   confLevel: stringOrNumberType.isRequired,
   setConfLevel: PropTypes.func.isRequired,

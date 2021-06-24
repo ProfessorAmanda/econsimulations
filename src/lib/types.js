@@ -8,6 +8,8 @@ export const popShapeType = PropTypes.oneOf([
   "Mystery"
 ]);
 
+export const distributionType = PropTypes.oneOf(["Z","T"]);
+
 export const dataObjectArrayType = PropTypes.arrayOf(
   PropTypes.shape({
     x: PropTypes.number.isRequired,
@@ -36,7 +38,7 @@ export const confidenceIntervalsSampleType = PropTypes.shape({
   lowerConf: PropTypes.number.isRequired,
   upperConf: PropTypes.number.isRequired,
   confidenceLevel: PropTypes.number.isRequired,
-  distribution: PropTypes.oneOf(["Z","T"]).isRequired,
+  distribution: distributionType.isRequired,
   label: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired
 });

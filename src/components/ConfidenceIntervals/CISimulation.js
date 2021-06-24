@@ -136,9 +136,9 @@ export default function CISimulation({ popShape, populationSize }) {
         <Row>
           {(samples.length > 0) && (
             <Alert color="info" style={{margin:"auto"}}>
-              {samples.filter(({ label }) => !label).length} interval(s) did not contain the population mean
+              {samples.filter(({ label }) => !label).length} intervals did not contain the population mean.
               <br/>
-              {samples.filter(({ label }) => label).length}, or {_.round(100 * samples.filter(({ label }) => label).length / samples.length, 2)}%, did
+              {samples.filter(({ label }) => label).length} did ({_.round(100 * samples.filter(({ label }) => label).length / samples.length, 2)}%).
             </Alert>
           )}
         </Row>
