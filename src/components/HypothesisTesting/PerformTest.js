@@ -39,9 +39,9 @@ export default function PerformTest({ shape, tails, mue0 }) {
   }
 
   const sampleMean = populationMean(sample);
-  const sampleSD = populationStandardDev(sample);
-  const testStatistic = getTestStatistic(sampleMean, sampleSD);
-  const pValue = getPValue(sampleMean, sampleSD);
+  const sampleSD = populationStandardDev(sample);  // TODO: use this when pop sd is unknown
+  const testStatistic = getTestStatistic(sampleMean, 3);
+  const pValue = getPValue(sampleMean, 3);
 
   return (
     <Container fluid>
