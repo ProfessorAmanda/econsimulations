@@ -65,6 +65,7 @@ export default function HTSimulation() {
               <br/>
               <Row className="Center">
                 <PerformTest
+                  distType = {distType}
                   shape={(pplShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : pplShape}
                   tails={hypothesis.tails}
                   mue0={+mue0}

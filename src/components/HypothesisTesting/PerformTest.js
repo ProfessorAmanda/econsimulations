@@ -10,7 +10,7 @@ import DataDisplay from "./DataDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import { popShapeType } from "../../lib/types.js";
 
-export default function PerformTest({ shape, tails, mue0 }) {
+export default function PerformTest({ distType, shape, tails, mue0 }) {
   const [popArr, setPopArr] = useState([]);
   const [sample, setSample] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
@@ -28,20 +28,27 @@ export default function PerformTest({ shape, tails, mue0 }) {
     }
   }
 
-  const getTestStatistic = (mean, sd) => {
-    // TODO: use different function if T distribution
-    return jStat.zscore(mean, mue0, sd / sqrt(sampleSize))
-  }
+  function calculateTestStatistic(){
 
-  const getPValue = (mean, sd) => {
-    // TODO: use different function if T distribution
-    return jStat.ztest(mean, mue0, sd / sqrt(sampleSize), tails)
+    if(distType === 'Z') {
+      return jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize)) 
+    } else {
+      const tscore = jStat.tscore();
+      return jStat.tscore() //TODO: Not sure what function to use 
+    }
+  }
+  function calculatePValue() {
+    if(distType === 'Z') {
+      return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
+    } else {
+       return jStat.ttest( tscore, sampleSize, tails) 
+    }
   }
 
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample);  // TODO: use this when pop sd is unknown
-  const testStatistic = getTestStatistic(sampleMean, 3);
-  const pValue = getPValue(sampleMean, 3);
+  const testStatistic = calculateTestStatistic();
+  const pValue = calculatePValue();
 
   return (
     <Container fluid>
