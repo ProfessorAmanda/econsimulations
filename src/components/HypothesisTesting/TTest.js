@@ -6,7 +6,6 @@ import { Alert, Button, Container, Col, Input, Row, InputGroupText, InputGroupAd
 import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
 import PropTypes from "prop-types";
 
-
 export default function TTest({ shape, hypothesis, mue0 }) {
   const [popArr, setPopArr] = useState([]);
   const [sampleMean, setSampleMean] = useState(0);

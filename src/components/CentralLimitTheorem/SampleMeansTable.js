@@ -6,15 +6,15 @@
 
 import React from 'react';
 import { Table } from 'reactstrap';
-import { round } from "mathjs";
-import { popArrayType } from '../../lib/types.js';
+import { dataObjectArrayType } from '../../lib/types.js';
+import _ from 'lodash';
 
 export default function SampleMeansTable({ sampleMeans }) {
-  const tableBody = sampleMeans.map((mean, index) =>
+  const tableBody = sampleMeans.map(({x: size, y: mean}, index) =>
     <tr key={index}>
       <td>{index + 1}</td>
-      <td>{mean[0]}</td>
-      <td>{round(mean[1] * 10) / 10}</td>
+      <td>{size}</td>
+      <td>{_.round(mean, 2)}</td>
     </tr>
   );
 
@@ -35,5 +35,5 @@ export default function SampleMeansTable({ sampleMeans }) {
 }
 
 SampleMeansTable.propTypes = {
-  sampleMeans: popArrayType.isRequired,
+  sampleMeans: dataObjectArrayType.isRequired,
 }

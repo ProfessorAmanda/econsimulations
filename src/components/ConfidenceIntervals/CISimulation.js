@@ -5,18 +5,17 @@ import SampleSizeInput from "../SampleSizeInput.js";
 import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
 import ManySamplesInput from "./ManySamplesInput.js";
 import SamplesTable from "./SamplesTable.js";
-import { dataFromDistribution, populationMean } from "../../lib/stats-utils.js";
+import { dataFromDistribution, populationMean, populationStandardDev } from "../../lib/stats-utils.js";
 import { Row, Col, Alert } from "reactstrap";
 import PopulationChart from "./PopulationChart.js";
 import _ from "lodash";
-import { std } from "mathjs";
 import { jStat } from "jstat";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Highcharts from "highcharts";
 import { popShapeType } from "../../lib/types.js";
 
 export default function CISimulation({ popShape, populationSize }) {
-  const [distType, setDistType] = useState("Z");  // can be 'Z' or 'T'
+  const [distType, setDistType] = useState("Z");  // can be "Z" or "T"
   const [confLevel, setConfLevel] = useState(95);
   const [popArray, setPopArray] = useState([]);
   const [samples, setSamples] = useState([]);
@@ -61,7 +60,7 @@ export default function CISimulation({ popShape, populationSize }) {
         const sample = _.sampleSize(popArray, size);
         const mean = _.round(populationMean(sample), 2);
         const popMean = _.round(populationMean(popArray), 2);
-        const standardDev = std(((distType === "Z") ? popArray : sample).map((s) => s[0]));
+        const standardDev = populationStandardDev((distType === "Z") ? popArray : sample);
         const ciFunction = (distType === "Z") ? jStat.normalci : jStat.tci;
         const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
         const sampleObject = {
@@ -90,60 +89,60 @@ export default function CISimulation({ popShape, populationSize }) {
 
   return (
     <Collapsable>
-      <Row>
-        <ConfidenceInputs
-          distType={distType}
-          setDistType={setDistType}
-          confLevel={confLevel}
-          setConfLevel={setConfLevel}
-        />
-      </Row>
-      <br/>
-      <Row md={1} lg={2}>
-        <Col>
-          <PopulationChart
-            popArray={popArray}
-            popMean={populationMean(popArray)}
-            sampled={selected ? selected.data : []}  // most recent sample data
-            popShape={popShape}
+      <div>
+        <Row>
+          <ConfidenceInputs
+            distType={distType}
+            setDistType={setDistType}
+            confLevel={confLevel}
+            setConfLevel={setConfLevel}
           />
-          <p>Try drawing some samples and calculating means</p>
-          <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
-        </Col>
-        <Col>
-          <ConfidenceIntervalsChart
-            confidenceLevel={confLevel}
-            samples={samples}
-            popShape={popShape}
-            popMean={_.round(populationMean(popArray))}
-            selected={selected}
-            setSelected={setSelected}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12} xl={5}>
-          <ManySamplesInput
-            population={popArray}
-            addSamples={generateSamples}
-          />
-        </Col>
-        <Col lg={12} xl={7}>
-          <SamplesTable samples={samples} setSelected={selectPoint}/>
-        </Col>
-      </Row>
-      <br/>
-      <Row>
-        {
-          (samples.length > 0) &&
-          <Alert color="info" style={{margin:'auto'}}>
-            Number] intervals did not contain the true population mean. [Number] intervals did ([percent]%).
-            {samples.filter(({ label }) => !label).length} intervals did not contain the population mean.
-            <br/>
-            {samples.filter(({ label }) => label).length} did ({_.round(100 * samples.filter(({ label }) => label).length / samples.length, 2)}%).
-          </Alert>
-        }
-      </Row>
+        </Row>
+        <br/>
+        <Row md={1} lg={2}>
+          <Col>
+            <PopulationChart
+              popArray={popArray}
+              popMean={populationMean(popArray)}
+              sampled={selected ? selected.data : []}  // most recent sample data
+              popShape={popShape}
+            />
+            <p>Try drawing some samples and calculating means</p>
+            <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
+          </Col>
+          <Col>
+            <ConfidenceIntervalsChart
+              confidenceLevel={confLevel}
+              samples={samples}
+              popShape={popShape}
+              popMean={_.round(populationMean(popArray))}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={12} xl={5}>
+            <ManySamplesInput
+              populationSize={popArray.length}
+              addSamples={generateSamples}
+            />
+          </Col>
+          <Col lg={12} xl={7}>
+            <SamplesTable samples={samples} setSelected={selectPoint}/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          {(samples.length > 0) && (
+            <Alert color="info" style={{margin:"auto"}}>
+              {samples.filter(({ label }) => !label).length} intervals did not contain the population mean.
+              <br/>
+              {samples.filter(({ label }) => label).length} did ({_.round(100 * samples.filter(({ label }) => label).length / samples.length, 2)}%).
+            </Alert>
+          )}
+        </Row>
+      </div>
     </Collapsable>
   );
 }

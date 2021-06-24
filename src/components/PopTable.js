@@ -1,69 +1,36 @@
-// Table of data points
-import React from 'react';
-import { Table } from 'reactstrap';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Table } from "reactstrap";
+import PropTypes from "prop-types";
+import { dataObjectArrayType } from "../lib/types";
+import { VALUES } from "../lib/constants.js";
 
-export default function PopTable(props) {
-    /*
-        Props.popArray:
-     */
-    let showTable;
-    if (props.popArray) {
-        showTable = 'visible';
-    }
-    else {
-        showTable = 'hidden';
-    }
-
-    const popArr = props.popArray || [];
-    const samples = props.samples;
-    const rows = popArr.map((val, index) => {
-            for (const i of samples) {
-                //console.log(i);
-                if (val === i){
-                    return (<tr key={index} style={{background:"#747EF2"}}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
-                }
-            }
-            if (index !== popArr.length - 1) {
-                return(<tr key={index}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
-            }
-            else {
-                if (val[0]) {
-                    return(<tr key={index}><td>{popArr.length - 1 - index}</td><td>{val[0]}</td></tr>);
-                }
-            }
-            return popArr;
-
-    });
-    const tableBody = (
-        <tbody>
-            {rows}
-        </tbody>
-    );
-
-    const values = {
-        Uniform: { xmaxval: 74, xminval: 56, ymaxval: 30, title: "Lottery Outcome", yLabel: "Gain/Loss", xLabel: "Participant" },
-        Normal: { xmaxval: 84, xminval: 66, ymaxval: 30, title: "Milk Production", yLabel: "Gallons", xLabel: "Cow" },
-        Exponential: { xmaxval: 350, xminval: 0, ymaxval: 10, title: "Duration of Telemarketer Call", yLabel: "Seconds", xLabel: "Call" },
-        "Chi-Squared": {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Money Spent on Lunch", yLabel: "Dollars", xLabel: "Person" },
-        Mystery: {xmaxval: 25, xminval: 0, ymaxval: 20, title: "Female Height", yLabel: "Height (in)", xLabel: "Female" }
-    };
-
+export default function PopTable({ popArray, sampleIDs, popShape }) {
+  const rows = popArray.map(({ x, id }) => {
     return (
-            <div style={{ visibility: showTable}}>
-                <Table striped className="PopTable">
-                    <thead>
-                        <tr>
-                            <th>{props.popShape && values[props.popShape].xLabel}</th>
-                            <th>{props.popShape && values[props.popShape].yLabel}</th>
-                        </tr>
-                    </thead>
-                    {tableBody}
-                </Table>
-            </div>
-        );
-}
-PopTable.propTypes = {
+      <tr key={id} style={{ backgroundColor: sampleIDs.includes(id) ? "#747EF2" : undefined }}>
+        <td>{popArray.length - id}</td>
+        <td>{x}</td>
+      </tr>
+    )}
+  );
 
-    props : PropTypes.array,
+  return (
+    <Table striped className="PopTable">
+      <thead>
+        <tr>
+          <th>{VALUES[popShape].xLabel}</th>
+          <th>{VALUES[popShape].yLabel}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows}
+      </tbody>
+    </Table>
+  );
+}
+
+PopTable.propTypes = {
+  popArray: dataObjectArrayType.isRequired,
+  sampleIDs: PropTypes.arrayOf(PropTypes.number).isRequired,
+  popShape: PropTypes.string.isRequired
 }

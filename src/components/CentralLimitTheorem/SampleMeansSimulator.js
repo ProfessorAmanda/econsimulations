@@ -5,10 +5,10 @@
 */
 import React, { useState } from "react";
 import {Button, Input } from 'reactstrap';
-import { mean } from "mathjs";
 import _ from "lodash";
 import PropTypes from 'prop-types';
-import { popArrayType } from "../../lib/types.js";
+import { dataObjectArrayType } from "../../lib/types.js";
+import { populationMean } from "../../lib/stats-utils.js";
 
 export default function SampleMeansSimulator({ setSampleSize, population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -21,8 +21,8 @@ export default function SampleMeansSimulator({ setSampleSize, population, addSam
 
   const resample = () => {
     const samplePop = _.sampleSize(population, resampleSize);
-    const sampleMean = mean(samplePop.map((s) => s[0]));
-    return [+resampleSize, sampleMean];
+    const sampleMean = populationMean(samplePop);
+    return {x: +resampleSize, y: sampleMean};
   }
 
   const runSim = () => {
@@ -65,6 +65,6 @@ export default function SampleMeansSimulator({ setSampleSize, population, addSam
 
 SampleMeansSimulator.propTypes = {
   setSampleSize: PropTypes.func.isRequired,
-  population: popArrayType.isRequired,
+  population: dataObjectArrayType.isRequired,
   addSamples: PropTypes.func.isRequired,
 }
