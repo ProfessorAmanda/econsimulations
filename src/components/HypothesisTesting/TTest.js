@@ -136,56 +136,57 @@ export default function TTest({ shape, hypothesis, mue0 }) {
       </Button>
       <br/>
       <br/>
-      {(sim >= 1) &&
-      <Container>
-        <Alert color="secondary" className="Center" >
-          <p>This sample yields the following data:</p>
-          <p>Sample Mean: &nbsp;{sampleMean}</p>
-          <p>Sample Standard Deviation:&nbsp;{sampleSd} </p>
-          <p>The test statistic is &nbsp;{tScore}</p>
-          <p>This test statistic yields a p-value of P(Z&gt;teststat) = &nbsp;{pVal}. </p>
-          <p>Therefore we {pVal<alpha? "reject":"fail to reject"} the null hypothesis. </p>
-        </Alert>
-        <br/>
-        <Row className="Center">
-          <p>
-            Press here to reveal the true population distribution and mean.&nbsp;
-            <Button color="primary" onClick={() => setSim(2)}>Reveal</Button>
-          </p>
-        </Row>
-      </Container>
-      }
+      {(sim >= 1) && (
+        <Container>
+          <Alert color="secondary" className="Center" >
+            <p>This sample yields the following data:</p>
+            <p>Sample Mean: &nbsp;{sampleMean}</p>
+            <p>Sample Standard Deviation:&nbsp;{sampleSd} </p>
+            <p>The test statistic is &nbsp;{tScore}</p>
+            <p>This test statistic yields a p-value of P(Z&gt;teststat) = &nbsp;{pVal}. </p>
+            <p>Therefore we {pVal<alpha? "reject":"fail to reject"} the null hypothesis. </p>
+          </Alert>
+          <br/>
+          <Row className="Center">
+            <p>
+              Press here to reveal the true population distribution and mean.&nbsp;
+              <Button color="primary" onClick={() => setSim(2)}>Reveal</Button>
+            </p>
+          </Row>
+        </Container>
+      )}
       <br/>
-      {(sim === 2) &&
-      <Container>
-        <Row className="Center">
-          <Container fluid >
-            <Row>
-              <Alert color="secondary" className="Center">
-                <p>
-                  We queried the monthly Milk Production of {popArr.length} cows and plotted the results on the following chart.
-                </p>
-                <p>
-                  The population mean is {(popArr.length > 0) && populationMean(popArr).toFixed(2)}.
-                </p>
-              </Alert>
-            </Row>
-            <Row>
-              <DotPlot
-                series={[{name: 'Population', data: popArr}]}
-                title="Milk Production"
-                xMin={55}
-                xMax={81}
-                yMax={40}
-                xLabel="Gallons"
-              />
-            </Row>
-          </Container>
-        </Row>
-        <Row className="Center">
-          <p>Our hypothesis test conclusion was therefore {(pVal < alpha) ? "correct" : "incorrect"}.</p>
-        </Row>
-      </Container>}
+      {(sim === 2) && (
+        <Container>
+          <Row className="Center">
+            <Container fluid >
+              <Row>
+                <Alert color="secondary" className="Center">
+                  <p>
+                    We queried the monthly Milk Production of {popArr.length} cows and plotted the results on the following chart.
+                  </p>
+                  <p>
+                    The population mean is {(popArr.length > 0) && populationMean(popArr).toFixed(2)}.
+                  </p>
+                </Alert>
+              </Row>
+              <Row>
+                <DotPlot
+                  series={[{name: 'Population', data: popArr}]}
+                  title="Milk Production"
+                  xMin={55}
+                  xMax={81}
+                  yMax={40}
+                  xLabel="Gallons"
+                />
+              </Row>
+            </Container>
+          </Row>
+          <Row className="Center">
+            <p>Our hypothesis test conclusion was therefore {(pVal < alpha) ? "correct" : "incorrect"}.</p>
+          </Row>
+        </Container>
+      )}
     </Container>
   )
 }
