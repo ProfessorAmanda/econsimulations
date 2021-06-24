@@ -37,21 +37,24 @@ export const HYPOTHESIS_OPTIONS = {
       hypoText: "Option 1: These cows produce more than ",
       nullH: "H_0: μ ≤  ",
       alterH: "H_a: μ >  ",
-      id: 0
+      id: 0,
+      tails: 1
     },
     {
       type: "≥",
       hypoText: "Option 2: These cows produce less than " ,
       nullH: "H_0: μ ≥  ",
       alterH: "H_a: μ <  ",
-      id: 1
+      id: 1,
+      tails: 1
     },
     {
       type: "=",
       hypoText: "Option 3: These cows produce an amount not equal to ",
       nullH: "H_0: μ =  ",
       alterH: "H_a: μ ≠  ",
-      id: 2
+      id: 2,
+      tails: 2
     }
   ],
   twoSample: [
@@ -59,19 +62,22 @@ export const HYPOTHESIS_OPTIONS = {
       hypoText: "Option 1: These cows produce more than they did before.",
       nullH: "H_0: μ_1 - μ_2 ≥ 0",
       alterH: "H_a: μ_1 - μ_2 < 0",
-      id: 0
+      id: 0,
+      tails: 1
     },
     {
       hypoText: "Option 2: These cows produce less than they did before",
       nullH: "H_0: μ_1 - μ_2 ≤ 0",
       alterH: "H_a: μ_1 - μ_2 > 0",
-      id: 1
+      id: 1,
+      tails: 1
     },
     {
       hypoText: "Option 3: These cows produce a different amount now compared to before.",
       nullH: "H_0: μ_1 - μ_2 = 0",
       alterH: "H_a: μ_1 - μ_2 ≠ 0",
-      id: 2
+      id: 2,
+      tails: 2
     }
   ]
 }
@@ -101,8 +107,8 @@ export const MODULES = [
     name: "Confidence Intervals",
     description: "A confidence interval provides a range of values for the likely location of the true population mean, based on information gathered from a sample.",
   },
-  // {
-  //   name: "Hypothesis Testing",
-  //   description: "test",
-  // }
+  {
+    name: "Hypothesis Testing",
+    description: "Hypothesis testing is a procedure that allows us to form conclusions based on information derived from a sample.",
+  }
 ];

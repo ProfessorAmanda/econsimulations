@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from "react";
-import TTest from "./TTest.js";
+import PerformTest from "./PerformTest.js";
 import { Alert, Container, Row, Col, Button, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import TestInputs from "./TestInputs.js";
 import HypothesisDropdown from "./HypothesisDropdown.js";
@@ -39,10 +39,10 @@ export default function HTSimulation() {
           </Row>
           <br/>
           <Row>
-            <Col xs="6">
+            <Col xs="auto">
               <HypothesisDropdown testType={testType} setHypothesis={setHypothesis}/>
             </Col>
-            <Col xs="4">
+            <Col>
               {(testType === "oneSample") && (
                 <InputGroup>
                   <Input
@@ -76,10 +76,10 @@ export default function HTSimulation() {
               </Row>
               <br/>
               <Row className="Center">
-                <TTest
+                <PerformTest
                   shape={(pplShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : pplShape}
-                  hypothesis={hypothesis.id}
-                  mue0={mue0}
+                  tails={hypothesis.tails}
+                  mue0={+mue0}
                 />
               </Row>
             </Container>
