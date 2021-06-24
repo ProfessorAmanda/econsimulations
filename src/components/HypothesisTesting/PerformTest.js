@@ -8,6 +8,7 @@ import _ from "lodash";
 import { jStat } from "jstat";
 import DataDisplay from "./DataDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
+import { popShapeType } from "../../lib/types.js";
 
 export default function PerformTest({ shape, tails, mue0 }) {
   const [popArr, setPopArr] = useState([]);
@@ -27,18 +28,20 @@ export default function PerformTest({ shape, tails, mue0 }) {
     }
   }
 
-  const getTestStatistic = () => {
-    return jStat.zscore(popMean, mue0, popSD / sqrt(sampleSize))
+  const getTestStatistic = (mean, sd) => {
+    // TODO: use different function if T distribution
+    return jStat.zscore(mean, mue0, sd / sqrt(sampleSize))
   }
 
-  const getPValue = () => {
-    return jStat.ztest(popMean, mue0, popSD / sqrt(sampleSize), tails)
+  const getPValue = (mean, sd) => {
+    // TODO: use different function if T distribution
+    return jStat.ztest(mean, mue0, sd / sqrt(sampleSize), tails)
   }
 
-  const popMean = populationMean(sample);
-  const popSD = populationStandardDev(sample);
-  const testStatistic = getTestStatistic();
-  const pValue = getPValue();
+  const sampleMean = populationMean(sample);
+  const sampleSD = populationStandardDev(sample);
+  const testStatistic = getTestStatistic(sampleMean, sampleSD);
+  const pValue = getPValue(sampleMean, sampleSD);
 
   return (
     <Container fluid>
@@ -63,8 +66,8 @@ export default function PerformTest({ shape, tails, mue0 }) {
       {(sim >= 1) && (
         <Container>
           <DataDisplay
-            mean={popMean}
-            standardDev={popSD}
+            mean={sampleMean}
+            standardDev={sampleSD}
             testStatistic={testStatistic}
             pValue={pValue}
             alpha={+alpha}
@@ -85,7 +88,7 @@ export default function PerformTest({ shape, tails, mue0 }) {
 }
 
 PerformTest.propTypes = {
-  shape: PropTypes.string.isRequired,
+  shape: popShapeType.isRequired,
   tails: PropTypes.number.isRequired,
   mue0: PropTypes.number.isRequired,
 }
