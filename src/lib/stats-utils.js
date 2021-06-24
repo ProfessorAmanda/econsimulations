@@ -1,65 +1,65 @@
-import { mean, sqrt, random, round } from "mathjs";
+import { mean, sqrt, random, round, std } from "mathjs";
 import PD from "probability-distributions";
 import _ from "lodash";
 
 // generates a dataset with normal distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateNormal = (sampleSize, mean, standardDev) => {
   const population = PD.rnorm(sampleSize, mean, standardDev).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push({x: +amt, y: i})
     }
   });
-  return _.shuffle(popArray);
+  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
 }
 
 // generates a dataset with uniform distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateUniform = (sampleSize, low, hi) => {
   const population = PD.runif(sampleSize, low, hi).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push({x: +amt, y: i})
     }
   });
-  return _.shuffle(popArray);
+  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
 }
 
 // generates a dataset with exponential distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateExponential = (sampleSize, lambda) => {
   const population = PD.rexp(sampleSize, lambda).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push({x: +amt, y: i})
     }
   });
-  return _.shuffle(popArray);
+  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
 }
 
 // generates a dataset with chi-squared distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateChiSquared = (sampleSize, degreesOfFreedom) => {
   const population = PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, 1));
   const counts = _.countBy(population);
   const popArray = [];
   _.entries(counts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      popArray.push([+amt, i])
+      popArray.push({x: +amt, y: i})
     }
   });
-  return _.shuffle(popArray);
+  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
 }
 
 // generates a dataset with 'mystery' distribution
-// returns an array of [value, count] pairs
+// returns an array of {x, y, id}
 export const generateMystery = (sampleSize) => {
 
   const popArray = [];
@@ -133,14 +133,15 @@ export const generateMystery = (sampleSize) => {
           count[round(val * 10)] = 1;
       }
 
-      finalPopArray.push([(round(val * 10)/10), count[round(val * 10)] ])
+      finalPopArray.push({x: +(round(val * 10)/10), y: count[round(val * 10)]})
   }
 
-  return _.shuffle(finalPopArray);
+  return _.shuffle(finalPopArray).map((obj, index) => ({...obj, id: index}));
 }
 
 
 // returns the data set from the function corresponding with distType
+// objects in array are of shape {x, y, id}
 export const dataFromDistribution = (
     distType,
     sampleSize,
@@ -167,5 +168,10 @@ export const dataFromDistribution = (
 
 // returns the mean of popArray
 export const populationMean = (popArray) => {
-  return (popArray.length > 0) ? mean(popArray.map(p => p[0])) : undefined;
+  return (popArray.length > 0) ? mean(popArray.map(p => p.x)) : undefined;
+}
+
+// returns the std of popArray
+export const populationStandardDev = (popArray) => {
+  return (popArray.length > 0) ? std(popArray.map(p => p.x)) : undefined;
 }

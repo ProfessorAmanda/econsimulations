@@ -2,9 +2,6 @@
 
   A container component for the various simulations
 
-  props:
-    mode    - string
-    setMode - callback function
 */
 import React from 'react';
 import LawOfLargeNumbers from './LawOfLargeNumbers/LawOfLargeNumbers.js';

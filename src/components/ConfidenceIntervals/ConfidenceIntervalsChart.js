@@ -7,21 +7,15 @@ import More from "highcharts/highcharts-more";
 import { max } from "mathjs";
 import PropTypes from 'prop-types';
 import { confidenceIntervalsSampleType, popShapeType } from "../../lib/types.js";
+import { VALUES_ALT } from "../../lib/constants.js";
 
 More(Highcharts);
-
-const values = {
-  Normal: { xmaxval: 74, xminval: 56, title: "Milk Production", xLabel: "Gallons" },
-  Uniform: { xmaxval: 74, xminval: 56, title: "Alien Female Height", xLabel: "Height (in)"},
-  Exponential: { xmaxval: 400, xminval: 0, title: "Duration of Telemarketer Call", xLabel: "Duration (seconds)"},
-  "Chi-Squared": {xmaxval: 25, xminval: 0, title: "Money Spent on Lunch", xLabel: "Dollars"}
-  }
 
 export default function ConfidenceIntervalsChart({ confidenceLevel, samples, popShape, popMean, selected, setSelected }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
-    const { xmaxval, xminval, title, xLabel } = values[popShape];
+    const { xmaxval, xminval, title, xLabel } = VALUES_ALT[popShape];
 
     const sampleMeans = [];
     const containsMean = [];

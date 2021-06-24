@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import PopBar from '../PopBar.js';
 import { Alert } from 'reactstrap';
 import CISimulation from './CISimulation.js';
-
-const SAMPLE_SIZE = 2000;
+import { SAMPLE_SIZE } from '../../lib/constants.js';
 
 export default function ConfidenceIntervals() {
   const [popShape, setPopType] = useState("");

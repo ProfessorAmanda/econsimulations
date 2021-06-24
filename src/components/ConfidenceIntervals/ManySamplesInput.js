@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { Button, Input, Alert } from 'reactstrap';
-import PropTypes from 'prop-types';
-import { popArrayType } from "../../lib/types.js";
+import { Button, Input, Alert } from "reactstrap";
+import PropTypes from "prop-types";
 
-export default function ManySamplesInput({ population, addSamples }) {
+export default function ManySamplesInput({ populationSize, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
   const [resampleSize, setResampleSize] = useState(0);
 
   return (
     <div style={{ padding: 50 }}>
-      <Alert color="primary" style={{width: "50%", margin: 'auto'}}>
+      <Alert color="primary" style={{width: "50%", margin: "auto"}}>
         Simulate drawing many many samples
       </Alert>
       <br/>
@@ -35,7 +34,7 @@ export default function ManySamplesInput({ population, addSamples }) {
       <br/>
       <Button
         onClick={() => addSamples(resampleSize, numberResamples)}
-        disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}
+        disabled={(resampleSize < 1) || (resampleSize > populationSize) || (numberResamples < 1)}
       >
         Run
       </Button>
@@ -45,6 +44,6 @@ export default function ManySamplesInput({ population, addSamples }) {
 }
 
 ManySamplesInput.propTypes = {
-  population: popArrayType.isRequired,
+  populationSize: PropTypes.number.isRequired,
   addSamples: PropTypes.func.isRequired,
 }
