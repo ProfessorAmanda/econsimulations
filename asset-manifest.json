@@ -1,28 +1,24 @@
 {
   "files": {
-    "main.css": "/econsimulations/static/css/main.c82c4d33.chunk.css",
-    "main.js": "/econsimulations/static/js/main.4dc825ae.chunk.js",
-    "main.js.map": "/econsimulations/static/js/main.4dc825ae.chunk.js.map",
+    "main.css": "/econsimulations/static/css/main.041c038d.chunk.css",
+    "main.js": "/econsimulations/static/js/main.459b2fc6.chunk.js",
+    "main.js.map": "/econsimulations/static/js/main.459b2fc6.chunk.js.map",
     "runtime-main.js": "/econsimulations/static/js/runtime-main.7dde2822.js",
     "runtime-main.js.map": "/econsimulations/static/js/runtime-main.7dde2822.js.map",
     "static/css/2.ed48e7f3.chunk.css": "/econsimulations/static/css/2.ed48e7f3.chunk.css",
-    "static/js/2.445f8559.chunk.js": "/econsimulations/static/js/2.445f8559.chunk.js",
-    "static/js/2.445f8559.chunk.js.map": "/econsimulations/static/js/2.445f8559.chunk.js.map",
+    "static/js/2.c398b9f0.chunk.js": "/econsimulations/static/js/2.c398b9f0.chunk.js",
+    "static/js/2.c398b9f0.chunk.js.map": "/econsimulations/static/js/2.c398b9f0.chunk.js.map",
     "index.html": "/econsimulations/index.html",
     "static/css/2.ed48e7f3.chunk.css.map": "/econsimulations/static/css/2.ed48e7f3.chunk.css.map",
-    "static/css/main.c82c4d33.chunk.css.map": "/econsimulations/static/css/main.c82c4d33.chunk.css.map",
-    "static/js/2.445f8559.chunk.js.LICENSE.txt": "/econsimulations/static/js/2.445f8559.chunk.js.LICENSE.txt",
-    "static/media/App.css": "/econsimulations/static/media/bg.0e1df83b.png",
-    "static/media/clt.00a4da12.png": "/econsimulations/static/media/clt.00a4da12.png",
-    "static/media/jd.d10ad230.jpg": "/econsimulations/static/media/jd.d10ad230.jpg",
-    "static/media/lln.6d91755a.png": "/econsimulations/static/media/lln.6d91755a.png",
-    "static/media/ovs.3727316f.png": "/econsimulations/static/media/ovs.3727316f.png"
+    "static/css/main.041c038d.chunk.css.map": "/econsimulations/static/css/main.041c038d.chunk.css.map",
+    "static/js/2.c398b9f0.chunk.js.LICENSE.txt": "/econsimulations/static/js/2.c398b9f0.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/econsimulations/static/media/bg.0e1df83b.png"
   },
   "entrypoints": [
     "static/js/runtime-main.7dde2822.js",
     "static/css/2.ed48e7f3.chunk.css",
-    "static/js/2.445f8559.chunk.js",
-    "static/css/main.c82c4d33.chunk.css",
-    "static/js/main.4dc825ae.chunk.js"
+    "static/js/2.c398b9f0.chunk.js",
+    "static/css/main.041c038d.chunk.css",
+    "static/js/main.459b2fc6.chunk.js"
   ]
 }
