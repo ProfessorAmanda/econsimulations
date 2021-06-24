@@ -1,4 +1,3 @@
-import React from "react";
 import { Alert, Row } from "reactstrap";
 import OVBSimulation from "./OVBSimulation";
 

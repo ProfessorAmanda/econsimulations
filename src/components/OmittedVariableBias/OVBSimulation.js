@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Row, Col, Button, InputGroup, InputGroupText } from "reactstrap";
 import CoefficientInput from "./CoefficientInput.js";
 import MultivariateNormal from "multivariate-normal";

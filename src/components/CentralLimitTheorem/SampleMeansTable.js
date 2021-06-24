@@ -3,8 +3,6 @@
   Displays a table of sample means
 
 */
-
-import React from 'react';
 import { Table } from 'reactstrap';
 import { dataObjectArrayType } from '../../lib/types.js';
 import _ from 'lodash';

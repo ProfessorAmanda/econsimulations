@@ -3,7 +3,7 @@
   Displays the description for the LLN simulation, a menu bar to choose the different variations, and the simulation component itself
 
 */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PopBar from '../PopBar.js';
 import { Alert } from 'reactstrap';
 import LLNSimulation from './LLNSimulation.js';

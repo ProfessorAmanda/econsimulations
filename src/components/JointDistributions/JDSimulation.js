@@ -3,7 +3,7 @@
   Displays the Joint Distributions simulation
 
 */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import { Container, Row, Col, InputGroupText, Button } from 'reactstrap';
 import MeanSDInput from './MeanSDInput';

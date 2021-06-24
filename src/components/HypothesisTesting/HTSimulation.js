@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from "react";
+import { useEffect, useState }  from "react";
 import PerformTest from "./PerformTest.js";
 import { Alert, Container, Row, Button } from "reactstrap";
 import TestInputs from "./TestInputs.js";

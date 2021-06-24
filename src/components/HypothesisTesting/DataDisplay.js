@@ -1,4 +1,3 @@
-import React from "react";
 import { Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import _ from "lodash";

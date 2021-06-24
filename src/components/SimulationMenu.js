@@ -3,7 +3,7 @@
   Displays the StartHere button and then the menu once the button is clicked
 
 */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SimBar from './SimBar.js';
 import StartHere from './StartHere';
 import { Fade } from 'reactstrap';

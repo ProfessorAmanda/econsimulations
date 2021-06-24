@@ -3,7 +3,6 @@
   Displays a button for the user to plot their guess or a button to generate the correct best fit line
 
 */
-import React from "react";
 import { Button } from "reactstrap";
 import PropTypes from 'prop-types';
 

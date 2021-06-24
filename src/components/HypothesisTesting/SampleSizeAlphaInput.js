@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
 import { stringOrNumberType } from "../../lib/types";

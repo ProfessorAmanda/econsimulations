@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { sqrt } from "mathjs";
 import { Button, Container, Row } from "reactstrap";
 import { dataFromDistribution, populationMean, populationStandardDev } from "../../lib/stats-utils.js";

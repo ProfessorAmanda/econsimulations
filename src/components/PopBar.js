@@ -3,7 +3,7 @@
 
   Used by Law of Large Numbers and Central Limit Theorem
 */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import SelectorButtonGroup from './SelectorButtonGroup';
 

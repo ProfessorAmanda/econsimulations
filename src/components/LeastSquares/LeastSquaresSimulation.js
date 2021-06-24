@@ -3,7 +3,7 @@
   Displays the Least Squares simulation
 
 */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Row, Col } from "reactstrap";
 import NewPointsInput from "./NewPointsInput";
 import LeastSquaresChart from "./LeastSquaresChart.js";

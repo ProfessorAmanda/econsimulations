@@ -3,7 +3,6 @@
   Displays a Nivo scatterplot for the joint distribution data
 
 */
-import React from 'react';
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
 import { Col } from 'reactstrap';
 import PropTypes from 'prop-types';

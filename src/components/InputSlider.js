@@ -1,4 +1,3 @@
-import React from "react";
 import { Input, InputGroup, InputGroupAddon } from "reactstrap";
 import PropTypes from 'prop-types';
 import { stringOrNumberType } from "../lib/types";

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import PropTypes from 'prop-types';
 

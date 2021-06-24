@@ -3,7 +3,7 @@
   Displays inputs to allow the user to run a large number of resamples
 
 */
-import React, { useState } from "react";
+import { useState } from "react";
 import {Button, Input } from 'reactstrap';
 import _ from "lodash";
 import PropTypes from 'prop-types';

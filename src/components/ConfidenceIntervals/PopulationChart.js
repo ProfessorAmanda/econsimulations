@@ -1,4 +1,3 @@
-import React from "react";
 import DotPlot from "../DotPlot";
 import { Alert, Container } from "reactstrap";
 import _ from "lodash";

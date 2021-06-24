@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Row, Alert } from "reactstrap";
 import DotPlot from "../DotPlot.js";
 import PropTypes from "prop-types";
