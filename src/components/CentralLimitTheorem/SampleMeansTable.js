@@ -4,11 +4,11 @@
 
 */
 import { Table } from 'reactstrap';
-import { dataObjectArrayType } from '../../lib/types.js';
+import { sampleMeanArrayType } from '../../lib/types.js';
 import _ from 'lodash';
 
 export default function SampleMeansTable({ sampleMeans }) {
-  const tableBody = sampleMeans.map(({x: size, y: mean}, index) =>
+  const tableBody = sampleMeans.map(({size, mean}, index) =>
     <tr key={index}>
       <td>{index + 1}</td>
       <td>{size}</td>
@@ -33,5 +33,5 @@ export default function SampleMeansTable({ sampleMeans }) {
 }
 
 SampleMeansTable.propTypes = {
-  sampleMeans: dataObjectArrayType.isRequired,
+  sampleMeans: sampleMeanArrayType.isRequired,
 }
