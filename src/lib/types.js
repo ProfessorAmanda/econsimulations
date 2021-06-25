@@ -20,8 +20,8 @@ export const dataObjectArrayType = PropTypes.arrayOf(
 
 export const sampleMeanArrayType = PropTypes.arrayOf(
   PropTypes.shape({
-    size: PropTypes.number.isRequired,
-    mean: PropTypes.number.isRequired,
+    size: PropTypes.number,
+    mean: PropTypes.number,
   })
 );
 

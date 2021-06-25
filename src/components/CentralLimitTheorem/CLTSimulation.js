@@ -19,7 +19,6 @@ import { popShapeType } from "../../lib/types.js";
 export default function CLTSimulation({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampled, setSampled] = useState([]);
-  const [sampleSize, setSampleSize] = useState(mainSampleSize);
   const [normalized, setNormalized] = useState(false);
   const [stage, setStage] = useState(1);
   const [popArray, setPopArray] = useState([]);
@@ -54,7 +53,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
-    const newMeans = [...sampleMeans, {size: size, mean: _.round(populationMean(sample))}];
+    const newMeans = [...sampleMeans, {size: size, mean: populationMean(sample)}];
     setSampleMeans(newMeans);
   }
 
@@ -82,10 +81,9 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
                 </Button>
                 <SampleMeanChart  // TODO: update this
                   sampleMeans={sampleMeans.map(({ mean }) => mean)}
-                  mean={popMean}
-                  sd={populationStandardDev(sampled)}
+                  popMean={popMean}
+                  sd={populationStandardDev(popArray)}
                   normalized={normalized}
-                  sampleSize={sampleSize}
                   popShape={popShape}
                 />
               </Col>
@@ -100,7 +98,6 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
                 </Alert>
                 <br/>
                 <SampleMeansSimulator
-                  setSampleSize={setSampleSize}
                   population={popArray}
                   addSamples={addSampleMeans}
                 />
