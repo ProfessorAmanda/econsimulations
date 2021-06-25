@@ -9,6 +9,8 @@ import HighchartsReact from 'highcharts-react-official';
 import { abs } from "mathjs";
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from "../../lib/types.js"
+import Annotations from "highcharts/modules/annotations";
+Annotations(Highcharts);
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState({
@@ -63,28 +65,15 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     const areas = pairs.map(({p1, p2}) => abs(p1.y - p2.y) ** 2);
     setSquareAreas(areas);
 
-    // returns an array of points to create a square shape in highcharts
-    const buildSquare = (p1, p2) => {
-      const dist = abs(p1.y - p2.y);
-      const lowestPt = p1.y < p2.y ? p1 : p2;
-      return [{
-          x: lowestPt.x,
-          y: lowestPt.y
-        }, {
-          x: lowestPt.x + dist,
-          y: lowestPt.y
-        }, {
-          x: lowestPt.x + dist,
-          y: lowestPt.y + dist
-        }, {
-          x: lowestPt.x,
-          y: lowestPt.y + dist
-        }, {
-          x: lowestPt.x,
-          y: lowestPt.y
-        }
-      ];
-    }
+    // create the actual square objects for highcharts
+    const squares = pairs.map(({p1, p2}) => (
+      {
+        dashStyle: "solid",
+        fill: "rgba(255, 255, 255, 0)",
+        points: buildSquare(p1, p2),
+        type: 'path'
+      })
+    );
 
     const newChart = {
       series: [
@@ -105,25 +94,12 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
           label: {
             enabled: false
           }
-        },
-        ...pairs.map(({p1, p2}) => (
-          {
-            type: "scatter",
-            animation: false,
-            data: buildSquare(p1, p2),
-            enableMouseTracking: false,
-            lineWidth: 1,
-            color: "#888888",
-            marker: {
-              enabled: false
-            },
-            label: {
-              enabled: false
-            },
-            zIndex: -5
-          })
-        )
+        }
       ],
+      annotations: [{
+        draggable: '',
+        shapes: squares
+      }]
     }
 
     setMyChart(newChart);
