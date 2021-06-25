@@ -101,12 +101,26 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     // create the actual square objects for highcharts
     const squares = pairs.map(({p1, p2}) => (
       {
-        dashStyle: "solid",
-        fill: "rgba(255, 255, 255, 0)",
-        points: buildSquare(p1, p2),
-        type: 'path'
+        // dashStyle: "solid",
+        // fill: "rgba(255, 255, 255, 0)",
+        // points: buildSquare(p1, p2),
+        // type: 'path'
+        type: "polygon",
+        data: buildSquare(p1, p2),
+        enableMouseTracking: false,
+        color: "blue",
+        lineWidth: 5,
+        lineColor: "black",
+        opacity: 0.1,
+        marker: {
+          enabled: false
+        },
+        label: {
+          enabled: false
+        }
       })
     );
+
 
     const newChart = {
       series: [
@@ -127,12 +141,9 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
           label: {
             enabled: false
           }
-        }
+        },
+        ...squares
       ],
-      annotations: [{
-        draggable: '',
-        shapes: squares
-      }]
     }
 
     setMyChart(newChart);
