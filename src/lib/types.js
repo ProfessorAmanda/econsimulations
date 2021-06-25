@@ -18,6 +18,13 @@ export const dataObjectArrayType = PropTypes.arrayOf(
   })
 );
 
+export const sampleMeanArrayType = PropTypes.arrayOf(
+  PropTypes.shape({
+    size: PropTypes.number.isRequired,
+    mean: PropTypes.number.isRequired,
+  })
+);
+
 export const highchartsSeriesType = PropTypes.arrayOf(
   PropTypes.shape({
     name: PropTypes.string.isRequired,

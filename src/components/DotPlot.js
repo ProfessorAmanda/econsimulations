@@ -8,7 +8,7 @@ import { highchartsSeriesType } from "../lib/types";
 Label(Highcharts);
 
 
-export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel }) {
+export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel }) {
         startOnTick: true,
         endOnTick: true,
         title: {
-          text: "Count"
+          text: yLabel || "Count"
         }
       },
       series: series.map((seriesObject) => (
@@ -63,7 +63,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel }) {
       )
     }
     setChart(newChart);
-  }, [series, title, xMin, xMax, yMax, xLabel]);
+  }, [series, title, xMin, xMax, yMax, xLabel, yLabel]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }

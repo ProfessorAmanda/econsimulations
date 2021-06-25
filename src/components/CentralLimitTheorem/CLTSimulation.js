@@ -8,9 +8,8 @@ import Collapsable from "../Collapsable.js";
 import ChartContainer from "../ChartContainer.js";
 import SampleMeanChart from "./SampleMeanChart.js"
 import SampleMeansSimulator from "./SampleMeansSimulator.js"
-import { std } from "mathjs";
 import { Alert, Button, Col, Row } from "reactstrap";
-import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
+import { populationMean, dataFromDistribution, populationStandardDev } from "../../lib/stats-utils.js";
 import SampleSizeInput from "../SampleSizeInput.js";
 import SampleMeansTable from "./SampleMeansTable.js";
 import _ from "lodash";
@@ -21,7 +20,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampled, setSampled] = useState([]);
   const [sampleSize, setSampleSize] = useState(mainSampleSize);
-  const [standardNormal, setStandardNormal] = useState(false);
+  const [normalized, setNormalized] = useState(false);
   const [stage, setStage] = useState(1);
   const [popArray, setPopArray] = useState([]);
   const [popMean, setPopMean] = useState(0);
@@ -55,11 +54,9 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
-    const newMeans = [...sampleMeans, {x: size, y: populationMean(sample)}];
+    const newMeans = [...sampleMeans, {size: size, mean: _.round(populationMean(sample))}];
     setSampleMeans(newMeans);
   }
-
-  const xvalue = sampled.length === 0 ? [0] : sampled.map((s) => s.x);  // provide a placeholder value until "sampled" is updated
 
   return (
     <Collapsable>
@@ -79,18 +76,17 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
                 <Button
                   outline
                   color="primary"
-                  active={standardNormal}
-                  onClick={() => setStandardNormal(!standardNormal)}>
+                  active={normalized}
+                  onClick={() => setNormalized(!normalized)}>
                     Convert to Std. Normal
                 </Button>
                 <SampleMeanChart  // TODO: update this
+                  sampleMeans={sampleMeans.map(({ mean }) => mean)}
                   mean={popMean}
-                  sd={std(xvalue)}
-                  normalized={standardNormal}
+                  sd={populationStandardDev(sampled)}
+                  normalized={normalized}
                   sampleSize={sampleSize}
-                  type={popShape}
-                  normal={standardNormal}
-                  sampleMeans={sampleMeans.map(({x, y}) => [x, y])}
+                  popShape={popShape}
                 />
               </Col>
               <Col lg="4">
