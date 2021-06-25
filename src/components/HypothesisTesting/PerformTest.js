@@ -99,4 +99,5 @@ PerformTest.propTypes = {
   shape: popShapeType.isRequired,
   tails: PropTypes.number.isRequired,
   mue0: PropTypes.number.isRequired,
+  distType: PropTypes.string.isRequired,
 }

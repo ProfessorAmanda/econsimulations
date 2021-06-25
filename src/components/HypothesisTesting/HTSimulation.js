@@ -4,7 +4,6 @@ import { Alert, Container, Row, Button } from "reactstrap";
 import TestInputs from "./TestInputs.js";
 import HypothesisSelector from "./HypothesisSelector.js";
 import _ from "lodash";
-import SelectorButtonGroup from "../SelectorButtonGroup.js";
 
 
 export default function HTSimulation() {
@@ -24,11 +23,7 @@ export default function HTSimulation() {
 
   return (
     <div className="MainContainer">
-        <div>
-          Do you want to assume that you know σ? If yes, choose Z. If no, choose T: {" "}
-          <SelectorButtonGroup options={["Z", "T"]} select={setDistType} selected={distType}/>
-        </div>
-      <TestInputs testType={testType} setTestType={setTestType} popShape={pplShape} setPopType={setPplShape}/>
+      <TestInputs testType={testType} setDistType={setDistType} distType={distType} setTestType={setTestType} popShape={pplShape} setPopType={setPplShape}/>
       {(stage >= 2) && (
         <Container fluid>
           <Row>
