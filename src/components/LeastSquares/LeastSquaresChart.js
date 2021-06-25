@@ -24,9 +24,9 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
       type: 'line',
       plotBorderColor: '#000000',
       plotBorderWidth: 1,
-      margin : [100,100,100,100],
-      width  : 600,
-      height : 600
+      margin: [100, 100, 100, 100],
+      width: 600,
+      height: 600
     },
     tooltip: {
       headerFormat: "",
@@ -57,29 +57,19 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     const lowestPt = p1.y < p2.y ? p1 : p2;
     return [{
         x: lowestPt.x,
-        y: lowestPt.y,
-        xAxis: 0,
-        yAxis: 0
+        y: lowestPt.y
       }, {
         x: lowestPt.x + dist,
-        y: lowestPt.y,
-        xAxis: 0,
-        yAxis: 0
+        y: lowestPt.y
       }, {
         x: lowestPt.x + dist,
-        y: lowestPt.y + dist,
-        xAxis: 0,
-        yAxis: 0
+        y: lowestPt.y + dist
       }, {
         x: lowestPt.x,
-        y: lowestPt.y + dist,
-        xAxis: 0,
-        yAxis: 0
+        y: lowestPt.y + dist
       }, {
         x: lowestPt.x,
-        y: lowestPt.y,
-        xAxis: 0,
-        yAxis: 0
+        y: lowestPt.y
       }
     ];
   }
@@ -97,30 +87,6 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
 
     const areas = pairs.map(({p1, p2}) => abs(p1.y - p2.y) ** 2);
     setSquareAreas(areas);
-
-    // create the actual square objects for highcharts
-    const squares = pairs.map(({p1, p2}) => (
-      {
-        // dashStyle: "solid",
-        // fill: "rgba(255, 255, 255, 0)",
-        // points: buildSquare(p1, p2),
-        // type: 'path'
-        type: "polygon",
-        data: buildSquare(p1, p2),
-        enableMouseTracking: false,
-        color: "blue",
-        lineWidth: 5,
-        lineColor: "black",
-        opacity: 0.1,
-        marker: {
-          enabled: false
-        },
-        label: {
-          enabled: false
-        }
-      })
-    );
-
 
     const newChart = {
       series: [
@@ -142,7 +108,23 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
             enabled: false
           }
         },
-        ...squares
+        ...pairs.map(({p1, p2}) => (
+          {
+            type: "scatter",
+            animation: false,
+            data: buildSquare(p1, p2),
+            enableMouseTracking: false,
+            lineWidth: 1,
+            color: "#888888",
+            marker: {
+              enabled: false
+            },
+            label: {
+              enabled: false
+            },
+            zIndex: -5
+          })
+        )
       ],
     }
 
