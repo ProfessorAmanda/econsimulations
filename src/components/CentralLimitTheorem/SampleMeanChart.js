@@ -17,8 +17,6 @@ export default function SampleMeanChart({ sampleMeans, normalized, popMean, sd, 
     }
   });
 
-  console.log(sampleMeansPoints)
-
   const onlyValues = sampleMeansPoints.map((obj) => obj.x);
   const onlyCounts = sampleMeansPoints.map((obj) => obj.y);
 
