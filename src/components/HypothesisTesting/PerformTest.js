@@ -10,7 +10,7 @@ import DataDisplay from "./DataDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import { popShapeType } from "../../lib/types.js";
 
-export default function PerformTest({ shape, tails, mue0 }) {
+export default function PerformTest({ distType, shape, tails, mue0 }) {
   const [popArr, setPopArr] = useState([]);
   const [sample, setSample] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
@@ -27,21 +27,29 @@ export default function PerformTest({ shape, tails, mue0 }) {
       setSim(1);
     }
   }
-
-  const getTestStatistic = (mean, sd) => {
-    // TODO: use different function if T distribution
-    return jStat.zscore(mean, mue0, sd / sqrt(sampleSize))
-  }
-
-  const getPValue = (mean, sd) => {
-    // TODO: use different function if T distribution
-    return jStat.ztest(mean, mue0, sd / sqrt(sampleSize), tails)
-  }
-
   const sampleMean = populationMean(sample);
-  const sampleSD = populationStandardDev(sample);  // TODO: use this when pop sd is unknown
-  const testStatistic = getTestStatistic(sampleMean, 3);
-  const pValue = getPValue(sampleMean, 3);
+  const sampleSD = populationStandardDev(sample)
+  const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
+
+  function calculateTestStatistic(){
+
+    if(distType === 'Z') {
+      return jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize)) //sd is 3
+    } else {
+      return tscore; 
+    }
+  }
+  function calculatePValue() {
+    if(distType === 'Z') {
+      return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
+    } else {
+       return jStat.ttest(tscore, sampleSize, tails) 
+    }
+  }
+
+ 
+  const testStatistic = calculateTestStatistic();
+  const pValue = calculatePValue();
 
   return (
     <Container fluid>
@@ -91,4 +99,5 @@ PerformTest.propTypes = {
   shape: popShapeType.isRequired,
   tails: PropTypes.number.isRequired,
   mue0: PropTypes.number.isRequired,
+  distType: PropTypes.string.isRequired,
 }

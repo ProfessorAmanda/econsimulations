@@ -1,13 +1,18 @@
 import SelectorButtonGroup from "../SelectorButtonGroup";
 import { Row } from "reactstrap";
 import PropTypes from "prop-types";
+import { distributionType } from "../../lib/types.js";
 
-export default function TestInputs({ testType, setTestType, popShape, setPopType }) {
+export default function TestInputs({ setDistType, distType, testType, setTestType, popShape, setPopType }) {
 
   return (
     <div style={{ padding: 20 }}>
       <Row>
         <div>
+        <div>
+          Do you want to assume that you know σ? If yes, choose Z. If no, choose T: {" "}
+          <SelectorButtonGroup options={["Z", "T"]} select={setDistType} selected={distType}/>
+        </div>
           Choose a kind of hypothesis test: {" "}
           <SelectorButtonGroup options={["oneSample", "twoSample"]} select={setTestType} selected={testType}/>
         </div>
@@ -26,5 +31,8 @@ TestInputs.propTypes = {
   testType: PropTypes.string.isRequired,
   setTestType: PropTypes.func.isRequired,
   popShape: PropTypes.string.isRequired,
-  setPopType: PropTypes.func.isRequired
+  setPopType: PropTypes.func.isRequired,
+  setDistType: PropTypes.func.isRequired,
+  distType: distributionType.isRequired,
+
 }

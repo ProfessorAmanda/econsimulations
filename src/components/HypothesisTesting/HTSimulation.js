@@ -5,12 +5,15 @@ import TestInputs from "./TestInputs.js";
 import HypothesisSelector from "./HypothesisSelector.js";
 import _ from "lodash";
 
+
 export default function HTSimulation() {
   const [pplShape, setPplShape] = useState("");
   const [testType, setTestType] = useState("");
   const [hypothesis, setHypothesis] = useState();
   const [mue0, setMue0] = useState(0);
   const [stage, setStage] = useState(1);
+  const [distType, setDistType] = useState("Z");  // can be "Z" or "T"
+
 
   useEffect(() => {
     if ((pplShape !== "") && (testType !== "")) {
@@ -20,7 +23,7 @@ export default function HTSimulation() {
 
   return (
     <div className="MainContainer">
-      <TestInputs testType={testType} setTestType={setTestType} popShape={pplShape} setPopType={setPplShape}/>
+      <TestInputs testType={testType} setDistType={setDistType} distType={distType} setTestType={setTestType} popShape={pplShape} setPopType={setPplShape}/>
       {(stage >= 2) && (
         <Container fluid>
           <Row>
@@ -57,6 +60,7 @@ export default function HTSimulation() {
               <br/>
               <Row className="Center">
                 <PerformTest
+                  distType = {distType}
                   shape={(pplShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : pplShape}
                   tails={hypothesis.tails}
                   mue0={+mue0}
