@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { DropdownItem, DropdownToggle, DropdownMenu, Input, InputGroup, InputGroupButtonDropdown, InputGroupText } from "reactstrap";
 import { HYPOTHESIS_OPTIONS } from "../../lib/constants";

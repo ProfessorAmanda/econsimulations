@@ -5,7 +5,7 @@
   Used by Law of Large Numbers and Central Limit Theorem
 
 */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import PropTypes from 'prop-types'
 

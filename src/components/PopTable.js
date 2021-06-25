@@ -1,4 +1,3 @@
-import React from "react";
 import { Table } from "reactstrap";
 import PropTypes from "prop-types";
 import { dataObjectArrayType } from "../lib/types";

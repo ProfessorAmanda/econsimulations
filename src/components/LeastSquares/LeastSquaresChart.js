@@ -3,7 +3,7 @@
   Displays a HighCharts scatterplot for the Least Squares data points
 
 */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../styles/dark-unica.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'

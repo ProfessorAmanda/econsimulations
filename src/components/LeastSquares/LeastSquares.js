@@ -3,7 +3,6 @@
   A container component that holds the description and simulation for Least Squares
 
 */
-import React from "react";
 import LeastSquaresSimulation from "./LeastSquaresSimulation";
 import { Alert } from "reactstrap";
 

@@ -3,7 +3,6 @@
   Displays the introduction to the website and the start button
 
 */
-import React from 'react';
 import { Button, Fade } from 'reactstrap';
 import PropTypes from 'prop-types';
 

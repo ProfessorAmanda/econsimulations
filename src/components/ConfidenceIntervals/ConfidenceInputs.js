@@ -1,4 +1,3 @@
-import React from "react";
 import { Row, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
 import SelectorButtonGroup from "../SelectorButtonGroup.js";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Input, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 

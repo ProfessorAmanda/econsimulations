@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Card, CardText } from 'reactstrap';
 import PropTypes from 'prop-types';
 

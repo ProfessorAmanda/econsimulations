@@ -3,7 +3,7 @@
   Displays one of the LLN simulations
 
 */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
 import SampleSizeInput from '../SampleSizeInput.js';

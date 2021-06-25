@@ -1,4 +1,3 @@
-import React from "react";
 import SelectorButtonGroup from "../SelectorButtonGroup";
 import { Row } from "reactstrap";
 import PropTypes from "prop-types";

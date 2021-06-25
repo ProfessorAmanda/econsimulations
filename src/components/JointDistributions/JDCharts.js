@@ -4,7 +4,7 @@
   Note that Nivo is used for these plots instead of HighCharts - easier to synchronize
 
 */
-import React, { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Row, Col } from 'reactstrap';
 import JointChart from "./JointChart.js";
 import { ResponsiveScatterPlotCanvas } from "@nivo/scatterplot";

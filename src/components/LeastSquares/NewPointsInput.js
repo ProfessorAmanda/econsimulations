@@ -3,7 +3,7 @@
   Displays a slider for the user to choose a number of random points and a button to generate them
 
 */
-import React, {  useState } from "react";
+import { useState } from "react";
 import { Button, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import PropTypes from 'prop-types';
 

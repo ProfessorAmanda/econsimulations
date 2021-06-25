@@ -3,7 +3,6 @@
   Displays sliders for the user to adjust the mean and standard deviation
 
 */
-import React from 'react';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { stringOrNumberType } from '../../lib/types.js';

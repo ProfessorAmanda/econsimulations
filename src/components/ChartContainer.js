@@ -5,7 +5,6 @@
   Used by Law of Large Numbers and Central Limit Theorem
 
 */
-import React from 'react';
 import '../styles/dark-unica.css';
 import DotPlot from './DotPlot';
 import { Alert, Container, Col, Row } from 'reactstrap';

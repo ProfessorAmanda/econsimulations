@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PopBar from '../PopBar.js';
 import { Alert } from 'reactstrap';
 import CISimulation from './CISimulation.js';

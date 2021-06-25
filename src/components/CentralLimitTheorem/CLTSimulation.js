@@ -3,7 +3,7 @@
   Displays one of the CLT simulations
 
 */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Collapsable from "../Collapsable.js";
 import ChartContainer from "../ChartContainer.js";
 import SampleMeanChart from "./SampleMeanChart.js"

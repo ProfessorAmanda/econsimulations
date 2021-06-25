@@ -3,7 +3,6 @@
   A container component for the various simulations
 
 */
-import React from 'react';
 import LawOfLargeNumbers from './LawOfLargeNumbers/LawOfLargeNumbers.js';
 import CentralLimitTheorem from './CentralLimitTheorem/CentralLimitTheorem.js';
 import JointDistributions from './JointDistributions/JointDistributions.js';
