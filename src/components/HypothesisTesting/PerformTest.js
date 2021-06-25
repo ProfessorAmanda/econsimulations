@@ -27,26 +27,27 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
       setSim(1);
     }
   }
+  const sampleMean = populationMean(sample);
+  const sampleSD = populationStandardDev(sample)
+  const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
 
   function calculateTestStatistic(){
 
     if(distType === 'Z') {
-      return jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize)) 
+      return jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize)) //sd is 3
     } else {
-      const tscore = jStat.tscore();
-      return jStat.tscore() //TODO: Not sure what function to use 
+      return tscore; 
     }
   }
   function calculatePValue() {
     if(distType === 'Z') {
       return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
     } else {
-       return jStat.ttest( tscore, sampleSize, tails) 
+       return jStat.ttest(tscore, sampleSize, tails) 
     }
   }
 
-  const sampleMean = populationMean(sample);
-  const sampleSD = populationStandardDev(sample);  // TODO: use this when pop sd is unknown
+ 
   const testStatistic = calculateTestStatistic();
   const pValue = calculatePValue();
 
