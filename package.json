@@ -22,7 +22,7 @@
     "highcharts-react-official": "^3.0.0",
     "jstat": "^1.9.4",
     "lodash": "^4.17.21",
-    "mathjs": "^9.4.1",
+    "mathjs": "^9.4.3",
     "multivariate-normal": "^0.1.2",
     "probability-distributions": "^0.9.1",
     "prop-types": "^15.7.2",
