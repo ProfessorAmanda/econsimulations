@@ -51,29 +51,6 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     }
   });
 
-  // returns an array of points to create a square shape in highcharts
-  const buildSquare = (p1, p2) => {
-    const dist = abs(p1.y - p2.y);
-    const lowestPt = p1.y < p2.y ? p1 : p2;
-    return [{
-        x: lowestPt.x,
-        y: lowestPt.y
-      }, {
-        x: lowestPt.x + dist,
-        y: lowestPt.y
-      }, {
-        x: lowestPt.x + dist,
-        y: lowestPt.y + dist
-      }, {
-        x: lowestPt.x,
-        y: lowestPt.y + dist
-      }, {
-        x: lowestPt.x,
-        y: lowestPt.y
-      }
-    ];
-  }
-
   useEffect(() => {
     // generate pairs for the corresponding points to create squares
     const pairs = [];
@@ -87,6 +64,29 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
 
     const areas = pairs.map(({p1, p2}) => abs(p1.y - p2.y) ** 2);
     setSquareAreas(areas);
+
+    // returns an array of points to create a square shape in highcharts
+    const buildSquare = (p1, p2) => {
+      const dist = abs(p1.y - p2.y);
+      const lowestPt = p1.y < p2.y ? p1 : p2;
+      return [{
+          x: lowestPt.x,
+          y: lowestPt.y
+        }, {
+          x: lowestPt.x + dist,
+          y: lowestPt.y
+        }, {
+          x: lowestPt.x + dist,
+          y: lowestPt.y + dist
+        }, {
+          x: lowestPt.x,
+          y: lowestPt.y + dist
+        }, {
+          x: lowestPt.x,
+          y: lowestPt.y
+        }
+      ];
+    }
 
     const newChart = {
       series: [
