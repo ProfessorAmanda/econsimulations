@@ -4,10 +4,8 @@
 
 */
 import { useEffect, useState } from 'react';
-import '../../styles/dark-unica.css';
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official'
-import 'highcharts/modules/annotations';
+import HighchartsReact from 'highcharts-react-official';
 import { abs } from "mathjs";
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from "../../lib/types.js"
