@@ -10,7 +10,7 @@ import DataDisplay from "./DataDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import { popShapeType } from "../../lib/types.js";
 
-export default function PerformTest({ distType, shape, tails, mue0 }) {
+export default function PerformTest({ testType, distType, shape, tails, mue0 }) {
   const [popArr, setPopArr] = useState([]);
   const [sample, setSample] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
@@ -33,11 +33,23 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
 
   function calculateTestStatistic(){
 
-    if(distType === 'Z') {
+    //one sample sigma known
+    if (distType === 'Z' && testType === 'oneSample') {
       return jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize)) //sd is 3
+
+    //one sample sigma unknown
+    } else if (distType !== 'Z' && testType === 'oneSample') {
+      return tscore;  
+
+      //two sample sigma known
+    } else if (distType === 'Z' && testType !== 'oneSample') {
+      return // ((mean1 - mean2) - 0) / sqrt((sd1/n1 + sd2/n2)) // How do we come up with a second mean sample and standard deviation?
+
+      //two sample sigma unknown
     } else {
-      return tscore; 
+      return //formula here
     }
+
   }
   function calculatePValue() {
     if(distType === 'Z') {
