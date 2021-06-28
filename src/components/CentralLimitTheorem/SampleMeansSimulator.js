@@ -10,19 +10,14 @@ import PropTypes from 'prop-types';
 import { dataObjectArrayType } from "../../lib/types.js";
 import { populationMean } from "../../lib/stats-utils.js";
 
-export default function SampleMeansSimulator({ setSampleSize, population, addSamples }) {
+export default function SampleMeansSimulator({ population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
   const [resampleSize, setResampleSize] = useState(0);
-
-  const changeSampleSize = (value) => {
-    setSampleSize(value);
-    setResampleSize(value);
-  }
 
   const resample = () => {
     const samplePop = _.sampleSize(population, resampleSize);
     const sampleMean = populationMean(samplePop);
-    return {x: +resampleSize, y: sampleMean};
+    return {size: +resampleSize, mean: sampleMean};
   }
 
   const runSim = () => {
@@ -41,7 +36,7 @@ export default function SampleMeansSimulator({ setSampleSize, population, addSam
         min={1}
         type="number"
         placeholder="Sample Size:"
-        onChange={(event) => changeSampleSize(event.target.value)}
+        onChange={(event) => setResampleSize(event.target.value)}
         value={resampleSize}
       />
       <br/>
@@ -64,7 +59,6 @@ export default function SampleMeansSimulator({ setSampleSize, population, addSam
 }
 
 SampleMeansSimulator.propTypes = {
-  setSampleSize: PropTypes.func.isRequired,
   population: dataObjectArrayType.isRequired,
   addSamples: PropTypes.func.isRequired,
 }

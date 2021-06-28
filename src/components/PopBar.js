@@ -24,7 +24,7 @@ export default function PopBar({ sim, setPop }) {
   }
 
   return (
-    <div className="buttonGroup">
+    <div className="button-group">
       <p>Pick a Population Distribution: </p>
       <SelectorButtonGroup options={modes} select={onClick} selected={selected}/>
     </div>

@@ -55,11 +55,11 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
     if(distType === 'Z') {
       return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
     } else {
-       return jStat.ttest(tscore, sampleSize, tails) 
+       return jStat.ttest(tscore, sampleSize, tails)
     }
   }
 
- 
+
   const testStatistic = calculateTestStatistic();
   const pValue = calculatePValue();
 
@@ -93,7 +93,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
             alpha={+alpha}
           />
           <br/>
-          <Row className="Center">
+          <Row>
             <p>
               Press here to reveal the true population distribution and mean.&nbsp;
               <Button color="primary" onClick={() => setSim(2)}>Reveal</Button>
