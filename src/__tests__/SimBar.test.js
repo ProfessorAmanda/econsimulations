@@ -10,17 +10,16 @@ describe("SimBar tests", () => {
     render(<SimBar setSection={handler}/>);
   });
 
-  test("all modules displayed", () => {
-    MODULES.forEach((module) => {
-      expect(screen.getByText(module.name)).toBeInTheDocument();
+  MODULES.forEach(({ name }) => {
+    test(`${name} module displayed`, () => {
+      expect(screen.getByText(name)).toBeInTheDocument();
     });
   });
 
-  test("buttons call correct handlers", () => {
-    MODULES.forEach((module) => {
-      const moduleButton = screen.getByText(module.name);
-      fireEvent.click(moduleButton);
-      expect(handler).toHaveBeenCalledWith(module.name);
+  MODULES.forEach(({ name }) => {
+    test(`${name} module calls correct handler`, () => {
+      fireEvent.click(screen.getByText(name));
+      expect(handler).toHaveBeenCalledWith(name);
     });
   });
 });
