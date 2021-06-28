@@ -4,6 +4,11 @@ import App from "../App.js";
 
 describe("top-level integration tests", () => {
 
+  const clickIntoModule = (moduleName) => {
+    fireEvent.click(screen.getByRole("button", { name: "Start!" }));
+    fireEvent.click(screen.getByRole("button", { name: moduleName }));
+  }
+
   beforeEach(async () => {
     jest.useFakeTimers();
     render(<App/>);
@@ -23,15 +28,13 @@ describe("top-level integration tests", () => {
     expect(screen.getByTestId("menu")).toBeInTheDocument();
   });
 
-  test("clicking menu item brings up SimulationContainer", () => {
-    fireEvent.click(screen.getByRole("button", { name: "Start!" }));
-    fireEvent.click(screen.getByRole("button", { name: "Law of Large Numbers" }));
+  test("clicking module brings up SimulationContainer", () => {
+    clickIntoModule("Law of Large Numbers");
     expect(screen.getByTestId("sim-container")).toBeInTheDocument();
   });
 
   test("clicking menu button brings up menu", () => {
-    fireEvent.click(screen.getByRole("button", { name: "Start!" }));
-    fireEvent.click(screen.getByRole("button", { name: "Law of Large Numbers" }));
+    clickIntoModule("Law of Large Numbers");
     fireEvent.click(screen.getByRole("button", { name: "MENU" }));
     expect(screen.getByTestId("menu")).toBeInTheDocument();
   });
