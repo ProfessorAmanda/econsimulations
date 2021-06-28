@@ -24,7 +24,7 @@ describe("PopTable tests", () => {
   });
 
   test("correct header text displayed", () => {
-    expect(screen.getByText(VALUES[popShape].xLabel)).toBeInTheDocument();
-    expect(screen.getByText(VALUES[popShape].tableCol)).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: VALUES[popShape].tableCol })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: VALUES[popShape].xLabel })).toBeInTheDocument();
   });
 });
