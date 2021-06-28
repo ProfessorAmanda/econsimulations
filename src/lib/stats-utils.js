@@ -139,7 +139,6 @@ export const generateMystery = (sampleSize) => {
   return _.shuffle(finalPopArray).map((obj, index) => ({...obj, id: index}));
 }
 
-
 // returns the data set from the function corresponding with distType
 // objects in array are of shape {x, y, id}
 export const dataFromDistribution = (
