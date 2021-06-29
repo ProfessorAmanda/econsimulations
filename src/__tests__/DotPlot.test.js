@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import DotPlot from "../components/DotPlot.js";
 import Highcharts from "highcharts";
 import _ from "lodash";
