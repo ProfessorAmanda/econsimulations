@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import PopulationChartReveal from "./PopulationChartReveal.js";
 import _ from "lodash";
 import { jStat } from "jstat";
-import DataDisplay from "./DataDisplay.js";
+import ResultsDisplay from "./ResultsDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import { popShapeType } from "../../lib/types.js";
 
@@ -73,7 +73,7 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
       <br/>
       {(sim >= 1) && (
         <Container>
-          <DataDisplay
+          <ResultsDisplay
             mean={sampleMean}
             standardDev={sampleSD}
             testStatistic={testStatistic}

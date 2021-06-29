@@ -2,7 +2,7 @@ import { Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import _ from "lodash";
 
-export default function DataDisplay({ mean, standardDev, testStatistic, pValue, alpha }) {
+export default function ResultsDisplay({ mean, standardDev, testStatistic, pValue, alpha }) {
   return (
     <Alert color="secondary" >
       <p>This sample yields the following data:</p>
@@ -15,7 +15,7 @@ export default function DataDisplay({ mean, standardDev, testStatistic, pValue, 
   )
 }
 
-DataDisplay.propTypes = {
+ResultsDisplay.propTypes = {
   mean: PropTypes.number.isRequired,
   standardDev: PropTypes.number.isRequired,
   testStatistic: PropTypes.number.isRequired,
