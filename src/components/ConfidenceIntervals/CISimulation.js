@@ -116,7 +116,7 @@ export default function CISimulation({ popShape, populationSize }) {
               confidenceLevel={confLevel}
               samples={samples}
               popShape={popShape}
-              popMean={_.round(populationMean(popArray))}
+              popMean={_.round(populationMean(popArray), 2)}
               selected={selected}
               setSelected={setSelected}
             />
