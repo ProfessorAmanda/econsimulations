@@ -23,9 +23,6 @@ export default function PopulationChartReveal({ popArr, pVal, alpha }) {
             <DotPlot
               series={[{name: 'Population', data: popArr}]}
               title="Milk Production"
-              xMin={55}
-              xMax={81}
-              yMax={40}
               xLabel="Gallons"
             />
           </Row>
