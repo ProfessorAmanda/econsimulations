@@ -2,16 +2,14 @@ import { useState, useEffect } from "react";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import BellCurve from 'highcharts/modules/histogram-bellcurve';
-import { generateNormal } from "../lib/stats-utils.js";
 
 BellCurve(Highcharts);
 
 
-export default function NormalCurve() {
+export default function NormalCurve({ population }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
-
     const newChart = {
       plotOptions: {
         series: {
@@ -38,25 +36,27 @@ export default function NormalCurve() {
           type: 'bellcurve',
           baseSeries: 1,
           zIndex: -1,
-          color: "#aaaaaa"
+          enableMouseTracking: false,
+          label: false
         },
         {
           name: 'Data',
           type: 'scatter',
-          data: generateNormal(2000, 64, 3),
+          data: population,
           visible: false,
           showInLegend: false
         },
         {
           name: "means",
           type: "scatter",
-          data: [{x: 64, y: 0.1}]
+          data: [],
+          showInLegend: false
         }
       ]
     }
 
     setChart(newChart);
-  }, []);
+  }, [population]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }

@@ -6,7 +6,6 @@
 import SimBarOption from './SimBarOption';
 import PropTypes from 'prop-types'
 import { MODULES } from '../lib/constants';
-import NormalCurve from './NormalCurve';
 
 export default function SimBar({ setSection }) {
 
@@ -20,7 +19,6 @@ export default function SimBar({ setSection }) {
     <div className="menu" data-testid="menu">
       <div className="mini-logo"/>
       <ul className="sim-bar-option-list">{sections}</ul>
-      <NormalCurve/>
     </div>
   );
 }

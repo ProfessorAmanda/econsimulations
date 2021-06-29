@@ -3,6 +3,7 @@ import PerformTest from "./PerformTest.js";
 import { Alert, Container, Row, Button } from "reactstrap";
 import TestInputs from "./TestInputs.js";
 import HypothesisSelector from "./HypothesisSelector.js";
+import SimulateSamples from "./SimulateSamples.js";
 import _ from "lodash";
 
 
@@ -66,8 +67,10 @@ export default function HTSimulation() {
                   mue0={+mue0}
                 />
               </Row>
+              <Button color="primary" onClick={() => setStage(4)}>Try it out!</Button>
             </Container>
           )}
+          {(stage >= 4) && <SimulateSamples mue0={+mue0}/>}
         </Container>
       )}
     </div>
