@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 
 export default function SimulationContainer({ mode, setMode }) {
   return (
-    <div>
+    <div data-testid="sim-container">
       <Button className="home-button" outline color='danger' id="Menu" onClick={() => setMode("Home")}>MENU</Button>
       <div className="mini-logo"/>
       {mode === 'Law of Large Numbers' && <LawOfLargeNumbers/>}
