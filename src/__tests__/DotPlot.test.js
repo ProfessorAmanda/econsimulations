@@ -1,12 +1,12 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import DotPlot from "../components/DotPlot.js";
 import Highcharts from "highcharts";
-import _ from "lodash";
+import { testPopulation } from "../lib/test-utils.js";
 
 const testSeries = [
   {
     name: "test",
-    data: _.range(10).map((num) => ({x: num, y: num, id: num}))
+    data: testPopulation
   }
 ];
 

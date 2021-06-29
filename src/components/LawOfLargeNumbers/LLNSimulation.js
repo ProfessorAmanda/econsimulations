@@ -47,7 +47,7 @@ export default function LLNSimulation({ popShape, sampleSize }) {
 
   return (
     <Collapsable>
-      <div>
+      <div data-testid="lln-sim">
         <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} sampleMean={sampleMean} popShape={popShape}/>
         <p>Try a few different sample sizes and compare sample mean to population mean</p>
         <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
