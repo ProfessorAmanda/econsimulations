@@ -7,10 +7,11 @@ import { useEffect, useState } from 'react';
 import '../../styles/dark-unica.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import 'highcharts/modules/annotations';
+import Annotations from 'highcharts/modules/annotations';
 import { abs } from "mathjs";
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from "../../lib/types.js"
+Annotations(Highcharts);
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState({

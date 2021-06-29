@@ -13,6 +13,7 @@ import { popShapeType } from "../../lib/types.js";
 export default function PerformTest({ testType, distType, shape, tails, mue0 }) {
   const [popArr, setPopArr] = useState([]);
   const [sample, setSample] = useState([]);
+  /*const[sample2, setSample2] = useState([]); */
   const [sampleSize, setSampleSize] = useState(0);
   const [alpha, setAlpha] = useState(0);
   const [sim, setSim] = useState(0);
@@ -21,12 +22,37 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
   }, [shape]);
 
+/*
+  const Pop2Mean = Math.floor(Math.random() * (66 - 61 + 1)) + 61;
+
+  useEffect(() => {
+    setPopArr(dataFromDistribution(shape, 2000, { mean: Pop2Mean, low: 59, hi: 79 }))
+  }, [shape]); */
+
   const takeSample = () => {
     setSample(_.sampleSize(popArr, sampleSize));
     if (sim === 0) {
       setSim(1);
     }
   }
+  
+  let extraButton = (<> </>)
+
+/*  if (testType !== 'oneSample') {
+
+    const takeSample2 = () => {
+      setSample(_.sampleSize(popArr, sampleSize));
+      if (sim === 0) {
+        setSim(1);
+      } 
+    } 
+    extraButton = (<Button
+      color="primary"
+      disabled={(sampleSize <= 0) || (sampleSize > popArr.length)}
+      onClick={() => takeSample2()}>
+      Sample 2
+    </Button>)
+   } */
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
   const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
@@ -55,11 +81,11 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
     if(distType === 'Z') {
       return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
     } else {
-       return jStat.ttest(tscore, sampleSize, tails) 
+       return jStat.ttest(tscore, sampleSize, tails)
     }
   }
 
- 
+
   const testStatistic = calculateTestStatistic();
   const pValue = calculatePValue();
 
@@ -81,6 +107,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
       >
         Sample
       </Button>
+       {extraButton}
       <br/>
       <br/>
       {(sim >= 1) && (
@@ -93,7 +120,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
             alpha={+alpha}
           />
           <br/>
-          <Row className="Center">
+          <Row>
             <p>
               Press here to reveal the true population distribution and mean.&nbsp;
               <Button color="primary" onClick={() => setSim(2)}>Reveal</Button>
