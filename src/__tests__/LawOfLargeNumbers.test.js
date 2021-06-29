@@ -29,6 +29,15 @@ describe("LawOfLargeNumbers integration tests", () => {
     fireEvent.click(screen.getByRole("button", { name: "Normal" }));
     expect(screen.getByTestId("lln-sim")).toBeInTheDocument();
   });
+
+  test("switching population shape resets module", () => {
+    fireEvent.click(screen.getByRole("button", { name: "Normal" }));
+    fireEvent.change(screen.getByRole("spinbutton"), { target: { value: 10 }});
+    fireEvent.click(screen.getByRole("button", { name: "Sample" }));
+    expect(screen.getByText("Difference of Means:", { exact: false })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Uniform" }));
+    expect(screen.queryByText("Difference of Means:", { exact: false })).not.toBeInTheDocument();
+  });
 });
 
 describe("LLNSimulation tests", () => {

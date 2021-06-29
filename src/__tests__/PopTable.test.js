@@ -1,6 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import PopTable from "../components/PopTable.js";
-import _ from "lodash";
 import { VALUES } from "../lib/constants.js";
 import { testPopulation, testSample } from "../lib/test-utils.js";
 
