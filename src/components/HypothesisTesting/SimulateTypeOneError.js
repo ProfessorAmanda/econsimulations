@@ -8,16 +8,16 @@ import _ from "lodash";
 import { populationMean } from "../../lib/stats-utils.js";
 import { jStat } from "jstat";
 import PropTypes from "prop-types";
-import { distributionType } from "../../lib/types";
+import { distributionType, popShapeType } from "../../lib/types";
 import { sqrt } from "mathjs";
 
-export default function SimulateTypeOneError({ mue0, alpha, distType, tails }) {
+export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, tails }) {
   const [population, setPopulation] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
 
   useEffect(() => {
-    setPopulation(dataFromDistribution("Normal", 2000, { mean: mue0, standardDev: 3 }))
-  }, [mue0]);
+    setPopulation(dataFromDistribution(popShape, 2000, { mean: mue0, standardDev: 3, low: mue0 - 10, high: mue0 + 10 }))
+  }, [mue0, popShape]);
 
   const addSamples = (size, replications=1) => {
     if (!size) {  // calling addSamples with no arguments clears the data
@@ -27,12 +27,18 @@ export default function SimulateTypeOneError({ mue0, alpha, distType, tails }) {
       for (let i = 0; i < replications; i++) {
         const sample = _.sampleSize(population, size);
         const sampleMean = populationMean(sample);
+        const testStatistic = (
+          (distType === "Z")
+          ? jStat.zscore(sampleMean, mue0, populationStandardDev(population) / sqrt(size))
+          : jStat.tscore(sampleMean, mue0, populationStandardDev(sample), size)
+        );
         const pValue = (
           (distType === "Z")
-          ? jStat.ztest(sampleMean, mue0, 3 / sqrt(size), tails)
-          : jStat.ttest(sampleMean, mue0, populationStandardDev(sample), size, tails)
+          ? jStat.ztest(testStatistic, tails)
+          : jStat.ttest(testStatistic, size, tails)
         );
         const sampleObject = {
+          testStatistic: _.round(testStatistic, 2),
           mean: _.round(sampleMean, 2),
           reject: pValue < alpha
         }
@@ -50,7 +56,7 @@ export default function SimulateTypeOneError({ mue0, alpha, distType, tails }) {
           <DotPlot series={[{name: "Population", data: population}]} title="Population" xLabel="Gallons"/>
         </Col>
         <Col>
-          <NormalCurve population={(population.length > 0) ? population.map((obj) => obj.x) : []} means={sampleMeans}/>
+          <NormalCurve means={sampleMeans}/>
         </Col>
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
@@ -59,6 +65,7 @@ export default function SimulateTypeOneError({ mue0, alpha, distType, tails }) {
 }
 
 SimulateTypeOneError.propTypes = {
+  popShape: popShapeType.isRequired,
   mue0: PropTypes.number.isRequired,
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,

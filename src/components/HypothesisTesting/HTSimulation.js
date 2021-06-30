@@ -7,7 +7,7 @@ import _ from "lodash";
 
 
 export default function HTSimulation() {
-  const [pplShape, setPplShape] = useState("");
+  const [popShape, setPopShape] = useState("");
   const [testType, setTestType] = useState("");
   const [hypothesis, setHypothesis] = useState();
   const [mue0, setMue0] = useState(0);
@@ -16,14 +16,14 @@ export default function HTSimulation() {
 
 
   useEffect(() => {
-    if ((pplShape !== "") && (testType !== "")) {
+    if ((popShape !== "") && (testType !== "")) {
       setStage(2)
     }
-  }, [pplShape, testType]);
+  }, [popShape, testType]);
 
   return (
     <div className="module-container">
-      <TestInputs testType={testType} setDistType={setDistType} distType={distType} setTestType={setTestType} popShape={pplShape} setPopType={setPplShape}/>
+      <TestInputs testType={testType} setDistType={setDistType} distType={distType} setTestType={setTestType} popShape={popShape} setPopType={setPopShape}/>
       {(stage >= 2) && (
         <Container fluid>
           <Row>
@@ -61,7 +61,7 @@ export default function HTSimulation() {
               <Row>
                 <PerformTest
                   distType={distType}
-                  shape={(pplShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : pplShape}
+                  shape={(popShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : popShape}
                   tails={hypothesis.tails}
                   mue0={+mue0}
                 />

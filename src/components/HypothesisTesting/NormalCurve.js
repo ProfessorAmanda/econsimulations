@@ -3,13 +3,14 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official"
 import '../../styles/dark-unica.css';
 import BellCurve from "highcharts/modules/histogram-bellcurve";
-import PropTypes from "prop-types";
 import { hypothesisTestingSampleArrayType } from "../../lib/types";
+import { generateNormal } from "../../lib/stats-utils";
 
 BellCurve(Highcharts);
 
 
-export default function NormalCurve({ population, means }) {
+export default function NormalCurve({ means }) {
+  const [curveData, setCurveData] = useState([]);
   const [chart, setChart] = useState({
     plotOptions: {
       series: {
@@ -35,20 +36,26 @@ export default function NormalCurve({ population, means }) {
       title: false
     },
     tooltip: {
-      pointFormat: "gallons: <b>{point.x}</b><br/>reject H_0: <b>{point.reject}</b></br>"
+      pointFormat: "test statistic: <b>{point.testStatistic}</b><br/>sample mean: <b>{point.mean}</b><br/>reject H_0: <b>{point.reject}</b></br>"
     }
   });
+
+  useEffect(() => {
+    setCurveData(generateNormal(10000, 0, 1));
+  }, []);
 
   useEffect(() => {
     const meanCounts = {};
     const rejects = [];
     const accepts = [];
-    means.forEach(({ mean, reject }) => {
-      meanCounts[mean] = meanCounts[mean] ? meanCounts[mean] + 1 : 1;
+    means.forEach(({ testStatistic, mean, reject }) => {
+      meanCounts[testStatistic] = meanCounts[testStatistic] ? meanCounts[testStatistic] + 1 : 1;
       const meanObject = {
-        x: mean,
-        y: meanCounts[mean] * 0.005,
-        reject: reject
+        x: testStatistic,
+        y: meanCounts[testStatistic] * 0.005,
+        testStatistic,
+        mean,
+        reject,
       }
       if (reject) {
         rejects.push(meanObject)
@@ -60,7 +67,7 @@ export default function NormalCurve({ population, means }) {
     const newChart = {
       series: [
         {
-          name: "Bell curve",
+          name: "Standard Normal Distribution",
           type: "bellcurve",
           baseSeries: 1,
           zIndex: -1,
@@ -70,7 +77,7 @@ export default function NormalCurve({ population, means }) {
         {
           name: "Data",
           type: "scatter",
-          data: population,
+          data: curveData,
           visible: false,
           showInLegend: false
         },
@@ -104,12 +111,11 @@ export default function NormalCurve({ population, means }) {
     }
 
     setChart(newChart);
-  }, [population, means]);
+  }, [means, curveData]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
 
 NormalCurve.propTypes = {
-  population: PropTypes.arrayOf(PropTypes.number).isRequired,
   means: hypothesisTestingSampleArrayType.isRequired
 }

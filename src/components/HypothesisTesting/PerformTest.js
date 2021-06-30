@@ -100,6 +100,7 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
       )}
       {(stage >= 3) && (
         <SimulateTypeOneError
+          popShape={shape}
           mue0={+mue0}
           alpha={+alpha}
           distType={distType}
