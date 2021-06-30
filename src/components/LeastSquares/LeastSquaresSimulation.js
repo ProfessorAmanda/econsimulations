@@ -41,9 +41,9 @@ export default function LeastSquaresSimulation() {
   const generatePoints = (num) => {
     const newPoints = [];
     for (let i = 0; i < num; i++) {
-      const x = random() * 15 + 2;
-      const y = random() * 15 + 2;
-      newPoints.push({x: x, y: y});
+      const x = random(2, 17);
+      const y = random(2, 17);
+      newPoints.push({x: +x, y: +y});
     }
     setPoints(newPoints);
     setStage(2);
