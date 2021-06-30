@@ -23,7 +23,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
   }, [shape]);
 
-  const popMean2 = Math.random(61,66);
+  let popMean2 = 0;
   useEffect(() => {
     setPopArr(dataFromDistribution(shape, 2000, { mean: popMean2, low: 59, hi: 79 }))
   }, [shape, popMean2]); 
@@ -58,6 +58,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   //for two-sample
   let zscore = 0;
   let tscoreTwoSample = 0;
+  popMean2 = Math.random(61,66);
 
   function calculateTestStatistic(){
 

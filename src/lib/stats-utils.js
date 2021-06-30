@@ -87,8 +87,6 @@ export const dataFromDistribution = (
       hi=10,
       lambda=1/64,
       degreesOfFreedom=8,
-
-
       mysteryMean1=57,
       mysteryMean2=70,
       mysterySD1=1,
