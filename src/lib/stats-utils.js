@@ -151,7 +151,7 @@ export const dataFromDistribution = (
       low=-10,
       hi=10,
       lambda=1/64,
-      degreesOfFreedom=8
+      degreesOfFreedom=8,
     } = {}
   ) => {
 
