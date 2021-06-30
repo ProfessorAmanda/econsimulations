@@ -60,7 +60,7 @@ export default function HTSimulation() {
               <br/>
               <Row>
                 <PerformTest
-                  distType = {distType}
+                  distType={distType}
                   shape={(pplShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : pplShape}
                   tails={hypothesis.tails}
                   mue0={+mue0}

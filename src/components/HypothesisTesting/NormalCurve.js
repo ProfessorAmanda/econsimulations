@@ -4,7 +4,7 @@ import HighchartsReact from "highcharts-react-official"
 import '../../styles/dark-unica.css';
 import BellCurve from "highcharts/modules/histogram-bellcurve";
 import PropTypes from "prop-types";
-import _ from "lodash";
+import { hypothesisTestingSampleArrayType } from "../../lib/types";
 
 BellCurve(Highcharts);
 
@@ -19,9 +19,12 @@ export default function NormalCurve({ population, means }) {
         },
       }
     },
+    title: {
+      text: "Sample Means"
+    },
     xAxis: {
-      title : {
-        enabled: true,
+      title: {
+        text: "Gallons",
       },
       startOnTick: true,
       endOnTick: true
@@ -29,19 +32,24 @@ export default function NormalCurve({ population, means }) {
     yAxis: {
       startOnTick: true,
       endOnTick: true,
+      title: false
+    },
+    tooltip: {
+      pointFormat: "gallons: <b>{point.x}</b><br/>reject H_0: <b>{point.reject}</b></br>"
     }
   });
 
   useEffect(() => {
-    const meanCounts = _.countBy(means, (mean) => mean.mean);
+    const meanCounts = {};
     const rejects = [];
     const accepts = [];
     means.forEach(({ mean, reject }) => {
+      meanCounts[mean] = meanCounts[mean] ? meanCounts[mean] + 1 : 1;
       const meanObject = {
         x: mean,
         y: meanCounts[mean] * 0.005,
+        reject: reject
       }
-      meanCounts[mean] -= 1;
       if (reject) {
         rejects.push(meanObject)
       } else {
@@ -67,7 +75,7 @@ export default function NormalCurve({ population, means }) {
           showInLegend: false
         },
         {
-          name: "accepts",
+          name: "Sample Means",
           type: "scatter",
           data: accepts,
           color: "#03fc0b",
@@ -75,12 +83,12 @@ export default function NormalCurve({ population, means }) {
           marker: {
             symbol: "diamond",
             radius: 4,
-            lineColor: "black",
+            lineColor: "green",
             lineWidth: 1
           }
         },
         {
-          name: "rejects",
+          name: "Sample Means",
           type: "scatter",
           data: rejects,
           color: "red",
@@ -88,7 +96,7 @@ export default function NormalCurve({ population, means }) {
           marker: {
             symbol: "diamond",
             radius: 4,
-            lineColor: "black",
+            lineColor: "#800000",
             lineWidth: 1
           }
         }
@@ -103,5 +111,5 @@ export default function NormalCurve({ population, means }) {
 
 NormalCurve.propTypes = {
   population: PropTypes.arrayOf(PropTypes.number).isRequired,
-  means: PropTypes.arrayOf(PropTypes.number).isRequired
+  means: hypothesisTestingSampleArrayType.isRequired
 }

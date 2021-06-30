@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { distributionType } from "../../lib/types";
 import { sqrt } from "mathjs";
 
-export default function SimulateSamples({ mue0, alpha, distType, tails }) {
+export default function SimulateTypeOneError({ mue0, alpha, distType, tails }) {
   const [population, setPopulation] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
 
@@ -20,18 +20,17 @@ export default function SimulateSamples({ mue0, alpha, distType, tails }) {
   }, [mue0]);
 
   const addSamples = (size, replications=1) => {
-    if (!size) {  // calling generateSamples with no arguments clears the data
+    if (!size) {  // calling addSamples with no arguments clears the data
       setSampleMeans([]);
     } else {
       const means = [];
       for (let i = 0; i < replications; i++) {
         const sample = _.sampleSize(population, size);
         const sampleMean = populationMean(sample);
-        const sampleSD = populationStandardDev(sample);
         const pValue = (
           (distType === "Z")
           ? jStat.ztest(sampleMean, mue0, 3 / sqrt(size), tails)
-          : jStat.ttest(sampleMean, mue0, sampleSD, size, tails)
+          : jStat.ttest(sampleMean, mue0, populationStandardDev(sample), size, tails)
         );
         const sampleObject = {
           mean: _.round(sampleMean, 2),
@@ -48,7 +47,7 @@ export default function SimulateSamples({ mue0, alpha, distType, tails }) {
     <Container>
       <Row>
         <Col>
-          <DotPlot series={[{name: "Population", data: population}]} title="Population"/>
+          <DotPlot series={[{name: "Population", data: population}]} title="Population" xLabel="Gallons"/>
         </Col>
         <Col>
           <NormalCurve population={(population.length > 0) ? population.map((obj) => obj.x) : []} means={sampleMeans}/>
@@ -59,7 +58,7 @@ export default function SimulateSamples({ mue0, alpha, distType, tails }) {
   )
 }
 
-SimulateSamples.propTypes = {
+SimulateTypeOneError.propTypes = {
   mue0: PropTypes.number.isRequired,
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,

@@ -6,7 +6,6 @@ import { popShapeType } from '../../lib/types';
 import _ from "lodash";
 
 export default function SampleMeanChart({ sampleMeans, normalized, popMean, sd, popShape }) {
-  console.log(popMean, sd)
   const newSampleMeans = normalized ? sampleMeans.map((mean) => (mean - popMean) / sd) : sampleMeans;
 
   const meanCounts = _.countBy(newSampleMeans.map((mean) => _.round(mean, 2)));
