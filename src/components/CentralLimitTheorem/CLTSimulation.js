@@ -78,10 +78,10 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
                     Convert to Std. Normal
                 </Button>
                 <SampleMeanChart
-                  sampleMeans={sampleMeans.map(({ mean }) => mean)}
+                  sampleMeans={sampleMeans}
+                  normalized={normalized}
                   popMean={popMean}
                   sd={populationStandardDev(popArray)}
-                  normalized={normalized}
                   popShape={popShape}
                 />
               </Col>
