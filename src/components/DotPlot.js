@@ -4,6 +4,7 @@ import HighchartsReact from 'highcharts-react-official'
 import Label from 'highcharts/modules/series-label';
 import PropTypes from 'prop-types';
 import { highchartsSeriesType } from "../lib/types";
+import '../styles/dark-unica.css';
 
 Label(Highcharts);
 
