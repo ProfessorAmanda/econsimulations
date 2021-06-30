@@ -11,7 +11,7 @@ import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import { popShapeType } from "../../lib/types.js";
 
 export default function PerformTest({ testType, distType, shape, tails, mue0 }) {
-  const [popArr, setPopArr] = useState([]);
+  const [popArr, setPopArr] = useState([popMean2]);
   const [sample, setSample] = useState([]);
   /*const[sample2, setSample2] = useState([]); */
   const [sampleSize, setSampleSize] = useState(0);
