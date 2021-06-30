@@ -33,16 +33,19 @@ export default function NormalCurve({ population, means }) {
   });
 
   useEffect(() => {
-    const meanCounts = _.countBy(means);
-    const meansData = [];
-    _.entries(meanCounts).forEach(([amt, count]) => {
-      for (let i = 0; i < count; i++) {
-        meansData.push(
-          {
-            x: +amt,
-            y: i * 0.005
-          }
-        )
+    const meanCounts = _.countBy(means, (mean) => mean.mean);
+    const rejects = [];
+    const accepts = [];
+    means.forEach(({ mean, reject }) => {
+      const meanObject = {
+        x: mean,
+        y: meanCounts[mean] * 0.005,
+      }
+      meanCounts[mean] -= 1;
+      if (reject) {
+        rejects.push(meanObject)
+      } else {
+        accepts.push(meanObject)
       }
     });
 
@@ -64,10 +67,23 @@ export default function NormalCurve({ population, means }) {
           showInLegend: false
         },
         {
-          name: "means",
+          name: "accepts",
           type: "scatter",
-          data: meansData,
-          color: "#ffffff",
+          data: accepts,
+          color: "#03fc0b",
+          showInLegend: false,
+          marker: {
+            symbol: "diamond",
+            radius: 4,
+            lineColor: "black",
+            lineWidth: 1
+          }
+        },
+        {
+          name: "rejects",
+          type: "scatter",
+          data: rejects,
+          color: "red",
           showInLegend: false,
           marker: {
             symbol: "diamond",

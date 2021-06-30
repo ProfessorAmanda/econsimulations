@@ -8,6 +8,7 @@ import _ from "lodash";
 import { jStat } from "jstat";
 import ResultsDisplay from "./ResultsDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
+import SimulateSamples from "./SimulateSamples.js";
 import { popShapeType } from "../../lib/types.js";
 
 export default function PerformTest({ distType, shape, tails, mue0 }) {
@@ -15,7 +16,7 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
   const [sample, setSample] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
   const [alpha, setAlpha] = useState(0);
-  const [sim, setSim] = useState(0);
+  const [stage, setStage] = useState(3);  // TODO: init to 0
 
   useEffect(() => {
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
@@ -23,18 +24,19 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
 
   const takeSample = () => {
     setSample(_.sampleSize(popArr, sampleSize));
-    if (sim === 0) {
-      setSim(1);
+    if (stage === 0) {
+      setStage(1);
     }
   }
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
+  const zscore = jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize)); //sd is 3
   const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
 
   function calculateTestStatistic(){
 
     if(distType === 'Z') {
-      return jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize)) //sd is 3
+      return zscore
     } else {
       return tscore;
     }
@@ -71,7 +73,7 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
       </Button>
       <br/>
       <br/>
-      {(sim >= 1) && (
+      {(stage >= 1) && (
         <Container>
           <ResultsDisplay
             mean={sampleMean}
@@ -84,20 +86,26 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
           <Row>
             <p>
               Press here to reveal the true population distribution and mean.&nbsp;
-              <Button color="primary" onClick={() => setSim(2)}>Reveal</Button>
+              <Button color="primary" onClick={() => setStage(2)}>Reveal</Button>
             </p>
           </Row>
         </Container>
       )}
       <br/>
-      {(sim === 2) && <PopulationChartReveal popArr={popArr} pVal={pValue} alpha={+alpha}/>}
+      {(stage >= 2) && (
+        <div>
+          <PopulationChartReveal popArr={popArr} pVal={pValue} alpha={+alpha}/>
+          <Button color="primary" onClick={() => setStage(3)}>Simulate Type I Error</Button>
+        </div>
+      )}
+      {(stage >= 3) && <SimulateSamples mue0={+mue0} alpha={+alpha}/>}
     </Container>
   )
 }
 
 PerformTest.propTypes = {
   shape: popShapeType.isRequired,
-  tails: PropTypes.number.isRequired,
+  tails: PropTypes.oneOf([1, 2]).isRequired,
   mue0: PropTypes.number.isRequired,
   distType: PropTypes.string.isRequired,
 }

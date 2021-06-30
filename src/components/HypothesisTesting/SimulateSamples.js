@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
-import { dataFromDistribution } from "../../lib/stats-utils";
+import { dataFromDistribution, populationStandardDev } from "../../lib/stats-utils";
 import DotPlot from "../DotPlot.js";
 import NormalCurve from "./NormalCurve.js";
 import ManySamplesInput from "../ManySamplesInput.js";
 import { Container, Row, Col } from "reactstrap";
 import _ from "lodash";
 import { populationMean } from "../../lib/stats-utils.js";
+import { jStat } from "jstat";
+import PropTypes from "prop-types";
+import { distributionType } from "../../lib/types";
+import { sqrt } from "mathjs";
 
-export default function SimulateSamples({ mue0 }) {
+export default function SimulateSamples({ mue0, alpha, distType, tails }) {
   const [population, setPopulation] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
 
@@ -22,8 +26,18 @@ export default function SimulateSamples({ mue0 }) {
       const means = [];
       for (let i = 0; i < replications; i++) {
         const sample = _.sampleSize(population, size);
-        const mean = _.round(populationMean(sample), 1);
-        means.push(mean);
+        const sampleMean = populationMean(sample);
+        const sampleSD = populationStandardDev(sample);
+        const pValue = (
+          (distType === "Z")
+          ? jStat.ztest(sampleMean, mue0, 3 / sqrt(size), tails)
+          : jStat.ttest(sampleMean, mue0, sampleSD, size, tails)
+        );
+        const sampleObject = {
+          mean: _.round(sampleMean, 2),
+          reject: pValue < alpha
+        }
+        means.push(sampleObject);
       }
       const newSampleMeans = [...sampleMeans, ...means];
       setSampleMeans(newSampleMeans);
@@ -43,4 +57,11 @@ export default function SimulateSamples({ mue0 }) {
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
     </Container>
   )
+}
+
+SimulateSamples.propTypes = {
+  mue0: PropTypes.number.isRequired,
+  alpha: PropTypes.number.isRequired,
+  distType: distributionType.isRequired,
+  tails: PropTypes.oneOf([1, 2]).isRequired
 }
