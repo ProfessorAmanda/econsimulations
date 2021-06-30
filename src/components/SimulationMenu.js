@@ -15,9 +15,11 @@ export default function SimulationMenu() {
   const [logo, setLogo] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setLogo(false);
     }, 3500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
