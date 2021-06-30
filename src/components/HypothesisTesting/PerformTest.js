@@ -4,7 +4,7 @@ import { Button, Container, Row } from "reactstrap";
 import { dataFromDistribution, populationMean, populationStandardDev } from "../../lib/stats-utils.js";
 import PropTypes from "prop-types";
 import PopulationChartReveal from "./PopulationChartReveal.js";
-import _ from "lodash";
+import _, { set } from "lodash";
 import { jStat } from "jstat";
 import ResultsDisplay from "./ResultsDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
@@ -17,6 +17,12 @@ export default function PerformTest({ distType, shape, sides, mue0 }) {
   const [sampleSize, setSampleSize] = useState(0);
   const [alpha, setAlpha] = useState(0);
   const [stage, setStage] = useState(0);
+
+  useEffect(() => {
+    if (stage === 3) {
+      setStage(2)
+    }
+  }, [mue0]);
 
   useEffect(() => {
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))

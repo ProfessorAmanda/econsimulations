@@ -14,7 +14,6 @@ export default function HTSimulation() {
   const [stage, setStage] = useState(1);
   const [distType, setDistType] = useState("Z");  // can be "Z" or "T"
 
-
   useEffect(() => {
     if ((popShape !== "") && (testType !== "")) {
       setStage(2)

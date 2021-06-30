@@ -51,6 +51,9 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
 
   return (
     <Container>
+      <p style={{marginTop: 50, marginBottom: 50}}>
+        "Now we simulation Type I error. In other words, if the true mean were actually {mue0}, how often would we (incorrectly) reject the null hypothesis?"
+      </p>
       <Row>
         <Col>
           <DotPlot series={[{name: "Population", data: population}]} title="Population" xLabel="Gallons"/>
