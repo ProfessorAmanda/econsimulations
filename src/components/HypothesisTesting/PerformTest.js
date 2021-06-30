@@ -22,12 +22,11 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
   }, [shape]);
 
-/*
-  const Pop2Mean = Math.floor(Math.random() * (66 - 61 + 1)) + 61;
+  const popMean2 = Math.random(61,66);
 
   useEffect(() => {
-    setPopArr(dataFromDistribution(shape, 2000, { mean: Pop2Mean, low: 59, hi: 79 }))
-  }, [shape]); */
+    setPopArr(dataFromDistribution(shape, 2000, { mean: popMean2, low: 59, hi: 79 }))
+  }, [shape]); 
 
   const takeSample = () => {
     setSample(_.sampleSize(popArr, sampleSize));
@@ -56,6 +55,9 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
   const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
+  //for two-sample
+  let zscore = 0;
+  let tscoreTwoSample = 0;
 
   function calculateTestStatistic(){
 
@@ -69,22 +71,29 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
 
       //two sample sigma known
     } else if (distType === 'Z' && testType !== 'oneSample') {
-      return // ((mean1 - mean2) - 0) / sqrt((sd1/n1 + sd2/n2)) // How do we come up with a second mean sample and standard deviation?
+        zscore = ((64 - popMean2 ) - 0) / sqrt(9/sampleSize + 4/sampleSize) // formula is (mean1 - mean2 - 0) / sqrt(( ( sd1^2 / n1) + (sd2^2 / n2) ) )
+      return zscore ;
 
       //two sample sigma unknown
     } else {
-      return //formula here
+      tscoreTwoSample = ((64 - popMean2 ) - 0) / sqrt(sampleSD/sampleSize + sampleSD/sampleSize)
+      return  tscoreTwoSample
     }
-
   }
+
   function calculatePValue() {
-    if(distType === 'Z') {
+    if(distType === 'Z' && testType === 'oneSample') {
       return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
+     } 
+     else if (distType === 'T' && testType === 'oneSample') {
+      return jStat.ttest(tscore, sampleSize, tails)
+
+   } else if (distType === 'Z' && testType !== 'oneSample') {
+       return jStat.ztest(zscore,tails);
     } else {
-       return jStat.ttest(tscore, sampleSize, tails)
+      return jStat.ttest( tscoreTwoSample, sampleSize, tails )
     }
   }
-
 
   const testStatistic = calculateTestStatistic();
   const pValue = calculatePValue();
