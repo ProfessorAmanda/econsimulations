@@ -11,7 +11,7 @@ import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import SimulateTypeOneError from "./SimulateTypeOneError.js";
 import { popShapeType } from "../../lib/types.js";
 
-export default function PerformTest({ distType, shape, tails, mue0 }) {
+export default function PerformTest({ distType, shape, sides, mue0 }) {
   const [popArr, setPopArr] = useState([]);
   const [sample, setSample] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
@@ -43,9 +43,9 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
   }
   function calculatePValue() {
     if(distType === 'Z') {
-      return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
+      return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), sides)
     } else {
-       return jStat.ttest(tscore, sampleSize, tails)
+       return jStat.ttest(tscore, sampleSize, sides)
     }
   }
 
@@ -104,7 +104,7 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
           mue0={+mue0}
           alpha={+alpha}
           distType={distType}
-          tails={tails}
+          sides={sides}
         />
       )}
     </Container>
@@ -113,7 +113,7 @@ export default function PerformTest({ distType, shape, tails, mue0 }) {
 
 PerformTest.propTypes = {
   shape: popShapeType.isRequired,
-  tails: PropTypes.oneOf([1, 2]).isRequired,
+  sides: PropTypes.oneOf([1, 2]).isRequired,
   mue0: PropTypes.number.isRequired,
   distType: PropTypes.string.isRequired,
 }

@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { distributionType, popShapeType } from "../../lib/types";
 import { sqrt } from "mathjs";
 
-export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, tails }) {
+export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, sides }) {
   const [population, setPopulation] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
 
@@ -34,8 +34,8 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
         );
         const pValue = (
           (distType === "Z")
-          ? jStat.ztest(testStatistic, tails)
-          : jStat.ttest(testStatistic, size, tails)
+          ? jStat.ztest(testStatistic, sides)
+          : jStat.ttest(testStatistic, size, sides)
         );
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
@@ -69,5 +69,5 @@ SimulateTypeOneError.propTypes = {
   mue0: PropTypes.number.isRequired,
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,
-  tails: PropTypes.oneOf([1, 2]).isRequired
+  sides: PropTypes.oneOf([1, 2]).isRequired
 }

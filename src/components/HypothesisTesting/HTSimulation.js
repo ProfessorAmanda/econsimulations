@@ -19,7 +19,7 @@ export default function HTSimulation() {
     if ((popShape !== "") && (testType !== "")) {
       setStage(2)
     }
-  }, [popShape, testType]);
+  }, [popShape, testType, distType]);
 
   return (
     <div className="module-container">
@@ -62,7 +62,7 @@ export default function HTSimulation() {
                 <PerformTest
                   distType={distType}
                   shape={(popShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : popShape}
-                  tails={hypothesis.tails}
+                  sides={hypothesis.sides}
                   mue0={+mue0}
                 />
               </Row>
