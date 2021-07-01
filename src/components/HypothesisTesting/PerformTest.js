@@ -9,6 +9,7 @@ import { jStat } from "jstat";
 import DataDisplay from "./DataDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import { popShapeType } from "../../lib/types.js";
+import {InputGroupText, Input } from "reactstrap";
 
 export default function PerformTest({ testType, distType, shape, tails, mue0 }) {
 
@@ -21,14 +22,13 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   const [popArr2, setPopArr2] = useState([]);
   const [sample2, setSample2] = useState([]);
   const [sampleSize2, setSampleSize2] = useState(0);
-  const [alpha2, setAlpha2] = useState(0);
   const [sim2, setSim2] = useState(0);
 
   let popMean2 = Math.random(61,66);
 
   useEffect(() => {
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
-    setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2, low: 59, hi: 79 }))
+    setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2 , low: 59, hi: 79 }))
   }, [shape, popMean2]);
 
   const takeSample = () => {
@@ -37,47 +37,47 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
       setSim(1);
     }
   }
-  let extraButton = (<> </>)
-  let extraInputs =  (<> </>)
+  let extraInput =  (<> </>)
 
- if (testType !== 'oneSample') {
-
-    const takeSample2 = () => {
-      setSample2(_.sampleSize2(popArr2, sampleSize2));
+  const takeSample2 = () => {
+      setSample2(_.sampleSize(popArr2, sampleSize2));
       if (sim2 === 0) {
         setSim2(1);
-      } 
+      }
     } 
-     extraButton = (<Button
-      color="primary"
-      disabled={(sampleSize <= 0) || (sampleSize > popArr.length)}
-      onClick={() => takeSample2()}>
-      Sample 2
-    </Button>)
+  
+ const takeBothSamples = () => {
+    takeSample();
+    takeSample2();
+  }
+    
 
-   /* extraInputs =  <SampleSizeAlphaInputs
-    sampleSize2={sampleSize2}
-    setSampleSize2={setSampleSize2}
-    alpha={alpha2}
-    setAlpha={setAlpha2}
-    popSize2={popArr2.length} /> */
-  }  
+   extraInput =  <>
+   <InputGroupText>Sample Size 2 </InputGroupText>
+          <Input
+            type="number"
+            step={1}
+            value={sampleSize2}
+            min={1}
+            max={popArr2}
+            onChange={(event) => setSampleSize2(event.target.value)} /> 
+          </> 
+ 
 
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
   const populationSD = populationStandardDev(popArr)
+
   const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
   const zscore = jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize));
 
   //for two-sample
-
-  const sampleSD2 = populationStandardDev(sample2) 
   const sampleMean2 = populationMean(sample2);
+  const sampleSD2 = populationStandardDev(sample2) 
   const populationSD2 = populationStandardDev(popArr2) 
 
   const tscoreTwoSample = ((sampleMean - sampleMean2 ) - 0) / sqrt(Math.pow(sampleSD,2)/sampleSize + Math.pow(sampleSD2,2)/sampleSize2);
   const zscoreTwoSample = ((sampleMean - sampleMean2 ) - 0) / sqrt(Math.pow(populationSD,2)/sampleSize + Math.pow(populationSD2,2)/sampleSize2)
-
 
   function calculateTestStatistic(){
 
@@ -100,6 +100,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   }
 
   function calculatePValue() {
+
     if(distType === 'Z' && testType === 'oneSample') {
       return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
      } 
@@ -126,16 +127,14 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
         setAlpha={setAlpha}
         popSize={popArr.length}
       />
-      {extraInputs}
+      {extraInput}
       <br/>
       <Button
         color="primary"
         disabled={(sampleSize <= 0) || (sampleSize > popArr.length)}
-        onClick={() => takeSample()}
-      >
-        Sample
+        onClick={() => testType === 'oneSample' ?  takeSample() : takeBothSamples()} 
+      > Sample/s
       </Button>
-       {extraButton}
       <br/>
       <br/>
       {(sim >= 1) && (
@@ -159,8 +158,8 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
       <br/>
       {(sim === 2) && <PopulationChartReveal popArr={popArr} pVal={pValue} alpha={+alpha}/>}
     </Container>
-  )
-}
+      )
+  }
 
 PerformTest.propTypes = {
   shape: popShapeType.isRequired,
