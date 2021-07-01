@@ -14,12 +14,13 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }){
           value={beta}
           min={-4}
           max={4}
-          onChange={(event) => setBeta(event.target.value)}/>
+          onChange={(event) => setBeta(event.target.value)}
+        />
       </InputGroup>
       <br/>
       <InputGroup>
         <InputGroupAddon addonType='prepend'>
-            <InputGroupText>𝛿, the Coefficient on Sleep Hours:</InputGroupText>
+          <InputGroupText>𝛿, the Coefficient on Sleep Hours:</InputGroupText>
         </InputGroupAddon>
         <Input
           type="number"
@@ -27,7 +28,8 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }){
           value={delta}
           min={-4}
           max={4}
-          onChange={(event) => setDelta(event.target.value)}/>
+          onChange={(event) => setDelta(event.target.value)}
+        />
       </InputGroup>
     </div>
   );
