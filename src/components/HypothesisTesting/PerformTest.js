@@ -119,9 +119,9 @@ export default function PerformTest({ distType, shape, sides, mue0, equality }) 
 }
 
 PerformTest.propTypes = {
+  distType: PropTypes.string.isRequired,
   shape: popShapeType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
   mue0: PropTypes.number.isRequired,
-  distType: PropTypes.string.isRequired,
-  equality: PropTypes.string.isRequired,
+  equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
 }

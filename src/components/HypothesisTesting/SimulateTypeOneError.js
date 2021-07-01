@@ -81,5 +81,5 @@ SimulateTypeOneError.propTypes = {
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
-  equality: PropTypes.string.isRequired,
+  equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
 }
