@@ -59,7 +59,7 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
           <DotPlot series={[{name: "Population", data: population}]} title="Population" xLabel="Gallons"/>
         </Col>
         <Col>
-          <NormalCurve means={sampleMeans}/>
+          <NormalCurve means={sampleMeans} population={(population.length > 0) ? population.map(({ x }) => x) : []}/>
         </Col>
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
