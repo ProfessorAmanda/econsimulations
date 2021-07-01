@@ -36,9 +36,10 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
         const pValue = (
           (distType === "Z")
           ? jStat.ztest(testStatistic, sides)
-          : jStat.ttest(testStatistic, size, sides)
+          : jStat.ttest(sampleMean, mue0, populationStandardDev(sample), size, sides)
         );
-
+        console.log(sampleMean, mue0, populationStandardDev(sample), testStatistic, pValue)
+        // console.log(jStat.ttest(64.1, 64, 2.5, 100))
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
           mean: _.round(sampleMean, 2),
@@ -59,7 +60,7 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
       </p>
       <Row>
         <Col>
-          <DotPlot series={[{name: "Population", data: population}]} title="Population" xLabel="Gallons"/>
+          <DotPlot series={[{name: "Population", data: population, showInLegend: false}]} title="Population" xLabel="Gallons"/>
         </Col>
         <Col>
           <NormalCurve

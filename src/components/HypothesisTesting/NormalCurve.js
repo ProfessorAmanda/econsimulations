@@ -13,11 +13,13 @@ BellCurve(Highcharts);
 
 
 export default function NormalCurve({ means, mue0, popStandardDev, sampleSize }) {
-  console.log(sampleSize)
   const [population, setPopulation] = useState(
     dataFromDistribution("Normal", 2000, { mean: mue0, standardDev: popStandardDev / sqrt(sampleSize) })
   );
   const [chart, setChart] = useState({
+    chart: {
+      zoomType: "xy"
+    },
     plotOptions: {
       series: {
         animation: {
@@ -78,7 +80,8 @@ export default function NormalCurve({ means, mue0, popStandardDev, sampleSize })
           baseSeries: 1,
           zIndex: -1,
           enableMouseTracking: false,
-          label: false
+          label: false,
+          showInLegend: false
         },
         {
           name: "Data",
