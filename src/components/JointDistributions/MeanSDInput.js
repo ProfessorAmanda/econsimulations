@@ -22,7 +22,14 @@ export default function MeanSDInput({ title, mean, setMean, sd, setSD }){
         <InputGroupAddon addonType='prepend'>
           <InputGroupText>{title} Height SD:</InputGroupText>
         </InputGroupAddon>
-        <Input type="number" min={1} max={7} value={sd} onChange={(event) => setSD(event.target.value)}/>
+        <Input
+          type="number"
+          min={1}
+          max={7}
+          value={sd}
+          onChange={(event) => setSD(event.target.value)}
+          aria-label={`${title}-SD`}
+        />
       </InputGroup>
     </div>
   );
