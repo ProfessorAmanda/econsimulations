@@ -17,7 +17,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   const [sample, setSample] = useState([]);
   const [sample2, setSample2] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
-  const [sampleSize2, setSample2] = useState(0);
+  const [sampleSize2, setSampleSize2] = useState(0);
   const [alpha, setAlpha] = useState(0);
   const [sim, setSim] = useState(0);
 
@@ -34,13 +34,12 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
       setSim(1);
     }
   }
-  
   let extraButton = (<> </>)
 
  if (testType !== 'oneSample') {
 
     const takeSample2 = () => {
-      setSample(_.sampleSize(popArr2, sampleSize2));
+      setSample2(_.sampleSize(popArr2, sampleSize2));
       if (sim === 0) {
         setSim(1);
       } 
@@ -60,9 +59,10 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
 
   //for two-sample
 
-  //const popSD2 = populationStandardDev(sample2)
-  const tscoreTwoSample = ((64 - popMean2 ) - 0) / sqrt(sampleSD/sampleSize + sampleSD/sampleSize);
-  const zscoreTwoSample = ((64 - popMean2 ) - 0) / sqrt(9/sampleSize + 4/sampleSize) // formula is (mean1 - mean2 - 0) / sqrt(( ( sd1^2 / n1) + (sd2^2 / n2) ) )
+  const popSD2 = populationStandardDev(sample2) 
+  const population2 = popArr2.length;
+  const tscoreTwoSample = ((64 - popMean2 ) - 0) / sqrt(sampleSD/sampleSize + popSD2/population2);
+  const zscoreTwoSample = ((64 - popMean2 ) - 0) / sqrt(sampleSD/sampleSize + popSD2/population2) // formula is (mean1 - mean2 - 0) / sqrt(( ( sd1^2 / n1) + (sd2^2 / n2) ) )
 
 
   function calculateTestStatistic(){
