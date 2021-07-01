@@ -4,15 +4,13 @@
 
 */
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
-import { Col } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js';
 
 export default function JointChart({ jointData, sharedOptions, nodeId }) {
 
   return (
-    <Col style={{ padding:"5px 0px 5px 0px", marginLeft:"-50px", marginRight:"0px", width: "fit-content"}}>
-    <div style={{ height: 368, width: 366, position:"inline-block", float:"right", marginLeft:"0px",}}>
+    <div style={{ height: 368, width: 366, position:"inline-block", float:"right", marginLeft:"0px",}} aria-label="plot">
       <ResponsiveScatterPlot
         {...sharedOptions}
         colors={(node) => (nodeId && (node.id === nodeId)) ? "#0053a1" : "#00b3ff"}
@@ -40,7 +38,6 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
         }}
       />
     </div>
-    </Col>
   );
 }
 

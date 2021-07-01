@@ -1,13 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import LeastSquaresSimulation from "../components/LeastSquares/LeastSquaresSimulation.js";
 import { getAllCharts } from "../lib/test-utils.js";
-import { random } from "mathjs";
-
-jest.mock("mathjs");
 
 describe("LeastSquares tests", () => {
   beforeEach(() => {
-    random.mockReset();
     render(<LeastSquaresSimulation/>);
   });
 
@@ -68,22 +64,5 @@ describe("LeastSquares tests", () => {
     fireEvent.click(screen.getByRole("button", { name: "New Points" }));
     expect(getAllCharts()[0].series[0].data).toHaveLength(5);
     expect(getAllCharts()[0].series[1].data).toHaveLength(0);
-  });
-
-  test("correct sum of squares is displayed", () => {
-    random
-      .mockReturnValue(0)
-      .mockReturnValueOnce(1.00)
-      .mockReturnValueOnce(1.00)
-      .mockReturnValueOnce(2.00)
-      .mockReturnValueOnce(2.00)
-      .mockReturnValueOnce(3.00)
-      .mockReturnValueOnce(3.00)
-      .mockReturnValueOnce(4.00)
-      .mockReturnValueOnce(4.00);
-    fireEvent.change(screen.getByTestId("new-points-slider"), { target: { value: 4 } });
-    fireEvent.click(screen.getByRole("button", { name: "New Points" }));
-    fireEvent.click(screen.getByRole("button", { name: "Plot Your Guess" }));
-    expect(screen.getByText("Sum Squares: 4.00", { exact: false })).toBeInTheDocument();
   });
 });
