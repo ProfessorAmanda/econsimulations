@@ -13,13 +13,16 @@ import { popShapeType } from "../../lib/types.js";
 export default function PerformTest({ testType, distType, shape, tails, mue0 }) {
 
   const [popArr, setPopArr] = useState([]);
-  const [popArr2, setPopArr2] = useState([]);
   const [sample, setSample] = useState([]);
-  const [sample2, setSample2] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
-  const [sampleSize2, setSampleSize2] = useState(0);
   const [alpha, setAlpha] = useState(0);
   const [sim, setSim] = useState(0);
+
+  const [popArr2, setPopArr2] = useState([]);
+  const [sample2, setSample2] = useState([]);
+  const [sampleSize2, setSampleSize2] = useState(0);
+  const [alpha2, setAlpha2] = useState(0);
+  const [sim2, setSim2] = useState(0);
 
   let popMean2 = Math.random(61,66);
 
@@ -35,34 +38,45 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
     }
   }
   let extraButton = (<> </>)
+  let extraInputs =  (<> </>)
 
  if (testType !== 'oneSample') {
 
     const takeSample2 = () => {
-      setSample2(_.sampleSize(popArr2, sampleSize2));
-      if (sim === 0) {
-        setSim(1);
+      setSample2(_.sampleSize2(popArr2, sampleSize2));
+      if (sim2 === 0) {
+        setSim2(1);
       } 
     } 
-    extraButton = (<Button
+     extraButton = (<Button
       color="primary"
       disabled={(sampleSize <= 0) || (sampleSize > popArr.length)}
       onClick={() => takeSample2()}>
       Sample 2
     </Button>)
-   } 
+
+   /* extraInputs =  <SampleSizeAlphaInputs
+    sampleSize2={sampleSize2}
+    setSampleSize2={setSampleSize2}
+    alpha={alpha2}
+    setAlpha={setAlpha2}
+    popSize2={popArr2.length} /> */
+  }  
 
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
+  const populationSD = populationStandardDev(popArr)
   const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
   const zscore = jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize));
 
   //for two-sample
 
-  const popSD2 = populationStandardDev(sample2) 
-  const population2 = popArr2.length;
-  const tscoreTwoSample = ((64 - popMean2 ) - 0) / sqrt(sampleSD/sampleSize + popSD2/population2);
-  const zscoreTwoSample = ((64 - popMean2 ) - 0) / sqrt(sampleSD/sampleSize + popSD2/population2) // formula is (mean1 - mean2 - 0) / sqrt(( ( sd1^2 / n1) + (sd2^2 / n2) ) )
+  const sampleSD2 = populationStandardDev(sample2) 
+  const sampleMean2 = populationMean(sample2);
+  const populationSD2 = populationStandardDev(popArr2) 
+
+  const tscoreTwoSample = ((sampleMean - sampleMean2 ) - 0) / sqrt(Math.pow(sampleSD,2)/sampleSize + Math.pow(sampleSD2,2)/sampleSize2);
+  const zscoreTwoSample = ((sampleMean - sampleMean2 ) - 0) / sqrt(Math.pow(populationSD,2)/sampleSize + Math.pow(populationSD2,2)/sampleSize2)
 
 
   function calculateTestStatistic(){
@@ -112,6 +126,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
         setAlpha={setAlpha}
         popSize={popArr.length}
       />
+      {extraInputs}
       <br/>
       <Button
         color="primary"
