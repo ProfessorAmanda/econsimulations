@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import DotPlot from '../DotPlot';
-import { VALUES } from '../../lib/constants';
+import DotPlot from '../DotPlot.js';
+import { VALUES } from '../../lib/constants.js';
 import { max, min, sqrt } from 'mathjs';
-import { popShapeType } from '../../lib/types';
+import { popShapeType } from '../../lib/types.js';
 import _ from "lodash";
+import { Button } from 'reactstrap';
 
-export default function SampleMeanChart({ sampleMeans, normalized, popMean, sd, popShape }) {
+export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) {
+  const [normalized, setNormalized] = useState(false);
+
   const newSampleMeans = normalized ? sampleMeans.map(({ size, mean }) => ((mean - popMean) / (sd / sqrt(size)))) : sampleMeans.map(({ mean }) => mean);
 
   const meanCounts = _.countBy(newSampleMeans.map((mean) => _.round(mean, 2)));
@@ -20,15 +24,25 @@ export default function SampleMeanChart({ sampleMeans, normalized, popMean, sd, 
   const onlyCounts = sampleMeansPoints.map((obj) => obj.y);
 
   return (
-    <DotPlot
-      series={[{name: "Sample Means", data : sampleMeansPoints}]}
-      title="Sample Mean Distribution"
-      xMin={normalized ? min(-3, ...onlyValues) : VALUES[popShape].xminval}
-      xMax={normalized ? max(3, ...onlyValues) : VALUES[popShape].xmaxval}
-      yMax={normalized ? max(8, ...onlyCounts) : max([30, ...onlyCounts])}
-      xLabel={normalized ? "Standard Deviations" : VALUES[popShape].xLabel}
-      yLabel="Observations of Sample Mean"
-    />
+    <div>
+      <Button
+        outline
+        color="primary"
+        active={normalized}
+        onClick={() => setNormalized(!normalized)}
+      >
+        Convert to Std. Normal
+      </Button>
+      <DotPlot
+        series={[{name: "Sample Means", data : sampleMeansPoints}]}
+        title="Sample Mean Distribution"
+        xMin={normalized ? min(-3, ...onlyValues) : VALUES[popShape].xminval}
+        xMax={normalized ? max(3, ...onlyValues) : VALUES[popShape].xmaxval}
+        yMax={normalized ? max(8, ...onlyCounts) : max([30, ...onlyCounts])}
+        xLabel={normalized ? "Standard Deviations" : VALUES[popShape].xLabel}
+        yLabel="Observations of Sample Mean"
+      />
+    </div>
   )
 }
 
@@ -36,6 +50,5 @@ SampleMeanChart.propTypes = {
   sampleMeans: PropTypes.arrayOf(PropTypes.number).isRequired,
   popMean: PropTypes.number,
   sd: PropTypes.number,
-  normalized: PropTypes.bool.isRequired,
   popShape: popShapeType.isRequired
 }

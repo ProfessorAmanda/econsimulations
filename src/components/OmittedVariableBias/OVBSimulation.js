@@ -13,7 +13,6 @@ export default function OVBSimulation() {
   const [beta, setBeta] = useState(3);
   const [delta, setDelta] = useState(3);
   const [correlation, setCorrelation] = useState(0);
-  const [covariance, setCovariance] = useState(0);
   const [stage, setStage] = useState(1);
   const [series, setSeries] = useState([]);
   const [showCorrect, setShowCorrect] = useState(false);
@@ -50,8 +49,8 @@ export default function OVBSimulation() {
     // covariance between dimensions. This examples makes the first and third
     // dimensions highly correlated, and the second dimension independent.
     const covarianceMatrix = [
-      [stdX * stdX, covariance],
-      [covariance, stdY * stdY]
+      [stdX * stdX, correlation * stdX * stdY],
+      [correlation * stdX * stdY, stdY * stdY]
     ];
 
     // lets you sample from distribution
@@ -114,11 +113,6 @@ export default function OVBSimulation() {
     });
   }
 
-  const adjustCorrelation = (value) => {
-    setCorrelation(value);
-    setCovariance(value * stdX * stdY);
-  }
-
   return (
     <div>
       <Row>
@@ -131,11 +125,11 @@ export default function OVBSimulation() {
         </Col>
         <Col>
           <div style={{padding: 10}}>Set the Correlation between Study Hours and Sleep Hours:</div>
-          <InputSlider value={correlation} min={-0.99} max={0.99} step={.01} onChange={(value) => adjustCorrelation(value)}/>
+          <InputSlider value={correlation} min={-0.99} max={0.99} step={.01} onChange={(value) => setCorrelation(value)}/>
           <br/>
           <InputGroup style={{width: "fit-content", margin: "auto"}}>
             <InputGroupText>Covariance between Study Hours and Sleep Hours:</InputGroupText>
-            <InputGroupText>{covariance.toFixed(2)}</InputGroupText>
+            <InputGroupText aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</InputGroupText>
           </InputGroup>
         </Col>
       </Row>
@@ -161,7 +155,14 @@ export default function OVBSimulation() {
           <Row>
             <Col>
               <p color="primary">Add Omitted Variable, Density, to Regression</p>
-              <Button outline color="primary" onClick={() => setShowCorrect(true)}>Show Corrected Regression Line</Button>
+              <Button
+                outline
+                color="primary"
+                onClick={() => setShowCorrect(!showCorrect)}
+                active={showCorrect}
+              >
+                Show Corrected Regression Line
+              </Button>
             </Col>
           </Row>
         </div>
