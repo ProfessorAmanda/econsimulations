@@ -15,6 +15,7 @@ export default function NewPointsInput({ generatePoints }) {
       <Input
         type='range'
         className="custom-range"
+        data-testid="new-points-slider"
         style={{width: "50%"}}
         min={4}
         max={10}
@@ -25,12 +26,12 @@ export default function NewPointsInput({ generatePoints }) {
         <InputGroupText>{numPoints}</InputGroupText>
       </InputGroupAddon>
       <Button
-          outline
-          color="primary"
-          onClick={() => generatePoints(numPoints)}
-        >
-          New Points
-        </Button>
+        outline
+        color="primary"
+        onClick={() => generatePoints(numPoints)}
+      >
+        New Points
+      </Button>
     </InputGroup>
   );
 }

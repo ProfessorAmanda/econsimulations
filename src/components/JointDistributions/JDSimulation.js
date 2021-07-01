@@ -77,7 +77,7 @@ export default function JDSimulation() {
           <p>Set the Correlation</p>
           <InputSlider value={correlation} min={-1} max={1} step={0.1} onChange={(value) => setCorrelation(value)}/>
           <p style={{ margin: "15px" }}>Covariance</p>
-          <InputGroupText>{(correlation * parentSD * childSD).toFixed(2)}</InputGroupText>
+          <InputGroupText aria-label="covariance">{(correlation * parentSD * childSD).toFixed(2)}</InputGroupText>
         </Col>
       </Row>
       <Row>

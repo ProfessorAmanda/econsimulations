@@ -44,7 +44,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
   return (
     <Row>
       <Col style={{ padding:"5px 0px 5px 0px", marginRight:"0px", marginLeft:"-60px"}}>
-        <div style={{ height: 368, width: 366, float:"left", position:"inline-block",}}>
+        <div style={{ height: 368, width: 366, float:"left", position:"inline-block",}} aria-label="plot">
           <ResponsiveScatterPlotCanvas
             data={[{id: "data", data: parentData}]}
             tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
@@ -57,7 +57,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
         </div>
       </Col>
       <Col style={{ padding:"5px 0px 5px 0px", marginLeft:"-55px", marginRight:"0px", width: "fit-content"}}>
-        <div style={{ height: 368, width: 366, float:"left", position:"inline-block", marginLeft:"0px",}}>
+        <div style={{ height: 368, width: 366, float:"left", position:"inline-block", marginLeft:"0px",}} aria-label="plot">
           <ResponsiveScatterPlotCanvas
             data={[{id: "data", data: childData}]}
             tooltip={({node}) => <div><strong>{node.data.formattedX}</strong></div>}
@@ -69,7 +69,7 @@ export default function JDCharts({ parentData, childData, jointData }) {
           />
         </div>
       </Col>
-      <Col>
+      <Col style={{ padding:"5px 0px 5px 0px", marginLeft:"-50px", marginRight:"0px", width: "fit-content"}}>
         <JointChart
           jointData={jointData}
           sharedOptions={sharedOptions}

@@ -1,13 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import PopTable from "../components/PopTable.js";
-import _ from "lodash";
 import { VALUES } from "../lib/constants.js";
-
-const testPopulation = _.range(100).map((num) => ({x: num, y: num, id: num}));
-const testSampleIDs = [2, 5, 12, 34, 75]
-const popShape = "Normal"
+import { testPopulation, testSample } from "../lib/test-utils.js";
 
 describe("PopTable tests", () => {
+  const popShape = "Normal"
+  const testSampleIDs = testSample.map(({ id }) => id);
+
   beforeEach(() => {
     render(<PopTable popArray={testPopulation} sampleIDs={testSampleIDs} popShape={popShape}/>);
   })
