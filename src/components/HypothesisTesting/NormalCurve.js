@@ -5,6 +5,7 @@ import '../../styles/dark-unica.css';
 import BellCurve from "highcharts/modules/histogram-bellcurve";
 import { hypothesisTestingSampleArrayType } from "../../lib/types";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 BellCurve(Highcharts);
 
@@ -44,7 +45,7 @@ export default function NormalCurve({ means, population }) {
     const rejects = [];
     const accepts = [];
     means.forEach(({ testStatistic, mean, reject }) => {
-      meanCounts[mean] = meanCounts[mean] ? meanCounts[mean] + 1 : 1;
+      meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
         x: mean,
         y: meanCounts[mean] * 0.005,
