@@ -161,7 +161,14 @@ export default function OVBSimulation() {
           <Row>
             <Col>
               <p color="primary">Add Omitted Variable, Density, to Regression</p>
-              <Button outline color="primary" onClick={() => setShowCorrect(true)}>Show Corrected Regression Line</Button>
+              <Button
+                outline
+                color="primary"
+                onClick={() => setShowCorrect(!showCorrect)}
+                active={showCorrect}
+              >
+                Show Corrected Regression Line
+              </Button>
             </Col>
           </Row>
         </div>

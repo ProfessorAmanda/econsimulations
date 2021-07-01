@@ -19,7 +19,6 @@ import { popShapeType } from "../../lib/types.js";
 export default function CLTSimulation({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampled, setSampled] = useState([]);
-  const [normalized, setNormalized] = useState(false);
   const [stage, setStage] = useState(1);
   const [popArray, setPopArray] = useState([]);
   const [popMean, setPopMean] = useState(0);
@@ -70,16 +69,8 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
             </Row>
             <Row>
               <Col lg="8">
-                <Button
-                  outline
-                  color="primary"
-                  active={normalized}
-                  onClick={() => setNormalized(!normalized)}>
-                    Convert to Std. Normal
-                </Button>
                 <SampleMeanChart
                   sampleMeans={sampleMeans}
-                  normalized={normalized}
                   popMean={popMean}
                   sd={populationStandardDev(popArray)}
                   popShape={popShape}
