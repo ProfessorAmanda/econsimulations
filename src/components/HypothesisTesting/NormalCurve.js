@@ -6,11 +6,17 @@ import BellCurve from "highcharts/modules/histogram-bellcurve";
 import { hypothesisTestingSampleArrayType } from "../../lib/types";
 import PropTypes from "prop-types";
 import _ from "lodash";
+import { dataFromDistribution } from "../../lib/stats-utils";
+import { sqrt } from "mathjs";
 
 BellCurve(Highcharts);
 
 
-export default function NormalCurve({ means, population }) {
+export default function NormalCurve({ means, mue0, popStandardDev, sampleSize }) {
+  console.log(sampleSize)
+  const [population, setPopulation] = useState(
+    dataFromDistribution("Normal", 2000, { mean: mue0, standardDev: popStandardDev / sqrt(sampleSize) })
+  );
   const [chart, setChart] = useState({
     plotOptions: {
       series: {
@@ -41,6 +47,10 @@ export default function NormalCurve({ means, population }) {
   });
 
   useEffect(() => {
+    setPopulation(dataFromDistribution("Normal", 2000, { mean: mue0, standardDev: popStandardDev / sqrt(sampleSize) }))
+  }, [mue0, popStandardDev, sampleSize]);
+
+  useEffect(() => {
     const meanCounts = {};
     const rejects = [];
     const accepts = [];
@@ -48,7 +58,7 @@ export default function NormalCurve({ means, population }) {
       meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
         x: mean,
-        y: meanCounts[mean] * 0.005,
+        y: meanCounts[mean] * 0.005 * sqrt(sampleSize),
         testStatistic,
         mean,
         reject,
@@ -63,7 +73,7 @@ export default function NormalCurve({ means, population }) {
     const newChart = {
       series: [
         {
-          name: "Standard Normal Distribution",
+          name: "Normal Distribution",
           type: "bellcurve",
           baseSeries: 1,
           zIndex: -1,
@@ -73,7 +83,7 @@ export default function NormalCurve({ means, population }) {
         {
           name: "Data",
           type: "scatter",
-          data: population,
+          data: population.map(({ x }) => x),
           visible: false,
           showInLegend: false
         },
@@ -107,12 +117,14 @@ export default function NormalCurve({ means, population }) {
     }
 
     setChart(newChart);
-  }, [means, population]);
+  }, [means, population, sampleSize]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
 
 NormalCurve.propTypes = {
   means: hypothesisTestingSampleArrayType.isRequired,
-  population: PropTypes.arrayOf(PropTypes.number).isRequired
+  mue0: PropTypes.number.isRequired,
+  popStandardDev: PropTypes.number.isRequired,
+  sampleSize: PropTypes.number.isRequired
 }

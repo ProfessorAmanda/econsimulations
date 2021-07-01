@@ -14,9 +14,10 @@ import { sqrt } from "mathjs";
 export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, sides }) {
   const [population, setPopulation] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
+  const [sampleSize, setSampleSize] = useState(0);
 
   useEffect(() => {
-    setPopulation(dataFromDistribution(popShape, 2000, { mean: mue0, standardDev: 3, low: mue0 - 10, high: mue0 + 10 }))
+    setPopulation(dataFromDistribution(popShape, 2000, { mean: mue0, standardDev: 3, low: mue0 - 10, hi: mue0 + 10 }))
   }, [mue0, popShape]);
 
   const addSamples = (size, replications=1) => {
@@ -46,6 +47,7 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
       }
       const newSampleMeans = [...sampleMeans, ...means];
       setSampleMeans(newSampleMeans);
+      setSampleSize(size);
     }
   }
 
@@ -59,7 +61,12 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
           <DotPlot series={[{name: "Population", data: population}]} title="Population" xLabel="Gallons"/>
         </Col>
         <Col>
-          <NormalCurve means={sampleMeans} population={population.map(({ x }) => x)}/>
+          <NormalCurve
+            means={sampleMeans}
+            mue0={mue0}
+            popStandardDev={_.defaultTo(populationStandardDev(population), 0)}
+            sampleSize={+sampleSize || 1}
+          />
         </Col>
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
