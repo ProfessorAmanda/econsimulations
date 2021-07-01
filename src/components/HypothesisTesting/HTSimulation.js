@@ -10,7 +10,7 @@ export default function HTSimulation() {
   const [popShape, setPopShape] = useState("");
   const [testType, setTestType] = useState("");
   const [hypothesis, setHypothesis] = useState();
-  const [mue0, setMue0] = useState(0);
+  const [mu0, setMu0] = useState(0);
   const [stage, setStage] = useState(1);
   const [distType, setDistType] = useState("Z");  // can be "Z" or "T"
 
@@ -41,7 +41,7 @@ export default function HTSimulation() {
           </Row>
           <br/>
           <Row style={{width: "80%", margin: "auto"}}>
-            <HypothesisSelector testType={testType} setHypothesis={setHypothesis} mue0={mue0} setMue0={setMue0}/>
+            <HypothesisSelector testType={testType} setHypothesis={setHypothesis} mu0={mu0} setMu0={setMu0}/>
           </Row>
           <br/>
           <Button color="primary" onClick={() => setStage(3)}> Continue </Button>
@@ -52,8 +52,8 @@ export default function HTSimulation() {
               <Row>
                 <Alert color="secondary" >
                   <p>This means our null and alternative hypotheses are given by:</p>
-                  <p>{hypothesis.nullH} {(testType === "oneSample") && mue0}</p>
-                  <p>{hypothesis.alterH} {(testType === "oneSample") && mue0}</p>
+                  <p>{hypothesis.nullH} {(testType === "oneSample") && mu0}</p>
+                  <p>{hypothesis.alterH} {(testType === "oneSample") && mu0}</p>
                 </Alert>
               </Row>
               <br/>
@@ -62,7 +62,7 @@ export default function HTSimulation() {
                   distType={distType}
                   shape={(popShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : popShape}
                   sides={hypothesis.sides}
-                  mue0={+mue0}
+                  mu0={+mu0}
                   equality={hypothesis.type}
                 />
               </Row>

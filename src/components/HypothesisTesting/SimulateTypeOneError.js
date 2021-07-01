@@ -11,14 +11,14 @@ import PropTypes from "prop-types";
 import { distributionType, popShapeType } from "../../lib/types";
 import { sqrt } from "mathjs";
 
-export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, sides, equality }) {
+export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, sides, equality }) {
   const [population, setPopulation] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
 
   useEffect(() => {
-    setPopulation(dataFromDistribution(popShape, 2000, { mean: mue0, standardDev: 3, low: mue0 - 10, hi: mue0 + 10 }))
-  }, [mue0, popShape]);
+    setPopulation(dataFromDistribution(popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10 }))
+  }, [mu0, popShape]);
 
   const addSamples = (size, replications=1) => {
     if (!size) {  // calling addSamples with no arguments clears the data
@@ -30,15 +30,15 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
         const sampleMean = populationMean(sample);
         const testStatistic = (
           (distType === "Z")
-          ? jStat.zscore(sampleMean, mue0, populationStandardDev(population) / sqrt(size))
-          : jStat.tscore(sampleMean, mue0, populationStandardDev(sample), size)
+          ? jStat.zscore(sampleMean, mu0, populationStandardDev(population) / sqrt(size))
+          : jStat.tscore(sampleMean, mu0, populationStandardDev(sample), size)
         );
         const pValue = (
           (distType === "Z")
           ? jStat.ztest(testStatistic, sides)
-          : jStat.ttest(sampleMean, mue0, populationStandardDev(sample), size, sides)
+          : jStat.ttest(sampleMean, mu0, populationStandardDev(sample), size, sides)
         );
-        console.log(sampleMean, mue0, populationStandardDev(sample), testStatistic, pValue)
+        console.log(sampleMean, mu0, populationStandardDev(sample), testStatistic, pValue)
         // console.log(jStat.ttest(64.1, 64, 2.5, 100))
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
@@ -56,7 +56,7 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
   return (
     <Container>
       <p style={{marginTop: 50, marginBottom: 50}}>
-        "Now we simulation Type I error. In other words, if the true mean were actually {mue0}, how often would we (incorrectly) reject the null hypothesis?"
+        "Now we simulation Type I error. In other words, if the true mean were actually {mu0}, how often would we (incorrectly) reject the null hypothesis?"
       </p>
       <Row>
         <Col>
@@ -65,7 +65,7 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
         <Col>
           <NormalCurve
             means={sampleMeans}
-            mue0={mue0}
+            mu0={mu0}
             popStandardDev={_.defaultTo(populationStandardDev(population), 0)}
             sampleSize={+sampleSize || 1}
           />
@@ -78,7 +78,7 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
 
 SimulateTypeOneError.propTypes = {
   popShape: popShapeType.isRequired,
-  mue0: PropTypes.number.isRequired,
+  mu0: PropTypes.number.isRequired,
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,

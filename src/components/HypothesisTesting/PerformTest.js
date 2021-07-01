@@ -11,7 +11,7 @@ import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import SimulateTypeOneError from "./SimulateTypeOneError.js";
 import { popShapeType } from "../../lib/types.js";
 
-export default function PerformTest({ distType, shape, sides, mue0, equality }) {
+export default function PerformTest({ distType, shape, sides, mu0, equality }) {
   const [popArr, setPopArr] = useState([]);
   const [sample, setSample] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
@@ -22,7 +22,7 @@ export default function PerformTest({ distType, shape, sides, mue0, equality }) 
     if (stage === 3) {
       setStage(2)
     }
-  }, [mue0, equality]);  // eslint-disable-line
+  }, [mu0, equality]);  // eslint-disable-line
 
   useEffect(() => {
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
@@ -36,8 +36,8 @@ export default function PerformTest({ distType, shape, sides, mue0, equality }) 
   }
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
-  const zscore = jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize));  // sd is 3
-  const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
+  const zscore = jStat.zscore(sampleMean, mu0, 3 / sqrt(sampleSize));  // sd is 3
+  const tscore = jStat.tscore(sampleMean, mu0, sampleSD, sampleSize);
 
   function calculateTestStatistic(){
 
@@ -49,7 +49,7 @@ export default function PerformTest({ distType, shape, sides, mue0, equality }) 
   }
   function calculatePValue() {
     if(distType === 'Z') {
-      return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), sides)
+      return jStat.ztest(sampleMean, mu0, 3 / sqrt(sampleSize), sides)
     } else {
        return jStat.ttest(tscore, sampleSize, sides)
     }
@@ -107,7 +107,7 @@ export default function PerformTest({ distType, shape, sides, mue0, equality }) 
       {(stage >= 3) && (
         <SimulateTypeOneError
           popShape={shape}
-          mue0={+mue0}
+          mu0={+mu0}
           alpha={+alpha}
           distType={distType}
           sides={sides}
@@ -122,6 +122,6 @@ PerformTest.propTypes = {
   distType: PropTypes.string.isRequired,
   shape: popShapeType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
-  mue0: PropTypes.number.isRequired,
+  mu0: PropTypes.number.isRequired,
   equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
 }

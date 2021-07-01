@@ -12,9 +12,9 @@ import { sqrt } from "mathjs";
 BellCurve(Highcharts);
 
 
-export default function NormalCurve({ means, mue0, popStandardDev, sampleSize }) {
+export default function NormalCurve({ means, mu0, popStandardDev, sampleSize }) {
   const [population, setPopulation] = useState(
-    dataFromDistribution("Normal", 2000, { mean: mue0, standardDev: popStandardDev / sqrt(sampleSize) })
+    dataFromDistribution("Normal", 2000, { mean: mu0, standardDev: popStandardDev / sqrt(sampleSize) })
   );
   const [chart, setChart] = useState({
     chart: {
@@ -49,8 +49,8 @@ export default function NormalCurve({ means, mue0, popStandardDev, sampleSize })
   });
 
   useEffect(() => {
-    setPopulation(dataFromDistribution("Normal", 2000, { mean: mue0, standardDev: popStandardDev / sqrt(sampleSize) }))
-  }, [mue0, popStandardDev, sampleSize]);
+    setPopulation(dataFromDistribution("Normal", 2000, { mean: mu0, standardDev: popStandardDev / sqrt(sampleSize) }))
+  }, [mu0, popStandardDev, sampleSize]);
 
   useEffect(() => {
     const meanCounts = {};
@@ -127,7 +127,7 @@ export default function NormalCurve({ means, mue0, popStandardDev, sampleSize })
 
 NormalCurve.propTypes = {
   means: hypothesisTestingSampleArrayType.isRequired,
-  mue0: PropTypes.number.isRequired,
+  mu0: PropTypes.number.isRequired,
   popStandardDev: PropTypes.number.isRequired,
   sampleSize: PropTypes.number.isRequired
 }
