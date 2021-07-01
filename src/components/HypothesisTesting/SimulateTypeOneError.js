@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { dataFromDistribution, populationStandardDev } from "../../lib/stats-utils";
 import DotPlot from "../DotPlot.js";
 import NormalCurve from "./NormalCurve.js";
-import ManySamplesInput from "../ManySamplesInput.js";
+import ManySamplesInput from "./ManySamplesInput.js";
 import { Container, Row, Col } from "reactstrap";
 import _ from "lodash";
 import { populationMean } from "../../lib/stats-utils.js";
@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { distributionType, popShapeType } from "../../lib/types";
 import { sqrt } from "mathjs";
 
-export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, sides }) {
+export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, sides, equality }) {
   const [population, setPopulation] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
@@ -38,10 +38,11 @@ export default function SimulateTypeOneError({ popShape, mue0, alpha, distType, 
           ? jStat.ztest(testStatistic, sides)
           : jStat.ttest(testStatistic, size, sides)
         );
+
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
           mean: _.round(sampleMean, 2),
-          reject: pValue < alpha
+          reject: !(((equality === "<=") && (testStatistic > 0)) || ((equality === ">=") && (testStatistic < 0))) && pValue <= alpha
         }
         means.push(sampleObject);
       }
@@ -79,5 +80,6 @@ SimulateTypeOneError.propTypes = {
   mue0: PropTypes.number.isRequired,
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,
-  sides: PropTypes.oneOf([1, 2]).isRequired
+  sides: PropTypes.oneOf([1, 2]).isRequired,
+  equality: PropTypes.string.isRequired,
 }

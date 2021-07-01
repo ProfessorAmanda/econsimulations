@@ -63,6 +63,7 @@ export default function HTSimulation() {
                   shape={(popShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : popShape}
                   sides={hypothesis.sides}
                   mue0={+mue0}
+                  equality={hypothesis.type}
                 />
               </Row>
             </Container>

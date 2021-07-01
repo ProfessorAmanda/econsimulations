@@ -11,7 +11,7 @@ import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import SimulateTypeOneError from "./SimulateTypeOneError.js";
 import { popShapeType } from "../../lib/types.js";
 
-export default function PerformTest({ distType, shape, sides, mue0 }) {
+export default function PerformTest({ distType, shape, sides, mue0, equality }) {
   const [popArr, setPopArr] = useState([]);
   const [sample, setSample] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
@@ -22,7 +22,7 @@ export default function PerformTest({ distType, shape, sides, mue0 }) {
     if (stage === 3) {
       setStage(2)
     }
-  }, [mue0]);  // eslint-disable-line
+  }, [mue0, equality]);  // eslint-disable-line
 
   useEffect(() => {
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
@@ -111,6 +111,7 @@ export default function PerformTest({ distType, shape, sides, mue0 }) {
           alpha={+alpha}
           distType={distType}
           sides={sides}
+          equality={equality}
         />
       )}
     </Container>
@@ -122,4 +123,5 @@ PerformTest.propTypes = {
   sides: PropTypes.oneOf([1, 2]).isRequired,
   mue0: PropTypes.number.isRequired,
   distType: PropTypes.string.isRequired,
+  equality: PropTypes.string.isRequired,
 }

@@ -33,14 +33,14 @@ export const TEXTS_ALT = {
 export const HYPOTHESIS_OPTIONS = {
   oneSample: [
     {
-      type: "≤",
+      type: "<=",
       hypoText: "Option 1: These cows produce more than ",
       nullH: "H_0: μ ≤  ",
       alterH: "H_a: μ >  ",
       sides: 1
     },
     {
-      type: "≥",
+      type: ">=",
       hypoText: "Option 2: These cows produce less than " ,
       nullH: "H_0: μ ≥  ",
       alterH: "H_a: μ <  ",
