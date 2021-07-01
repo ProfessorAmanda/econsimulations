@@ -24,12 +24,13 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   const [sampleSize2, setSampleSize2] = useState(0);
   const [sim2, setSim2] = useState(0);
 
-  let popMean2 = Math.random(61,66);
+ 
 
   useEffect(() => {
+    const popMean2 = Math.random(61,66);
     setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
     setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2 , low: 59, hi: 79 }))
-  }, [shape, popMean2]);
+  }, [shape]);
 
   const takeSample = () => {
     setSample(_.sampleSize(popArr, sampleSize));
@@ -37,8 +38,6 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
       setSim(1);
     }
   }
-  let extraInput =  (<> </>)
-
   const takeSample2 = () => {
       setSample2(_.sampleSize(popArr2, sampleSize2));
       if (sim2 === 0) {
@@ -50,20 +49,6 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
     takeSample();
     takeSample2();
   }
-    
-
-   extraInput =  <>
-   <InputGroupText>Sample Size 2 </InputGroupText>
-          <Input
-            type="number"
-            step={1}
-            value={sampleSize2}
-            min={1}
-            max={popArr2}
-            onChange={(event) => setSampleSize2(event.target.value)} /> 
-          </> 
- 
-
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
   const populationSD = populationStandardDev(popArr)
@@ -117,6 +102,22 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   const testStatistic = calculateTestStatistic();
   const pValue = calculatePValue();
 
+
+  let extraInput =  (<> </>)
+  if (testType !== "oneSample") {
+
+    extraInput =  <>
+   <InputGroupText>Sample Size 2 </InputGroupText>
+          <Input
+            type="number"
+            step={1}
+            value={sampleSize2}
+            min={1}
+            max={popArr2}
+            onChange={(event) => setSampleSize2(event.target.value)} /> 
+          </> 
+  }
+ 
   return (
     <Container fluid>
       <p>Let’s test your assertion by taking a sample and setting our tolerance for making a type-one error α!</p>
