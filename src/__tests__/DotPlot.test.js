@@ -1,6 +1,5 @@
 import { render } from "@testing-library/react";
 import DotPlot from "../components/DotPlot.js";
-import Highcharts from "highcharts";
 import { getAllCharts, testPopulation } from "../lib/test-utils.js";
 
 const testSeries = [
