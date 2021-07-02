@@ -99,7 +99,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality }) {
       <br/>
       {(stage >= 2) && (
         <div>
-          <PopulationChartReveal popArr={popArr} pVal={pValue} alpha={+alpha}/>
+          <PopulationChartReveal popArr={popArr} pVal={pValue} alpha={+alpha} mu0={+mu0}/>
           <Button color="primary" onClick={() => setStage(3)}>Simulate Type I Error</Button>
         </div>
       )}
