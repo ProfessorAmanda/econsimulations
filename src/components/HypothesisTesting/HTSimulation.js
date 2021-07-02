@@ -64,6 +64,7 @@ export default function HTSimulation() {
                   sides={hypothesis.sides}
                   mu0={+mu0}
                   equality={hypothesis.type}
+                  testType={testType}
                 />
               </Row>
             </Container>

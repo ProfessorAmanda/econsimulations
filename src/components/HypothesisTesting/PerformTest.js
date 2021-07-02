@@ -12,7 +12,7 @@ import SimulateTypeOneError from "./SimulateTypeOneError.js";
 import { popShapeType } from "../../lib/types.js";
 import {InputGroupText, Input } from "reactstrap";
 
-export default function PerformTest({ distType, shape, sides, mu0, equality }) {
+export default function PerformTest({ distType, shape, sides, mu0, equality, testType }) {
   const [popArr, setPopArr] = useState([]);
   const [sample, setSample] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
@@ -60,8 +60,8 @@ export default function PerformTest({ distType, shape, sides, mu0, equality }) {
   const sampleSD = populationStandardDev(sample)
   const populationSD = populationStandardDev(popArr)
 
-  const tscore = jStat.tscore(sampleMean, mue0, sampleSD, sampleSize);
-  const zscore = jStat.zscore(sampleMean, mue0, 3 / sqrt(sampleSize));
+  const tscore = jStat.tscore(sampleMean, mu0, sampleSD, sampleSize);
+  const zscore = jStat.zscore(sampleMean, mu0, 3 / sqrt(sampleSize));
 
   //for two-sample
   const sampleMean2 = populationMean(sample2);
@@ -94,7 +94,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality }) {
   function calculatePValue() {
 
     if(distType === 'Z' && testType === 'oneSample') {
-      return jStat.ztest(sampleMean, mue0, populationSD / sqrt(sampleSize), sides)
+      return jStat.ztest(sampleMean, mu0, populationSD / sqrt(sampleSize), sides)
      }
      else if (distType === 'T' && testType === 'oneSample') {
       return jStat.ttest(tscore, sampleSize - 1, sides)
@@ -190,4 +190,5 @@ PerformTest.propTypes = {
   sides: PropTypes.oneOf([1, 2]).isRequired,
   mu0: PropTypes.number.isRequired,
   equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
+  testType: PropTypes.oneOf(["oneSample", "twoSample"]).isRequired,
 }
