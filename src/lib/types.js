@@ -51,3 +51,10 @@ export const confidenceIntervalsSampleType = PropTypes.shape({
 });
 
 export const stringOrNumberType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+
+export const hypothesisTestingSampleArrayType = PropTypes.arrayOf(
+  PropTypes.shape({
+    mean: PropTypes.number.isRequired,
+    reject: PropTypes.bool.isRequired
+  })
+);
