@@ -5,22 +5,30 @@ import SampleSizeInput from "../SampleSizeInput.js";
 import MultivariateNormal from "multivariate-normal";
 import regression from "regression";
 import _ from "lodash";
+import PD from "probability-distributions";
+import { Button } from "reactstrap";
 
 export default function SDOLSESimulation() {
   const [data, setData] = useState([]);
   const [sample, setSample] = useState([]);
   const [bestFitLine, setBestFitLine] = useState([]);
+  const [bool, setBool] = useState(true)
 
   useEffect(() => {
-    const covMatrix = [[6 ** 2, -9], [-9, 3 ** 2]];
-    const distribution = MultivariateNormal([40, 40], covMatrix);
+    const covarianceMatrix = [
+      [3 * 3, -0.5 * 3 * 6],
+      [-0.5 * 3 * 6, 6 * 6]
+    ];
+    const distribution = MultivariateNormal([5, 2], covarianceMatrix);
+    const epsilon = PD.rnorm(1000, 0, 5);
     const series = [];
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 1000; i++) {
       const [x, y] = distribution.sample();
-      series.push({x: _.round(x, 2), y: _.round(y, 2)});
+      const scorePoint = 40 + 3 * x + 2.5 * y + epsilon[i];
+      series.push({x: _.round(x, 2), y: _.round(scorePoint, 2)});
     }
-    setData(series);
-  }, []);
+    setData(series)
+  }, [bool]);
 
   useEffect(() => {
     const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
@@ -53,6 +61,7 @@ export default function SDOLSESimulation() {
 
   return (
     <Collapsable>
+      <Button onClick={() => setBool(!bool)}>Generate</Button>
       <ScatterPlot series={mainSeries}/>
       <SampleSizeInput maxSize={1000} handleClick={takeSample}/>
       <ScatterPlot series={sampleSeries}/>
