@@ -121,7 +121,7 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
     }
 
     setChart(newChart);
-  }, [means, population, sampleSize]);
+  }, [means, population, sampleSize, distType]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
