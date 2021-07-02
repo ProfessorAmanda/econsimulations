@@ -100,7 +100,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       return jStat.ttest(tscore, sampleSize - 1, sides)
 
    } else if (distType === 'Z' && testType !== 'oneSample') {
-       return jStat.ztest(zscore,sides);
+       return jStat.ztest(zscoreTwoSample,sides);
     } else {
       return jStat.ttest( tscoreTwoSample, sampleSize - 1, sides )
     }
