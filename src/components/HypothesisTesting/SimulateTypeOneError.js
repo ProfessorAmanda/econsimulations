@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { dataFromDistribution, populationStandardDev } from "../../lib/stats-utils";
+import { dataFromDistribution, populationMean, populationStandardDev } from "../../lib/stats-utils";
 import DotPlot from "../DotPlot.js";
 import NormalCurve from "./NormalCurve.js";
 import ManySamplesInput from "./ManySamplesInput.js";
 import { Container, Row, Col } from "reactstrap";
 import _ from "lodash";
-import { populationMean } from "../../lib/stats-utils.js";
 import { jStat } from "jstat";
 import PropTypes from "prop-types";
-import { distributionType, popShapeType } from "../../lib/types";
+import { distributionType, popShapeType } from "../../lib/types.js";
 import { sqrt } from "mathjs";
 
 export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, sides, equality }) {
@@ -36,15 +35,13 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
         const pValue = (
           (distType === "Z")
           ? jStat.ztest(testStatistic, sides)
-          : jStat.ttest(sampleMean, mu0, populationStandardDev(sample), size, sides)
+          : jStat.ttest(testStatistic, size - 1, sides)
         );
-        console.log(sampleMean, mu0, populationStandardDev(sample), testStatistic, pValue)
-        // console.log(jStat.ttest(64.1, 64, 2.5, 100))
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
           mean: _.round(sampleMean, 2),
           reject: !(((equality === ">=") && (testStatistic > 0)) || ((equality === "<=") && (testStatistic < 0))) && pValue <= alpha
-        }
+        };
         means.push(sampleObject);
       }
       const newSampleMeans = [...sampleMeans, ...means];

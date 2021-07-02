@@ -36,7 +36,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality }) {
   }
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
-  const zscore = jStat.zscore(sampleMean, mu0, 3 / sqrt(sampleSize));  // sd is 3
+  const zscore = jStat.zscore(sampleMean, mu0, populationStandardDev(popArr) / sqrt(sampleSize));  // sd is 3
   const tscore = jStat.tscore(sampleMean, mu0, sampleSD, sampleSize);
 
   function calculateTestStatistic(){
@@ -49,12 +49,11 @@ export default function PerformTest({ distType, shape, sides, mu0, equality }) {
   }
   function calculatePValue() {
     if(distType === 'Z') {
-      return jStat.ztest(sampleMean, mu0, 3 / sqrt(sampleSize), sides)
+      return jStat.ztest(zscore, sides)
     } else {
-       return jStat.ttest(tscore, sampleSize, sides)
+       return jStat.ttest(tscore, sampleSize - 1, sides)
     }
   }
-
 
   const testStatistic = calculateTestStatistic();
   const pValue = calculatePValue();
