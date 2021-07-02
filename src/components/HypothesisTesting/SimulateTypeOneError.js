@@ -15,7 +15,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
   const [population, setPopulation] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
-  const [normalized, setNormalized] = useState(false);
+  const [standardized, setStandardized] = useState(false);
 
   useEffect(() => {
     setPopulation(dataFromDistribution(popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10 }))
@@ -62,7 +62,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
           <DotPlot series={[{name: "Population", data: population, showInLegend: false}]} title="Population" xLabel="Gallons"/>
         </Col>
         <Col>
-          {!normalized ? (
+          {!standardized ? (
             <NormalCurve
               means={sampleMeans}
               mu0={mu0}
@@ -78,8 +78,8 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
             />
           )}
           <Label>
-            <Input type="checkbox" onClick={() => setNormalized(!normalized)}/>
-            {" "}Normalized
+            <Input type="checkbox" onClick={() => setStandardized(!standardized)}/>
+            {" "}Standardized
           </Label>
         </Col>
       </Row>
