@@ -2,6 +2,16 @@ import { mean, std } from "mathjs";
 import PD from "probability-distributions";
 import _ from "lodash";
 
+export const getCounts = (data) => {
+  const counts = [];
+  _.entries(_.countBy(data)).forEach(([amt, count]) => {
+    for (let i = 1; i <= count; i++) {
+      counts.push({x: +amt, y: i})
+    }
+  });
+  return counts
+}
+
 // returns an array of values with a normal distribution
 export const generateNormal = (sampleSize, mean, standardDev) => {
   return PD.rnorm(sampleSize, mean, standardDev).map((num) => _.round(num, 1));
@@ -59,14 +69,7 @@ export const dataFromDistribution = (
 
   const population = getDistributionFunction[distType]();
 
-  const counts = _.countBy(population);
-  const popArray = [];
-  _.entries(counts).forEach(([amt, count]) => {
-    for (let i = 1; i <= count; i++) {
-      popArray.push({x: +amt, y: i})
-    }
-  });
-  return _.shuffle(popArray).map((obj, index) => ({...obj, id: index}));
+  return _.shuffle(getCounts(population)).map((obj, index) => ({...obj, id: index}));
 }
 
 // returns the mean of popArray

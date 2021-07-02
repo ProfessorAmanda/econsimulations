@@ -34,7 +34,9 @@ export const highchartsSeriesType = PropTypes.arrayOf(
     enableMouseTracking: PropTypes.bool,
     showInLegend: PropTypes.bool,
     visible: PropTypes.bool,
-    label: PropTypes.object
+    label: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+    marker: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+    animation: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
   })
 );
 

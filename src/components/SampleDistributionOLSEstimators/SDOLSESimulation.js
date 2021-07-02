@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 import Collapsable from "../Collapsable.js";
-import ScatterPlot from "../ScatterPlot.js";
-import SampleSizeInput from "../SampleSizeInput.js";
 import MultivariateNormal from "multivariate-normal";
-import regression from "regression";
 import _ from "lodash";
 import PD from "probability-distributions";
-import { Button } from "reactstrap";
+import { Button, Container } from "reactstrap";
+import PopulationAndSampleCharts from "./PopulationAndSampleCharts.js";
+import Beta1HatDistribution from "./Beta1HatDistribution.js";
 
 export default function SDOLSESimulation() {
   const [data, setData] = useState([]);
-  const [sample, setSample] = useState([]);
-  const [bestFitLine, setBestFitLine] = useState([]);
-  const [bool, setBool] = useState(true)
+  const [revealSimulation, setRevealSimulation] = useState(false)
 
   useEffect(() => {
+    const stdX = 3;
+    const stdY = 6;
     const covarianceMatrix = [
-      [3 * 3, -0.5 * 3 * 6],
-      [-0.5 * 3 * 6, 6 * 6]
+      [stdX * stdX, -0.5 * stdX * stdY],
+      [-0.5 * stdX * stdY, stdY * stdY]
     ];
-    const distribution = MultivariateNormal([5, 2], covarianceMatrix);
+    const distribution = MultivariateNormal([8, 2], covarianceMatrix);
     const epsilon = PD.rnorm(1000, 0, 5);
     const series = [];
     for (let i = 0; i < 1000; i++) {
@@ -27,44 +26,19 @@ export default function SDOLSESimulation() {
       const scorePoint = 40 + 3 * x + 2.5 * y + epsilon[i];
       series.push({x: _.round(x, 2), y: _.round(scorePoint, 2)});
     }
-    setData(series)
-  }, [bool]);
-
-  useEffect(() => {
-    const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
-    const linearPts = sample.map((point) => ({x: point.x, y: (point.x * equation[0]) + equation[1]}));
-    setBestFitLine(linearPts);
-  }, [sample]);
-
-  const takeSample = (size) => {
-    const newSample = _.sampleSize(data, size);
-    setSample(newSample);
-  }
-
-  const mainSeries = [{name: "data", data: data}, {name: "sample", data: sample}];
-
-  const sampleSeries = [
-    {
-      name: "best fit line",
-      type: "line",
-      data: bestFitLine,
-      label: false,
-      marker: false,
-      color: "black"
-    },
-    {
-      name: "sample",
-      data: sample,
-      color: "orange"
-    }
-  ];
+    setData(series.filter(({x, y}) => (0 <= x) && (x <= 15) && (20 <= y) && (y <= 100)));
+  }, []);
 
   return (
     <Collapsable>
-      <Button onClick={() => setBool(!bool)}>Generate</Button>
-      <ScatterPlot series={mainSeries}/>
-      <SampleSizeInput maxSize={1000} handleClick={takeSample}/>
-      <ScatterPlot series={sampleSeries}/>
+      <Container>
+        <PopulationAndSampleCharts data={data}/>
+        {!revealSimulation ? (
+          <Button color="primary" onClick={() => setRevealSimulation(true)}>Continue</Button>
+        ) : (
+          <Beta1HatDistribution data={data}/>
+        )}
+      </Container>
     </Collapsable>
   );
 }
