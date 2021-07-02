@@ -7,23 +7,22 @@ import _ from "lodash";
 
 
 export default function HTSimulation() {
-  const [pplShape, setPplShape] = useState("");
+  const [popShape, setPopShape] = useState("");
   const [testType, setTestType] = useState("");
   const [hypothesis, setHypothesis] = useState();
-  const [mue0, setMue0] = useState(0);
+  const [mu0, setMu0] = useState(64);
   const [stage, setStage] = useState(1);
   const [distType, setDistType] = useState("Z");  // can be "Z" or "T"
 
-
   useEffect(() => {
-    if ((pplShape !== "") && (testType !== "")) {
+    if ((popShape !== "") && (testType !== "")) {
       setStage(2)
     }
-  }, [pplShape, testType]);
+  }, [popShape, testType, distType]);
 
   return (
     <div className="module-container">
-      <TestInputs testType={testType} setDistType={setDistType} distType={distType} setTestType={setTestType} popShape={pplShape} setPopType={setPplShape}/>
+      <TestInputs testType={testType} setDistType={setDistType} distType={distType} setTestType={setTestType} popShape={popShape} setPopType={setPopShape}/>
       {(stage >= 2) && (
         <Container fluid>
           <Row>
@@ -42,7 +41,7 @@ export default function HTSimulation() {
           </Row>
           <br/>
           <Row style={{width: "80%", margin: "auto"}}>
-            <HypothesisSelector testType={testType} setHypothesis={setHypothesis} mue0={mue0} setMue0={setMue0}/>
+            <HypothesisSelector testType={testType} setHypothesis={setHypothesis} mu0={mu0} setMu0={setMu0}/>
           </Row>
           <br/>
           <Button color="primary" onClick={() => setStage(3)}> Continue </Button>
@@ -53,17 +52,19 @@ export default function HTSimulation() {
               <Row>
                 <Alert color="secondary" >
                   <p>This means our null and alternative hypotheses are given by:</p>
-                  <p>{hypothesis.nullH} {(testType === "oneSample") && mue0}</p>
-                  <p>{hypothesis.alterH} {(testType === "oneSample") && mue0}</p>
+                  <p>{hypothesis.nullH} {(testType === "oneSample") && mu0}</p>
+                  <p>{hypothesis.alterH} {(testType === "oneSample") && mu0}</p>
                 </Alert>
               </Row>
               <br/>
               <Row>
                 <PerformTest
-                  distType = {distType}
-                  shape={(pplShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : pplShape}
-                  tails={hypothesis.tails}
-                  mue0={+mue0}
+                  distType={distType}
+                  shape={(popShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : popShape}
+                  sides={hypothesis.sides}
+                  mu0={+mu0}
+                  equality={hypothesis.type}
+                  testType={testType}
                 />
               </Row>
             </Container>

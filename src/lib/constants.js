@@ -33,25 +33,25 @@ export const TEXTS_ALT = {
 export const HYPOTHESIS_OPTIONS = {
   oneSample: [
     {
-      type: "≤",
+      type: "<=",
       hypoText: "Option 1: These cows produce more than ",
       nullH: "H_0: μ ≤  ",
       alterH: "H_a: μ >  ",
-      tails: 1
+      sides: 1
     },
     {
-      type: "≥",
+      type: ">=",
       hypoText: "Option 2: These cows produce less than " ,
       nullH: "H_0: μ ≥  ",
       alterH: "H_a: μ <  ",
-      tails: 1
+      sides: 1
     },
     {
       type: "=",
       hypoText: "Option 3: These cows produce an amount not equal to ",
       nullH: "H_0: μ =  ",
       alterH: "H_a: μ ≠  ",
-      tails: 2
+      sides: 2
     }
   ],
   twoSample: [
@@ -59,19 +59,19 @@ export const HYPOTHESIS_OPTIONS = {
       hypoText: "Option 1: These cows produce more than they did before.",
       nullH: "H_0: μ_1 - μ_2 ≥ 0",
       alterH: "H_a: μ_1 - μ_2 < 0",
-      tails: 1
+      sides: 1
     },
     {
       hypoText: "Option 2: These cows produce less than they did before",
       nullH: "H_0: μ_1 - μ_2 ≤ 0",
       alterH: "H_a: μ_1 - μ_2 > 0",
-      tails: 1
+      sides: 1
     },
     {
       hypoText: "Option 3: These cows produce a different amount now compared to before.",
       nullH: "H_0: μ_1 - μ_2 = 0",
       alterH: "H_a: μ_1 - μ_2 ≠ 0",
-      tails: 2
+      sides: 2
     }
   ]
 }

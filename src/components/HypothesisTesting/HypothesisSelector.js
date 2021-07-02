@@ -4,7 +4,7 @@ import { DropdownItem, DropdownToggle, DropdownMenu, Input, InputGroup, InputGro
 import { HYPOTHESIS_OPTIONS } from "../../lib/constants";
 import { stringOrNumberType } from "../../lib/types";
 
-export default function HypothesisSelector({ testType, setHypothesis, mue0, setMue0 }) {
+export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu0 }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState();
 
@@ -36,11 +36,11 @@ export default function HypothesisSelector({ testType, setHypothesis, mue0, setM
         <>
           <Input
             type="number"
-            value={mue0}
+            value={mu0}
             step={1}
             min={1}
             max={1000}
-            onChange={(event) => setMue0(event.target.value)}
+            onChange={(event) => setMu0(event.target.value)}
           />
           <InputGroupText>gallons of milk per day.</InputGroupText>
         </>
@@ -52,6 +52,6 @@ export default function HypothesisSelector({ testType, setHypothesis, mue0, setM
 HypothesisSelector.propTypes = {
   testType: PropTypes.string.isRequired,
   setHypothesis: PropTypes.func.isRequired,
-  mue0: stringOrNumberType.isRequired,
-  setMue0: PropTypes.func.isRequired
+  mu0: stringOrNumberType.isRequired,
+  setMu0: PropTypes.func.isRequired
 }
