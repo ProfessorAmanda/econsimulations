@@ -13,7 +13,7 @@ export default function SDOLSESimulation() {
 
   useEffect(() => {
     const covMatrix = [[6 ** 2, -9], [-9, 3 ** 2]];
-    const distribution = MultivariateNormal([5, 2], covMatrix);
+    const distribution = MultivariateNormal([40, 40], covMatrix);
     const series = [];
     for (let i = 0; i < 500; i++) {
       const [x, y] = distribution.sample();
@@ -24,7 +24,7 @@ export default function SDOLSESimulation() {
 
   useEffect(() => {
     const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
-    const linearPts = [{x: 0, y: 0}, ...sample].map((point) => ({x: point.x, y: (point.x * equation[0]) + equation[1]}));
+    const linearPts = sample.map((point) => ({x: point.x, y: (point.x * equation[0]) + equation[1]}));
     setBestFitLine(linearPts);
   }, [sample]);
 
@@ -46,7 +46,8 @@ export default function SDOLSESimulation() {
     },
     {
       name: "sample",
-      data: sample
+      data: sample,
+      color: "orange"
     }
   ];
 
