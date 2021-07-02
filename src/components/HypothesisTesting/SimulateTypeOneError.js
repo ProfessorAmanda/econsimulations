@@ -3,7 +3,7 @@ import { dataFromDistribution, populationMean, populationStandardDev } from "../
 import DotPlot from "../DotPlot.js";
 import NormalCurve from "./NormalCurve.js";
 import ManySamplesInput from "./ManySamplesInput.js";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Alert } from "reactstrap";
 import _ from "lodash";
 import { jStat } from "jstat";
 import PropTypes from "prop-types";
@@ -53,7 +53,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
   return (
     <Container>
       <p style={{marginTop: 50, marginBottom: 50}}>
-        "Now we simulation Type I error. In other words, if the true mean were actually {mu0}, how often would we (incorrectly) reject the null hypothesis?"
+        Now we simulate Type I error. In other words, if the true mean were actually {mu0}, how often would we (incorrectly) reject the null hypothesis?
       </p>
       <Row>
         <Col>
@@ -69,6 +69,11 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
         </Col>
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
+      {(sampleMeans.length > 0) && (
+        <Alert color="info">
+          Out of {sampleMeans.length} samples, we rejected the null hypothesis {sampleMeans.filter(({ reject }) => reject).length} times ({_.round(sampleMeans.filter(({ reject }) => reject).length / sampleMeans.length, 2)}%).
+        </Alert>
+      )}
     </Container>
   )
 }

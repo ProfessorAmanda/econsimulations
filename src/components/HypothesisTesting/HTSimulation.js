@@ -10,7 +10,7 @@ export default function HTSimulation() {
   const [popShape, setPopShape] = useState("");
   const [testType, setTestType] = useState("");
   const [hypothesis, setHypothesis] = useState();
-  const [mu0, setMu0] = useState(0);
+  const [mu0, setMu0] = useState(64);
   const [stage, setStage] = useState(1);
   const [distType, setDistType] = useState("Z");  // can be "Z" or "T"
 
