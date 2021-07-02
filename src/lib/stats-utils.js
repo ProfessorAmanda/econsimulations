@@ -91,6 +91,7 @@ export const dataFromDistribution = (
       mysteryMean2=70,
       mysterySD1=1,
       mysterySD2=3
+
     } = {}
   ) => {
 
