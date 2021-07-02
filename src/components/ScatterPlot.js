@@ -1,15 +1,10 @@
 import { useState, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official"
-import Label from "highcharts/modules/series-label";
 import PropTypes from "prop-types";
 import { highchartsSeriesType } from "../lib/types";
-import '../styles/dark-unica.css';
 
-Label(Highcharts);
-
-
-export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel }) {
+export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLabel, yLabel }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
@@ -44,12 +39,12 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
         text: title
       },
       yAxis: {
-        min: 0,
+        min: yMin,
         max: yMax,
         startOnTick: true,
         endOnTick: true,
         title: {
-          text: yLabel || "Count"
+          text: yLabel
         }
       },
       series: series.map((seriesObject) => (
@@ -57,24 +52,22 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
           showInLegend: seriesObject.data.length > 0,
           turboThreshold: 0,
           ...seriesObject,
-          data: seriesObject.data.map(({ x, y }) => ({ x, y })),  // don't want any other attributes
-          tooltip: {
-            pointFormat: `${xLabel}: <b>{point.x}</b><br />`
-          }
+          data: seriesObject.data.map(({ x, y }) => ({ x, y })),  // don"t want any other attributes
         })
       )
     }
     setChart(newChart);
-  }, [series, title, xMin, xMax, yMax, xLabel, yLabel]);
+  }, [series, title, xMin, xMax, yMin, yMax, xLabel, yLabel]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
 
-DotPlot.propTypes = {
+ScatterPlot.propTypes = {
   series: highchartsSeriesType.isRequired,
   title: PropTypes.string,
   xMin: PropTypes.number,
   xMax: PropTypes.number,
+  yMin: PropTypes.number,
   yMax: PropTypes.number,
   xLabel: PropTypes.string,
   yLabel: PropTypes.string,

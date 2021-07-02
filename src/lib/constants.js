@@ -17,15 +17,15 @@ export const VALUES_ALT = {
 
 export const TEXTS = {
   Normal: ["monthly Milk Production", "cows","produced", " gallons a month."],
-  //Uniform: ['the wait time', 'people at the DMV in VT', "reported a total time of", " minutes."],
+  //Uniform: ["the wait time", "people at the DMV in VT", "reported a total time of", " minutes."],
   Exponential: ["duration", "Telemarketer Calls","reported a duration of", " seconds on a call."],
   "Chi-Squared": ["expenditure", "workers on lunch","reported an expenditure of"," dollars on lunch."],
-  Mystery: ['the height', 'Alien Females from planet Stata', "reported a height of", " inches."],
+  Mystery: ["the height", "Alien Females from planet Stata", "reported a height of", " inches."],
 }
 
 export const TEXTS_ALT = {
   Normal: ["monthly Milk Production", "cows"],
-  Uniform: ['the height', 'Alien Females from planet Stata'],
+  Uniform: ["the height", "Alien Females from planet Stata"],
   Exponential: ["duration", "Telemarketer Calls"],
   "Chi-Squared": ["expenditure", "workers on lunch"]
 }
@@ -78,8 +78,8 @@ export const HYPOTHESIS_OPTIONS = {
 
 export const MODULES = [
   {
-    name: 'Law of Large Numbers',
-    description: 'The Law of Large Numbers tells us that that the sample mean approaches the mean of the population as we increase the sample size. This simulation investigates the behavior of the sample mean as we change the sample size.',
+    name: "Law of Large Numbers",
+    description: "The Law of Large Numbers tells us that that the sample mean approaches the mean of the population as we increase the sample size. This simulation investigates the behavior of the sample mean as we change the sample size.",
   },
   {
     name: "Central Limit Theorem",
@@ -104,5 +104,9 @@ export const MODULES = [
   {
     name: "Hypothesis Testing",
     description: "Hypothesis testing is a procedure that allows us to form conclusions based on information derived from a sample.",
+  },
+  {
+    name: "Sample Distribution of OLS Estimators",
+    description: "In Progress"
   }
 ];
