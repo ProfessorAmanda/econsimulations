@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sqrt } from "mathjs";
+import { random, sqrt } from "mathjs";
 import { Button, Container, Row } from "reactstrap";
 import { dataFromDistribution, populationMean, populationStandardDev } from "../../lib/stats-utils.js";
 import PropTypes from "prop-types";
@@ -33,8 +33,8 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
 
 
   useEffect(() => {
-    const popMean1 = Math.random(61,66);
-    const popMean2 = Math.random(61,66);
+    const popMean1 = random(61, 66);
+    const popMean2 = random(61, 66);
     setPopArr(dataFromDistribution(shape, 2000, { mean: popMean1, low: 59, hi: 79 }))
     setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2 , low: 59, hi: 79 }))
   }, [shape]);
