@@ -62,8 +62,8 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   const sampleSD2 = populationStandardDev(sample2) 
   const populationSD2 = populationStandardDev(popArr2) 
 
-  const tscoreTwoSample = (sampleMean - sampleMean2  - 0) / sqrt(Math.pow(sampleSD,2)/sampleSize + Math.pow(sampleSD2,2)/sampleSize2)
-  const zscoreTwoSample = (sampleMean - sampleMean2  - 0) / sqrt(Math.pow(populationSD,2)/sampleSize + Math.pow(populationSD2,2)/sampleSize2)
+  const tscoreTwoSample = ((sampleMean - sampleMean2)  - 0) / sqrt(Math.pow(sampleSD,2)/sampleSize + Math.pow(sampleSD2,2)/sampleSize2)
+  const zscoreTwoSample = ((sampleMean - sampleMean2)  - 0) / sqrt(Math.pow(populationSD,2)/sampleSize + Math.pow(populationSD2,2)/sampleSize2)
 
   function calculateTestStatistic(){
 
@@ -88,7 +88,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   function calculatePValue() {
 
     if(distType === 'Z' && testType === 'oneSample') {
-      return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
+      return jStat.ztest(sampleMean, mue0, populationSD / sqrt(sampleSize), tails)
      } 
      else if (distType === 'T' && testType === 'oneSample') {
       return jStat.ttest(tscore, sampleSize - 1, tails)
