@@ -27,8 +27,9 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
  
 
   useEffect(() => {
+    const popMean1 = Math.random(61,66);
     const popMean2 = Math.random(61,66);
-    setPopArr(dataFromDistribution(shape, 2000, { mean: 69, low: 59, hi: 79 }))
+    setPopArr(dataFromDistribution(shape, 2000, { mean: popMean1, low: 59, hi: 79 }))
     setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2 , low: 59, hi: 79 }))
   }, [shape]);
 
@@ -61,8 +62,8 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   const sampleSD2 = populationStandardDev(sample2) 
   const populationSD2 = populationStandardDev(popArr2) 
 
-  const tscoreTwoSample = ((sampleMean - sampleMean2 ) - 0) / sqrt(Math.pow(sampleSD,2)/sampleSize + Math.pow(sampleSD2,2)/sampleSize2);
-  const zscoreTwoSample = ((sampleMean - sampleMean2 ) - 0) / sqrt(Math.pow(populationSD,2)/sampleSize + Math.pow(populationSD2,2)/sampleSize2)
+  const tscoreTwoSample = (sampleMean - sampleMean2  - 0) / sqrt(Math.pow(sampleSD,2)/sampleSize + Math.pow(sampleSD2,2)/sampleSize2)
+  const zscoreTwoSample = (sampleMean - sampleMean2  - 0) / sqrt(Math.pow(populationSD,2)/sampleSize + Math.pow(populationSD2,2)/sampleSize2)
 
   function calculateTestStatistic(){
 
@@ -90,12 +91,12 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
       return jStat.ztest(sampleMean, mue0, 3 / sqrt(sampleSize), tails)
      } 
      else if (distType === 'T' && testType === 'oneSample') {
-      return jStat.ttest(tscore, sampleSize, tails)
+      return jStat.ttest(tscore, sampleSize - 1, tails)
 
    } else if (distType === 'Z' && testType !== 'oneSample') {
        return jStat.ztest(zscore,tails);
     } else {
-      return jStat.ttest( tscoreTwoSample, sampleSize, tails )
+      return jStat.ttest( tscoreTwoSample, sampleSize - 1, tails )
     }
   }
 
@@ -107,7 +108,7 @@ export default function PerformTest({ testType, distType, shape, tails, mue0 }) 
   if (testType !== "oneSample") {
 
     extraInput =  <>
-   <InputGroupText>Sample Size 2 </InputGroupText>
+   <InputGroupText>Sample 2 Size </InputGroupText>
           <Input
             type="number"
             step={1}
