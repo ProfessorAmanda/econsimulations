@@ -60,3 +60,9 @@ export const hypothesisTestingSampleArrayType = PropTypes.arrayOf(
     reject: PropTypes.bool.isRequired
   })
 );
+
+export const olsSampleType = PropTypes.shape({
+  data: dataObjectArrayType,
+  slope: PropTypes.number,
+  intercept: PropTypes.number
+});

@@ -63,7 +63,7 @@ export default function SDOLSESimulation() {
         {!revealSimulation ? (
           <Button color="primary" onClick={() => setRevealSimulation(true)}>Continue</Button>
         ) : (
-          <Beta1HatDistribution data={data} samples={samples} addSamples={addSamples}/>
+          <Beta1HatDistribution data={data} samples={getCounts(samples.map(({ slope }) => slope))} addSamples={addSamples}/>
         )}
       </Container>
     </Collapsable>

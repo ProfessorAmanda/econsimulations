@@ -2,6 +2,8 @@ import { Container, Row, Col } from "reactstrap";
 import DotPlot from "../DotPlot.js";
 import MultipleSamplesInput from "./MultipleSamplesInput.js";
 import { max, min } from "mathjs";
+import PropTypes from "prop-types";
+import { dataObjectArrayType, olsSampleType } from "../../lib/types.js";
 
 export default function Beta1HatDistribution({ data, samples, addSamples }) {
 
@@ -24,4 +26,10 @@ export default function Beta1HatDistribution({ data, samples, addSamples }) {
       </Row>
     </Container>
   )
+}
+
+Beta1HatDistribution.propTypes = {
+  data: dataObjectArrayType.isRequired,
+  samples: PropTypes.arrayOf(olsSampleType).isRequired,
+  addSamples: PropTypes.func.isRequired
 }

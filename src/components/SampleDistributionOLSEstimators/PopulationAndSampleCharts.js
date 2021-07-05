@@ -2,7 +2,8 @@ import { Container, Row, Col, Alert } from "reactstrap";
 import ScatterPlot from "../ScatterPlot.js";
 import SampleSizeInput from "../SampleSizeInput.js";
 import _ from "lodash";
-import { dataObjectArrayType } from "../../lib/types.js";
+import { dataObjectArrayType, olsSampleType } from "../../lib/types.js";
+import PropTypes from "prop-types";
 
 export default function PopulationAndSampleCharts({ data, addSamples, selected }) {
   const sample = selected ? selected : {data: []};
@@ -16,9 +17,11 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected }
       data: [{x: 0}, {x: 15}, ...sample.data].map((point) => (
         {x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2)}
       )),
-      label: false,
+      label: {
+        format: `<div>Best Fit Line, slope: ${sample.slope}</div>`
+      },
       marker: false,
-      showInLegend: sample.data.length > 0,
+      showInLegend: false,
       color: "black",
       animation: false,
       enableMouseTracking: false
@@ -72,5 +75,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected }
 }
 
 PopulationAndSampleCharts.propTypes = {
-  data: dataObjectArrayType.isRequired
+  data: dataObjectArrayType.isRequired,
+  addSamples: PropTypes.func.isRequired,
+  selected: olsSampleType.isRequired
 }
