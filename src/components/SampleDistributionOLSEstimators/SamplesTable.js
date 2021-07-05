@@ -6,7 +6,7 @@ export default function SamplesTable({ samples, setSelected, selected }) {
 
   const samplesTable = samples.map((sampleObject) =>
     <tr
-      style={{ backgroundColor: (selected && (sampleObject.id === selected.id)) ? "#747EF2" : undefined }}
+      style={{ backgroundColor: (selected && (sampleObject.id === selected.id)) ? "#747EF2" : undefined, cursor: "pointer" }}
       key={sampleObject.id}
       onClick={() => setSelected(sampleObject)}
     >
