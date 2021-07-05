@@ -30,17 +30,18 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
 
   useEffect(() => {
     const popMean1 = random(61, 66);
-    const popMean2 = random(61, 66);
-    setPopArr(dataFromDistribution(shape, 2000, { mean: popMean1, low: 59, hi: 79 }))
-    setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2 , low: 59, hi: 79 }))
-  }, [shape]);
-
-  useEffect(() => {
-    if (testType === "oneSample") {
+    setPopArr(dataFromDistribution(
+      shape, 2000, { mean: popMean1, low: popMean1 - 10, hi: popMean1 + 10, mysteryMean1: popMean1 - 6, mysteryMean2: popMean1 + 6 }
+    ));
+    if (testType === "twoSample") {
+      const popMean2 = random(61, 66);
+      setPopArr2(dataFromDistribution(
+        shape, 2000, { mean: popMean2 , low: popMean2 - 10, hi: popMean2 + 10, mysteryMean1: popMean2 - 6, mysteryMean2: popMean2 + 6 }
+      ));
+    } else {
       setPopArr2([]);
-      setSample2([]);
     }
-  }, [testType]);
+  }, [shape, testType]);
 
   const takeSample = () => {
     setSample(_.sampleSize(popArr, sampleSize));

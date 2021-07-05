@@ -24,9 +24,13 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
   const [standardized, setStandardized] = useState(false);
 
   useEffect(() => {
-    setPopulation(dataFromDistribution(popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10 }))
+    setPopulation(dataFromDistribution(
+      popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10, mysteryMean1: mu0 - 6, mysteryMean2: mu0 + 6 }
+    ))
     if (testType === "twoSample") {
-      setPopulation2(dataFromDistribution(popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10 }))
+      setPopulation2(dataFromDistribution(
+        popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10, mysteryMean1: mu0 - 6, mysteryMean2: mu0 + 6 }
+      ))
     }
   }, [mu0, popShape, testType]);
 

@@ -87,11 +87,10 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
           showInLegend: false
         },
         {
-          name: "Sample Means",
+          name: "Fail to Reject H_0",
           type: "scatter",
           data: accepts,
           color: "#03fc0b",
-          showInLegend: false,
           marker: {
             symbol: "diamond",
             radius: 4,
@@ -100,11 +99,10 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
           }
         },
         {
-          name: "Sample Means",
+          name: "Reject H_0",
           type: "scatter",
           data: rejects,
           color: "red",
-          showInLegend: false,
           marker: {
             symbol: "diamond",
             radius: 4,

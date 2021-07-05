@@ -8,6 +8,7 @@ import { max } from "mathjs";
 export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu0 }) {
   const popMean = populationMean(popArr);
   const popMean2 = populationMean(popArr2);
+  const maxHeight = max(max(popArr.map(({ y }) => y)), (popArr2.length > 0) ? max(popArr2.map(({ y }) => y)) : 0);
 
   const series = [
     {
@@ -30,7 +31,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
     {
       type: "line",
       name: (popArr2.length === 0) ? "True Population Mean" : "First Population Mean",
-      data: [{x: popMean || 0, y: 0}, {x: popMean || 0, y: max(popArr.map(({ y }) => y))}],
+      data: [{x: popMean || 0, y: 0}, {x: popMean || 0, y: maxHeight}],
       color: "blue",
       enableMouseTracking: false,
       showInLegend: false,
@@ -41,7 +42,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
     {
       type: "line",
       name: "Second Population Mean",
-      data: [{x: popMean2 || 0, y: 0}, {x: popMean2 || 0, y: (popArr2.length > 0) && max(popArr2.map(({ y }) => y))}],
+      data: [{x: popMean2 || 0, y: 0}, {x: popMean2 || 0, y: maxHeight}],
       color: "green",
       enableMouseTracking: false,
       showInLegend: false,
