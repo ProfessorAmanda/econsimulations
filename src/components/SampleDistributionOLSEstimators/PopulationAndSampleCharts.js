@@ -67,7 +67,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         <Col>
           <ScatterPlot
             series={sampleSeries}
-            title="Sample"
+            title={`Sample ${selected.id}`}
             xMin={0}
             xMax={15}
             yMin={20}
