@@ -35,6 +35,13 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
     setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2 , low: 59, hi: 79 }))
   }, [shape]);
 
+  useEffect(() => {
+    if (testType === "oneSample") {
+      setPopArr2([]);
+      setSample2([]);
+    }
+  }, [testType]);
+
   const takeSample = () => {
     setSample(_.sampleSize(popArr, sampleSize));
     if (stage === 0) {
@@ -158,7 +165,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       <br/>
       {(stage >= 2) && (
         <div>
-          <PopulationChartReveal popArr={popArr} pVal={pValue} alpha={+alpha} mu0={+mu0}/>
+          <PopulationChartReveal popArr={popArr} popArr2={popArr2} pVal={pValue} alpha={+alpha} mu0={+mu0}/>
           <Button color="primary" onClick={() => setStage(3)}>Simulate Type I Error</Button>
         </div>
       )}

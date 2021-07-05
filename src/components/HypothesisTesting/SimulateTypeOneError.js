@@ -75,9 +75,6 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
     {
       name: `Population${(testType === "twoSample") ? " 1" : ""}`,
       data: population,
-      marker: {
-        symbol: "circle",
-      }
     },
     {
       name: "Population 2",
