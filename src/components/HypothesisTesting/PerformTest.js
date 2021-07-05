@@ -29,8 +29,8 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   }, [mu0, equality]);  // eslint-disable-line
 
   useEffect(() => {
-    const popMean1 = random(61,66);
-    const popMean2 = random(61,66);
+    const popMean1 = random(61, 66);
+    const popMean2 = random(61, 66);
     setPopArr(dataFromDistribution(shape, 2000, { mean: popMean1, low: 59, hi: 79 }))
     setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2 , low: 59, hi: 79 }))
   }, [shape]);

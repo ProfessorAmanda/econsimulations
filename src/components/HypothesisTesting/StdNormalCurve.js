@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official"
 import BellCurve from "highcharts/modules/histogram-bellcurve";
-import { distributionType, hypothesisTestingSampleArrayType, testTypeType } from "../../lib/types";
+import { distributionType, hypothesisTestingSampleArrayType } from "../../lib/types";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { dataFromDistribution } from "../../lib/stats-utils";
@@ -11,11 +11,9 @@ import { sqrt } from "mathjs";
 BellCurve(Highcharts);
 
 
-export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, distType, testType }) {
-  const [population, setPopulation] = useState(
-    dataFromDistribution(
-      "Normal", 2000, { mean: (testType === "oneSample") ? mu0 : 0, standardDev: popStandardDev / sqrt(sampleSize) }
-    )
+export default function StdNormalCurve({ means, sampleSize, distType }) {
+  const [population] = useState(
+    dataFromDistribution("Normal", 2000, { mean: 0, standardDev: 1 })
   );
   const [chart, setChart] = useState({
     chart: {
@@ -34,7 +32,7 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
     },
     xAxis: {
       title: {
-        text: "Gallons",
+        text: "Test Statistic",
       },
       startOnTick: true,
       endOnTick: true
@@ -45,17 +43,9 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
       title: false
     },
     tooltip: {
-      pointFormat: `${(testType === "oneSample") ? "sample mean" : "difference of means"}: <b>{point.mean}</b><br/>test statistic: <b>{point.testStatistic}</b><br/>reject H_0: <b>{point.reject}</b></br>`
+      pointFormat: "test statistic: <b>{point.testStatistic}</b><br/>sample mean: <b>{point.mean}</b><br/>reject H_0: <b>{point.reject}</b></br>"
     }
   });
-
-  useEffect(() => {
-    setPopulation(
-      dataFromDistribution(
-        "Normal", 2000, { mean: (testType === "oneSample") ? mu0 : 0, standardDev: popStandardDev / sqrt(sampleSize) }
-      )
-    )
-  }, [mu0, popStandardDev, sampleSize, testType]);
 
   useEffect(() => {
     const meanCounts = {};
@@ -64,7 +54,7 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
     means.forEach(({ testStatistic, mean, reject }) => {
       meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
-        x: mean,
+        x: testStatistic,
         y: meanCounts[mean] * ((distType === "T") ? 1 : 0.005 * sqrt(sampleSize)),
         testStatistic,
         mean,
@@ -97,10 +87,11 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
           showInLegend: false
         },
         {
-          name: "Fail to Reject H_0",
+          name: "Sample Means",
           type: "scatter",
           data: accepts,
           color: "#03fc0b",
+          showInLegend: false,
           marker: {
             symbol: "diamond",
             radius: 4,
@@ -109,10 +100,11 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
           }
         },
         {
-          name: "Reject H_0",
+          name: "Sample Means",
           type: "scatter",
           data: rejects,
           color: "red",
+          showInLegend: false,
           marker: {
             symbol: "diamond",
             radius: 4,
@@ -129,11 +121,8 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
 
-NormalCurve.propTypes = {
+StdNormalCurve.propTypes = {
   means: hypothesisTestingSampleArrayType.isRequired,
-  mu0: PropTypes.number.isRequired,
-  popStandardDev: PropTypes.number.isRequired,
   sampleSize: PropTypes.number.isRequired,
-  distType: distributionType.isRequired,
-  testType: testTypeType.isRequired
+  distType: distributionType.isRequired
 }

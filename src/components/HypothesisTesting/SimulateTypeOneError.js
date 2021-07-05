@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import DotPlot from "../DotPlot.js";
 import NormalCurve from "./NormalCurve.js";
 import ManySamplesInput from "./ManySamplesInput.js";
-import { Container, Row, Col, Alert } from "reactstrap";
+import { Container, Row, Col, Alert, Input, Label } from "reactstrap";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { distributionType, popShapeType, testTypeType } from "../../lib/types.js";
+import StdNormalCurve from "./StdNormalCurve.js";
 import {
   calculateOneSampleTestStatistic,
   calculatePValue,
@@ -20,6 +21,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
   const [population2, setPopulation2] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
+  const [standardized, setStandardized] = useState(false);
 
   useEffect(() => {
     setPopulation(dataFromDistribution(popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10 }))
@@ -99,13 +101,25 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
           <DotPlot series={dotPlotSeries} title={`Population${(testType === "twoSample") ? "s" : ""}`} xLabel="Gallons"/>
         </Col>
         <Col>
-          <NormalCurve
-            means={sampleMeans}
-            mu0={mu0}
-            popStandardDev={_.defaultTo(populationStandardDev(population), 0)}
-            sampleSize={+sampleSize || 1}
-            distType={distType}
-          />
+          {!standardized ? (
+            <NormalCurve
+              means={sampleMeans}
+              mu0={mu0}
+              popStandardDev={_.defaultTo(populationStandardDev(population), 0)}
+              sampleSize={+sampleSize || 1}
+              distType={distType}
+            />
+          ) : (
+            <StdNormalCurve
+              means={sampleMeans}
+              sampleSize={+sampleSize || 1}
+              distType={distType}
+            />
+          )}
+          <Label>
+            <Input type="checkbox" onClick={() => setStandardized(!standardized)}/>
+            {" "}Standardized
+          </Label>
         </Col>
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
