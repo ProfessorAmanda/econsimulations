@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official"
 import BellCurve from "highcharts/modules/histogram-bellcurve";
-import { distributionType, hypothesisTestingSampleArrayType } from "../../lib/types";
+import { distributionType, hypothesisTestingSampleArrayType, testTypeType } from "../../lib/types";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { dataFromDistribution } from "../../lib/stats-utils";
@@ -11,7 +11,7 @@ import { sqrt } from "mathjs";
 BellCurve(Highcharts);
 
 
-export default function StdNormalCurve({ means, sampleSize, distType }) {
+export default function StdNormalCurve({ means, sampleSize, distType, testType }) {
   const [population] = useState(
     dataFromDistribution("Normal", 2000, { mean: 0, standardDev: 1 })
   );
@@ -43,7 +43,7 @@ export default function StdNormalCurve({ means, sampleSize, distType }) {
       title: false
     },
     tooltip: {
-      pointFormat: "test statistic: <b>{point.testStatistic}</b><br/>sample mean: <b>{point.mean}</b><br/>reject H_0: <b>{point.reject}</b></br>"
+      pointFormat: `test statistic: <b>{point.testStatistic}</b><br/>${(testType === "oneSample") ? "sample mean" : "difference of means"}: <b>{point.mean}</b><br/>reject H_0: <b>{point.reject}</b></br>`
     }
   });
 
@@ -124,5 +124,6 @@ export default function StdNormalCurve({ means, sampleSize, distType }) {
 StdNormalCurve.propTypes = {
   means: hypothesisTestingSampleArrayType.isRequired,
   sampleSize: PropTypes.number.isRequired,
-  distType: distributionType.isRequired
+  distType: distributionType.isRequired,
+  testType: testTypeType.isRequired
 }

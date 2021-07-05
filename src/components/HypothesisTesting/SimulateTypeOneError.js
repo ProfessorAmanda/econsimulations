@@ -57,6 +57,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
               size
             );
         const pValue = calculatePValue(distType, testStatistic, size, sides);
+        console.log(equality, testStatistic, pValue)
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
           mean: (testType === "oneSample") ? _.round(sampleMean, 2) : _.round(sampleMean - sampleMean2, 2),
@@ -108,12 +109,14 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
               popStandardDev={_.defaultTo(populationStandardDev(population), 0)}
               sampleSize={+sampleSize || 1}
               distType={distType}
+              testType={testType}
             />
           ) : (
             <StdNormalCurve
               means={sampleMeans}
               sampleSize={+sampleSize || 1}
               distType={distType}
+              testType={testType}
             />
           )}
           <Label>
