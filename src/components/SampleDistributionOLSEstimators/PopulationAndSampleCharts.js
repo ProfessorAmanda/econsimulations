@@ -19,10 +19,10 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         {x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2)}
       )),
       label: {
-        format: `<div>Best Fit Line, slope: ${sample.slope}</div>`
+        format: `<div>slope: ${sample.slope}</div>`
       },
       marker: false,
-      showInLegend: false,
+      showInLegend: sample.data.length > 0,
       color: "black",
       animation: {
         duration: 0
