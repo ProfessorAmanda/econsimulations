@@ -1,6 +1,7 @@
-import { mean, std } from "mathjs";
+import { mean, std, sqrt } from "mathjs";
 import PD from "probability-distributions";
 import _ from "lodash";
+import { jStat } from "jstat";
 
 export const getCounts = (data) => {
   const counts = [];
@@ -90,4 +91,25 @@ export const convertToStandardNormal = (values) => {
   const valuesMean = mean(values);
   const valuesSD = std(values);
   return values.map((val) => ((val - valuesMean) / valuesSD));
+}
+
+export const calculateOneSampleTestStatistic = (distType, sampleMean, mu0, standardDev, sampleSize) => {
+  return (distType === "Z")
+    ? jStat.zscore(sampleMean, mu0, standardDev / sqrt(sampleSize))
+    : jStat.tscore(sampleMean, mu0, standardDev, sampleSize);
+}
+
+export const calculateTwoSampleTestStatistic = (
+  sampleMean1,
+  sampleMean2,
+  standardDev1,
+  standardDev2,
+  sampleSize1,
+  sampleSize2
+) => {
+  return (sampleMean1 - sampleMean2) / sqrt(standardDev1 ** 2 / sampleSize1 + standardDev2 ** 2 / sampleSize2);
+}
+
+export const calculatePValue = (distType, testStat, sampleSize, sides) => {
+  return (distType === "Z") ? jStat.ztest(testStat, sides) : jStat.ttest(testStat, sampleSize - 1, sides);
 }

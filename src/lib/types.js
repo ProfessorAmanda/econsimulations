@@ -60,3 +60,5 @@ export const hypothesisTestingSampleArrayType = PropTypes.arrayOf(
     reject: PropTypes.bool.isRequired
   })
 );
+
+export const testTypeType = PropTypes.oneOf(["oneSample", "twoSample"])

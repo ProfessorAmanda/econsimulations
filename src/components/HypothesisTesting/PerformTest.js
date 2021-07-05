@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sqrt } from "mathjs";
+import { random, sqrt } from "mathjs";
 import { Button, Container, Row } from "reactstrap";
 import { dataFromDistribution, populationMean, populationStandardDev } from "../../lib/stats-utils.js";
 import PropTypes from "prop-types";
@@ -9,7 +9,7 @@ import { jStat } from "jstat";
 import ResultsDisplay from "./ResultsDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import SimulateTypeOneError from "./SimulateTypeOneError.js";
-import { popShapeType } from "../../lib/types.js";
+import { popShapeType, testTypeType } from "../../lib/types.js";
 import {InputGroupText, Input } from "reactstrap";
 
 export default function PerformTest({ distType, shape, sides, mu0, equality, testType }) {
@@ -18,6 +18,9 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   const [sampleSize, setSampleSize] = useState(0);
   const [alpha, setAlpha] = useState(0);
   const [stage, setStage] = useState(0);
+  const [popArr2, setPopArr2] = useState([]);
+  const [sample2, setSample2] = useState([]);
+  const [sampleSize2, setSampleSize2] = useState(0);
 
   useEffect(() => {
     if (stage === 3) {
@@ -25,16 +28,9 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
     }
   }, [mu0, equality]);  // eslint-disable-line
 
-  const [popArr2, setPopArr2] = useState([]);
-  const [sample2, setSample2] = useState([]);
-  const [sampleSize2, setSampleSize2] = useState(0);
-  const [sim2, setSim2] = useState(0);
-
-
-
   useEffect(() => {
-    const popMean1 = Math.random(61,66);
-    const popMean2 = Math.random(61,66);
+    const popMean1 = random(61,66);
+    const popMean2 = random(61,66);
     setPopArr(dataFromDistribution(shape, 2000, { mean: popMean1, low: 59, hi: 79 }))
     setPopArr2(dataFromDistribution(shape, 2000, { mean: popMean2 , low: 59, hi: 79 }))
   }, [shape]);
@@ -45,23 +41,18 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       setStage(1);
     }
   }
-  const takeSample2 = () => {
-      setSample2(_.sampleSize(popArr2, sampleSize2));
-      if (sim2 === 0) {
-        setSim2(1);
-      }
-    }
 
  const takeBothSamples = () => {
     takeSample();
-    takeSample2();
+    setSample2(_.sampleSize(popArr2, sampleSize2));
   }
+
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample)
   const populationSD = populationStandardDev(popArr)
 
   const tscore = jStat.tscore(sampleMean, mu0, sampleSD, sampleSize);
-  const zscore = jStat.zscore(sampleMean, mu0, 3 / sqrt(sampleSize));
+  const zscore = jStat.zscore(sampleMean, mu0, populationSD / sqrt(sampleSize));
 
   //for two-sample
   const sampleMean2 = populationMean(sample2);
@@ -94,7 +85,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   function calculatePValue() {
 
     if(distType === 'Z' && testType === 'oneSample') {
-      return jStat.ztest(sampleMean, mu0, populationSD / sqrt(sampleSize), sides)
+      return jStat.ztest(zscore, sides)
      }
      else if (distType === 'T' && testType === 'oneSample') {
       return jStat.ttest(tscore, sampleSize - 1, sides)
@@ -141,7 +132,8 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
         color="primary"
         disabled={(sampleSize <= 0) || (sampleSize > popArr.length)}
         onClick={() => testType === 'oneSample' ?  takeSample() : takeBothSamples()}
-      > Sample/s
+      >
+        Sample
       </Button>
       <br/>
       <br/>
@@ -178,11 +170,12 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
           distType={distType}
           sides={sides}
           equality={equality}
+          testType={testType}
         />
       )}
     </Container>
-      )
-  }
+  )
+}
 
 PerformTest.propTypes = {
   distType: PropTypes.string.isRequired,
@@ -190,5 +183,5 @@ PerformTest.propTypes = {
   sides: PropTypes.oneOf([1, 2]).isRequired,
   mu0: PropTypes.number.isRequired,
   equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
-  testType: PropTypes.oneOf(["oneSample", "twoSample"]).isRequired,
+  testType: testTypeType.isRequired
 }
