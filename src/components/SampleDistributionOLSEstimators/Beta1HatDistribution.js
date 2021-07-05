@@ -4,19 +4,21 @@ import MultipleSamplesInput from "./MultipleSamplesInput.js";
 import { max, min } from "mathjs";
 import PropTypes from "prop-types";
 import { dataObjectArrayType, olsSampleType } from "../../lib/types.js";
+import { getCounts } from "../../lib/stats-utils.js";
 
 export default function Beta1HatDistribution({ data, samples, addSamples }) {
+  const plotData = getCounts(samples.map(({ slope }) => slope));
 
   return (
     <Container>
       <Row md={1} lg={2}>
         <Col>
           <DotPlot
-            series={[{name: "slopes", data: samples}]}
+            series={[{name: "slopes", data: plotData}]}
             title="Distribution of Sample Slopes"
-            xMin={min(-5, ...samples.map(({ x }) => x))}
-            xMax={max(5, ...samples.map(({ x }) => x))}
-            yMax={max(4, ...samples.map(({ y }) => y))}
+            xMin={min(-5, ...plotData.map(({ x }) => x))}
+            xMax={max(5, ...plotData.map(({ x }) => x))}
+            yMax={max(4, ...plotData.map(({ y }) => y))}
             xLabel="Slope"
           />
         </Col>
