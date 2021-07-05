@@ -2,13 +2,13 @@ import PropTypes from "prop-types";
 import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
 import { stringOrNumberType } from "../../lib/types";
 
-export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha, setAlpha, popSize }) {
+export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha, setAlpha, popSize, sampleSize2, setSampleSize2, showSecondInput }) {
   return (
-    <Row>
-      <Col xs="6">
+    <Row sm="1" md={showSecondInput ? 1 : 2} lg="2">
+      <Col>
         <InputGroup>
           <InputGroupAddon addonType="prepend">
-            <InputGroupText>Sample Size</InputGroupText>
+            <InputGroupText>{showSecondInput ? "First" : ""} Sample Size</InputGroupText>
           </InputGroupAddon>
           <Input
             type="number"
@@ -19,8 +19,23 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
             onChange={(event) => setSampleSize(event.target.value)}
           />
         </InputGroup>
+        {showSecondInput && (
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>Second Sample Size</InputGroupText>
+            </InputGroupAddon>
+            <Input
+              type="number"
+              step={1}
+              value={sampleSize2}
+              min={1}
+              max={popSize}
+              onChange={(event) => setSampleSize2(event.target.value)}
+            />
+          </InputGroup>
+        )}
       </Col>
-      <Col xs="6">
+      <Col>
         <InputGroup>
           <InputGroupAddon addonType="prepend">
             <InputGroupText>Alpha</InputGroupText>
@@ -44,5 +59,6 @@ SampleSizeAlphaInputs.propTypes = {
   setSampleSize: PropTypes.func.isRequired,
   alpha: stringOrNumberType.isRequired,
   setAlpha: PropTypes.func.isRequired,
-  popSize: PropTypes.number.isRequired
+  popSize: PropTypes.number.isRequired,
+  showSecondInput: PropTypes.bool.isRequired
 }

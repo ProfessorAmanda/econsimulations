@@ -10,7 +10,6 @@ import ResultsDisplay from "./ResultsDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import SimulateTypeOneError from "./SimulateTypeOneError.js";
 import { popShapeType, testTypeType } from "../../lib/types.js";
-import {InputGroupText, Input } from "reactstrap";
 
 export default function PerformTest({ distType, shape, sides, mu0, equality, testType }) {
   const [popArr, setPopArr] = useState([]);
@@ -99,7 +98,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       return jStat.ttest(tscore, sampleSize - 1, sides)
 
    } else if (distType === 'Z' && testType !== 'oneSample') {
-       return jStat.ztest(zscore,sides);
+       return jStat.ztest(zscoreTwoSample,sides);
     } else {
       return jStat.ttest( tscoreTwoSample, sampleSize - 1, sides )
     }
@@ -107,22 +106,6 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
 
   const testStatistic = calculateTestStatistic();
   const pValue = calculatePValue();
-
-
-  let extraInput =  (<> </>)
-  if (testType !== "oneSample") {
-
-    extraInput =  <>
-   <InputGroupText>Sample 2 Size </InputGroupText>
-          <Input
-            type="number"
-            step={1}
-            value={sampleSize2}
-            min={1}
-            max={popArr2}
-            onChange={(event) => setSampleSize2(event.target.value)} />
-          </>
-  }
 
   return (
     <Container fluid>
@@ -133,8 +116,10 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
         alpha={alpha}
         setAlpha={setAlpha}
         popSize={popArr.length}
+        sampleSize2={sampleSize2}
+        setSampleSize2={setSampleSize2}
+        showSecondInput={testType === "twoSample"}
       />
-      {extraInput}
       <br/>
       <Button
         color="primary"
