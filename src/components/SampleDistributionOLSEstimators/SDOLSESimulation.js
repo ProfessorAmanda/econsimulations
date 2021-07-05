@@ -6,10 +6,14 @@ import PD from "probability-distributions";
 import { Button, Container } from "reactstrap";
 import PopulationAndSampleCharts from "./PopulationAndSampleCharts.js";
 import Beta1HatDistribution from "./Beta1HatDistribution.js";
+import { getCounts } from "../../lib/stats-utils.js";
+import regression from "regression";
 
 export default function SDOLSESimulation() {
   const [data, setData] = useState([]);
-  const [revealSimulation, setRevealSimulation] = useState(false)
+  const [samples, setSamples] = useState([]);
+  const [revealSimulation, setRevealSimulation] = useState(false);
+  const [selected, setSelected] = useState();
 
   useEffect(() => {
     const stdX = 3;
@@ -29,14 +33,37 @@ export default function SDOLSESimulation() {
     setData(series.filter(({x, y}) => (0 <= x) && (x <= 15) && (20 <= y) && (y <= 100)));
   }, []);
 
+  useEffect(() => {
+    setSelected(samples[samples.length - 1])
+  }, [samples]);
+
+  const addSamples = (size, replications=1) => {
+    if (!size) {  // calling generateSamples with no arguments clears the data
+      setSamples([]);
+    } else {
+      const newSamples = [];
+      for (let i = 0; i < replications; i++) {
+        const sample = _.sampleSize(data, size);
+        const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
+        const sampleObject = {
+          data: sample,
+          slope: equation[0],
+          intercept: equation[1]
+        }
+        newSamples.push(sampleObject);
+      }
+      setSamples([...samples, ...newSamples])
+    }
+  }
+
   return (
     <Collapsable>
       <Container>
-        <PopulationAndSampleCharts data={data}/>
+        <PopulationAndSampleCharts data={data} addSamples={addSamples} selected={selected}/>
         {!revealSimulation ? (
           <Button color="primary" onClick={() => setRevealSimulation(true)}>Continue</Button>
         ) : (
-          <Beta1HatDistribution data={data}/>
+          <Beta1HatDistribution data={data} samples={samples} addSamples={addSamples}/>
         )}
       </Container>
     </Collapsable>
