@@ -45,16 +45,20 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
 
   return (
     <Container>
-      <ScatterPlot
-        series={mainSeries}
-        title="Population"
-        xMin={0}
-        xMax={15}
-        yMin={20}
-        yMax={100}
-        xLabel="Study Hours"
-        yLabel="Test Score"
-      />
+      <Row>
+        <Col lg={{size: 12, offset: 0}} xl={{size: 8, offset: 2}}>
+          <ScatterPlot
+            series={mainSeries}
+            title="Population"
+            xMin={0}
+            xMax={15}
+            yMin={20}
+            yMax={100}
+            xLabel="Study Hours"
+            yLabel="Test Score"
+          />
+        </Col>
+      </Row>
       <br/>
       <Row md={1} lg={2}>
         <Col>
