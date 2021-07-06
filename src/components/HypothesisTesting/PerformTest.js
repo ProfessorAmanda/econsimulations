@@ -29,13 +29,37 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
 
   useEffect(() => {
     const popMean1 = random(61, 66);
+    const sd1 = random(1, 4);
     setPopArr(dataFromDistribution(
-      shape, 2000, { mean: popMean1, low: popMean1 - 10, hi: popMean1 + 10, mysteryMean1: popMean1 - 6, mysteryMean2: popMean1 + 6 }
+      shape,
+      2000,
+      {
+        mean: popMean1,
+        standardDev: sd1,
+        low: popMean1 - 10,
+        hi: popMean1 + 10,
+        mysteryMean1: popMean1 - 6,
+        mysteryMean2: popMean1 + 6,
+        mysterySD1: sd1 - 1,
+        mysterySD2: sd1 + 1
+      }
     ));
     if (testType === "twoSample") {
       const popMean2 = random(61, 66);
+      const sd2 = random(1, 4);
       setPopArr2(dataFromDistribution(
-        shape, 2000, { mean: popMean2 , low: popMean2 - 10, hi: popMean2 + 10, mysteryMean1: popMean2 - 6, mysteryMean2: popMean2 + 6 }
+        shape,
+        2000,
+        {
+          mean: popMean2,
+          standardDev: sd2,
+          low: popMean2 - 10,
+          hi: popMean2 + 10,
+          mysteryMean1: popMean2 - 6,
+          mysteryMean2: popMean2 + 6,
+          mysterySD1: sd2 - 1,
+          mysterySD2: sd2 + 1
+        }
       ));
     } else {
       setPopArr2([]);
@@ -162,12 +186,14 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       {(stage >= 3) && (
         <SimulateTypeOneError
           popShape={shape}
-          mu0={+mu0}
+          mu0={(testType === "twoSample") ? populationMean(popArr) : +mu0}
           alpha={+alpha}
           distType={distType}
           sides={sides}
           equality={equality}
           testType={testType}
+          sd1={populationSD}
+          sd2={populationSD2}
         />
       )}
     </Container>

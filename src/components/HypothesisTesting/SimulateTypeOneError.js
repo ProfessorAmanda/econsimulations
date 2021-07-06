@@ -7,6 +7,7 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { distributionType, popShapeType, testTypeType } from "../../lib/types.js";
 import StdNormalCurve from "./StdNormalCurve.js";
+import { random } from "mathjs";
 import {
   calculateOneSampleTestStatistic,
   calculatePValue,
@@ -16,7 +17,7 @@ import {
   populationStandardDev
 } from "../../lib/stats-utils";
 
-export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, sides, equality, testType }) {
+export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, sides, equality, testType, sd1, sd2 }) {
   const [population, setPopulation] = useState([]);
   const [population2, setPopulation2] = useState([]);
   const [sampleMeans, setSampleMeans] = useState([]);
@@ -25,14 +26,36 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
 
   useEffect(() => {
     setPopulation(dataFromDistribution(
-      popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10, mysteryMean1: mu0 - 6, mysteryMean2: mu0 + 6 }
+      popShape,
+      2000,
+      {
+        mean: mu0,
+        standardDev: sd1,
+        low: mu0 - 10,
+        hi: mu0 + 10,
+        mysteryMean1: mu0 - 6,
+        mysteryMean2: mu0 + 6,
+        mysterySD1: random(1, 4),
+        mysterySD2: random(1, 4)
+      }
     ))
     if (testType === "twoSample") {
       setPopulation2(dataFromDistribution(
-        popShape, 2000, { mean: mu0, standardDev: 3, low: mu0 - 10, hi: mu0 + 10, mysteryMean1: mu0 - 6, mysteryMean2: mu0 + 6 }
+        popShape,
+        2000,
+        {
+          mean: mu0,
+          standardDev: sd2,
+          low: mu0 - 10,
+          hi: mu0 + 10,
+          mysteryMean1: mu0 - 6,
+          mysteryMean2: mu0 + 6,
+          mysterySD1: random(1, 4),
+          mysterySD2: random(1, 4)
+        }
       ))
     }
-  }, [mu0, popShape, testType]);
+  }, [mu0, popShape, testType, sd1, sd2]);
 
   const addSamples = (size, replications=1) => {
     if (!size) {  // calling addSamples with no arguments clears the data
@@ -96,7 +119,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
   return (
     <Container>
       <p style={{marginTop: 50, marginBottom: 50}}>
-        Now we simulate Type I error. In other words, if the true mean were actually {mu0}, how often would we (incorrectly) reject the null hypothesis?
+        Now we simulate Type I error. In other words, if the true mean were actually {mu0.toFixed(2)}, how often would we (incorrectly) reject the null hypothesis?
       </p>
       <Row>
         <Col>
@@ -143,5 +166,7 @@ SimulateTypeOneError.propTypes = {
   distType: distributionType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
   equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
-  testType: testTypeType.isRequired
+  testType: testTypeType.isRequired,
+  sd1: PropTypes.number.isRequired,
+  sd2: PropTypes.number
 }

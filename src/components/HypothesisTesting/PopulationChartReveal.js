@@ -43,7 +43,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
       type: "line",
       name: "Second Population Mean",
       data: [{x: popMean2 || 0, y: 0}, {x: popMean2 || 0, y: maxHeight}],
-      color: "green",
+      color: "red",
       enableMouseTracking: false,
       showInLegend: false,
       visible: popArr2.length > 0,
@@ -71,7 +71,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
         <Container fluid>
           <Row>
             <Alert color="secondary">
-              We queried the monthly Milk Production of {popArr.length} cows and plotted the results on the following chart.
+              We queried the monthly Milk Production of {(popArr2.length > 0) ? "two populations of" : ""} {popArr.length} cows and plotted the results on the following chart.
             </Alert>
           </Row>
           <Row>
