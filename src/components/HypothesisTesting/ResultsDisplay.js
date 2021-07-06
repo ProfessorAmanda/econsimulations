@@ -22,7 +22,7 @@ export default function ResultsDisplay({ testType, mean, mean2, standardDev, sta
       )}
       <p>The test statistic is {_.round(testStatistic, 2)}</p>
       <p>
-        This test statistic yields a p-value of P(Z {(equality === "!=") ? ">" : equality} {(equality === "!=") ? "|teststat|" : "teststat"}) = {pValue.toPrecision(3)}.
+        This test statistic yields a p-value of P(Z {(equality === "!=") ? ">" : equality} {(equality === "!=") ? "|test stat|" : "test stat"}) = {pValue.toPrecision(3)}.
       </p>
       <p>Therefore we {(pValue < alpha) ? "reject" : "fail to reject"} the null hypothesis. </p>
     </Alert>
