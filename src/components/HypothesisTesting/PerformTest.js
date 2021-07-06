@@ -133,8 +133,11 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       {(stage >= 1) && (
         <Container>
           <ResultsDisplay
+            testType={testType}
             mean={sampleMean}
+            mean2={sampleMean2}
             standardDev={sampleSD}
+            standardDev2={sampleSD2}
             testStatistic={testStatistic}
             pValue={pValue}
             alpha={+alpha}
