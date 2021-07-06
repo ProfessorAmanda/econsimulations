@@ -11,7 +11,7 @@ import { sqrt } from "mathjs";
 BellCurve(Highcharts);
 
 
-export default function NormalCurve({ meansDiff, means, mu0, popStandardDev, sampleSize, distType, testType }) {
+export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, distType, testType }) {
   const [population, setPopulation] = useState(
     dataFromDistribution(
       "Normal", 2000, { mean: (testType === "oneSample") ? mu0 : 0, standardDev: popStandardDev / sqrt(sampleSize) }
@@ -64,7 +64,7 @@ export default function NormalCurve({ meansDiff, means, mu0, popStandardDev, sam
     means.forEach(({ testStatistic, mean, reject }) => {
       meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
-        x: testType === "oneSample" ? mean : meansDiff,
+        x: mean,
         y: meanCounts[mean] * ((distType === "T") ? 1 : 0.005 * sqrt(sampleSize)),
         testStatistic,
         mean,
