@@ -51,7 +51,7 @@ export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLa
       )
     }
     setChart(newChart);
-  }, [series, title, xMin, xMax, yMin, yMax, xLabel, yLabel, animation]);
+  }, [series, title, xMin, xMax, yMin, yMax, xLabel, yLabel, animation, height]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
