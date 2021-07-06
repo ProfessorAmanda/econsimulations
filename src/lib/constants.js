@@ -56,14 +56,14 @@ export const HYPOTHESIS_OPTIONS = {
   ],
   twoSample: [
     {
-      type: "<=",
+      type: ">=",
       hypoText: "Option 1: These cows produce more than they did before.",
       nullH: "H_0: μ_1 - μ_2 ≥ 0",
       alterH: "H_a: μ_1 - μ_2 < 0",
       sides: 1
     },
     {
-      type: ">=",
+      type: "<=",
       hypoText: "Option 2: These cows produce less than they did before",
       nullH: "H_0: μ_1 - μ_2 ≤ 0",
       alterH: "H_a: μ_1 - μ_2 > 0",
