@@ -3,7 +3,7 @@ import Collapsable from "../Collapsable.js";
 import MultivariateNormal from "multivariate-normal";
 import _ from "lodash";
 import PD from "probability-distributions";
-import { Button, Container } from "reactstrap";
+import { Container } from "reactstrap";
 import PopulationAndSampleCharts from "./PopulationAndSampleCharts.js";
 import Beta1HatDistribution from "./Beta1HatDistribution.js";
 import regression from "regression";
@@ -32,25 +32,21 @@ export default function SDOLSESimulation() {
   }, []);
 
   const addSamples = (size, replications=1, clear=false) => {
-    if (!size) {  // calling generateSamples with no arguments clears the data
-      setSamples([]);
-    } else {
-      const newSamples = [];
-      for (let i = 0; i < replications; i++) {
-        const sample = _.sampleSize(data, size);
-        const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
-        const sampleObject = {
-          data: sample,
-          size: size,
-          slope: equation[0],
-          intercept: equation[1],
-        }
-        newSamples.push(sampleObject);
+    const newSamples = [];
+    for (let i = 0; i < replications; i++) {
+      const sample = _.sampleSize(data, size);
+      const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 1 });
+      const sampleObject = {
+        data: sample,
+        size: size,
+        slope: equation[0],
+        intercept: equation[1],
       }
-      const indexedSamples = (clear ? newSamples : [...samples, ...newSamples]).map((obj, index) => ({...obj, id: index}));
-      setSelected(indexedSamples[indexedSamples.length - 1]);
-      setSamples(indexedSamples);
+      newSamples.push(sampleObject);
     }
+    const indexedSamples = (clear ? newSamples : [...samples, ...newSamples]).map((obj, index) => ({...obj, id: index}));
+    setSelected(indexedSamples[indexedSamples.length - 1]);
+    setSamples(indexedSamples);
   }
 
   return (
