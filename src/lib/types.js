@@ -69,3 +69,5 @@ export const olsSampleType = PropTypes.shape({
   intercept: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired
 });
+
+export const hypothesisEqualityType = PropTypes.oneOf(["<", ">", "!="]);

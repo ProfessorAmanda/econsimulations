@@ -5,7 +5,7 @@ import ManySamplesInput from "./ManySamplesInput.js";
 import { Container, Row, Col, Alert, Input, Label } from "reactstrap";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import { distributionType, popShapeType, testTypeType } from "../../lib/types.js";
+import { distributionType, hypothesisEqualityType, popShapeType, testTypeType } from "../../lib/types.js";
 import StdNormalCurve from "./StdNormalCurve.js";
 import { random } from "mathjs";
 import {
@@ -84,7 +84,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
               size
             );
         const pValue = calculatePValue(distType, testStatistic, size, sides);
-        console.log(equality, testStatistic, pValue)
+
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
           mean: _.round(sampleMean, 2),
@@ -165,7 +165,7 @@ SimulateTypeOneError.propTypes = {
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
-  equality: PropTypes.oneOf(["<", ">", "!="]).isRequired,
+  equality: hypothesisEqualityType.isRequired,
   testType: testTypeType.isRequired,
   sd1: PropTypes.number.isRequired,
   sd2: PropTypes.number
