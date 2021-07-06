@@ -5,7 +5,7 @@ import _ from "lodash";
 import PD from "probability-distributions";
 import { Button, Container } from "reactstrap";
 import PopulationAndSampleCharts from "./PopulationAndSampleCharts.js";
-import Beta1HatDistribution from "./Beta1HatDistribution.js";
+import SlopesDistribution from "./SlopesDistribution.js";
 import regression from "regression";
 
 export default function SDOLSESimulation() {
@@ -39,7 +39,7 @@ export default function SDOLSESimulation() {
       const newSamples = [];
       for (let i = 0; i < replications; i++) {
         const sample = _.sampleSize(data, size);
-        const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
+        const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 1 });
         const sampleObject = {
           data: sample,
           size: size,
@@ -68,7 +68,7 @@ export default function SDOLSESimulation() {
         {!revealSimulation ? (
           <Button color="primary" onClick={() => setRevealSimulation(true)}>Continue</Button>
         ) : (
-          <Beta1HatDistribution
+          <SlopesDistribution
             data={data}
             samples={samples}
             addSamples={addSamples}

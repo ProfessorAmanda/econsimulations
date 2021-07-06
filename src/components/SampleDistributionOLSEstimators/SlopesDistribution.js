@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { dataObjectArrayType, olsSampleType } from "../../lib/types.js";
 import { getCounts } from "../../lib/stats-utils.js";
 
-export default function Beta1HatDistribution({ data, samples, addSamples }) {
+export default function SlopesDistribution({ data, samples, addSamples }) {
   const plotData = getCounts(samples.map(({ slope }) => slope));
 
   return (
@@ -30,7 +30,7 @@ export default function Beta1HatDistribution({ data, samples, addSamples }) {
   )
 }
 
-Beta1HatDistribution.propTypes = {
+SlopesDistribution.propTypes = {
   data: dataObjectArrayType.isRequired,
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
   addSamples: PropTypes.func.isRequired
