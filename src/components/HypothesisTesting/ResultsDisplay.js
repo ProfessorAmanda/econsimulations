@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import { testTypeType } from "../../lib/types.js";
 
-export default function ResultsDisplay({ testType, mean, mean2, standardDev, standardDev2, testStatistic, pValue, alpha }) {
+export default function ResultsDisplay({ testType, mean, mean2, standardDev, standardDev2, testStatistic, pValue, alpha, equality }) {
   return (
     <Alert color="secondary" >
       <p>This sample yields the following data:</p>
@@ -21,7 +21,9 @@ export default function ResultsDisplay({ testType, mean, mean2, standardDev, sta
         </div>
       )}
       <p>The test statistic is {_.round(testStatistic, 2)}</p>
-      <p>This test statistic yields a p-value of P(Z &gt; teststat) = {pValue.toPrecision(3)}. </p>
+      <p>
+        This test statistic yields a p-value of P(Z {(equality === "!=") ? ">" : equality} {(equality === "!=") ? "|teststat|" : "teststat"}) = {pValue.toPrecision(3)}.
+      </p>
       <p>Therefore we {(pValue < alpha) ? "reject" : "fail to reject"} the null hypothesis. </p>
     </Alert>
   )
@@ -35,5 +37,6 @@ ResultsDisplay.propTypes = {
   standardDev2: PropTypes.number,
   testStatistic: PropTypes.number.isRequired,
   pValue: PropTypes.number.isRequired,
-  alpha: PropTypes.number.isRequired
+  alpha: PropTypes.number.isRequired,
+  equality: testTypeType.isRequired
 }

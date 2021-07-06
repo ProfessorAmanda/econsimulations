@@ -141,6 +141,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
             testStatistic={testStatistic}
             pValue={pValue}
             alpha={+alpha}
+            equality={equality}
           />
           <br/>
           <Row>
@@ -177,6 +178,6 @@ PerformTest.propTypes = {
   shape: popShapeType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
   mu0: PropTypes.number.isRequired,
-  equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
+  equality: PropTypes.oneOf(["<", ">", "!="]).isRequired,
   testType: PropTypes.oneOf(["oneSample", "twoSample"]).isRequired,
 }

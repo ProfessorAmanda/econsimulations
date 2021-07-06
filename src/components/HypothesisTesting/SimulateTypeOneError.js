@@ -42,7 +42,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
           mean: _.round(sampleMean, 2),
-          reject: !(((equality === ">=") && (testStatistic > 0)) || ((equality === "<=") && (testStatistic < 0))) && pValue <= alpha
+          reject: !(((equality === "<") && (testStatistic > 0)) || ((equality === ">") && (testStatistic < 0))) && pValue <= alpha
         };
         means.push(sampleObject);
       }
@@ -99,5 +99,5 @@ SimulateTypeOneError.propTypes = {
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
-  equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
+  equality: PropTypes.oneOf(["<", ">", "!="]).isRequired,
 }

@@ -8,7 +8,7 @@ export const popShapeType = PropTypes.oneOf([
   "Mystery"
 ]);
 
-export const distributionType = PropTypes.oneOf(["Z","T"]);
+export const distributionType = PropTypes.oneOf(["Z", "T"]);
 
 export const dataObjectArrayType = PropTypes.arrayOf(
   PropTypes.shape({
