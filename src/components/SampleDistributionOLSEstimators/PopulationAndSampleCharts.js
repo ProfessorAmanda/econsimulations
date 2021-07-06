@@ -26,9 +26,6 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       marker: false,
       showInLegend: sample.data.length > 0,
       color: "black",
-      animation: {
-        duration: 0
-      },
       enableMouseTracking: false,
     },
     {
@@ -38,9 +35,6 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       marker: {
         lineWidth: 1,
         lineColor: "orange"
-      },
-      animation: {
-        duration: 0
       },
     }
   ];
@@ -71,7 +65,9 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
         <Col>
-          <InlineMath math="\widehat{Test\ Score} = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
+          <div style={{marginLeft: "auto"}}>
+            <InlineMath math="\widehat{Test\ Score}_i = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
+          </div>
           <ScatterPlot
             series={sampleSeries}
             xMin={0}

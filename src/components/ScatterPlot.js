@@ -4,21 +4,14 @@ import HighchartsReact from "highcharts-react-official"
 import PropTypes from "prop-types";
 import { highchartsSeriesType } from "../lib/types";
 
-export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLabel, yLabel }) {
+export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLabel, yLabel, animation }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
     const newChart = {
       chart: {
         type: "scatter",
-      },
-      plotOptions: {
-        series: {
-          animation: {
-            duration: 100,
-            easing: "easeOutBounce"
-          },
-        }
+        animation: !!animation
       },
       legend: {
         symbolHeight: 12,
@@ -57,7 +50,7 @@ export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLa
       )
     }
     setChart(newChart);
-  }, [series, title, xMin, xMax, yMin, yMax, xLabel, yLabel]);
+  }, [series, title, xMin, xMax, yMin, yMax, xLabel, yLabel, animation]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
@@ -71,4 +64,5 @@ ScatterPlot.propTypes = {
   yMax: PropTypes.number,
   xLabel: PropTypes.string,
   yLabel: PropTypes.string,
+  animation: PropTypes.bool
 }
