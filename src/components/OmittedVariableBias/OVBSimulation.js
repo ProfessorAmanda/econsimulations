@@ -105,7 +105,7 @@ export default function OVBSimulation() {
     const Y = transpose(matrix([scores]));
     const inverse = inv(multiply(transpose(X),X));
     const bHat = multiply(multiply(inverse,transpose(X)),Y);
-    console.log(studyScores)
+
     setAllData({
       points: studyScores.map(([x, y]) => ({x, y})),
       naiveLine: generatePoints(naiveSlope, naiveInt),

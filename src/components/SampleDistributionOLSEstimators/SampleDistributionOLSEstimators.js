@@ -5,7 +5,7 @@ export default function SampleDistributionOLSEstimators() {
   return(
     <div className="module-container">
       <Alert style={{ width: "50%", margin: "auto" }} color="primary">
-          Sample Distribution of OLS Estimators
+        Sample Distribution of OLS Estimators
       </Alert>
       <br/>
       <SDOLSESimulation/>

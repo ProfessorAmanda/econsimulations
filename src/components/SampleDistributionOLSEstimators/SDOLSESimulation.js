@@ -3,7 +3,7 @@ import Collapsable from "../Collapsable.js";
 import MultivariateNormal from "multivariate-normal";
 import _ from "lodash";
 import PD from "probability-distributions";
-import { Button, Container } from "reactstrap";
+import { Container } from "reactstrap";
 import PopulationAndSampleCharts from "./PopulationAndSampleCharts.js";
 import Beta1HatDistribution from "./Beta1HatDistribution.js";
 import regression from "regression";
@@ -11,7 +11,6 @@ import regression from "regression";
 export default function SDOLSESimulation() {
   const [data, setData] = useState([]);
   const [samples, setSamples] = useState([]);
-  const [revealSimulation, setRevealSimulation] = useState(false);
   const [selected, setSelected] = useState();
 
   useEffect(() => {
@@ -32,26 +31,22 @@ export default function SDOLSESimulation() {
     setData(series.filter(({x, y}) => (0 <= x) && (x <= 15) && (20 <= y) && (y <= 100)));
   }, []);
 
-  const addSamples = (size, replications=1) => {
-    if (!size) {  // calling generateSamples with no arguments clears the data
-      setSamples([]);
-    } else {
-      const newSamples = [];
-      for (let i = 0; i < replications; i++) {
-        const sample = _.sampleSize(data, size);
-        const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
-        const sampleObject = {
-          data: sample,
-          size: size,
-          slope: equation[0],
-          intercept: equation[1],
-        }
-        newSamples.push(sampleObject);
+  const addSamples = (size, replications=1, clear=false) => {
+    const newSamples = [];
+    for (let i = 0; i < replications; i++) {
+      const sample = _.sampleSize(data, size);
+      const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 1 });
+      const sampleObject = {
+        data: sample,
+        size: size,
+        slope: equation[0],
+        intercept: equation[1],
       }
-      const indexedSamples = [...samples, ...newSamples].map((obj, index) => ({...obj, id: index}));
-      setSelected(indexedSamples[indexedSamples.length - 1]);
-      setSamples(indexedSamples);
+      newSamples.push(sampleObject);
     }
+    const indexedSamples = (clear ? newSamples : [...samples, ...newSamples]).map((obj, index) => ({...obj, id: index}));
+    setSelected(indexedSamples[indexedSamples.length - 1]);
+    setSamples(indexedSamples);
   }
 
   return (
@@ -65,15 +60,11 @@ export default function SDOLSESimulation() {
           selectSample={setSelected}
         />
         <br/>
-        {!revealSimulation ? (
-          <Button color="primary" onClick={() => setRevealSimulation(true)}>Continue</Button>
-        ) : (
-          <Beta1HatDistribution
-            data={data}
-            samples={samples}
-            addSamples={addSamples}
-          />
-        )}
+        <Beta1HatDistribution
+          data={data}
+          samples={samples}
+          addSamples={addSamples}
+        />
       </Container>
     </Collapsable>
   );

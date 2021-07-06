@@ -31,12 +31,11 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
         />
         <br/>
         <Button
-          onClick={() => addSamples(resampleSize, numberResamples)}
+          onClick={() => addSamples(resampleSize, numberResamples, true)}
           disabled={(resampleSize < 1) || (resampleSize > populationSize) || (numberResamples < 1)}
         >
           Run
         </Button>
-        <Button onClick={() => addSamples()}>Clear</Button>
       </Alert>
     </div>
   );
