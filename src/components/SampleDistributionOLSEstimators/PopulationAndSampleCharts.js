@@ -1,50 +1,45 @@
-import { useEffect, useState } from "react";
-import regression from "regression";
 import { Container, Row, Col, Alert } from "reactstrap";
 import ScatterPlot from "../ScatterPlot.js";
 import SampleSizeInput from "../SampleSizeInput.js";
 import _ from "lodash";
-import { dataObjectArrayType } from "../../lib/types.js";
+import { dataObjectArrayType, olsSampleType } from "../../lib/types.js";
+import PropTypes from "prop-types";
+import SamplesTable from "./SamplesTable.js";
 
-export default function PopulationAndSampleCharts({ data }) {
-  const [bestFitLine, setBestFitLine] = useState([]);
-  const [sample, setSample] = useState([]);
+export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample }) {
+  const sample = selected ? selected : {data: []};
 
-  useEffect(() => {
-    const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
-    const linearPts = [{x: 0}, {x: 15}, ...sample].map((point) => (
-      {x: point.x, y: _.round((point.x * equation[0]) + equation[1], 2)})
-    );
-    setBestFitLine(linearPts);
-  }, [sample]);
-
-  const takeSample = (size) => {
-    const newSample = _.sampleSize(data, size);
-    setSample(newSample);
-  }
-
-  const mainSeries = [{name: "data", data: data}, {name: "sample", data: sample}];
+  const mainSeries = [{name: "data", data: data}, {name: "sample", data: sample.data}];
 
   const sampleSeries = [
     {
       name: "best fit line",
       type: "line",
-      data: bestFitLine,
-      label: false,
+      data: [{x: 0}, {x: 15}, ...sample.data].map((point) => (
+        {x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2)}
+      )),
+      label: {
+        format: `<div>slope: ${sample.slope}</div>`
+      },
       marker: false,
-      showInLegend: sample.length > 0,
+      showInLegend: sample.data.length > 0,
       color: "black",
-      animation: false,
-      enableMouseTracking: false
+      animation: {
+        duration: 0
+      },
+      enableMouseTracking: false,
     },
     {
       name: "sample",
-      data: sample,
+      data: sample.data,
       color: "orange",
       marker: {
         lineWidth: 1,
         lineColor: "orange"
-      }
+      },
+      animation: {
+        duration: 0
+      },
     }
   ];
 
@@ -60,17 +55,19 @@ export default function PopulationAndSampleCharts({ data }) {
         xLabel="Study Hours"
         yLabel="Test Score"
       />
+      <br/>
       <Row md={1} lg={2}>
         <Col>
-          <Alert color="primary" style={{marginTop: "20%", marginBottom: "auto"}}>
+          <Alert color="primary">
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
-            <SampleSizeInput maxSize={1000} handleClick={takeSample}/>
+            <SampleSizeInput maxSize={1000} handleClick={addSamples}/>
           </Alert>
+          <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
         <Col>
           <ScatterPlot
             series={sampleSeries}
-            title="Sample"
+            title={`Sample ${selected ? selected.id : ""}`}
             xMin={0}
             xMax={15}
             yMin={20}
@@ -80,11 +77,14 @@ export default function PopulationAndSampleCharts({ data }) {
           />
         </Col>
       </Row>
-
     </Container>
   )
 }
 
 PopulationAndSampleCharts.propTypes = {
-  data: dataObjectArrayType.isRequired
+  data: dataObjectArrayType.isRequired,
+  addSamples: PropTypes.func.isRequired,
+  selected: olsSampleType,
+  samples: PropTypes.arrayOf(olsSampleType).isRequired,
+  selectSample: PropTypes.func.isRequired
 }
