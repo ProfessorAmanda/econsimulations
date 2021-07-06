@@ -11,7 +11,6 @@ import regression from "regression";
 export default function SDOLSESimulation() {
   const [data, setData] = useState([]);
   const [samples, setSamples] = useState([]);
-  const [revealSimulation, setRevealSimulation] = useState(false);
   const [selected, setSelected] = useState();
 
   useEffect(() => {
@@ -65,15 +64,11 @@ export default function SDOLSESimulation() {
           selectSample={setSelected}
         />
         <br/>
-        {!revealSimulation ? (
-          <Button color="primary" onClick={() => setRevealSimulation(true)}>Continue</Button>
-        ) : (
-          <Beta1HatDistribution
-            data={data}
-            samples={samples}
-            addSamples={addSamples}
-          />
-        )}
+        <Beta1HatDistribution
+          data={data}
+          samples={samples}
+          addSamples={addSamples}
+        />
       </Container>
     </Collapsable>
   );
