@@ -123,7 +123,11 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       <br/>
       <Button
         color="primary"
-        disabled={(sampleSize <= 0) || (sampleSize > popArr.length)}
+        disabled={
+          (sampleSize <= 0) ||
+          (sampleSize > popArr.length) ||
+          ((testType === "twoSample") && ((sampleSize2 <= 0) || (sampleSize2 > popArr2.length)))
+        }
         onClick={() => testType === 'oneSample' ?  takeSample() : takeBothSamples()}
       >
         Sample
