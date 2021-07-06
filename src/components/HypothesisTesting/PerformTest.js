@@ -9,7 +9,7 @@ import { jStat } from "jstat";
 import ResultsDisplay from "./ResultsDisplay.js";
 import SampleSizeAlphaInputs from "./SampleSizeAlphaInput.js";
 import SimulateTypeOneError from "./SimulateTypeOneError.js";
-import { popShapeType, testTypeType } from "../../lib/types.js";
+import { hypothesisEqualityType, popShapeType, testTypeType } from "../../lib/types.js";
 
 export default function PerformTest({ distType, shape, sides, mu0, equality, testType }) {
   const [popArr, setPopArr] = useState([]);
@@ -209,6 +209,6 @@ PerformTest.propTypes = {
   shape: popShapeType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
   mu0: PropTypes.number.isRequired,
-  equality: PropTypes.oneOf(["<", ">", "!="]).isRequired,
+  equality: hypothesisEqualityType.isRequired,
   testType: testTypeType.isRequired
 }

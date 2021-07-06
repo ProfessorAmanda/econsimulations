@@ -1,7 +1,7 @@
 import { Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import { testTypeType } from "../../lib/types.js";
+import { hypothesisEqualityType, testTypeType } from "../../lib/types.js";
 
 export default function ResultsDisplay({ testType, mean, mean2, standardDev, standardDev2, testStatistic, pValue, alpha, equality }) {
   return (
@@ -38,5 +38,5 @@ ResultsDisplay.propTypes = {
   testStatistic: PropTypes.number.isRequired,
   pValue: PropTypes.number.isRequired,
   alpha: PropTypes.number.isRequired,
-  equality: testTypeType.isRequired
+  equality: hypothesisEqualityType.isRequired
 }
