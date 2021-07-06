@@ -52,6 +52,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
             yMax={100}
             xLabel="Study Hours"
             yLabel="Test Score"
+            height="75%"
           />
         </Col>
       </Row>
