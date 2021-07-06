@@ -61,6 +61,8 @@ export const hypothesisTestingSampleArrayType = PropTypes.arrayOf(
   })
 );
 
+export const testTypeType = PropTypes.oneOf(["oneSample", "twoSample"]);
+
 export const olsSampleType = PropTypes.shape({
   data: dataObjectArrayType.isRequired,
   slope: PropTypes.number.isRequired,
