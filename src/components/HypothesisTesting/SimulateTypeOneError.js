@@ -68,7 +68,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
         const sample2 = (testType === "twoSample") ? _.sampleSize(population2, size) : [];
         const sampleMean2 = populationMean(sample2);
         const testStatistic = (testType === "oneSample")
-        meansDiff.push(sampleMean2 - sampleMean)
+        const meansDiff = 0
           ? calculateOneSampleTestStatistic(
               distType,
               sampleMean,
