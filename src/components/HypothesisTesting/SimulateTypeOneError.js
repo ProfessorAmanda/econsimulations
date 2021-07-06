@@ -87,8 +87,8 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
         console.log(equality, testStatistic, pValue)
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
-          mean: (testType === "oneSample") ? _.round(sampleMean, 2) : _.round(sampleMean - sampleMean2, 2),
-          reject: !(((equality === ">=") && (testStatistic > 0)) || ((equality === "<=") && (testStatistic < 0))) && pValue <= alpha
+          mean: _.round(sampleMean, 2),
+          reject: !(((equality === "<") && (testStatistic > 0)) || ((equality === ">") && (testStatistic < 0))) && pValue <= alpha
         };
         means.push(sampleObject);
       }
@@ -165,7 +165,7 @@ SimulateTypeOneError.propTypes = {
   alpha: PropTypes.number.isRequired,
   distType: distributionType.isRequired,
   sides: PropTypes.oneOf([1, 2]).isRequired,
-  equality: PropTypes.oneOf(["<=", ">=", "="]).isRequired,
+  equality: PropTypes.oneOf(["<", ">", "!="]).isRequired,
   testType: testTypeType.isRequired,
   sd1: PropTypes.number.isRequired,
   sd2: PropTypes.number
