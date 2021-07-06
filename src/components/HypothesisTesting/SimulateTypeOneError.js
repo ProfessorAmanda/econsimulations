@@ -87,12 +87,12 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
 
         const sampleObject = {
           testStatistic: _.round(testStatistic, 2),
-          mean: _.round(sampleMean, 2),
+          mean: testType === "oneSample" ? _.round(sampleMean, 2) : _.round(sampleMean - sampleMean2, 2),
           reject: !(((equality === "<") && (testStatistic > 0)) || ((equality === ">") && (testStatistic < 0))) && pValue <= alpha
         };
         means.push(sampleObject);
       }
-      const newSampleMeans = [...sampleMeans, ...means];
+      const newSampleMeans =  [...sampleMeans,...means] 
       setSampleMeans(newSampleMeans);
       setSampleSize(size);
     }
@@ -128,6 +128,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
         <Col>
           {!standardized ? (
             <NormalCurve
+              meansDiff = {sampleMeans.mean}
               means={sampleMeans}
               mu0={mu0}
               popStandardDev={_.defaultTo(populationStandardDev(population), 0)}
