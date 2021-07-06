@@ -65,7 +65,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
         <Col>
-          <div style={{marginLeft: "auto"}}>
+          <div style={{marginLeft: "20%"}}>
             <InlineMath math="\widehat{Test\ Score}_i = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
           </div>
           <ScatterPlot
