@@ -32,7 +32,7 @@ export default function SDOLSESimulation() {
     setData(series.filter(({x, y}) => (0 <= x) && (x <= 15) && (20 <= y) && (y <= 100)));
   }, []);
 
-  const addSamples = (size, replications=1) => {
+  const addSamples = (size, replications=1, clear=false) => {
     if (!size) {  // calling generateSamples with no arguments clears the data
       setSamples([]);
     } else {
@@ -48,7 +48,7 @@ export default function SDOLSESimulation() {
         }
         newSamples.push(sampleObject);
       }
-      const indexedSamples = [...samples, ...newSamples].map((obj, index) => ({...obj, id: index}));
+      const indexedSamples = (clear ? newSamples : [...samples, ...newSamples]).map((obj, index) => ({...obj, id: index}));
       setSelected(indexedSamples[indexedSamples.length - 1]);
       setSamples(indexedSamples);
     }
