@@ -5,6 +5,8 @@ import _ from "lodash";
 import { dataObjectArrayType, olsSampleType } from "../../lib/types.js";
 import PropTypes from "prop-types";
 import SamplesTable from "./SamplesTable.js";
+import "katex/dist/katex.min.css";
+import { InlineMath } from "react-katex";
 
 export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample }) {
   const sample = selected ? selected : {data: []};
@@ -69,9 +71,9 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
         <Col>
+          <InlineMath math="\widehat{Test\ Score} = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
           <ScatterPlot
             series={sampleSeries}
-            title={`Sample ${selected ? selected.id : ""}`}
             xMin={0}
             xMax={15}
             yMin={20}
