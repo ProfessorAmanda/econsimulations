@@ -6,7 +6,6 @@ import PD from "probability-distributions";
 import { Button, Container } from "reactstrap";
 import PopulationAndSampleCharts from "./PopulationAndSampleCharts.js";
 import Beta1HatDistribution from "./Beta1HatDistribution.js";
-import { getCounts } from "../../lib/stats-utils.js";
 import regression from "regression";
 
 export default function SDOLSESimulation() {
@@ -33,10 +32,6 @@ export default function SDOLSESimulation() {
     setData(series.filter(({x, y}) => (0 <= x) && (x <= 15) && (20 <= y) && (y <= 100)));
   }, []);
 
-  useEffect(() => {
-    setSelected(samples[samples.length - 1])
-  }, [samples]);
-
   const addSamples = (size, replications=1) => {
     if (!size) {  // calling generateSamples with no arguments clears the data
       setSamples([]);
@@ -47,23 +42,37 @@ export default function SDOLSESimulation() {
         const { equation } = regression.linear(sample.map(({x, y}) => [x, y]), { precision: 2 });
         const sampleObject = {
           data: sample,
+          size: size,
           slope: equation[0],
-          intercept: equation[1]
+          intercept: equation[1],
         }
         newSamples.push(sampleObject);
       }
-      setSamples([...samples, ...newSamples])
+      const indexedSamples = [...samples, ...newSamples].map((obj, index) => ({...obj, id: index}));
+      setSelected(indexedSamples[indexedSamples.length - 1]);
+      setSamples(indexedSamples);
     }
   }
 
   return (
     <Collapsable>
       <Container>
-        <PopulationAndSampleCharts data={data} addSamples={addSamples} selected={selected}/>
+        <PopulationAndSampleCharts
+          data={data}
+          addSamples={addSamples}
+          selected={selected}
+          samples={samples}
+          selectSample={setSelected}
+        />
+        <br/>
         {!revealSimulation ? (
           <Button color="primary" onClick={() => setRevealSimulation(true)}>Continue</Button>
         ) : (
-          <Beta1HatDistribution data={data} samples={getCounts(samples.map(({ slope }) => slope))} addSamples={addSamples}/>
+          <Beta1HatDistribution
+            data={data}
+            samples={samples}
+            addSamples={addSamples}
+          />
         )}
       </Container>
     </Collapsable>

@@ -62,7 +62,8 @@ export const hypothesisTestingSampleArrayType = PropTypes.arrayOf(
 );
 
 export const olsSampleType = PropTypes.shape({
-  data: dataObjectArrayType,
-  slope: PropTypes.number,
-  intercept: PropTypes.number
+  data: dataObjectArrayType.isRequired,
+  slope: PropTypes.number.isRequired,
+  intercept: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired
 });
