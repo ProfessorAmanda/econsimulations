@@ -1,11 +1,11 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import DotPlot from "../DotPlot.js";
-import { VALUES } from "../../lib/constants.js";
-import { max, min, sqrt } from "mathjs";
-import { popShapeType } from "../../lib/types.js";
-import _ from "lodash";
-import { Button } from "reactstrap";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import DotPlot from '../DotPlot.js';
+import { VALUES } from '../../lib/constants.js';
+import { max, min, sqrt } from 'mathjs';
+import { popShapeType } from '../../lib/types.js';
+import _ from 'lodash';
+import { Button } from 'reactstrap';
 
 export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) {
   const [normalized, setNormalized] = useState(false);
@@ -16,7 +16,7 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
   const sampleMeansPoints = [];
   _.entries(meanCounts).forEach(([amt, count]) => {
     for (let i = 1; i <= count; i++) {
-      sampleMeansPoints.push({x: +amt, y: i})
+      sampleMeansPoints.push({ x: +amt, y: i })
     }
   });
 
@@ -34,12 +34,12 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
         Convert to Std. Normal
       </Button>
       <DotPlot
-        series={[{name: "Sample Means", data : sampleMeansPoints}]}
+        series={[{ name: 'Sample Means', data: sampleMeansPoints }]}
         title="Sample Mean Distribution"
         xMin={normalized ? min(-3, ...onlyValues) : VALUES[popShape].xminval}
         xMax={normalized ? max(3, ...onlyValues) : VALUES[popShape].xmaxval}
         yMax={normalized ? max(8, ...onlyCounts) : max([30, ...onlyCounts])}
-        xLabel={normalized ? "Standard Deviations" : VALUES[popShape].xLabel}
+        xLabel={normalized ? 'Standard Deviations' : VALUES[popShape].xLabel}
         yLabel="Observations of Sample Mean"
       />
     </div>

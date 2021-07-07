@@ -1,10 +1,10 @@
-import { Alert, Row } from "reactstrap";
-import OVBSimulation from "./OVBSimulation";
+import { Alert, Row } from 'reactstrap';
+import OVBSimulation from './OVBSimulation';
 
 export default function OmittedVariableBias() {
   return (
     <div className="module-container">
-      <Alert style={{ width: "50%", margin: "auto" }} color="primary">
+      <Alert style={{ width: '50%', margin: 'auto' }} color="primary">
         Omitted Variable Bias
       </Alert>
       <br/>

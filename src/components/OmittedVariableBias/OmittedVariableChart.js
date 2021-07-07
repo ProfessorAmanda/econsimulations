@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official"
-import PropTypes from "prop-types";
-import { dataObjectArrayType } from "../../lib/types.js";
+import { useEffect, useState } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official'
+import PropTypes from 'prop-types';
+import { dataObjectArrayType } from '../../lib/types.js';
 
 export default function OmittedVariableChart({ dataPoints, naiveLine, correctedLine }) {
   const [myChart, setMyChart] = useState({});
@@ -10,47 +10,47 @@ export default function OmittedVariableChart({ dataPoints, naiveLine, correctedL
   useEffect(() => {
     const newChart = {
       chart: {
-        type: "scatter",
-        zoomtype: "xy"
+        type: 'scatter',
+        zoomtype: 'xy'
       },
       title: {
-        text: "Study Hours vs. Test Score"
+        text: 'Study Hours vs. Test Score'
       },
       xAxis: {
         min: 0,
         max: 10,
-        title : {
-          text: "Study Hours"
+        title: {
+          text: 'Study Hours'
         }
       },
       yAxis: {
         min: 20,
         max: 100,
         title: {
-          text: "Test Score"
+          text: 'Test Score'
         }
       },
       series: [
         {
-          type: "scatter",
+          type: 'scatter',
           data: dataPoints,
-          name: "Test Score",
-          color: "#33A5FF"
+          name: 'Test Score',
+          color: '#33A5FF'
         },
         {
-          type: "line",
+          type: 'line',
           data: naiveLine,
-          name: "Naive Regression",
-          color: "#E30404",
+          name: 'Naive Regression',
+          color: '#E30404',
           label: {
             enabled: false
           }
         },
         {
-          type: "line",
+          type: 'line',
           data: correctedLine,
-          name: "Corrected Regression",
-          color: "#2AC208",
+          name: 'Corrected Regression',
+          color: '#2AC208',
           label: {
             enabled: false
           }

@@ -5,12 +5,12 @@
   Used by Law of Large Numbers and Central Limit Theorem
 
 */
-import { useState } from "react";
-import { Button, Input, InputGroup, InputGroupAddon } from "reactstrap";
-import PropTypes from "prop-types"
+import { useState } from 'react';
+import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import PropTypes from 'prop-types'
 
 export default function SampleSizeInput({ maxSize, handleClick }) {
-  const [sampleSize, setSampleSize] = useState("");
+  const [sampleSize, setSampleSize] = useState('');
 
   return (
     <InputGroup className="sample-size-input">
@@ -24,7 +24,7 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
         onChange={(event) => setSampleSize(event.target.value)}
       />
       <InputGroupAddon addonType="append">
-        <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={()=> handleClick(+sampleSize)}>
+        <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={() => handleClick(+sampleSize)}>
           Sample
         </Button>
       </InputGroupAddon>

@@ -1,21 +1,20 @@
-import { useEffect, useState }  from "react";
-import PerformTest from "./PerformTest.js";
-import { Alert, Container, Row, Button } from "reactstrap";
-import TestInputs from "./TestInputs.js";
-import HypothesisSelector from "./HypothesisSelector.js";
-import _ from "lodash";
-
+import { useEffect, useState } from 'react';
+import PerformTest from './PerformTest.js';
+import { Alert, Container, Row, Button } from 'reactstrap';
+import TestInputs from './TestInputs.js';
+import HypothesisSelector from './HypothesisSelector.js';
+import _ from 'lodash';
 
 export default function HTSimulation() {
-  const [popShape, setPopShape] = useState("");
-  const [testType, setTestType] = useState("");
+  const [popShape, setPopShape] = useState('');
+  const [testType, setTestType] = useState('');
   const [hypothesis, setHypothesis] = useState();
   const [mu0, setMu0] = useState(64);
   const [stage, setStage] = useState(1);
-  const [distType, setDistType] = useState("Z");  // can be "Z" or "T"
+  const [distType, setDistType] = useState('Z'); // can be "Z" or "T"
 
   useEffect(() => {
-    if ((popShape !== "") && (testType !== "")) {
+    if ((popShape !== '') && (testType !== '')) {
       setStage(2)
     }
   }, [popShape, testType, distType]);
@@ -28,7 +27,7 @@ export default function HTSimulation() {
           <Row>
             <Alert color="secondary">
               <p>The true population distribution will be revealed at the end.</p>
-              {(testType === "oneSample") ? (
+              {(testType === 'oneSample') ? (
                 <p>
                   Suppose that our farmer has changed the variety of feed the cows eat. It might be reasonable to think that the cows now produce more or less milk than they had before. As a researcher, what assertion would you like to make about these cows’ milk production now? Choose an Option and specify a hypothesized amount. To help make an informed guess, note that the distribution of milk production before we changed the feed had a mean of about 64 gallons
                 </p>
@@ -40,7 +39,7 @@ export default function HTSimulation() {
             </Alert>
           </Row>
           <br/>
-          <Row style={{width: "80%", margin: "auto"}}>
+          <Row style={{ width: '80%', margin: 'auto' }}>
             <HypothesisSelector testType={testType} setHypothesis={setHypothesis} mu0={mu0} setMu0={setMu0}/>
           </Row>
           <br/>
@@ -52,15 +51,15 @@ export default function HTSimulation() {
               <Row>
                 <Alert color="secondary" >
                   <p>This means our null and alternative hypotheses are given by:</p>
-                  <p>{hypothesis.nullH} {(testType === "oneSample") && mu0}</p>
-                  <p>{hypothesis.alterH} {(testType === "oneSample") && mu0}</p>
+                  <p>{hypothesis.nullH} {(testType === 'oneSample') && mu0}</p>
+                  <p>{hypothesis.alterH} {(testType === 'oneSample') && mu0}</p>
                 </Alert>
               </Row>
               <br/>
               <Row>
                 <PerformTest
                   distType={distType}
-                  shape={(popShape === "??Unknown??") ? _.sample(["Normal", "Uniform", "Mystery"]) : popShape}
+                  shape={(popShape === '??Unknown??') ? _.sample(['Normal', 'Uniform', 'Mystery']) : popShape}
                   sides={hypothesis.sides}
                   mu0={+mu0}
                   equality={hypothesis.type}

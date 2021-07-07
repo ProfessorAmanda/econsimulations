@@ -1,8 +1,8 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import SimBar from "../components/SimBar.js";
-import { MODULES } from "../lib/constants.js";
+import { render, screen, fireEvent } from '@testing-library/react';
+import SimBar from '../components/SimBar.js';
+import { MODULES } from '../lib/constants.js';
 
-describe("SimBar tests", () => {
+describe('SimBar tests', () => {
   const handler = jest.fn();
 
   beforeEach(() => {

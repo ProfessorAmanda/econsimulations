@@ -3,39 +3,40 @@
   Displays a HighCharts scatterplot for the Least Squares data points
 
 */
-import { useEffect, useState } from "react";
-import "../../styles/dark-unica.css";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official"
-import Annotations from "highcharts/modules/annotations";
-import { abs } from "mathjs";
-import PropTypes from "prop-types";
-import { dataObjectArrayType } from "../../lib/types.js"
+import { useEffect, useState } from 'react';
+import '../../styles/dark-unica.css';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official'
+import Annotations from 'highcharts/modules/annotations';
+import { abs } from 'mathjs';
+import PropTypes from 'prop-types';
+import { dataObjectArrayType } from '../../lib/types.js'
+
 Annotations(Highcharts);
 
 export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
   const [myChart, setMyChart] = useState({
     title: {
-      text: ""
+      text: ''
     },
     legend: {
       enabled: false
     },
     chart: {
-      type: "line",
-      plotBorderColor: "#000000",
+      type: 'line',
+      plotBorderColor: '#000000',
       plotBorderWidth: 1,
-      margin : [100,100,100,100],
-      width  : 600,
-      height : 600
+      margin: [100, 100, 100, 100],
+      width: 600,
+      height: 600
     },
     tooltip: {
-      headerFormat: "",
-      pointFormat: "x: {point.x:.2f}<br/>y: {point.y:.2f}",
+      headerFormat: '',
+      pointFormat: 'x: {point.x:.2f}<br/>y: {point.y:.2f}',
       hideDelay: 100
     },
     xAxis: {
-      title : {
+      title: {
         enabled: false
       },
       min: 0,
@@ -43,7 +44,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
       tickInterval: 2
     },
     yAxis: {
-      title : {
+      title: {
         enabled: false
       },
       min: 0,
@@ -57,31 +58,31 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     const dist = abs(p1.y - p2.y);
     const lowestPt = p1.y < p2.y ? p1 : p2;
     return [{
-        x: lowestPt.x,
-        y: lowestPt.y,
-        xAxis: 0,
-        yAxis: 0
-      }, {
-        x: lowestPt.x + dist,
-        y: lowestPt.y,
-        xAxis: 0,
-        yAxis: 0
-      }, {
-        x: lowestPt.x + dist,
-        y: lowestPt.y + dist,
-        xAxis: 0,
-        yAxis: 0
-      }, {
-        x: lowestPt.x,
-        y: lowestPt.y + dist,
-        xAxis: 0,
-        yAxis: 0
-      }, {
-        x: lowestPt.x,
-        y: lowestPt.y,
-        xAxis: 0,
-        yAxis: 0
-      }
+      x: lowestPt.x,
+      y: lowestPt.y,
+      xAxis: 0,
+      yAxis: 0
+    }, {
+      x: lowestPt.x + dist,
+      y: lowestPt.y,
+      xAxis: 0,
+      yAxis: 0
+    }, {
+      x: lowestPt.x + dist,
+      y: lowestPt.y + dist,
+      xAxis: 0,
+      yAxis: 0
+    }, {
+      x: lowestPt.x,
+      y: lowestPt.y + dist,
+      xAxis: 0,
+      yAxis: 0
+    }, {
+      x: lowestPt.x,
+      y: lowestPt.y,
+      xAxis: 0,
+      yAxis: 0
+    }
     ];
   }
 
@@ -91,39 +92,39 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     linePoints.forEach((p1) => {
       points.forEach((p2) => {
         if (p1.x === p2.x) {
-          pairs.push({p1: p1, p2: p2})
+          pairs.push({ p1, p2 })
         }
       });
     });
 
-    const areas = pairs.map(({p1, p2}) => abs(p1.y - p2.y) ** 2);
+    const areas = pairs.map(({ p1, p2 }) => abs(p1.y - p2.y) ** 2);
     setSquareAreas(areas);
 
     // create the actual square objects for highcharts
-    const squares = pairs.map(({p1, p2}) => (
+    const squares = pairs.map(({ p1, p2 }) => (
       {
-        dashStyle: "solid",
-        fill: "rgba(255, 255, 255, 0)",
+        dashStyle: 'solid',
+        fill: 'rgba(255, 255, 255, 0)',
         points: buildSquare(p1, p2),
-        type: "path"
+        type: 'path'
       })
     );
 
     const newChart = {
       series: [
         {
-          type: "scatter",
+          type: 'scatter',
           marker: {
             radius: 5,
           },
           data: points,
         },
         {
-          type: "line",
+          type: 'line',
           data: linePoints,
           marker: {
             enabled: true,
-            fillColor: "orange"
+            fillColor: 'orange'
           },
           label: {
             enabled: false
@@ -131,7 +132,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
         }
       ],
       annotations: [{
-        draggable: "",
+        draggable: '',
         shapes: squares
       }]
     }

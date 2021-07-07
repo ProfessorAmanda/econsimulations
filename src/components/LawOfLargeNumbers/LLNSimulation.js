@@ -3,16 +3,16 @@
   Displays one of the LLN simulations
 
 */
-import { useEffect, useState } from "react";
-import Collapsable from "../Collapsable.js";
-import ChartContainer from "../ChartContainer.js";
-import SampleSizeInput from "../SampleSizeInput.js";
-import SimulateSamples from "./SimulateSamples.js";
-import { Alert } from "reactstrap";
-import { populationMean, dataFromDistribution } from "../../lib/stats-utils.js";
-import _ from "lodash";
-import PropTypes from "prop-types";
-import { popShapeType } from "../../lib/types.js";
+import { useEffect, useState } from 'react';
+import Collapsable from '../Collapsable.js';
+import ChartContainer from '../ChartContainer.js';
+import SampleSizeInput from '../SampleSizeInput.js';
+import SimulateSamples from './SimulateSamples.js';
+import { Alert } from 'reactstrap';
+import { populationMean, dataFromDistribution } from '../../lib/stats-utils.js';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
+import { popShapeType } from '../../lib/types.js';
 
 export default function LLNSimulation({ popShape, sampleSize }) {
   const [sampled, setSampled] = useState([]);
@@ -51,10 +51,10 @@ export default function LLNSimulation({ popShape, sampleSize }) {
         <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} sampleMean={sampleMean} popShape={popShape}/>
         <p>Try a few different sample sizes and compare sample mean to population mean</p>
         <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
-        {(stage >= 2) &&
+        {(stage >= 2) && (
           <div>
             <Alert color="success">
-              Sample Mean: {_.round(sampleMean, 2) || ""}
+              Sample Mean: {_.round(sampleMean, 2) || ''}
               <br/>
               Difference of Means: {_.round(popMean - sampleMean, 2)}
             </Alert>
@@ -63,13 +63,13 @@ export default function LLNSimulation({ popShape, sampleSize }) {
             </Alert>
             <SimulateSamples type={popShape} popArray={popArray} popMean={_.round(popMean, 2)}/>
           </div>
-        }
+        )}
       </div>
     </Collapsable>
   );
 }
 
-LLNSimulation.propTypes =  {
+LLNSimulation.propTypes = {
   popShape: popShapeType.isRequired,
   sampleSize: PropTypes.number.isRequired,
 }

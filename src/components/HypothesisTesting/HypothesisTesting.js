@@ -1,8 +1,7 @@
-import { Alert } from "reactstrap";
-import HTSimulation from "./HTSimulation.js";
+import { Alert } from 'reactstrap';
+import HTSimulation from './HTSimulation.js';
 
 export default function HypothesisTesting() {
-
   return (
     <div className="module-container">
       <Alert className="sim-description" color="primary">

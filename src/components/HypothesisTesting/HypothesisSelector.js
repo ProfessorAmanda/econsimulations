@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { DropdownItem, DropdownToggle, DropdownMenu, Input, InputGroup, InputGroupButtonDropdown, InputGroupText } from "reactstrap";
-import { HYPOTHESIS_OPTIONS } from "../../lib/constants";
-import { stringOrNumberType } from "../../lib/types";
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { DropdownItem, DropdownToggle, DropdownMenu, Input, InputGroup, InputGroupButtonDropdown, InputGroupText } from 'reactstrap';
+import { HYPOTHESIS_OPTIONS } from '../../lib/constants';
+import { stringOrNumberType } from '../../lib/types';
 
 export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu0 }) {
   const [open, setOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu
           {menuOptions}
         </DropdownMenu>
       </InputGroupButtonDropdown>
-      {(testType === "oneSample") && (
+      {(testType === 'oneSample') && (
         <>
           <Input
             type="number"

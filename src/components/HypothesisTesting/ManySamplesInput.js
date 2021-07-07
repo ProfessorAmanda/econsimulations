@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Button, Input, Alert, InputGroup, InputGroupAddon } from "reactstrap";
-import PropTypes from "prop-types";
+import { useState } from 'react';
+import { Button, Input, Alert, InputGroup, InputGroupAddon } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 export default function ManySamplesInput({ populationSize, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -8,12 +8,12 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
 
   return (
     <div style={{ padding: 50 }}>
-      <Alert color="primary" style={{width: "50%", margin: "auto"}}>
+      <Alert color="primary" style={{ width: '50%', margin: 'auto' }}>
         Simulate drawing many many samples
       </Alert>
       <br/>
       <span> Sample Size: </span>
-      <InputGroup className="sample-size-input" style={{width: "40%", margin: "auto"}}>
+      <InputGroup className="sample-size-input" style={{ width: '40%', margin: 'auto' }}>
         <Input
           align="right"
           type="number"
@@ -25,7 +25,7 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
         <InputGroupAddon addonType="append">
           <Button
             disabled={!resampleSize || resampleSize > populationSize || resampleSize < 1}
-            onClick={()=> addSamples(+resampleSize)}
+            onClick={() => addSamples(+resampleSize)}
           >
             Sample Once
           </Button>
@@ -34,7 +34,7 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
       <br/>
       <span> Number of Replications: </span>
       <Input
-        style={{width: "40%", margin: "auto"}}
+        style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"
         placeholder="Number of Replications:"

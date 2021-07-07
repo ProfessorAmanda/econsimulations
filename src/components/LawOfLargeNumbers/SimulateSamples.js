@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import { Card, CardBody } from "reactstrap";
-import "../../styles/dark-unica.css";
-import _ from "lodash";
-import PropTypes from "prop-types";
-import { dataObjectArrayType, popShapeType } from "../../lib/types.js";
-import { populationMean } from "../../lib/stats-utils";
+import { useEffect, useState } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import { Card, CardBody } from 'reactstrap';
+import '../../styles/dark-unica.css';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
+import { dataObjectArrayType, popShapeType } from '../../lib/types.js';
+import { populationMean } from '../../lib/stats-utils';
 
 export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
@@ -16,7 +16,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   useEffect(() => {
     const newChart = {
       chart: {
-        type: "line",
+        type: 'line',
         animation: false
       },
       plotOptions: {
@@ -44,15 +44,15 @@ export default function SimulateSamples({ type, popArray, popMean }) {
         text: `Population vs Sample Means <br /> (${type})`,
       },
       xAxis: {
-        title : {
-          text: "Sample Size"
+        title: {
+          text: 'Sample Size'
         },
         min: 0,
         max: 1000
       },
       yAxis: {
         title: {
-          text: "Mean"
+          text: 'Mean'
         }
       },
       tooltip: {
@@ -60,20 +60,20 @@ export default function SimulateSamples({ type, popArray, popMean }) {
       },
       series: [
         {
-          name: "Population Mean",
+          name: 'Population Mean',
           data: meanLine,
           label: {
             enabled: false
           },
-          color: "red"
+          color: 'red'
         },
         {
-          name: "Sampled Means",
+          name: 'Sampled Means',
           data: sampled,
           label: {
             enabled: false
           },
-          color: "black"
+          color: 'black'
         }
       ]
     }
@@ -92,8 +92,8 @@ export default function SimulateSamples({ type, popArray, popMean }) {
       }
       const sample = _.sampleSize(popArray, n);
       const avg = _.round(populationMean(sample), 2);
-      setSampled(currSampled => [...currSampled, {y: avg}]);
-      setMeanLine(currMeanLine => [...currMeanLine, {y: popMean}]);
+      setSampled((currSampled) => [...currSampled, { y: avg }]);
+      setMeanLine((currMeanLine) => [...currMeanLine, { y: popMean }]);
     }, n);
 
     return () => clearInterval(timer);

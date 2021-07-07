@@ -3,14 +3,14 @@
   Displays the Joint Distributions simulation
 
 */
-import { useEffect, useState } from "react";
-import MultivariateNormal from "multivariate-normal";
-import { Container, Row, Col, InputGroupText, Button } from "reactstrap";
-import MeanSDInput from "./MeanSDInput";
-import JDCharts from "./JDCharts";
-import _ from "lodash";
-import InputSlider from "../InputSlider";
-import { abs } from "mathjs";
+import { useEffect, useState } from 'react';
+import MultivariateNormal from 'multivariate-normal';
+import { Container, Row, Col, InputGroupText, Button } from 'reactstrap';
+import MeanSDInput from './MeanSDInput';
+import JDCharts from './JDCharts';
+import _ from 'lodash';
+import InputSlider from '../InputSlider';
+import { abs } from 'mathjs';
 
 export default function JDSimulation() {
   const [parentMean, setParentMean] = useState(70);
@@ -19,7 +19,7 @@ export default function JDSimulation() {
   const [childSD, setChildSD] = useState(1);
   const [correlation, setCorrelation] = useState(0);
   const [stage, setStage] = useState(1);
-  const [allData, setAllData] = useState({parent: [], child: [], joint: []});
+  const [allData, setAllData] = useState({ parent: [], child: [], joint: [] });
 
   useEffect(() => {
     if ((allData.parent.length > 0) && (allData.child.length > 0) && (allData.joint.length > 0)) {
@@ -37,7 +37,7 @@ export default function JDSimulation() {
     const jointSeries = [];
     for (let i = 0; i < 500; i++) {
       const [parentHeight, childHeight] = distribution.sample();
-      jointSeries.push({x: _.round(parentHeight, 2), y: _.round(childHeight, 2)});
+      jointSeries.push({ x: _.round(parentHeight, 2), y: _.round(childHeight, 2) });
     }
 
     const parentCounts = {};
@@ -45,38 +45,38 @@ export default function JDSimulation() {
     const childCounts = {};
     const childSeries = [];
 
-    jointSeries.forEach(({x, y}) => {
+    jointSeries.forEach(({ x, y }) => {
       if (parentCounts[x]) {
         parentCounts[x]++
       } else {
         parentCounts[x] = 1
       }
-      parentSeries.push({x: x, y: parentCounts[x]});
+      parentSeries.push({ x, y: parentCounts[x] });
       if (childCounts[y]) {
         childCounts[y]++
       } else {
         childCounts[y] = 1
       }
-      childSeries.push({x: y, y: childCounts[y]});
+      childSeries.push({ x: y, y: childCounts[y] });
     });
 
-    const data = {parent: parentSeries, child: childSeries, joint: jointSeries}
+    const data = { parent: parentSeries, child: childSeries, joint: jointSeries }
     setAllData(data);
   }
 
   return (
     <Container fluid>
       <Row>
-        <Col xl={4} md={6} xs={12} style={{padding: 10}}>
+        <Col xl={4} md={6} xs={12} style={{ padding: 10 }}>
           <MeanSDInput title="Parent" mean={parentMean} setMean={setParentMean} sd={parentSD} setSD={setParentSD}/>
         </Col>
-        <Col xl={4} md={6} xs={12} style={{padding: 10}}>
+        <Col xl={4} md={6} xs={12} style={{ padding: 10 }}>
           <MeanSDInput title="Child" mean={childMean} setMean={setChildMean} sd={childSD} setSD={setChildSD}/>
         </Col>
-        <Col xl={4} md={12} style={{padding: 10}}>
+        <Col xl={4} md={12} style={{ padding: 10 }}>
           <p>Set the Correlation</p>
           <InputSlider value={correlation} min={-1} max={1} step={0.1} onChange={(value) => setCorrelation(value)}/>
-          <p style={{ margin: "15px" }}>Covariance</p>
+          <p style={{ margin: '15px' }}>Covariance</p>
           <InputGroupText aria-label="covariance">{(correlation * parentSD * childSD).toFixed(2)}</InputGroupText>
         </Col>
       </Row>
@@ -84,7 +84,7 @@ export default function JDSimulation() {
         <Button
           outline
           color="primary"
-          style={{width: "fit-content", margin: "auto"}}
+          style={{ width: 'fit-content', margin: 'auto' }}
           disabled={!parentMean || !parentSD || !childMean || !childSD}
           onClick={() => generate()}
         >

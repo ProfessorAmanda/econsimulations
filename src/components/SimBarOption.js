@@ -1,5 +1,5 @@
-import { Button, Card, CardText } from "reactstrap";
-import PropTypes from "prop-types";
+import { Button, Card, CardText } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 export default function SimBarOption({ section, setSection }) {
   return (

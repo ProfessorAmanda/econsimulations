@@ -3,17 +3,18 @@
   Displays a table of sample means
 
 */
-import { Table } from "reactstrap";
-import { sampleMeanArrayType } from "../../lib/types.js";
-import _ from "lodash";
+import { Table } from 'reactstrap';
+import { sampleMeanArrayType } from '../../lib/types.js';
+import _ from 'lodash';
 
 export default function SampleMeansTable({ sampleMeans }) {
-  const tableBody = sampleMeans.map(({size, mean, id}) =>
+  const tableBody = sampleMeans.map(({ size, mean, id }) => (
     <tr key={id}>
       <td>{id + 1}</td>
       <td>{size}</td>
       <td>{_.round(mean, 2)}</td>
     </tr>
+  )
   );
 
   return (
@@ -28,7 +29,7 @@ export default function SampleMeansTable({ sampleMeans }) {
       <tbody>
         {sampleMeans && tableBody}
       </tbody>
-  </Table>
+    </Table>
   );
 }
 

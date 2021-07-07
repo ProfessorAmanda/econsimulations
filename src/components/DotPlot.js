@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official"
-import Label from "highcharts/modules/series-label";
-import PropTypes from "prop-types";
-import { highchartsSeriesType } from "../lib/types";
-import "../styles/dark-unica.css";
+import { useState, useEffect } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official'
+import Label from 'highcharts/modules/series-label';
+import PropTypes from 'prop-types';
+import { highchartsSeriesType } from '../lib/types';
+import '../styles/dark-unica.css';
 
 Label(Highcharts);
-
 
 export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel }) {
   const [chart, setChart] = useState({});
@@ -15,13 +14,13 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
   useEffect(() => {
     const newChart = {
       chart: {
-        type: "scatter",
+        type: 'scatter',
       },
       plotOptions: {
         series: {
           animation: {
             duration: 100,
-            easing: "easeOutBounce"
+            easing: 'easeOutBounce'
           },
         }
       },
@@ -33,7 +32,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
       xAxis: {
         min: xMin,
         max: xMax,
-        title : {
+        title: {
           enabled: true,
           text: xLabel
         },
@@ -49,7 +48,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
         startOnTick: true,
         endOnTick: true,
         title: {
-          text: yLabel || "Count"
+          text: yLabel || 'Count'
         }
       },
       series: series.map((seriesObject) => (
@@ -57,7 +56,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
           showInLegend: seriesObject.data.length > 0,
           turboThreshold: 0,
           ...seriesObject,
-          data: seriesObject.data.map(({ x, y }) => ({ x, y })),  // don't want any other attributes
+          data: seriesObject.data.map(({ x, y }) => ({ x, y })), // don't want any other attributes
           tooltip: {
             pointFormat: `${xLabel}: <b>{point.x}</b><br />`
           }
