@@ -5,7 +5,7 @@ import _ from "lodash";
 import PD from "probability-distributions";
 import { Container } from "reactstrap";
 import PopulationAndSampleCharts from "./PopulationAndSampleCharts.js";
-import Beta1HatDistribution from "./Beta1HatDistribution.js";
+import SlopesDistribution from "./SlopesDistribution";
 import regression from "regression";
 
 export default function SDOLSESimulation() {
@@ -63,7 +63,7 @@ export default function SDOLSESimulation() {
           selectSample={setSelected}
         />
         <br/>
-        <Beta1HatDistribution
+        <SlopesDistribution
           data={data}
           samples={samples}
           addSamples={addSamples}
