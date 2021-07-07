@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import PopBar from '../PopBar.js';
-import { Alert } from 'reactstrap';
-import CISimulation from './CISimulation.js';
-import { SAMPLE_SIZE } from '../../lib/constants.js';
+import { useState } from "react";
+import PopBar from "../PopBar.js";
+import { Alert } from "reactstrap";
+import CISimulation from "./CISimulation.js";
+import { SAMPLE_SIZE } from "../../lib/constants.js";
 
 export default function ConfidenceIntervals() {
   const [popShape, setPopType] = useState("");

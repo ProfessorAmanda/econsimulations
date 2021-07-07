@@ -3,14 +3,14 @@
   Displays the Joint Distributions simulation
 
 */
-import { useEffect, useState } from 'react';
-import MultivariateNormal from 'multivariate-normal';
-import { Container, Row, Col, InputGroupText, Button } from 'reactstrap';
-import MeanSDInput from './MeanSDInput';
-import JDCharts from './JDCharts';
+import { useEffect, useState } from "react";
+import MultivariateNormal from "multivariate-normal";
+import { Container, Row, Col, InputGroupText, Button } from "reactstrap";
+import MeanSDInput from "./MeanSDInput";
+import JDCharts from "./JDCharts";
 import _ from "lodash";
-import InputSlider from '../InputSlider';
-import { abs } from 'mathjs';
+import InputSlider from "../InputSlider";
+import { abs } from "mathjs";
 
 export default function JDSimulation() {
   const [parentMean, setParentMean] = useState(70);
@@ -83,7 +83,7 @@ export default function JDSimulation() {
       <Row>
         <Button
           outline
-          color='primary'
+          color="primary"
           style={{width: "fit-content", margin: "auto"}}
           disabled={!parentMean || !parentSD || !childMean || !childSD}
           onClick={() => generate()}

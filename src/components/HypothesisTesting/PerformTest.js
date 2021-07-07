@@ -96,15 +96,15 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   function calculateTestStatistic(){
 
     //one sample sigma known
-    if (distType === 'Z' && testType === 'oneSample') {
+    if (distType === "Z" && testType === "oneSample") {
       return zscore;
 
     //one sample sigma unknown
-    } else if (distType !== 'Z' && testType === 'oneSample') {
+    } else if (distType !== "Z" && testType === "oneSample") {
       return tscore;
 
       //two sample sigma known
-    } else if (distType === 'Z' && testType !== 'oneSample') {
+    } else if (distType === "Z" && testType !== "oneSample") {
       return zscoreTwoSample ;
 
       //two sample sigma unknown
@@ -115,13 +115,13 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
 
   function calculatePValue() {
 
-    if(distType === 'Z' && testType === 'oneSample') {
+    if(distType === "Z" && testType === "oneSample") {
       return jStat.ztest(zscore, sides)
      }
-     else if (distType === 'T' && testType === 'oneSample') {
+     else if (distType === "T" && testType === "oneSample") {
       return jStat.ttest(tscore, sampleSize - 1, sides)
 
-   } else if (distType === 'Z' && testType !== 'oneSample') {
+   } else if (distType === "Z" && testType !== "oneSample") {
        return jStat.ztest(zscoreTwoSample,sides);
     } else {
       return jStat.ttest( tscoreTwoSample, sampleSize - 1, sides )
@@ -152,7 +152,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
           (sampleSize > popArr.length) ||
           ((testType === "twoSample") && ((sampleSize2 <= 0) || (sampleSize2 > popArr2.length)))
         }
-        onClick={() => testType === 'oneSample' ?  takeSample() : takeBothSamples()}
+        onClick={() => (testType === "oneSample" ?  takeSample() : takeBothSamples())}
       >
         Sample
       </Button>

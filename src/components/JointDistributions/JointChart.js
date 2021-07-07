@@ -4,8 +4,8 @@
 
 */
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
-import PropTypes from 'prop-types';
-import { dataObjectArrayType } from '../../lib/types.js';
+import PropTypes from "prop-types";
+import { dataObjectArrayType } from "../../lib/types.js";
 
 export default function JointChart({ jointData, sharedOptions, nodeId }) {
 
@@ -13,10 +13,10 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
     <div style={{ height: 368, width: 366, position:"inline-block", float:"right", marginLeft:"0px",}} aria-label="plot">
       <ResponsiveScatterPlot
         {...sharedOptions}
-        colors={(node) => (nodeId && (node.id === nodeId)) ? "#0053a1" : "#00b3ff"}
+        colors={(node) => ((nodeId && (node.id === nodeId)) ? "#0053a1" : "#00b3ff")}
         data={[{id: "data", data: jointData}]}
-        yScale={{ type: 'linear', min: 40, max: 100 }}
-        yFormat={(e) => e + " in."}
+        yScale={{ type: "linear", min: 40, max: 100 }}
+        yFormat={(e) => `${e} in.`}
         tooltip={({node}) =>
           <div>
             Parent Height: <strong>{node.data.formattedX}</strong>
@@ -26,15 +26,15 @@ export default function JointChart({ jointData, sharedOptions, nodeId }) {
         }
         axisBottom={{
           tickSize: 10,
-          legendPosition: 'middle',
+          legendPosition: "middle",
           legendOffset: 46,
-          legend: 'Parent Height (inches)'
+          legend: "Parent Height (inches)"
         }}
         axisLeft={{
           tickSize: 10,
-          legendPosition: 'middle',
+          legendPosition: "middle",
           legendOffset: -38,
-          legend: 'Child Height (inches)'
+          legend: "Child Height (inches)"
         }}
       />
     </div>

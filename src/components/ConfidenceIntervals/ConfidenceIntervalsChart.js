@@ -5,7 +5,7 @@ import { Alert } from "reactstrap";
 import _ from "lodash";
 import More from "highcharts/highcharts-more";
 import { max } from "mathjs";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { confidenceIntervalsSampleType, popShapeType } from "../../lib/types.js";
 import { VALUES_ALT } from "../../lib/constants.js";
 
@@ -53,7 +53,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
 
     const newChart = {
       chart: {
-        type: 'columnrange',
+        type: "columnrange",
         inverted: true,
         animation: false,
         zoomType: "xy",

@@ -1,7 +1,7 @@
 import { Row, Col } from "reactstrap";
 import InputSlider from "../InputSlider.js";
 import SelectorButtonGroup from "../SelectorButtonGroup.js";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { distributionType, stringOrNumberType } from "../../lib/types.js";
 
 export default function ConfidenceInputs({ distType, setDistType, confLevel, setConfLevel }) {
@@ -20,7 +20,7 @@ export default function ConfidenceInputs({ distType, setDistType, confLevel, set
           <SelectorButtonGroup
             options={["90%", "95%", "99%"]}
             select={(pct) => setConfLevel(pct.slice(0, 2))}
-            selected={confLevel + "%"}
+            selected={`${confLevel}%`}
           />
         </div>
       </Row>

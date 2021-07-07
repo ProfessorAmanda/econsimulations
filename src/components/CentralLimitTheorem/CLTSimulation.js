@@ -53,7 +53,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
     const newMeans = [...sampleMeans, {size: size, mean: populationMean(sample)}];
-    setSampleMeans(newMeans);
+    setSampleMeans(newMeans.map((mean, index) => ({...mean, id: index + 1})));
   }
 
   return (

@@ -22,6 +22,7 @@ export const sampleMeanArrayType = PropTypes.arrayOf(
   PropTypes.shape({
     size: PropTypes.number,
     mean: PropTypes.number,
+    id: PropTypes.number
   })
 );
 

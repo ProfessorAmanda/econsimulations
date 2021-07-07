@@ -14,8 +14,8 @@ export const getCounts = (data) => {
 }
 
 // returns an array of values with a normal distribution
-export const generateNormal = (sampleSize, mean, standardDev) => {
-  return PD.rnorm(sampleSize, mean, standardDev).map((num) => _.round(num, 1));
+export const generateNormal = (sampleSize, avg, standardDev) => {
+  return PD.rnorm(sampleSize, avg, standardDev).map((num) => _.round(num, 1));
 }
 
 // returns an array of values with a uniform distribution
@@ -46,7 +46,7 @@ export const dataFromDistribution = (
     distType,
     sampleSize,
     {
-      mean=64,
+      mean=64,  // eslint-disable-line
       standardDev=3,
       low=-10,
       hi=10,

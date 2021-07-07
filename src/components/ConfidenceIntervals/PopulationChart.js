@@ -1,7 +1,7 @@
 import DotPlot from "../DotPlot";
 import { Alert, Container } from "reactstrap";
 import _ from "lodash";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { dataObjectArrayType, popShapeType } from "../../lib/types.js";
 import { TEXTS_ALT, VALUES_ALT } from "../../lib/constants.js";
 
@@ -10,11 +10,11 @@ export default function PopulationChart({ popArray, popMean, sampled, popShape }
 
   const series = [
     {
-      name: 'Population',
+      name: "Population",
       data: popArray
     },
     {
-      name: 'Samples',
+      name: "Samples",
       data: sampled
     }
   ];

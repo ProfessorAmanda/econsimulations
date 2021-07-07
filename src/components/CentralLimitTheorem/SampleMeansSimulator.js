@@ -4,9 +4,9 @@
 
 */
 import { useState } from "react";
-import {Button, Input } from 'reactstrap';
+import {Button, Input } from "reactstrap";
 import _ from "lodash";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { dataObjectArrayType } from "../../lib/types.js";
 import { populationMean } from "../../lib/stats-utils.js";
 

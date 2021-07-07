@@ -5,9 +5,9 @@
   Used by Law of Large Numbers and Central Limit Theorem
 
 */
-import { useState } from 'react';
-import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-import PropTypes from 'prop-types'
+import { useState } from "react";
+import { Button, Input, InputGroup, InputGroupAddon } from "reactstrap";
+import PropTypes from "prop-types"
 
 export default function SampleSizeInput({ maxSize, handleClick }) {
   const [sampleSize, setSampleSize] = useState("");

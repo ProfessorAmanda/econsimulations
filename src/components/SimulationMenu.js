@@ -3,11 +3,11 @@
   Displays the StartHere button and then the menu once the button is clicked
 
 */
-import { useEffect, useState } from 'react';
-import SimBar from './SimBar.js';
-import StartHere from './StartHere';
-import { Fade } from 'reactstrap';
-import SimulationContainer from './SimulationContainer.js';
+import { useEffect, useState } from "react";
+import SimBar from "./SimBar.js";
+import StartHere from "./StartHere";
+import { Fade } from "reactstrap";
+import SimulationContainer from "./SimulationContainer.js";
 
 export default function SimulationMenu() {
   const [mode, setMode] = useState("Home");

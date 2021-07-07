@@ -3,11 +3,11 @@
   Displays the description for the LLN simulation, a menu bar to choose the different variations, and the simulation component itself
 
 */
-import { useState } from 'react';
-import PopBar from '../PopBar.js';
-import { Alert } from 'reactstrap';
-import LLNSimulation from './LLNSimulation.js';
-import { SAMPLE_SIZE } from '../../lib/constants.js';
+import { useState } from "react";
+import PopBar from "../PopBar.js";
+import { Alert } from "reactstrap";
+import LLNSimulation from "./LLNSimulation.js";
+import { SAMPLE_SIZE } from "../../lib/constants.js";
 
 export default function LawOfLargeNumbers() {
   const [popShape, setPopType] = useState("");

@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import DotPlot from '../DotPlot.js';
-import { VALUES } from '../../lib/constants.js';
-import { max, min, sqrt } from 'mathjs';
-import { popShapeType } from '../../lib/types.js';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import DotPlot from "../DotPlot.js";
+import { VALUES } from "../../lib/constants.js";
+import { max, min, sqrt } from "mathjs";
+import { popShapeType } from "../../lib/types.js";
 import _ from "lodash";
-import { Button } from 'reactstrap';
+import { Button } from "reactstrap";
 
 export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) {
   const [normalized, setNormalized] = useState(false);

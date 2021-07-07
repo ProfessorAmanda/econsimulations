@@ -3,13 +3,13 @@
   Displays a HighCharts scatterplot for the Least Squares data points
 
 */
-import { useEffect, useState } from 'react';
-import '../../styles/dark-unica.css';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official'
-import Annotations from 'highcharts/modules/annotations';
+import { useEffect, useState } from "react";
+import "../../styles/dark-unica.css";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official"
+import Annotations from "highcharts/modules/annotations";
 import { abs } from "mathjs";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { dataObjectArrayType } from "../../lib/types.js"
 Annotations(Highcharts);
 
@@ -22,8 +22,8 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
       enabled: false
     },
     chart: {
-      type: 'line',
-      plotBorderColor: '#000000',
+      type: "line",
+      plotBorderColor: "#000000",
       plotBorderWidth: 1,
       margin : [100,100,100,100],
       width  : 600,
@@ -105,7 +105,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
         dashStyle: "solid",
         fill: "rgba(255, 255, 255, 0)",
         points: buildSquare(p1, p2),
-        type: 'path'
+        type: "path"
       })
     );
 
@@ -119,11 +119,11 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
           data: points,
         },
         {
-          type: 'line',
+          type: "line",
           data: linePoints,
           marker: {
             enabled: true,
-            fillColor: 'orange'
+            fillColor: "orange"
           },
           label: {
             enabled: false
@@ -131,7 +131,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
         }
       ],
       annotations: [{
-        draggable: '',
+        draggable: "",
         shapes: squares
       }]
     }
