@@ -5,7 +5,7 @@ export default function SimBarOption({ section, setSection }) {
   return (
     <Card body outline color="primary" className="sim-option">
       <CardText>{section.description}</CardText>
-      <Button outline color='primary' onClick={() => setSection(section.name)}>
+      <Button outline color="primary" onClick={() => setSection(section.name)}>
         {section.name}
       </Button>
     </Card>

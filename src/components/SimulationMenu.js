@@ -10,7 +10,7 @@ import { Fade } from 'reactstrap';
 import SimulationContainer from './SimulationContainer.js';
 
 export default function SimulationMenu() {
-  const [mode, setMode] = useState("Home");
+  const [mode, setMode] = useState('Home');
   const [start, setStart] = useState(true);
   const [logo, setLogo] = useState(true);
 
@@ -30,8 +30,8 @@ export default function SimulationMenu() {
       </div>
     ) : (
       <div>
-        {(mode === "Home") ? (
-          <Fade in={(mode === "Home")}>
+        {(mode === 'Home') ? (
+          <Fade in={(mode === 'Home')}>
             <SimBar setSection={setMode}/>
           </Fade>
         ) : (

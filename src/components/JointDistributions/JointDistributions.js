@@ -7,10 +7,10 @@ import { Alert } from 'reactstrap';
 import JDSimulation from './JDSimulation.js';
 
 export default function JointWrapper() {
-  return(
+  return (
     <div className="module-container">
-      <Alert style={{ width: "50%", margin: 'auto' }} color="primary">
-          Joint Distributions
+      <Alert style={{ width: '50%', margin: 'auto' }} color="primary">
+        Joint Distributions
       </Alert>
       <br/>
       <JDSimulation/>

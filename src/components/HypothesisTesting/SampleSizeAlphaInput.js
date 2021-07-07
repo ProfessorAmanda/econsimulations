@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
-import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
-import { stringOrNumberType } from "../../lib/types";
+import PropTypes from 'prop-types';
+import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+import { stringOrNumberType } from '../../lib/types';
 
 export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha, setAlpha, popSize, sampleSize2, setSampleSize2, showSecondInput }) {
   return (
@@ -8,7 +8,7 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
       <Col>
         <InputGroup>
           <InputGroupAddon addonType="prepend">
-            <InputGroupText>{showSecondInput ? "First" : ""} Sample Size</InputGroupText>
+            <InputGroupText>{showSecondInput ? 'First' : ''} Sample Size</InputGroupText>
           </InputGroupAddon>
           <Input
             type="number"
@@ -56,7 +56,9 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
 
 SampleSizeAlphaInputs.propTypes = {
   sampleSize: stringOrNumberType.isRequired,
+  sampleSize2: stringOrNumberType.isRequired,
   setSampleSize: PropTypes.func.isRequired,
+  setSampleSize2: PropTypes.func.isRequired,
   alpha: stringOrNumberType.isRequired,
   setAlpha: PropTypes.func.isRequired,
   popSize: PropTypes.number.isRequired,

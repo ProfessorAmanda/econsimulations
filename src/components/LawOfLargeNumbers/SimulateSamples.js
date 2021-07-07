@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Highcharts from "highcharts";
+import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Card, CardBody } from 'reactstrap';
 import '../../styles/dark-unica.css';
-import _ from "lodash";
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType, popShapeType } from '../../lib/types.js';
 import { populationMean } from '../../lib/stats-utils';
@@ -44,7 +44,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
         text: `Population vs Sample Means <br /> (${type})`,
       },
       xAxis: {
-        title : {
+        title: {
           text: 'Sample Size'
         },
         min: 0,
@@ -65,7 +65,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
           label: {
             enabled: false
           },
-          color: "red"
+          color: 'red'
         },
         {
           name: 'Sampled Means',
@@ -73,7 +73,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
           label: {
             enabled: false
           },
-          color: "black"
+          color: 'black'
         }
       ]
     }
@@ -85,15 +85,15 @@ export default function SimulateSamples({ type, popArray, popMean }) {
     setSampled([]);
     setMeanLine([]);
     let n = 0;
-    const timer = setInterval(function run() {
+    const timer = setInterval(() => {
       n += 1;
       if (n >= 1000) {
         clearInterval(timer)
       }
       const sample = _.sampleSize(popArray, n);
       const avg = _.round(populationMean(sample), 2);
-      setSampled(sampled => [...sampled, {y: avg}]);
-      setMeanLine(meanLine => [...meanLine, {y: popMean}]);
+      setSampled((currSampled) => [...currSampled, { y: avg }]);
+      setMeanLine((currMeanLine) => [...currMeanLine, { y: popMean }]);
     }, n);
 
     return () => clearInterval(timer);

@@ -1,12 +1,11 @@
-import { Table } from "reactstrap";
-import PropTypes from "prop-types";
-import { olsSampleType } from "../../lib/types";
+import { Table } from 'reactstrap';
+import PropTypes from 'prop-types';
+import { olsSampleType } from '../../lib/types';
 
 export default function SamplesTable({ samples, setSelected, selected }) {
-
-  const samplesTable = samples.map((sampleObject) =>
+  const samplesTable = samples.map((sampleObject) => (
     <tr
-      style={{ backgroundColor: (selected && (sampleObject.id === selected.id)) ? "#747EF2" : undefined, cursor: "pointer" }}
+      style={{ backgroundColor: (selected && (sampleObject.id === selected.id)) ? '#747EF2' : undefined, cursor: 'pointer' }}
       key={sampleObject.id}
       onClick={() => setSelected(sampleObject)}
     >
@@ -15,12 +14,12 @@ export default function SamplesTable({ samples, setSelected, selected }) {
       <td>{sampleObject.slope}</td>
       <td>{sampleObject.intercept}</td>
     </tr>
-  );
+  ));
 
   samplesTable.reverse();
 
   return (
-    <div style={{ height: 250, overflow: "auto", margin: "auto" }}>
+    <div style={{ height: 250, overflow: 'auto', margin: 'auto' }}>
       <Table hover striped className="ci-table">
         <thead>
           <tr>

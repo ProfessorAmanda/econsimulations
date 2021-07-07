@@ -1,7 +1,47 @@
 {
-  "extends": "react-app",
+  "extends": ["airbnb", "airbnb/hooks"],
   "env": {
     "node": true,
     "jest": true
+  },
+  "rules": {
+    "max-len": "off",
+    "no-plusplus": [
+      "warn",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "object-curly-newline": "off",
+    "no-mixed-operators": "off",
+    "prefer-template": "warn",
+    "no-else-return": "off",
+    "prefer-destructuring": "warn",
+    "curly": "warn",
+    "jsx-quotes": ["error", "prefer-double"],
+    "comma-dangle": "off",
+    "operator-linebreak": "off",
+    "semi": "off",
+    "object-shorthand": "warn",
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "beforeSelfClosing": "allow"
+      }
+    ],
+    "react/jsx-boolean-value": ["warn", "never"],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-filename-extension": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
+    "react/no-this-in-sfc": "off",
+    "react/no-array-index-key": "warn",
+    "react/no-unused-state": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
+    "import/order": "off"
   }
 }

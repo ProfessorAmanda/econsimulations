@@ -3,8 +3,8 @@
   Displays a slider for the user to choose a number of random points and a button to generate them
 
 */
-import { useState } from "react";
-import { Button, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
+import { useState } from 'react';
+import { Button, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 export default function NewPointsInput({ generatePoints }) {
@@ -13,10 +13,10 @@ export default function NewPointsInput({ generatePoints }) {
   return (
     <InputGroup className="input-slider-group">
       <Input
-        type='range'
+        type="range"
         className="custom-range"
         data-testid="new-points-slider"
-        style={{width: "50%"}}
+        style={{ width: '50%' }}
         min={4}
         max={10}
         value={numPoints}

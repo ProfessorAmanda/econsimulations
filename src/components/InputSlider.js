@@ -1,6 +1,6 @@
-import { Input, InputGroup, InputGroupAddon } from "reactstrap";
+import { Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { stringOrNumberType } from "../lib/types";
+import { stringOrNumberType } from '../lib/types';
 
 export default function InputSlider({ value, min, max, step, onChange }) {
   return (

@@ -1,14 +1,14 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const popShapeType = PropTypes.oneOf([
-  "Normal",
-  "Uniform",
-  "Exponential",
-  "Chi-Squared",
-  "Mystery"
+  'Normal',
+  'Uniform',
+  'Exponential',
+  'Chi-Squared',
+  'Mystery'
 ]);
 
-export const distributionType = PropTypes.oneOf(["Z", "T"]);
+export const distributionType = PropTypes.oneOf(['Z', 'T']);
 
 export const dataObjectArrayType = PropTypes.arrayOf(
   PropTypes.shape({
@@ -22,6 +22,7 @@ export const sampleMeanArrayType = PropTypes.arrayOf(
   PropTypes.shape({
     size: PropTypes.number,
     mean: PropTypes.number,
+    id: PropTypes.number
   })
 );
 
@@ -61,7 +62,7 @@ export const hypothesisTestingSampleArrayType = PropTypes.arrayOf(
   })
 );
 
-export const testTypeType = PropTypes.oneOf(["oneSample", "twoSample"]);
+export const testTypeType = PropTypes.oneOf(['oneSample', 'twoSample']);
 
 export const olsSampleType = PropTypes.shape({
   data: dataObjectArrayType.isRequired,
@@ -70,4 +71,4 @@ export const olsSampleType = PropTypes.shape({
   id: PropTypes.number.isRequired
 });
 
-export const hypothesisEqualityType = PropTypes.oneOf(["<", ">", "!="]);
+export const hypothesisEqualityType = PropTypes.oneOf(['<', '>', '!=']);

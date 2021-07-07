@@ -1,9 +1,9 @@
-import { Container, Row, Alert } from "reactstrap";
-import DotPlot from "../DotPlot.js";
-import PropTypes from "prop-types";
-import { dataObjectArrayType } from "../../lib/types.js";
-import { populationMean } from "../../lib/stats-utils.js";
-import { max } from "mathjs";
+import { Container, Row, Alert } from 'reactstrap';
+import DotPlot from '../DotPlot.js';
+import PropTypes from 'prop-types';
+import { dataObjectArrayType } from '../../lib/types.js';
+import { populationMean } from '../../lib/stats-utils.js';
+import { max } from 'mathjs';
 
 export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu0 }) {
   const popMean = populationMean(popArr);
@@ -12,38 +12,38 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
 
   const series = [
     {
-      name: `Population${(popArr2.length === 0) ? "" : " 1"}`,
+      name: `Population${(popArr2.length === 0) ? '' : ' 1'}`,
       data: popArr
     },
     {
-      name: "Population 2",
+      name: 'Population 2',
       data: popArr2,
       showInLegend: popArr2.length > 0,
       visible: popArr2.length > 0,
-      color: "#903C3D",
+      color: '#903C3D',
       marker: {
-        symbol: "diamond",
+        symbol: 'diamond',
         radius: 4,
-        lineColor: "#5A2526",
+        lineColor: '#5A2526',
         lineWidth: 1
       }
     },
     {
-      type: "line",
-      name: (popArr2.length === 0) ? "True Population Mean" : "First Population Mean",
-      data: [{x: popMean || 0, y: 0}, {x: popMean || 0, y: maxHeight}],
-      color: "blue",
+      type: 'line',
+      name: (popArr2.length === 0) ? 'True Population Mean' : 'First Population Mean',
+      data: [{ x: popMean || 0, y: 0 }, { x: popMean || 0, y: maxHeight }],
+      color: 'blue',
       enableMouseTracking: false,
       showInLegend: false,
       label: {
-        format: `<div>${(popArr2.length === 0) ? "True Population Mean" : "First Population Mean"}: ${popMean.toFixed(2)}</div>`
+        format: `<div>${(popArr2.length === 0) ? 'True Population Mean' : 'First Population Mean'}: ${popMean.toFixed(2)}</div>`
       }
     },
     {
-      type: "line",
-      name: "Second Population Mean",
-      data: [{x: popMean2 || 0, y: 0}, {x: popMean2 || 0, y: maxHeight}],
-      color: "red",
+      type: 'line',
+      name: 'Second Population Mean',
+      data: [{ x: popMean2 || 0, y: 0 }, { x: popMean2 || 0, y: maxHeight }],
+      color: 'red',
       enableMouseTracking: false,
       showInLegend: false,
       visible: popArr2.length > 0,
@@ -52,10 +52,10 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
       }
     },
     {
-      type: "line",
-      name: "Mu_0",
-      data: [{x: mu0 || 0, y: 0}, {x: mu0 || 0, y: max(popArr.map(({ y }) => y))}],
-      color: "red",
+      type: 'line',
+      name: 'Mu_0',
+      data: [{ x: mu0 || 0, y: 0 }, { x: mu0 || 0, y: max(popArr.map(({ y }) => y)) }],
+      color: 'red',
       enableMouseTracking: false,
       showInLegend: false,
       visible: popArr2.length === 0,
@@ -71,7 +71,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
         <Container fluid>
           <Row>
             <Alert color="secondary">
-              We queried the monthly Milk Production of {(popArr2.length > 0) ? "two populations of" : ""} {popArr.length} cows and plotted the results on the following chart.
+              We queried the monthly Milk Production of {(popArr2.length > 0) ? 'two populations of' : ''} {popArr.length} cows and plotted the results on the following chart.
             </Alert>
           </Row>
           <Row>
@@ -84,7 +84,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
         </Container>
       </Row>
       <Row>
-        <p>Our hypothesis test conclusion was therefore {(pVal < alpha) ? "correct" : "incorrect"}.</p>
+        <p>Our hypothesis test conclusion was therefore {(pVal < alpha) ? 'correct' : 'incorrect'}.</p>
       </Row>
     </Container>
   )

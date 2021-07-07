@@ -1,16 +1,16 @@
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-export default function CoefficientInput({ beta, setBeta, delta, setDelta }){
+export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
   return (
     <div>
       <InputGroup>
-        <InputGroupAddon addonType='prepend'>
+        <InputGroupAddon addonType="prepend">
           <InputGroupText>β₁, the Coefficient on Study Hours:</InputGroupText>
         </InputGroupAddon>
         <Input
           type="number"
-          step={.1}
+          step={0.1}
           value={beta}
           min={-4}
           max={4}
@@ -19,12 +19,12 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }){
       </InputGroup>
       <br/>
       <InputGroup>
-        <InputGroupAddon addonType='prepend'>
+        <InputGroupAddon addonType="prepend">
           <InputGroupText>𝛿, the Coefficient on Sleep Hours:</InputGroupText>
         </InputGroupAddon>
         <Input
           type="number"
-          step={.1}
+          step={0.1}
           value={delta}
           min={-4}
           max={4}

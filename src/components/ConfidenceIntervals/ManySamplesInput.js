@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Button, Input, Alert } from "reactstrap";
-import PropTypes from "prop-types";
+import { useState } from 'react';
+import { Button, Input, Alert } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 export default function ManySamplesInput({ populationSize, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -8,13 +8,13 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
 
   return (
     <div style={{ padding: 50 }}>
-      <Alert color="primary" style={{width: "50%", margin: "auto"}}>
+      <Alert color="primary" style={{ width: '50%', margin: 'auto' }}>
         Simulate drawing many many samples
       </Alert>
       <br/>
       <span> Sample Size: </span>
       <Input
-        style={{width: "40%", margin: "auto"}}
+        style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"
         placeholder="Sample Size:"
@@ -24,7 +24,7 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
       <br/>
       <span> Number of Replications: </span>
       <Input
-        style={{width: "40%", margin: "auto"}}
+        style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"
         placeholder="Number of Replications:"

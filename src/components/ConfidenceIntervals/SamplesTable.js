@@ -1,12 +1,11 @@
-import { Table } from "reactstrap";
+import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { confidenceIntervalsSampleType } from "../../lib/types.js";
+import { confidenceIntervalsSampleType } from '../../lib/types.js';
 
 export default function SamplesTable({ samples, setSelected }) {
-
-  const samplesTable = samples.map((sampleObject) =>
+  const samplesTable = samples.map((sampleObject) => (
     <tr
-      style={{ backgroundColor: sampleObject.label ? "rgba(23, 161, 80, 0.233)" : "rgba(161, 23, 23, 0.233)", cursor: "pointer" }}
+      style={{ backgroundColor: sampleObject.label ? 'rgba(23, 161, 80, 0.233)' : 'rgba(161, 23, 23, 0.233)', cursor: 'pointer' }}
       key={sampleObject.id}
       onClick={() => setSelected(sampleObject)}
     >
@@ -18,12 +17,13 @@ export default function SamplesTable({ samples, setSelected }) {
       <td>{sampleObject.confidenceLevel}</td>
       <td>{sampleObject.distribution.toUpperCase()}</td>
     </tr>
+  )
   );
 
   samplesTable.reverse()
 
   return (
-    <div style={{ height: 500, overflow: "auto", marginTop: -50 }}>
+    <div style={{ height: 500, overflow: 'auto', marginTop: -50 }}>
       <Table hover className="ci-table">
         <thead>
           <tr>

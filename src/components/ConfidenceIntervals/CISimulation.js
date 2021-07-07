@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react";
-import Collapsable from "../Collapsable.js";
-import ConfidenceInputs from "./ConfidenceInputs.js";
-import SampleSizeInput from "../SampleSizeInput.js";
-import ConfidenceIntervalsChart from "./ConfidenceIntervalsChart.js";
-import ManySamplesInput from "./ManySamplesInput.js";
-import SamplesTable from "./SamplesTable.js";
-import { dataFromDistribution, populationMean, populationStandardDev } from "../../lib/stats-utils.js";
-import { Row, Col, Alert } from "reactstrap";
-import PopulationChart from "./PopulationChart.js";
-import _ from "lodash";
-import { jStat } from "jstat";
-import PropTypes from "prop-types";
-import Highcharts from "highcharts";
-import { popShapeType } from "../../lib/types.js";
+import { useState, useEffect } from 'react';
+import Collapsable from '../Collapsable.js';
+import ConfidenceInputs from './ConfidenceInputs.js';
+import SampleSizeInput from '../SampleSizeInput.js';
+import ConfidenceIntervalsChart from './ConfidenceIntervalsChart.js';
+import ManySamplesInput from './ManySamplesInput.js';
+import SamplesTable from './SamplesTable.js';
+import { dataFromDistribution, populationMean, populationStandardDev } from '../../lib/stats-utils.js';
+import { Row, Col, Alert } from 'reactstrap';
+import PopulationChart from './PopulationChart.js';
+import _ from 'lodash';
+import { jStat } from 'jstat';
+import PropTypes from 'prop-types';
+import Highcharts from 'highcharts';
+import { popShapeType } from '../../lib/types.js';
 
 export default function CISimulation({ popShape, populationSize }) {
-  const [distType, setDistType] = useState("Z");  // can be "Z" or "T"
+  const [distType, setDistType] = useState('Z'); // can be "Z" or "T"
   const [confLevel, setConfLevel] = useState(95);
   const [popArray, setPopArray] = useState([]);
   const [samples, setSamples] = useState([]);
@@ -31,7 +31,7 @@ export default function CISimulation({ popShape, populationSize }) {
   useEffect(() => {
     if (popArray.length === 0) {
       // adjust params for uniform distribution to fit example
-      const newPop = dataFromDistribution(popShape, populationSize, {low: 55, hi: 75});
+      const newPop = dataFromDistribution(popShape, populationSize, { low: 55, hi: 75 });
       setPopArray(newPop);
     }
   }, [popArray, popShape, populationSize]);
@@ -50,9 +50,9 @@ export default function CISimulation({ popShape, populationSize }) {
     });
   }
 
-  const generateSamples = (size, replications=1) => {
+  const generateSamples = (size, replications = 1) => {
     unselect();
-    if (!size) {  // calling generateSamples with no arguments clears the data
+    if (!size) { // calling generateSamples with no arguments clears the data
       setSamples([]);
       setSelected();
     } else {
@@ -61,13 +61,13 @@ export default function CISimulation({ popShape, populationSize }) {
         const sample = _.sampleSize(popArray, size);
         const mean = _.round(populationMean(sample), 2);
         const popMean = _.round(populationMean(popArray), 2);
-        const standardDev = populationStandardDev((distType === "Z") ? popArray : sample);
-        const ciFunction = (distType === "Z") ? jStat.normalci : jStat.tci;
+        const standardDev = populationStandardDev((distType === 'Z') ? popArray : sample);
+        const ciFunction = (distType === 'Z') ? jStat.normalci : jStat.tci;
         const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
         const sampleObject = {
           data: sample,
           size: +size,
-          mean: mean,
+          mean,
           lowerConf: _.round(lowerConf, 2),
           upperConf: _.round(upperConf, 2),
           confidenceLevel: confLevel,
@@ -77,7 +77,7 @@ export default function CISimulation({ popShape, populationSize }) {
         sampleObjects.push(sampleObject);
       }
       const newSamples = [...samples, ...sampleObjects];
-      const indexedSamples = newSamples.map((sample, index) => ({...sample, id: index + 1}))
+      const indexedSamples = newSamples.map((sample, index) => ({ ...sample, id: index + 1 }))
       setSamples(indexedSamples);
       setSelected(indexedSamples[indexedSamples.length - 1]);
     }
@@ -105,7 +105,7 @@ export default function CISimulation({ popShape, populationSize }) {
             <PopulationChart
               popArray={popArray}
               popMean={populationMean(popArray)}
-              sampled={selected ? selected.data : []}  // most recent sample data
+              sampled={selected ? selected.data : []} // most recent sample data
               popShape={popShape}
             />
             <p>Try drawing some samples and calculating means</p>
