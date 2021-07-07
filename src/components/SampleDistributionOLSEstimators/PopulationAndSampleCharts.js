@@ -17,7 +17,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
     {
       name: "best fit line",
       type: "line",
-      data: [{x: 0}, {x: 15}, ...sample.data].map((point) => (
+      data: [{x: 0}, {x: 16}, ...sample.data].map((point) => (
         {x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2)}
       )),
       label: {
@@ -61,7 +61,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         <Col>
           <Alert color="primary">
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
-            <SampleSizeInput maxSize={1000} handleClick={addSamples}/>
+            <SampleSizeInput maxSize={data.length} handleClick={addSamples}/>
           </Alert>
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
