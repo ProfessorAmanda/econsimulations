@@ -26,9 +26,12 @@ export default function SDOLSESimulation() {
     for (let i = 0; i < 1000; i++) {
       const [x, y] = distribution.sample();
       const scorePoint = 40 + 3 * x + 2.5 * y + epsilon[i];
-      series.push({x: _.round(x, 2), y: _.round(scorePoint, 2)});
+      series.push({
+        x: _.clamp(_.round(x, 2), 0, 15),
+        y: _.clamp(_.round(scorePoint, 2), 0, 100)
+      });
     }
-    setData(series.filter(({x, y}) => (0 <= x) && (x <= 15) && (20 <= y) && (y <= 100)));
+    setData(series);
   }, []);
 
   const addSamples = (size, replications=1, clear=false) => {
