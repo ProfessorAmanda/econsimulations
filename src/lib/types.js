@@ -8,7 +8,7 @@ export const popShapeType = PropTypes.oneOf([
   "Mystery"
 ]);
 
-export const distributionType = PropTypes.oneOf(["Z","T"]);
+export const distributionType = PropTypes.oneOf(["Z", "T"]);
 
 export const dataObjectArrayType = PropTypes.arrayOf(
   PropTypes.shape({
@@ -61,9 +61,13 @@ export const hypothesisTestingSampleArrayType = PropTypes.arrayOf(
   })
 );
 
+export const testTypeType = PropTypes.oneOf(["oneSample", "twoSample"]);
+
 export const olsSampleType = PropTypes.shape({
   data: dataObjectArrayType.isRequired,
   slope: PropTypes.number.isRequired,
   intercept: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired
 });
+
+export const hypothesisEqualityType = PropTypes.oneOf(["<", ">", "!="]);

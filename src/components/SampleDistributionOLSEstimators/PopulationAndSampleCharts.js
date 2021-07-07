@@ -5,6 +5,8 @@ import _ from "lodash";
 import { dataObjectArrayType, olsSampleType } from "../../lib/types.js";
 import PropTypes from "prop-types";
 import SamplesTable from "./SamplesTable.js";
+import "katex/dist/katex.min.css";
+import { BlockMath } from "react-katex";
 
 export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample }) {
   const sample = selected ? selected : {data: []};
@@ -15,7 +17,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
     {
       name: "best fit line",
       type: "line",
-      data: [{x: 0}, {x: 15}, ...sample.data].map((point) => (
+      data: [{x: 0}, {x: 16}, ...sample.data].map((point) => (
         {x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2)}
       )),
       label: {
@@ -24,9 +26,6 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       marker: false,
       showInLegend: sample.data.length > 0,
       color: "black",
-      animation: {
-        duration: 0
-      },
       enableMouseTracking: false,
     },
     {
@@ -37,37 +36,44 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         lineWidth: 1,
         lineColor: "orange"
       },
-      animation: {
-        duration: 0
-      },
     }
   ];
 
   return (
     <Container>
-      <ScatterPlot
-        series={mainSeries}
-        title="Population"
-        xMin={0}
-        xMax={15}
-        yMin={20}
-        yMax={100}
-        xLabel="Study Hours"
-        yLabel="Test Score"
-      />
+      <Row>
+        <Col lg={{size: 12, offset: 0}} xl={{size: 8, offset: 2}}>
+          <ScatterPlot
+            series={mainSeries}
+            title="Population"
+            xMin={0}
+            xMax={15}
+            yMin={20}
+            yMax={100}
+            xLabel="Study Hours"
+            yLabel="Test Score"
+            height="75%"
+          />
+        </Col>
+      </Row>
       <br/>
       <Row md={1} lg={2}>
         <Col>
           <Alert color="primary">
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
-            <SampleSizeInput maxSize={1000} handleClick={addSamples}/>
+            <SampleSizeInput maxSize={data.length} handleClick={addSamples}/>
           </Alert>
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
         <Col>
+          <div style={{marginLeft: "20%"}}>
+            <BlockMath math="\widehat{Test\ Score}_i = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
+            {selected && (
+              <BlockMath math={`\\widehat{Test\\ Score}_i = ${selected.intercept} + ${selected.slope}{Study\\ Hours_i}`}/>
+            )}
+          </div>
           <ScatterPlot
             series={sampleSeries}
-            title={`Sample ${selected ? selected.id : ""}`}
             xMin={0}
             xMax={15}
             yMin={20}

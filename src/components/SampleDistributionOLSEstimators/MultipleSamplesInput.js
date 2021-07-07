@@ -7,13 +7,13 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
   const [resampleSize, setResampleSize] = useState(0);
 
   return (
-    <div style={{ padding: 50 }}>
+    <div>
       <Alert color="primary">
         <p>Simulate drawing many many samples</p>
         <span>Sample Size:</span>
         <Input
           type="number"
-          style={{width: "40%", margin: "auto"}}
+          style={{width: "50%", margin: "auto"}}
           placeholder="Sample Size:"
           min={1}
           value={resampleSize}
@@ -22,7 +22,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
         <br/>
         <span>Number of Replications:</span>
         <Input
-          style={{width: "40%", margin: "auto"}}
+          style={{width: "50%", margin: "auto"}}
           min={1}
           type="number"
           placeholder="Replications:"
@@ -31,12 +31,11 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
         />
         <br/>
         <Button
-          onClick={() => addSamples(resampleSize, numberResamples)}
+          onClick={() => addSamples(resampleSize, numberResamples, true)}
           disabled={(resampleSize < 1) || (resampleSize > populationSize) || (numberResamples < 1)}
         >
           Run
         </Button>
-        <Button onClick={() => addSamples()}>Clear</Button>
       </Alert>
     </div>
   );

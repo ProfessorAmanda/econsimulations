@@ -9,7 +9,7 @@ export default function SampleDistributionOLSEstimators() {
   return (
     <div className="module-container">
       <Alert style={{ width: "50%", margin: "auto" }} color="primary">
-          Sample Distribution of OLS Estimators
+        Sample Distribution of OLS Estimators
       </Alert>
       <p>Select a population shape:</p>
       <SelectorButtonGroup options={["Scatter", "Binary"]} select={setDataShape} selected={dataShape}/>
