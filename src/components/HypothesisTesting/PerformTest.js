@@ -90,41 +90,34 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   const sampleSD2 = populationStandardDev(sample2)
   const populationSD2 = populationStandardDev(popArr2)
 
-  const tscoreTwoSample = ((sampleMean - sampleMean2) - 0) / sqrt(Math.pow(sampleSD, 2) / sampleSize + Math.pow(sampleSD2, 2) / sampleSize2)
-  const zscoreTwoSample = ((sampleMean - sampleMean2) - 0) / sqrt(Math.pow(populationSD, 2) / sampleSize + Math.pow(populationSD2, 2) / sampleSize2)
+  const tscoreTwoSample = (sampleMean - sampleMean2) / sqrt((sampleSD ** 2) / sampleSize + (sampleSD2 ** 2) / sampleSize2)
+  const zscoreTwoSample = (sampleMean - sampleMean2) / sqrt((populationSD ** 2) / sampleSize + (populationSD2 ** 2) / sampleSize2)
 
-  function calculateTestStatistic(){
-
-    //one sample sigma known
-    if (distType === "Z" && testType === "oneSample") {
+  const calculateTestStatistic = () => {
+    // one sample sigma known
+    if (distType === 'Z' && testType === 'oneSample') {
       return zscore;
-
-    //one sample sigma unknown
-    } else if (distType !== "Z" && testType === "oneSample") {
+      // one sample sigma unknown
+    } else if (distType !== 'Z' && testType === 'oneSample') {
       return tscore;
-
-      //two sample sigma known
-    } else if (distType === "Z" && testType !== "oneSample") {
-      return zscoreTwoSample ;
-
-      //two sample sigma unknown
+      // two sample sigma known
+    } else if (distType === 'Z' && testType !== 'oneSample') {
+      return zscoreTwoSample;
+      // two sample sigma unknown
     } else {
-      return  tscoreTwoSample
+      return tscoreTwoSample
     }
   }
 
-  function calculatePValue() {
-
-    if(distType === "Z" && testType === "oneSample") {
+  const calculatePValue = () => {
+    if (distType === 'Z' && testType === 'oneSample') {
       return jStat.ztest(zscore, sides)
-     }
-     else if (distType === "T" && testType === "oneSample") {
+    } else if (distType === 'T' && testType === 'oneSample') {
       return jStat.ttest(tscore, sampleSize - 1, sides)
-
-   } else if (distType === "Z" && testType !== "oneSample") {
-       return jStat.ztest(zscoreTwoSample,sides);
+    } else if (distType === 'Z' && testType !== 'oneSample') {
+      return jStat.ztest(zscoreTwoSample, sides);
     } else {
-      return jStat.ttest( tscoreTwoSample, sampleSize - 1, sides )
+      return jStat.ttest(tscoreTwoSample, sampleSize - 1, sides)
     }
   }
 

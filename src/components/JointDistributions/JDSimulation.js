@@ -47,13 +47,13 @@ export default function JDSimulation() {
 
     jointSeries.forEach(({ x, y }) => {
       if (parentCounts[x]) {
-        parentCounts[x]++
+        parentCounts[x] += 1
       } else {
         parentCounts[x] = 1
       }
       parentSeries.push({ x, y: parentCounts[x] });
       if (childCounts[y]) {
-        childCounts[y]++
+        childCounts[y] += 1
       } else {
         childCounts[y] = 1
       }

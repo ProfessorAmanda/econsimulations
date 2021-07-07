@@ -56,7 +56,9 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
 
 SampleSizeAlphaInputs.propTypes = {
   sampleSize: stringOrNumberType.isRequired,
+  sampleSize2: stringOrNumberType.isRequired,
   setSampleSize: PropTypes.func.isRequired,
+  setSampleSize2: PropTypes.func.isRequired,
   alpha: stringOrNumberType.isRequired,
   setAlpha: PropTypes.func.isRequired,
   popSize: PropTypes.number.isRequired,
