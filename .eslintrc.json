@@ -1,111 +1,46 @@
 {
-  "extends": "react-app",
+  "extends": ["airbnb", "airbnb/hooks"],
   "env": {
     "node": true,
     "jest": true
   },
   "rules": {
-    "constructor-super": "error",
-    "no-class-assign": "error",
-    "no-confusing-arrow": [
-      "error",
-      {
-        "allowParens": true
-      }
-    ],
-    "no-dupe-class-members": "error",
-    "no-this-before-super": "error",
-    "no-useless-constructor": "error",
-    "no-var": "error",
-    "prefer-arrow-callback": [
+    "max-len": "off",
+    "no-plusplus": [
       "warn",
       {
-        "allowNamedFunctions": false,
-        "allowUnboundThis": true
+        "allowForLoopAfterthoughts": true
       }
     ],
-    "prefer-const": [
-      "warn",
-      {
-        "destructuring": "any",
-        "ignoreReadBeforeAssign": true
-      }
-    ],
+    "object-curly-newline": "off",
+    "no-mixed-operators": "off",
     "prefer-template": "warn",
-    "prefer-destructuring": [
-      "warn",
-      {
-        "VariableDeclarator": {
-          "array": false,
-          "object": true
-        },
-        "AssignmentExpression": {
-          "array": true,
-          "object": true
-        }
-      },
-      {
-        "enforceForRenamedProperties": false
-      }
-    ],
-    "no-shadow-restricted-names": "error",
-    "no-unused-vars": [
-      "error",
-      {
-        "vars": "all",
-        "args": "after-used",
-        "ignoreRestSiblings": true
-      }
-    ],
-    "no-shadow": "error",
-    "no-use-before-define": [
-      "error",
-      {
-        "functions": true,
-        "classes": true,
-        "variables": true
-      }
-    ],
-    "curly": ["error", "multi-line"],
-    "eqeqeq": [
-      "error",
-      "always",
-      {
-        "null": "ignore"
-      }
-    ],
-    "quotes": [
-      "error",
-      "double",
-      {
-        "avoidEscape": true,
-        "allowTemplateLiterals": true
-      }
-    ],
+    "prefer-destructuring": "warn",
+    "curly": "warn",
     "jsx-quotes": ["error", "prefer-double"],
-    "react/jsx-boolean-value": [
+    "comma-dangle": "off",
+    "operator-linebreak": "off",
+    "semi": "off",
+    "object-shorthand": "warn",
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-tag-spacing": [
       "error",
-      "never",
       {
-        "always": []
+        "beforeSelfClosing": "allow"
       }
     ],
-    "react/no-deprecated": ["error"],
-    "react/prefer-es6-class": ["error", "always"],
-    "react/prefer-stateless-function": [
-      "warn",
-      {
-        "ignorePureComponents": true
-      }
-    ],
-    "react/require-render-return": "error",
-    "react/self-closing-comp": "error",
+    "react/jsx-boolean-value": ["warn", "never"],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-filename-extension": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
+    "react/no-this-in-sfc": "off",
     "react/no-array-index-key": "warn",
     "react/no-unused-state": "warn",
-    "react/no-typos": "error",
-    "react/jsx-uses-vars": "error",
-    "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off",
-    "react/jsx-key": "error"
+    "react/jsx-props-no-spreading": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
+    "import/order": "off"
   }
 }
