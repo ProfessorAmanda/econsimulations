@@ -16,13 +16,13 @@ export default function SDOLSESimulation() {
   const [selected, setSelected] = useState();
 
   useEffect(() => {
-    const stdX = 3;
+    const stdX = 2.5;
     const stdY = 6;
     const covarianceMatrix = [
       [stdX * stdX, -0.5 * stdX * stdY],
       [-0.5 * stdX * stdY, stdY * stdY]
     ];
-    const distribution = MultivariateNormal([8, 2], covarianceMatrix);
+    const distribution = MultivariateNormal([7, 2], covarianceMatrix);
     const epsilon = PD.rnorm(1000, 0, 5);
     const series = [];
     for (let i = 0; i < 1000; i++) {
