@@ -131,7 +131,7 @@ export default function OVBSimulation() {
       <Row>
         <Col>
           <p>Estimate Regression Using Test Score and Study Hours Data </p>
-          <Button variant={`${showCorrect ? 'outline-' : ''}primary`} onClick={() => generateSeries()}>Generate!</Button>
+          <Button variant="primary" onClick={() => generateSeries()}>Generate!</Button>
         </Col>
       </Row>
       <br/>
@@ -150,8 +150,7 @@ export default function OVBSimulation() {
             <Col>
               <p color="primary">Add Omitted Variable, Density, to Regression</p>
               <Button
-                outline
-                color="primary"
+                variant="outline-primary"
                 onClick={() => setShowCorrect(!showCorrect)}
                 active={showCorrect}
               >

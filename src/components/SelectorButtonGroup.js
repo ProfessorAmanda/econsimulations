@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function SelectorButtonGroup({ options, select, selected }) {
   const buttons = options.map((option) => (
     <Button
-      style={{ backgroundColor: (selected === option) ? '#4CAF50' : '#555555' }}
+      variant={(selected === option) ? 'selected' : 'unselected'}
       onClick={() => select(option)}
       key={`${option}`}
     >
