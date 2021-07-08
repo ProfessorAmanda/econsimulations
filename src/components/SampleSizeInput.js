@@ -23,11 +23,12 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
         max={maxSize}
         onChange={(event) => setSampleSize(event.target.value)}
       />
-      <InputGroup.Text addonType="append">
-        <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={() => handleClick(+sampleSize)}>
-          Sample
-        </Button>
-      </InputGroup.Text>
+      <Button
+        variant="secondary"
+        disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={() => handleClick(+sampleSize)}
+      >
+        Sample
+      </Button>
     </InputGroup>
   );
 }

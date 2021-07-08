@@ -148,7 +148,7 @@ export default function OVBSimulation() {
           </Row>
           <Row>
             <Col>
-              <p color="primary">Add Omitted Variable, Density, to Regression</p>
+              <p variant="primary">Add Omitted Variable, Density, to Regression</p>
               <Button
                 variant="outline-primary"
                 onClick={() => setShowCorrect(!showCorrect)}

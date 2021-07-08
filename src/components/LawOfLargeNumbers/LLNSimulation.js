@@ -53,12 +53,12 @@ export default function LLNSimulation({ popShape, sampleSize }) {
         <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
         {(stage >= 2) && (
           <div>
-            <Alert color="success">
+            <Alert variant="success">
               Sample Mean: {_.round(sampleMean, 2) || ''}
               <br/>
               Difference of Means: {_.round(popMean - sampleMean, 2)}
             </Alert>
-            <Alert color="info">
+            <Alert variant="info">
               According to the law, the average of the results obtained from a large enough sample should be close to the total average of the population, and will tend to become closer the larger the sample is. Make sure to pick several samples, or see below for a simulation to see the law in action.
             </Alert>
             <SimulateSamples type={popShape} popArray={popArray} popMean={_.round(popMean, 2)}/>

@@ -43,7 +43,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
     <div>
       <Container fluid>
         <Row>
-          <Alert color="secondary">
+          <Alert variant="secondary">
             {(popShape !== 'Uniform') ? (
               <p>
                 We queried the {TEXTS[popShape][0]} of {popArray.length} {TEXTS[popShape][1]} and plotted the results on the following chart.

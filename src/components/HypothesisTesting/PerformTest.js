@@ -139,7 +139,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       />
       <br/>
       <Button
-        color="primary"
+        variant="primary"
         disabled={
           (sampleSize <= 0) ||
           (sampleSize > popArr.length) ||
@@ -168,7 +168,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
           <Row>
             <p>
               Press here to reveal the true population distribution and mean.&nbsp;
-              <Button color="primary" onClick={() => setStage(2)}>Reveal</Button>
+              <Button variant="primary" onClick={() => setStage(2)}>Reveal</Button>
             </p>
           </Row>
         </Container>
@@ -177,7 +177,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       {(stage >= 2) && (
         <div>
           <PopulationChartReveal popArr={popArr} popArr2={popArr2} pVal={pValue} alpha={+alpha} mu0={+mu0}/>
-          <Button color="primary" onClick={() => setStage(3)}>Simulate Type I Error</Button>
+          <Button variant="primary" onClick={() => setStage(3)}>Simulate Type I Error</Button>
         </div>
       )}
       {(stage >= 3) && (

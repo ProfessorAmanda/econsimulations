@@ -152,7 +152,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
       {(sampleMeans.length > 0) && (
-        <Alert color="info">
+        <Alert variant="info">
           Out of {sampleMeans.length} samples, we rejected the null hypothesis {sampleMeans.filter(({ reject }) => reject).length} times ({_.round(100 * sampleMeans.filter(({ reject }) => reject).length / sampleMeans.length, 2)}%).
         </Alert>
       )}

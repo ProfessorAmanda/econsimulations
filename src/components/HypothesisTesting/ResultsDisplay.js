@@ -5,7 +5,7 @@ import { hypothesisEqualityType, testTypeType } from '../../lib/types.js';
 
 export default function ResultsDisplay({ testType, mean, mean2, standardDev, standardDev2, testStatistic, pValue, alpha, equality }) {
   return (
-    <Alert color="secondary" >
+    <Alert variant="secondary" >
       <p>This sample yields the following data:</p>
       {(testType === 'oneSample') ? (
         <div>

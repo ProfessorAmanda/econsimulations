@@ -60,7 +60,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
     <Collapsable>
       <div>
         <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape}/>
-        <Button color="success" onClick={() => setStage(2)}>Continue</Button>
+        <Button variant="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) && (
           <div>
             <Row>
@@ -82,7 +82,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
             </Row>
             <Row>
               <div>
-                <Alert color="primary" style={{ width: '50%', margin: 'auto' }}>
+                <Alert variant="primary" style={{ width: '50%', margin: 'auto' }}>
                   Simulate drawing many many samples
                 </Alert>
                 <br/>

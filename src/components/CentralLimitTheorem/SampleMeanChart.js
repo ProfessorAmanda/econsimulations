@@ -27,7 +27,7 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
     <div>
       <Button
         outline
-        color="primary"
+        variant="primary"
         active={normalized}
         onClick={() => setNormalized(!normalized)}
       >

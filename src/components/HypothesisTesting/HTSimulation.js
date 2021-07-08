@@ -25,7 +25,7 @@ export default function HTSimulation() {
       {(stage >= 2) && (
         <Container fluid>
           <Row>
-            <Alert color="secondary">
+            <Alert variant="secondary">
               <p>The true population distribution will be revealed at the end.</p>
               {(testType === 'oneSample') ? (
                 <p>
@@ -43,13 +43,13 @@ export default function HTSimulation() {
             <HypothesisSelector testType={testType} setHypothesis={setHypothesis} mu0={mu0} setMu0={setMu0}/>
           </Row>
           <br/>
-          <Button color="primary" onClick={() => setStage(3)}> Continue </Button>
+          <Button variant="primary" onClick={() => setStage(3)}> Continue </Button>
           <br/>
           <br/>
           {(stage >= 3) && (
             <Container>
               <Row>
-                <Alert color="secondary" >
+                <Alert variant="secondary" >
                   <p>This means our null and alternative hypotheses are given by:</p>
                   <p>{hypothesis.nullH} {(testType === 'oneSample') && mu0}</p>
                   <p>{hypothesis.alterH} {(testType === 'oneSample') && mu0}</p>

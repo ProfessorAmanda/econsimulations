@@ -8,7 +8,7 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
 
   return (
     <div style={{ padding: 50 }}>
-      <Alert color="primary" style={{ width: '50%', margin: 'auto' }}>
+      <Alert variant="primary" style={{ width: '50%', margin: 'auto' }}>
         Simulate drawing many many samples
       </Alert>
       <br/>

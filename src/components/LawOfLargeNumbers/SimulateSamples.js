@@ -100,7 +100,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   }, []);  // eslint-disable-line
 
   return (
-    <Card outline>
+    <Card>
       <Card.Body>
         <HighchartsReact highcharts={Highcharts} options={chart}/>
       </Card.Body>

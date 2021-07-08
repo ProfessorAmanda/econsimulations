@@ -8,7 +8,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
 
   return (
     <div>
-      <Alert color="primary">
+      <Alert variant="primary">
         <p>Simulate drawing many many samples</p>
         <span>Sample Size:</span>
         <Form.Control
