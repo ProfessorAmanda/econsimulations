@@ -8,7 +8,9 @@ import { max } from 'mathjs';
 export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu0 }) {
   const popMean = populationMean(popArr);
   const popMean2 = populationMean(popArr2);
-  const maxHeight = max(max(popArr.map(({ y }) => y)), (popArr2.length > 0) ? max(popArr2.map(({ y }) => y)) : 0);
+  const popArrMax = (popArr.length > 0) ? max(popArr.map(({ y }) => y)) : 0;
+  const popArr2Max = (popArr2.length > 0) ? max(popArr2.map(({ y }) => y)) : 0;
+  const maxHeight = max(popArrMax, popArr2Max);
 
   const series = [
     {
@@ -36,7 +38,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
       enableMouseTracking: false,
       showInLegend: false,
       label: {
-        format: `<div>${(popArr2.length === 0) ? 'True Population Mean' : 'First Population Mean'}: ${popMean.toFixed(2)}</div>`
+        format: `<div>${(popArr2.length === 0) ? 'True Population Mean' : 'First Population Mean'}: ${popMean && popMean.toFixed(2)}</div>`
       }
     },
     {
@@ -54,7 +56,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
     {
       type: 'line',
       name: 'Mu_0',
-      data: [{ x: mu0 || 0, y: 0 }, { x: mu0 || 0, y: max(popArr.map(({ y }) => y)) }],
+      data: [{ x: mu0 || 0, y: 0 }, { x: mu0 || 0, y: popArrMax }],
       color: 'red',
       enableMouseTracking: false,
       showInLegend: false,
