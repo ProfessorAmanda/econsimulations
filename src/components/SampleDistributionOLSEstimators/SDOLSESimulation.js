@@ -3,10 +3,12 @@ import Collapsable from '../Collapsable.js';
 import MultivariateNormal from 'multivariate-normal';
 import _ from 'lodash';
 import PD from 'probability-distributions';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import PopulationAndSampleCharts from './PopulationAndSampleCharts.js';
-import Beta1HatDistribution from './Beta1HatDistribution.js';
 import regression from 'regression';
+import SlopeDistributionPlot from './SlopeDistributionPlot.js';
+import InterceptDistributionPlot from './InterceptDistributionPlot.js';
+import MultipleSamplesInput from './MultipleSamplesInput.js';
 
 export default function SDOLSESimulation() {
   const [data, setData] = useState([]);
@@ -63,11 +65,15 @@ export default function SDOLSESimulation() {
           selectSample={setSelected}
         />
         <br/>
-        <Beta1HatDistribution
-          data={data}
-          samples={samples}
-          addSamples={addSamples}
-        />
+        <MultipleSamplesInput populationSize={data.length} addSamples={addSamples}/>
+        <Row>
+          <Col>
+            <SlopeDistributionPlot samples={samples}/>
+          </Col>
+          <Col>
+            <InterceptDistributionPlot samples={samples}/>
+          </Col>
+        </Row>
       </Container>
     </Collapsable>
   );
