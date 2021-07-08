@@ -1,47 +1,49 @@
 {
-  "extends": ["airbnb", "airbnb/hooks"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "env": {
     "node": true,
     "jest": true
   },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
-    "max-len": "off",
     "no-plusplus": [
       "warn",
       {
         "allowForLoopAfterthoughts": true
       }
     ],
-    "object-curly-newline": "off",
-    "no-mixed-operators": "off",
     "prefer-template": "warn",
-    "no-else-return": "off",
-    "prefer-destructuring": "warn",
+    "prefer-destructuring": [
+      "warn",
+      {
+        "array": true,
+        "object": true
+      }
+    ],
     "curly": "warn",
-    "jsx-quotes": ["error", "prefer-double"],
-    "comma-dangle": "off",
-    "operator-linebreak": "off",
-    "semi": "off",
+    "quotes": ["warn", "single"],
+    "jsx-quotes": ["warn", "prefer-double"],
     "object-shorthand": "warn",
-    "function-paren-newline": "off",
-    "implicit-arrow-linebreak": "off",
     "react/jsx-tag-spacing": [
-      "error",
+      "warn",
       {
         "beforeSelfClosing": "allow"
       }
     ],
     "react/jsx-boolean-value": ["warn", "never"],
-    "react/jsx-one-expression-per-line": "off",
-    "react/jsx-filename-extension": "off",
-    "react/react-in-jsx-scope": "off",
-    "react/require-default-props": "off",
-    "react/no-this-in-sfc": "off",
     "react/no-array-index-key": "warn",
     "react/no-unused-state": "warn",
-    "react/jsx-props-no-spreading": "off",
-    "import/no-extraneous-dependencies": "off",
-    "import/extensions": "off",
-    "import/order": "off"
+    "react/react-in-jsx-scope": "off"
   }
 }

@@ -61,9 +61,7 @@ export default function OVBSimulation() {
       }
 
       // regress study hours with test scores
-      const naiveReg = regression.linear(studyScores);
-      const naiveSlope = (naiveReg.equation[0]);
-      const naiveInt = (naiveReg.equation[1]);
+      const [naiveSlope, naiveInt] = regression.linear(studyScores).equation;
 
       // Corrected regression
 
