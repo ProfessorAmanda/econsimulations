@@ -22,14 +22,13 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
           value={resampleSize}
           onChange={(event) => setResampleSize(event.target.value)}
         />
-        <InputGroup.Text addonType="append">
-          <Button
-            disabled={!resampleSize || resampleSize > populationSize || resampleSize < 1}
-            onClick={() => addSamples(+resampleSize)}
-          >
-            Sample Once
-          </Button>
-        </InputGroup.Text>
+        <Button
+          variant="secondary"
+          disabled={!resampleSize || resampleSize > populationSize || resampleSize < 1}
+          onClick={() => addSamples(+resampleSize)}
+        >
+          Sample Once
+        </Button>
       </InputGroup>
       <br/>
       <span> Number of Replications: </span>
@@ -43,12 +42,13 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
       />
       <br/>
       <Button
+        variant="secondary"
         onClick={() => addSamples(resampleSize, numberResamples)}
         disabled={(resampleSize < 1) || (resampleSize > populationSize) || (numberResamples < 1)}
       >
         Run
       </Button>
-      <Button onClick={() => addSamples()}>Clear</Button>
+      <Button variant="secondary" onClick={() => addSamples()}>Clear</Button>
     </div>
   );
 }

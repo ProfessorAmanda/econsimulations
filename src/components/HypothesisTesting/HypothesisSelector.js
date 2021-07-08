@@ -5,7 +5,6 @@ import { HYPOTHESIS_OPTIONS } from '../../lib/constants';
 import { stringOrNumberType } from '../../lib/types';
 
 export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu0 }) {
-  const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState();
 
   useEffect(() => {
@@ -24,13 +23,8 @@ export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu
 
   return (
     <InputGroup>
-      <DropdownButton isOpen={open} toggle={() => setOpen(!open)} addonType="prepend">
-        <Dropdown.Toggle caret>
-          {selected}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {menuOptions}
-        </Dropdown.Menu>
+      <DropdownButton variant="secondary" title={selected}>
+        {menuOptions}
       </DropdownButton>
       {(testType === 'oneSample') && (
         <>

@@ -21,7 +21,14 @@ export default function HTSimulation() {
 
   return (
     <div className="module-container">
-      <TestInputs testType={testType} setDistType={setDistType} distType={distType} setTestType={setTestType} popShape={popShape} setPopType={setPopShape}/>
+      <TestInputs
+        testType={testType}
+        setDistType={setDistType}
+        distType={distType}
+        setTestType={setTestType}
+        popShape={popShape}
+        setPopType={setPopShape}
+      />
       {(stage >= 2) && (
         <Container fluid>
           <Row>
@@ -39,11 +46,17 @@ export default function HTSimulation() {
             </Alert>
           </Row>
           <br/>
-          <Row style={{ width: '80%', margin: 'auto' }}>
+          <Row style={{ width: '95%', margin: 'auto' }}>
             <HypothesisSelector testType={testType} setHypothesis={setHypothesis} mu0={mu0} setMu0={setMu0}/>
           </Row>
           <br/>
-          <Button variant="primary" onClick={() => setStage(3)}> Continue </Button>
+          <Button
+            variant="outline-primary"
+            onClick={() => setStage(3)}
+            active={stage >= 3}
+          >
+            Continue
+          </Button>
           <br/>
           <br/>
           {(stage >= 3) && (

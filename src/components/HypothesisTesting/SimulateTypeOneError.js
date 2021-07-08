@@ -118,9 +118,9 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
 
   return (
     <Container>
-      <p style={{ marginTop: 50, marginBottom: 50 }}>
-        Now we simulate Type I error. In other words, if the true mean were actually {mu0.toFixed(2)}, how often would we (incorrectly) reject the null hypothesis?
-      </p>
+      <Alert variant="primary" style={{ marginTop: 50, marginBottom: 50 }}>
+        Now we simulate Type I error. In other words, if the true mean were actually {mu0.toPrecision(2)}, how often would we (incorrectly) reject the null hypothesis?
+      </Alert>
       <Row>
         <Col>
           <DotPlot series={dotPlotSeries} title={`Population${(testType === 'twoSample') ? 's' : ''}`} xLabel="Gallons"/>
@@ -144,10 +144,12 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
               testType={testType}
             />
           )}
-          <Form.Label>
-            <Form.Control type="checkbox" onClick={() => setStandardized(!standardized)}/>
-            {' '}Standardized
-          </Form.Label>
+          <Form.Check
+            inline
+            type="checkbox"
+            label="Convert to Standard Normal"
+            onClick={() => setStandardized(!standardized)}
+          />
         </Col>
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>

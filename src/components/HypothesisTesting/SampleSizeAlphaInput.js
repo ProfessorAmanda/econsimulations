@@ -7,9 +7,7 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
     <Row sm="1" md={showSecondInput ? 1 : 2} lg="2">
       <Col>
         <InputGroup>
-          <InputGroup.Text addonType="prepend">
-            <InputGroup.Text>{showSecondInput ? 'First' : ''} Sample Size</InputGroup.Text>
-          </InputGroup.Text>
+          <InputGroup.Text>{showSecondInput ? 'First' : ''} Sample Size</InputGroup.Text>
           <Form.Control
             type="number"
             step={1}
@@ -21,9 +19,7 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
         </InputGroup>
         {showSecondInput && (
           <InputGroup>
-            <InputGroup.Text addonType="prepend">
-              <InputGroup.Text>Second Sample Size</InputGroup.Text>
-            </InputGroup.Text>
+            <InputGroup.Text>Second Sample Size</InputGroup.Text>
             <Form.Control
               type="number"
               step={1}
@@ -37,9 +33,7 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
       </Col>
       <Col>
         <InputGroup>
-          <InputGroup.Text addonType="prepend">
-            <InputGroup.Text>Alpha</InputGroup.Text>
-          </InputGroup.Text>
+          <InputGroup.Text>Alpha</InputGroup.Text>
           <Form.Control
             type="number"
             step={0.01}
