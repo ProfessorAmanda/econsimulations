@@ -1,4 +1,4 @@
-import { Table } from 'reactstrap';
+import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../lib/types';
 import { VALUES } from '../lib/constants.js';

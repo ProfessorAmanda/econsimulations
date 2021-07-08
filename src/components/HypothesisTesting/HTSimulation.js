@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PerformTest from './PerformTest.js';
-import { Alert, Container, Row, Button } from 'reactstrap';
+import { Alert, Container, Row, Button } from 'react-bootstrap';
 import TestInputs from './TestInputs.js';
 import HypothesisSelector from './HypothesisSelector.js';
 import _ from 'lodash';
@@ -21,11 +21,18 @@ export default function HTSimulation() {
 
   return (
     <div className="module-container">
-      <TestInputs testType={testType} setDistType={setDistType} distType={distType} setTestType={setTestType} popShape={popShape} setPopType={setPopShape}/>
+      <TestInputs
+        testType={testType}
+        setDistType={setDistType}
+        distType={distType}
+        setTestType={setTestType}
+        popShape={popShape}
+        setPopType={setPopShape}
+      />
       {(stage >= 2) && (
         <Container fluid>
           <Row>
-            <Alert color="secondary">
+            <Alert variant="secondary">
               <p>The true population distribution will be revealed at the end.</p>
               {(testType === 'oneSample') ? (
                 <p>
@@ -39,17 +46,23 @@ export default function HTSimulation() {
             </Alert>
           </Row>
           <br/>
-          <Row style={{ width: '80%', margin: 'auto' }}>
+          <Row style={{ width: '95%', margin: 'auto' }}>
             <HypothesisSelector testType={testType} setHypothesis={setHypothesis} mu0={mu0} setMu0={setMu0}/>
           </Row>
           <br/>
-          <Button color="primary" onClick={() => setStage(3)}> Continue </Button>
+          <Button
+            variant="outline-primary"
+            onClick={() => setStage(3)}
+            active={stage >= 3}
+          >
+            Continue
+          </Button>
           <br/>
           <br/>
           {(stage >= 3) && (
             <Container>
               <Row>
-                <Alert color="secondary" >
+                <Alert variant="secondary" >
                   <p>This means our null and alternative hypotheses are given by:</p>
                   <p>{hypothesis.nullH} {(testType === 'oneSample') && mu0}</p>
                   <p>{hypothesis.alterH} {(testType === 'oneSample') && mu0}</p>

@@ -183,3 +183,15 @@ h1 {
   margin-left: -100px;
   margin-right: 0;
 }
+
+.btn-selected {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid gray;
+}
+
+.btn-unselected {
+  background-color: #555555;
+  color: white;
+  border: 1px solid gray;
+}

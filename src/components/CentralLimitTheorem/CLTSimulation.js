@@ -8,7 +8,7 @@ import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
 import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeansSimulator from './SampleMeansSimulator.js'
-import { Alert, Button, Col, Row } from 'reactstrap';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
 import { populationMean, dataFromDistribution, populationStandardDev } from '../../lib/stats-utils.js';
 import SampleSizeInput from '../SampleSizeInput.js';
 import SampleMeansTable from './SampleMeansTable.js';
@@ -21,30 +21,20 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
   const [sampled, setSampled] = useState([]);
   const [stage, setStage] = useState(1);
   const [popArray, setPopArray] = useState([]);
-  const [popMean, setPopMean] = useState(0);
 
   useEffect(() => {
     setStage(1);
-    setPopArray([]);
+    const newPop = dataFromDistribution(popShape, mainSampleSize);
+    setPopArray(newPop);
     setSampled([]);
     setSampleMeans([]);
-  }, [popShape]);
-
-  // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
-  useEffect(() => {
-    if (popArray.length === 0) {
-      const newPop = dataFromDistribution(popShape, mainSampleSize);
-      setPopArray(newPop);
-      const newMean = populationMean(newPop);
-      setPopMean(newMean);
-    }
-  }, [popArray, popShape, mainSampleSize]);
+  }, [popShape, mainSampleSize]);
 
   const addSampleMeans = (means) => {
     if (!means) { // calling addSampleMeans with no arguments clears the data
       setSampleMeans([])
     } else {
-      const newSampleMeans = [...sampleMeans, ...means];
+      const newSampleMeans = [...sampleMeans, ...means.map((mean, index) => ({ ...mean, id: index }))];
       setSampleMeans(newSampleMeans);
     }
   }
@@ -53,14 +43,16 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
     const newMeans = [...sampleMeans, { size, mean: populationMean(sample) }];
-    setSampleMeans(newMeans.map((mean, index) => ({ ...mean, id: index + 1 })));
+    setSampleMeans(newMeans.map((mean, index) => ({ ...mean, id: index })));
   }
+
+  const popMean = populationMean(popArray) || 0;
 
   return (
     <Collapsable>
       <div>
         <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape}/>
-        <Button color="success" onClick={() => setStage(2)}>Continue</Button>
+        <Button variant="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) && (
           <div>
             <Row>
@@ -82,7 +74,8 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
             </Row>
             <Row>
               <div>
-                <Alert color="primary" style={{ width: '50%', margin: 'auto' }}>
+                <br/>
+                <Alert variant="primary" style={{ width: '50%', margin: 'auto' }}>
                   Simulate drawing many many samples
                 </Alert>
                 <br/>

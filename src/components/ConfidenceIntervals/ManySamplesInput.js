@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Input, Alert } from 'reactstrap';
+import { Button, Form, Alert } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function ManySamplesInput({ populationSize, addSamples }) {
@@ -8,12 +8,12 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
 
   return (
     <div style={{ padding: 50 }}>
-      <Alert color="primary" style={{ width: '50%', margin: 'auto' }}>
+      <Alert variant="primary" style={{ width: '50%', margin: 'auto' }}>
         Simulate drawing many many samples
       </Alert>
       <br/>
       <span> Sample Size: </span>
-      <Input
+      <Form.Control
         style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"
@@ -23,7 +23,7 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
       />
       <br/>
       <span> Number of Replications: </span>
-      <Input
+      <Form.Control
         style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"
@@ -33,12 +33,13 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
       />
       <br/>
       <Button
+        variant="secondary"
         onClick={() => addSamples(resampleSize, numberResamples)}
         disabled={(resampleSize < 1) || (resampleSize > populationSize) || (numberResamples < 1)}
       >
         Run
       </Button>
-      <Button onClick={() => addSamples()}>Clear</Button>
+      <Button variant="secondary" onClick={() => addSamples()}>Clear</Button>
     </div>
   );
 }

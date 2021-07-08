@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import DotPlot from '../DotPlot.js';
 import NormalCurve from './NormalCurve.js';
 import ManySamplesInput from './ManySamplesInput.js';
-import { Container, Row, Col, Alert, Input, Label } from 'reactstrap';
+import { Container, Row, Col, Alert, Form } from 'react-bootstrap';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { distributionType, hypothesisEqualityType, popShapeType, testTypeType } from '../../lib/types.js';
@@ -118,9 +118,9 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
 
   return (
     <Container>
-      <p style={{ marginTop: 50, marginBottom: 50 }}>
-        Now we simulate Type I error. In other words, if the true mean were actually {mu0.toFixed(2)}, how often would we (incorrectly) reject the null hypothesis?
-      </p>
+      <Alert variant="primary" style={{ marginTop: 50, marginBottom: 50 }}>
+        Now we simulate Type I error. In other words, if the true mean were actually {mu0.toPrecision(2)}, how often would we (incorrectly) reject the null hypothesis?
+      </Alert>
       <Row>
         <Col>
           <DotPlot series={dotPlotSeries} title={`Population${(testType === 'twoSample') ? 's' : ''}`} xLabel="Gallons"/>
@@ -144,15 +144,17 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
               testType={testType}
             />
           )}
-          <Label>
-            <Input type="checkbox" onClick={() => setStandardized(!standardized)}/>
-            {' '}Standardized
-          </Label>
+          <Form.Check
+            inline
+            type="checkbox"
+            label="Convert to Standard Normal"
+            onClick={() => setStandardized(!standardized)}
+          />
         </Col>
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
       {(sampleMeans.length > 0) && (
-        <Alert color="info">
+        <Alert variant="info">
           Out of {sampleMeans.length} samples, we rejected the null hypothesis {sampleMeans.filter(({ reject }) => reject).length} times ({_.round(100 * sampleMeans.filter(({ reject }) => reject).length / sampleMeans.length, 2)}%).
         </Alert>
       )}

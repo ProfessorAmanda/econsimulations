@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { random, sqrt } from 'mathjs';
-import { Button, Container, Row } from 'reactstrap';
+import { Button, Container, Row } from 'react-bootstrap';
 import { dataFromDistribution, populationMean, populationStandardDev } from '../../lib/stats-utils.js';
 import PropTypes from 'prop-types';
 import PopulationChartReveal from './PopulationChartReveal.js';
@@ -124,7 +124,8 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       />
       <br/>
       <Button
-        color="primary"
+        variant="outline-primary"
+        active={stage >= 1}
         disabled={
           (sampleSize <= 0) ||
           (sampleSize > popArr.length) ||
@@ -153,7 +154,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
           <Row>
             <p>
               Press here to reveal the true population distribution and mean.&nbsp;
-              <Button color="primary" onClick={() => setStage(2)}>Reveal</Button>
+              <Button active={stage >= 2} variant="outline-primary" onClick={() => setStage(2)}>Reveal</Button>
             </p>
           </Row>
         </Container>
@@ -168,7 +169,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
             alpha={+alpha}
             mu0={+mu0}
           />
-          <Button color="primary" onClick={() => setStage(3)}>Simulate Type I Error</Button>
+          <Button variant="outline-primary" active={stage >= 3} onClick={() => setStage(3)}>Simulate Type I Error</Button>
         </div>
       )}
       {(stage >= 3) && (

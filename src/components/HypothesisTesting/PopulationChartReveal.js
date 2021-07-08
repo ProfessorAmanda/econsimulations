@@ -1,4 +1,4 @@
-import { Container, Row, Alert } from 'reactstrap';
+import { Container, Row, Alert } from 'react-bootstrap';
 import DotPlot from '../DotPlot.js';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js';
@@ -72,7 +72,7 @@ export default function PopulationChartReveal({ popArr, popArr2, pVal, alpha, mu
       <Row>
         <Container fluid>
           <Row>
-            <Alert color="secondary">
+            <Alert variant="secondary">
               We queried the monthly Milk Production of {(popArr2.length > 0) ? 'two populations of' : ''} {popArr.length} cows and plotted the results on the following chart.
             </Alert>
           </Row>

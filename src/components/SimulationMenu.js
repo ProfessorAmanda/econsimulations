@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react';
 import SimBar from './SimBar.js';
 import StartHere from './StartHere';
-import { Fade } from 'reactstrap';
+import { Fade } from 'react-bootstrap';
 import SimulationContainer from './SimulationContainer.js';
 
 export default function SimulationMenu() {

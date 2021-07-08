@@ -6,7 +6,7 @@
 
 */
 import DotPlot from './DotPlot';
-import { Alert, Container, Col, Row } from 'reactstrap';
+import { Alert, Container, Col, Row } from 'react-bootstrap';
 import PopTable from './PopTable.js'
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -43,7 +43,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
     <div>
       <Container fluid>
         <Row>
-          <Alert color="secondary">
+          <Alert variant="secondary">
             {(popShape !== 'Uniform') ? (
               <p>
                 We queried the {TEXTS[popShape][0]} of {popArray.length} {TEXTS[popShape][1]} and plotted the results on the following chart.
@@ -71,6 +71,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
               xMax={xmaxval}
               yMax={ymaxval}
               xLabel={xLabel}
+              animation={false}
             />
           </Col>
         </Row>

@@ -1,11 +1,11 @@
-import { Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { stringOrNumberType } from '../lib/types';
 
 export default function InputSlider({ value, min, max, step, onChange }) {
   return (
     <InputGroup className="input-slider-group">
-      <Input
+      <Form.Control
         type="range"
         className="custom-range"
         value={value}
@@ -14,17 +14,15 @@ export default function InputSlider({ value, min, max, step, onChange }) {
         step={step}
         onChange={(event) => onChange(event.target.value)}
       />
-      <InputGroupAddon addonType="append">
-        <Input
-          type="number"
-          className="input-group-append"
-          value={value}
-          min={min}
-          max={max}
-          step={step}
-          onChange={(event) => onChange(event.target.value)}
-        />
-      </InputGroupAddon>
+      <Form.Control
+        type="number"
+        className="input-group-append"
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        onChange={(event) => onChange(event.target.value)}
+      />
     </InputGroup>
   );
 }

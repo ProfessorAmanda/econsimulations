@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Button, InputGroup, InputGroupText } from 'reactstrap';
+import { Row, Col, Button, InputGroup } from 'react-bootstrap';
 import CoefficientInput from './CoefficientInput.js';
 import MultivariateNormal from 'multivariate-normal';
 import { round, transpose, matrix, multiply, inv } from 'mathjs';
@@ -122,8 +122,8 @@ export default function OVBSimulation() {
           <InputSlider value={correlation} min={-0.99} max={0.99} step={0.01} onChange={(value) => setCorrelation(value)}/>
           <br/>
           <InputGroup style={{ width: 'fit-content', margin: 'auto' }}>
-            <InputGroupText>Covariance between Study Hours and Sleep Hours:</InputGroupText>
-            <InputGroupText aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</InputGroupText>
+            <InputGroup.Text>Covariance between Study Hours and Sleep Hours:</InputGroup.Text>
+            <InputGroup.Text aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</InputGroup.Text>
           </InputGroup>
         </Col>
       </Row>
@@ -131,14 +131,14 @@ export default function OVBSimulation() {
       <Row>
         <Col>
           <p>Estimate Regression Using Test Score and Study Hours Data </p>
-          <Button color="primary" onClick={() => generateSeries()}>Generate!</Button>
+          <Button variant="primary" onClick={() => generateSeries()}>Generate!</Button>
         </Col>
       </Row>
       <br/>
       {(stage >= 2) && (
         <div>
           <Row>
-            <Col lg={{ size: 12, offset: 0 }} xl={{ size: 8, offset: 2 }}>
+            <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
               <OmittedVariableChart
                 dataPoints={allData.points}
                 naiveLine={allData.naiveLine}
@@ -148,10 +148,9 @@ export default function OVBSimulation() {
           </Row>
           <Row>
             <Col>
-              <p color="primary">Add Omitted Variable, Density, to Regression</p>
+              <p variant="primary">Add Omitted Variable, Density, to Regression</p>
               <Button
-                outline
-                color="primary"
+                variant="outline-primary"
                 onClick={() => setShowCorrect(!showCorrect)}
                 active={showCorrect}
               >

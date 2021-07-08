@@ -1,4 +1,4 @@
-import { Container, Row, Col, Alert } from 'reactstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import ScatterPlot from '../ScatterPlot.js';
 import SampleSizeInput from '../SampleSizeInput.js';
 import _ from 'lodash';
@@ -42,7 +42,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
   return (
     <Container>
       <Row>
-        <Col lg={{ size: 12, offset: 0 }} xl={{ size: 8, offset: 2 }}>
+        <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
           <ScatterPlot
             series={mainSeries}
             title="Population"
@@ -59,7 +59,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       <br/>
       <Row md={1} lg={2}>
         <Col>
-          <Alert color="primary">
+          <Alert variant="primary">
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
             <SampleSizeInput maxSize={data.length} handleClick={addSamples}/>
           </Alert>

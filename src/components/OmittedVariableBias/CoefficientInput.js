@@ -1,14 +1,12 @@
-import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import { Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
   return (
     <div>
       <InputGroup>
-        <InputGroupAddon addonType="prepend">
-          <InputGroupText>β₁, the Coefficient on Study Hours:</InputGroupText>
-        </InputGroupAddon>
-        <Input
+        <InputGroup.Text>β₁, the Coefficient on Study Hours:</InputGroup.Text>
+        <Form.Control
           type="number"
           step={0.1}
           value={beta}
@@ -19,10 +17,8 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
       </InputGroup>
       <br/>
       <InputGroup>
-        <InputGroupAddon addonType="prepend">
-          <InputGroupText>𝛿, the Coefficient on Sleep Hours:</InputGroupText>
-        </InputGroupAddon>
-        <Input
+        <InputGroup.Text>𝛿, the Coefficient on Sleep Hours:</InputGroup.Text>
+        <Form.Control
           type="number"
           step={0.1}
           value={delta}

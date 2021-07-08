@@ -6,7 +6,7 @@ import ConfidenceIntervalsChart from './ConfidenceIntervalsChart.js';
 import ManySamplesInput from './ManySamplesInput.js';
 import SamplesTable from './SamplesTable.js';
 import { dataFromDistribution, populationMean, populationStandardDev } from '../../lib/stats-utils.js';
-import { Row, Col, Alert } from 'reactstrap';
+import { Row, Col, Alert } from 'react-bootstrap';
 import PopulationChart from './PopulationChart.js';
 import _ from 'lodash';
 import { jStat } from 'jstat';
@@ -22,19 +22,11 @@ export default function CISimulation({ popShape, populationSize }) {
   const [selected, setSelected] = useState();
 
   useEffect(() => {
-    setPopArray([]);
+    const newPop = dataFromDistribution(popShape, populationSize, { low: 55, hi: 75 });
+    setPopArray(newPop);
     setSamples([]);
     setSelected();
-  }, [popShape]);
-
-  // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
-  useEffect(() => {
-    if (popArray.length === 0) {
-      // adjust params for uniform distribution to fit example
-      const newPop = dataFromDistribution(popShape, populationSize, { low: 55, hi: 75 });
-      setPopArray(newPop);
-    }
-  }, [popArray, popShape, populationSize]);
+  }, [popShape, populationSize]);
 
   // this is a hack to get around what I believe is a bug in highcharts
   // where a point will sometimes turn gray when selected
@@ -136,7 +128,7 @@ export default function CISimulation({ popShape, populationSize }) {
         <br/>
         <Row>
           {(samples.length > 0) && (
-            <Alert color="info">
+            <Alert variant="info">
               {samples.filter(({ label }) => !label).length} intervals did not contain the population mean.
               <br/>
               {samples.filter(({ label }) => label).length} did ({_.round(100 * samples.filter(({ label }) => label).length / samples.length, 2)}%).

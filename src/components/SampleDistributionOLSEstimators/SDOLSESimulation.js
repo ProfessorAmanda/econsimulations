@@ -3,7 +3,7 @@ import Collapsable from '../Collapsable.js';
 import MultivariateNormal from 'multivariate-normal';
 import _ from 'lodash';
 import PD from 'probability-distributions';
-import { Container } from 'reactstrap';
+import { Container } from 'react-bootstrap';
 import PopulationAndSampleCharts from './PopulationAndSampleCharts.js';
 import Beta1HatDistribution from './Beta1HatDistribution.js';
 import regression from 'regression';

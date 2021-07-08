@@ -4,7 +4,7 @@
 
 */
 import { useState } from 'react';
-import { Button, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import { Button, Form, InputGroup, } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function NewPointsInput({ generatePoints }) {
@@ -12,7 +12,7 @@ export default function NewPointsInput({ generatePoints }) {
 
   return (
     <InputGroup className="input-slider-group">
-      <Input
+      <Form.Control
         type="range"
         className="custom-range"
         data-testid="new-points-slider"
@@ -22,16 +22,8 @@ export default function NewPointsInput({ generatePoints }) {
         value={numPoints}
         onChange={(event) => setNumPoints(event.target.value)}
       />
-      <InputGroupAddon addonType="append">
-        <InputGroupText>{numPoints}</InputGroupText>
-      </InputGroupAddon>
-      <Button
-        outline
-        color="primary"
-        onClick={() => generatePoints(numPoints)}
-      >
-        New Points
-      </Button>
+      <InputGroup.Text>{numPoints}</InputGroup.Text>
+      <Button variant="outline-primary" onClick={() => generatePoints(numPoints)}>New Points</Button>
     </InputGroup>
   );
 }

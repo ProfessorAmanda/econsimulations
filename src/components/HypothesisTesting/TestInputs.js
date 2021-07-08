@@ -1,5 +1,5 @@
 import SelectorButtonGroup from '../SelectorButtonGroup';
-import { Row } from 'reactstrap';
+import { Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { distributionType } from '../../lib/types.js';
 

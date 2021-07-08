@@ -5,7 +5,7 @@ import { VALUES } from '../../lib/constants.js';
 import { max, min, sqrt } from 'mathjs';
 import { popShapeType } from '../../lib/types.js';
 import _ from 'lodash';
-import { Button } from 'reactstrap';
+import { Form } from 'react-bootstrap';
 
 export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) {
   const [normalized, setNormalized] = useState(false);
@@ -25,14 +25,6 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
 
   return (
     <div>
-      <Button
-        outline
-        color="primary"
-        active={normalized}
-        onClick={() => setNormalized(!normalized)}
-      >
-        Convert to Std. Normal
-      </Button>
       <DotPlot
         series={[{ name: 'Sample Means', data: sampleMeansPoints }]}
         title="Sample Mean Distribution"
@@ -41,6 +33,12 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
         yMax={normalized ? max(8, ...onlyCounts) : max([30, ...onlyCounts])}
         xLabel={normalized ? 'Standard Deviations' : VALUES[popShape].xLabel}
         yLabel="Observations of Sample Mean"
+      />
+      <Form.Check
+        inline
+        type="checkbox"
+        label="Convert to Standard Normal"
+        onClick={() => setNormalized(!normalized)}
       />
     </div>
   )

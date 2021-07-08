@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 import _ from 'lodash';
 import More from 'highcharts/highcharts-more';
 import { max } from 'mathjs';
@@ -204,7 +204,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
     <div>
       {
         selected ? (
-          <Alert color={selected.label ? 'success' : 'danger'}>
+          <Alert variant={selected.label ? 'success' : 'danger'}>
             Sample number {selected.id} has a mean of {selected.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(selected.lowerConf, 2)}, {_.round(selected.upperConf, 2)}). CI contains the population mean? {selected.label.toString()}
           </Alert>
         ) : <div style={{ height: 80 }}/>

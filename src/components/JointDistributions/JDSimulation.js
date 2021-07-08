@@ -5,7 +5,7 @@
 */
 import { useEffect, useState } from 'react';
 import MultivariateNormal from 'multivariate-normal';
-import { Container, Row, Col, InputGroupText, Button } from 'reactstrap';
+import { Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import MeanSDInput from './MeanSDInput';
 import JDCharts from './JDCharts';
 import _ from 'lodash';
@@ -77,13 +77,12 @@ export default function JDSimulation() {
           <p>Set the Correlation</p>
           <InputSlider value={correlation} min={-1} max={1} step={0.1} onChange={(value) => setCorrelation(value)}/>
           <p style={{ margin: '15px' }}>Covariance</p>
-          <InputGroupText aria-label="covariance">{(correlation * parentSD * childSD).toFixed(2)}</InputGroupText>
+          <InputGroup.Text aria-label="covariance">{(correlation * parentSD * childSD).toFixed(2)}</InputGroup.Text>
         </Col>
       </Row>
       <Row>
         <Button
-          outline
-          color="primary"
+          variant="primary"
           style={{ width: 'fit-content', margin: 'auto' }}
           disabled={!parentMean || !parentSD || !childMean || !childSD}
           onClick={() => generate()}
