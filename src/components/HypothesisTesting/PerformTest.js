@@ -45,21 +45,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       }
     ));
     if (testType === 'twoSample') {
-      const sd2 = random(1, 4);
-      setOriginalPop(dataFromDistribution(
-        shape,
-        2000,
-        {
-          mean: 64,
-          standardDev: sd2,
-          low: 54,
-          hi: 74,
-          mysteryMean1: 58,
-          mysteryMean2: 70,
-          mysterySD1: sd2 - 1,
-          mysterySD2: sd2 + 1
-        }
-      ));
+      setOriginalPop(dataFromDistribution(shape, 2000, { low: 54, hi: 74 }));
     } else {
       setOriginalPop([]);
     }
