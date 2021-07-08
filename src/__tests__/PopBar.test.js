@@ -15,16 +15,4 @@ describe('PopBar tests', () => {
       expect(screen.getByRole('button', { name: option })).toBeInTheDocument()
     });
   });
-
-  options.forEach((option) => {
-    test(`selecting ${option} updates style`, () => {
-      options.forEach((opt) => {
-        expect(screen.getByRole('button', { name: opt })).toHaveStyle({ backgroundColor: '#555555' })
-      });
-      fireEvent.click(screen.getByRole('button', { name: option }));
-      options.forEach((opt) => {
-        expect(screen.getByRole('button', { name: opt })).toHaveStyle({ backgroundColor: (opt === option) ? '#4CAF50' : '#555555' })
-      });
-    });
-  });
 });
