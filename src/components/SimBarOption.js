@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 
 export default function SimBarOption({ section, setSection }) {
   return (
-    <Card body outline color="primary" className="sim-option">
-      <Card.Text>{section.description}</Card.Text>
-      <Button outline color="primary" onClick={() => setSection(section.name)}>
-        {section.name}
-      </Button>
+    <Card border="primary" className="sim-option">
+      <Card.Body>
+        <Card.Text>{section.description}</Card.Text>
+        <Button variant="outline-primary" onClick={() => setSection(section.name)} style={{width: '100%'}}>
+          {section.name}
+        </Button>
+      </Card.Body>
     </Card>
   );
 }

@@ -122,8 +122,8 @@ export default function OVBSimulation() {
           <InputSlider value={correlation} min={-0.99} max={0.99} step={0.01} onChange={(value) => setCorrelation(value)}/>
           <br/>
           <InputGroup style={{ width: 'fit-content', margin: 'auto' }}>
-            <InputGroup.text>Covariance between Study Hours and Sleep Hours:</InputGroup.text>
-            <InputGroup.text aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</InputGroup.text>
+            <InputGroup.Text>Covariance between Study Hours and Sleep Hours:</InputGroup.Text>
+            <InputGroup.Text aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</InputGroup.Text>
           </InputGroup>
         </Col>
       </Row>

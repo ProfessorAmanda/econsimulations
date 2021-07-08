@@ -12,16 +12,12 @@ export default function MeanSDInput({ title, mean, setMean, sd, setSD }) {
     <div>
       <p> Choose the Mean and Standard Deviation for {title} Height </p>
       <InputGroup>
-        <InputGroup.text addonType="prepend">
-          <InputGroup.text>{title} Height Mean:</InputGroup.text>
-        </InputGroup.text>
+        <InputGroup.Text>{title} Height Mean:</InputGroup.Text>
         <Form.Control type="number" min={60} max={80} step={1} value={mean} onChange={(event) => setMean(event.target.value)}/>
       </InputGroup>
       <br/>
       <InputGroup>
-        <InputGroup.text addonType="prepend">
-          <InputGroup.text>{title} Height SD:</InputGroup.text>
-        </InputGroup.text>
+        <InputGroup.Text>{title} Height SD:</InputGroup.Text>
         <Form.Control
           type="number"
           min={1}

@@ -9,7 +9,7 @@ import { Alert } from 'react-bootstrap';
 export default function LeastSquares() {
   return (
     <div className="module-container">
-      <Alert style={{ width: '50%', margin: 'auto' }} color="primary">
+      <Alert style={{ width: '50%', margin: 'auto' }} variant="primary">
         Least Squares
       </Alert>
       <br/>

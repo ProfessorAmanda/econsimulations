@@ -14,17 +14,15 @@ export default function InputSlider({ value, min, max, step, onChange }) {
         step={step}
         onChange={(event) => onChange(event.target.value)}
       />
-      <InputGroup.text addonType="append">
-        <Form.Control
-          type="number"
-          className="input-group-append"
-          value={value}
-          min={min}
-          max={max}
-          step={step}
-          onChange={(event) => onChange(event.target.value)}
-        />
-      </InputGroup.text>
+      <Form.Control
+        type="number"
+        className="input-group-append"
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        onChange={(event) => onChange(event.target.value)}
+      />
     </InputGroup>
   );
 }

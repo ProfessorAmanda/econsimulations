@@ -42,7 +42,7 @@ export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu
             max={1000}
             onChange={(event) => setMu0(event.target.value)}
           />
-          <InputGroup.text>gallons of milk per day.</InputGroup.text>
+          <InputGroup.Text>gallons of milk per day.</InputGroup.Text>
         </>
       )}
     </InputGroup>
