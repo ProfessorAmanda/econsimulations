@@ -8,7 +8,7 @@ import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
 import SampleSizeInput from '../SampleSizeInput.js';
 import SimulateSamples from './SimulateSamples.js';
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 import { populationMean, dataFromDistribution } from '../../lib/stats-utils.js';
 import _ from 'lodash';
 import PropTypes from 'prop-types';

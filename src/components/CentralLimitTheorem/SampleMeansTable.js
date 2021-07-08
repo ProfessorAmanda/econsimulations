@@ -3,7 +3,7 @@
   Displays a table of sample means
 
 */
-import { Table } from 'reactstrap';
+import { Table } from 'react-bootstrap';
 import { sampleMeanArrayType } from '../../lib/types.js';
 import _ from 'lodash';
 

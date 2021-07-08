@@ -1,4 +1,4 @@
-import { Button, Fade } from 'reactstrap';
+import { Button, Fade } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function StartHere({ start, showApp }) {

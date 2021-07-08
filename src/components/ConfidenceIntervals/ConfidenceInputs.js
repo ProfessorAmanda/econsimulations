@@ -1,4 +1,4 @@
-import { Row, Col } from 'reactstrap';
+import { Row, Col } from 'react-bootstrap';
 import InputSlider from '../InputSlider.js';
 import SelectorButtonGroup from '../SelectorButtonGroup.js';
 import PropTypes from 'prop-types';

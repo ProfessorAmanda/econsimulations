@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Input, Alert, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Button, Form, Alert, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function ManySamplesInput({ populationSize, addSamples }) {
@@ -14,7 +14,7 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
       <br/>
       <span> Sample Size: </span>
       <InputGroup className="sample-size-input" style={{ width: '40%', margin: 'auto' }}>
-        <Input
+        <Form.Control
           align="right"
           type="number"
           placeholder="Sample Size:"
@@ -22,18 +22,18 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
           value={resampleSize}
           onChange={(event) => setResampleSize(event.target.value)}
         />
-        <InputGroupAddon addonType="append">
+        <InputGroup.text addonType="append">
           <Button
             disabled={!resampleSize || resampleSize > populationSize || resampleSize < 1}
             onClick={() => addSamples(+resampleSize)}
           >
             Sample Once
           </Button>
-        </InputGroupAddon>
+        </InputGroup.text>
       </InputGroup>
       <br/>
       <span> Number of Replications: </span>
-      <Input
+      <Form.Control
         style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"

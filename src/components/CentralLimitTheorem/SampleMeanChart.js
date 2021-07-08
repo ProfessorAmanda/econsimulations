@@ -5,7 +5,7 @@ import { VALUES } from '../../lib/constants.js';
 import { max, min, sqrt } from 'mathjs';
 import { popShapeType } from '../../lib/types.js';
 import _ from 'lodash';
-import { Button } from 'reactstrap';
+import { Button } from 'react-bootstrap';
 
 export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) {
   const [normalized, setNormalized] = useState(false);

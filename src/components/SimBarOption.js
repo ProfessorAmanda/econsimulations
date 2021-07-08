@@ -1,10 +1,10 @@
-import { Button, Card, CardText } from 'reactstrap';
+import { Button, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function SimBarOption({ section, setSection }) {
   return (
     <Card body outline color="primary" className="sim-option">
-      <CardText>{section.description}</CardText>
+      <Card.Text>{section.description}</Card.Text>
       <Button outline color="primary" onClick={() => setSection(section.name)}>
         {section.name}
       </Button>

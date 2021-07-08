@@ -1,4 +1,4 @@
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 import SDOLSESimulation from './SDOLSESimulation.js';
 
 export default function SampleDistributionOLSEstimators() {

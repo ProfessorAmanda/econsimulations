@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PerformTest from './PerformTest.js';
-import { Alert, Container, Row, Button } from 'reactstrap';
+import { Alert, Container, Row, Button } from 'react-bootstrap';
 import TestInputs from './TestInputs.js';
 import HypothesisSelector from './HypothesisSelector.js';
 import _ from 'lodash';

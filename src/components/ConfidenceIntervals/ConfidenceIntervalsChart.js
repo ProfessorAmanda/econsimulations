@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 import _ from 'lodash';
 import More from 'highcharts/highcharts-more';
 import { max } from 'mathjs';

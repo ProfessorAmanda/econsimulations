@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Button, InputGroup, InputGroupText } from 'reactstrap';
+import { Row, Col, Button, InputGroup } from 'react-bootstrap';
 import CoefficientInput from './CoefficientInput.js';
 import MultivariateNormal from 'multivariate-normal';
 import { round, transpose, matrix, multiply, inv } from 'mathjs';
@@ -122,8 +122,8 @@ export default function OVBSimulation() {
           <InputSlider value={correlation} min={-0.99} max={0.99} step={0.01} onChange={(value) => setCorrelation(value)}/>
           <br/>
           <InputGroup style={{ width: 'fit-content', margin: 'auto' }}>
-            <InputGroupText>Covariance between Study Hours and Sleep Hours:</InputGroupText>
-            <InputGroupText aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</InputGroupText>
+            <InputGroup.text>Covariance between Study Hours and Sleep Hours:</InputGroup.text>
+            <InputGroup.text aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</InputGroup.text>
           </InputGroup>
         </Col>
       </Row>

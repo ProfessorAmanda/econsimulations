@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import DotPlot from '../DotPlot.js';
 import NormalCurve from './NormalCurve.js';
 import ManySamplesInput from './ManySamplesInput.js';
-import { Container, Row, Col, Alert, Input, Label } from 'reactstrap';
+import { Container, Row, Col, Alert, Form } from 'react-bootstrap';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { distributionType, hypothesisEqualityType, popShapeType, testTypeType } from '../../lib/types.js';
@@ -144,10 +144,10 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
               testType={testType}
             />
           )}
-          <Label>
-            <Input type="checkbox" onClick={() => setStandardized(!standardized)}/>
+          <Form.Label>
+            <Form.Control type="checkbox" onClick={() => setStandardized(!standardized)}/>
             {' '}Standardized
-          </Label>
+          </Form.Label>
         </Col>
       </Row>
       <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { DropdownItem, DropdownToggle, DropdownMenu, Input, InputGroup, InputGroupButtonDropdown, InputGroupText } from 'reactstrap';
+import { DropdownButton, Form, InputGroup, Dropdown } from 'react-bootstrap';
 import { HYPOTHESIS_OPTIONS } from '../../lib/constants';
 import { stringOrNumberType } from '../../lib/types';
 
@@ -19,22 +19,22 @@ export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu
   }
 
   const menuOptions = HYPOTHESIS_OPTIONS[testType].map((obj) =>
-    <DropdownItem onClick={() => selectOption(obj)} key={obj.hypoText}>{obj.hypoText}</DropdownItem>
+    <Dropdown.Item onClick={() => selectOption(obj)} key={obj.hypoText}>{obj.hypoText}</Dropdown.Item>
   );
 
   return (
     <InputGroup>
-      <InputGroupButtonDropdown isOpen={open} toggle={() => setOpen(!open)} addonType="prepend">
-        <DropdownToggle caret>
+      <DropdownButton isOpen={open} toggle={() => setOpen(!open)} addonType="prepend">
+        <Dropdown.Toggle caret>
           {selected}
-        </DropdownToggle>
-        <DropdownMenu>
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
           {menuOptions}
-        </DropdownMenu>
-      </InputGroupButtonDropdown>
+        </Dropdown.Menu>
+      </DropdownButton>
       {(testType === 'oneSample') && (
         <>
-          <Input
+          <Form.Control
             type="number"
             value={mu0}
             step={1}
@@ -42,7 +42,7 @@ export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu
             max={1000}
             onChange={(event) => setMu0(event.target.value)}
           />
-          <InputGroupText>gallons of milk per day.</InputGroupText>
+          <InputGroup.text>gallons of milk per day.</InputGroup.text>
         </>
       )}
     </InputGroup>

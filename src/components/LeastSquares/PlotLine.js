@@ -3,7 +3,7 @@
   Displays a button for the user to plot their guess or a button to generate the correct best fit line
 
 */
-import { Button } from 'reactstrap';
+import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function PlotLine({ stage, setStage, squareAreas, generateBestLine }) {

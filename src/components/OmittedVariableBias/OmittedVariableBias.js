@@ -1,4 +1,4 @@
-import { Alert, Row } from 'reactstrap';
+import { Alert, Row } from 'react-bootstrap';
 import OVBSimulation from './OVBSimulation';
 
 export default function OmittedVariableBias() {

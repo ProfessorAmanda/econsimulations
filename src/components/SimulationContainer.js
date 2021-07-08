@@ -10,7 +10,7 @@ import OmittedVariableBias from './OmittedVariableBias/OmittedVariableBias.js';
 import ConfidenceIntervals from './ConfidenceIntervals/ConfidenceIntervals.js';
 import HypothesisTesting from './HypothesisTesting/HypothesisTesting.js';
 import SampleDistributionOLSEstimators from './SampleDistributionOLSEstimators/SampleDistributionOLSEstimators.js';
-import { Button } from 'reactstrap';
+import { Button } from 'react-bootstrap';
 import LeastSquares from './LeastSquares/LeastSquares.js';
 import PropTypes from 'prop-types';
 

@@ -1,4 +1,4 @@
-import { Container, Row, Col, Alert } from 'reactstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import ScatterPlot from '../ScatterPlot.js';
 import SampleSizeInput from '../SampleSizeInput.js';
 import _ from 'lodash';

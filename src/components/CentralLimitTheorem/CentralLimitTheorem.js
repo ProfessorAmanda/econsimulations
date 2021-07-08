@@ -5,7 +5,7 @@
 */
 import { useState } from 'react';
 import PopBar from '../PopBar.js';
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 import CLTSimulation from './CLTSimulation.js';
 
 const SAMPLE_SIZE = 2000;

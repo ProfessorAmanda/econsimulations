@@ -8,7 +8,7 @@ import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
 import SampleMeanChart from './SampleMeanChart.js'
 import SampleMeansSimulator from './SampleMeansSimulator.js'
-import { Alert, Button, Col, Row } from 'reactstrap';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
 import { populationMean, dataFromDistribution, populationStandardDev } from '../../lib/stats-utils.js';
 import SampleSizeInput from '../SampleSizeInput.js';
 import SampleMeansTable from './SampleMeansTable.js';

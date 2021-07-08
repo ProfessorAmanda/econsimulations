@@ -4,7 +4,7 @@
 
 */
 import { useEffect, useState } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col } from 'react-bootstrap';
 import NewPointsInput from './NewPointsInput';
 import LeastSquaresChart from './LeastSquaresChart.js';
 import PlotLine from './PlotLine.js';

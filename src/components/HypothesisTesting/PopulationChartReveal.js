@@ -1,4 +1,4 @@
-import { Container, Row, Alert } from 'reactstrap';
+import { Container, Row, Alert } from 'react-bootstrap';
 import DotPlot from '../DotPlot.js';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js';

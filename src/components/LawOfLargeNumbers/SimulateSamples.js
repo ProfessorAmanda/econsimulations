@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Card, CardBody } from 'reactstrap';
+import { Card } from 'react-bootstrap';
 import '../../styles/dark-unica.css';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -101,9 +101,9 @@ export default function SimulateSamples({ type, popArray, popMean }) {
 
   return (
     <Card outline>
-      <CardBody>
+      <Card.Body>
         <HighchartsReact highcharts={Highcharts} options={chart}/>
-      </CardBody>
+      </Card.Body>
     </Card>
   );
 }

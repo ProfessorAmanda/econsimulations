@@ -1,4 +1,4 @@
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 import HTSimulation from './HTSimulation.js';
 
 export default function HypothesisTesting() {

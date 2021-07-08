@@ -1,4 +1,4 @@
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { hypothesisEqualityType, testTypeType } from '../../lib/types.js';

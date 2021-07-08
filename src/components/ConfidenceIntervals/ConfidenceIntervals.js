@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PopBar from '../PopBar.js';
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 import CISimulation from './CISimulation.js';
 import { SAMPLE_SIZE } from '../../lib/constants.js';
 

@@ -6,7 +6,7 @@ import ConfidenceIntervalsChart from './ConfidenceIntervalsChart.js';
 import ManySamplesInput from './ManySamplesInput.js';
 import SamplesTable from './SamplesTable.js';
 import { dataFromDistribution, populationMean, populationStandardDev } from '../../lib/stats-utils.js';
-import { Row, Col, Alert } from 'reactstrap';
+import { Row, Col, Alert } from 'react-bootstrap';
 import PopulationChart from './PopulationChart.js';
 import _ from 'lodash';
 import { jStat } from 'jstat';

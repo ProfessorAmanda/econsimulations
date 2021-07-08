@@ -1,4 +1,4 @@
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import DotPlot from '../DotPlot.js';
 import MultipleSamplesInput from './MultipleSamplesInput.js';
 import { max, min } from 'mathjs';

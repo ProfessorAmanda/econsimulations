@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { random, sqrt } from 'mathjs';
-import { Button, Container, Row } from 'reactstrap';
+import { Button, Container, Row } from 'react-bootstrap';
 import { dataFromDistribution, populationMean, populationStandardDev } from '../../lib/stats-utils.js';
 import PropTypes from 'prop-types';
 import PopulationChartReveal from './PopulationChartReveal.js';

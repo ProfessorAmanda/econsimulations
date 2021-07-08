@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+import { Row, Col, InputGroup, Form } from 'react-bootstrap';
 import { stringOrNumberType } from '../../lib/types';
 
 export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha, setAlpha, popSize, sampleSize2, setSampleSize2, showSecondInput }) {
@@ -7,10 +7,10 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
     <Row sm="1" md={showSecondInput ? 1 : 2} lg="2">
       <Col>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>{showSecondInput ? 'First' : ''} Sample Size</InputGroupText>
-          </InputGroupAddon>
-          <Input
+          <InputGroup.text addonType="prepend">
+            <InputGroup.text>{showSecondInput ? 'First' : ''} Sample Size</InputGroup.text>
+          </InputGroup.text>
+          <Form.Control
             type="number"
             step={1}
             value={sampleSize}
@@ -21,10 +21,10 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
         </InputGroup>
         {showSecondInput && (
           <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>Second Sample Size</InputGroupText>
-            </InputGroupAddon>
-            <Input
+            <InputGroup.text addonType="prepend">
+              <InputGroup.text>Second Sample Size</InputGroup.text>
+            </InputGroup.text>
+            <Form.Control
               type="number"
               step={1}
               value={sampleSize2}
@@ -37,10 +37,10 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
       </Col>
       <Col>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>Alpha</InputGroupText>
-          </InputGroupAddon>
-          <Input
+          <InputGroup.text addonType="prepend">
+            <InputGroup.text>Alpha</InputGroup.text>
+          </InputGroup.text>
+          <Form.Control
             type="number"
             step={0.01}
             value={alpha}

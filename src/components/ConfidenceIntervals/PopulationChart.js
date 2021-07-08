@@ -1,5 +1,5 @@
 import DotPlot from '../DotPlot';
-import { Alert, Container } from 'reactstrap';
+import { Alert, Container } from 'react-bootstrap';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType, popShapeType } from '../../lib/types.js';

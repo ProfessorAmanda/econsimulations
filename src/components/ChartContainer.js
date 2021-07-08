@@ -6,7 +6,7 @@
 
 */
 import DotPlot from './DotPlot';
-import { Alert, Container, Col, Row } from 'reactstrap';
+import { Alert, Container, Col, Row } from 'react-bootstrap';
 import PopTable from './PopTable.js'
 import _ from 'lodash';
 import PropTypes from 'prop-types';

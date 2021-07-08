@@ -4,7 +4,7 @@
 
 */
 import LeastSquaresSimulation from './LeastSquaresSimulation';
-import { Alert } from 'reactstrap';
+import { Alert } from 'react-bootstrap';
 
 export default function LeastSquares() {
   return (

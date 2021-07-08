@@ -4,7 +4,7 @@
 
 */
 import { useState } from 'react';
-import { Button, Input } from 'reactstrap';
+import { Button, Form } from 'react-bootstrap';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js';
@@ -31,7 +31,7 @@ export default function SampleMeansSimulator({ population, addSamples }) {
   return (
     <div>
       <span> Sample Size: </span>
-      <Input
+      <Form.Control
         style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"
@@ -41,7 +41,7 @@ export default function SampleMeansSimulator({ population, addSamples }) {
       />
       <br/>
       <span> Number of Replications: </span>
-      <Input
+      <Form.Control
         style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"

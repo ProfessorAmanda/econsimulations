@@ -1,4 +1,4 @@
-import { ButtonGroup, Button } from 'reactstrap';
+import { ButtonGroup, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function SelectorButtonGroup({ options, select, selected }) {

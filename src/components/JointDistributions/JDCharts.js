@@ -5,7 +5,7 @@
 
 */
 import { useState, useCallback, useMemo } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col } from 'react-bootstrap';
 import JointChart from './JointChart.js';
 import { ResponsiveScatterPlotCanvas } from '@nivo/scatterplot';
 import { dataObjectArrayType } from '../../lib/types.js';
