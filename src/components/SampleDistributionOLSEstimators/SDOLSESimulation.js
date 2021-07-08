@@ -23,16 +23,14 @@ export default function SDOLSESimulation() {
       [-0.5 * stdX * stdY, stdY * stdY]
     ];
     const distribution = MultivariateNormal([7, 2], covarianceMatrix);
-    const epsilon = PD.rnorm(1000, 0, 5);
-    const series = [];
-    for (let i = 0; i < 1000; i++) {
+    const series = PD.rnorm(1000, 0, 5).map((epsilon) => {
       const [x, y] = distribution.sample();
-      const scorePoint = 40 + 3 * x + 2.5 * y + epsilon[i];
-      series.push({
+      const scorePoint = 40 + 3 * x + 2.5 * y + epsilon;
+      return ({
         x: _.clamp(_.round(x, 2), 0, 15),
         y: _.clamp(_.round(scorePoint, 2), 0, 100)
       });
-    }
+    });
     setData(series);
   }, []);
 
@@ -65,7 +63,11 @@ export default function SDOLSESimulation() {
           selectSample={setSelected}
         />
         <br/>
-        <MultipleSamplesInput populationSize={data.length} addSamples={addSamples}/>
+        <Row>
+          <Col xs={{ span: 8, offset: 2 }}>
+            <MultipleSamplesInput populationSize={data.length} addSamples={addSamples}/>
+          </Col>
+        </Row>
         <Row>
           <Col>
             <SlopeDistributionPlot samples={samples}/>
