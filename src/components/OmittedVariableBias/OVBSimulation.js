@@ -131,14 +131,14 @@ export default function OVBSimulation() {
       <Row>
         <Col>
           <p>Estimate Regression Using Test Score and Study Hours Data </p>
-          <Button color="primary" onClick={() => generateSeries()}>Generate!</Button>
+          <Button variant={`${showCorrect ? 'outline-' : ''}primary`} onClick={() => generateSeries()}>Generate!</Button>
         </Col>
       </Row>
       <br/>
       {(stage >= 2) && (
         <div>
           <Row>
-            <Col lg={{ size: 12, offset: 0 }} xl={{ size: 8, offset: 2 }}>
+            <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
               <OmittedVariableChart
                 dataPoints={allData.points}
                 naiveLine={allData.naiveLine}

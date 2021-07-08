@@ -60,7 +60,7 @@ export default function LeastSquaresSimulation() {
       <Col xs="auto">
         <LeastSquaresChart points={points} linePoints={linePoints} setSquareAreas={setSquareAreas}/>
       </Col>
-      <Col xs={{ size: 3, offset: 3 }} md={{ size: 3, offset: 0 }} style={{ paddingTop: '100px' }}>
+      <Col xs={{ span: 3, offset: 3 }} md={{ span: 3, offset: 0 }} style={{ paddingTop: '100px' }}>
         <NewPointsInput generatePoints={generatePoints}/>
         <br/>
         {(stage === 2) && <p>Guess a Slope and Y-Intercept to fit the points</p>}

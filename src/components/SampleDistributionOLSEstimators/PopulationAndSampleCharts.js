@@ -42,7 +42,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
   return (
     <Container>
       <Row>
-        <Col lg={{ size: 12, offset: 0 }} xl={{ size: 8, offset: 2 }}>
+        <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
           <ScatterPlot
             series={mainSeries}
             title="Population"

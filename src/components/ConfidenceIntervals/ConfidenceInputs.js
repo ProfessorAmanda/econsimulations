@@ -26,7 +26,7 @@ export default function ConfidenceInputs({ distType, setDistType, confLevel, set
       </Row>
       <br/>
       <Row>
-        <Col sm="12" md={{ size: 6, offset: 3 }}>
+        <Col sm="12" md={{ span: 6, offset: 3 }}>
           <div>
             More Levels:
             <InputSlider value={confLevel} min={1} max={99} step={1} onChange={setConfLevel}/>

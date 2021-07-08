@@ -5,9 +5,7 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
   return (
     <div>
       <InputGroup>
-        <InputGroup.Text addonType="prepend">
-          <InputGroup.Text>β₁, the Coefficient on Study Hours:</InputGroup.Text>
-        </InputGroup.Text>
+        <InputGroup.Text>β₁, the Coefficient on Study Hours:</InputGroup.Text>
         <Form.Control
           type="number"
           step={0.1}
@@ -19,9 +17,7 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
       </InputGroup>
       <br/>
       <InputGroup>
-        <InputGroup.Text addonType="prepend">
-          <InputGroup.Text>𝛿, the Coefficient on Sleep Hours:</InputGroup.Text>
-        </InputGroup.Text>
+        <InputGroup.Text>𝛿, the Coefficient on Sleep Hours:</InputGroup.Text>
         <Form.Control
           type="number"
           step={0.1}
