@@ -1,5 +1,6 @@
 {
   "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "plugins": ["react", "react-hooks"],
   "env": {
     "node": true,
     "jest": true
@@ -45,6 +46,7 @@
     "react/jsx-boolean-value": ["warn", "never"],
     "react/no-array-index-key": "warn",
     "react/no-unused-state": "warn",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

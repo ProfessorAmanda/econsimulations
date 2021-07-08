@@ -21,24 +21,14 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
   const [sampled, setSampled] = useState([]);
   const [stage, setStage] = useState(1);
   const [popArray, setPopArray] = useState([]);
-  const [popMean, setPopMean] = useState(0);
 
   useEffect(() => {
     setStage(1);
-    setPopArray([]);
+    const newPop = dataFromDistribution(popShape, mainSampleSize);
+    setPopArray(newPop);
     setSampled([]);
     setSampleMeans([]);
-  }, [popShape]);
-
-  // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
-  useEffect(() => {
-    if (popArray.length === 0) {
-      const newPop = dataFromDistribution(popShape, mainSampleSize);
-      setPopArray(newPop);
-      const newMean = populationMean(newPop);
-      setPopMean(newMean);
-    }
-  }, [popArray, popShape, mainSampleSize]);
+  }, [popShape, mainSampleSize]);
 
   const addSampleMeans = (means) => {
     if (!means) { // calling addSampleMeans with no arguments clears the data
@@ -55,6 +45,8 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
     const newMeans = [...sampleMeans, { size, mean: populationMean(sample) }];
     setSampleMeans(newMeans.map((mean, index) => ({ ...mean, id: index })));
   }
+
+  const popMean = populationMean(popArray) || 0;
 
   return (
     <Collapsable>

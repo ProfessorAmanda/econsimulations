@@ -17,33 +17,23 @@ import { popShapeType } from '../../lib/types.js';
 export default function LLNSimulation({ popShape, sampleSize }) {
   const [sampled, setSampled] = useState([]);
   const [stage, setStage] = useState(1);
-  const [sampleMean, setSampleMean] = useState();
   const [popArray, setPopArray] = useState([]);
-  const [popMean, setPopMean] = useState(0);
 
   useEffect(() => {
     setStage(1);
-    setPopArray([]);
+    const newPop = dataFromDistribution(popShape, sampleSize);
+    setPopArray(newPop);
     setSampled([]);
-    setSampleMean();
-  }, [popShape]);
-
-  // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
-  useEffect(() => {
-    if (popArray.length === 0) {
-      const newPop = dataFromDistribution(popShape, sampleSize);
-      setPopArray(newPop);
-      const newMean = populationMean(newPop);
-      setPopMean(newMean);
-    }
-  }, [popArray, popShape, sampleSize]);
+  }, [popShape, sampleSize]);
 
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
-    setSampleMean(_.round(populationMean(sample), 2));
     setStage(2);
   }
+
+  const popMean = populationMean(popArray) || 0;
+  const sampleMean = populationMean(sampled) || 0;
 
   return (
     <Collapsable>

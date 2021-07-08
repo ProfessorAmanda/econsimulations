@@ -8,13 +8,14 @@ import '../styles/dark-unica.css';
 
 Label(Highcharts);
 
-export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel }) {
+export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel, animation }) {
   const [chart, setChart] = useState({});
 
   useEffect(() => {
     const newChart = {
       chart: {
         type: 'scatter',
+        animation: !!animation
       },
       plotOptions: {
         series: {
@@ -64,7 +65,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
       )
     }
     setChart(newChart);
-  }, [series, title, xMin, xMax, yMax, xLabel, yLabel]);
+  }, [series, title, xMin, xMax, yMax, xLabel, yLabel, animation]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
@@ -77,4 +78,5 @@ DotPlot.propTypes = {
   yMax: PropTypes.number,
   xLabel: PropTypes.string,
   yLabel: PropTypes.string,
+  animation: PropTypes.bool
 }

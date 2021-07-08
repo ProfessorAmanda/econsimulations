@@ -71,6 +71,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
               xMax={xmaxval}
               yMax={ymaxval}
               xLabel={xLabel}
+              animation={false}
             />
           </Col>
         </Row>

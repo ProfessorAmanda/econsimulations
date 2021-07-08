@@ -22,19 +22,11 @@ export default function CISimulation({ popShape, populationSize }) {
   const [selected, setSelected] = useState();
 
   useEffect(() => {
-    setPopArray([]);
+    const newPop = dataFromDistribution(popShape, populationSize, { low: 55, hi: 75 });
+    setPopArray(newPop);
     setSamples([]);
     setSelected();
-  }, [popShape]);
-
-  // Highcharts rendering is buggy - this second useEffect takes a second but allows the data to be reset completely before being generated again
-  useEffect(() => {
-    if (popArray.length === 0) {
-      // adjust params for uniform distribution to fit example
-      const newPop = dataFromDistribution(popShape, populationSize, { low: 55, hi: 75 });
-      setPopArray(newPop);
-    }
-  }, [popArray, popShape, populationSize]);
+  }, [popShape, populationSize]);
 
   // this is a hack to get around what I believe is a bug in highcharts
   // where a point will sometimes turn gray when selected
