@@ -44,7 +44,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
     if (!means) { // calling addSampleMeans with no arguments clears the data
       setSampleMeans([])
     } else {
-      const newSampleMeans = [...sampleMeans, ...means];
+      const newSampleMeans = [...sampleMeans, ...means.map((mean, index) => ({ ...mean, id: index }))];
       setSampleMeans(newSampleMeans);
     }
   }
@@ -53,7 +53,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
     const newMeans = [...sampleMeans, { size, mean: populationMean(sample) }];
-    setSampleMeans(newMeans.map((mean, index) => ({ ...mean, id: index + 1 })));
+    setSampleMeans(newMeans.map((mean, index) => ({ ...mean, id: index })));
   }
 
   return (
@@ -82,6 +82,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
             </Row>
             <Row>
               <div>
+                <br/>
                 <Alert variant="primary" style={{ width: '50%', margin: 'auto' }}>
                   Simulate drawing many many samples
                 </Alert>

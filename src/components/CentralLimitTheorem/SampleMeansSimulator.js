@@ -50,10 +50,13 @@ export default function SampleMeansSimulator({ population, addSamples }) {
         value={numberResamples}
       />
       <br/>
-      <Button onClick={() => runSim()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}>
+      <Button
+        variant="secondary"
+        onClick={() => runSim()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}
+      >
         Run
       </Button>
-      <Button onClick={() => addSamples()}>Clear</Button>
+      <Button variant="secondary" onClick={() => addSamples()}>Clear</Button>
     </div>
   );
 }
