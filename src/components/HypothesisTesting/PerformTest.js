@@ -17,9 +17,9 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   const [sampleSize, setSampleSize] = useState(0);
   const [alpha, setAlpha] = useState(0);
   const [stage, setStage] = useState(0);
-  const [popArr2, setPopArr2] = useState([]);
-  const [sample2, setSample2] = useState([]);
-  const [sampleSize2, setSampleSize2] = useState(0);
+  const [originalPop, setOriginalPop] = useState([]);
+  const [originalPopSample, setOriginalPopSample] = useState([]);
+  const [originalPopSampleSize, setOriginalPopSampleSize] = useState(0);
 
   useEffect(() => {
     if (stage === 3) {
@@ -45,24 +45,23 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       }
     ));
     if (testType === 'twoSample') {
-      const popMean2 = random(61, 66);
       const sd2 = random(1, 4);
-      setPopArr2(dataFromDistribution(
+      setOriginalPop(dataFromDistribution(
         shape,
         2000,
         {
-          mean: popMean2,
+          mean: 64,
           standardDev: sd2,
-          low: popMean2 - 10,
-          hi: popMean2 + 10,
-          mysteryMean1: popMean2 - 6,
-          mysteryMean2: popMean2 + 6,
+          low: 54,
+          hi: 74,
+          mysteryMean1: 58,
+          mysteryMean2: 70,
           mysterySD1: sd2 - 1,
           mysterySD2: sd2 + 1
         }
       ));
     } else {
-      setPopArr2([]);
+      setOriginalPop([]);
     }
   }, [shape, testType]);
 
@@ -75,7 +74,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
 
   const takeBothSamples = () => {
     takeSample();
-    setSample2(_.sampleSize(popArr2, sampleSize2));
+    setOriginalPopSample(_.sampleSize(originalPop, originalPopSampleSize));
   }
 
   const sampleMean = populationMean(sample);
@@ -86,12 +85,12 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   const zscore = jStat.zscore(sampleMean, mu0, populationSD / sqrt(sampleSize));
 
   // for two-sample
-  const sampleMean2 = populationMean(sample2);
-  const sampleSD2 = populationStandardDev(sample2)
-  const populationSD2 = populationStandardDev(popArr2)
+  const originalSampleMean = populationMean(originalPopSample);
+  const originalSampleSD = populationStandardDev(originalPopSample)
+  const originalPopSD = populationStandardDev(originalPop)
 
-  const tscoreTwoSample = (sampleMean - sampleMean2) / sqrt((sampleSD ** 2) / sampleSize + (sampleSD2 ** 2) / sampleSize2)
-  const zscoreTwoSample = (sampleMean - sampleMean2) / sqrt((populationSD ** 2) / sampleSize + (populationSD2 ** 2) / sampleSize2)
+  const tscoreTwoSample = (originalSampleMean - sampleMean) / sqrt((sampleSD ** 2) / sampleSize + (originalSampleSD ** 2) / originalPopSampleSize)
+  const zscoreTwoSample = (originalSampleMean - sampleMean) / sqrt((populationSD ** 2) / sampleSize + (originalPopSD ** 2) / originalPopSampleSize)
 
   const calculateTestStatistic = () => {
     // one sample sigma known
@@ -133,8 +132,8 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
         alpha={alpha}
         setAlpha={setAlpha}
         popSize={popArr.length}
-        sampleSize2={sampleSize2}
-        setSampleSize2={setSampleSize2}
+        sampleSize2={originalPopSampleSize}
+        setSampleSize2={setOriginalPopSampleSize}
         showSecondInput={testType === 'twoSample'}
       />
       <br/>
@@ -143,7 +142,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
         disabled={
           (sampleSize <= 0) ||
           (sampleSize > popArr.length) ||
-          ((testType === 'twoSample') && ((sampleSize2 <= 0) || (sampleSize2 > popArr2.length)))
+          ((testType === 'twoSample') && ((originalPopSampleSize <= 0) || (originalPopSampleSize > originalPop.length)))
         }
         onClick={() => (testType === 'oneSample' ? takeSample() : takeBothSamples())}
       >
@@ -155,10 +154,10 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
         <Container>
           <ResultsDisplay
             testType={testType}
-            mean={sampleMean}
-            mean2={sampleMean2}
-            standardDev={sampleSD}
-            standardDev2={sampleSD2}
+            mean={(testType === 'twoSample') ? originalSampleMean : sampleMean}
+            mean2={sampleMean}
+            standardDev={(testType === 'twoSample') ? originalSampleSD : sampleSD}
+            standardDev2={sampleSD}
             testStatistic={testStatistic}
             pValue={pValue}
             alpha={+alpha}
@@ -176,7 +175,13 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
       <br/>
       {(stage >= 2) && (
         <div>
-          <PopulationChartReveal popArr={popArr} popArr2={popArr2} pVal={pValue} alpha={+alpha} mu0={+mu0}/>
+          <PopulationChartReveal
+            popArr={(testType === 'twoSample') ? originalPop : popArr}
+            popArr2={(testType === 'twoSample') ? popArr : []}
+            pVal={pValue}
+            alpha={+alpha}
+            mu0={+mu0}
+          />
           <Button color="primary" onClick={() => setStage(3)}>Simulate Type I Error</Button>
         </div>
       )}
@@ -189,8 +194,8 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
           sides={sides}
           equality={equality}
           testType={testType}
-          sd1={populationSD}
-          sd2={populationSD2}
+          sd1={(testType === 'twoSample') ? originalPopSD : populationSD}
+          sd2={populationSD}
         />
       )}
     </Container>
