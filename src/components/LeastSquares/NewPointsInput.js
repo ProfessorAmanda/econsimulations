@@ -22,16 +22,8 @@ export default function NewPointsInput({ generatePoints }) {
         value={numPoints}
         onChange={(event) => setNumPoints(event.target.value)}
       />
-      <InputGroup.Text addonType="append">
-        <InputGroup.Text>{numPoints}</InputGroup.Text>
-      </InputGroup.Text>
-      <Button
-        outline
-        color="primary"
-        onClick={() => generatePoints(numPoints)}
-      >
-        New Points
-      </Button>
+      <InputGroup.Text>{numPoints}</InputGroup.Text>
+      <Button variant="outline-primary" onClick={() => generatePoints(numPoints)}>New Points</Button>
     </InputGroup>
   );
 }
