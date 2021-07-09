@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
-export default function SampleSizeInput({ maxSize, handleClick }) {
+export default function SampleSizeInput({ maxSize, minSize, handleClick }) {
   const [sampleSize, setSampleSize] = useState('');
 
   return (
@@ -18,7 +18,7 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
         align="right"
         type="number"
         placeholder="Sample Size:"
-        min={1}
+        min={minSize || 1}
         value={sampleSize}
         max={maxSize}
         onChange={(event) => setSampleSize(event.target.value)}
@@ -35,5 +35,6 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
 
 SampleSizeInput.propTypes = {
   maxSize: PropTypes.number.isRequired,
+  minSize: PropTypes.number,
   handleClick: PropTypes.func.isRequired,
 }

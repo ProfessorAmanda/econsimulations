@@ -8,6 +8,7 @@ import SamplesTable from './SamplesTable.js';
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
 import { OLSE_VALUES } from '../../lib/constants.js';
+import regression from "regression";
 
 export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample, populationShape }) {
   const sample = selected || { data: [] };
@@ -18,6 +19,20 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
   } : undefined;
 
   const mainSeries = [{ name: 'data', data, tooltip: tooltipFormat }, { name: 'sample', data: sample.data, tooltip: tooltipFormat }];
+
+  if (populationShape === 'Binary') {
+    const { equation: [slope, intercept] } = regression.linear(data.map(({ x, y }) => [x, y]), { precision: 1 });
+    mainSeries.push({
+      name: 'best fit line',
+      type: 'line',
+      data: data.map((point) => ({ x: point.x, y: _.round((point.x * slope) + intercept, 2) })),
+      label: false,
+      marker: false,
+      showInLegend: false,
+      color: 'black',
+      enableMouseTracking: false,
+    });
+  }
 
   const sampleSeries = [
     {
@@ -68,7 +83,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         <Col>
           <Alert variant="primary">
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
-            <SampleSizeInput maxSize={data.length} handleClick={addSamples}/>
+            <SampleSizeInput maxSize={data.length} minSize={2} handleClick={addSamples}/>
           </Alert>
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
