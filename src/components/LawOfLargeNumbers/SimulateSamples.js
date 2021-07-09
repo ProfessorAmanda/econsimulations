@@ -12,6 +12,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
   const [meanLine, setMeanLine] = useState([]);
   const [chart, setChart] = useState({});
+  const [timer, setTimer] = useState();
 
   useEffect(() => {
     const newChart = {
@@ -47,8 +48,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
         title: {
           text: 'Sample Size'
         },
-        min: 0,
-        max: 1000
+        min: 0
       },
       yAxis: {
         title: {
@@ -56,13 +56,16 @@ export default function SimulateSamples({ type, popArray, popMean }) {
         }
       },
       tooltip: {
-        enabled: true
+        enabled: false
       },
       series: [
         {
-          name: 'Population Mean',
+          name: `Population Mean (${popMean.toFixed(2)})`,
           data: meanLine,
           label: {
+            enabled: false
+          },
+          marker: {
             enabled: false
           },
           color: 'red'
@@ -71,6 +74,9 @@ export default function SimulateSamples({ type, popArray, popMean }) {
           name: 'Sampled Means',
           data: sampled,
           label: {
+            enabled: false
+          },
+          marker: {
             enabled: false
           },
           color: 'black'
@@ -83,18 +89,18 @@ export default function SimulateSamples({ type, popArray, popMean }) {
 
   useEffect(() => {
     setSampled([]);
-    setMeanLine([]);
+    setMeanLine([])
     let n = 0;
-    const timer = setInterval(() => {
+    setTimer(setInterval(() => {
       n += 1;
-      if (n >= 1000) {
-        clearInterval(timer)
-      }
+      // if (n >= 1000) {
+      //   clearInterval(timer)
+      // }
       const sample = _.sampleSize(popArray, n);
       const avg = _.round(populationMean(sample), 2);
       setSampled((currSampled) => [...currSampled, { y: avg }]);
       setMeanLine((currMeanLine) => [...currMeanLine, { y: popMean }]);
-    }, n);
+    }, n));
 
     return () => clearInterval(timer);
   }, []);  // eslint-disable-line
