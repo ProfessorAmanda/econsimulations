@@ -14,21 +14,29 @@ export const getCounts = (data) => {
 }
 
 // returns an array of values with a normal distribution
-export const generateNormal = (sampleSize, mean, standardDev) => PD.rnorm(sampleSize, mean, standardDev).map((num) => _.round(num, 1));
+export const generateNormal = (sampleSize, mean, standardDev, precision = 5) => {
+  return PD.rnorm(sampleSize, mean, standardDev).map((num) => _.round(num, precision))
+}
 
 // returns an array of values with a uniform distribution
-export const generateUniform = (sampleSize, low, hi) => PD.runif(sampleSize, low, hi).map((num) => _.round(num, 1));
+export const generateUniform = (sampleSize, low, hi, precision = 5) => {
+  PD.runif(sampleSize, low, hi).map((num) => _.round(num, precision))
+}
 
 // returns an array of values with an exponential distribution
-export const generateExponential = (sampleSize, lambda) => PD.rexp(sampleSize, lambda).map((num) => _.round(num, 1));
+export const generateExponential = (sampleSize, lambda, precision = 5) => {
+  PD.rexp(sampleSize, lambda).map((num) => _.round(num, precision))
+}
 
 // returns an array of values with a chi-squared distribution
-export const generateChiSquared = (sampleSize, degreesOfFreedom) => PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, 1));
+export const generateChiSquared = (sampleSize, degreesOfFreedom, precision = 5) => {
+  PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, precision))
+}
 
 // returns an array of values with a 'mystery' distribution (really points sampled randomly from two normal distributions)
-export const generateMystery = (sampleSize, mysteryMean1, mysteryMean2, mysterySD1, mysterySD2) => {
-  const normal1 = PD.rnorm(sampleSize, mysteryMean1, mysterySD1).map((num) => _.round(num, 1));
-  const normal2 = PD.rnorm(sampleSize, mysteryMean2, mysterySD2).map((num) => _.round(num, 1));
+export const generateMystery = (sampleSize, mysteryMean1, mysteryMean2, mysterySD1, mysterySD2, precision = 5) => {
+  const normal1 = PD.rnorm(sampleSize, mysteryMean1, mysterySD1).map((num) => _.round(num, precision));
+  const normal2 = PD.rnorm(sampleSize, mysteryMean2, mysterySD2).map((num) => _.round(num, precision));
   return _.sampleSize([...normal1, ...normal2], 2000);
 }
 
@@ -47,16 +55,16 @@ export const dataFromDistribution = (
     mysteryMean1 = 58,
     mysteryMean2 = 70,
     mysterySD1 = 1,
-    mysterySD2 = 3
-
+    mysterySD2 = 3,
+    precision = 1
   } = {}
 ) => {
   const getDistributionFunction = {
-    Normal: () => generateNormal(sampleSize, mean, standardDev),
-    Uniform: () => generateUniform(sampleSize, low, hi),
-    Exponential: () => generateExponential(sampleSize, lambda),
-    'Chi-Squared': () => generateChiSquared(sampleSize, degreesOfFreedom),
-    Mystery: () => generateMystery(sampleSize, mysteryMean1, mysteryMean2, mysterySD1, mysterySD2)
+    Normal: () => generateNormal(sampleSize, mean, standardDev, precision),
+    Uniform: () => generateUniform(sampleSize, low, hi, precision),
+    Exponential: () => generateExponential(sampleSize, lambda, precision),
+    'Chi-Squared': () => generateChiSquared(sampleSize, degreesOfFreedom, precision),
+    Mystery: () => generateMystery(sampleSize, mysteryMean1, mysteryMean2, mysterySD1, mysterySD2, precision)
   }
 
   const population = getDistributionFunction[distType]();
