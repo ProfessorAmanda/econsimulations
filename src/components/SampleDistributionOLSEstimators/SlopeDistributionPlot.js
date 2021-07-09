@@ -5,8 +5,10 @@ import { olsSampleType } from '../../lib/types.js';
 import { getCounts } from '../../lib/stats-utils.js';
 import { Form } from 'react-bootstrap';
 import { useState } from 'react';
+import StandardNormalOLS from './StandardNormalOLS.js';
 
 export default function SlopeDistributionPlot({ samples }) {
+
   const plotData = getCounts(samples.map(({ slope }) => slope));
   const [standardized, setStandardized] = useState(false);
 
@@ -18,10 +20,12 @@ export default function SlopeDistributionPlot({ samples }) {
   yMax={max(4, ...plotData.map(({ y }) => y))}
   xLabel="Slope"
 /> 
+
 if (standardized) {
-  plot = <> </>
+  plot = <StandardNormalOLS samples={samples}
+  sampleSize={+samples || 1} />
 }
-  return  <>
+  return <>
     {plot}
     <Form.Check
     inline
