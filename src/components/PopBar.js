@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import SelectorButtonGroup from './SelectorButtonGroup';
 import { popShapeType } from '../lib/types';
 
-
 export default function PopBar({ options, setPop }) {
   const [selected, setSelected] = useState();
 

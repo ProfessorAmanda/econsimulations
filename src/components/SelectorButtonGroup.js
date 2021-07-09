@@ -1,16 +1,16 @@
-import { ButtonGroup, Button } from "reactstrap";
-import PropTypes from "prop-types";
+import { ButtonGroup, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 export default function SelectorButtonGroup({ options, select, selected }) {
-  const buttons = options.map((option) =>
+  const buttons = options.map((option) => (
     <Button
-      style={{ backgroundColor: (selected === option) ? "#4CAF50" : "#555555" }}
+      variant={(selected === option) ? 'selected' : 'unselected'}
       onClick={() => select(option)}
       key={`${option}`}
     >
       {option}
     </Button>
-  );
+  ));
 
   return (
     <ButtonGroup>

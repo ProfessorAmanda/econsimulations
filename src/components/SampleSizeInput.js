@@ -6,15 +6,15 @@
 
 */
 import { useState } from 'react';
-import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
 export default function SampleSizeInput({ maxSize, handleClick }) {
-  const [sampleSize, setSampleSize] = useState("");
+  const [sampleSize, setSampleSize] = useState('');
 
   return (
     <InputGroup className="sample-size-input">
-      <Input
+      <Form.Control
         align="right"
         type="number"
         placeholder="Sample Size:"
@@ -23,11 +23,12 @@ export default function SampleSizeInput({ maxSize, handleClick }) {
         max={maxSize}
         onChange={(event) => setSampleSize(event.target.value)}
       />
-      <InputGroupAddon addonType="append">
-        <Button disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={()=> handleClick(+sampleSize)}>
-          Sample
-        </Button>
-      </InputGroupAddon>
+      <Button
+        variant="secondary"
+        disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={() => handleClick(+sampleSize)}
+      >
+        Sample
+      </Button>
     </InputGroup>
   );
 }

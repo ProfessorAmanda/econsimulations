@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import { Alert } from "reactstrap";
-import _ from "lodash";
-import More from "highcharts/highcharts-more";
-import { max } from "mathjs";
+import { useEffect, useState } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import { Alert } from 'react-bootstrap';
+import _ from 'lodash';
+import More from 'highcharts/highcharts-more';
+import { max } from 'mathjs';
 import PropTypes from 'prop-types';
-import { confidenceIntervalsSampleType, popShapeType } from "../../lib/types.js";
-import { VALUES_ALT } from "../../lib/constants.js";
+import { confidenceIntervalsSampleType, popShapeType } from '../../lib/types.js';
+import { VALUES_ALT } from '../../lib/constants.js';
 
 More(Highcharts);
 
@@ -45,10 +45,10 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
     });
 
     const tooltipFormat = {
-      headerFormat: "",
-      pointFormat: "Sample Size: <b>{point.size}</b><br/>Sample Mean: <b>{point.mean}</b><br/>Lower Bound of CI: <b>{point.lowerConf}</b><br/>Upper Bound of CI: <b>{point.upperConf}</b><br/>Confidence Level: <b>{point.confidenceLevel}%</b><br/>Distribution: <b>{point.distribution}</b><br/>",
+      headerFormat: '',
+      pointFormat: 'Sample Size: <b>{point.size}</b><br/>Sample Mean: <b>{point.mean}</b><br/>Lower Bound of CI: <b>{point.lowerConf}</b><br/>Upper Bound of CI: <b>{point.upperConf}</b><br/>Confidence Level: <b>{point.confidenceLevel}%</b><br/>Distribution: <b>{point.distribution}</b><br/>',
       outside: true,
-      borderColor: "gray",
+      borderColor: 'gray',
     }
 
     const newChart = {
@@ -56,7 +56,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
         type: 'columnrange',
         inverted: true,
         animation: false,
-        zoomType: "xy",
+        zoomType: 'xy',
         events: {
           // hack to allow zoom
           selection: (event) => {
@@ -81,7 +81,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           animation: {
             duration: 0
           },
-          cursor: "pointer"
+          cursor: 'pointer'
         }
       },
       title: {
@@ -93,7 +93,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
         max: max(samples.length, 10),
         startOnTick: true,
         title: {
-          text: "Sample Number"
+          text: 'Sample Number'
         },
         tickPixelInterval: 1,
         tickInterval: 1
@@ -109,9 +109,9 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
       },
       series: [
         {
-          name: "Confidence Interval",
+          name: 'Confidence Interval',
           data: containsMean,
-          color: "rgba(0, 170, 0, 0.5)",
+          color: 'rgba(0, 170, 0, 0.5)',
           centerInCategory: true,
           showInLegend: false,
           tooltip: tooltipFormat,
@@ -121,21 +121,21 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           },
           states: {
             hover: {
-              color: "rgba(0, 170, 0, 1)"
+              color: 'rgba(0, 170, 0, 1)'
             },
             inactive: {
-              color: "rgba(0, 170, 0, 0.5)"
+              color: 'rgba(0, 170, 0, 0.5)'
             },
             select: {
               enabled: false,
-              color: "rgba(0, 170, 0, 0.5)"
+              color: 'rgba(0, 170, 0, 0.5)'
             }
           }
         },
         {
-          name: "Confidence Interval",
+          name: 'Confidence Interval',
           data: doesntContainMean,
-          color: "rgba(255, 0, 0, 0.5)",
+          color: 'rgba(255, 0, 0, 0.5)',
           centerInCategory: true,
           showInLegend: false,
           tooltip: tooltipFormat,
@@ -145,25 +145,25 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           },
           states: {
             hover: {
-              color: "rgba(255, 0, 0, 1)"
+              color: 'rgba(255, 0, 0, 1)'
             },
             inactive: {
-              color: "rgba(255, 0, 0, 0.5)"
+              color: 'rgba(255, 0, 0, 0.5)'
             },
             select: {
               enabled: false,
-              color: "rgba(255, 0, 0, 0.5)"
+              color: 'rgba(255, 0, 0, 0.5)'
             }
           }
         },
         {
-          name: "Sample Means",
-          type: "scatter",
+          name: 'Sample Means',
+          type: 'scatter',
           data: sampleMeans,
-          color: "#616161",
+          color: '#616161',
           marker: {
             enabled: true,
-            symbol: "diamond",
+            symbol: 'diamond',
             radius: 1
           },
           allowPointSelect: true,
@@ -181,10 +181,10 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           tooltip: tooltipFormat,
         },
         {
-          type: "line",
-          name: "Population Mean",
+          type: 'line',
+          name: 'Population Mean',
           data: [[0, popMean], [samples.length, popMean]],
-          color: "gray",
+          color: 'gray',
           enableMouseTracking: false,
           showInLegend: false,
           label: {
@@ -204,10 +204,10 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
     <div>
       {
         selected ? (
-          <Alert color={selected.label ? "success" : "danger"}>
+          <Alert variant={selected.label ? 'success' : 'danger'}>
             Sample number {selected.id} has a mean of {selected.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(selected.lowerConf, 2)}, {_.round(selected.upperConf, 2)}). CI contains the population mean? {selected.label.toString()}
           </Alert>
-        ) : <div style={{height: 80}}/>
+        ) : <div style={{ height: 80 }}/>
       }
       <HighchartsReact highcharts={Highcharts} options={chart}/>
     </div>

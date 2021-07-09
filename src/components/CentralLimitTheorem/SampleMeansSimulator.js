@@ -3,12 +3,12 @@
   Displays inputs to allow the user to run a large number of resamples
 
 */
-import { useState } from "react";
-import {Button, Input } from 'reactstrap';
-import _ from "lodash";
+import { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType } from "../../lib/types.js";
-import { populationMean } from "../../lib/stats-utils.js";
+import { dataObjectArrayType } from '../../lib/types.js';
+import { populationMean } from '../../lib/stats-utils.js';
 
 export default function SampleMeansSimulator({ population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
@@ -17,7 +17,7 @@ export default function SampleMeansSimulator({ population, addSamples }) {
   const resample = () => {
     const samplePop = _.sampleSize(population, resampleSize);
     const sampleMean = populationMean(samplePop);
-    return {size: +resampleSize, mean: sampleMean};
+    return { size: +resampleSize, mean: sampleMean };
   }
 
   const runSim = () => {
@@ -31,8 +31,8 @@ export default function SampleMeansSimulator({ population, addSamples }) {
   return (
     <div>
       <span> Sample Size: </span>
-      <Input
-        style={{width: "40%", margin: "auto"}}
+      <Form.Control
+        style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"
         placeholder="Sample Size:"
@@ -41,8 +41,8 @@ export default function SampleMeansSimulator({ population, addSamples }) {
       />
       <br/>
       <span> Number of Replications: </span>
-      <Input
-        style={{width: "40%", margin: "auto"}}
+      <Form.Control
+        style={{ width: '40%', margin: 'auto' }}
         min={1}
         type="number"
         placeholder="Number of Replications:"
@@ -50,10 +50,13 @@ export default function SampleMeansSimulator({ population, addSamples }) {
         value={numberResamples}
       />
       <br/>
-      <Button onClick={() => runSim()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}>
+      <Button
+        variant="secondary"
+        onClick={() => runSim()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}
+      >
         Run
       </Button>
-      <Button onClick={() => addSamples()}>Clear</Button>
+      <Button variant="secondary" onClick={() => addSamples()}>Clear</Button>
     </div>
   );
 }

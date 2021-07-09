@@ -1,13 +1,13 @@
-import { Alert } from "reactstrap";
-import PropTypes from "prop-types";
-import _ from "lodash";
-import { hypothesisEqualityType, testTypeType } from "../../lib/types.js";
+import { Alert } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import { hypothesisEqualityType, testTypeType } from '../../lib/types.js';
 
 export default function ResultsDisplay({ testType, mean, mean2, standardDev, standardDev2, testStatistic, pValue, alpha, equality }) {
   return (
-    <Alert color="secondary" >
+    <Alert variant="secondary" >
       <p>This sample yields the following data:</p>
-      {(testType === "oneSample") ? (
+      {(testType === 'oneSample') ? (
         <div>
           <p>Sample Mean: {_.round(mean, 2)}</p>
           <p>Sample Standard Deviation: {_.round(standardDev, 2)} </p>
@@ -22,9 +22,9 @@ export default function ResultsDisplay({ testType, mean, mean2, standardDev, sta
       )}
       <p>The test statistic is {_.round(testStatistic, 2)}</p>
       <p>
-        This test statistic yields a p-value of P(Z {(equality === "!=") ? ">" : equality} {(equality === "!=") ? "|test stat|" : "test stat"}) = {pValue.toPrecision(3)}.
+        This test statistic yields a p-value of P(Z {(equality === '!=') ? '>' : equality} {(equality === '!=') ? '|test stat|' : 'test stat'}) = {pValue.toPrecision(3)}.
       </p>
-      <p>Therefore we {(pValue < alpha) ? "reject" : "fail to reject"} the null hypothesis. </p>
+      <p>Therefore we {(pValue < alpha) ? 'reject' : 'fail to reject'} the null hypothesis. </p>
     </Alert>
   )
 }

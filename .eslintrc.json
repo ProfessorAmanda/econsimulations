@@ -1,7 +1,52 @@
 {
-  "extends": "react-app",
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "plugins": ["react", "react-hooks"],
   "env": {
     "node": true,
     "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-plusplus": [
+      "warn",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "prefer-template": "warn",
+    "prefer-destructuring": [
+      "warn",
+      {
+        "array": true,
+        "object": true
+      }
+    ],
+    "curly": "warn",
+    "quotes": ["warn", "single"],
+    "jsx-quotes": ["warn", "prefer-double"],
+    "object-shorthand": "warn",
+    "react/jsx-tag-spacing": [
+      "warn",
+      {
+        "beforeSelfClosing": "allow"
+      }
+    ],
+    "react/jsx-boolean-value": ["warn", "never"],
+    "react/no-array-index-key": "warn",
+    "react/no-unused-state": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

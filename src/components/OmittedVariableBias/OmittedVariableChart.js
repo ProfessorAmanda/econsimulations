@@ -19,7 +19,7 @@ export default function OmittedVariableChart({ dataPoints, naiveLine, correctedL
       xAxis: {
         min: 0,
         max: 10,
-        title : {
+        title: {
           text: 'Study Hours'
         }
       },
@@ -34,13 +34,13 @@ export default function OmittedVariableChart({ dataPoints, naiveLine, correctedL
         {
           type: 'scatter',
           data: dataPoints,
-          name: "Test Score",
+          name: 'Test Score',
           color: '#33A5FF'
         },
         {
           type: 'line',
           data: naiveLine,
-          name: "Naive Regression",
+          name: 'Naive Regression',
           color: '#E30404',
           label: {
             enabled: false
@@ -49,7 +49,7 @@ export default function OmittedVariableChart({ dataPoints, naiveLine, correctedL
         {
           type: 'line',
           data: correctedLine,
-          name: "Corrected Regression",
+          name: 'Corrected Regression',
           color: '#2AC208',
           label: {
             enabled: false

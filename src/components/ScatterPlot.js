@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official"
-import PropTypes from "prop-types";
-import { highchartsSeriesType, stringOrNumberType } from "../lib/types";
+import { useState, useEffect } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official'
+import PropTypes from 'prop-types';
+import { highchartsSeriesType, stringOrNumberType } from '../lib/types';
 
 export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLabel, yLabel, animation, height }) {
   const [chart, setChart] = useState({});
@@ -10,9 +10,9 @@ export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLa
   useEffect(() => {
     const newChart = {
       chart: {
-        type: "scatter",
+        type: 'scatter',
         animation: !!animation,
-        height: height
+        height
       },
       legend: {
         symbolHeight: 12,
@@ -22,7 +22,7 @@ export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLa
       xAxis: {
         min: xMin,
         max: xMax,
-        title : {
+        title: {
           enabled: true,
           text: xLabel
         },
@@ -46,7 +46,7 @@ export default function ScatterPlot({ series, title, xMin, xMax, yMin, yMax, xLa
           showInLegend: seriesObject.data.length > 0,
           turboThreshold: 0,
           ...seriesObject,
-          data: seriesObject.data.map(({ x, y }) => ({ x, y })),  // don"t want any other attributes
+          data: seriesObject.data.map(({ x, y }) => ({ x, y })), // don"t want any other attributes
         })
       )
     }

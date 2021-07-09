@@ -1,16 +1,14 @@
-import PropTypes from "prop-types";
-import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
-import { stringOrNumberType } from "../../lib/types";
+import PropTypes from 'prop-types';
+import { Row, Col, InputGroup, Form } from 'react-bootstrap';
+import { stringOrNumberType } from '../../lib/types';
 
 export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha, setAlpha, popSize, sampleSize2, setSampleSize2, showSecondInput }) {
   return (
     <Row sm="1" md={showSecondInput ? 1 : 2} lg="2">
       <Col>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>{showSecondInput ? "First" : ""} Sample Size</InputGroupText>
-          </InputGroupAddon>
-          <Input
+          <InputGroup.Text>{showSecondInput ? 'First' : ''} Sample Size</InputGroup.Text>
+          <Form.Control
             type="number"
             step={1}
             value={sampleSize}
@@ -21,10 +19,8 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
         </InputGroup>
         {showSecondInput && (
           <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>Second Sample Size</InputGroupText>
-            </InputGroupAddon>
-            <Input
+            <InputGroup.Text>Second Sample Size</InputGroup.Text>
+            <Form.Control
               type="number"
               step={1}
               value={sampleSize2}
@@ -37,10 +33,8 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
       </Col>
       <Col>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>Alpha</InputGroupText>
-          </InputGroupAddon>
-          <Input
+          <InputGroup.Text>Alpha</InputGroup.Text>
+          <Form.Control
             type="number"
             step={0.01}
             value={alpha}
@@ -56,7 +50,9 @@ export default function SampleSizeAlphaInputs({ sampleSize, setSampleSize, alpha
 
 SampleSizeAlphaInputs.propTypes = {
   sampleSize: stringOrNumberType.isRequired,
+  sampleSize2: stringOrNumberType.isRequired,
   setSampleSize: PropTypes.func.isRequired,
+  setSampleSize2: PropTypes.func.isRequired,
   alpha: stringOrNumberType.isRequired,
   setAlpha: PropTypes.func.isRequired,
   popSize: PropTypes.number.isRequired,

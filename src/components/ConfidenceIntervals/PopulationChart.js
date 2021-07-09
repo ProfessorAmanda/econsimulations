@@ -1,9 +1,9 @@
-import DotPlot from "../DotPlot";
-import { Alert, Container } from "reactstrap";
-import _ from "lodash";
+import DotPlot from '../DotPlot';
+import { Alert, Container } from 'react-bootstrap';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType, popShapeType } from "../../lib/types.js";
-import { TEXTS_ALT, VALUES_ALT } from "../../lib/constants.js";
+import { dataObjectArrayType, popShapeType } from '../../lib/types.js';
+import { TEXTS_ALT, VALUES_ALT } from '../../lib/constants.js';
 
 export default function PopulationChart({ popArray, popMean, sampled, popShape }) {
   const { xmaxval, xminval, ymaxval, title, xLabel } = VALUES_ALT[popShape];
@@ -21,7 +21,7 @@ export default function PopulationChart({ popArray, popMean, sampled, popShape }
 
   return (
     <Container fluid>
-      <Alert color="secondary">
+      <Alert variant="secondary">
         We queried the {TEXTS_ALT[popShape][0]} of {popArray.length} {TEXTS_ALT[popShape][1]} and plotted the results on the following chart.
       </Alert>
       <DotPlot
@@ -32,7 +32,7 @@ export default function PopulationChart({ popArray, popMean, sampled, popShape }
         yMax={ymaxval}
         xLabel={xLabel}
       />
-  </Container>
+    </Container>
   );
 }
 

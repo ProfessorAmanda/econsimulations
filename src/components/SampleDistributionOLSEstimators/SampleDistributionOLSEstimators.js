@@ -1,5 +1,5 @@
-import { Alert } from "reactstrap";
-import SDOLSESimulation from "./SDOLSESimulation.js";
+import { Alert } from 'react-bootstrap';
+import SDOLSESimulation from './SDOLSESimulation.js';
 import SelectorButtonGroup from "../SelectorButtonGroup.js";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ export default function SampleDistributionOLSEstimators() {
 
   return (
     <div className="module-container">
-      <Alert style={{ width: "50%", margin: "auto" }} color="primary">
+      <Alert style={{ width: '50%', margin: 'auto' }} variant="primary">
         Sample Distribution of OLS Estimators
       </Alert>
       <p>Select a population shape:</p>
