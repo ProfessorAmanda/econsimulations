@@ -15,6 +15,11 @@ export const VALUES_ALT = {
   'Chi-Squared': { xmaxval: 30, xminval: 0, title: 'Money Spent on Lunch', xLabel: 'Dollars' }
 }
 
+export const OLSE_VALUES = {
+  Scatter: { xMin: 0, xMax: 15, yMin: 20, yMax: 100, xLabel: 'Study Hours', yLabel: 'Test Score', xCategories: null, slopeMin: -5, slopeMax: 5, interceptMin: 20, interceptMax: 100 },
+  Binary: { xMin: 0, xMax: 1, yMin: 50, yMax: 350, yLabel: 'Monthly Earnings', xCategories: ['Control Group', 'Job Corps'], title: 'Sample', slopeMin: -10, slopeMax: 30, interceptMin: 175, interceptMax: 225 }
+}
+
 export const TEXTS = {
   Normal: ['monthly Milk Production', 'cows', 'produced', ' gallons a month.'],
   // Uniform: ["the wait time", "people at the DMV in VT", "reported a total time of", " minutes."],

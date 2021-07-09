@@ -14,16 +14,16 @@ export const getCounts = (data) => {
 }
 
 // returns an array of values with a normal distribution
-export const generateNormal = (sampleSize, avg, standardDev) => PD.rnorm(sampleSize, avg, standardDev).map((num) => _.round(num, 1))
+export const generateNormal = (sampleSize, mean, standardDev) => PD.rnorm(sampleSize, mean, standardDev).map((num) => _.round(num, 1));
 
 // returns an array of values with a uniform distribution
-export const generateUniform = (sampleSize, low, hi) => PD.runif(sampleSize, low, hi).map((num) => _.round(num, 1))
+export const generateUniform = (sampleSize, low, hi) => PD.runif(sampleSize, low, hi).map((num) => _.round(num, 1));
 
 // returns an array of values with an exponential distribution
-export const generateExponential = (sampleSize, lambda) => PD.rexp(sampleSize, lambda).map((num) => _.round(num, 1))
+export const generateExponential = (sampleSize, lambda) => PD.rexp(sampleSize, lambda).map((num) => _.round(num, 1));
 
 // returns an array of values with a chi-squared distribution
-export const generateChiSquared = (sampleSize, degreesOfFreedom) => PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, 1))
+export const generateChiSquared = (sampleSize, degreesOfFreedom) => PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, 1));
 
 // returns an array of values with a 'mystery' distribution (really points sampled randomly from two normal distributions)
 export const generateMystery = (sampleSize, mysteryMean1, mysteryMean2, mysterySD1, mysterySD2) => {
@@ -38,7 +38,7 @@ export const dataFromDistribution = (
   distType,
   sampleSize,
   {
-      mean=64,  // eslint-disable-line
+    mean = 64,
     standardDev = 3,
     low = -10,
     hi = 10,

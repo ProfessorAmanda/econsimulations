@@ -4,7 +4,7 @@ import SelectorButtonGroup from '../SelectorButtonGroup.js';
 import { useState } from 'react';
 
 export default function SampleDistributionOLSEstimators() {
-  const [dataShape, setDataShape] = useState('Scatter');
+  const [populationShape, setPopulationShape] = useState('Scatter');
 
   return (
     <div className="module-container">
@@ -12,9 +12,9 @@ export default function SampleDistributionOLSEstimators() {
         Sample Distribution of OLS Estimators
       </Alert>
       <p>Select a population shape:</p>
-      <SelectorButtonGroup options={['Scatter', 'Binary']} select={setDataShape} selected={dataShape}/>
+      <SelectorButtonGroup options={['Scatter', 'Binary']} select={setPopulationShape} selected={populationShape}/>
       <br/>
-      <SDOLSESimulation/>
+      <SDOLSESimulation populationShape={populationShape}/>
     </div>
   );
 }
