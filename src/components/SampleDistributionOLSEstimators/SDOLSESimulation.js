@@ -11,6 +11,7 @@ import InterceptDistributionPlot from './InterceptDistributionPlot.js';
 import MultipleSamplesInput from './MultipleSamplesInput.js';
 import PropTypes from 'prop-types';
 import { generateNormal } from '../../lib/stats-utils.js';
+import { exp, log } from 'mathjs';
 
 export default function SDOLSESimulation({ populationShape }) {
   const [data, setData] = useState([]);
@@ -36,8 +37,8 @@ export default function SDOLSESimulation({ populationShape }) {
       });
     }
     const generateBinary = () => {
-      const control = generateNormal(1000, 195, 30).map((num) => ({ x: 0, y: num, category: 'Control Group' }));
-      const jobCorps = generateNormal(1000, 211, 30).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
+      const control = generateNormal(1000, log(195), 0.5).map((num) => ({ x: 0, y: _.round(exp(num), 1), category: 'Control' }));
+      const jobCorps = generateNormal(1000, log(211), 0.5).map((num) => ({ x: 1, y: _.round(exp(num), 1), category: 'Job Corps' }));
       return [...control, ...jobCorps];
     }
     if (populationShape === 'Scatter') {
