@@ -57,6 +57,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
             yMax={OLSE_VALUES[populationShape].yMax}
             xLabel={OLSE_VALUES[populationShape].xLabel}
             yLabel={OLSE_VALUES[populationShape].yLabel}
+            zoom
             xCategories={OLSE_VALUES[populationShape].xCategories}
             height="75%"
           />
