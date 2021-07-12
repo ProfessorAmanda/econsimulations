@@ -7,22 +7,41 @@ import PropTypes from 'prop-types';
 import SamplesTable from './SamplesTable.js';
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
+import { OLSE_VALUES } from '../../lib/constants.js';
+import regression from 'regression';
 
-export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample }) {
+export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample, populationShape }) {
   const sample = selected || { data: [] };
 
-  const mainSeries = [{ name: 'data', data }, { name: 'sample', data: sample.data }];
+  const tooltipFormat = (populationShape === 'Binary') ? {
+    headerFormat: '',
+    pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'
+  } : undefined;
+
+  const mainSeries = [{ name: 'data', data, tooltip: tooltipFormat }, { name: 'sample', data: sample.data, tooltip: tooltipFormat }];
+
+  if (populationShape === 'Binary') {
+    const { equation: [slope, intercept] } = regression.linear(data.map(({ x, y }) => [x, y]), { precision: 1 });
+    mainSeries.push({
+      name: 'best fit line',
+      type: 'line',
+      data: data.map((point) => ({ x: point.x, y: _.round((point.x * slope) + intercept, 2) })),
+      label: false,
+      marker: false,
+      showInLegend: false,
+      color: 'black',
+      enableMouseTracking: false,
+    });
+  }
 
   const sampleSeries = [
     {
       name: 'best fit line',
       type: 'line',
-      data: [{ x: 0 }, { x: 16 }, ...sample.data].map((point) => (
+      data: [{ x: 0 }, { x: OLSE_VALUES[populationShape].xMax }, ...sample.data].map((point) => (
         { x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2) }
       )),
-      label: {
-        format: `<div>slope: ${sample.slope}</div>`
-      },
+      label: false,
       marker: false,
       showInLegend: sample.data.length > 0,
       color: 'black',
@@ -36,6 +55,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         lineWidth: 1,
         lineColor: 'orange'
       },
+      tooltip: tooltipFormat
     }
   ];
 
@@ -46,12 +66,14 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
           <ScatterPlot
             series={mainSeries}
             title="Population"
-            xMin={0}
-            xMax={15}
-            yMin={20}
-            yMax={100}
-            xLabel="Study Hours"
-            yLabel="Test Score"
+            xMin={OLSE_VALUES[populationShape].xMin}
+            xMax={OLSE_VALUES[populationShape].xMax}
+            yMin={OLSE_VALUES[populationShape].yMin}
+            yMax={OLSE_VALUES[populationShape].yMax}
+            xLabel={OLSE_VALUES[populationShape].xLabel}
+            yLabel={OLSE_VALUES[populationShape].yLabel}
+            zoom
+            xCategories={OLSE_VALUES[populationShape].xCategories}
             height="75%"
           />
         </Col>
@@ -61,25 +83,29 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         <Col>
           <Alert variant="primary">
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
-            <SampleSizeInput maxSize={data.length} handleClick={addSamples}/>
+            <SampleSizeInput maxSize={data.length} minSize={2} handleClick={addSamples}/>
           </Alert>
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
         <Col>
-          <div style={{ marginLeft: '20%' }}>
-            <BlockMath math="\widehat{Test\ Score}_i = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
-            {selected && (
-              <BlockMath math={`\\widehat{Test\\ Score}_i = ${selected.intercept} + ${selected.slope}{Study\\ Hours_i}`}/>
-            )}
-          </div>
+          {(populationShape === 'Continuous') && (
+            <div style={{ marginLeft: '20%' }}>
+              <BlockMath math="\widehat{Test\ Score}_i = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
+              {selected && (
+                <BlockMath math={`\\widehat{Test\\ Score}_i = ${selected.intercept} + ${selected.slope}{Study\\ Hours_i}`}/>
+              )}
+            </div>
+          )}
           <ScatterPlot
             series={sampleSeries}
-            xMin={0}
-            xMax={15}
-            yMin={20}
-            yMax={100}
-            xLabel="Study Hours"
-            yLabel="Test Score"
+            title={OLSE_VALUES[populationShape].title}
+            xMin={OLSE_VALUES[populationShape].xMin}
+            xMax={OLSE_VALUES[populationShape].xMax}
+            yMin={OLSE_VALUES[populationShape].yMin}
+            yMax={OLSE_VALUES[populationShape].yMax}
+            xLabel={OLSE_VALUES[populationShape].xLabel}
+            yLabel={OLSE_VALUES[populationShape].yLabel}
+            xCategories={OLSE_VALUES[populationShape].xCategories}
           />
         </Col>
       </Row>
@@ -92,5 +118,6 @@ PopulationAndSampleCharts.propTypes = {
   addSamples: PropTypes.func.isRequired,
   selected: olsSampleType,
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
-  selectSample: PropTypes.func.isRequired
+  selectSample: PropTypes.func.isRequired,
+  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }

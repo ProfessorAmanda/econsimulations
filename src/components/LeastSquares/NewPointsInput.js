@@ -14,6 +14,7 @@ export default function NewPointsInput({ generatePoints }) {
     <InputGroup className="input-slider-group">
       <Form.Control
         type="range"
+        custom
         className="custom-range"
         data-testid="new-points-slider"
         style={{ width: '50%' }}
