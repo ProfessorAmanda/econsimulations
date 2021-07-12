@@ -45,7 +45,10 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       marker: false,
       showInLegend: sample.data.length > 0,
       color: 'black',
-      enableMouseTracking: false,
+      tooltip: {
+        headerFormat: '',
+        pointFormat: selected ? `<div><strong>Sample ${selected.id}</strong><br/>` : ''
+      },
     },
     {
       name: 'sample',
