@@ -10,7 +10,7 @@ import { sqrt } from 'mathjs';
 
 BellCurve(Highcharts);
 
-export default function StandardNormalOLS({ samples, sampleSize, distType}) {
+export default function StandardNormalOLS({ samples, sampleSize}) {
   const [population] = useState(
     dataFromDistribution('Normal', 2000, { mean: 0, standardDev: 1 })
   );
@@ -45,7 +45,7 @@ export default function StandardNormalOLS({ samples, sampleSize, distType}) {
 
   useEffect(() => {
     const meanCounts = {};
-    samples.forEach(({ id,size,slope,intercept}) => {
+    samples.forEach(({id,size,slope,intercept}) => {
       meanCounts[slope] = _.defaultTo(meanCounts[slope] + 1, 1);
 
       const meanObject = {
@@ -65,8 +65,7 @@ export default function StandardNormalOLS({ samples, sampleSize, distType}) {
           zIndex: -1,
           enableMouseTracking: false,
           label: false,
-          showInLegend: false,
-          visible: !(distType === 'T')
+          showInLegend: false
         },
         {
           name: 'Data',
