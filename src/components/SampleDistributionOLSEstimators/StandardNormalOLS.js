@@ -1,3 +1,4 @@
+/*eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
