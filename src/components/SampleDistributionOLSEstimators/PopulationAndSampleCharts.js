@@ -44,11 +44,8 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       label: false,
       marker: false,
       showInLegend: sample.data.length > 0,
+      enableMouseTracking: false,
       color: 'black',
-      tooltip: {
-        headerFormat: '',
-        pointFormat: selected ? `<div><strong>Sample ${selected.id}</strong><br/>` : ''
-      },
     },
     {
       name: 'sample',
@@ -68,13 +65,10 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       )),
       color: '#dddddd',
       animation: false,
-      tooltip: {
-        headerFormat: '',
-        pointFormat: '<div><strong>{series.name}</strong><br/>'
-      },
       label: false,
       marker: false,
       showInLegend: false,
+      enableMouseTracking: false,
       zIndex: -5
     }))
   ];

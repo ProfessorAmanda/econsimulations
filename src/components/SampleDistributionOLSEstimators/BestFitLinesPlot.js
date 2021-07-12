@@ -21,11 +21,12 @@ export default function BestFitLinesPlot({ samples, populationShape }) {
         min: OLSE_VALUES[populationShape].xMin,
         max: OLSE_VALUES[populationShape].xMax,
         title: {
-          text: 'Study Hours',
+          text: OLSE_VALUES[populationShape].xLabel,
           enabled: true
         },
         startOnTick: true,
-        endOnTick: true
+        endOnTick: true,
+        categories: OLSE_VALUES[populationShape].xCategories
       },
       title: {
         text: 'Best Fit Lines'
@@ -36,7 +37,7 @@ export default function BestFitLinesPlot({ samples, populationShape }) {
         startOnTick: true,
         endOnTick: true,
         title: {
-          text: 'Test Score',
+          text: OLSE_VALUES[populationShape].yLabel,
           enabled: true
         }
       },
@@ -46,14 +47,9 @@ export default function BestFitLinesPlot({ samples, populationShape }) {
         data: [{ x: 0 }, { x: OLSE_VALUES[populationShape].xMax }, ...data].map((point) => (
           { x: point.x, y: (point.x * slope) + intercept }
         )),
-        tooltip: {
-          headerFormat: '',
-          pointFormat: '<div><strong>{series.name}</strong><br/>'
-        },
         label: false,
         marker: false,
-        // enableMouseTracking: false,
-        // showInLegend: false
+        enableMouseTracking: false,
       }))
     }
 
