@@ -13,7 +13,7 @@ export default function SampleDistributionOLSEstimators() {
       </Alert>
       <br/>
       <p>Select a population shape:</p>
-      <SelectorButtonGroup options={['Scatter', 'Binary']} select={setPopulationShape} selected={populationShape}/>
+      <SelectorButtonGroup options={['Continuous', 'Binary']} select={setPopulationShape} selected={populationShape}/>
       <br/>
       <br/>
       {populationShape && <SDOLSESimulation populationShape={populationShape}/>}

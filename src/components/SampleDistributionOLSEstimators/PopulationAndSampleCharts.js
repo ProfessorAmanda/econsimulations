@@ -88,7 +88,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
         <Col>
-          {(populationShape === 'Scatter') && (
+          {(populationShape === 'Continuous') && (
             <div style={{ marginLeft: '20%' }}>
               <BlockMath math="\widehat{Test\ Score}_i = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
               {selected && (
@@ -119,5 +119,5 @@ PopulationAndSampleCharts.propTypes = {
   selected: olsSampleType,
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
   selectSample: PropTypes.func.isRequired,
-  populationShape: PropTypes.oneOf(['Scatter', 'Binary']).isRequired
+  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }

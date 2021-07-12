@@ -40,7 +40,7 @@ export default function SDOLSESimulation({ populationShape }) {
       const jobCorps = generateNormal(1000, 211, 30, 2).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
       return [...control, ...jobCorps];
     }
-    if (populationShape === 'Scatter') {
+    if (populationShape === 'Continuous') {
       setData(generateScatter())
     } else if (populationShape === 'Binary') {
       setData(generateBinary())
@@ -102,5 +102,5 @@ export default function SDOLSESimulation({ populationShape }) {
 }
 
 SDOLSESimulation.propTypes = {
-  populationShape: PropTypes.oneOf(['Scatter', 'Binary']).isRequired
+  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }

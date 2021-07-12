@@ -22,5 +22,5 @@ export default function SlopeDistributionPlot({ samples, populationShape }) {
 
 SlopeDistributionPlot.propTypes = {
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
-  populationShape: PropTypes.oneOf(['Scatter', 'Binary']).isRequired
+  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }

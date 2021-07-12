@@ -22,5 +22,5 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
 
 InterceptDistributionPlot.propTypes = {
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
-  populationShape: PropTypes.oneOf(['Scatter', 'Binary']).isRequired
+  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }
