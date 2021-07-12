@@ -11,7 +11,6 @@ import InterceptDistributionPlot from './InterceptDistributionPlot.js';
 import MultipleSamplesInput from './MultipleSamplesInput.js';
 import PropTypes from 'prop-types';
 import { generateNormal } from '../../lib/stats-utils.js';
-import BestFitLinesPlot from './BestFitLinesPlot.js';
 
 export default function SDOLSESimulation({ populationShape }) {
   const [data, setData] = useState([]);
@@ -95,9 +94,6 @@ export default function SDOLSESimulation({ populationShape }) {
           </Col>
           <Col>
             <InterceptDistributionPlot samples={samples} populationShape={populationShape}/>
-          </Col>
-          <Col>
-            <BestFitLinesPlot samples={samples} populationShape={populationShape}/>
           </Col>
         </Row>
       </Container>
