@@ -61,15 +61,8 @@ export default function SDOLSESimulation({ populationShape }) {
     for (let i = 0; i < replications; i++) {
       const sample = _.sampleSize(data, size);
       if ((populationShape === 'Binary') && (_.uniq(sample.map(({ x }) => x)).length === 1)) {
-        // clear is true used when drawing multiple samples
-        // if so, we don't alert, instead we skip any unusable samples
-        if (clear) {
-          i -= 1;
-          continue;
-        } else {
-          alert('Try again');
-          return;
-        }
+        i -= 1;
+        continue;
       }
       const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
       const sampleObject = {

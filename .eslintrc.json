@@ -34,7 +34,13 @@
       }
     ],
     "curly": "warn",
-    "quotes": ["warn", "single"],
+    "quotes": [
+      "warn",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
     "jsx-quotes": ["warn", "prefer-double"],
     "object-shorthand": "warn",
     "react/jsx-tag-spacing": [
