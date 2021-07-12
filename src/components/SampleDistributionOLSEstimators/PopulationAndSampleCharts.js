@@ -8,7 +8,7 @@ import SamplesTable from './SamplesTable.js';
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
 import { OLSE_VALUES } from '../../lib/constants.js';
-import regression from "regression";
+import regression from 'regression';
 
 export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample, populationShape }) {
   const sample = selected || { data: [] };
@@ -94,7 +94,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
               {selected && (
                 <BlockMath math={`\\widehat{Test\\ Score}_i = ${selected.intercept} + ${selected.slope}{Study\\ Hours_i}`}/>
               )}
-          </div>
+            </div>
           )}
           <ScatterPlot
             series={sampleSeries}
