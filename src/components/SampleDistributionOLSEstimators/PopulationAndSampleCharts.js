@@ -56,7 +56,24 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         lineColor: 'orange'
       },
       tooltip: tooltipFormat
-    }
+    },
+    ...samples.filter((sample) => sample !== selected).map(({ data, slope, intercept, id }) => ({
+      name: `Sample ${id}`,
+      type: 'line',
+      data: [{ x: 0 }, { x: OLSE_VALUES[populationShape].xMax }, ...data].map((point) => (
+        { x: point.x, y: (point.x * slope) + intercept }
+      )),
+      color: '#dddddd',
+      animation: false,
+      tooltip: {
+        headerFormat: '',
+        pointFormat: '<div><strong>{series.name}</strong><br/>'
+      },
+      label: false,
+      marker: false,
+      showInLegend: false,
+      zIndex: -5
+    }))
   ];
 
   return (
