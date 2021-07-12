@@ -3,7 +3,7 @@ import Collapsable from '../Collapsable.js';
 import MultivariateNormal from 'multivariate-normal';
 import _ from 'lodash';
 import PD from 'probability-distributions';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import PopulationAndSampleCharts from './PopulationAndSampleCharts.js';
 import regression from 'regression';
 import SlopeDistributionPlot from './SlopeDistributionPlot.js';
@@ -11,13 +11,11 @@ import InterceptDistributionPlot from './InterceptDistributionPlot.js';
 import MultipleSamplesInput from './MultipleSamplesInput.js';
 import PropTypes from 'prop-types';
 import { generateNormal } from '../../lib/stats-utils.js';
-import { exp, log } from 'mathjs';
 
 export default function SDOLSESimulation({ populationShape }) {
   const [data, setData] = useState([]);
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
-  const [logMean, setLog] = useState(false);
 
   useEffect(() => {
     const generateScatter = () => {
@@ -38,11 +36,6 @@ export default function SDOLSESimulation({ populationShape }) {
       });
     }
     const generateBinary = () => {
-      if (logMean) {
-        const control = generateNormal(1000, log(195), 0.2).map((num) => ({ x: 0, y: _.round(exp(num), 1), category: 'Control' }));
-        const jobCorps = generateNormal(1000, log(211), 0.2).map((num) => ({ x: 1, y: _.round(exp(num), 1), category: 'Job Corps' }));
-        return [...control, ...jobCorps];
-      }
       const control = generateNormal(1000, 195, 30, 2).map((num) => ({ x: 0, y: num, category: 'Control' }));
       const jobCorps = generateNormal(1000, 211, 30, 2).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
       return [...control, ...jobCorps];
@@ -54,7 +47,7 @@ export default function SDOLSESimulation({ populationShape }) {
     }
     setSamples([]);
     setSelected();
-  }, [populationShape, logMean]);
+  }, [populationShape]);
 
   const addSamples = (size, replications = 1, clear = false) => {
     const newSamples = [];
@@ -81,7 +74,6 @@ export default function SDOLSESimulation({ populationShape }) {
   return (
     <Collapsable>
       <Container>
-        <Form.Check type="checkbox" inline onClick={() => setLog(!logMean)} label="log"/>
         <PopulationAndSampleCharts
           data={data}
           addSamples={addSamples}
