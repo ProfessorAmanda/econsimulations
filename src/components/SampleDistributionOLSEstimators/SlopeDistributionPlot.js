@@ -10,7 +10,7 @@ export default function SlopeDistributionPlot({ samples, populationShape }) {
 
   return (
     <DotPlot
-      series={[{ name: 'slopes', data: plotData }]}
+      series={[{ name: 'slopes', data: plotData, showInLegend: false }]}
       title="Distribution of Sample Slopes"
       xMin={min(OLSE_VALUES[populationShape].slopeMin, ...plotData.map(({ x }) => x))}
       xMax={max(OLSE_VALUES[populationShape].slopeMax, ...plotData.map(({ x }) => x))}

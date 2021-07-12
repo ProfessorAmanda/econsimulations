@@ -10,7 +10,7 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
 
   return (
     <DotPlot
-      series={[{ name: 'intercepts', data: plotData }]}
+      series={[{ name: 'intercepts', data: plotData, showInLegend: false }]}
       title="Distribution of Sample Intercepts"
       xMin={min(OLSE_VALUES[populationShape].interceptMin, ...plotData.map(({ x }) => x))}
       xMax={max(OLSE_VALUES[populationShape].interceptMax, ...plotData.map(({ x }) => x))}
