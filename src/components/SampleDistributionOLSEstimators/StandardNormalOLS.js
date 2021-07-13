@@ -51,8 +51,8 @@ export default function StandardNormalOLS({ samples, sampleSize}) {
 
       const meanObject = {
         x: slope,
-        //(sampleMean - popMean) / (popSD / sqrt(sampleSize))
-        y: 0, //formula
+        //get  SD of betas and mean. Then (original point - mean) / sd
+        y: 0, //formu
         intercept,
       }
     });
