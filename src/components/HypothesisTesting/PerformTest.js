@@ -100,23 +100,24 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
     } else if (distType === 'T' && testType === 'oneSample') {
       return jStat.ttest(tscore, sampleSize - 1, sides)
 
-    } else if (distType === 'Z' && testType !== 'oneSample') {
+    } else if (distType === 'Z' && testType !== 'oneSample' && equality === ">") {
 
-        if(zscoreTwoSample >= 0 && originalSampleMean > mu0) {  
-
-          return jStat.ztest(zscoreTwoSample, sides);
-
-        } else if(zscoreTwoSample < 0 && originalSampleMean > mu0) {
-          return  1 - jStat.ztest(zscoreTwoSample, sides);
-
-        } else if (zscoreTwoSample < 0 && originalSampleMean < mu0) {
+        if(zscoreTwoSample >= 0) { 
           return jStat.ztest(zscoreTwoSample, sides);
 
         } else {
-          return 1 - jStat.ztest(zscoreTwoSample, sides);
-        }
+          return  1 - jStat.ztest(zscoreTwoSample, sides);
+      }
+      
+    } else if (distType === 'Z' && testType !== 'oneSample' && equality === "<") {
 
-    } else {
+      if (zscoreTwoSample < 0) {
+        return jStat.ztest(zscoreTwoSample, sides);
+
+      } else {
+        return 1 - jStat.ztest(zscoreTwoSample, sides);
+      }
+     } else {
       return jStat.ttest(tscoreTwoSample, sampleSize - 1, sides)
     }
   }
