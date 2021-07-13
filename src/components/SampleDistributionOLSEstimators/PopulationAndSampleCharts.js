@@ -44,8 +44,8 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       label: false,
       marker: false,
       showInLegend: sample.data.length > 0,
-      color: 'black',
       enableMouseTracking: false,
+      color: 'black',
     },
     {
       name: 'sample',
@@ -56,7 +56,21 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         lineColor: 'orange'
       },
       tooltip: tooltipFormat
-    }
+    },
+    ...samples.filter((sample) => sample !== selected).map(({ data, slope, intercept, id }) => ({
+      name: `Sample ${id}`,
+      type: 'line',
+      data: [{ x: 0 }, { x: OLSE_VALUES[populationShape].xMax }, ...data].map((point) => (
+        { x: point.x, y: (point.x * slope) + intercept }
+      )),
+      color: '#dddddd',
+      animation: false,
+      label: false,
+      marker: false,
+      showInLegend: false,
+      enableMouseTracking: false,
+      zIndex: -5
+    }))
   ];
 
   return (
