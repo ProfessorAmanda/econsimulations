@@ -97,6 +97,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   const calculatePValue = () => {
     if (distType === 'Z' && testType === 'oneSample') {
       return jStat.ztest(zscore, sides)
+
     } else if (distType === 'T' && testType === 'oneSample') {
       return jStat.ttest(tscore, sampleSize - 1, sides)
 
@@ -104,7 +105,6 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
 
         if(zscoreTwoSample >= 0) { 
           return jStat.ztest(zscoreTwoSample, sides);
-
         } else {
           return  1 - jStat.ztest(zscoreTwoSample, sides);
       }
@@ -112,12 +112,16 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
     } else if (distType === 'Z' && testType !== 'oneSample' && equality === '<') {
 
       if (zscoreTwoSample < 0) {
-        return jStat.ztest(zscoreTwoSample, sides);
-
+        return jStat.ztest(zscoreTwoSample, sides)
       } else {
         return 1 - jStat.ztest(zscoreTwoSample, sides);
       }
-     } else {
+
+    } else if (distType === 'Z' && testType !== 'oneSample' && equality === '<') {
+       return jStat.ztest(zscoreTwoSample, sides);
+     }
+     
+     else {
       return jStat.ttest(tscoreTwoSample, sampleSize - 1, sides)
     }
   }
