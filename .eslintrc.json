@@ -34,7 +34,13 @@
       }
     ],
     "curly": "warn",
-    "quotes": ["warn", "single"],
+    "quotes": [
+      "warn",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
     "jsx-quotes": ["warn", "prefer-double"],
     "object-shorthand": "warn",
     "react/jsx-tag-spacing": [
@@ -47,6 +53,8 @@
     "react/no-array-index-key": "warn",
     "react/no-unused-state": "warn",
     "react/react-in-jsx-scope": "off",
+    "react/prop-types": "warn",
+    "react/no-unescaped-entities": "off",
     "react-hooks/exhaustive-deps": "warn"
   }
 }
