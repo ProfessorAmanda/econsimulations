@@ -117,7 +117,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
         return 1 - jStat.ztest(zscoreTwoSample, sides);
       }
 
-    } else if (distType === 'Z' && testType !== 'oneSample' && equality === '<') {
+    } else if (distType === 'Z' && testType !== 'oneSample' && equality === '!=') {
        return jStat.ztest(zscoreTwoSample, sides);
      }
      
