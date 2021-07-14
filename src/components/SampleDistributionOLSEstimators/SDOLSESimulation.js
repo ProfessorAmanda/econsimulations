@@ -49,7 +49,7 @@ export default function SDOLSESimulation({ populationShape }) {
     setSelected();
   }, [populationShape]);
 
-  const addSamples = (size, replications = 1, clear = false) => {
+  const addSamples = (size, replications, clear) => {
     const newSamples = [];
     for (let i = 0; i < replications; i++) {
       const sample = _.sampleSize(data, size);
