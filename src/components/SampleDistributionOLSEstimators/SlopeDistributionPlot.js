@@ -8,7 +8,6 @@ import { useState } from 'react';
 import StandardNormalOLS from './StandardNormalOLS.js';
 
 export default function SlopeDistributionPlot({ samples }) {
-
   const plotData = getCounts(samples.map(({ slope }) => slope));
   const [standardized, setStandardized] = useState(false);
 
@@ -24,6 +23,7 @@ export default function SlopeDistributionPlot({ samples }) {
 if (standardized) {
   plot = <StandardNormalOLS samples={samples}
   sampleSize={+samples || 1} />
+
 }
   return <>
     {plot}
@@ -36,5 +36,6 @@ if (standardized) {
   }
 
 SlopeDistributionPlot.propTypes = {
-  samples: PropTypes.arrayOf(olsSampleType).isRequired
+  samples: PropTypes.arrayOf(olsSampleType).isRequired,
+  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }
