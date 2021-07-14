@@ -54,7 +54,9 @@ export default function StandardNormalOLS({ samples}) {
   var totalLen = samplesArr.length;
   const meanSlopes = totalSum / totalLen;
 
-  const sdSlopes = populationStandardDev(slopesArr) 
+  const slopesSTD = (popArray) => ((popArray.length > 0) ? std(popArray.map((p) => p.slope)) : undefined)
+
+  const sdSlopes = slopesSTD(slopesArr) 
 
   useEffect(() => {
     const data = [];
