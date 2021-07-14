@@ -78,6 +78,7 @@ export const populationMean = (popArray) => ((popArray.length > 0) ? mean(popArr
 // returns the std of popArray
 export const populationStandardDev = (popArray) => ((popArray.length > 0) ? std(popArray.map((p) => p.x)) : undefined)
 
+export const slopesSTD = (slopesArray) => ((slopesArray.length > 0) ? std(slopesArray.map((beta) => beta.slope)) : undefined)
 // transforms array into standard normal distribution
 export const convertToStandardNormal = (values) => {
   if (values.length === 0) {

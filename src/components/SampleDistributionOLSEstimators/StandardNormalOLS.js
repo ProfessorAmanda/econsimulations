@@ -6,7 +6,7 @@ import BellCurve from 'highcharts/modules/histogram-bellcurve';
 import { distributionType, hypothesisTestingSampleArrayType } from '../../lib/types';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { dataFromDistribution, populationStandardDev } from '../../lib/stats-utils';
+import { dataFromDistribution, slopesSTD } from '../../lib/stats-utils';
 import { sqrt } from 'mathjs';
 
 BellCurve(Highcharts);
@@ -54,7 +54,6 @@ export default function StandardNormalOLS({ samples}) {
   var totalLen = samplesArr.length;
   const meanSlopes = totalSum / totalLen;
 
-  const slopesSTD = (popArray) => ((popArray.length > 0) ? std(popArray.map((p) => p.slope)) : undefined)
 
   const sdSlopes = slopesSTD(slopesArr) 
 
