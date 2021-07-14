@@ -21,8 +21,8 @@ export default function SlopeDistributionPlot({ samples }) {
 /> 
 
 if (standardized) {
-  plot = <StandardNormalOLS samples={samples}
-  sampleSize={+samples || 1} />
+
+  plot = <StandardNormalOLS samples={samples} interceptOrSlope={'slope'} />
 
 }
   return <>

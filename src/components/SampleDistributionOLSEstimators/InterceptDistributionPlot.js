@@ -6,6 +6,7 @@ import { getCounts } from '../../lib/stats-utils.js';
 import { Form } from 'react-bootstrap';
 import { useState } from 'react';
 import { OLSE_VALUES } from '../../lib/constants.js';
+import StandardNormalOLS from './StandardNormalOLS.js';
 
 
 export default function InterceptDistributionPlot({ samples, populationShape }) {
@@ -22,7 +23,8 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
       xLabel="Intercept"
     />
 if (standardized) {
-  plot = <> </>
+  plot = <StandardNormalOLS samples={samples} interceptOrSlope={'intercept'} />
+
 }
   return  <>
     {plot}

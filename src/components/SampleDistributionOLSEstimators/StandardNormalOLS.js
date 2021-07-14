@@ -6,12 +6,12 @@ import BellCurve from 'highcharts/modules/histogram-bellcurve';
 import { distributionType, hypothesisTestingSampleArrayType } from '../../lib/types';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { dataFromDistribution, slopesSTD } from '../../lib/stats-utils';
-import { sqrt } from 'mathjs';
+import { dataFromDistribution, arraySTD } from '../../lib/stats-utils';
+import { mean } from 'mathjs';
 
 BellCurve(Highcharts);
 
-export default function StandardNormalOLS({ samples}) {
+export default function StandardNormalOLS({ samples, interceptOrSlope}) {
   const [population] = useState(
     dataFromDistribution('Normal', 2000, { mean: 0, standardDev: 1 })
   );
@@ -44,26 +44,28 @@ export default function StandardNormalOLS({ samples}) {
     },
   });
 
-  let totalSum = 0;
-  let slopesArr = [];
-  for(var i in samples) {
-      totalSum = totalSum + samples[i].slope;
-      slopesArr.push(samples[i].slope);
-  }
-  var samplesArr = Object.keys(samples);
-  var totalLen = samplesArr.length;
-  const meanSlopes = totalSum / totalLen;
+  let betaArr = [];
+   
+    for(var i in samples) {
+      if (interceptOrSlope === 'slope') {
+      betaArr.push(samples[i].slope);
+    } else {
+      betaArr.push(samples[i].intercept);
+    }
+  } 
+
+  const meanArr = mean(betaArr);
 
 
-  const sdSlopes = slopesSTD(slopesArr) 
+  const sdArr = arraySTD(betaArr) 
 
   useEffect(() => {
     const data = [];
     samples.forEach(({id,size,slope,intercept}) => {
 
      const meanObject = {
-        x: slope,
-        y: (slope - meanSlopes) / sdSlopes,
+        x: (interceptOrSlope === 'slope' ? slope : intercept),
+        y: ((interceptOrSlope === 'slope' ? slope : intercept) - meanArr) / sdArr,
         intercept,
       }
       data.push(meanObject);
@@ -91,11 +93,12 @@ export default function StandardNormalOLS({ samples}) {
     }
 
     setChart(newChart);
-  }, [samples, meanSlopes, sdSlopes, population]);
+  }, [samples, meanArr, sdArr, population, interceptOrSlope]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
 
 StandardNormalOLS.propTypes = {
-  samples: PropTypes.array.isRequired
+  samples: PropTypes.array.isRequired,
+  interceptOrSlope: PropTypes.string.isRequired
 }
