@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build the project
-      run: npm run build --if-present
+      run: CI= npm run build --if-present
     - name: Run tests
       run: npm test
     - name: Run lint

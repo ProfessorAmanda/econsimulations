@@ -8,19 +8,20 @@ import SimBar from './SimBar.js';
 import StartHere from './StartHere';
 import { Fade } from 'react-bootstrap';
 import SimulationContainer from './SimulationContainer.js';
+import Scatter3D from './Scatter3D.js';
 
 export default function SimulationMenu() {
   const [mode, setMode] = useState('Home');
   const [start, setStart] = useState(true);
-  const [logo, setLogo] = useState(true);
+  const [logo, setLogo] = useState(false);  // TODO: init to true
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLogo(false);
-    }, 3500);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLogo(false);
+  //   }, 3500);
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   return (
     start ? (
@@ -30,6 +31,7 @@ export default function SimulationMenu() {
       </div>
     ) : (
       <div>
+        <Scatter3D/>
         {(mode === 'Home') ? (
           <Fade in={(mode === 'Home')}>
             <SimBar setSection={setMode}/>
