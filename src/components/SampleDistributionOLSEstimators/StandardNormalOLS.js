@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import BellCurve from 'highcharts/modules/histogram-bellcurve';
 import PropTypes from 'prop-types';
-import { dataFromDistribution, arraySTD } from '../../lib/stats-utils';
+import { dataFromDistribution, populationStandardDev } from '../../lib/stats-utils';
 import { mean } from 'mathjs';
 
 BellCurve(Highcharts);
@@ -43,19 +43,19 @@ export default function StandardNormalOLS({ samples, interceptOrSlope}) {
   });
 
   let betaArr = [];
-   
+
     for(var i in samples) {
       if (interceptOrSlope === 'slope') {
       betaArr.push(samples[i].slope);
     } else {
       betaArr.push(samples[i].intercept);
     }
-  } 
+  }
 
   const meanArr = mean(betaArr);
 
 
-  const sdArr = arraySTD(betaArr) 
+  const sdArr = populationStandardDev(betaArr)
 
   useEffect(() => {
     const dataArr = [];
@@ -70,7 +70,7 @@ export default function StandardNormalOLS({ samples, interceptOrSlope}) {
       }
       dataArr.push(meanObject);
     });
-    
+
     const newChart = {
       series: [
         {
