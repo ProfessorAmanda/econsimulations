@@ -6,12 +6,12 @@ import BellCurve from 'highcharts/modules/histogram-bellcurve';
 import { distributionType, hypothesisTestingSampleArrayType } from '../../lib/types';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { dataFromDistribution } from '../../lib/stats-utils';
+import { dataFromDistribution, populationStandardDev } from '../../lib/stats-utils';
 import { sqrt } from 'mathjs';
 
 BellCurve(Highcharts);
 
-export default function StandardNormalOLS({ samples, sampleSize}) {
+export default function StandardNormalOLS({ samples}) {
   const [population] = useState(
     dataFromDistribution('Normal', 2000, { mean: 0, standardDev: 1 })
   );
@@ -44,14 +44,22 @@ export default function StandardNormalOLS({ samples, sampleSize}) {
     },
   });
 
+  let totalSum = 0;
+  for(var i in samples) {
+      totalSum = totalSum + samples[i].slope;
+  }
+  var samplesArr = Object.keys(samples);
+  var totalLen = samplesArr.length;
+  const meanSlopes = totalSum / totalLen;
+  const sdSlopes = populationStandardDev(samples) 
+
+
   useEffect(() => {
-    const meanCounts = {};
     samples.forEach(({id,size,slope,intercept}) => {
-      meanCounts[slope] = _.defaultTo(meanCounts[slope] + 1, 1);
 
       const meanObject = {
         x: slope,
-        y: 0, //formula here
+        y: (slope - meanSlopes) / sdSlopes,
         intercept,
       }
     });
@@ -78,13 +86,11 @@ export default function StandardNormalOLS({ samples, sampleSize}) {
     }
 
     setChart(newChart);
-  }, [samples, population, sampleSize]);
+  }, [samples, meanSlopes, sdSlopes, population]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
 
 StandardNormalOLS.propTypes = {
-  sampleSize: PropTypes.number.isRequired,
-  distType: distributionType.isRequired,
   samples: PropTypes.array.isRequired
 }
