@@ -87,8 +87,9 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
             xLabel={OLSE_VALUES[populationShape].xLabel}
             yLabel={OLSE_VALUES[populationShape].yLabel}
             zoom
-            xCategories={OLSE_VALUES[populationShape].xCategories}
             height="75%"
+            xCategories={OLSE_VALUES[populationShape].xCategories}
+            yTickInterval={OLSE_VALUES[populationShape].yTickInterval}
           />
         </Col>
       </Row>
@@ -120,6 +121,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
             xLabel={OLSE_VALUES[populationShape].xLabel}
             yLabel={OLSE_VALUES[populationShape].yLabel}
             xCategories={OLSE_VALUES[populationShape].xCategories}
+            yTickInterval={OLSE_VALUES[populationShape].yTickInterval}
           />
         </Col>
       </Row>
