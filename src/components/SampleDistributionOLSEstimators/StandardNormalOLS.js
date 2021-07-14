@@ -4,7 +4,6 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import BellCurve from 'highcharts/modules/histogram-bellcurve';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { dataFromDistribution, arraySTD } from '../../lib/stats-utils';
 import { mean } from 'mathjs';
 
@@ -66,6 +65,8 @@ export default function StandardNormalOLS({ samples, interceptOrSlope}) {
         x: (interceptOrSlope === 'slope' ? slope : intercept),
         y: ((interceptOrSlope === 'slope' ? slope : intercept) - meanArr) / sdArr,
         intercept,
+        id,
+        size,
       }
       dataArr.push(meanObject);
     });
