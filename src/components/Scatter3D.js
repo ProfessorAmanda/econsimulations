@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import ThreeD from 'highcharts/highcharts-3d';
-ThreeD(Highcharts);
+require('highcharts/highcharts-3d')(Highcharts);
 
 export default function Scatter3D() {
   const [alpha, setAlpha] = useState(10);
@@ -37,11 +36,12 @@ export default function Scatter3D() {
       type: 'scatter3d',
       animation: false,
       options3d: {
+        axisLabelPosition: 'auto',
         enabled: true,
         alpha,
         beta,
         depth: 250,
-        viewDistance: 5,
+        viewDistance: 25,
         fitToPlot: false,
         frame: {
           bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
@@ -85,9 +85,6 @@ export default function Scatter3D() {
       {
         name: 'Data',
         colorByPoint: true,
-        accessibility: {
-          exposeAsGroupOnly: true
-        },
         data
       },
       {
@@ -97,19 +94,19 @@ export default function Scatter3D() {
         data: [{
             x: 1,
             y: 1,
-            z: 6,
+            z: 10,
             name: 'Point1',
             color: '#00FF00'
           }, {
             x: 1,
             y: 8,
-            z: 6,
+            z: 10,
             name: 'Point2',
             color: '#FF00FF'
           }, {
             x: 3,
             y: 5,
-            z: 6,
+            z: 10,
             name: 'Point3',
             color: '#FF00FF'
           }

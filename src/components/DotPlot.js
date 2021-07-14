@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import Label from 'highcharts/modules/series-label';
 import PropTypes from 'prop-types';
 import { highchartsSeriesType } from '../lib/types';
 import '../styles/dark-unica.css';
-
-Label(Highcharts);
+require('highcharts/modules/series-label')(Highcharts);
 
 export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel, animation, zoom }) {
   const [chart, setChart] = useState({});

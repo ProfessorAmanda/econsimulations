@@ -1,8 +1,3 @@
-/*
-
-  Displays one of the LLN simulations
-
-*/
 import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
@@ -22,6 +17,7 @@ export default function LLNSimulation({ popShape, sampleSize }) {
   useEffect(() => {
     setStage(1);
     const newPop = dataFromDistribution(popShape, sampleSize);
+    console.log(popShape, newPop)
     setPopArray(newPop);
     setSampled([]);
   }, [popShape, sampleSize]);
