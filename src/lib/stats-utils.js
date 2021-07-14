@@ -20,17 +20,17 @@ export const generateNormal = (sampleSize, mean, standardDev, precision = 5) => 
 
 // returns an array of values with a uniform distribution
 export const generateUniform = (sampleSize, low, hi, precision = 5) => {
-  PD.runif(sampleSize, low, hi).map((num) => _.round(num, precision))
+  return PD.runif(sampleSize, low, hi).map((num) => _.round(num, precision))
 }
 
 // returns an array of values with an exponential distribution
 export const generateExponential = (sampleSize, lambda, precision = 5) => {
-  PD.rexp(sampleSize, lambda).map((num) => _.round(num, precision))
+  return PD.rexp(sampleSize, lambda).map((num) => _.round(num, precision))
 }
 
 // returns an array of values with a chi-squared distribution
 export const generateChiSquared = (sampleSize, degreesOfFreedom, precision = 5) => {
-  PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, precision))
+  return PD.rchisq(sampleSize, degreesOfFreedom).map((num) => _.round(num, precision))
 }
 
 // returns an array of values with a 'mystery' distribution (really points sampled randomly from two normal distributions)
