@@ -25,7 +25,7 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
         <Button
           variant="secondary"
           disabled={!resampleSize || resampleSize > populationSize || resampleSize < 1}
-          onClick={() => addSamples(+resampleSize)}
+          onClick={() => addSamples(+resampleSize, 1, false)}
         >
           Sample Once
         </Button>
@@ -43,12 +43,12 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
       <br/>
       <Button
         variant="secondary"
-        onClick={() => addSamples(resampleSize, numberResamples)}
+        onClick={() => addSamples(resampleSize, numberResamples, true)}
         disabled={(resampleSize < 1) || (resampleSize > populationSize) || (numberResamples < 1)}
       >
         Run
       </Button>
-      <Button variant="secondary" onClick={() => addSamples()}>Clear</Button>
+      <Button variant="secondary" onClick={() => addSamples(0, 0, true)}>Clear</Button>
     </div>
   );
 }
