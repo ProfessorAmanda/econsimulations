@@ -45,19 +45,22 @@ export default function StandardNormalOLS({ samples}) {
   });
 
   let totalSum = 0;
+  let slopesArr = {};
   for(var i in samples) {
       totalSum = totalSum + samples[i].slope;
+      slopesArr.push(samples[i].slope);
   }
   var samplesArr = Object.keys(samples);
   var totalLen = samplesArr.length;
   const meanSlopes = totalSum / totalLen;
-  const sdSlopes = populationStandardDev(samples) 
 
+  const sdSlopes = populationStandardDev(slopesArr) 
 
+  let meanObject = {};
   useEffect(() => {
     samples.forEach(({id,size,slope,intercept}) => {
 
-      const meanObject = {
+     meanObject = {
         x: slope,
         y: (slope - meanSlopes) / sdSlopes,
         intercept,
@@ -78,7 +81,7 @@ export default function StandardNormalOLS({ samples}) {
         {
           name: 'Data',
           type: 'scatter',
-          data: population.map(({ x }) => x),
+          data: meanObject,
           visible: false,
           showInLegend: false
         }
