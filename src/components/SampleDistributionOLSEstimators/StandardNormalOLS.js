@@ -1,9 +1,8 @@
-/*eslint-disable no-unused-vars */
+
 import { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import BellCurve from 'highcharts/modules/histogram-bellcurve';
-import { distributionType, hypothesisTestingSampleArrayType } from '../../lib/types';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { dataFromDistribution, arraySTD } from '../../lib/stats-utils';
@@ -60,7 +59,7 @@ export default function StandardNormalOLS({ samples, interceptOrSlope}) {
   const sdArr = arraySTD(betaArr) 
 
   useEffect(() => {
-    const data = [];
+    const dataArr = [];
     samples.forEach(({id,size,slope,intercept}) => {
 
      const meanObject = {
@@ -68,7 +67,7 @@ export default function StandardNormalOLS({ samples, interceptOrSlope}) {
         y: ((interceptOrSlope === 'slope' ? slope : intercept) - meanArr) / sdArr,
         intercept,
       }
-      data.push(meanObject);
+      dataArr.push(meanObject);
     });
     
     const newChart = {
@@ -85,7 +84,7 @@ export default function StandardNormalOLS({ samples, interceptOrSlope}) {
         {
           name: 'Data',
           type: 'scatter',
-          data: data,
+          data: dataArr,
           visible: false,
           showInLegend: false
         }
