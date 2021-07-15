@@ -94,14 +94,17 @@ export default function SimulateSamples({ type, popArray, popMean }) {
     if (start) {
       let n = 0;
       timer = setInterval(() => {
-        n += 1;
-        if (n >= 1000) {
-          clearInterval(timer)
+        const newSamples = [];
+        for (let i = 0; i < (n >= 300 ? 2 : 1); i++) {
+          n += 1;
+          if (n >= 1000) {
+            clearInterval(timer)
+          }
+          const sample = _.sampleSize(popArray, n);
+          newSamples.push({ y: _.round(populationMean(sample), 2) });
         }
-        const sample = _.sampleSize(popArray, n);
-        const avg = _.round(populationMean(sample), 2);
-        setSampled((currSampled) => [...currSampled, { y: avg }]);
-        setMeanLine((currMeanLine) => [...currMeanLine, { y: popMean }]);
+        setSampled((currSampled) => [...currSampled, ...newSamples]);
+        setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: popMean }]);
       }, n);
     }
 
