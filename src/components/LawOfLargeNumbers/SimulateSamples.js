@@ -95,7 +95,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
       let n = 0;
       timer = setInterval(() => {
         const newSamples = [];
-        for (let i = 0; i < (n >= 300 ? 5 : 2); i++) {
+        for (let i = 0; i < (n >= 600 ? 4 : (n >= 300 ? 2 : 1)); i++) {
           n += 1;
           if (n >= 1000) {
             clearInterval(timer)
