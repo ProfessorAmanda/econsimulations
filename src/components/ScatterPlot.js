@@ -16,7 +16,8 @@ export default function ScatterPlot({
   animation,
   zoom,
   height,
-  xCategories
+  xCategories,
+  yTickInterval
 }) {
   const [chart, setChart] = useState({});
 
@@ -54,7 +55,8 @@ export default function ScatterPlot({
         endOnTick: true,
         title: {
           text: yLabel
-        }
+        },
+        tickInterval: yTickInterval
       },
       series: series.map((seriesObject) => (
         {
@@ -66,7 +68,7 @@ export default function ScatterPlot({
       )
     }
     setChart(newChart);
-  }, [series, title, xMin, xMax, yMin, yMax, xLabel, yLabel, animation, zoom, height, xCategories]);
+  }, [series, title, xMin, xMax, yMin, yMax, xLabel, yLabel, animation, zoom, height, xCategories, yTickInterval]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
@@ -83,5 +85,6 @@ ScatterPlot.propTypes = {
   animation: PropTypes.bool,
   zoom: PropTypes.bool,
   height: stringOrNumberType,
-  xCategories: PropTypes.arrayOf(PropTypes.string)
+  xCategories: PropTypes.arrayOf(PropTypes.string),
+  yTickInterval: PropTypes.number,
 }

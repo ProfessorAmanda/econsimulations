@@ -25,7 +25,7 @@ export default function SampleSizeInput({ maxSize, minSize, handleClick }) {
       />
       <Button
         variant="secondary"
-        disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={() => handleClick(+sampleSize)}
+        disabled={!sampleSize || sampleSize > maxSize || sampleSize < 1} onClick={() => handleClick(+sampleSize, 1, false)}
       >
         Sample
       </Button>
