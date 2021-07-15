@@ -96,8 +96,13 @@ export const calculateTwoSampleTestStatistic = (
   sampleSize2
 ) => (sampleMean1 - sampleMean2) / sqrt(standardDev1 ** 2 / sampleSize1 + standardDev2 ** 2 / sampleSize2)
 
-export const calculatePValue = (distType, testStat, sampleSize, sides) => {
-  return ((distType === 'Z') ? jStat.ztest(testStat, sides) : jStat.ttest(testStat, sampleSize - 1, sides))
+export const calculatePValue = (distType, testStat, equality, sampleSize, sides) => {
+  const pval = ((distType === 'Z') ? jStat.ztest(testStat, sides) : jStat.ttest(testStat, sampleSize - 1, sides))
+  if (((equality === '>') && (testStat < 0)) || ((equality === '<') && (testStat >= 0))) {
+    return 1 - pval
+  } else {
+    return pval
+  }
 }
 
 export const generateScatter = (size, meanX, meanY, stdX, stdY, corr) => {
@@ -116,9 +121,9 @@ export const generateScatter = (size, meanX, meanY, stdX, stdY, corr) => {
   });
 }
 
-export const generateBinary = (size, mean1, mean2, std1, std2, precision = 2) => {
-  const control = generateNormal(size, mean1, std1, precision).map((num) => ({ x: 0, y: num, category: 'Control' }));
-  const jobCorps = generateNormal(size, mean2, std2, precision).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
+export const generateBinary = (size, mean1, mean2, std1, std2) => {
+  const control = generateNormal(size, mean1, std1, 2).map((num) => ({ x: 0, y: num, category: 'Control' }));
+  const jobCorps = generateNormal(size, mean2, std2, 2).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
   return [...control, ...jobCorps];
 }
 

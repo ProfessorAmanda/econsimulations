@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
-import { random, sqrt } from 'mathjs';
+import { random } from 'mathjs';
 import { Button, Container, Row } from 'react-bootstrap';
-import { dataFromDistribution, populationMean, populationStandardDev } from '../../lib/stats-utils.js';
 import PropTypes from 'prop-types';
 import PopulationChartReveal from './PopulationChartReveal.js';
 import _ from 'lodash';
-import { jStat } from 'jstat';
 import ResultsDisplay from './ResultsDisplay.js';
 import SampleSizeAlphaInputs from './SampleSizeAlphaInput.js';
 import SimulateTypeOneError from './SimulateTypeOneError.js';
 import { hypothesisEqualityType, popShapeType, testTypeType } from '../../lib/types.js';
+import {
+  calculateOneSampleTestStatistic,
+  calculatePValue,
+  calculateTwoSampleTestStatistic,
+  dataFromDistribution,
+  populationMean,
+  populationStandardDev
+} from '../../lib/stats-utils.js';
 
 export default function PerformTest({ distType, shape, sides, mu0, equality, testType }) {
   const [popArr, setPopArr] = useState([]);
@@ -56,98 +62,28 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
     if (stage === 0) {
       setStage(1);
     }
-  }
-
-  const takeBothSamples = () => {
-    takeSample();
-    setOriginalPopSample(_.sampleSize(originalPop, originalPopSampleSize));
+    if (testType === 'twoSample') {
+      setOriginalPopSample(_.sampleSize(originalPop, originalPopSampleSize))
+    }
   }
 
   const sampleMean = populationMean(sample);
-  const sampleSD = populationStandardDev(sample)
-  const populationSD = populationStandardDev(popArr)
-
-  const tscore = jStat.tscore(sampleMean, mu0, sampleSD, sampleSize);
-  const zscore = jStat.zscore(sampleMean, mu0, populationSD / sqrt(sampleSize));
+  const sampleSD = populationStandardDev(sample);
+  const populationSD = populationStandardDev(popArr);
 
   // for two-sample
   const originalSampleMean = populationMean(originalPopSample);
-  const originalSampleSD = populationStandardDev(originalPopSample)
-  const originalPopSD = populationStandardDev(originalPop)
+  const originalSampleSD = populationStandardDev(originalPopSample);
+  const originalPopSD = populationStandardDev(originalPop);
 
-  const tscoreTwoSample = (originalSampleMean - sampleMean) / sqrt((sampleSD ** 2) / sampleSize + (originalSampleSD ** 2) / originalPopSampleSize)
-  const zscoreTwoSample = (originalSampleMean - sampleMean) / sqrt((populationSD ** 2) / sampleSize + (originalPopSD ** 2) / originalPopSampleSize)
+  const oneSampleSD = (distType === 'Z') ? populationSD : sampleSD;
+  const twoSampleSD = (distType === 'Z') ? originalPopSD : originalSampleSD;
 
-  const calculateTestStatistic = () => {
-    // one sample sigma known
-    if (distType === 'Z' && testType === 'oneSample') {
-      return zscore;
-      // one sample sigma unknown
-    } else if (distType !== 'Z' && testType === 'oneSample') {
-      return tscore;
-      // two sample sigma known
-    } else if (distType === 'Z' && testType !== 'oneSample') {
-      return zscoreTwoSample;
-      // two sample sigma unknown
-    } else {
-      return tscoreTwoSample
-    }
-  }
+  const testStatistic = (testType === 'oneSample')
+    ? calculateOneSampleTestStatistic(distType, sampleMean, mu0, oneSampleSD, sampleSize)
+    : calculateTwoSampleTestStatistic(originalSampleMean, sampleMean, twoSampleSD, originalPopSampleSize, sampleSize);
 
-  const calculatePValue = () => {
-    
-    if (distType === 'Z' && testType === 'oneSample' && equality === '>') {
-      if(zscore >= 0) {
-      return jStat.ztest(zscore, sides)
-      } else {
-        return  1 - jStat.ztest(zscoreTwoSample, sides);
-      }
-
-    } else if (distType === 'Z' && testType === 'oneSample' && equality === '<') {
-
-      if(zscore < 0) {
-        return jStat.ztest(zscore, sides)
-      } else {
-        return  1 - jStat.ztest(zscoreTwoSample, sides);
-      }
-    }
-
-      else if (distType === 'Z' && testType === 'oneSample' && equality === '!=') {
-        return jStat.ztest(zscore, sides)
-      }
-
-      else if (distType === 'T' && testType === 'oneSample') {
-        return jStat.ttest(tscore, sampleSize - 1, sides)
-      }
-
-      
-       else if (distType === 'Z' && testType !== 'oneSample' && equality === '>') {
-
-        if(zscoreTwoSample >= 0) { 
-          return jStat.ztest(zscoreTwoSample, sides);
-        } else {
-          return  1 - jStat.ztest(zscoreTwoSample, sides);
-      }
-      
-    } else if (distType === 'Z' && testType !== 'oneSample' && equality === '<') {
-
-      if (zscoreTwoSample < 0) {
-        return jStat.ztest(zscoreTwoSample, sides)
-      } else {
-        return 1 - jStat.ztest(zscoreTwoSample, sides);
-      }
-
-    } else if (distType === 'Z' && testType !== 'oneSample' && equality === '!=') {
-       return jStat.ztest(zscoreTwoSample, sides);
-     }
-     
-     else {
-      return jStat.ttest(tscoreTwoSample, sampleSize - 1, sides)
-    }
-  }
-
-  const testStatistic = calculateTestStatistic();
-  const pValue = calculatePValue();
+  const pValue = calculatePValue(distType, testStatistic, equality, sampleSize, sides);
 
   return (
     <Container fluid>
@@ -171,7 +107,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
           (sampleSize > popArr.length) ||
           ((testType === 'twoSample') && ((originalPopSampleSize <= 0) || (originalPopSampleSize > originalPop.length)))
         }
-        onClick={() => (testType === 'oneSample' ? takeSample() : takeBothSamples())}
+        onClick={() => takeSample()}
       >
         Sample
       </Button>
