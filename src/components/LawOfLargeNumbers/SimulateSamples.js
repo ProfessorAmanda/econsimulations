@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import '../../styles/dark-unica.css';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
   const [meanLine, setMeanLine] = useState([]);
   const [chart, setChart] = useState({});
+  const [start, setStart] = useState(false);
 
   useEffect(() => {
     const newChart = {
@@ -88,27 +89,29 @@ export default function SimulateSamples({ type, popArray, popMean }) {
 
   useEffect(() => {
     setSampled([]);
-    setMeanLine([])
-    let n = 0;
-    const timer = setInterval(() => {
-      n += 1;
-      if (n >= 1000) {
-        clearInterval(timer)
-      }
-      const sample = _.sampleSize(popArray, n);
-      const avg = _.round(populationMean(sample), 2);
-      setSampled((currSampled) => [...currSampled, { y: avg }]);
-      setMeanLine((currMeanLine) => [...currMeanLine, { y: popMean }]);
-    }, n);
+    setMeanLine([]);
+    let timer;
+    if (start) {
+      let n = 0;
+      timer = setInterval(() => {
+        n += 1;
+        if (n >= 1000) {
+          clearInterval(timer)
+        }
+        const sample = _.sampleSize(popArray, n);
+        const avg = _.round(populationMean(sample), 2);
+        setSampled((currSampled) => [...currSampled, { y: avg }]);
+        setMeanLine((currMeanLine) => [...currMeanLine, { y: popMean }]);
+      }, n);
+    }
 
     return () => clearInterval(timer);
-  }, []);  // eslint-disable-line
+  }, [start, popArray, popMean]);
 
   return (
-    <Card>
-      <Card.Body>
-        <HighchartsReact highcharts={Highcharts} options={chart}/>
-      </Card.Body>
+    <Card body>
+      <HighchartsReact highcharts={Highcharts} options={chart}/>
+      <Button variant="success" onClick={() => setStart(true)}>Start Simulation</Button>
     </Card>
   );
 }
