@@ -8,7 +8,6 @@ import SimBar from './SimBar.js';
 import StartHere from './StartHere';
 import { Fade } from 'react-bootstrap';
 import SimulationContainer from './SimulationContainer.js';
-import Scatter3D from './Scatter3D.js';
 
 export default function SimulationMenu() {
   const [mode, setMode] = useState('Home');
@@ -31,7 +30,6 @@ export default function SimulationMenu() {
       </div>
     ) : (
       <div>
-        <Scatter3D/>
         {(mode === 'Home') ? (
           <Fade in={(mode === 'Home')}>
             <SimBar setSection={setMode}/>

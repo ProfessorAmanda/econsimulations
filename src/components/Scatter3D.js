@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import Plot from 'react-plotly.js';
+import SelectorButtonGroup from './SelectorButtonGroup.js';
 
 export default function Scatter3D() {
+  const [display, setDisplay] = useState('3D');
 
   const data = [
     [1, 6, 5], [8, 7, 9], [1, 3, 4], [4, 6, 8], [5, 7, 7], [6, 9, 6],
@@ -37,22 +40,22 @@ export default function Scatter3D() {
       <Plot
         data={[
           {
-            x,
-            y,
+            x: (display === 'yz') ? y : x,
+            y: ((display === 'xy') || (display === '3D')) ? y : z,
             z,
-            type: 'scatter',
+            type: (display === '3D') ? 'scatter3d' : 'scatter',
             mode: 'markers',
             marker: {color: 'red'},
             hoverinfo: 'x+y+z'
           },
-          {
-            z: data1,
-            type: 'surface',
-            showscale: false,
-            opacity: 0.5,
-            hoverinfo: 'x+y+z',
-            colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']]
-          }
+          // {
+          //   z: data1,
+          //   type: 'surface',
+          //   showscale: false,
+          //   opacity: 0.5,
+          //   hoverinfo: 'x+y+z',
+          //   colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']]
+          // }
         ]}
         layout={{
           width: 800,
@@ -66,6 +69,7 @@ export default function Scatter3D() {
           }
         }}
       />
+      <SelectorButtonGroup options={['3D', 'xy', 'xz', 'yz']} select={setDisplay} selected={display}/>
     </div>
   )
 }

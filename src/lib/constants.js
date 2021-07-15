@@ -116,5 +116,9 @@ export const MODULES = [
   {
     name: 'Sample Distribution of OLS Estimators',
     description: 'In Progress'
+  },
+  {
+    name: '3D Regression',
+    description: 'In Progress'
   }
 ];

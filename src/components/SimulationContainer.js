@@ -13,6 +13,9 @@ import SampleDistributionOLSEstimators from './SampleDistributionOLSEstimators/S
 import { Button } from 'react-bootstrap';
 import LeastSquares from './LeastSquares/LeastSquares.js';
 import PropTypes from 'prop-types';
+import { MODULES } from '../lib/constants.js';
+import _ from 'lodash';
+import Scatter3D from './Scatter3D.js';
 
 export default function SimulationContainer({ mode, setMode }) {
   return (
@@ -27,21 +30,12 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Confidence Intervals' && <ConfidenceIntervals/>}
       {mode === 'Hypothesis Testing' && <HypothesisTesting/>}
       {mode === 'Sample Distribution of OLS Estimators' && <SampleDistributionOLSEstimators/>}
+      {mode === '3D Regression' && <Scatter3D/>}
     </div>
   )
 }
 
 SimulationContainer.propTypes = {
   setMode: PropTypes.func.isRequired,
-  mode: PropTypes.oneOf([
-    'Home',
-    'Law of Large Numbers',
-    'Central Limit Theorem',
-    'Joint Distributions',
-    'Least Squares',
-    'Omitted Variable Bias',
-    'Confidence Intervals',
-    'Hypothesis Testing',
-    'Sample Distribution of OLS Estimators'
-  ]).isRequired,
+  mode: PropTypes.oneOf(_.keys(MODULES)).isRequired,
 }
