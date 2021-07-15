@@ -37,6 +37,12 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
         >
           Run
         </Button>
+        <Button
+          variant="secondary"
+          onClick={() => addSamples(0, 0, true)}
+        >
+          Clear
+        </Button>
       </Alert>
     </div>
   );

@@ -57,45 +57,41 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
     }
   }, [mu0, popShape, testType, sd1, sd2]);
 
-  const addSamples = (size, replications = 1) => {
-    if (!size) { // calling addSamples with no arguments clears the data
-      setSampleMeans([]);
-    } else {
-      const means = [];
-      for (let i = 0; i < replications; i++) {
-        const sample = _.sampleSize(population, size);
-        const sampleMean = populationMean(sample);
-        const sample2 = (testType === 'twoSample') ? _.sampleSize(population2, size) : [];
-        const sampleMean2 = populationMean(sample2);
-        const testStatistic = (testType === 'oneSample')
-          ? calculateOneSampleTestStatistic(
-            distType,
-            sampleMean,
-            mu0,
-            populationStandardDev((distType === 'Z') ? population : sample),
-            size
-          )
-          : calculateTwoSampleTestStatistic(
-            sampleMean,
-            sampleMean2,
-            populationStandardDev((distType === 'Z') ? population : sample),
-            populationStandardDev((distType === 'Z') ? population2 : sample2),
-            size,
-            size
-          );
-        const pValue = calculatePValue(distType, testStatistic, size, sides);
+  const addSamples = (size, replications, clear) => {
+    const means = [];
+    for (let i = 0; i < replications; i++) {
+      const sample = _.sampleSize(population, size);
+      const sampleMean = populationMean(sample);
+      const sample2 = (testType === 'twoSample') ? _.sampleSize(population2, size) : [];
+      const sampleMean2 = populationMean(sample2);
+      const testStatistic = (testType === 'oneSample')
+        ? calculateOneSampleTestStatistic(
+          distType,
+          sampleMean,
+          mu0,
+          populationStandardDev((distType === 'Z') ? population : sample),
+          size
+        )
+        : calculateTwoSampleTestStatistic(
+          sampleMean,
+          sampleMean2,
+          populationStandardDev((distType === 'Z') ? population : sample),
+          populationStandardDev((distType === 'Z') ? population2 : sample2),
+          size,
+          size
+        );
+      const pValue = calculatePValue(distType, testStatistic, size, sides);
 
-        const sampleObject = {
-          testStatistic: _.round(testStatistic, 2),
-          mean: testType === 'oneSample' ? _.round(sampleMean, 2) : _.round(sampleMean - sampleMean2, 2),
-          reject: !(((equality === '<') && (testStatistic > 0)) || ((equality === '>') && (testStatistic < 0))) && pValue <= alpha
-        };
-        means.push(sampleObject);
-      }
-      const newSampleMeans = [...sampleMeans, ...means]
-      setSampleMeans(newSampleMeans);
-      setSampleSize(size);
+      const sampleObject = {
+        testStatistic: _.round(testStatistic, 2),
+        mean: testType === 'oneSample' ? _.round(sampleMean, 2) : _.round(sampleMean - sampleMean2, 2),
+        reject: !(((equality === '<') && (testStatistic > 0)) || ((equality === '>') && (testStatistic < 0))) && pValue <= alpha
+      };
+      means.push(sampleObject);
     }
+    const newSampleMeans = clear ? means : [...sampleMeans, ...means];
+    setSampleMeans(newSampleMeans);
+    setSampleSize(size);
   }
 
   const dotPlotSeries = [

@@ -34,7 +34,7 @@ export default function CLTSimulation({ popShape, mainSampleSize }) {
     if (!means) { // calling addSampleMeans with no arguments clears the data
       setSampleMeans([])
     } else {
-      const newSampleMeans = [...sampleMeans, ...means.map((mean, index) => ({ ...mean, id: index }))];
+      const newSampleMeans = means.map((mean, index) => ({ ...mean, id: index }));
       setSampleMeans(newSampleMeans);
     }
   }
