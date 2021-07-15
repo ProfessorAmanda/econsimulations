@@ -1,18 +1,18 @@
 import { render, screen } from '@testing-library/react';
-import PopBar from '../components/PopBar.js';
+import SelectorButtonGroup from '../components/SelectorButtonGroup.js';
 
-describe('PopBar tests', () => {
+describe('SelectorButtonGroup tests', () => {
   const options = ['Normal', 'Uniform', 'Exponential'];
   const handler = jest.fn();
 
   beforeEach(() => {
     handler.mockReset();
-    render(<PopBar options={options} setPop={handler}/>);
+    render(<SelectorButtonGroup options={options} select={handler}/>);
   });
 
   options.forEach((option) => {
     test(`${option} button rendered`, () => {
-      expect(screen.getByRole('button', { name: option })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: option })).toBeInTheDocument();
     });
   });
 });

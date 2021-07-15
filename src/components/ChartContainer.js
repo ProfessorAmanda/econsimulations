@@ -34,7 +34,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
       showInLegend: false,
       visible: (sampleMean !== undefined) && (sampled.length > 0),
       label: {
-        format: `<div>Sample Mean: ${sampleMean}</div>`
+        format: `<div>Sample Mean: ${sampleMean.toFixed(2)}</div>`
       }
     }
   ];
