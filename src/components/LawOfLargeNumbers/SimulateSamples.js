@@ -12,7 +12,6 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
   const [meanLine, setMeanLine] = useState([]);
   const [chart, setChart] = useState({});
-  const [timer, setTimer] = useState();
 
   useEffect(() => {
     const newChart = {
@@ -91,16 +90,16 @@ export default function SimulateSamples({ type, popArray, popMean }) {
     setSampled([]);
     setMeanLine([])
     let n = 0;
-    setTimer(setInterval(() => {
+    const timer = setInterval(() => {
       n += 1;
-      // if (n >= 1000) {
-      //   clearInterval(timer)
-      // }
+      if (n >= 1000) {
+        clearInterval(timer)
+      }
       const sample = _.sampleSize(popArray, n);
       const avg = _.round(populationMean(sample), 2);
       setSampled((currSampled) => [...currSampled, { y: avg }]);
       setMeanLine((currMeanLine) => [...currMeanLine, { y: popMean }]);
-    }, n));
+    }, n);
 
     return () => clearInterval(timer);
   }, []);  // eslint-disable-line
