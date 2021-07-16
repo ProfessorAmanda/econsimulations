@@ -2,6 +2,7 @@ import { mean, std, sqrt } from 'mathjs';
 import PD from 'probability-distributions';
 import _ from 'lodash';
 import { jStat } from 'jstat';
+import MultivariateNormal from 'multivariate-normal';
 
 export const getCounts = (data) => {
   const counts = [];
@@ -73,20 +74,13 @@ export const dataFromDistribution = (
 }
 
 // returns the mean of popArray
-export const populationMean = (popArray) => ((popArray.length > 0) ? mean(popArray.map((p) => p.x)) : undefined)
+export const populationMean = (popArray, attr = 'x') => {
+  return (popArray.length > 0) ? mean(popArray.map((p) => p[attr])) : undefined
+}
 
 // returns the std of popArray
-export const populationStandardDev = (popArray) => ((popArray.length > 0) ? std(popArray.map((p) => p.x)) : undefined)
-
-export const arraySTD = (anyArray) => ((anyArray.length > 0) ? std(anyArray.map((beta) => beta)) : undefined)
-// transforms array into standard normal distribution
-export const convertToStandardNormal = (values) => {
-  if (values.length === 0) {
-    return []
-  }
-  const valuesMean = mean(values);
-  const valuesSD = std(values);
-  return values.map((val) => ((val - valuesMean) / valuesSD));
+export const populationStandardDev = (popArray, attr = 'x') => {
+  return (popArray.length > 0) ? std(popArray.map((p) => p[attr])) : undefined
 }
 
 export const calculateOneSampleTestStatistic = (distType, sampleMean, mu0, standardDev, sampleSize) => ((distType === 'Z')
@@ -102,4 +96,32 @@ export const calculateTwoSampleTestStatistic = (
   sampleSize2
 ) => (sampleMean1 - sampleMean2) / sqrt(standardDev1 ** 2 / sampleSize1 + standardDev2 ** 2 / sampleSize2)
 
-export const calculatePValue = (distType, testStat, sampleSize, sides) => ((distType === 'Z') ? jStat.ztest(testStat, sides) : jStat.ttest(testStat, sampleSize - 1, sides))
+export const calculatePValue = (distType, testStat, sampleSize, sides) => {
+  return ((distType === 'Z') ? jStat.ztest(testStat, sides) : jStat.ttest(testStat, sampleSize - 1, sides))
+}
+
+export const generateScatter = (size, meanX, meanY, stdX, stdY, corr) => {
+  const covarianceMatrix = [
+    [stdX * stdX, corr * stdX * stdY],
+    [corr * stdX * stdY, stdY * stdY]
+  ];
+  const distribution = MultivariateNormal([meanX, meanY], covarianceMatrix);
+  return PD.rnorm(size, 0, 5).map((epsilon) => {
+    const [x, y] = distribution.sample();
+    const scorePoint = 40 + 3 * x + 2.5 * y + epsilon;
+    return ({
+      x: _.clamp(_.round(x, 2), 0, 15),
+      y: _.clamp(_.round(scorePoint, 2), 0, 100)
+    });
+  });
+}
+
+export const generateBinary = (size, mean1, mean2, std1, std2, precision = 2) => {
+  const control = generateNormal(size, mean1, std1, precision).map((num) => ({ x: 0, y: num, category: 'Control' }));
+  const jobCorps = generateNormal(size, mean2, std2, precision).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
+  return [...control, ...jobCorps];
+}
+
+export const convertToStandardNormal = (array, popMean, popSD, attr) => {
+  return array.map((p) => ({...p, [attr]: (p[attr] - popMean) / popSD}));
+}
