@@ -7,6 +7,7 @@ import { Form } from 'react-bootstrap';
 import { useState } from 'react';
 import { OLSE_VALUES } from '../../lib/constants.js';
 import _ from 'lodash';
+import StandardNormalOLS from './StandardNormalOLS.js';
 
 export default function InterceptDistributionPlot({ samples, populationShape }) {
   const [standardized, setStandardized] = useState(false);
@@ -18,14 +19,18 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
 
   return (
     <div>
-      <DotPlot
-        series={[{ name: 'intercepts', data: plotData, showInLegend: false }]}
-        title="Distribution of Sample Intercepts"
-        xMin={standardized ? -3 : min(OLSE_VALUES[populationShape].interceptMin, ...plotData.map(({ x }) => x))}
-        xMax={standardized ? 3 : max(OLSE_VALUES[populationShape].interceptMax, ...plotData.map(({ x }) => x))}
-        yMax={max(4, ...plotData.map(({ y }) => y))}
-        xLabel={standardized ? 'Standard Deviations' : 'Intercept'}
-      />
+      {standardized ? (
+        <StandardNormalOLS seriesName="Intercepts" data={plotData}/>
+      ) : (
+        <DotPlot
+          series={[{ name: 'Intercepts', data: plotData, showInLegend: false }]}
+          title="Distribution of Sample Intercepts"
+          xMin={min(OLSE_VALUES[populationShape].interceptMin, ...plotData.map(({ x }) => x))}
+          xMax={max(OLSE_VALUES[populationShape].interceptMax, ...plotData.map(({ x }) => x))}
+          yMax={max(4, ...plotData.map(({ y }) => y))}
+          xLabel="Intercept"
+        />
+      )}
       <Form.Check
         inline
         type="checkbox"
