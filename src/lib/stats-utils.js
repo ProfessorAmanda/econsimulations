@@ -97,7 +97,7 @@ export const calculateTwoSampleTestStatistic = (
 ) => (sampleMean1 - sampleMean2) / sqrt(standardDev1 ** 2 / sampleSize1 + standardDev2 ** 2 / sampleSize2)
 
 export const calculatePValue = (distType, testStat, equality, sampleSize, sides) => {
-  const pval = ((distType === 'Z') ? jStat.ztest(testStat, sides) : jStat.ttest(testStat, sampleSize - 1, sides))
+  const pval = (distType === 'Z') ? jStat.ztest(testStat, sides) : jStat.ttest(testStat, sampleSize - 1, sides)
   if (((equality === '>') && (testStat < 0)) || ((equality === '<') && (testStat >= 0))) {
     return 1 - pval
   } else {
