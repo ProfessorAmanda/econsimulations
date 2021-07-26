@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import '../../styles/dark-unica.css';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   const [sampled, setSampled] = useState([]);
   const [meanLine, setMeanLine] = useState([]);
   const [chart, setChart] = useState({});
+  const [start, setStart] = useState(false);
 
   useEffect(() => {
     const newChart = {
@@ -47,8 +48,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
         title: {
           text: 'Sample Size'
         },
-        min: 0,
-        max: 1000
+        min: 0
       },
       yAxis: {
         title: {
@@ -56,13 +56,16 @@ export default function SimulateSamples({ type, popArray, popMean }) {
         }
       },
       tooltip: {
-        enabled: true
+        enabled: false
       },
       series: [
         {
-          name: 'Population Mean',
+          name: `Population Mean (${popMean.toFixed(2)})`,
           data: meanLine,
           label: {
+            enabled: false
+          },
+          marker: {
             enabled: false
           },
           color: 'red'
@@ -71,6 +74,9 @@ export default function SimulateSamples({ type, popArray, popMean }) {
           name: 'Sampled Means',
           data: sampled,
           label: {
+            enabled: false
+          },
+          marker: {
             enabled: false
           },
           color: 'black'
@@ -84,26 +90,32 @@ export default function SimulateSamples({ type, popArray, popMean }) {
   useEffect(() => {
     setSampled([]);
     setMeanLine([]);
-    let n = 0;
-    const timer = setInterval(() => {
-      n += 1;
-      if (n >= 1000) {
-        clearInterval(timer)
-      }
-      const sample = _.sampleSize(popArray, n);
-      const avg = _.round(populationMean(sample), 2);
-      setSampled((currSampled) => [...currSampled, { y: avg }]);
-      setMeanLine((currMeanLine) => [...currMeanLine, { y: popMean }]);
-    }, n);
+    let timer;
+    if (start) {
+      let n = 0;
+      timer = setInterval(() => {
+        const newSamples = [];
+        for (let i = 0; i < (n >= 600 ? 4 : (n >= 300 ? 2 : 1)); i++) {
+          n += 1;
+          if (n >= 1000) {
+            clearInterval(timer)
+            break;
+          }
+          const sample = _.sampleSize(popArray, n);
+          newSamples.push({ y: _.round(populationMean(sample), 2) });
+        }
+        setSampled((currSampled) => [...currSampled, ...newSamples]);
+        setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: popMean }]);
+      }, n);
+    }
 
     return () => clearInterval(timer);
-  }, []);  // eslint-disable-line
+  }, [start, popArray, popMean]);
 
   return (
-    <Card>
-      <Card.Body>
-        <HighchartsReact highcharts={Highcharts} options={chart}/>
-      </Card.Body>
+    <Card body>
+      <HighchartsReact highcharts={Highcharts} options={chart}/>
+      <Button variant="success" onClick={() => setStart(true)}>Start Simulation</Button>
     </Card>
   );
 }
