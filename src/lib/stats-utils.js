@@ -121,9 +121,9 @@ export const generateScatter = (size, meanX, meanY, stdX, stdY, corr) => {
   });
 }
 
-export const generateBinary = (size, mean1, mean2, std1, std2) => {
-  const control = generateNormal(size, mean1, std1, 2).map((num) => ({ x: 0, y: num, category: 'Control' }));
-  const jobCorps = generateNormal(size, mean2, std2, 2).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
+export const generateBinary = (size, mean1, mean2, std1, std2, precision = 2) => {
+  const control = generateNormal(size, mean1, std1, precision).map((num) => ({ x: 0, y: num, category: 'Control' }));
+  const jobCorps = generateNormal(size, mean2, std2, precision).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
   return [...control, ...jobCorps];
 }
 
