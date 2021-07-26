@@ -1,77 +1,36 @@
-
 import { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import BellCurve from 'highcharts/modules/histogram-bellcurve';
+import { dataFromDistribution } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
-import { dataFromDistribution, arraySTD } from '../../lib/stats-utils';
-import { mean } from 'mathjs';
+import { dataObjectArrayType } from '../../lib/types';
+require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
-BellCurve(Highcharts);
-
-export default function StandardNormalOLS({ samples, interceptOrSlope}) {
-  const [population] = useState(
-    dataFromDistribution('Normal', 2000, { mean: 0, standardDev: 1 })
-  );
-  const [chart, setChart] = useState({
-    chart: {
-      zoomType: 'xy'
-    },
-    plotOptions: {
-      series: {
-        animation: {
-          duration: 100,
-          easing: 'easeOutBounce'
-        },
-      }
-    },
-    title: {
-      text: 'Sample Slopes'
-    },
-    xAxis: {
-      title: {
-        text: 'Normal Curve',
-      },
-      startOnTick: true,
-      endOnTick: true
-    },
-    yAxis: {
-      startOnTick: true,
-      endOnTick: true,
-      title: false
-    },
-  });
-
-  let betaArr = [];
-   
-    for(var i in samples) {
-      if (interceptOrSlope === 'slope') {
-      betaArr.push(samples[i].slope);
-    } else {
-      betaArr.push(samples[i].intercept);
-    }
-  } 
-
-  const meanArr = mean(betaArr);
-
-
-  const sdArr = arraySTD(betaArr) 
+export default function StandardNormalOLS({ seriesName, data }) {
+  const [chart, setChart] = useState({});
+  const [population] = useState(dataFromDistribution('Normal', 2000, { mean: 0, standardDev: 1 }));
 
   useEffect(() => {
-    const dataArr = [];
-    samples.forEach(({id,size,slope,intercept}) => {
-
-     const meanObject = {
-        x: (interceptOrSlope === 'slope' ? slope : intercept),
-        y: ((interceptOrSlope === 'slope' ? slope : intercept) - meanArr) / sdArr,
-        intercept,
-        id,
-        size,
-      }
-      dataArr.push(meanObject);
-    });
-    
     const newChart = {
+      chart: {
+        type: 'scatter',
+        animation: false,
+      },
+      title: {
+        text: `Distribution of Sample ${seriesName}`
+      },
+      xAxis: {
+        title: {
+          text: 'Standard Deviations',
+        },
+        startOnTick: true,
+        endOnTick: true
+      },
+      yAxis: {
+        startOnTick: true,
+        endOnTick: true,
+        title: false
+      },
       series: [
         {
           name: 'Normal Distribution',
@@ -85,20 +44,32 @@ export default function StandardNormalOLS({ samples, interceptOrSlope}) {
         {
           name: 'Data',
           type: 'scatter',
-          data: dataArr,
+          data: population.map(({ x }) => x),
           visible: false,
           showInLegend: false
+        },
+        {
+          name: seriesName,
+          data: data.map(({x, y}) => ({ x, y: y * 0.05 })),
+          showInLegend: false,
+          color: 'red',
+          marker: {
+            symbol: 'circle'
+          },
+          tooltip: {
+            pointFormat: `${seriesName}: <b>{point.x}</b><br/>`
+          },
         }
       ]
     }
-
     setChart(newChart);
-  }, [samples, meanArr, sdArr, population, interceptOrSlope]);
+
+  }, [seriesName, data, population]);
 
   return <HighchartsReact highcharts={Highcharts} options={chart}/>
 }
 
 StandardNormalOLS.propTypes = {
-  samples: PropTypes.array.isRequired,
-  interceptOrSlope: PropTypes.string.isRequired
+  seriesName: PropTypes.string.isRequired,
+  data: dataObjectArrayType.isRequired
 }
