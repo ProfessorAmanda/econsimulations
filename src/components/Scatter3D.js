@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
-import SelectorButtonGroup from './SelectorButtonGroup.js';
 
 export default function Scatter3D() {
   const [display, setDisplay] = useState('3D');
@@ -40,23 +40,24 @@ export default function Scatter3D() {
       <Plot
         data={[
           {
-            x: (display === 'yz') ? y : x,
-            y: ((display === 'xy') || (display === '3D')) ? y : z,
+            x: (display === 'YZ') ? y : x,
+            y: ((display === 'XY') || (display === '3D')) ? y : z,
             z,
             type: (display === '3D') ? 'scatter3d' : 'scatter',
             mode: 'markers',
             marker: {color: 'red'},
             hoverinfo: 'x+y+z'
           },
-          // {
-          //   z: data1,
-          //   type: 'surface',
-          //   showscale: false,
-          //   opacity: 0.5,
-          //   hoverinfo: 'x+y+z',
-          //   colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
-          //   visible: (display === '3D')
-          // }
+          (display === '3D') ?
+          {
+            z: data1,
+            type: 'surface',
+            showscale: false,
+            opacity: 0.5,
+            hoverinfo: 'x+y+z',
+            colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
+            visible: (display === '3D')
+          } : {}
         ]}
         layout={{
           width: 800,
@@ -69,8 +70,29 @@ export default function Scatter3D() {
             b: 0
           }
         }}
+        config={{
+          modeBarButtonsToRemove: ['toImage', 'resetCameraLastSave3d', 'select2d', 'lasso2d', 'autoScale2d', 'pan2d', 'pan3d', 'zoom2d', 'zoom3d', 'zoomIn2d', 'zoomOut2d', 'orbitRotation', 'tableRotation'],
+          modeBarButtonsToAdd: [
+            {
+              name: 'Display 3D',
+              icon: {
+                width: 1000,
+                height: 1000,
+                path: 'm833 5l-17 108v41l-130-65 130-66c0 0 0 38 0 39 0-1 36-14 39-25 4-15-6-22-16-30-15-12-39-16-56-20-90-22-187-23-279-23-261 0-341 34-353 59 3 60 228 110 228 110-140-8-351-35-351-116 0-120 293-142 474-142 155 0 477 22 477 142 0 50-74 79-163 96z m-374 94c-58-5-99-21-99-40 0-24 65-43 144-43 79 0 143 19 143 43 0 19-42 34-98 40v216h87l-132 135-133-135h88v-216z m167 515h-136v1c16 16 31 34 46 52l84 109v54h-230v-71h124v-1c-16-17-28-32-44-51l-89-114v-51h245v72z',
+                transform: 'matrix(1 0 0 -1 0 850)'
+              },
+              click: () => setDisplay('3D')
+            },
+            ...['XY', 'XZ', 'YZ'].map((dims) => (
+              {
+                name: `Display ${dims}`,
+                icon: Plotly.Icons.pan,
+                click: () => setDisplay(dims)
+              }
+            ))
+          ]
+        }}
       />
-      <SelectorButtonGroup options={['3D', 'xy', 'xz', 'yz']} select={setDisplay} selected={display}/>
     </div>
   )
 }
