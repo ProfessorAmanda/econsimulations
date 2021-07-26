@@ -1,25 +1,19 @@
 import { useState } from 'react';
 import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
+import jsonData from '../data/3d_scatter_data.json';
 
 export default function Scatter3D() {
+  const [data] = useState(jsonData);
   const [display, setDisplay] = useState('3D');
-
-  const data = [
-    [1, 6, 5], [8, 7, 9], [1, 3, 4], [4, 6, 8], [5, 7, 7], [6, 9, 6],
-    [7, 0, 5], [2, 3, 3], [3, 9, 8], [3, 6, 5], [4, 9, 4], [2, 3, 3],
-    [6, 9, 9], [0, 7, 0], [7, 7, 9], [7, 2, 9], [0, 6, 2], [4, 6, 7],
-    [3, 7, 7], [0, 1, 7], [2, 8, 6], [2, 3, 7], [6, 4, 8], [3, 5, 9],
-    [7, 9, 5], [3, 1, 7], [4, 4, 2], [3, 6, 2], [3, 1, 6], [6, 8, 5]
-  ];
 
   const x = [];
   const y = [];
   const z = [];
-  data.forEach(([a, b, c]) => {
-    x.push(a);
-    y.push(b);
-    z.push(c);
+  data.forEach(({test_score, str, pct_el}) => {
+    x.push(test_score);
+    y.push(str);
+    z.push(pct_el);
   })
 
   const data1 = [
@@ -48,16 +42,16 @@ export default function Scatter3D() {
             marker: {color: 'red'},
             hoverinfo: 'x+y+z'
           },
-          (display === '3D') ?
-          {
-            z: data1,
-            type: 'surface',
-            showscale: false,
-            opacity: 0.5,
-            hoverinfo: 'x+y+z',
-            colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
-            visible: (display === '3D')
-          } : {}
+          // (display === '3D') ?
+          // {
+          //   z: data1,
+          //   type: 'surface',
+          //   showscale: false,
+          //   opacity: 0.5,
+          //   hoverinfo: 'x+y+z',
+          //   colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
+          //   visible: (display === '3D')
+          // } : {}
         ]}
         layout={{
           width: 800,
@@ -68,9 +62,10 @@ export default function Scatter3D() {
             r: 0,
             t: 80,
             b: 0
-          }
+          },
         }}
         config={{
+          displayModeBar: true,
           modeBarButtonsToRemove: ['toImage', 'resetCameraLastSave3d', 'select2d', 'lasso2d', 'autoScale2d', 'pan2d', 'pan3d', 'zoom2d', 'zoom3d', 'zoomIn2d', 'zoomOut2d', 'orbitRotation', 'tableRotation'],
           modeBarButtonsToAdd: [
             {

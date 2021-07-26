@@ -18,7 +18,7 @@ import Scatter3D from './Scatter3D.js';
 
 export default function SimulationContainer({ mode, setMode }) {
   return (
-    <div data-testid="sim-container">
+    <div data-testid="sim-container" style={{paddingBottom: 25}}>
       <Button className="home-button" variant="outline-danger" id="Menu" onClick={() => setMode('Home')}>MENU</Button>
       <div className="mini-logo"/>
       {mode === 'Law of Large Numbers' && <LawOfLargeNumbers/>}
