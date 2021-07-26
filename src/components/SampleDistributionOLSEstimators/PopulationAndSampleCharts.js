@@ -69,7 +69,15 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       marker: false,
       showInLegend: false,
       enableMouseTracking: false,
-      zIndex: -5
+      zIndex: -5,
+      states: {
+        hover: {
+          enabled: false
+        },
+        inactive: {
+          enabled: false
+        }
+      }
     }))
   ];
 

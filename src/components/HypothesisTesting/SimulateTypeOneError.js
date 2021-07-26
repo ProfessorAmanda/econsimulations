@@ -80,7 +80,8 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
           size,
           size
         );
-      const pValue = calculatePValue(distType, testStatistic, size, sides);
+
+      const pValue = calculatePValue(distType, testStatistic, equality, size, sides);
 
       const sampleObject = {
         testStatistic: _.round(testStatistic, 2),

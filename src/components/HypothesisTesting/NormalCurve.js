@@ -37,6 +37,9 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
       endOnTick: true
     },
     yAxis: {
+      labels: {
+        enabled: false
+      },
       startOnTick: true,
       endOnTick: true,
       title: false
