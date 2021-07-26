@@ -54,7 +54,8 @@ export default function Scatter3D() {
           //   showscale: false,
           //   opacity: 0.5,
           //   hoverinfo: 'x+y+z',
-          //   colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']]
+          //   colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
+          //   visible: (display === '3D')
           // }
         ]}
         layout={{

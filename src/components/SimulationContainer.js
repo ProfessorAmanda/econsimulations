@@ -14,7 +14,6 @@ import { Button } from 'react-bootstrap';
 import LeastSquares from './LeastSquares/LeastSquares.js';
 import PropTypes from 'prop-types';
 import { MODULES } from '../lib/constants.js';
-import _ from 'lodash';
 import Scatter3D from './Scatter3D.js';
 
 export default function SimulationContainer({ mode, setMode }) {
@@ -37,5 +36,5 @@ export default function SimulationContainer({ mode, setMode }) {
 
 SimulationContainer.propTypes = {
   setMode: PropTypes.func.isRequired,
-  mode: PropTypes.oneOf(_.keys(MODULES)).isRequired,
+  mode: PropTypes.oneOf(MODULES.map((obj) => obj.name)).isRequired,
 }
