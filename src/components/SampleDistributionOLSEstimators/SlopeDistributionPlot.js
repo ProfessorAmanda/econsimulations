@@ -7,6 +7,7 @@ import { Form } from 'react-bootstrap';
 import { useState } from 'react';
 import { OLSE_VALUES } from '../../lib/constants.js';
 import _ from 'lodash';
+import StandardNormalOLS from './StandardNormalOLS.js';
 
 export default function SlopeDistributionPlot({ samples, populationShape }) {
   const [standardized, setStandardized] = useState(false);
@@ -18,14 +19,18 @@ export default function SlopeDistributionPlot({ samples, populationShape }) {
 
   return (
     <div>
-      <DotPlot
-        series={[{ name: 'slopes', data: plotData, showInLegend: false }]}
-        title="Distribution of Sample Slopes"
-        xMin={standardized ? -3 : min(OLSE_VALUES[populationShape].slopeMin, ...plotData.map(({ x }) => x))}
-        xMax={standardized ? 3 : max(OLSE_VALUES[populationShape].slopeMax, ...plotData.map(({ x }) => x))}
-        yMax={max(4, ...plotData.map(({ y }) => y))}
-        xLabel={standardized ? 'Standard Deviations' : 'Slope'}
-      />
+      {standardized ? (
+        <StandardNormalOLS seriesName="Slopes" data={plotData}/>
+      ) : (
+        <DotPlot
+          series={[{ name: 'Slopes', data: plotData, showInLegend: false }]}
+          title="Distribution of Sample Slopes"
+          xMin={min(OLSE_VALUES[populationShape].slopeMin, ...plotData.map(({ x }) => x))}
+          xMax={max(OLSE_VALUES[populationShape].slopeMax, ...plotData.map(({ x }) => x))}
+          yMax={max(4, ...plotData.map(({ y }) => y))}
+          xLabel="Slope"
+        />
+      )}
       <Form.Check
         inline
         type="checkbox"
