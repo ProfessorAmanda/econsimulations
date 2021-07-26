@@ -37,6 +37,9 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
       endOnTick: true
     },
     yAxis: {
+      labels: {
+        enabled: false
+      },
       startOnTick: true,
       endOnTick: true,
       title: false
