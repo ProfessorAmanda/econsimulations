@@ -22,8 +22,6 @@ export default function Scatter3D() {
     ..._.range(14, 26).map(() => _.range(0, 90).map((i) => (i / 90) * 100 + 600))
   ];
 
-  console.log(data1)
-
   return (
     <div style={{border: '1px solid black', height: 702, width: 802, margin: 'auto', padding: 0}}>
       <Plot
