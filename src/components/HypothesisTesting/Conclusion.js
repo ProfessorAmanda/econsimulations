@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { hypothesisEqualityType, testTypeType } from '../../lib/types';
 
 export default function Conclusion({ firstMean, secondMean, equality, reject, testType }) {
-  console.log(firstMean, secondMean, equality, reject, testType)
+
   let result;
   let relation;
   if ((testType === 'oneSample' && equality === '>') || (testType === 'twoSample' && equality === '<')) {
@@ -18,7 +18,7 @@ export default function Conclusion({ firstMean, secondMean, equality, reject, te
 
   return (
     <p>
-      {(testType === 'oneSample') ? `The true mean is ${relation} μ_0.` : `The second population mean is ${relation} the first population mean.`} Therefore we should {(result) ? 'reject' : 'fail to reject'} the null hypothesis and our conclusion above was therefore {(result === reject) ? 'correct' : 'incorrect'}.
+      {(testType === 'oneSample') ? `The true mean is ${relation} μ_0.` : `The second population mean is ${relation} the first population mean.`} Therefore we should {(result) ? 'reject' : 'fail to reject'} the null hypothesis. Our conclusion above was {(result === reject) ? 'correct' : 'incorrect'}.
     </p>
   )
 }
