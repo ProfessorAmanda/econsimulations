@@ -141,9 +141,9 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
           <PopulationChartReveal
             popArr={(testType === 'twoSample') ? originalPop : popArr}
             popArr2={(testType === 'twoSample') ? popArr : []}
-            pVal={pValue}
-            alpha={+alpha}
             mu0={+mu0}
+            equality={equality}
+            reject={pValue < alpha}
           />
           <Button variant="outline-primary" active={stage >= 3} onClick={() => setStage(3)}>Simulate Type I Error</Button>
         </div>
