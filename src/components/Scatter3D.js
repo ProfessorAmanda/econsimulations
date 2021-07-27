@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
 import jsonData from '../data/3d_scatter_data.json';
+import _ from 'lodash';
 
 export default function Scatter3D() {
   const [data] = useState(jsonData);
@@ -11,23 +12,17 @@ export default function Scatter3D() {
   const y = [];
   const z = [];
   data.forEach(({test_score, str, pct_el}) => {
-    x.push(test_score);
+    z.push(test_score);
     y.push(str);
-    z.push(pct_el);
+    x.push(pct_el);
   })
 
   const data1 = [
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    ..._.range(0, 14).map(() => _.range(0, 90).map(() => undefined)),
+    ..._.range(14, 26).map(() => _.range(0, 90).map((i) => (i / 90) * 100 + 600))
   ];
+
+  console.log(data1)
 
   return (
     <div style={{border: '1px solid black', height: 702, width: 802, margin: 'auto', padding: 0}}>
@@ -42,16 +37,16 @@ export default function Scatter3D() {
             marker: {color: 'red'},
             hoverinfo: 'x+y+z'
           },
-          // (display === '3D') ?
-          // {
-          //   z: data1,
-          //   type: 'surface',
-          //   showscale: false,
-          //   opacity: 0.5,
-          //   hoverinfo: 'x+y+z',
-          //   colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
-          //   visible: (display === '3D')
-          // } : {}
+          (display === '3D') ?
+          {
+            z: data1,
+            type: 'surface',
+            showscale: false,
+            opacity: 0.5,
+            hoverinfo: 'x+y+z',
+            colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
+            visible: (display === '3D')
+          } : {}
         ]}
         layout={{
           width: 800,
