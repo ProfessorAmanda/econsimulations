@@ -1,14 +1,15 @@
 import { Container, Row, Alert } from 'react-bootstrap';
 import DotPlot from '../DotPlot.js';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType, hypothesisEqualityType } from '../../lib/types.js';
+import { dataObjectArrayType, hypothesisEqualityType, testTypeType } from '../../lib/types.js';
 import { populationMean } from '../../lib/stats-utils.js';
 import { max } from 'mathjs';
 import Conclusion from './Conclusion.js';
 
-export default function PopulationChartReveal({ popArr, popArr2, mu0, equality, reject }) {
+export default function PopulationChartReveal({ popArr, popArr2, mu0, equality, reject, testType }) {
   const popMean = populationMean(popArr);
   const popMean2 = populationMean(popArr2);
+  console.log(popMean, popMean2, mu0)
   const popArrMax = (popArr.length > 0) ? max(popArr.map(({ y }) => y)) : 0;
   const popArr2Max = (popArr2.length > 0) ? max(popArr2.map(({ y }) => y)) : 0;
   const maxHeight = max(popArrMax, popArr2Max);
@@ -87,7 +88,13 @@ export default function PopulationChartReveal({ popArr, popArr2, mu0, equality, 
         </Container>
       </Row>
       <Row>
-        <Conclusion mu0={mu0} trueMean={popMean} equality={equality} reject={reject}/>
+        <Conclusion
+          firstMean={(testType === 'oneSample') ? popMean : popMean2}
+          secondMean={(testType === 'oneSample') ? mu0 : popMean}
+          equality={equality}
+          reject={reject}
+          testType={testType}
+        />
       </Row>
     </Container>
   )
@@ -98,5 +105,6 @@ PopulationChartReveal.propTypes = {
   popArr2: dataObjectArrayType.isRequired,
   mu0: PropTypes.number.isRequired,
   equality: hypothesisEqualityType.isRequired,
-  reject: PropTypes.bool.isRequired
+  reject: PropTypes.bool.isRequired,
+  testType: testTypeType.isRequired
 }

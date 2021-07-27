@@ -77,11 +77,19 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   const originalPopSD = populationStandardDev(originalPop);
 
   const oneSampleSD = (distType === 'Z') ? populationSD : sampleSD;
-  const twoSampleSD = (distType === 'Z') ? originalPopSD : originalSampleSD;
+  const twoSampleSD1 = (distType === 'Z') ? originalPopSD : originalSampleSD;
+  const twoSampleSD2 = (distType === 'Z') ? originalPopSD : sampleSD;
 
   const testStatistic = (testType === 'oneSample')
     ? calculateOneSampleTestStatistic(distType, sampleMean, mu0, oneSampleSD, sampleSize)
-    : calculateTwoSampleTestStatistic(originalSampleMean, sampleMean, twoSampleSD, originalPopSampleSize, sampleSize);
+    : calculateTwoSampleTestStatistic(
+        originalSampleMean,
+        sampleMean,
+        twoSampleSD1,
+        twoSampleSD2,
+        originalPopSampleSize,
+        sampleSize
+      );
 
   const pValue = calculatePValue(distType, testStatistic, equality, sampleSize, sides);
 
@@ -144,6 +152,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
             mu0={+mu0}
             equality={equality}
             reject={pValue < alpha}
+            testType={testType}
           />
           <Button variant="outline-primary" active={stage >= 3} onClick={() => setStage(3)}>Simulate Type I Error</Button>
         </div>
