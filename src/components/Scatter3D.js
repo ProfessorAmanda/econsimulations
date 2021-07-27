@@ -4,10 +4,12 @@ import Plot from 'react-plotly.js';
 import jsonData from '../data/3d_scatter_data.json';
 import _ from 'lodash';
 import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
+import { Button } from 'react-bootstrap';
 
 export default function Scatter3D() {
   const [data] = useState(jsonData);
   const [display, setDisplay] = useState('3D');
+  const [showBestFit, setShowBestFit] = useState(false);
 
   const x = [];
   const y = [];
@@ -35,31 +37,35 @@ export default function Scatter3D() {
     bestFitPlane.push(temp)
   }
 
+  const plotData = [
+    {
+      x: (display === 'YZ') ? y : x,
+      y: ((display === 'XY') || (display === '3D')) ? y : z,
+      z,
+      type: (display === '3D') ? 'scatter3d' : 'scatter',
+      mode: 'markers',
+      marker: {color: 'red'},
+      hoverinfo: 'x+y+z'
+    }
+  ];
+  console.log(showBestFit)
+
+  if (display === '3D' && showBestFit) {
+    plotData.push({
+      z: bestFitPlane,
+      type: 'surface',
+      showscale: false,
+      opacity: 0.5,
+      hoverinfo: 'x+y+z',
+      colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
+      visible: (display === '3D')
+    })
+  }
 
   return (
     <div style={{border: '1px solid black', height: 702, width: 802, margin: 'auto', padding: 0}}>
       <Plot
-        data={[
-          {
-            x: (display === 'YZ') ? y : x,
-            y: ((display === 'XY') || (display === '3D')) ? y : z,
-            z,
-            type: (display === '3D') ? 'scatter3d' : 'scatter',
-            mode: 'markers',
-            marker: {color: 'red'},
-            hoverinfo: 'x+y+z'
-          },
-          (display === '3D') ?
-          {
-            z: bestFitPlane,
-            type: 'surface',
-            showscale: false,
-            opacity: 0.5,
-            hoverinfo: 'x+y+z',
-            colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
-            visible: (display === '3D')
-          } : {}
-        ]}
+        data={plotData}
         layout={{
           width: 800,
           height: 700,
@@ -91,10 +97,22 @@ export default function Scatter3D() {
                 icon: Plotly.Icons.pan,
                 click: () => setDisplay(dims)
               }
-            ))
+            )),
+            {
+              name: 'Show regression line/plane',
+              icon: Plotly.Icons.pencil,
+              click: () => setShowBestFit(true)
+            }
+            ,
+            {
+              name: 'Hide regression line/plane',
+              icon: Plotly.Icons.pencil,
+              click: () => setShowBestFit(false)
+            }
           ]
         }}
       />
+      <Button onClick={() => setShowBestFit(!showBestFit)}>Toggle best fit line/plane</Button>
     </div>
   )
 }
