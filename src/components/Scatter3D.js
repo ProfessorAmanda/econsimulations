@@ -3,6 +3,7 @@ import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
 import jsonData from '../data/3d_scatter_data.json';
 import _ from 'lodash';
+import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
 
 export default function Scatter3D() {
   const [data] = useState(jsonData);
@@ -15,12 +16,25 @@ export default function Scatter3D() {
     z.push(test_score);
     y.push(str);
     x.push(pct_el);
-  })
+  });
 
-  const data1 = [
-    ..._.range(0, 14).map(() => _.range(0, 90).map(() => undefined)),
-    ..._.range(14, 26).map(() => _.range(0, 90).map((i) => (i / 90) * 100 + 600))
-  ];
+  const A = matrix(_.zip(_.range(0, x.length).map(() => 1), x, y));
+
+  const theta = multiply(inv(multiply(transpose(A), A)), multiply(transpose(A), matrix(z)));
+
+  const equation = (x, y) => {
+    return column([theta], 0) + column([theta], 1) * x + column([theta], 2) * y
+  }
+
+  const bestFitPlane = _.range(0, _.round(min(y) - 1)).map(() => _.range(0, _.round(max(x) + 1)).map(() => undefined));
+  for (let yi = _.round(min(y)); yi <= _.round(max(y) + 1); yi++) {
+    const temp = []
+    for (let xi = _.round(min(x)); xi <= _.round(max(x) + 1); xi++) {
+      temp.push(equation(xi, yi));
+    }
+    bestFitPlane.push(temp)
+  }
+
 
   return (
     <div style={{border: '1px solid black', height: 702, width: 802, margin: 'auto', padding: 0}}>
@@ -37,7 +51,7 @@ export default function Scatter3D() {
           },
           (display === '3D') ?
           {
-            z: data1,
+            z: bestFitPlane,
             type: 'surface',
             showscale: false,
             opacity: 0.5,
