@@ -45,7 +45,17 @@ export default function Scatter3D() {
       return column([theta], 0) + column([theta], 1) * x + column([theta], 2) * y
     }
 
+    // surface plot must be of the form:
+    // [
+    //  [x, x, x, x, x, ...],  <-- y
+    //  [x, x, x, x, x, ...],
+    //  ...
+    // ]
+    //     ^z
+
+    // fill from 0 to min(y) with lists of undefined
     const bestFitPlane = _.range(0, _.round(min(y) - 1)).map(() => _.range(0, _.round(max(x) + 1)).map(() => undefined));
+
     for (let yi = _.round(min(y)); yi <= _.round(max(y) + 1); yi++) {
       const temp = []
       for (let xi = _.round(min(x)); xi <= _.round(max(x) + 1); xi++) {
