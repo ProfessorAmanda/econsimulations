@@ -11,10 +11,6 @@ export default function Scatter3D() {
   const [display, setDisplay] = useState('3D');
   const [showBestFit, setShowBestFit] = useState(false);
 
-  useEffect(() => {
-    setShowBestFit(false)
-  }, [display]);
-
   const x = [];
   const y = [];
   const z = [];
