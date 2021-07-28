@@ -130,7 +130,7 @@ export default function Scatter3D() {
               }
             )),
             {
-              name: 'Show regression line/plane',
+              name: `Show best fit ${(display === '3D' ? 'plane' : 'line')}`,
               icon: {
                 'width': 875,
                 'height': 1000,
@@ -140,7 +140,7 @@ export default function Scatter3D() {
               click: () => setShowBestFit(true)
             },
             {
-              name: 'Hide regression line/plane',
+              name: `Hide best fit ${(display === '3D' ? 'plane' : 'line')}`,
               icon: {
                 'width': 875,
                 'height': 1000,
