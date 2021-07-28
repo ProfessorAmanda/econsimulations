@@ -1,15 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
 import jsonData from '../data/3d_scatter_data.json';
 import _ from 'lodash';
 import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
-import { Button } from 'react-bootstrap';
+import regression from 'regression';
 
 export default function Scatter3D() {
   const [data] = useState(jsonData);
   const [display, setDisplay] = useState('3D');
   const [showBestFit, setShowBestFit] = useState(false);
+
+  useEffect(() => {
+    setShowBestFit(false)
+  }, [display]);
 
   const x = [];
   const y = [];
@@ -19,23 +23,6 @@ export default function Scatter3D() {
     y.push(str);
     x.push(pct_el);
   });
-
-  const A = matrix(_.zip(_.range(0, x.length).map(() => 1), x, y));
-
-  const theta = multiply(inv(multiply(transpose(A), A)), multiply(transpose(A), matrix(z)));
-
-  const equation = (x, y) => {
-    return column([theta], 0) + column([theta], 1) * x + column([theta], 2) * y
-  }
-
-  const bestFitPlane = _.range(0, _.round(min(y) - 1)).map(() => _.range(0, _.round(max(x) + 1)).map(() => undefined));
-  for (let yi = _.round(min(y)); yi <= _.round(max(y) + 1); yi++) {
-    const temp = []
-    for (let xi = _.round(min(x)); xi <= _.round(max(x) + 1); xi++) {
-      temp.push(equation(xi, yi));
-    }
-    bestFitPlane.push(temp)
-  }
 
   const plotData = [
     {
@@ -48,9 +35,25 @@ export default function Scatter3D() {
       hoverinfo: 'x+y+z'
     }
   ];
-  console.log(showBestFit)
 
   if (display === '3D' && showBestFit) {
+    const A = matrix(_.zip(_.range(0, x.length).map(() => 1), x, y));
+
+    const theta = multiply(inv(multiply(transpose(A), A)), multiply(transpose(A), matrix(z)));
+
+    const equation = (x, y) => {
+      return column([theta], 0) + column([theta], 1) * x + column([theta], 2) * y
+    }
+
+    const bestFitPlane = _.range(0, _.round(min(y) - 1)).map(() => _.range(0, _.round(max(x) + 1)).map(() => undefined));
+    for (let yi = _.round(min(y)); yi <= _.round(max(y) + 1); yi++) {
+      const temp = []
+      for (let xi = _.round(min(x)); xi <= _.round(max(x) + 1); xi++) {
+        temp.push(equation(xi, yi));
+      }
+      bestFitPlane.push(temp)
+    }
+
     plotData.push({
       z: bestFitPlane,
       type: 'surface',
@@ -59,7 +62,24 @@ export default function Scatter3D() {
       hoverinfo: 'x+y+z',
       colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
       visible: (display === '3D')
-    })
+    });
+
+  } else if (showBestFit) {
+    const displayPointsMap = {
+      'XY': _.zip(x, y),
+      'YZ': _.zip(y, z),
+      'XZ': _.zip(x, z)
+    }
+    const { equation: [slope, intercept] } = regression.linear(displayPointsMap[display], { precision: 1 });
+    const [lineX, lineY] = _.unzip(displayPointsMap[display].map((point) => ([point[0], (point[0] * slope) + intercept ])));
+
+    plotData.push({
+      x: lineX,
+      y: lineY,
+      mode: 'lines',
+      name: '',
+      marker: {color: 'black'},
+    });
   }
 
   return (
@@ -71,11 +91,12 @@ export default function Scatter3D() {
           height: 700,
           title: 'Fancy Plot',
           margin: {
-            l: 0,
-            r: 0,
+            l: 50,
+            r: 50,
             t: 80,
-            b: 0
+            b: 50
           },
+          showlegend: false
         }}
         config={{
           displayModeBar: true,
@@ -100,19 +121,27 @@ export default function Scatter3D() {
             )),
             {
               name: 'Show regression line/plane',
-              icon: Plotly.Icons.pencil,
+              icon: {
+                'width': 875,
+                'height': 1000,
+                'path': 'm1 787l0-875 875 0 0 875-875 0z m687-500l-187 0 0-187-125 0 0 187-188 0 0 125 188 0 0 187 125 0 0-187 187 0 0-125z',
+                'transform': 'matrix(1 0 0 -1 0 850)'
+              },
               click: () => setShowBestFit(true)
-            }
-            ,
+            },
             {
               name: 'Hide regression line/plane',
-              icon: Plotly.Icons.pencil,
+              icon: {
+                'width': 875,
+                'height': 1000,
+                'path': 'm0 788l0-876 875 0 0 876-875 0z m688-500l-500 0 0 125 500 0 0-125z',
+                'transform': 'matrix(1 0 0 -1 0 850)'
+              },
               click: () => setShowBestFit(false)
             }
           ]
         }}
       />
-      <Button onClick={() => setShowBestFit(!showBestFit)}>Toggle best fit line/plane</Button>
     </div>
   )
 }
