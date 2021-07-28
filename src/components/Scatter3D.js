@@ -31,7 +31,14 @@ export default function Scatter3D() {
       z,
       type: (display === '3D') ? 'scatter3d' : 'scatter',
       mode: 'markers',
-      marker: {color: 'red'},
+      marker: {
+        size: (display === '3D') ? 8 : 12,
+        color: 'red',
+        line: {
+          color: 'black',
+          width: (display === '3D') ? 1 : 0.5
+        }
+      },
       hoverinfo: 'x+y+z'
     }
   ];
@@ -53,7 +60,7 @@ export default function Scatter3D() {
     // ]
     //     ^z
 
-    // fill from 0 to min(y) with lists of undefined
+    // fill from 0 to min(y) with lists of undefined so the surface isn't displayed in this space
     const bestFitPlane = _.range(0, _.round(min(y) - 1)).map(() => _.range(0, _.round(max(x) + 1)).map(() => undefined));
 
     for (let yi = _.round(min(y)); yi <= _.round(max(y) + 1); yi++) {
@@ -101,12 +108,35 @@ export default function Scatter3D() {
           height: 700,
           title: 'Fancy Plot',
           margin: {
-            l: 50,
-            r: 50,
+            l: 80,
+            r: 80,
             t: 80,
-            b: 50
+            b: 80
           },
-          showlegend: false
+          showlegend: false,
+          xaxis: {
+            title: (display === 'YZ') ? 'Student-Teacher Ratio' : 'Percent English Learners'
+          },
+          yaxis: {
+            title: (display === 'XY') ? 'Student-Teacher Ratio' : 'Test Score'
+          },
+          scene: {
+            xaxis: {
+              title: {
+                text: 'Percent English Learners'
+              }
+            },
+            yaxis: {
+              title: {
+                text: 'Student-Teacher Ratio'
+              }
+            },
+            zaxis: {
+              title: {
+                text: 'Test Score'
+              }
+            }
+          }
         }}
         config={{
           displayModeBar: true,
