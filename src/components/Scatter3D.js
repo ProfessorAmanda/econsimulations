@@ -7,18 +7,11 @@ import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
 import regression from 'regression';
 
 export default function Scatter3D() {
-  const [data] = useState(jsonData);
+  const [data] = useState(jsonData.map(({test_score, str, pct_el}) => [pct_el, str, test_score]));
   const [display, setDisplay] = useState('3D');
   const [showBestFit, setShowBestFit] = useState(false);
 
-  const x = [];
-  const y = [];
-  const z = [];
-  data.forEach(({test_score, str, pct_el}) => {
-    z.push(test_score);
-    y.push(str);
-    x.push(pct_el);
-  });
+  const [x, y, z] = _.unzip(data);
 
   const plotData = [
     {
