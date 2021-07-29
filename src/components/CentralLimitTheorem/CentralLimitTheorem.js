@@ -1,8 +1,3 @@
-/*
-
-  Displays one of the CLT simulations
-
-*/
 import { useState, useEffect } from 'react';
 import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
@@ -57,7 +52,7 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
           <div>
             <Row>
               <p style={{ margin: 15 }}>Try drawing some samples and calculating means</p>
-              <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
+              <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={handleClick}/>
             </Row>
             <Row>
               <Col lg="8">

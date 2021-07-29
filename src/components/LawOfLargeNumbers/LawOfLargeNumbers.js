@@ -1,8 +1,3 @@
-/*
-
-  Displays one of the LLN simulations
-
-*/
 import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
@@ -40,7 +35,7 @@ export default function LawOfLargeNumbers({ popShape, sampleSize }) {
       <div data-testid="lln-sim">
         <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} sampleMean={sampleMean} popShape={popShape}/>
         <p>Try a few different sample sizes and compare sample mean to population mean</p>
-        <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
+        <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={handleClick}/>
         {(stage >= 2) && (
           <div>
             <Alert variant="success">

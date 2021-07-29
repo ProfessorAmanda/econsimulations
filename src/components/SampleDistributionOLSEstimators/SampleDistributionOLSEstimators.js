@@ -61,7 +61,7 @@ export default function SampleDistributionOLSEstimators({ populationShape }) {
         <br/>
         <Row>
           <Col xs={{ span: 8, offset: 2 }}>
-            <MultipleSamplesInput populationSize={data.length} addSamples={addSamples}/>
+            <MultipleSamplesInput populationSize={data.length} addSamples={addSamples} minSize={2}/>
           </Col>
         </Row>
         <Row>

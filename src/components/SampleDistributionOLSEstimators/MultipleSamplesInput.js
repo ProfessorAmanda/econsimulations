@@ -20,7 +20,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples, minSi
           type="number"
           style={{ width: '50%', margin: 'auto' }}
           placeholder="Sample Size:"
-          min={minSize || 1}
+          min={minSize}
           value={resampleSize}
           onChange={(event) => setResampleSize(event.target.value)}
         />
@@ -28,7 +28,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples, minSi
         <span>Number of Replications:</span>
         <Form.Control
           style={{ width: '50%', margin: 'auto' }}
-          min={minSize || 1}
+          min={minSize}
           type="number"
           placeholder="Replications:"
           onChange={(event) => setNumberResamples(event.target.value)}
@@ -38,7 +38,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples, minSi
         <Button
           variant="secondary"
           onClick={() => addSamples(resampleSize, numberResamples, true)}
-          disabled={(resampleSize < 1) || (resampleSize > populationSize) || (numberResamples < 1)}
+          disabled={(resampleSize < minSize) || (resampleSize > populationSize) || (numberResamples < 1)}
         >
           Run
         </Button>
@@ -56,5 +56,5 @@ export default function MultipleSamplesInput({ populationSize, addSamples, minSi
 MultipleSamplesInput.propTypes = {
   populationSize: PropTypes.number.isRequired,
   addSamples: PropTypes.func.isRequired,
-  minSize: PropTypes.number
+  minSize: PropTypes.number.isRequired
 }
