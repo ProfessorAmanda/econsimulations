@@ -29,6 +29,7 @@ export default function SlopeDistributionPlot({ samples, populationShape }) {
           xMax={max(OLSE_VALUES[populationShape].slopeMax, ...plotData.map(({ x }) => x))}
           yMax={max(4, ...plotData.map(({ y }) => y))}
           xLabel="Slope"
+          yLabel="Observations of Sample Slope"
         />
       )}
       <Form.Check

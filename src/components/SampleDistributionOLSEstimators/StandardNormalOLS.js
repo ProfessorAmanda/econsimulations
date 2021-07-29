@@ -26,11 +26,16 @@ export default function StandardNormalOLS({ seriesName, data }) {
         startOnTick: true,
         endOnTick: true
       },
-      yAxis: {
+      yAxis: [{  // Primary yAxis
         startOnTick: true,
         endOnTick: true,
-        title: false
-      },
+        tickInterval: 1,
+        title: {
+          text: `Observation of Sample ${seriesName.slice(0, -1)}`
+        }
+      }, {  // Secondary yAxis for bell curve
+        visible: false
+      }],
       series: [
         {
           name: 'Normal Distribution',
@@ -39,7 +44,8 @@ export default function StandardNormalOLS({ seriesName, data }) {
           zIndex: -1,
           enableMouseTracking: false,
           label: false,
-          showInLegend: false
+          showInLegend: false,
+          yAxis: 1
         },
         {
           name: 'Data',
@@ -50,7 +56,7 @@ export default function StandardNormalOLS({ seriesName, data }) {
         },
         {
           name: seriesName,
-          data: data.map(({x, y}) => ({ x, y: y * 0.05 })),
+          data,//: data.map(({x, y}) => ({ x, y: y * 0.05 })),
           showInLegend: false,
           color: 'red',
           marker: {

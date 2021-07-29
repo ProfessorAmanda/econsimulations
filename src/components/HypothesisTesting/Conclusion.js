@@ -12,8 +12,8 @@ export default function Conclusion({ firstMean, secondMean, equality, reject, te
     result = firstMean < secondMean;
     relation = firstMean < secondMean ? 'less than' : 'greater than';
   } else if (equality === '!=') {
-    result = firstMean != secondMean;
-    relation = firstMean != secondMean ? 'not equal to' : 'equal to';
+    result = firstMean !== secondMean;
+    relation = firstMean !== secondMean ? 'not equal to' : 'equal to';
   }
 
   return (
