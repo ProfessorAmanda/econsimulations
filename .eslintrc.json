@@ -49,6 +49,12 @@
     "no-var": "warn",
     "no-duplicate-imports": "warn",
     "keyword-spacing": "warn",
+    "no-console": [
+      "warn",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
     "react/jsx-tag-spacing": [
       "warn",
       {

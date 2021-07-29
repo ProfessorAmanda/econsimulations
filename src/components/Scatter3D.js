@@ -43,11 +43,11 @@ export default function Scatter3D() {
 
     // surface plot must be of the form:
     // [
-    //  [x, x, x, x, x, ...],  <-- y
-    //  [x, x, x, x, x, ...],
+    //  [z, z, z, z, z, ...],  <-- x
+    //  [z, z, z, z, z, ...],
     //  ...
     // ]
-    //     ^z
+    //     ^y
 
     // fill from 0 to min(y) with lists of undefined so the surface isn't displayed in this space
     const bestFitPlane = _.range(0, _.round(min(y) - 1)).map(() => _.range(0, _.round(max(x) + 1)).map(() => undefined));

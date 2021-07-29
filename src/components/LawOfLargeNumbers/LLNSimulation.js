@@ -17,7 +17,6 @@ export default function LLNSimulation({ popShape, sampleSize }) {
   useEffect(() => {
     setStage(1);
     const newPop = dataFromDistribution(popShape, sampleSize);
-    console.log(popShape, newPop)
     setPopArray(newPop);
     setSampled([]);
   }, [popShape, sampleSize]);
