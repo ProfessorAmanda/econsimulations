@@ -128,6 +128,7 @@ export default function Scatter3D() {
           }
         }}
         config={{
+          scrollZoom: true,
           displayModeBar: true,
           modeBarButtonsToRemove: ['toImage', 'resetCameraLastSave3d', 'select2d', 'lasso2d', 'autoScale2d', 'pan2d', 'pan3d', 'zoom2d', 'zoom3d', 'zoomIn2d', 'zoomOut2d', 'orbitRotation', 'tableRotation'],
           modeBarButtonsToAdd: [
