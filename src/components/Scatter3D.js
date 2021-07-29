@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
 import jsonData from '../data/3d_scatter_data.json';
