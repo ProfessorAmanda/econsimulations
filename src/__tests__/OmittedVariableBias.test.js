@@ -1,10 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import OVBSimulation from '../components/OmittedVariableBias/OVBSimulation.js';
+import OmittedVariableBias from '../components/OmittedVariableBias/OmittedVariableBias.js';
 import { getAllCharts } from '../lib/test-utils.js';
 
 describe('Omitted Variable Bias tests', () => {
   beforeEach(() => {
-    render(<OVBSimulation/>)
+    render(<OmittedVariableBias/>)
   });
 
   test('Plot hidden initally', () => {

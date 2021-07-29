@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default function MultipleSamplesInput({ populationSize, addSamples }) {
-  const [numberResamples, setNumberResamples] = useState(0);
-  const [resampleSize, setResampleSize] = useState(0);
+export default function MultipleSamplesInput({ populationSize, addSamples, minSize }) {
+  const [numberResamples, setNumberResamples] = useState('');
+  const [resampleSize, setResampleSize] = useState('');
+
+  useEffect(() => {
+    setResampleSize('');
+    setNumberResamples('');
+  }, [populationSize]);
 
   return (
     <div>
@@ -15,7 +20,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
           type="number"
           style={{ width: '50%', margin: 'auto' }}
           placeholder="Sample Size:"
-          min={1}
+          min={minSize}
           value={resampleSize}
           onChange={(event) => setResampleSize(event.target.value)}
         />
@@ -23,7 +28,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
         <span>Number of Replications:</span>
         <Form.Control
           style={{ width: '50%', margin: 'auto' }}
-          min={1}
+          min={minSize}
           type="number"
           placeholder="Replications:"
           onChange={(event) => setNumberResamples(event.target.value)}
@@ -33,7 +38,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
         <Button
           variant="secondary"
           onClick={() => addSamples(resampleSize, numberResamples, true)}
-          disabled={(resampleSize < 1) || (resampleSize > populationSize) || (numberResamples < 1)}
+          disabled={(resampleSize < minSize) || (resampleSize > populationSize) || (numberResamples < 1)}
         >
           Run
         </Button>
@@ -51,4 +56,5 @@ export default function MultipleSamplesInput({ populationSize, addSamples }) {
 MultipleSamplesInput.propTypes = {
   populationSize: PropTypes.number.isRequired,
   addSamples: PropTypes.func.isRequired,
+  minSize: PropTypes.number.isRequired
 }
