@@ -5,12 +5,16 @@
   Used by Law of Large Numbers and Central Limit Theorem
 
 */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
 export default function SampleSizeInput({ maxSize, minSize, handleClick }) {
   const [sampleSize, setSampleSize] = useState('');
+
+  useEffect(() => {
+    setSampleSize('')
+  }, [maxSize]);
 
   return (
     <InputGroup className="sample-size-input">

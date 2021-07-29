@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function MultipleSamplesInput({ populationSize, addSamples, minSize }) {
-  const [numberResamples, setNumberResamples] = useState(0);
-  const [resampleSize, setResampleSize] = useState(0);
+  const [numberResamples, setNumberResamples] = useState('');
+  const [resampleSize, setResampleSize] = useState('');
+
+  useEffect(() => {
+    setResampleSize('');
+    setNumberResamples('');
+  }, [populationSize]);
 
   return (
     <div>
