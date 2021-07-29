@@ -5,7 +5,7 @@ import { HYPOTHESIS_OPTIONS } from '../../lib/constants';
 import { stringOrNumberType } from '../../lib/types';
 
 export default function HypothesisSelector({ testType, setHypothesis, mu0, setMu0 }) {
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState(HYPOTHESIS_OPTIONS[testType][0].hypoText);
 
   useEffect(() => {
     setSelected(HYPOTHESIS_OPTIONS[testType][0].hypoText)
