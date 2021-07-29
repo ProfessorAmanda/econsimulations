@@ -9,7 +9,6 @@ import Conclusion from './Conclusion.js';
 export default function PopulationChartReveal({ popArr, popArr2, mu0, equality, reject, testType }) {
   const popMean = populationMean(popArr);
   const popMean2 = populationMean(popArr2);
-  console.log(popMean, popMean2, mu0)
   const popArrMax = (popArr.length > 0) ? max(popArr.map(({ y }) => y)) : 0;
   const popArr2Max = (popArr2.length > 0) ? max(popArr2.map(({ y }) => y)) : 0;
   const maxHeight = max(popArrMax, popArr2Max);

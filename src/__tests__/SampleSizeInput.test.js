@@ -6,7 +6,7 @@ describe('SampleSizeInput tests', () => {
 
   beforeEach(() => {
     handler.mockReset();
-    render(<SampleSizeInput maxSize={5} handleClick={handler}/>);
+    render(<SampleSizeInput maxSize={5} minSize={1} handleClick={handler}/>);
   });
 
   test('Button is disabled initally', () => {
