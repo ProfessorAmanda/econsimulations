@@ -1,25 +1,65 @@
 /*
 
-  Displays the description for the LLN simulation, a menu bar to choose the different variations, and the simulation component itself
+  Displays one of the LLN simulations
 
 */
-import { useState } from 'react';
-import PopBar from '../PopBar.js';
+import { useEffect, useState } from 'react';
+import Collapsable from '../Collapsable.js';
+import ChartContainer from '../ChartContainer.js';
+import SampleSizeInput from '../SampleSizeInput.js';
+import SimulateSamples from './SimulateSamples.js';
 import { Alert } from 'react-bootstrap';
-import LLNSimulation from './LLNSimulation.js';
-import { SAMPLE_SIZE } from '../../lib/constants.js';
+import { populationMean, dataFromDistribution } from '../../lib/stats-utils.js';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
+import { popShapeType } from '../../lib/types.js';
 
-export default function LawOfLargeNumbers() {
-  const [popShape, setPopType] = useState('');
+export default function LawOfLargeNumbers({ popShape, sampleSize }) {
+  const [sampled, setSampled] = useState([]);
+  const [stage, setStage] = useState(1);
+  const [popArray, setPopArray] = useState([]);
+
+  useEffect(() => {
+    setStage(1);
+    const newPop = dataFromDistribution(popShape, sampleSize);
+    setPopArray(newPop);
+    setSampled([]);
+  }, [popShape, sampleSize]);
+
+  const handleClick = (size) => {
+    const sample = _.sampleSize(popArray, size);
+    setSampled(sample);
+    setStage(2);
+  }
+
+  const popMean = populationMean(popArray) || 0;
+  const sampleMean = populationMean(sampled) || 0;
 
   return (
-    <div className="module-container">
-      <Alert className="sim-description" variant="primary">Law Of Large Numbers</Alert>
-      <Alert className="sim-description" variant="primary">
-        The Law of Large Numbers (LLN) is a statement about the relationship between a population and a random sample drawn from that population. Let 𝜇 denote the true mean of a variable when calculated using the entire population, let 𝜎 denote the true standard deviation of that variable when calculated using the entire population, let 𝑥̅ denote the mean calculated from a sample drawn from that population, and let 𝑠 denote the standard deviation calculated from that sample. We would like to use information from the sample to make conclusions about the population. The LLN is helpful in this endeavor, because it states that as the sample size gets larger, the sample mean approaches the true population mean. This simulation’s goal is to demonstrate this handy property.
-      </Alert>
-      <PopBar options={['Normal', 'Uniform', 'Exponential', 'Chi-Squared']} setPop={setPopType}/>
-      {popShape && <LLNSimulation popShape={popShape} sampleSize={SAMPLE_SIZE}/>}
-    </div>
+    <Collapsable>
+      <div data-testid="lln-sim">
+        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} sampleMean={sampleMean} popShape={popShape}/>
+        <p>Try a few different sample sizes and compare sample mean to population mean</p>
+        <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
+        {(stage >= 2) && (
+          <div>
+            <Alert variant="success">
+              Sample Mean: {_.round(sampleMean, 2) || ''}
+              <br/>
+              Difference of Means: {_.round(popMean - sampleMean, 2)}
+            </Alert>
+            <Alert variant="info">
+              According to the law, the average of the results obtained from a large enough sample should be close to the total average of the population, and will tend to become closer the larger the sample is. Make sure to pick several samples, or see below for a simulation to see the law in action.
+            </Alert>
+            <SimulateSamples type={popShape} popArray={popArray} popMean={_.round(popMean, 2)}/>
+          </div>
+        )}
+      </div>
+    </Collapsable>
   );
+}
+
+LawOfLargeNumbers.propTypes = {
+  popShape: popShapeType.isRequired,
+  sampleSize: PropTypes.number.isRequired,
 }

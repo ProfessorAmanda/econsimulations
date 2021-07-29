@@ -1,26 +1,99 @@
 /*
 
-  Displays the description for the CLT simulation, a menu bar to choose the different variations, and the simulation component itself
+  Displays one of the CLT simulations
 
 */
-import { useState } from 'react';
-import PopBar from '../PopBar.js';
-import { Alert } from 'react-bootstrap';
-import CLTSimulation from './CLTSimulation.js';
+import { useState, useEffect } from 'react';
+import Collapsable from '../Collapsable.js';
+import ChartContainer from '../ChartContainer.js';
+import SampleMeanChart from './SampleMeanChart.js'
+import SampleMeansSimulator from './SampleMeansSimulator.js'
+import { Alert, Button, Col, Row } from 'react-bootstrap';
+import { populationMean, dataFromDistribution, populationStandardDev } from '../../lib/stats-utils.js';
+import SampleSizeInput from '../SampleSizeInput.js';
+import SampleMeansTable from './SampleMeansTable.js';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
+import { popShapeType } from '../../lib/types.js';
 
-const SAMPLE_SIZE = 2000;
+export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
+  const [sampleMeans, setSampleMeans] = useState([]);
+  const [sampled, setSampled] = useState([]);
+  const [stage, setStage] = useState(1);
+  const [popArray, setPopArray] = useState([]);
 
-export default function CentralLimitTheorem() {
-  const [popShape, setPopType] = useState('');
+  useEffect(() => {
+    setStage(1);
+    const newPop = dataFromDistribution(popShape, mainSampleSize);
+    setPopArray(newPop);
+    setSampled([]);
+    setSampleMeans([]);
+  }, [popShape, mainSampleSize]);
+
+  const addSampleMeans = (means) => {
+    if (!means) { // calling addSampleMeans with no arguments clears the data
+      setSampleMeans([])
+    } else {
+      const newSampleMeans = means.map((mean, index) => ({ ...mean, id: index }));
+      setSampleMeans(newSampleMeans);
+    }
+  }
+
+  const handleClick = (size) => {
+    const sample = _.sampleSize(popArray, size);
+    setSampled(sample);
+    const newMeans = [...sampleMeans, { size, mean: populationMean(sample) }];
+    setSampleMeans(newMeans.map((mean, index) => ({ ...mean, id: index })));
+  }
+
+  const popMean = populationMean(popArray) || 0;
 
   return (
-    <div className="module-container">
-      <Alert className="sim-description" variant="primary">Central Limit Theorem</Alert>
-      <Alert className="sim-description" variant="primary">
-        This simulation demonstrates the shape of the sampling distribution of the sample mean. Suppose I draw a large number of samples, each of size 𝑛, from some population. For each sample, I calculate a sample mean 𝑥̅. I now plot a histogram of those sample means. For a sufficiently large sample size, the shape of that histogram will look like a beautiful bell-shaped curve, no matter what shape the underlying population had.
-      </Alert>
-      <PopBar options={['Normal', 'Uniform', 'Exponential', 'Chi-Squared', 'Mystery']} setPop={setPopType}/>
-      {popShape && <CLTSimulation popShape={popShape} mainSampleSize={SAMPLE_SIZE}/>}
-    </div>
+    <Collapsable>
+      <div>
+        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape}/>
+        <Button variant="success" onClick={() => setStage(2)}>Continue</Button>
+        {(stage >= 2) && (
+          <div>
+            <Row>
+              <p style={{ margin: 15 }}>Try drawing some samples and calculating means</p>
+              <SampleSizeInput maxSize={popArray.length} handleClick={handleClick}/>
+            </Row>
+            <Row>
+              <Col lg="8">
+                <SampleMeanChart
+                  sampleMeans={sampleMeans}
+                  popMean={popMean}
+                  sd={populationStandardDev(popArray)}
+                  popShape={popShape}
+                />
+              </Col>
+              <Col lg="4">
+                <SampleMeansTable sampleMeans={sampleMeans}/>
+              </Col>
+            </Row>
+            <Row>
+              <div>
+                <br/>
+                <Alert variant="primary" style={{ width: '50%', margin: 'auto' }}>
+                  Simulate drawing many many samples
+                </Alert>
+                <br/>
+                <SampleMeansSimulator
+                  population={popArray}
+                  addSamples={addSampleMeans}
+                />
+              </div>
+            </Row>
+          </div>
+        )}
+
+      </div>
+    </Collapsable>
   );
+}
+
+CentralLimitTheorem.propTypes = {
+  popShape: popShapeType.isRequired,
+  mainSampleSize: PropTypes.number.isRequired,
 }

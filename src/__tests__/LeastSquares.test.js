@@ -1,10 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import LeastSquaresSimulation from '../components/LeastSquares/LeastSquaresSimulation.js';
+import LeastSquares from '../components/LeastSquares/LeastSquares.js';
 import { getAllCharts } from '../lib/test-utils.js';
 
 describe('LeastSquares tests', () => {
   beforeEach(() => {
-    render(<LeastSquaresSimulation/>);
+    render(<LeastSquares/>);
   });
 
   test('only New Points button rendered initially', () => {
