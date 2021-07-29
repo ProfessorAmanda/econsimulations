@@ -29,6 +29,7 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
           xMax={max(OLSE_VALUES[populationShape].interceptMax, ...plotData.map(({ x }) => x))}
           yMax={max(4, ...plotData.map(({ y }) => y))}
           xLabel="Intercept"
+          yLabel="Observations of Sample Intercept"
         />
       )}
       <Form.Check

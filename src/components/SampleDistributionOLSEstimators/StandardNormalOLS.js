@@ -31,7 +31,7 @@ export default function StandardNormalOLS({ seriesName, data }) {
         endOnTick: true,
         tickInterval: 1,
         title: {
-          text: 'Count'
+          text: `Observation of Sample ${seriesName.slice(0, -1)}`
         }
       }, {  // Secondary yAxis for bell curve
         visible: false
