@@ -101,7 +101,7 @@ export default function CISimulation({ popShape, populationSize }) {
               popShape={popShape}
             />
             <p>Try drawing some samples and calculating means</p>
-            <SampleSizeInput maxSize={popArray.length} handleClick={generateSamples}/>
+            <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={generateSamples}/>
           </Col>
           <Col>
             <ConfidenceIntervalsChart

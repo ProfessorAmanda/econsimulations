@@ -22,7 +22,7 @@ export default function SampleSizeInput({ maxSize, minSize, handleClick }) {
         align="right"
         type="number"
         placeholder="Sample Size:"
-        min={minSize || 1}
+        min={minSize}
         value={sampleSize}
         max={maxSize}
         onChange={(event) => setSampleSize(event.target.value)}
@@ -39,6 +39,6 @@ export default function SampleSizeInput({ maxSize, minSize, handleClick }) {
 
 SampleSizeInput.propTypes = {
   maxSize: PropTypes.number.isRequired,
-  minSize: PropTypes.number,
+  minSize: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
 }
