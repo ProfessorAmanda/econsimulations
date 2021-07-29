@@ -76,7 +76,8 @@ export default function Scatter3D() {
       'YZ': _.zip(y, z),
       'XZ': _.zip(x, z)
     }
-    const { equation: [slope, intercept] } = regression.linear(displayPointsMap[display], { precision: 1 });
+
+    const { equation: [slope, intercept] } = regression.linear(displayPointsMap[display]);
     const [lineX, lineY] = _.unzip(displayPointsMap[display].map((point) => ([point[0], (point[0] * slope) + intercept ])));
 
     plotData.push({
