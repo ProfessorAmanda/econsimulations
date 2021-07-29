@@ -8,7 +8,6 @@ import SamplesTable from './SamplesTable.js';
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
 import { OLSE_VALUES } from '../../lib/constants.js';
-import regression from 'regression';
 
 export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample, populationShape }) {
   const sample = selected || { data: [] };
@@ -18,21 +17,18 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
     pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'
   } : undefined;
 
-  const mainSeries = [{ name: 'data', data, tooltip: tooltipFormat }, { name: 'sample', data: sample.data, tooltip: tooltipFormat }];
-
-  if (populationShape === 'Binary') {
-    const { equation: [slope, intercept] } = regression.linear(data.map(({ x, y }) => [x, y]), { precision: 1 });
-    mainSeries.push({
-      name: 'best fit line',
-      type: 'line',
-      data: data.map((point) => ({ x: point.x, y: _.round((point.x * slope) + intercept, 2) })),
-      label: false,
-      marker: false,
-      showInLegend: false,
-      color: 'black',
-      enableMouseTracking: false,
-    });
-  }
+  const mainSeries = [
+    {
+      name: 'data',
+      data,
+      tooltip: tooltipFormat
+    },
+    {
+      name: 'sample',
+      data: sample.data,
+      tooltip: tooltipFormat
+    }
+  ];
 
   const sampleSeries = [
     {
