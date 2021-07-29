@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import LawOfLargeNumbers from '../components/LawOfLargeNumbers/LawOfLargeNumbers.js';
-import LLNSimulation from '../components/LawOfLargeNumbers/LLNSimulation.js';
+import LawOfLargeNumbersContainer from '../components/LawOfLargeNumbers/LawOfLargeNumbersContainer.js';
 import { dataFromDistribution, populationMean } from '../lib/stats-utils.js';
 import { testPopulation } from '../lib/test-utils.js';
 
@@ -18,7 +18,7 @@ jest.mock('../lib/stats-utils.js', () => {
 describe('LawOfLargeNumbers integration tests', () => {
   beforeEach(() => {
     dataFromDistribution.mockReturnValue(testPopulation);
-    render(<LawOfLargeNumbers/>);
+    render(<LawOfLargeNumbersContainer/>);
   });
 
   test('Module contents hidden initially', () => {
@@ -40,10 +40,10 @@ describe('LawOfLargeNumbers integration tests', () => {
   });
 });
 
-describe('LLNSimulation tests', () => {
+describe('LawOfLargeNumbers tests', () => {
   beforeEach(() => {
     dataFromDistribution.mockReturnValue(testPopulation);
-    render(<LLNSimulation popShape="Normal" sampleSize={100}/>);
+    render(<LawOfLargeNumbers popShape="Normal" sampleSize={100}/>);
   });
 
   test('correct population mean is displayed', () => {

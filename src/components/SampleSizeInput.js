@@ -1,10 +1,3 @@
-/*
-
-  Displays an input and a button for the user to enter a sample size
-
-  Used by Law of Large Numbers and Central Limit Theorem
-
-*/
 import { useEffect, useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types'

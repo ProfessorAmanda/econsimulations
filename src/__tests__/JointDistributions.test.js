@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import JDSimulation from '../components/JointDistributions/JDSimulation.js';
+import JointDistributions from '../components/JointDistributions/JointDistributions.js';
 
 describe('Joint Distributions tests', () => {
   beforeEach(() => {
-    render(<JDSimulation/>)
+    render(<JointDistributions/>)
   });
 
   test('Plots hidden initially', () => {
