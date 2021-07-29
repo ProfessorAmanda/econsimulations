@@ -30,7 +30,7 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
         title="Sample Mean Distribution"
         xMin={normalized ? min(-3, ...onlyValues) : VALUES[popShape].xminval}
         xMax={normalized ? max(3, ...onlyValues) : VALUES[popShape].xmaxval}
-        yMax={normalized ? max(8, ...onlyCounts) : max([30, ...onlyCounts])}
+        yMax={max(8, ...onlyCounts)}
         xLabel={normalized ? 'Standard Deviations' : VALUES[popShape].xLabel}
         yLabel="Observations of Sample Mean"
       />
