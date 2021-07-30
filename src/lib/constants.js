@@ -117,6 +117,6 @@ export const MODULES = [
   },
   {
     name: 'Sample Distribution of OLS Estimators',
-    description: <>The sampling distribution of the OLS estimators <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/> are approximately normal.</>
+    description: <>The sampling distributions of the OLS estimators <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/> are approximately normal.</>
   }
 ];
