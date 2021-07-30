@@ -28,7 +28,7 @@ export default function LawOfLargeNumbers({ popShape, sampleSize }) {
   }
 
   const popMean = populationMean(popArray) || 0;
-  const sampleMean = populationMean(sampled) || 0;
+  const sampleMean = _.round(populationMean(sampled), 2) || 0;
 
   return (
     <Collapsable>
