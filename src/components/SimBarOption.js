@@ -15,7 +15,10 @@ export default function SimBarOption({ section, setSection }) {
 SimBarOption.propTypes = {
   setSection: PropTypes.func.isRequired,
   section: PropTypes.shape({
-    name: PropTypes.string,
-    description: PropTypes.string
+    name: PropTypes.string.isRequired,
+    description: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element
+    ]).isRequired
   }).isRequired,
 }
