@@ -1,4 +1,4 @@
-import { InlineMath } from "react-katex";
+import { InlineMath } from 'react-katex';
 
 export const SAMPLE_SIZE = 2000;
 
