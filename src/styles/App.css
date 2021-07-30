@@ -144,6 +144,12 @@ h1 {
   box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
 
+.menu-item-title {
+  font-weight: bold;
+  font-size: large;
+  color: rgb(0, 0, 148);
+}
+
 .sim-description {
   width: 90%;
   margin: auto;
