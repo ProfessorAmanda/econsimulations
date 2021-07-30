@@ -1,17 +1,14 @@
 import { useState } from 'react';
 import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
-import jsonData from '../../data/3d_scatter_data.json';
 import _ from 'lodash';
 import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
 import regression from 'regression';
+import PropTypes from 'prop-types';
 
-export default function Scatter3D() {
-  const [data] = useState(jsonData.map(({test_score, str, pct_el}) => [pct_el, str, test_score]));
+export default function Scatter3D({ x, y, z }) {
   const [display, setDisplay] = useState('3D');
   const [showBestFit, setShowBestFit] = useState(false);
-
-  const [x, y, z] = _.unzip(data);
 
   const plotData = [
     {
@@ -194,4 +191,10 @@ export default function Scatter3D() {
       />
     </div>
   )
+}
+
+Scatter3D.propTypes = {
+  x: PropTypes.arrayOf(PropTypes.number).isRequired,
+  y: PropTypes.arrayOf(PropTypes.number).isRequired,
+  z: PropTypes.arrayOf(PropTypes.number).isRequired
 }
