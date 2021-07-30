@@ -30,6 +30,7 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Confidence Intervals' && <ConfidenceIntervalsContainer/>}
       {mode === 'Hypothesis Testing' && <HypothesisTestingContainer/>}
       {mode === 'Sample Distribution of OLS Estimators' && <SampleDistributionOLSEstimatorsContainer/>}
+      {mode === '3D Regression' && <Scatter3D/>}
     </div>
   )
 }
