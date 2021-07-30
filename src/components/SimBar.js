@@ -18,6 +18,7 @@ export default function SimBar({ setSection }) {
   return (
     <div className="menu" data-testid="menu">
       <div className="mini-logo"/>
+      <br/>
       <Row xs={1} sm={2} md={3} lg={4} className="g-4">{sections}</Row>
     </div>
   );
