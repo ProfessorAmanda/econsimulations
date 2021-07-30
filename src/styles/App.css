@@ -121,9 +121,9 @@ h1 {
 }
 
 .menu-item:hover {
-  box-shadow: 0 0 10px #4195fc;
+  box-shadow: 0 0 10px #0073ff;
   cursor: pointer;
-  background-color: #eaf2ff;
+  background-color: #eaeeff;
 }
 
 .menu-item-text {
