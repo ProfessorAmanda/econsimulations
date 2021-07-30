@@ -1,3 +1,5 @@
+import { InlineMath } from "react-katex";
+
 export const SAMPLE_SIZE = 2000;
 
 export const VALUES = {
@@ -115,6 +117,6 @@ export const MODULES = [
   },
   {
     name: 'Sample Distribution of OLS Estimators',
-    description: 'In Progress'
+    description: <>The sampling distribution of the OLS estimators <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/> are approximately normal.</>
   }
 ];
