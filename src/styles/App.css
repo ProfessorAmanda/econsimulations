@@ -120,6 +120,12 @@ h1 {
   width: 80%;
 }
 
+.menu-item:hover {
+  box-shadow: 0 0 10px #4195fc;
+  cursor: pointer;
+  background-color: #eaf2ff;
+}
+
 .menu-item-text {
   height: 100px;
   overflow-y: scroll;
@@ -136,10 +142,6 @@ h1 {
 
 .menu-item-text:hover::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-}
-
-.module-button {
-  width: 100%;
 }
 
 .sim-description {
