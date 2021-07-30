@@ -132,13 +132,13 @@ export default function Scatter3D() {
             camera: {
               up: {
                 x: 0,
-                y: 1,
-                z: 0
+                y: 0,
+                z: 1
               },
               eye: {
-                x: 0,
+                x: 2.1,
                 y: 0.1,
-                z: 2.1
+                z: 0.1
               }
             }
           }
