@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Plotly from 'plotly.js';
 import Plot from 'react-plotly.js';
-import jsonData from '../data/3d_scatter_data.json';
+import jsonData from '../../data/3d_scatter_data.json';
 import _ from 'lodash';
 import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
 import regression from 'regression';
@@ -124,6 +124,18 @@ export default function Scatter3D() {
             zaxis: {
               title: {
                 text: 'Test Score'
+              }
+            },
+            camera: {
+              up: {
+                x: 0,
+                y: 1,
+                z: 0
+              },
+              eye: {
+                x: 0,
+                y: 0.1,
+                z: 2.1
               }
             }
           }

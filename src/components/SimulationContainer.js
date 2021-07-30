@@ -6,10 +6,10 @@ import OmittedVariableBiasContainer from './OmittedVariableBias/OmittedVariableB
 import ConfidenceIntervalsContainer from './ConfidenceIntervals/ConfidenceIntervalsContainer.js';
 import HypothesisTestingContainer from './HypothesisTesting/HypothesisTestingContainer.js';
 import SampleDistributionOLSEstimatorsContainer from './SampleDistributionOLSEstimators/SampleDistributionOLSEstimatorsContainer.js';
+import MultipleRegressionContainer from './MultipleRegression/MultipleRegressionContainer.js';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { MODULES } from '../lib/constants.js';
-import Scatter3D from './Scatter3D.js';
 
 
 export default function SimulationContainer({ mode, setMode }) {
@@ -25,7 +25,7 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Confidence Intervals' && <ConfidenceIntervalsContainer/>}
       {mode === 'Hypothesis Testing' && <HypothesisTestingContainer/>}
       {mode === 'Sample Distribution of OLS Estimators' && <SampleDistributionOLSEstimatorsContainer/>}
-      {mode === 'Multiple Regression' && <Scatter3D/>}
+      {mode === 'Multiple Regression' && <MultipleRegressionContainer/>}
     </div>
   )
 }
