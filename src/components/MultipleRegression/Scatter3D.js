@@ -158,9 +158,13 @@ export default function Scatter3D() {
               },
               click: () => setDisplay('3D')
             },
-            ...['XY', 'XZ', 'YZ'].map((dims) => (
+            ...[
+              ['XY', 'Percent English Learners', 'Student-Teacher Ratio'],
+              ['XZ', 'Percent English Learners', 'Test Scores'],
+              ['YZ', 'Student-Teacher Ratio', 'Test Scores']
+            ].map(([dims, label1, label2]) => (
               {
-                name: `Display ${dims}`,
+                name: `Display ${label1} vs ${label2}`,
                 icon: Plotly.Icons.pan,
                 click: () => setDisplay(dims)
               }
