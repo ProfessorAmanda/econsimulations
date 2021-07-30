@@ -108,9 +108,9 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         </Col>
         <Col>
           <div style={{ marginLeft: '20%' }}>
-            <BlockMath math={`\\widehat{${(populationShape === 'Continuous') ? 'Test\\ Score' : `Earnings`}}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1{${(populationShape === 'Continuous') ? 'Study\\ Hours' : `Job\\ Corps`}_i}`}/>
+            <BlockMath math={`\\widehat{${(populationShape === 'Continuous') ? 'Test\\ Score' : 'Earnings'}}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1{${(populationShape === 'Continuous') ? 'Study\\ Hours' : 'Job\\ Corps'}_i}`}/>
             {selected && (
-              <BlockMath math={`\\widehat{${(populationShape === 'Continuous') ? 'Test\\ Score' : `Earnings`}}_i = ${selected.intercept} + ${selected.slope}{${(populationShape === 'Continuous') ? 'Study\\ Hours' : `Job\\ Corps`}_i}`}/>
+              <BlockMath math={`\\widehat{${(populationShape === 'Continuous') ? 'Test\\ Score' : 'Earnings'}}_i = ${selected.intercept} + ${selected.slope}{${(populationShape === 'Continuous') ? 'Study\\ Hours' : 'Job\\ Corps'}_i}`}/>
             )}
           </div>
           <ScatterPlot
