@@ -4,13 +4,17 @@ import PropTypes from 'prop-types';
 import { olsSampleType } from '../../lib/types.js';
 import { convertToStandardNormal, getCounts, populationMean, populationStandardDev } from '../../lib/stats-utils.js';
 import { Form } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { OLSE_VALUES } from '../../lib/constants.js';
 import _ from 'lodash';
 import StandardNormalOLS from './StandardNormalOLS.js';
 
 export default function InterceptDistributionPlot({ samples, populationShape }) {
   const [standardized, setStandardized] = useState(false);
+
+  useEffect(() => {
+    setStandardized(false)
+  }, [populationShape]);
 
   const interceptMean = populationMean(samples, 'intercept');
   const interceptSD = populationStandardDev(samples, 'intercept')
@@ -33,6 +37,7 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
         />
       )}
       <Form.Check
+        checked={standardized}
         inline
         type="checkbox"
         label="Convert to Standard Normal"
