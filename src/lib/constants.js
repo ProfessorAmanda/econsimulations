@@ -118,7 +118,7 @@ export const MODULES = [
     description: 'In Progress'
   },
   {
-    name: '3D Regression',
+    name: 'Multiple Regression',
     description: 'In Progress'
   }
 ];

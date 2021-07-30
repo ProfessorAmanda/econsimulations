@@ -1,8 +1,3 @@
-/*
-
-  A container component for the various simulations
-
-*/
 import LawOfLargeNumbersContainer from './LawOfLargeNumbers/LawOfLargeNumbersContainer.js';
 import CentralLimitTheoremContainer from './CentralLimitTheorem/CentralLimitTheoremContainer.js';
 import JointDistributionsContainer from './JointDistributions/JointDistributionsContainer.js';
@@ -30,7 +25,7 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Confidence Intervals' && <ConfidenceIntervalsContainer/>}
       {mode === 'Hypothesis Testing' && <HypothesisTestingContainer/>}
       {mode === 'Sample Distribution of OLS Estimators' && <SampleDistributionOLSEstimatorsContainer/>}
-      {mode === '3D Regression' && <Scatter3D/>}
+      {mode === 'Multiple Regression' && <Scatter3D/>}
     </div>
   )
 }

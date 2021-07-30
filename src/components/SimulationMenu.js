@@ -1,8 +1,3 @@
-/*
-
-  Displays the StartHere button and then the menu once the button is clicked
-
-*/
 import { useEffect, useState } from 'react';
 import SimBar from './SimBar.js';
 import StartHere from './StartHere';
