@@ -18,7 +18,6 @@ export default function Scatter3D() {
       x: (display === 'YZ') ? y : x,
       y: ((display === 'XY') || (display === '3D')) ? y : z,
       z,
-      text: data.map(([xi, yi, zi]) => `PCT_EL: ${xi}<br>STR: ${yi}<br>Score: ${zi}`),
       type: (display === '3D') ? 'scatter3d' : 'scatter',
       mode: 'markers',
       marker: {
@@ -29,7 +28,7 @@ export default function Scatter3D() {
           width: (display === '3D') ? 1 : 0.5
         }
       },
-      hoverinfo: 'text'
+      hovertemplate: `PCT_EL: %{x}<br>STR: %{y}<br>${(display === '3D') ? 'Score: %{z}' : ''}<extra></extra>`
     }
   ];
 
