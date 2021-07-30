@@ -102,10 +102,12 @@ export default function Scatter3D({ x, y, z }) {
           },
           showlegend: false,
           xaxis: {
-            title: (display === 'YZ') ? 'Student-Teacher Ratio' : 'Percent English Learners'
+            title: (display === 'YZ') ? 'Student-Teacher Ratio' : 'Percent English Learners',
+            range: (display === 'YZ') ? [10, 30] : [0, 100]
           },
           yaxis: {
-            title: (display === 'XY') ? 'Student-Teacher Ratio' : 'Test Score'
+            title: (display === 'XY') ? 'Student-Teacher Ratio' : 'Test Score',
+            range: (display === 'XY') ? [10, 30] : [600, 720]
           },
           scene: {
             xaxis: {
@@ -156,9 +158,9 @@ export default function Scatter3D({ x, y, z }) {
               click: () => setDisplay('3D')
             },
             ...[
-              ['XY', 'Percent English Learners', 'Student-Teacher Ratio'],
-              ['XZ', 'Percent English Learners', 'Test Scores'],
-              ['YZ', 'Student-Teacher Ratio', 'Test Scores']
+              ['XY', 'Student-Teacher Ratio', 'Percent English Learners'],
+              ['XZ', 'Test Scores', 'Percent English Learners'],
+              ['YZ', 'Test Scores', 'Student-Teacher Ratio']
             ].map(([dims, label1, label2]) => (
               {
                 name: `Display ${label1} vs ${label2}`,
