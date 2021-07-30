@@ -114,17 +114,20 @@ export default function Scatter3D() {
             xaxis: {
               title: {
                 text: 'Percent English Learners'
-              }
+              },
+              range: [0, 100]
             },
             yaxis: {
               title: {
                 text: 'Student-Teacher Ratio'
-              }
+              },
+              range: [10, 30]
             },
             zaxis: {
               title: {
                 text: 'Test Score'
-              }
+              },
+              range: [600, 720]
             },
             camera: {
               up: {
