@@ -17,17 +17,41 @@ export default function SimulationMenu() {
   //   return () => clearTimeout(timer);
   // }, []);
 
+  const teachingMaterialsLink = (
+    <p>
+      <a
+        href="https://amandagreggeconomics.com/statistics-simulations-project/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View teaching materials
+      </a>
+    </p>
+  );
+
   return (
     start ? (
       <div>
         <div className="intro-animation"/>
-        {!logo && <StartHere start={start} showApp={() => setStart(false)}/>}
+        {!logo && (
+          <>
+            <StartHere start={start} showApp={() => setStart(false)}/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            {teachingMaterialsLink}
+          </>
+        )}
       </div>
     ) : (
       <div>
         {(mode === 'Home') ? (
           <Fade in={(mode === 'Home')}>
-            <SimBar setSection={setMode}/>
+            <>
+              <SimBar setSection={setMode}/>
+              {teachingMaterialsLink}
+            </>
           </Fade>
         ) : (
           <SimulationContainer mode={mode} setMode={setMode}/>
