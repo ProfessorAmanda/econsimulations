@@ -7,15 +7,15 @@ import SimulationContainer from './SimulationContainer.js';
 export default function SimulationMenu() {
   const [mode, setMode] = useState('Home');
   const [start, setStart] = useState(true);
-  const [logo, setLogo] = useState(false);  // TODO: init to true
+  const [logo, setLogo] = useState(true);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setLogo(false);
-  //   }, 3500);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLogo(false);
+    }, 3500);
 
-  //   return () => clearTimeout(timer);
-  // }, []);
+    return () => clearTimeout(timer);
+  }, []);
 
   const teachingMaterialsLink = (
     <p>
