@@ -1,8 +1,3 @@
-/*
-
-  A container component for the various simulations
-
-*/
 import LawOfLargeNumbersContainer from './LawOfLargeNumbers/LawOfLargeNumbersContainer.js';
 import CentralLimitTheoremContainer from './CentralLimitTheorem/CentralLimitTheoremContainer.js';
 import JointDistributionsContainer from './JointDistributions/JointDistributionsContainer.js';
@@ -11,13 +6,15 @@ import OmittedVariableBiasContainer from './OmittedVariableBias/OmittedVariableB
 import ConfidenceIntervalsContainer from './ConfidenceIntervals/ConfidenceIntervalsContainer.js';
 import HypothesisTestingContainer from './HypothesisTesting/HypothesisTestingContainer.js';
 import SampleDistributionOLSEstimatorsContainer from './SampleDistributionOLSEstimators/SampleDistributionOLSEstimatorsContainer.js';
+import MultipleRegressionContainer from './MultipleRegression/MultipleRegressionContainer.js';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { MODULES } from '../lib/constants.js';
 
 
 export default function SimulationContainer({ mode, setMode }) {
   return (
-    <div data-testid="sim-container">
+    <div data-testid="sim-container" style={{paddingBottom: 25}}>
       <Button className="home-button" variant="outline-danger" id="Menu" onClick={() => setMode('Home')}>MENU</Button>
       <div className="mini-logo"/>
       {mode === 'Law of Large Numbers' && <LawOfLargeNumbersContainer/>}
@@ -28,21 +25,12 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Confidence Intervals' && <ConfidenceIntervalsContainer/>}
       {mode === 'Hypothesis Testing' && <HypothesisTestingContainer/>}
       {mode === 'Sample Distribution of OLS Estimators' && <SampleDistributionOLSEstimatorsContainer/>}
+      {mode === 'Multiple Regression' && <MultipleRegressionContainer/>}
     </div>
   )
 }
 
 SimulationContainer.propTypes = {
   setMode: PropTypes.func.isRequired,
-  mode: PropTypes.oneOf([
-    'Home',
-    'Law of Large Numbers',
-    'Central Limit Theorem',
-    'Joint Distributions',
-    'Least Squares',
-    'Omitted Variable Bias',
-    'Confidence Intervals',
-    'Hypothesis Testing',
-    'Sample Distribution of OLS Estimators'
-  ]).isRequired,
+  mode: PropTypes.oneOf(MODULES.map((obj) => obj.name)).isRequired,
 }

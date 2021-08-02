@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official'
+import HighchartsReact from 'highcharts-react-official';
 import PropTypes from 'prop-types';
 import { highchartsSeriesType, stringOrNumberType } from '../lib/types';
 

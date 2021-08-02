@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import BellCurve from 'highcharts/modules/histogram-bellcurve';
 import { distributionType, hypothesisTestingSampleArrayType, testTypeType } from '../../lib/types';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { dataFromDistribution } from '../../lib/stats-utils';
 import { sqrt } from 'mathjs';
-
-BellCurve(Highcharts);
+require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 export default function StdNormalCurve({ means, sampleSize, distType, testType }) {
   const [population] = useState(

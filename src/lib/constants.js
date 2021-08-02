@@ -22,6 +22,13 @@ export const OLSE_VALUES = {
   Binary: { xMin: 0, xMax: 1, yMin: 50, yMax: 350, yLabel: 'Weekly Earnings', xCategories: ['Control Group', 'Job Corps'], title: 'Sample', slopeMin: -10, slopeMax: 30, interceptMin: 175, interceptMax: 225, yTickInterval: 50 }
 }
 
+export const MULTIPLE_REGRESSION_VALUES = {
+  'XY': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], margin: 80, buttonLabel: 'Display Percent English Learners vs Student-Teacher Ratio' },
+  'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Test Score', yAbbr: 'test_score' , yRange: [600, 720], margin: 80, buttonLabel: 'Display Test Score vs Student-Teacher Ratio' },
+  'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PCT_EL', xRange: [0, 100], yLabel: 'Test Score', yAbbr: 'test_score' , yRange: [600, 720], margin: 80, buttonLabel: 'Display Test Score vs Percent English Learners' },
+  '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], zLabel: 'Test Score', zAbbr: 'test_score', zRange: [600, 720], margin: 0, buttonLabel: 'Display 3D' },
+}
+
 export const TEXTS = {
   Normal: ['monthly Milk Production', 'cows', 'produced', ' gallons a month.'],
   // Uniform: ["the wait time", "people at the DMV in VT", "reported a total time of", " minutes."],
@@ -118,5 +125,9 @@ export const MODULES = [
   {
     name: 'Omitted Variable Bias',
     description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one of the included regressors is omitted from the regression model.',
+  },
+  {
+    name: 'Multiple Regression',
+    description: 'In Progress'
   }
 ];
