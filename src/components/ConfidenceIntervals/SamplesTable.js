@@ -23,7 +23,7 @@ export default function SamplesTable({ samples, setSelected }) {
   samplesTable.reverse()
 
   return (
-    <div style={{ height: 500, overflow: 'auto', marginTop: -50 }}>
+    <div className="ci-table-container">
       <Table hover className="ci-table">
         <thead>
           <tr>

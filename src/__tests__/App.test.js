@@ -5,7 +5,7 @@ import App from '../App.js';
 describe('top-level integration tests', () => {
   const clickIntoModule = (moduleName) => {
     fireEvent.click(screen.getByRole('button', { name: 'Start!' }));
-    fireEvent.click(screen.getByRole('button', { name: moduleName }));
+    fireEvent.click(screen.getByTestId(`module-${moduleName}`));
   }
 
   beforeEach(async () => {

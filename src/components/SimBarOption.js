@@ -1,14 +1,12 @@
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function SimBarOption({ section, setSection }) {
   return (
-    <Card border="primary" className="sim-option">
+    <Card border="primary" className="menu-item" data-testid={`module-${section.name}`} onClick={() => setSection(section.name)}>
+      <Card.Header className="menu-item-title">{section.name}</Card.Header>
       <Card.Body>
-        <Card.Text>{section.description}</Card.Text>
-        <Button variant="outline-primary" onClick={() => setSection(section.name)} style={{width: '100%'}}>
-          {section.name}
-        </Button>
+        <Card.Text className="menu-item-text">{section.description}</Card.Text>
       </Card.Body>
     </Card>
   );
