@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/econsimulations/static/css/main.4d75e04a.chunk.css",
-    "main.js": "/econsimulations/static/js/main.0e2508df.chunk.js",
-    "main.js.map": "/econsimulations/static/js/main.0e2508df.chunk.js.map",
+    "main.js": "/econsimulations/static/js/main.52747c63.chunk.js",
+    "main.js.map": "/econsimulations/static/js/main.52747c63.chunk.js.map",
     "runtime-main.js": "/econsimulations/static/js/runtime-main.7dde2822.js",
     "runtime-main.js.map": "/econsimulations/static/js/runtime-main.7dde2822.js.map",
     "static/css/2.1deed456.chunk.css": "/econsimulations/static/css/2.1deed456.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.1deed456.chunk.css",
     "static/js/2.0c622960.chunk.js",
     "static/css/main.4d75e04a.chunk.css",
-    "static/js/main.0e2508df.chunk.js"
+    "static/js/main.52747c63.chunk.js"
   ]
 }
