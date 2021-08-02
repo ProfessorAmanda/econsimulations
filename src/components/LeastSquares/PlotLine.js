@@ -1,8 +1,3 @@
-/*
-
-  Displays a button for the user to plot their guess or a button to generate the correct best fit line
-
-*/
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 

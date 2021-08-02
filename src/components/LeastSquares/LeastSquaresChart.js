@@ -1,90 +1,13 @@
-/*
-
-  Displays a HighCharts scatterplot for the Least Squares data points
-
-*/
 import { useEffect, useState } from 'react';
-import '../../styles/dark-unica.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import Annotations from 'highcharts/modules/annotations';
 import { abs } from 'mathjs';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js'
+require('highcharts/modules/annotations')(Highcharts);
 
-Annotations(Highcharts);
-
-export default function LeastSquaresChart({ points, linePoints, setSquareAreas }) {
-  const [myChart, setMyChart] = useState({
-    title: {
-      text: ''
-    },
-    legend: {
-      enabled: false
-    },
-    chart: {
-      type: 'line',
-      plotBorderColor: '#000000',
-      plotBorderWidth: 1,
-      margin: [100, 100, 100, 100],
-      width: 600,
-      height: 600
-    },
-    tooltip: {
-      headerFormat: '',
-      pointFormat: 'x: {point.x:.2f}<br/>y: {point.y:.2f}',
-      hideDelay: 100
-    },
-    xAxis: {
-      title: {
-        enabled: false
-      },
-      min: 0,
-      max: 20,
-      tickInterval: 2
-    },
-    yAxis: {
-      title: {
-        enabled: false
-      },
-      min: 0,
-      max: 20,
-      tickInterval: 2
-    }
-  });
-
-  // returns an array of points to create a square shape in highcharts
-  const buildSquare = (p1, p2) => {
-    const dist = abs(p1.y - p2.y);
-    const lowestPt = p1.y < p2.y ? p1 : p2;
-    return [{
-      x: lowestPt.x,
-      y: lowestPt.y,
-      xAxis: 0,
-      yAxis: 0
-    }, {
-      x: lowestPt.x + dist,
-      y: lowestPt.y,
-      xAxis: 0,
-      yAxis: 0
-    }, {
-      x: lowestPt.x + dist,
-      y: lowestPt.y + dist,
-      xAxis: 0,
-      yAxis: 0
-    }, {
-      x: lowestPt.x,
-      y: lowestPt.y + dist,
-      xAxis: 0,
-      yAxis: 0
-    }, {
-      x: lowestPt.x,
-      y: lowestPt.y,
-      xAxis: 0,
-      yAxis: 0
-    }
-    ];
-  }
+export default function LeastSquaresChart({ points, addPoint, linePoints, setSquareAreas }) {
+  const [myChart, setMyChart] = useState({});
 
   useEffect(() => {
     // generate pairs for the corresponding points to create squares
@@ -100,6 +23,38 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     const areas = pairs.map(({ p1, p2 }) => abs(p1.y - p2.y) ** 2);
     setSquareAreas(areas);
 
+    // returns an array of points to create a square shape in highcharts
+    const buildSquare = (p1, p2) => {
+      const dist = abs(p1.y - p2.y);
+      const lowestPt = p1.y < p2.y ? p1 : p2;
+      return [{
+        x: lowestPt.x,
+        y: lowestPt.y,
+        xAxis: 0,
+        yAxis: 0
+      }, {
+        x: lowestPt.x + dist,
+        y: lowestPt.y,
+        xAxis: 0,
+        yAxis: 0
+      }, {
+        x: lowestPt.x + dist,
+        y: lowestPt.y + dist,
+        xAxis: 0,
+        yAxis: 0
+      }, {
+        x: lowestPt.x,
+        y: lowestPt.y + dist,
+        xAxis: 0,
+        yAxis: 0
+      }, {
+        x: lowestPt.x,
+        y: lowestPt.y,
+        xAxis: 0,
+        yAxis: 0
+      }];
+    }
+
     // create the actual square objects for highcharts
     const squares = pairs.map(({ p1, p2 }) => (
       {
@@ -111,6 +66,45 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     );
 
     const newChart = {
+      chart: {
+        animation: false,
+        type: 'line',
+        plotBorderColor: '#000000',
+        plotBorderWidth: 1,
+        margin: [100, 100, 100, 100],
+        width: 600,
+        height: 600,
+        events: {
+          click: (e) => {
+            const x = e.xAxis[0].value;
+            const y = e.yAxis[0].value;
+            addPoint({x, y});
+          }
+        }
+      },
+      tooltip: {
+        headerFormat: '',
+        pointFormat: 'x: {point.x:.2f}<br/>y: {point.y:.2f}',
+      },
+      xAxis: {
+        title: {
+          enabled: false
+        },
+        min: 0,
+        max: 20,
+        tickInterval: 2
+      },
+      yAxis: {
+        title: {
+          enabled: false
+        },
+        min: 0,
+        max: 20,
+        tickInterval: 2
+      },
+      legend: {
+        enabled: false
+      },
       series: [
         {
           type: 'scatter',
@@ -138,7 +132,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
     }
 
     setMyChart(newChart);
-  }, [points, linePoints, setSquareAreas]);
+  }, [points, addPoint, linePoints, setSquareAreas]);
 
   return (
     <HighchartsReact highcharts={Highcharts} options={myChart}/>
@@ -147,6 +141,7 @@ export default function LeastSquaresChart({ points, linePoints, setSquareAreas }
 
 LeastSquaresChart.propTypes = {
   points: dataObjectArrayType.isRequired,
+  addPoint: PropTypes.func.isRequired,
   linePoints: dataObjectArrayType.isRequired,
   setSquareAreas: PropTypes.func.isRequired
 }

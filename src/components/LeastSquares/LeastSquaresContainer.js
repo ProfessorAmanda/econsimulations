@@ -1,8 +1,3 @@
-/*
-
-  A container component that holds the description and simulation for Least Squares
-
-*/
 import LeastSquares from './LeastSquares';
 import { Alert } from 'react-bootstrap';
 

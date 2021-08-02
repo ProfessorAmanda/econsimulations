@@ -1,9 +1,4 @@
-/*
-
-  Displays the Least Squares simulation
-
-*/
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import NewPointsInput from './NewPointsInput';
 import LeastSquaresChart from './LeastSquaresChart.js';
@@ -19,6 +14,10 @@ export default function LeastSquares() {
   const [squareAreas, setSquareAreas] = useState([]);
   const [slope, setSlope] = useState(1);
   const [intercept, setIntercept] = useState(1);
+
+  const addPoint = useCallback((point) => {
+    setPoints([...points, point]);
+  }, [points])
 
   useEffect(() => {
     if (stage === 2) {
@@ -58,7 +57,7 @@ export default function LeastSquares() {
   return (
     <Row className="least-squares-container">
       <Col xs="auto">
-        <LeastSquaresChart points={points} linePoints={linePoints} setSquareAreas={setSquareAreas}/>
+        <LeastSquaresChart points={points} addPoint={addPoint} linePoints={linePoints} setSquareAreas={setSquareAreas}/>
       </Col>
       <Col xs={{ span: 3, offset: 3 }} md={{ span: 3, offset: 0 }} style={{ paddingTop: '100px' }}>
         <NewPointsInput generatePoints={generatePoints}/>
