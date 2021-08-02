@@ -1,18 +1,20 @@
 import SimBarOption from './SimBarOption';
 import PropTypes from 'prop-types'
 import { MODULES } from '../lib/constants';
+import { Col, Row } from 'react-bootstrap';
 
 export default function SimBar({ setSection }) {
   const sections = MODULES.map((section) => (
-    <li key={section.name}>
+    <Col key={section.name}>
       <SimBarOption section={section} setSection={setSection}/>
-    </li>
+    </Col>
   ));
 
   return (
     <div className="menu" data-testid="menu">
       <div className="mini-logo"/>
-      <ul className="sim-bar-option-list">{sections}</ul>
+      <br/>
+      <Row xs={1} sm={2} md={3} lg={4} className="g-4">{sections}</Row>
     </div>
   );
 }

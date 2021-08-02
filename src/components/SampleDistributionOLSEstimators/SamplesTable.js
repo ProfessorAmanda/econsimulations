@@ -19,7 +19,7 @@ export default function SamplesTable({ samples, setSelected, selected }) {
   samplesTable.reverse();
 
   return (
-    <div style={{ height: 250, overflow: 'auto', margin: 'auto' }}>
+    <div className="ols-table-container">
       <Table hover striped className="ci-table">
         <thead>
           <tr>

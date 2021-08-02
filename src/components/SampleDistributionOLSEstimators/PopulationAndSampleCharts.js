@@ -107,17 +107,14 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>
         <Col>
-          {(populationShape === 'Continuous') && (
-            <div style={{ marginLeft: '20%' }}>
-              <BlockMath math="\widehat{Test\ Score}_i = \hat{\beta}_0 + \hat{\beta}_1{Study\ Hours_i}"/>
-              {selected && (
-                <BlockMath math={`\\widehat{Test\\ Score}_i = ${selected.intercept} + ${selected.slope}{Study\\ Hours_i}`}/>
-              )}
-            </div>
-          )}
+          <div style={{ marginLeft: '20%' }}>
+            <BlockMath math={`\\widehat{${(populationShape === 'Continuous') ? 'Test\\ Score' : 'Earnings'}}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1{${(populationShape === 'Continuous') ? 'Study\\ Hours' : 'Job\\ Corps'}_i}`}/>
+            {selected && (
+              <BlockMath math={`\\widehat{${(populationShape === 'Continuous') ? 'Test\\ Score' : 'Earnings'}}_i = ${selected.intercept} + ${selected.slope}{${(populationShape === 'Continuous') ? 'Study\\ Hours' : 'Job\\ Corps'}_i}`}/>
+            )}
+          </div>
           <ScatterPlot
             series={sampleSeries}
-            title={OLSE_VALUES[populationShape].title}
             xMin={OLSE_VALUES[populationShape].xMin}
             xMax={OLSE_VALUES[populationShape].xMax}
             yMin={OLSE_VALUES[populationShape].yMin}
