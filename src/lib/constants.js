@@ -105,7 +105,7 @@ export const MODULES = [
   },
   {
     name: 'Omitted Variable Bias',
-    description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one on the included regressors is omitted from the regression model.',
+    description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one of the included regressors is omitted from the regression model.',
   },
   {
     name: 'Confidence Intervals',
