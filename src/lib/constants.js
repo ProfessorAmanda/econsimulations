@@ -96,18 +96,6 @@ export const MODULES = [
     description: 'The Central Limit Theorem states that, for sufficiently large samples, the sample mean is approximately normally distributed, even if the underlying population is not normally distributed (or if we have no idea what the underlying population looks like). This simulation investigates how the distribution of the sample mean is affected by the sample size and the shape of the population distribution.',
   },
   {
-    name: 'Joint Distributions',
-    description: 'A joint probability distribution describes the simultaneous behavior of two random variables.',
-  },
-  {
-    name: 'Least Squares',
-    description: 'Ordinary least squares regression estimates the slope(s) and intercept of a line to best fit data for two (or more) variables by minimizing the sum of the squared distances from the data points to the line.',
-  },
-  {
-    name: 'Omitted Variable Bias',
-    description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one of the included regressors is omitted from the regression model.',
-  },
-  {
     name: 'Confidence Intervals',
     description: 'A confidence interval provides a range of values for the likely location of the true population mean, based on information gathered from a sample.',
   },
@@ -116,7 +104,19 @@ export const MODULES = [
     description: 'Hypothesis testing is a procedure that allows us to form conclusions based on information derived from a sample.',
   },
   {
+    name: 'Joint Distributions',
+    description: 'A joint probability distribution describes the simultaneous behavior of two random variables.',
+  },
+  {
+    name: 'Least Squares',
+    description: 'Ordinary least squares regression estimates the slope(s) and intercept of a line to best fit data for two (or more) variables by minimizing the sum of the squared distances from the data points to the line.',
+  },
+  {
     name: 'Sample Distribution of OLS Estimators',
     description: <>The sampling distributions of the OLS estimators <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/> are approximately normal.</>
+  },
+  {
+    name: 'Omitted Variable Bias',
+    description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one of the included regressors is omitted from the regression model.',
   }
 ];
