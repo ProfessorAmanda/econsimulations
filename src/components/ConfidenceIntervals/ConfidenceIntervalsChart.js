@@ -3,13 +3,11 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Alert } from 'react-bootstrap';
 import _ from 'lodash';
-import More from 'highcharts/highcharts-more';
 import { max } from 'mathjs';
 import PropTypes from 'prop-types';
 import { confidenceIntervalsSampleType, popShapeType } from '../../lib/types.js';
 import { VALUES_ALT } from '../../lib/constants.js';
-
-More(Highcharts);
+require('highcharts/highcharts-more')(Highcharts);
 
 export default function ConfidenceIntervalsChart({ confidenceLevel, samples, popShape, popMean, selected, setSelected }) {
   const [chart, setChart] = useState({});

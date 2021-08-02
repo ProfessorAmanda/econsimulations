@@ -1,8 +1,3 @@
-/*
-
-  Displays a menu with all the simulations and allows the user to click to start them
-
-*/
 import SimBarOption from './SimBarOption';
 import PropTypes from 'prop-types'
 import { MODULES } from '../lib/constants';

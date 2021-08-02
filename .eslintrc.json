@@ -26,6 +26,8 @@
       }
     ],
     "prefer-template": "warn",
+    "prefer-const": "warn",
+    "prefer-arrow-callback": "warn",
     "prefer-destructuring": [
       "warn",
       {
@@ -43,6 +45,16 @@
     ],
     "jsx-quotes": ["warn", "prefer-double"],
     "object-shorthand": "warn",
+    "eqeqeq": "warn",
+    "no-var": "warn",
+    "no-duplicate-imports": "warn",
+    "keyword-spacing": "warn",
+    "no-console": [
+      "warn",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
     "react/jsx-tag-spacing": [
       "warn",
       {
