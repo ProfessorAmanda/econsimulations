@@ -7,7 +7,31 @@ import { dataObjectArrayType } from '../../lib/types.js'
 require('highcharts/modules/annotations')(Highcharts);
 
 export default function LeastSquaresChart({ points, addPoint, linePoints, setSquareAreas }) {
-  const [myChart, setMyChart] = useState({});
+  const [myChart, setMyChart] = useState({
+    tooltip: {
+      headerFormat: '',
+      pointFormat: 'x: {point.x:.2f}<br/>y: {point.y:.2f}',
+    },
+    xAxis: {
+      title: {
+        enabled: false
+      },
+      min: 0,
+      max: 20,
+      tickInterval: 2
+    },
+    yAxis: {
+      title: {
+        enabled: false
+      },
+      min: 0,
+      max: 20,
+      tickInterval: 2
+    },
+    legend: {
+      enabled: false
+    }
+  });
 
   useEffect(() => {
     // generate pairs for the corresponding points to create squares
@@ -81,29 +105,6 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
             addPoint({x, y});
           }
         }
-      },
-      tooltip: {
-        headerFormat: '',
-        pointFormat: 'x: {point.x:.2f}<br/>y: {point.y:.2f}',
-      },
-      xAxis: {
-        title: {
-          enabled: false
-        },
-        min: 0,
-        max: 20,
-        tickInterval: 2
-      },
-      yAxis: {
-        title: {
-          enabled: false
-        },
-        min: 0,
-        max: 20,
-        tickInterval: 2
-      },
-      legend: {
-        enabled: false
       },
       series: [
         {
