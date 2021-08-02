@@ -22,6 +22,13 @@ export const OLSE_VALUES = {
   Binary: { xMin: 0, xMax: 1, yMin: 50, yMax: 350, yLabel: 'Weekly Earnings', xCategories: ['Control Group', 'Job Corps'], title: 'Sample', slopeMin: -10, slopeMax: 30, interceptMin: 175, interceptMax: 225, yTickInterval: 50 }
 }
 
+export const MULTIPLE_REGRESSION_VALUES = {
+  'XY': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], margin: 80 },
+  'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Test Score', yAbbr: 'test_score' , yRange: [600, 720], margin: 80 },
+  'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PCT_EL', xRange: [0, 100], yLabel: 'Test Score', yAbbr: 'test_score' , yRange: [600, 720], margin: 80 },
+  '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], zLabel: 'Test Score', zAbbr: 'test_score', zRange: [600, 720], margin: 0 },
+}
+
 export const TEXTS = {
   Normal: ['monthly Milk Production', 'cows', 'produced', ' gallons a month.'],
   // Uniform: ["the wait time", "people at the DMV in VT", "reported a total time of", " minutes."],

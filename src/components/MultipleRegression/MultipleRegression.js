@@ -4,7 +4,7 @@ import Scatter3D from './Scatter3D';
 import _ from 'lodash';
 
 export default function MultipleRegression() {
-  const [data] = useState(jsonData.map(({test_score, str, pct_el}) => [pct_el, str, test_score]));
+  const [data] = useState(jsonData.map(({test_score, str, pct_el}) => [str, pct_el, test_score]));
 
   const [x, y, z] = _.unzip(data);
 

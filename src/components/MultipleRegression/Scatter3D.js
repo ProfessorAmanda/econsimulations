@@ -5,10 +5,13 @@ import _ from 'lodash';
 import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
 import regression from 'regression';
 import PropTypes from 'prop-types';
+import { MULTIPLE_REGRESSION_VALUES } from '../../lib/constants';
 
 export default function Scatter3D({ x, y, z }) {
   const [display, setDisplay] = useState('3D');
   const [showBestFit, setShowBestFit] = useState(false);
+
+  // x = str, y = pct_el, z = test_score
 
   const plotData = [
     {
@@ -25,7 +28,7 @@ export default function Scatter3D({ x, y, z }) {
           width: (display === '3D') ? 1 : 0.5
         }
       },
-      hovertemplate: `PCT_EL: %{x}<br>STR: %{y}<br>${(display === '3D') ? 'Score: %{z}' : ''}<extra></extra>`
+      hovertemplate: `${MULTIPLE_REGRESSION_VALUES[display].xAbbr}: %{x}<br>${MULTIPLE_REGRESSION_VALUES[display].yAbbr}: %{y}<br>${(display === '3D') ? 'Score: %{z}' : ''}<extra></extra>`
     }
   ];
 
@@ -48,11 +51,11 @@ export default function Scatter3D({ x, y, z }) {
           ^y
     */
 
-    // fill from 0 to min(y) with lists of undefined so the surface isn't displayed in this space
-    const bestFitPlane = _.range(0, _.round(min(y) - 1)).map(() => _.range(0, _.round(max(x) + 1)).map(() => undefined));
+    const bestFitPlane = [];
 
     for (let yi = _.round(min(y)); yi <= _.round(max(y) + 1); yi++) {
-      const temp = []
+      // fill from 0 to min(x) with undefined so the surface isn't displayed in this space
+      const temp = _.range(0, _.round(min(x)) - 1).map(() => undefined)
       for (let xi = _.round(min(x)); xi <= _.round(max(x) + 1); xi++) {
         temp.push(equation(xi, yi));
       }
@@ -83,7 +86,6 @@ export default function Scatter3D({ x, y, z }) {
       x: lineX,
       y: lineY,
       mode: 'lines',
-      name: '',
       marker: {color: 'black'},
     });
   }
@@ -95,51 +97,45 @@ export default function Scatter3D({ x, y, z }) {
         layout={{
           width: 800,
           height: 700,
-          title: 'Fancy Plot',
           margin: {
-            l: 80,
-            r: 80,
-            t: 80,
-            b: 80
+            l: MULTIPLE_REGRESSION_VALUES[display].margin,
+            r: MULTIPLE_REGRESSION_VALUES[display].margin,
+            t: MULTIPLE_REGRESSION_VALUES[display].margin,
+            b: MULTIPLE_REGRESSION_VALUES[display].margin
           },
           showlegend: false,
           xaxis: {
-            title: (display === 'YZ') ? 'Student-Teacher Ratio' : 'Percent English Learners',
-            range: (display === 'YZ') ? [10, 30] : [0, 100]
+            title: MULTIPLE_REGRESSION_VALUES[display].xLabel,
+            range: MULTIPLE_REGRESSION_VALUES[display].xRange
           },
           yaxis: {
-            title: (display === 'XY') ? 'Student-Teacher Ratio' : 'Test Score',
-            range: (display === 'XY') ? [10, 30] : [600, 720]
+            title: MULTIPLE_REGRESSION_VALUES[display].yLabel,
+            range: MULTIPLE_REGRESSION_VALUES[display].yRange
           },
           scene: {
             xaxis: {
               title: {
-                text: 'Percent English Learners'
+                text: MULTIPLE_REGRESSION_VALUES['3D'].xLabel
               },
-              range: [0, 100]
+              range: MULTIPLE_REGRESSION_VALUES['3D'].xRange
             },
             yaxis: {
               title: {
-                text: 'Student-Teacher Ratio'
+                text: MULTIPLE_REGRESSION_VALUES['3D'].yLabel
               },
-              range: [10, 30]
+              range: MULTIPLE_REGRESSION_VALUES['3D'].yRange
             },
             zaxis: {
               title: {
-                text: 'Test Score'
+                text: MULTIPLE_REGRESSION_VALUES['3D'].zLabel
               },
-              range: [600, 720]
+              range: MULTIPLE_REGRESSION_VALUES['3D'].zRange
             },
             camera: {
-              up: {
-                x: 0,
-                y: 0,
-                z: 1
-              },
               eye: {
-                x: 2.1,
-                y: 0.1,
-                z: 0.1
+                x: 1.6,
+                y: 1.6,
+                z: 1.6
               }
             }
           }
