@@ -12,6 +12,13 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
       headerFormat: '',
       pointFormat: 'x: {point.x:.2f}<br/>y: {point.y:.2f}',
     },
+    title: {
+      text: ''
+    },
+    caption: {
+      align: 'center',
+      text: 'Click on the chart to add a data point!'
+    },
     xAxis: {
       title: {
         enabled: false
