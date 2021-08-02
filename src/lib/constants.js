@@ -23,10 +23,10 @@ export const OLSE_VALUES = {
 }
 
 export const MULTIPLE_REGRESSION_VALUES = {
-  'XY': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], margin: 80 },
-  'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Test Score', yAbbr: 'test_score' , yRange: [600, 720], margin: 80 },
-  'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PCT_EL', xRange: [0, 100], yLabel: 'Test Score', yAbbr: 'test_score' , yRange: [600, 720], margin: 80 },
-  '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], zLabel: 'Test Score', zAbbr: 'test_score', zRange: [600, 720], margin: 0 },
+  'XY': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], margin: 80, buttonLabel: 'Display Percent English Learners vs Student-Teacher Ratio' },
+  'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Test Score', yAbbr: 'test_score' , yRange: [600, 720], margin: 80, buttonLabel: 'Display Test Score vs Student-Teacher Ratio' },
+  'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PCT_EL', xRange: [0, 100], yLabel: 'Test Score', yAbbr: 'test_score' , yRange: [600, 720], margin: 80, buttonLabel: 'Display Test Score vs Percent English Learners' },
+  '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], zLabel: 'Test Score', zAbbr: 'test_score', zRange: [600, 720], margin: 0, buttonLabel: 'Display 3D' },
 }
 
 export const TEXTS = {
