@@ -32,7 +32,18 @@ export default function SimulationMenu() {
       <div>
         {(mode === 'Home') ? (
           <Fade in={(mode === 'Home')}>
-            <SimBar setSection={setMode}/>
+            <>
+              <SimBar setSection={setMode}/>
+              <p>
+                <a
+                  href="https://amandagreggeconomics.com/statistics-simulations-project/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View teaching materials
+                </a>
+              </p>
+            </>
           </Fade>
         ) : (
           <SimulationContainer mode={mode} setMode={setMode}/>
