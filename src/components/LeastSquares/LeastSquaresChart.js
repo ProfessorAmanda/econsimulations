@@ -4,9 +4,11 @@ import HighchartsReact from 'highcharts-react-official'
 import { abs } from 'mathjs';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js'
+import { Form } from 'react-bootstrap';
 require('highcharts/modules/annotations')(Highcharts);
 
 export default function LeastSquaresChart({ points, addPoint, linePoints, setSquareAreas }) {
+  const [enableClick, setEnableClick] = useState(false);
   const [myChart, setMyChart] = useState({
     tooltip: {
       headerFormat: '',
@@ -14,10 +16,6 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
     },
     title: {
       text: ''
-    },
-    caption: {
-      align: 'center',
-      text: 'Click on the chart to add a data point!'
     },
     xAxis: {
       title: {
@@ -107,11 +105,19 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
         height: 600,
         events: {
           click: (e) => {
-            const x = e.xAxis[0].value;
-            const y = e.yAxis[0].value;
-            addPoint({x, y});
+            if (enableClick) {
+              const x = e.xAxis[0].value;
+              const y = e.yAxis[0].value;
+              addPoint({x, y});
+            }
           }
         }
+      },
+      caption: {
+        align: 'center',
+        y: 75,
+        text: enableClick ? 'Click on the chart to add a data point!' : '',
+        verticalAlign: 'top'
       },
       series: [
         {
@@ -140,10 +146,19 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
     }
 
     setMyChart(newChart);
-  }, [points, addPoint, linePoints, setSquareAreas]);
+  }, [points, addPoint, linePoints, setSquareAreas, enableClick]);
 
   return (
-    <HighchartsReact highcharts={Highcharts} options={myChart}/>
+    <>
+      <HighchartsReact highcharts={Highcharts} options={myChart}/>
+      <Form.Check
+        checked={enableClick}
+        inline
+        type="checkbox"
+        label="Enable Click for New Points"
+        onClick={() => setEnableClick(!enableClick)}
+      />
+    </>
   );
 }
 
