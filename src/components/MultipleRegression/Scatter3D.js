@@ -39,7 +39,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
 
     const theta = multiply(inv(multiply(transpose(A), A)), multiply(transpose(A), matrix(z)));
 
-    title = `${values.zAbbr} = ${_.round(column([theta], 0), 2)} + ${_.round(column([theta], 1), 2)} * ${values.xAbbr} + ${_.round(column([theta], 2), 2)} * ${values.yAbbr}`;
+    title = `${values.zAbbr}ᵢ = ${_.round(column([theta], 0), 2)} + ${_.round(column([theta], 1), 2)} * ${values.xAbbr}ᵢ + ${_.round(column([theta], 2), 2)} * ${values.yAbbr}ᵢ + uᵢ`;
 
     const equation = (x, y) => {
       return column([theta], 0) + column([theta], 1) * x + column([theta], 2) * y
@@ -86,7 +86,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
 
     const { equation: [slope, intercept] } = regression.linear(displayPointsMap[display]);
     const [lineX, lineY] = _.unzip(displayPointsMap[display].map((point) => ([point[0], (point[0] * slope) + intercept ])));
-    title = `${values.yAbbr} = ${intercept} + ${slope} * ${values.xAbbr}`;
+    title = `${values.yAbbr}ᵢ = ${intercept} + ${slope} * ${values.xAbbr}ᵢ + uᵢ`;
 
     plotData.push({
       x: lineX,
