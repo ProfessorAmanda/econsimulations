@@ -7,6 +7,8 @@ import { generateBinary } from '../../lib/stats-utils.js';
 import PopulationPlot from './PopulationPlot.js';
 import SampleInput from './SampleInput.js';
 import SamplePlot from './SamplePlot.js';
+import SimulateSamples from '../SimulateSamples.js';
+import { InlineMath } from 'react-katex';
 
 export default function OLSEstimatorsAreConsistent() {
   const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
@@ -31,6 +33,11 @@ export default function OLSEstimatorsAreConsistent() {
     setSamples(newSamples);
   }
 
+  const getBestFitSlope = (sample) => {
+    const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
+    return equation[0];
+  }
+
   return (
     <Collapsable>
       <Container>
@@ -52,6 +59,16 @@ export default function OLSEstimatorsAreConsistent() {
           <Col>
             <SamplePlot sample={selected}/>
           </Col>
+        </Row>
+        <Row>
+          <SimulateSamples
+            mathTitle={<p>Population vs Sample Slope <br /><InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/></p>}
+            popArray={data}
+            popValSeriesName={`Population Slope (${getBestFitSlope(data)})`}
+            sampleSeriesName="Estimated Slope"
+            yLabel="Slope"
+            sampleFn={getBestFitSlope}
+          />
         </Row>
       </Container>
     </Collapsable>

@@ -5,9 +5,8 @@ import { Card, Button } from 'react-bootstrap';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../lib/types.js';
-import { populationMean } from '../lib/stats-utils';
 
-export default function SimulateSamples({ title, popArray, popMean, sampleSeriesName, meanSeriesName }) {
+export default function SimulateSamples({ title, mathTitle, popArray, sampleSeriesName, popValSeriesName, yLabel, sampleFn }) {
   const [sampled, setSampled] = useState([]);
   const [meanLine, setMeanLine] = useState([]);
   const [start, setStart] = useState(false);
@@ -38,7 +37,7 @@ export default function SimulateSamples({ title, popArray, popMean, sampleSeries
       }
     },
     title: {
-      text: title,
+      text: title || ''
     },
     xAxis: {
       title: {
@@ -48,7 +47,7 @@ export default function SimulateSamples({ title, popArray, popMean, sampleSeries
     },
     yAxis: {
       title: {
-        text: 'Mean'
+        text: yLabel
       }
     },
     tooltip: {
@@ -60,7 +59,7 @@ export default function SimulateSamples({ title, popArray, popMean, sampleSeries
     const newChart = {
       series: [
         {
-          name: sampleSeriesName,
+          name: popValSeriesName,
           data: meanLine,
           label: {
             enabled: false
@@ -71,7 +70,7 @@ export default function SimulateSamples({ title, popArray, popMean, sampleSeries
           color: 'red'
         },
         {
-          name: meanSeriesName,
+          name: sampleSeriesName,
           data: sampled,
           label: {
             enabled: false
@@ -85,7 +84,7 @@ export default function SimulateSamples({ title, popArray, popMean, sampleSeries
     }
 
     setChart(newChart);
-  }, [sampled, meanLine, meanSeriesName, sampleSeriesName]);
+  }, [sampled, meanLine, popValSeriesName, sampleSeriesName]);
 
   useEffect(() => {
     setSampled([]);
@@ -102,18 +101,19 @@ export default function SimulateSamples({ title, popArray, popMean, sampleSeries
             break;
           }
           const sample = _.sampleSize(popArray, n);
-          newSamples.push({ y: _.round(populationMean(sample), 2) });
+          newSamples.push({ y: sampleFn(sample) });
         }
         setSampled((currSampled) => [...currSampled, ...newSamples]);
-        setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: popMean }]);
+        setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: sampleFn(popArray) }]);
       }, n);
     }
 
     return () => clearInterval(timer);
-  }, [start, popArray, popMean]);
+  }, [start, popArray, sampleFn]);
 
   return (
     <Card body>
+      {mathTitle && mathTitle}
       <HighchartsReact highcharts={Highcharts} options={chart}/>
       <Button variant="success" onClick={() => setStart(true)}>Start Simulation</Button>
     </Card>
@@ -121,9 +121,11 @@ export default function SimulateSamples({ title, popArray, popMean, sampleSeries
 }
 
 SimulateSamples.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  mathTitle: PropTypes.string,
   popArray: dataObjectArrayType.isRequired,
-  popMean: PropTypes.number.isRequired,
   sampleSeriesName: PropTypes.string.isRequired,
-  meanSeriesName: PropTypes.string.isRequired
+  popValSeriesName: PropTypes.string.isRequired,
+  yLabel: PropTypes.string.isRequired,
+  sampleFn: PropTypes.func.isRequired
 }

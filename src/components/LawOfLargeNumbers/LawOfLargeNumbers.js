@@ -49,9 +49,11 @@ export default function LawOfLargeNumbers({ popShape, sampleSize }) {
             <SimulateSamples
               title={`Population vs Sample Means <br /> (${popShape})`}
               popArray={popArray}
-              popMean={_.round(popMean, 2)}
-              sampleSeriesName={`Population Mean (${popMean.toFixed(2)})`}
-              meanSeriesName="Sampled Means"
+              popValue={_.round(popMean, 2)}
+              popValSeriesName={`Population Mean (${popMean.toFixed(2)})`}
+              sampleSeriesName="Sampled Means"
+              yLabel="Mean"
+              sampleFn={(sample) => _.round(populationMean(sample), 2)}
             />
           </div>
         )}
