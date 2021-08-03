@@ -2,65 +2,65 @@ import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Card, Button } from 'react-bootstrap';
-import '../../styles/dark-unica.css';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType, popShapeType } from '../../lib/types.js';
-import { populationMean } from '../../lib/stats-utils';
+import { dataObjectArrayType } from '../lib/types.js';
+import { populationMean } from '../lib/stats-utils';
 
-export default function SimulateSamples({ type, popArray, popMean }) {
+export default function SimulateSamples({ title, popArray, popMean, sampleSeriesName, meanSeriesName }) {
   const [sampled, setSampled] = useState([]);
   const [meanLine, setMeanLine] = useState([]);
-  const [chart, setChart] = useState({});
   const [start, setStart] = useState(false);
+  const [chart, setChart] = useState({
+    chart: {
+      type: 'line',
+      animation: false
+    },
+    plotOptions: {
+      series: {
+        animation: {
+          duration: 0
+        },
+        states: {
+          hover: {
+            enabled: false
+          },
+          select: {
+            enabled: false
+          },
+          normal: {
+            animation: false
+          },
+          inactive: {
+            enabled: false
+          }
+        }
+      }
+    },
+    title: {
+      text: title,
+    },
+    xAxis: {
+      title: {
+        text: 'Sample Size'
+      },
+      min: 0
+    },
+    yAxis: {
+      title: {
+        text: 'Mean'
+      }
+    },
+    tooltip: {
+      enabled: false
+    }
+  });
 
   useEffect(() => {
     const newChart = {
-      chart: {
-        type: 'line',
-        animation: false
-      },
-      plotOptions: {
-        series: {
-          animation: {
-            duration: 0
-          },
-          states: {
-            hover: {
-              enabled: false
-            },
-            select: {
-              enabled: false
-            },
-            normal: {
-              animation: false
-            },
-            inactive: {
-              enabled: false
-            }
-          }
-        }
-      },
-      title: {
-        text: `Population vs Sample Means <br /> (${type})`,
-      },
-      xAxis: {
-        title: {
-          text: 'Sample Size'
-        },
-        min: 0
-      },
-      yAxis: {
-        title: {
-          text: 'Mean'
-        }
-      },
-      tooltip: {
-        enabled: false
-      },
       series: [
         {
-          name: `Population Mean (${popMean.toFixed(2)})`,
+          name: sampleSeriesName,
           data: meanLine,
           label: {
             enabled: false
@@ -71,7 +71,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
           color: 'red'
         },
         {
-          name: 'Sampled Means',
+          name: meanSeriesName,
           data: sampled,
           label: {
             enabled: false
@@ -85,7 +85,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
     }
 
     setChart(newChart);
-  }, [sampled, meanLine, type, popArray, popMean]);
+  }, [sampled, meanLine, meanSeriesName, sampleSeriesName]);
 
   useEffect(() => {
     setSampled([]);
@@ -121,7 +121,9 @@ export default function SimulateSamples({ type, popArray, popMean }) {
 }
 
 SimulateSamples.propTypes = {
-  type: popShapeType.isRequired,
+  title: PropTypes.string.isRequired,
   popArray: dataObjectArrayType.isRequired,
   popMean: PropTypes.number.isRequired,
+  sampleSeriesName: PropTypes.string.isRequired,
+  meanSeriesName: PropTypes.string.isRequired
 }

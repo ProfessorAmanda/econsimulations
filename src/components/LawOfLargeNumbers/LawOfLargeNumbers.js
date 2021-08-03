@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import ChartContainer from '../ChartContainer.js';
 import SampleSizeInput from '../SampleSizeInput.js';
-import SimulateSamples from './SimulateSamples.js';
 import { Alert } from 'react-bootstrap';
 import { populationMean, dataFromDistribution } from '../../lib/stats-utils.js';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { popShapeType } from '../../lib/types.js';
+import SimulateSamples from '../SimulateSamples.js';
 
 export default function LawOfLargeNumbers({ popShape, sampleSize }) {
   const [sampled, setSampled] = useState([]);
@@ -46,7 +46,13 @@ export default function LawOfLargeNumbers({ popShape, sampleSize }) {
             <Alert variant="info">
               According to the law, the average of the results obtained from a large enough sample should be close to the total average of the population, and will tend to become closer the larger the sample is. Make sure to pick several samples, or see below for a simulation to see the law in action.
             </Alert>
-            <SimulateSamples type={popShape} popArray={popArray} popMean={_.round(popMean, 2)}/>
+            <SimulateSamples
+              title={`Population vs Sample Means <br /> (${popShape})`}
+              popArray={popArray}
+              popMean={_.round(popMean, 2)}
+              sampleSeriesName={`Population Mean (${popMean.toFixed(2)})`}
+              meanSeriesName="Sampled Means"
+            />
           </div>
         )}
       </div>
