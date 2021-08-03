@@ -18,7 +18,7 @@ export default function NewPointsInput({ generatePoints }) {
         className="custom-range"
         data-testid="new-points-slider"
         style={{ width: '50%' }}
-        min={4}
+        min={0}
         max={10}
         value={numPoints}
         onChange={(event) => setNumPoints(event.target.value)}
