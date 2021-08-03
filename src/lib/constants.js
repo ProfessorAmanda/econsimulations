@@ -25,9 +25,9 @@ export const OLSE_VALUES = {
 export const MULTIPLE_REGRESSION_VALUES = {
   'California Schools Data': {
     'XY': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], buttonLabel: <p>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
-    'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Test Score', yAbbr: 'test_score', yRange: [600, 720], buttonLabel: <p>Test Score<br/>vs<br/>Student-Teacher Ratio</p> },
-    'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PCT_EL', xRange: [0, 100], yLabel: 'Test Score', yAbbr: 'test_score', yRange: [600, 720], buttonLabel: <p>Test Score<br/>vs<br/>Percent English Learners</p> },
-    '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], zLabel: 'Test Score', zAbbr: 'test_score', zRange: [600, 720], buttonLabel: <p>Test Score<br/>vs<br/>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
+    'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Test Scores', yAbbr: 'test_scores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Student-Teacher Ratio</p> },
+    'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PCT_EL', xRange: [0, 100], yLabel: 'Test Scores', yAbbr: 'test_scores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners</p> },
+    '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], zLabel: 'Test Scores', zAbbr: 'test_scores', zRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
   },
   'CPS Earnings Data': {
     'XY': { xLabel: '', xAbbr: 'College', yLabel: '', yAbbr: 'Gender', buttonLabel: <p>Gender<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },

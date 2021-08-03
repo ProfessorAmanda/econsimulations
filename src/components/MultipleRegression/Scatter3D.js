@@ -32,10 +32,14 @@ export default function Scatter3D({ x, y, z, dataSet }) {
     }
   ];
 
+  let title = '';
+
   if (display === '3D' && showBestFit) {
     const A = matrix(_.zip(_.range(0, x.length).map(() => 1), x, y));
 
     const theta = multiply(inv(multiply(transpose(A), A)), multiply(transpose(A), matrix(z)));
+
+    title = `${values.zAbbr} = ${_.round(column([theta], 0), 2)} + ${_.round(column([theta], 1), 2)} * ${values.xAbbr} + ${_.round(column([theta], 2), 2)} * ${values.yAbbr}`;
 
     const equation = (x, y) => {
       return column([theta], 0) + column([theta], 1) * x + column([theta], 2) * y
@@ -82,6 +86,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
 
     const { equation: [slope, intercept] } = regression.linear(displayPointsMap[display]);
     const [lineX, lineY] = _.unzip(displayPointsMap[display].map((point) => ([point[0], (point[0] * slope) + intercept ])));
+    title = `${values.yAbbr} = ${intercept} + ${slope} * ${values.xAbbr}`;
 
     plotData.push({
       x: lineX,
@@ -97,6 +102,11 @@ export default function Scatter3D({ x, y, z, dataSet }) {
         <Plot
           data={plotData}
           layout={{
+            title: {
+              text: title,
+              y: 0.95,
+              yanchor: 'top',
+            },
             width: 800,
             height: 700,
             margin: {
@@ -175,7 +185,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
             variant="outline-primary"
             active={showBestFit}
           >
-            Toggle Best Fit {(display === '3D') ? 'Plane' : 'Line'}
+            {showBestFit ? 'Hide' : 'Show'} Best Fit {(display === '3D') ? 'Plane' : 'Line'}
           </Button>
         </Form>
       </Col>
@@ -187,5 +197,5 @@ Scatter3D.propTypes = {
   x: PropTypes.arrayOf(PropTypes.number).isRequired,
   y: PropTypes.arrayOf(PropTypes.number).isRequired,
   z: PropTypes.arrayOf(PropTypes.number).isRequired,
-  dataSet: PropTypes.string.isRequired
+  dataSet: PropTypes.oneOf(['California Schools Data', 'CPS Earnings Data', 'CPS Log Earnings Data']).isRequired
 }
