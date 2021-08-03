@@ -129,5 +129,9 @@ export const MODULES = [
   {
     name: 'Multiple Regression',
     description: 'In Progress'
+  },
+  {
+    name: 'The OLS Estimators are Consistent',
+    description: 'In Progress'
   }
 ];
