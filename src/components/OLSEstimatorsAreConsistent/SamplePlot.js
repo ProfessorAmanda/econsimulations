@@ -5,23 +5,24 @@ import { olsSampleType } from '../../lib/types';
 
 export default function SamplePlot({ sample }) {
 
-  const sampleSeries = sample ? [
+  const sampleSeries = [
     {
       name: 'best fit line',
       type: 'line',
-      data: [{ x: 0 }, { x: 1 }, ...sample.data].map((point) => (
+      data: sample ? [{ x: 0 }, { x: 1 }, ...sample.data].map((point) => (
         { x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2) }
-      )),
+      )) : [],
       label: false,
       marker: false,
-      showInLegend: sample.data.length > 0,
+      showInLegend: false,
       enableMouseTracking: false,
       color: 'black',
     },
     {
       name: 'sample',
-      data: sample.data,
+      data: sample ? sample.data : [],
       color: 'orange',
+      showInLegend: false,
       marker: {
         lineWidth: 1,
         lineColor: 'orange'
@@ -31,7 +32,7 @@ export default function SamplePlot({ sample }) {
         pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'
       }
     },
-  ] : [];
+  ];
 
 
   return (
