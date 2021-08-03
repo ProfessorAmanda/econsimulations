@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Scatter3D from './Scatter3D';
 import _ from 'lodash';
-import { csv } from 'd3-fetch';
 import SelectorButtonGroup from '../SelectorButtonGroup.js';
+import { fetchCsv } from '../../lib/data-utils';
 
 export default function MultipleRegression() {
   const [data, setData] = useState([]);
@@ -14,7 +14,7 @@ export default function MultipleRegression() {
         1: 'Class_size_Test_Scores_3vars.csv',
         2: 'Small_CPS_earnings_data.csv'
       }
-      const csvData = await csv(`${process.env.PUBLIC_URL}/data/${dataSetPaths[dataSet]}`);
+      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/${dataSetPaths[dataSet]}`);
       setData(csvData);
     }
     getData();
