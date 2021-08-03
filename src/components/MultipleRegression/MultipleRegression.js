@@ -1,14 +1,38 @@
-import { useState } from 'react';
-import jsonData from '../../data/3d_scatter_data.json';
+import { useEffect, useState } from 'react';
 import Scatter3D from './Scatter3D';
 import _ from 'lodash';
+import SelectorButtonGroup from '../SelectorButtonGroup.js';
+import { fetchCsv } from '../../lib/data-utils';
 
 export default function MultipleRegression() {
-  const [data] = useState(jsonData.map(({test_score, str, pct_el}) => [str, pct_el, test_score]));
+  const [data, setData] = useState([]);
+  const [dataSet, setDataSet] = useState('California Schools Data');
 
-  const [x, y, z] = _.unzip(data);
+  useEffect(() => {
+    const dataSetPaths = {
+      'California Schools Data': 'california_schools_data.csv',
+      'CPS Earnings Data': 'CPS_earnings_data.csv',
+      'CPS Log Earnings Data': 'CPS_log_earnings_data.csv'
+    }
+    const getData = async () => {
+      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/${dataSetPaths[dataSet]}`);
+      setData(csvData);
+    }
+    getData();
+  }, [dataSet])
+
+  const [z, x, y] = _.unzip(data.map((object) => _.values(object).map((val) => +val)));
 
   return (
-    <Scatter3D x={x} y={y} z={z}/>
+    <>
+      <SelectorButtonGroup
+        options={['California Schools Data', 'CPS Earnings Data', 'CPS Log Earnings Data']}
+        select={setDataSet}
+        selected={dataSet}
+      />
+      <br/>
+      <br/>
+      <Scatter3D x={x || []} y={y || []} z={z || []} dataSet={dataSet}/>
+    </>
   )
 }

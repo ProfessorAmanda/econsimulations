@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Plot from 'react-plotly.js';
 import _ from 'lodash';
 import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
 import regression from 'regression';
 import PropTypes from 'prop-types';
 import { MULTIPLE_REGRESSION_VALUES } from '../../lib/constants';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row, Button } from 'react-bootstrap';
 
-export default function Scatter3D({ x, y, z }) {
+export default function Scatter3D({ x, y, z, dataSet }) {
   const [display, setDisplay] = useState('3D');
   const [showBestFit, setShowBestFit] = useState(false);
 
-  // x = str, y = pct_el, z = test_score
+  const values = MULTIPLE_REGRESSION_VALUES[dataSet][display];
 
   const plotData = [
     {
@@ -28,14 +28,18 @@ export default function Scatter3D({ x, y, z }) {
           width: (display === '3D') ? 1 : 0.5
         }
       },
-      hovertemplate: `${MULTIPLE_REGRESSION_VALUES[display].xAbbr}: %{x}<br>${MULTIPLE_REGRESSION_VALUES[display].yAbbr}: %{y}<br>${(display === '3D') ? 'Score: %{z}' : ''}<extra></extra>`
+      hovertemplate: `${values.xAbbr}: %{x}<br>${values.yAbbr}: %{y}<br>${(display === '3D') ? `${values.zAbbr}: %{z}` : ''}<extra></extra>`
     }
   ];
+
+  let title = '';
 
   if (display === '3D' && showBestFit) {
     const A = matrix(_.zip(_.range(0, x.length).map(() => 1), x, y));
 
     const theta = multiply(inv(multiply(transpose(A), A)), multiply(transpose(A), matrix(z)));
+
+    title = `${values.zAbbr}ᵢ = ${_.round(column([theta], 0), 2)} + ${_.round(column([theta], 1), 2)} * ${values.xAbbr}ᵢ + ${_.round(column([theta], 2), 2)} * ${values.yAbbr}ᵢ + uᵢ`;
 
     const equation = (x, y) => {
       return column([theta], 0) + column([theta], 1) * x + column([theta], 2) * y
@@ -51,12 +55,13 @@ export default function Scatter3D({ x, y, z }) {
           ^y
     */
 
-    const bestFitPlane = [];
+    // fill from 0 to min(y) with lists of undefined so the surface isn't displayed in this space
+    const bestFitPlane = _.range(0, _.floor(min(y))).map(() => _.range(0, _.ceil(max(x))).map(() => undefined));
 
-    for (let yi = _.round(min(y)); yi <= _.round(max(y) + 1); yi++) {
+    for (let yi = _.floor(min(y)); yi <= _.ceil(max(y)); yi++) {
       // fill from 0 to min(x) with undefined so the surface isn't displayed in this space
-      const temp = _.range(0, _.round(min(x)) - 1).map(() => undefined)
-      for (let xi = _.round(min(x)); xi <= _.round(max(x) + 1); xi++) {
+      const temp = _.range(0, _.floor(min(x))).map(() => undefined)
+      for (let xi = _.floor(min(x)); xi <= _.ceil(max(x)); xi++) {
         temp.push(equation(xi, yi));
       }
       bestFitPlane.push(temp)
@@ -81,6 +86,7 @@ export default function Scatter3D({ x, y, z }) {
 
     const { equation: [slope, intercept] } = regression.linear(displayPointsMap[display]);
     const [lineX, lineY] = _.unzip(displayPointsMap[display].map((point) => ([point[0], (point[0] * slope) + intercept ])));
+    title = `${values.yAbbr}ᵢ = ${intercept} + ${slope} * ${values.xAbbr}ᵢ + uᵢ`;
 
     plotData.push({
       x: lineX,
@@ -96,41 +102,54 @@ export default function Scatter3D({ x, y, z }) {
         <Plot
           data={plotData}
           layout={{
+            title: {
+              text: title,
+              y: 0.95,
+              yanchor: 'top',
+            },
             width: 800,
             height: 700,
             margin: {
-              l: MULTIPLE_REGRESSION_VALUES[display].margin,
-              r: MULTIPLE_REGRESSION_VALUES[display].margin,
-              t: MULTIPLE_REGRESSION_VALUES[display].margin,
-              b: MULTIPLE_REGRESSION_VALUES[display].margin
+              l: (display === '3D') ? 0 : 80,
+              r: (display === '3D') ? 0 : 80,
+              t: (display === '3D') ? 0 : 80,
+              b: (display === '3D') ? 0 : 80
             },
             showlegend: false,
             xaxis: {
-              title: MULTIPLE_REGRESSION_VALUES[display].xLabel,
-              range: MULTIPLE_REGRESSION_VALUES[display].xRange
+              title: values.xLabel,
+              range: values.xRange,
+              tickvals: values.xtickvals,
+              ticktext: values.xticktext
             },
             yaxis: {
-              title: MULTIPLE_REGRESSION_VALUES[display].yLabel,
-              range: MULTIPLE_REGRESSION_VALUES[display].yRange
+              title: values.yLabel,
+              range: values.yRange,
+              tickvals: values.ytickvals,
+              ticktext: values.yticktext
             },
             scene: {
               xaxis: {
                 title: {
-                  text: MULTIPLE_REGRESSION_VALUES['3D'].xLabel
+                  text: values.xLabel
                 },
-                range: MULTIPLE_REGRESSION_VALUES['3D'].xRange
+                range: values.xRange,
+                tickvals: values.xtickvals,
+                ticktext: values.xticktext
               },
               yaxis: {
                 title: {
-                  text: MULTIPLE_REGRESSION_VALUES['3D'].yLabel
+                  text: values.yLabel
                 },
-                range: MULTIPLE_REGRESSION_VALUES['3D'].yRange
+                range: values.yRange,
+                tickvals: values.ytickvals,
+                ticktext: values.yticktext
               },
               zaxis: {
                 title: {
-                  text: MULTIPLE_REGRESSION_VALUES['3D'].zLabel
+                  text: values.zLabel
                 },
-                range: MULTIPLE_REGRESSION_VALUES['3D'].zRange
+                range: values.zRange
               },
               camera: {
                 eye: {
@@ -151,23 +170,23 @@ export default function Scatter3D({ x, y, z }) {
       <Col style={{margin: 'auto', paddingLeft: 50}}>
         <Form>
           {['3D', 'XY', 'YZ', 'XZ'].map((axes) => (
-            <>
+            <Fragment key={axes}>
               <Form.Check
                 checked={display === axes}
                 type="radio"
-                key={axes}
-                label={MULTIPLE_REGRESSION_VALUES[axes].buttonLabel}
-                onClick={() => setDisplay(axes)}
+                label={MULTIPLE_REGRESSION_VALUES[dataSet][axes].buttonLabel}
+                onChange={() => setDisplay(axes)}
               />
               <hr/>
-            </>
+            </Fragment>
           ))}
-          <Form.Check
-            checked={showBestFit}
-            type="checkbox"
-            label={`Toggle Best Fit ${(display === '3D') ? 'Plane' : 'Line'}`}
+          <Button
             onClick={() => setShowBestFit(!showBestFit)}
-          />
+            variant="outline-primary"
+            active={showBestFit}
+          >
+            {showBestFit ? 'Hide' : 'Show'} Best Fit {(display === '3D') ? 'Plane' : 'Line'}
+          </Button>
         </Form>
       </Col>
     </Row>
@@ -177,5 +196,6 @@ export default function Scatter3D({ x, y, z }) {
 Scatter3D.propTypes = {
   x: PropTypes.arrayOf(PropTypes.number).isRequired,
   y: PropTypes.arrayOf(PropTypes.number).isRequired,
-  z: PropTypes.arrayOf(PropTypes.number).isRequired
+  z: PropTypes.arrayOf(PropTypes.number).isRequired,
+  dataSet: PropTypes.oneOf(['California Schools Data', 'CPS Earnings Data', 'CPS Log Earnings Data']).isRequired
 }

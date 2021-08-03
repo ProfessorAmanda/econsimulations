@@ -3,7 +3,8 @@
   "plugins": ["react", "react-hooks"],
   "env": {
     "node": true,
-    "jest": true
+    "jest": true,
+    "browser": true
   },
   "parserOptions": {
     "ecmaVersion": 2020,

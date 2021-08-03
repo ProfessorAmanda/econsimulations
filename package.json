@@ -34,6 +34,7 @@
     "lodash": "^4.17.21",
     "mathjs": "^9.4.4",
     "multivariate-normal": "^0.1.2",
+    "papaparse": "^5.3.1",
     "plotly.js": "^2.2.1",
     "probability-distributions": "^0.9.1",
     "prop-types": "^15.7.2",
