@@ -24,10 +24,10 @@ export const OLSE_VALUES = {
 
 export const MULTIPLE_REGRESSION_VALUES = {
   'California Schools Data': {
-    'XY': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], buttonLabel: <p>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
-    'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Test Scores', yAbbr: 'test_scores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Student-Teacher Ratio</p> },
-    'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PCT_EL', xRange: [0, 100], yLabel: 'Test Scores', yAbbr: 'test_scores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners</p> },
-    '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'STR', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PCT_EL' , yRange: [0, 100], zLabel: 'Test Scores', zAbbr: 'test_scores', zRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
+    'XY': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PercentEngLearners' , yRange: [0, 100], buttonLabel: <p>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
+    'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Test Scores', yAbbr: 'TestScores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Student-Teacher Ratio</p> },
+    'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PercentEngLearners', xRange: [0, 100], yLabel: 'Test Scores', yAbbr: 'TestScores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners</p> },
+    '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PercentEngLearners' , yRange: [0, 100], zLabel: 'Test Scores', zAbbr: 'TestScores', zRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
   },
   'CPS Earnings Data': {
     'XY': { xLabel: '', xAbbr: 'College', yLabel: '', yAbbr: 'Gender', buttonLabel: <p>Gender<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
@@ -36,10 +36,10 @@ export const MULTIPLE_REGRESSION_VALUES = {
     '3D': { xLabel: '', xAbbr: 'College', xRange: [-0.5, 1.5], yLabel: '', yAbbr: 'Gender', yRange: [-0.5, 1.5], zLabel: 'Weekly Earnings', zAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
   },
   'CPS Log Earnings Data': {
-    'XY': { xLabel: 'Years of Education', xAbbr: 'ed_yrs', yLabel: '', yAbbr: 'Gender', buttonLabel: <p>Gender<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
-    'XZ': { xLabel: 'Years of Education', xAbbr: 'ed_yrs', yLabel: 'Log Weekly Earnings', yAbbr: 'ln_earn', buttonLabel: <p>Log Earnings<br/>vs<br/>Years of Education</p> },
-    'YZ': { xLabel: '', xAbbr: 'Gender', yLabel: 'Log Weekly Earnings', yAbbr: 'ln_earn', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
-    '3D': { xLabel: 'Years of Education', xAbbr: 'ed_yrs', yLabel: '', yAbbr: 'Gender', yRange: [-0.5, 1.5], zLabel: 'Log Weekly Earnings', zAbbr: 'ln_earn', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    'XY': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: '', yAbbr: 'Gender', buttonLabel: <p>Gender<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    'XZ': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: 'Log Weekly Earnings', yAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Years of Education</p> },
+    'YZ': { xLabel: '', xAbbr: 'Gender', yLabel: 'Log Weekly Earnings', yAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
+    '3D': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: '', yAbbr: 'Gender', yRange: [-0.5, 1.5], zLabel: 'Log Weekly Earnings', zAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
   }
 }
 
