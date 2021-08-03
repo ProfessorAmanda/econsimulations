@@ -5,7 +5,7 @@ import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
 import regression from 'regression';
 import PropTypes from 'prop-types';
 import { MULTIPLE_REGRESSION_VALUES } from '../../lib/constants';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row, Button } from 'react-bootstrap';
 
 export default function Scatter3D({ x, y, z, dataSet }) {
   const [display, setDisplay] = useState('3D');
@@ -170,12 +170,13 @@ export default function Scatter3D({ x, y, z, dataSet }) {
               <hr/>
             </Fragment>
           ))}
-          <Form.Check
-            checked={showBestFit}
-            type="checkbox"
-            label={`Toggle Best Fit ${(display === '3D') ? 'Plane' : 'Line'}`}
-            onChange={() => setShowBestFit(!showBestFit)}
-          />
+          <Button
+            onClick={() => setShowBestFit(!showBestFit)}
+            variant="outline-primary"
+            active={showBestFit}
+          >
+            Toggle Best Fit {(display === '3D') ? 'Plane' : 'Line'}
+          </Button>
         </Form>
       </Col>
     </Row>

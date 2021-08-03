@@ -6,14 +6,15 @@ import { fetchCsv } from '../../lib/data-utils';
 
 export default function MultipleRegression() {
   const [data, setData] = useState([]);
-  const [dataSet, setDataSet] = useState('1');
+  const [dataSet, setDataSet] = useState('California Schools Data');
 
   useEffect(() => {
+    const dataSetPaths = {
+      'California Schools Data': 'california_schools_data.csv',
+      'CPS Earnings Data': 'CPS_earnings_data.csv',
+      'CPS Log Earnings Data': 'CPS_log_earnings_data.csv'
+    }
     const getData = async () => {
-      const dataSetPaths = {
-        1: 'Class_size_Test_Scores_3vars.csv',
-        2: 'Small_CPS_earnings_data.csv'
-      }
       const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/${dataSetPaths[dataSet]}`);
       setData(csvData);
     }
@@ -24,7 +25,13 @@ export default function MultipleRegression() {
 
   return (
     <>
-      <SelectorButtonGroup options={['1', '2']} select={setDataSet} selected={dataSet}/>
+      <SelectorButtonGroup
+        options={['California Schools Data', 'CPS Earnings Data', 'CPS Log Earnings Data']}
+        select={setDataSet}
+        selected={dataSet}
+      />
+      <br/>
+      <br/>
       <Scatter3D x={x || []} y={y || []} z={z || []} dataSet={dataSet}/>
     </>
   )
