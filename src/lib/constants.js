@@ -123,6 +123,10 @@ export const MODULES = [
     description: <>The sampling distributions of the OLS estimators <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/> are approximately normal.</>
   },
   {
+    name: 'The OLS Estimators are Consistent',
+    description: 'In Progress'
+  },
+  {
     name: 'Omitted Variable Bias',
     description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one of the included regressors is omitted from the regression model.',
   },

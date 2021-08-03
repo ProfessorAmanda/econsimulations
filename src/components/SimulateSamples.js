@@ -2,65 +2,64 @@ import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Card, Button } from 'react-bootstrap';
-import '../../styles/dark-unica.css';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType, popShapeType } from '../../lib/types.js';
-import { populationMean } from '../../lib/stats-utils';
+import { dataObjectArrayType } from '../lib/types.js';
 
-export default function SimulateSamples({ type, popArray, popMean }) {
+export default function SimulateSamples({ title, mathTitle, popArray, sampleSeriesName, popValSeriesName, yLabel, sampleFn }) {
   const [sampled, setSampled] = useState([]);
   const [meanLine, setMeanLine] = useState([]);
-  const [chart, setChart] = useState({});
   const [start, setStart] = useState(false);
+  const [chart, setChart] = useState({
+    chart: {
+      type: 'line',
+      animation: false
+    },
+    plotOptions: {
+      series: {
+        animation: {
+          duration: 0
+        },
+        states: {
+          hover: {
+            enabled: false
+          },
+          select: {
+            enabled: false
+          },
+          normal: {
+            animation: false
+          },
+          inactive: {
+            enabled: false
+          }
+        }
+      }
+    },
+    title: {
+      text: title || ''
+    },
+    xAxis: {
+      title: {
+        text: 'Sample Size'
+      },
+      min: 0
+    },
+    yAxis: {
+      title: {
+        text: yLabel
+      }
+    },
+    tooltip: {
+      enabled: false
+    }
+  });
 
   useEffect(() => {
     const newChart = {
-      chart: {
-        type: 'line',
-        animation: false
-      },
-      plotOptions: {
-        series: {
-          animation: {
-            duration: 0
-          },
-          states: {
-            hover: {
-              enabled: false
-            },
-            select: {
-              enabled: false
-            },
-            normal: {
-              animation: false
-            },
-            inactive: {
-              enabled: false
-            }
-          }
-        }
-      },
-      title: {
-        text: `Population vs Sample Means <br /> (${type})`,
-      },
-      xAxis: {
-        title: {
-          text: 'Sample Size'
-        },
-        min: 0
-      },
-      yAxis: {
-        title: {
-          text: 'Mean'
-        }
-      },
-      tooltip: {
-        enabled: false
-      },
       series: [
         {
-          name: `Population Mean (${popMean.toFixed(2)})`,
+          name: popValSeriesName,
           data: meanLine,
           label: {
             enabled: false
@@ -71,7 +70,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
           color: 'red'
         },
         {
-          name: 'Sampled Means',
+          name: sampleSeriesName,
           data: sampled,
           label: {
             enabled: false
@@ -85,7 +84,7 @@ export default function SimulateSamples({ type, popArray, popMean }) {
     }
 
     setChart(newChart);
-  }, [sampled, meanLine, type, popArray, popMean]);
+  }, [sampled, meanLine, popValSeriesName, sampleSeriesName]);
 
   useEffect(() => {
     setSampled([]);
@@ -102,18 +101,19 @@ export default function SimulateSamples({ type, popArray, popMean }) {
             break;
           }
           const sample = _.sampleSize(popArray, n);
-          newSamples.push({ y: _.round(populationMean(sample), 2) });
+          newSamples.push({ y: sampleFn(sample) });
         }
         setSampled((currSampled) => [...currSampled, ...newSamples]);
-        setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: popMean }]);
+        setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: sampleFn(popArray) }]);
       }, n);
     }
 
     return () => clearInterval(timer);
-  }, [start, popArray, popMean]);
+  }, [start, popArray, sampleFn]);
 
   return (
     <Card body>
+      {mathTitle && mathTitle}
       <HighchartsReact highcharts={Highcharts} options={chart}/>
       <Button variant="success" onClick={() => setStart(true)}>Start Simulation</Button>
     </Card>
@@ -121,7 +121,11 @@ export default function SimulateSamples({ type, popArray, popMean }) {
 }
 
 SimulateSamples.propTypes = {
-  type: popShapeType.isRequired,
+  title: PropTypes.string,
+  mathTitle: PropTypes.string,
   popArray: dataObjectArrayType.isRequired,
-  popMean: PropTypes.number.isRequired,
+  sampleSeriesName: PropTypes.string.isRequired,
+  popValSeriesName: PropTypes.string.isRequired,
+  yLabel: PropTypes.string.isRequired,
+  sampleFn: PropTypes.func.isRequired
 }
