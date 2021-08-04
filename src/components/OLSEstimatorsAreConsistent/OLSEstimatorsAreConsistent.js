@@ -9,16 +9,31 @@ import SampleInput from './SampleInput.js';
 import SamplePlot from './SamplePlot.js';
 import SimulateSamples from '../SimulateSamples.js';
 import { InlineMath } from 'react-katex';
+import PropTypes from 'prop-types';
 
-export default function OLSEstimatorsAreConsistent() {
+export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
 
+  const samplingFunction = (size) => {
+    if (assumption === 'Normal') {
+      return _.sampleSize(data, size);
+    } else if (assumption === 'Non-Random Sample') {
+      const jobCorps = data.filter((obj) => obj.x);
+      return [..._.sampleSize(data, _.floor(size * 0.8)), ..._.sampleSize(jobCorps, _.ceil(size * 0.2))];
+    } else if (assumption === 'Human Error') {
+      const sample = _.sampleSize(data, size);
+      const randomIndices = _.sampleSize(_.range(0, size), size * 0.2);
+      const alteredSample = sample.map((obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 10 : obj.y)}));
+      return alteredSample;
+    }
+  }
+
   const addSample = (size) => {
     let sample;
     do {
-      sample = _.sampleSize(data, size);
+      sample = samplingFunction(size);
     } while (_.uniq(sample.map(({ x }) => x)).length === 1);
 
     const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
@@ -67,10 +82,15 @@ export default function OLSEstimatorsAreConsistent() {
             popValSeriesName={`Population Slope (${getBestFitSlope(data)})`}
             sampleSeriesName="Estimated Slope"
             yLabel="Slope"
-            sampleFn={getBestFitSlope}
+            sampleFn={samplingFunction}
+            yFn={getBestFitSlope}
           />
         </Row>
       </Container>
     </Collapsable>
   );
+}
+
+OLSEstimatorsAreConsistent.propTypes = {
+  assumption: PropTypes.oneOf(['Normal', 'Non-Random Sample', 'Human Error']).isRequired
 }

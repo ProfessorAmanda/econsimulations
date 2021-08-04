@@ -53,7 +53,8 @@ export default function LawOfLargeNumbers({ popShape, sampleSize }) {
               popValSeriesName={`Population Mean (${popMean.toFixed(2)})`}
               sampleSeriesName="Sampled Means"
               yLabel="Mean"
-              sampleFn={(sample) => _.round(populationMean(sample), 2)}
+              sampleFn={_.sampleSize}
+              yFn={(sample) => _.round(populationMean(sample), 2)}
             />
           </div>
         )}
