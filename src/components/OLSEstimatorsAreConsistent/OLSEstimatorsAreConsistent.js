@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import _ from 'lodash';
 import { Col, Container, Row } from 'react-bootstrap';
@@ -15,6 +15,11 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
+
+  useEffect(() => {
+    setSamples([]);
+    setSelected();
+  }, [assumption]);
 
   const samplingFunction = (population, size) => {
     if (assumption === 'Normal') {
