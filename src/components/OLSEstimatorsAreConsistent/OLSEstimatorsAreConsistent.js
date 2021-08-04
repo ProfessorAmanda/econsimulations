@@ -23,17 +23,26 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 
   const samplingFunction = (population, size) => {
     if (assumption === 'Normal') {
+
       return _.sampleSize(population, size);
+
     } else if (assumption === 'Non-Random Sample') {
-      const jobCorps = population.filter(({ x }) => x);
+
+      const jobCorps = population.filter(({ category }) => category === 'Job Corps');
       const jobCorpsSample = _.sampleSize(jobCorps, _.ceil(size * 0.2));
       const remainingData = population.filter(({ id }) => !jobCorpsSample.some((obj) => obj.id === id));
       return [..._.sampleSize(remainingData, _.floor(size * 0.8)), ...jobCorpsSample];
+
     } else if (assumption === 'Human Error') {
+
       const sample = _.sampleSize(population, size);
-      const randomIndices = _.sampleSize(_.range(0, size), size * 0.2);
-      const alteredSample = sample.map((obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 10 : obj.y)}));
-      return alteredSample;
+      const sampleControls = sample.filter(({ category }) => category === 'Control');
+      const randomIndices = _.sampleSize(_.range(0, sampleControls.length), sampleControls.length * 0.2);
+      const alteredControls = sampleControls.map(
+        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 10 : obj.y)})
+      );
+      const remainingSample = sample.filter(({ id }) => !alteredControls.some((obj) => obj.id === id));
+      return [...remainingSample, ...alteredControls];
     }
   }
 
