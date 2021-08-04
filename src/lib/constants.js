@@ -107,6 +107,12 @@ export const HYPOTHESIS_OPTIONS = {
   ]
 }
 
+export const OLS_ASSUMPTIONS_OPTIONS = [
+  'OLS Assumptions Hold',
+  'Non-Random Sample',
+  'Human Error'
+];
+
 export const MODULES = [
   {
     name: 'Law of Large Numbers',

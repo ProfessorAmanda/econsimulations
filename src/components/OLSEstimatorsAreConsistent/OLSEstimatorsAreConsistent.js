@@ -10,6 +10,7 @@ import SamplePlot from './SamplePlot.js';
 import SimulateSamples from '../SimulateSamples.js';
 import { InlineMath } from 'react-katex';
 import PropTypes from 'prop-types';
+import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
 
 export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
@@ -22,7 +23,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   }, [assumption]);
 
   const samplingFunction = (population, size) => {
-    if (assumption === 'Normal') {
+    if (assumption === 'OLS Assumptions Hold') {
 
       return _.sampleSize(population, size);
 
@@ -108,5 +109,5 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 }
 
 OLSEstimatorsAreConsistent.propTypes = {
-  assumption: PropTypes.oneOf(['Normal', 'Non-Random Sample', 'Human Error']).isRequired
+  assumption: PropTypes.oneOf(OLS_ASSUMPTIONS_OPTIONS).isRequired
 }
