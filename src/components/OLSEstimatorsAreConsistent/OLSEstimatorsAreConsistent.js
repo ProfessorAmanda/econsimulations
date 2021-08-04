@@ -46,6 +46,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       return [...remainingSample, ...alteredControls];
 
     } else if (assumption.props && assumption.props.math === 'E(u|x)=0') {
+
       const sample = _.sampleSize(population, size);
       const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
       const outtaHere = _.sampleSize(sampleJobCorps, size * 0.2);
