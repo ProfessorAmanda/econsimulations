@@ -117,7 +117,7 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
         align: 'center',
         y: 60,
         style: {fontSize: 15},
-        text: enableClick ? 'Click on the chart to add a data point and see how it affects the slope and intercept of the best fit line' : '',
+        text: enableClick ? 'Click on the chart to add a data point and see how it affects the slope and intercept of the estimated line' : '',
         verticalAlign: 'top'
       },
       series: [
