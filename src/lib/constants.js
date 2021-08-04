@@ -133,6 +133,10 @@ export const MODULES = [
     description: 'Ordinary least squares regression estimates the slope(s) and intercept of a line to best fit data for two (or more) variables by minimizing the sum of the squared distances from the data points to the line.',
   },
   {
+    name: 'Multiple Regression',
+    description: 'In Progress'
+  },
+  {
     name: 'Sample Distribution of OLS Estimators',
     description: <>The sampling distributions of the OLS estimators <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/> are approximately normal.</>
   },
@@ -143,9 +147,5 @@ export const MODULES = [
   {
     name: 'Omitted Variable Bias',
     description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one of the included regressors is omitted from the regression model.',
-  },
-  {
-    name: 'Multiple Regression',
-    description: 'In Progress'
   }
 ];
