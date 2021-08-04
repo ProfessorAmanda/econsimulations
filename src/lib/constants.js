@@ -30,16 +30,16 @@ export const MULTIPLE_REGRESSION_VALUES = {
     '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PercentEngLearners' , yRange: [0, 100], zLabel: 'Test Scores', zAbbr: 'TestScores', zRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
   },
   'CPS Earnings Data': {
-    'XY': { xLabel: '', xAbbr: 'College', yLabel: '', yAbbr: 'Gender', buttonLabel: <p>Gender<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    'XY': { xLabel: '', xAbbr: 'College', yLabel: '', yAbbr: 'Female', buttonLabel: <p>Gender (Female)<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
     'XZ': { xLabel: '', xAbbr: 'College', yLabel: 'Weekly Earnings', yAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'] },
-    'YZ': { xLabel: '', xAbbr: 'Gender', yLabel: 'Weekly Earnings', yAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
-    '3D': { xLabel: '', xAbbr: 'College', xRange: [-0.5, 1.5], yLabel: '', yAbbr: 'Gender', yRange: [-0.5, 1.5], zLabel: 'Weekly Earnings', zAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    'YZ': { xLabel: '', xAbbr: 'Female', yLabel: 'Weekly Earnings', yAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
+    '3D': { xLabel: '', xAbbr: 'College', xRange: [-0.5, 1.5], yLabel: '', yAbbr: 'Female', yRange: [-0.5, 1.5], zLabel: 'Weekly Earnings', zAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
   },
   'CPS Log Earnings Data': {
-    'XY': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: '', yAbbr: 'Gender', buttonLabel: <p>Gender<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    'XY': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: '', yAbbr: 'Female', buttonLabel: <p>Gender (Female)<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
     'XZ': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: 'Log Weekly Earnings', yAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Years of Education</p> },
-    'YZ': { xLabel: '', xAbbr: 'Gender', yLabel: 'Log Weekly Earnings', yAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
-    '3D': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: '', yAbbr: 'Gender', yRange: [-0.5, 1.5], zLabel: 'Log Weekly Earnings', zAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    'YZ': { xLabel: '', xAbbr: 'Female', yLabel: 'Log Weekly Earnings', yAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
+    '3D': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: '', yAbbr: 'Female', yRange: [-0.5, 1.5], zLabel: 'Log Weekly Earnings', zAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
   }
 }
 
