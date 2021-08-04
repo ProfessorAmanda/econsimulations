@@ -1,5 +1,6 @@
 import { ButtonGroup, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { optionalLaTeXType } from '../lib/types';
 
 export default function SelectorButtonGroup({ options, select, selected }) {
   const buttons = options.map((option) => (
@@ -20,7 +21,7 @@ export default function SelectorButtonGroup({ options, select, selected }) {
 }
 
 SelectorButtonGroup.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.arrayOf(optionalLaTeXType).isRequired,
   select: PropTypes.func.isRequired,
-  selected: PropTypes.string
+  selected: optionalLaTeXType
 }

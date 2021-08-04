@@ -34,7 +34,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const remainingData = population.filter(({ id }) => !jobCorpsSample.some((obj) => obj.id === id));
       return [..._.sampleSize(remainingData, _.floor(size * 0.8)), ...jobCorpsSample];
 
-    } else if (assumption === 'Human Error') {
+    } else if (assumption === 'Large Outliers') {
 
       const sample = _.sampleSize(population, size);
       const sampleControls = sample.filter(({ category }) => category === 'Control');
@@ -44,6 +44,13 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       );
       const remainingSample = sample.filter(({ id }) => !alteredControls.some((obj) => obj.id === id));
       return [...remainingSample, ...alteredControls];
+
+    } else if (assumption.props && assumption.props.math === 'E(u|x)=0') {
+      const sample = _.sampleSize(population, size);
+      const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
+      const outtaHere = _.sampleSize(sampleJobCorps, size * 0.2);
+      const remainingSample = sample.filter(({ id }) => !outtaHere.some((obj) => obj.id === id));
+      return remainingSample;
     }
   }
 
@@ -51,12 +58,12 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     let sample;
     do {
       sample = samplingFunction(data, size);
-    } while (_.uniq(sample.map(({ x }) => x)).length === 1);
+    } while (_.uniq(sample.map(({ category }) => category)).length === 1);
 
     const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
     const sampleObject = {
       data: sample,
-      size,
+      size: sample.length,
       slope: equation[0],
       intercept: equation[1],
     }

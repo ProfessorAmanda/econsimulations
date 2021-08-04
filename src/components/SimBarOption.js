@@ -1,5 +1,6 @@
 import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { optionalLaTeXType } from '../lib/types';
 
 export default function SimBarOption({ section, setSection }) {
   return (
@@ -16,9 +17,6 @@ SimBarOption.propTypes = {
   setSection: PropTypes.func.isRequired,
   section: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    description: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element
-    ]).isRequired
+    description: optionalLaTeXType.isRequired
   }).isRequired,
 }

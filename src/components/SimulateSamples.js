@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Card, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType } from '../lib/types.js';
+import { dataObjectArrayType, optionalLaTeXType } from '../lib/types.js';
 
 export default function SimulateSamples({ title, mathTitle, popArray, sampleSeriesName, popValSeriesName, yLabel, sampleFn, yFn }) {
   const [sampled, setSampled] = useState([]);
@@ -133,10 +133,7 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
 
 SimulateSamples.propTypes = {
   title: PropTypes.string,
-  mathTitle: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
+  mathTitle: optionalLaTeXType,
   popArray: dataObjectArrayType.isRequired,
   sampleSeriesName: PropTypes.string.isRequired,
   popValSeriesName: PropTypes.string.isRequired,

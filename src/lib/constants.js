@@ -110,7 +110,8 @@ export const HYPOTHESIS_OPTIONS = {
 export const OLS_ASSUMPTIONS_OPTIONS = [
   'OLS Assumptions Hold',
   'Non-Random Sample',
-  'Human Error'
+  'Large Outliers',
+  <InlineMath key="E(u|x)=0" math="E(u|x)=0"/>
 ];
 
 export const MODULES = [
