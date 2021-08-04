@@ -74,7 +74,8 @@ export default function Scatter3D({ x, y, z, dataSet }) {
       opacity: 0.5,
       hoverinfo: 'x+y+z',
       colorscale: [[0, 'rgb(0,0,0)'], [1, 'rgb(0,0,0)']],
-      visible: (display === '3D')
+      visible: (display === '3D'),
+      hovertemplate: `${values.xAbbr}: %{x}<br>${values.yAbbr}: %{y}<br>${(display === '3D') ? `${values.zAbbr}: %{z}` : ''}<extra></extra>`
     });
 
   } else if (showBestFit) {
@@ -93,6 +94,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
       y: lineY,
       mode: 'lines',
       marker: {color: 'black'},
+      hovertemplate: '(%{x}, %{y})<extra></extra>'
     });
   }
 
