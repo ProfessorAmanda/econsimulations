@@ -30,9 +30,9 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     } else if (assumption === 'Non-Random Sample') {
 
       const jobCorps = population.filter(({ category }) => category === 'Job Corps');
-      const jobCorpsSample = _.sampleSize(jobCorps, _.ceil(size * 0.2));
+      const jobCorpsSample = _.sampleSize(jobCorps, _.floor(size * 0.8));
       const remainingData = population.filter(({ id }) => !jobCorpsSample.some((obj) => obj.id === id));
-      return [..._.sampleSize(remainingData, _.floor(size * 0.8)), ...jobCorpsSample];
+      return [..._.sampleSize(remainingData, _.ceil(size * 0.2)), ...jobCorpsSample];
 
     } else if (assumption === 'Large Outliers') {
 
@@ -40,7 +40,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const sampleControls = sample.filter(({ category }) => category === 'Control');
       const randomIndices = _.sampleSize(_.range(0, sampleControls.length), sampleControls.length * 0.2);
       const alteredControls = sampleControls.map(
-        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 10 : obj.y)})
+        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 3 : obj.y)})
       );
       const remainingSample = sample.filter(({ id }) => !alteredControls.some((obj) => obj.id === id));
       return [...remainingSample, ...alteredControls];

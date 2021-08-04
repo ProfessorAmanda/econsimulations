@@ -16,20 +16,8 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
     },
     plotOptions: {
       series: {
-        animation: {
-          duration: 0
-        },
         states: {
           hover: {
-            enabled: false
-          },
-          select: {
-            enabled: false
-          },
-          normal: {
-            animation: false
-          },
-          inactive: {
             enabled: false
           }
         }
