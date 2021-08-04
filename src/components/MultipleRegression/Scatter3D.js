@@ -94,7 +94,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
       y: lineY,
       mode: 'lines',
       marker: {color: 'black'},
-      hovertemplate: `(%{x}, %{y})<extra></extra>`
+      hovertemplate: '(%{x}, %{y})<extra></extra>'
     });
   }
 
