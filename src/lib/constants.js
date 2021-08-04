@@ -36,10 +36,10 @@ export const MULTIPLE_REGRESSION_VALUES = {
     '3D': { xLabel: '', xAbbr: 'College', xRange: [-0.5, 1.5], yLabel: '', yAbbr: 'Female', yRange: [-0.5, 1.5], zLabel: 'Weekly Earnings', zAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
   },
   'CPS Log Earnings Data': {
-    'XY': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: '', yAbbr: 'Female', buttonLabel: <p>Gender (Female)<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
-    'XZ': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: 'Log Weekly Earnings', yAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Years of Education</p> },
-    'YZ': { xLabel: '', xAbbr: 'Female', yLabel: 'Log Weekly Earnings', yAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
-    '3D': { xLabel: 'Years of Education', xAbbr: 'YearsOfEd', yLabel: '', yAbbr: 'Female', yRange: [-0.5, 1.5], zLabel: 'Log Weekly Earnings', zAbbr: 'LnEarnings', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    'XY': { xLabel: 'Years of Education', xAbbr: 'Years_of_Ed', yLabel: '', yAbbr: 'Female', buttonLabel: <p>Gender (Female)<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    'XZ': { xLabel: 'Years of Education', xAbbr: 'Years_of_Ed', yLabel: 'Log Weekly Earnings', yAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Years of Education</p> },
+    'YZ': { xLabel: '', xAbbr: 'Female', yLabel: 'Log Weekly Earnings', yAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
+    '3D': { xLabel: 'Years of Education', xAbbr: 'Years_of_Ed', yLabel: '', yAbbr: 'Female', yRange: [-0.5, 1.5], zLabel: 'Log Weekly Earnings', zAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>Years of Education</p>, ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
   }
 }
 
