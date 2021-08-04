@@ -16,14 +16,16 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
 
-  const samplingFunction = (size) => {
+  const samplingFunction = (population, size) => {
     if (assumption === 'Normal') {
-      return _.sampleSize(data, size);
+      return _.sampleSize(population, size);
     } else if (assumption === 'Non-Random Sample') {
-      const jobCorps = data.filter((obj) => obj.x);
-      return [..._.sampleSize(data, _.floor(size * 0.8)), ..._.sampleSize(jobCorps, _.ceil(size * 0.2))];
+      const jobCorps = population.filter(({ x }) => x);
+      const jobCorpsSample = _.sampleSize(jobCorps, _.ceil(size * 0.2));
+      const remainingData = population.filter(({ id }) => !jobCorpsSample.some((obj) => obj.id === id));
+      return [..._.sampleSize(remainingData, _.floor(size * 0.8)), ...jobCorpsSample];
     } else if (assumption === 'Human Error') {
-      const sample = _.sampleSize(data, size);
+      const sample = _.sampleSize(population, size);
       const randomIndices = _.sampleSize(_.range(0, size), size * 0.2);
       const alteredSample = sample.map((obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 10 : obj.y)}));
       return alteredSample;
@@ -33,7 +35,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   const addSample = (size) => {
     let sample;
     do {
-      sample = samplingFunction(size);
+      sample = samplingFunction(data, size);
     } while (_.uniq(sample.map(({ x }) => x)).length === 1);
 
     const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });

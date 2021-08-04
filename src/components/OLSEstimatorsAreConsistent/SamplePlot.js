@@ -47,8 +47,6 @@ export default function SamplePlot({ sample }) {
         series={sampleSeries}
         xMin={0}
         xMax={1}
-        // yMin={50}
-        // yMax={350}
         yLabel="Weekly Earnings"
         xCategories={['Control Group', 'Job Corps']}
       />
