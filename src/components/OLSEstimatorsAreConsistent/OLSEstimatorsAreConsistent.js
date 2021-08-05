@@ -50,7 +50,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const remainingSample = sample.filter(({ id }) => !alteredControls.some((obj) => obj.id === id));
       return [...remainingSample, ...alteredControls];
 
-    } else if (assumption.props && assumption.props.math === 'E(u|x)=0') {
+    } else if (assumption.props && assumption.props.math === 'E(u|x)\\neq 0') {
 
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');

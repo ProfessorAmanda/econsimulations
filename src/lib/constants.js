@@ -111,7 +111,7 @@ export const OLS_ASSUMPTIONS_OPTIONS = [
   'OLS Assumptions Hold',
   'Non-Random Sample',
   'Large Outliers',
-  <InlineMath key="E(u|x)=0" math="E(u|x)=0"/>
+  <InlineMath key="E(u|x)\neq 0" math="E(u|x)\neq 0"/>
 ];
 
 export const OLS_ASSUMPTIONS_TEXTS = {
