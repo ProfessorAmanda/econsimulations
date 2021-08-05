@@ -42,13 +42,13 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     } else if (assumption === 'Large Outliers') {
 
       const sample = _.sampleSize(population, size);
-      const sampleControls = sample.filter(({ category }) => category === 'Control');
-      const randomIndices = _.sampleSize(_.range(0, sampleControls.length), _.round(sampleControls.length * 0.2));
-      const alteredControls = sampleControls.map(
+      const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
+      const randomIndices = _.sampleSize(_.range(0, sampleJobCorps.length), _.round(sampleJobCorps.length * 0.2));
+      const alteredJobCorps = sampleJobCorps.map(
         (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y)})
       );
-      const remainingSample = sample.filter(({ id }) => !alteredControls.some((obj) => obj.id === id));
-      return [...remainingSample, ...alteredControls];
+      const remainingSample = sample.filter(({ id }) => !alteredJobCorps.some((obj) => obj.id === id));
+      return [...remainingSample, ...alteredJobCorps];
 
     } else if (assumption.props && assumption.props.math === 'E(u|x)\\neq 0') {
 
