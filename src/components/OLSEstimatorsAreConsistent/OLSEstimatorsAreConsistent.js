@@ -12,6 +12,7 @@ import { InlineMath } from 'react-katex';
 import PropTypes from 'prop-types';
 import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
 import randomNormal from 'random-normal';
+import { median } from 'mathjs';
 
 export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
@@ -30,10 +31,13 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 
     } else if (assumption === 'Non-Random Sample') {
 
-      const jobCorps = population.filter(({ category }) => category === 'Job Corps');
-      const jobCorpsSample = _.sampleSize(jobCorps, _.floor(size * 0.8));
-      const remainingData = population.filter(({ id }) => !jobCorpsSample.some((obj) => obj.id === id));
-      return [..._.sampleSize(remainingData, _.ceil(size * 0.2)), ...jobCorpsSample];
+      const medianValue = median(population.map(({ y }) => y));
+      const belowMedian = population.filter(({ y }) => y < medianValue);
+      const aboveMedian = population.filter(({ y }) => y >= medianValue);
+
+      const belowMedianSample = _.sampleSize(belowMedian, size);
+      const aboveMedianSample = _.sampleSize(aboveMedian, size - belowMedian.length);
+      return [...belowMedianSample, ...aboveMedianSample];
 
     } else if (assumption === 'Large Outliers') {
 
