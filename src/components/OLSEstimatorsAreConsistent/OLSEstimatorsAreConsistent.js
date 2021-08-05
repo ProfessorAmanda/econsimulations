@@ -85,6 +85,11 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     return equation[0];
   }
 
+  const getBestFitIntercept = (sample) => {
+    const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
+    return equation[1];
+  }
+
   return (
     <Collapsable>
       <Container>
@@ -116,6 +121,18 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
             yLabel="Slope"
             sampleFn={samplingFunction}
             yFn={getBestFitSlope}
+          />
+        </Row>
+        <br/>
+        <Row>
+          <SimulateSamples
+            mathTitle={<p>Population vs Sample Intercept ({assumption})<br /><InlineMath math="\hat{\beta_0}\ vs\ \beta_0"/></p>}
+            popArray={data}
+            popValSeriesName={`Population Intercept (${getBestFitIntercept(data)})`}
+            sampleSeriesName="Estimated Intercept"
+            yLabel="Intercept"
+            sampleFn={samplingFunction}
+            yFn={getBestFitIntercept}
           />
         </Row>
       </Container>
