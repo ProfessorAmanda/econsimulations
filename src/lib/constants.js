@@ -107,6 +107,20 @@ export const HYPOTHESIS_OPTIONS = {
   ]
 }
 
+export const OLS_ASSUMPTIONS_OPTIONS = [
+  'OLS Assumptions Hold',
+  'Non-Random Sample',
+  'Large Outliers',
+  <InlineMath key="E(u|x)\neq 0" math="E(u|x)\neq 0"/>
+];
+
+export const OLS_ASSUMPTIONS_TEXTS = {
+  'OLS Assumptions Hold': '',
+  'Non-Random Sample': '',
+  'Large Outliers': '',
+  'E(u|x)=0': ''
+}
+
 export const MODULES = [
   {
     name: 'Law of Large Numbers',

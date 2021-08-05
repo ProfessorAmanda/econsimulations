@@ -72,3 +72,5 @@ export const olsSampleType = PropTypes.shape({
 });
 
 export const hypothesisEqualityType = PropTypes.oneOf(['<', '>', '!=']);
+
+export const optionalLaTeXType = PropTypes.oneOfType([PropTypes.element, PropTypes.string]);

@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Card, Button } from 'react-bootstrap';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType } from '../lib/types.js';
+import { dataObjectArrayType, optionalLaTeXType } from '../lib/types.js';
 
-export default function SimulateSamples({ title, mathTitle, popArray, sampleSeriesName, popValSeriesName, yLabel, sampleFn }) {
+export default function SimulateSamples({ title, mathTitle, popArray, sampleSeriesName, popValSeriesName, yLabel, sampleFn, yFn }) {
   const [sampled, setSampled] = useState([]);
   const [meanLine, setMeanLine] = useState([]);
   const [start, setStart] = useState(false);
@@ -17,20 +16,8 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
     },
     plotOptions: {
       series: {
-        animation: {
-          duration: 0
-        },
         states: {
           hover: {
-            enabled: false
-          },
-          select: {
-            enabled: false
-          },
-          normal: {
-            animation: false
-          },
-          inactive: {
             enabled: false
           }
         }
@@ -54,6 +41,15 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
       enabled: false
     }
   });
+
+  const timer = useRef();
+
+  useEffect(() => {
+    setSampled([]);
+    setMeanLine([]);
+    setStart(false);
+    clearInterval(timer.current);
+  }, [mathTitle]);
 
   useEffect(() => {
     const newChart = {
@@ -87,45 +83,60 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
   }, [sampled, meanLine, popValSeriesName, sampleSeriesName]);
 
   useEffect(() => {
+    return () => clearInterval(timer.current);
+  }, []);
+
+  const startSim = () => {
     setSampled([]);
     setMeanLine([]);
-    let timer;
-    if (start) {
-      let n = 0;
-      timer = setInterval(() => {
-        const newSamples = [];
-        for (let i = 0; i < (n >= 600 ? 4 : (n >= 300 ? 2 : 1)); i++) {
-          n += 1;
-          if (n >= 1000) {
-            clearInterval(timer)
-            break;
-          }
-          const sample = _.sampleSize(popArray, n);
-          newSamples.push({ y: sampleFn(sample) });
+    let n = 0;
+    timer.current = setInterval(() => {
+      const newSamples = [];
+      for (let i = 0; i < (n >= 600 ? 4 : (n >= 300 ? 2 : 1)); i++) {
+        n += 1;
+        if (n >= 1000) {
+          clearInterval(timer.current);
+          setStart(false);
+          break;
         }
-        setSampled((currSampled) => [...currSampled, ...newSamples]);
-        setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: sampleFn(popArray) }]);
-      }, n);
-    }
+        const sample = sampleFn(popArray, n);
+        newSamples.push({ y: yFn(sample) });
+      }
+      setSampled((currSampled) => [...currSampled, ...newSamples]);
+      setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: yFn(popArray) }]);
+    }, n);
+  }
 
-    return () => clearInterval(timer);
-  }, [start, popArray, sampleFn]);
+  const toggleSim = () => {
+    if (!start) {
+      startSim()
+    } else {
+      clearInterval(timer.current)
+    }
+    setStart(!start)
+  }
 
   return (
     <Card body>
       {mathTitle && mathTitle}
       <HighchartsReact highcharts={Highcharts} options={chart}/>
-      <Button variant="success" onClick={() => setStart(true)}>Start Simulation</Button>
+      <Button
+        variant={`outline-${start ? 'danger' : 'success'}`}
+        onClick={() => toggleSim()}
+      >
+        {start ? 'Stop' : 'Start'} Simulation
+      </Button>
     </Card>
   );
 }
 
 SimulateSamples.propTypes = {
   title: PropTypes.string,
-  mathTitle: PropTypes.string,
+  mathTitle: optionalLaTeXType,
   popArray: dataObjectArrayType.isRequired,
   sampleSeriesName: PropTypes.string.isRequired,
   popValSeriesName: PropTypes.string.isRequired,
   yLabel: PropTypes.string.isRequired,
-  sampleFn: PropTypes.func.isRequired
+  sampleFn: PropTypes.func.isRequired,
+  yFn: PropTypes.func.isRequired
 }

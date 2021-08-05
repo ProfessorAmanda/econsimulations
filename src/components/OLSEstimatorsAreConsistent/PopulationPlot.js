@@ -16,9 +16,20 @@ export default function PopulationPlot({ data, selected }) {
     },
     {
       name: 'sample',
-      data: selected ? selected.data : [],
+      data: selected ? selected.data.filter((obj) => !obj.protocolBreaker) : [],
       tooltip: tooltipFormat
-    }
+    },
+    {
+      name: 'protocol breakers',
+      data: selected ? selected.data.filter((obj) => obj.protocolBreaker) : [],
+      tooltip: tooltipFormat,
+      color: 'red',
+      marker: {
+        symbol: 'diamond',
+        lineWidth: 1,
+        lineColor: 'red'
+      },
+    },
   ];
 
   return (

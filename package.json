@@ -38,6 +38,7 @@
     "plotly.js": "^2.2.1",
     "probability-distributions": "^0.9.1",
     "prop-types": "^15.7.2",
+    "random-normal": "^1.0.0",
     "react": "^17.0.2",
     "react-addons-pure-render-mixin": "^15.6.3",
     "react-bootstrap": "^1.6.1",
