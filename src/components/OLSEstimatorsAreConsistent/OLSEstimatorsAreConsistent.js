@@ -38,9 +38,9 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 
       const sample = _.sampleSize(population, size);
       const sampleControls = sample.filter(({ category }) => category === 'Control');
-      const randomIndices = _.sampleSize(_.range(0, sampleControls.length), sampleControls.length * 0.2);
+      const randomIndices = _.sampleSize(_.range(0, sampleControls.length), _.round(sampleControls.length * 0.2));
       const alteredControls = sampleControls.map(
-        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 3 : obj.y)})
+        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y)})
       );
       const remainingSample = sample.filter(({ id }) => !alteredControls.some((obj) => obj.id === id));
       return [...remainingSample, ...alteredControls];
@@ -48,10 +48,12 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     } else if (assumption.props && assumption.props.math === 'E(u|x)=0') {
 
       const sample = _.sampleSize(population, size);
-      const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
-      const outtaHere = _.sampleSize(sampleJobCorps, size * 0.2);
-      const remainingSample = sample.filter(({ id }) => !outtaHere.some((obj) => obj.id === id));
-      return remainingSample;
+      const sampleControl = sample.filter(({ category }) => category === 'Control');
+      const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
+        (obj) => ({ ...obj, x: 1, category: 'Job Corps', moved: true })
+      );
+      const remainingSample = sample.filter(({ id }) => !protocolBreakers.some((obj) => obj.id === id));
+      return [...remainingSample, ...protocolBreakers];
     }
   }
 

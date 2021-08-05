@@ -75,6 +75,10 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
     setChart(newChart);
   }, [sampled, meanLine, popValSeriesName, sampleSeriesName]);
 
+  useEffect(() => {
+    return () => clearInterval(timer.current);
+  }, []);
+
   const startSim = () => {
     setSampled([]);
     setMeanLine([]);

@@ -20,9 +20,8 @@ export default function SamplePlot({ sample }) {
     },
     {
       name: 'sample',
-      data: sample ? sample.data : [],
+      data: sample ? sample.data.filter((obj) => !obj.moved) : [],
       color: 'orange',
-      showInLegend: false,
       marker: {
         lineWidth: 1,
         lineColor: 'orange'
@@ -31,6 +30,20 @@ export default function SamplePlot({ sample }) {
         headerFormat: '',
         pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'
       }
+    },
+    {
+      name: 'protocol breakers',
+      data: sample ? sample.data.filter((obj) => obj.moved) : [],
+      tooltip: {
+        headerFormat: '',
+        pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'
+      },
+      marker: {
+        symbol: 'diamond',
+        lineWidth: 1,
+        lineColor: 'red'
+      },
+      color: 'red'
     },
   ];
 
