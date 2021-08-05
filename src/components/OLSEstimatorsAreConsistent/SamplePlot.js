@@ -20,7 +20,7 @@ export default function SamplePlot({ sample }) {
     },
     {
       name: 'sample',
-      data: sample ? sample.data.filter((obj) => !obj.moved) : [],
+      data: sample ? sample.data.filter((obj) => !obj.protocolBreaker) : [],
       color: 'orange',
       marker: {
         lineWidth: 1,
@@ -33,7 +33,7 @@ export default function SamplePlot({ sample }) {
     },
     {
       name: 'protocol breakers',
-      data: sample ? sample.data.filter((obj) => obj.moved) : [],
+      data: sample ? sample.data.filter((obj) => obj.protocolBreaker) : [],
       tooltip: {
         headerFormat: '',
         pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'

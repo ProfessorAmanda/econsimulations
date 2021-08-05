@@ -45,6 +45,13 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
   const timer = useRef();
 
   useEffect(() => {
+    setSampled([]);
+    setMeanLine([]);
+    setStart(false);
+    clearInterval(timer.current);
+  }, [mathTitle]);
+
+  useEffect(() => {
     const newChart = {
       series: [
         {

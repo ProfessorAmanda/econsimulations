@@ -11,6 +11,7 @@ import SimulateSamples from '../SimulateSamples.js';
 import { InlineMath } from 'react-katex';
 import PropTypes from 'prop-types';
 import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
+import randomNormal from 'random-normal';
 
 export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
@@ -50,7 +51,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');
       const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
-        (obj) => ({ ...obj, x: 1, category: 'Job Corps', moved: true })
+        (obj) => ({ ...obj, y: obj.y + randomNormal({mean: 16, dev: 5}), protocolBreaker: true })
       );
       const remainingSample = sample.filter(({ id }) => !protocolBreakers.some((obj) => obj.id === id));
       return [...remainingSample, ...protocolBreakers];
@@ -104,7 +105,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
         </Row>
         <Row>
           <SimulateSamples
-            mathTitle={<p>Population vs Sample Slope <br /><InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/></p>}
+            mathTitle={<p>Population vs Sample Slope ({assumption})<br /><InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/></p>}
             popArray={data}
             popValSeriesName={`Population Slope (${getBestFitSlope(data)})`}
             sampleSeriesName="Estimated Slope"
