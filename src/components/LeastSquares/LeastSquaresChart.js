@@ -157,7 +157,7 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
         inline
         type="checkbox"
         label="Enable Click for New Points"
-        onClick={() => setEnableClick(!enableClick)}
+        onChange={() => setEnableClick(!enableClick)}
       />
     </>
   );
