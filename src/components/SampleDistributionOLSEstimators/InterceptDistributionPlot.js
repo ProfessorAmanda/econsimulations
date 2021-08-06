@@ -41,7 +41,7 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
         inline
         type="checkbox"
         label="Convert to Standard Normal"
-        onClick={() => setStandardized(!standardized)}
+        onChange={() => setStandardized(!standardized)}
       />
     </div>
   )
