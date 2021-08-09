@@ -1,23 +1,24 @@
 import _ from 'lodash';
-import { useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import { getCounts } from '../../lib/stats-utils';
 import DotPlot from '../DotPlot';
-import SampleSizeInput from '../SampleSizeInput';
 import PropTypes from 'prop-types';
+import { dataObjectArrayType } from '../../lib/types';
 
-export default function PopulationRow({ population, id }) {
-  const [sample, setSample] = useState([]);
+export default function PopulationRow({ data, sample, sampleSize, id, setPopulationAttr }) {
 
   const generateSample = (size) => {
-    const newSample = _.sampleSize(population, size);
-    setSample(newSample);
+    setPopulationAttr(id, 'sample', _.sampleSize(data, size));
+  }
+
+  const adjustSampleSize = (value) => {
+    setPopulationAttr(id, 'sampleSize', value);
   }
 
   const popSeries = [
     {
       name: 'Population Observations',
-      data: population
+      data
     },
     {
       name: 'Sampled Observations',
@@ -49,7 +50,23 @@ export default function PopulationRow({ population, id }) {
         />
       </Col>
       <Col md="6" lg="4" style={{display: 'flex', alignItems: 'center'}}>
-        <SampleSizeInput maxSize={500} minSize={1} handleClick={generateSample}/>
+        <InputGroup>
+          <Form.Control
+            align="right"
+            type="number"
+            placeholder="Sample Size:"
+            min={1}
+            max={500}
+            value={sampleSize}
+            onChange={(event) => adjustSampleSize(event.target.value)}
+          />
+          <Button
+            variant="secondary"
+            disabled={!sampleSize || sampleSize > 500 || sampleSize < 1} onClick={() => generateSample(+sampleSize)}
+          >
+            Sample
+          </Button>
+        </InputGroup>
       </Col>
       <Col md="6" lg="4">
         <DotPlot
@@ -64,6 +81,9 @@ export default function PopulationRow({ population, id }) {
 }
 
 PopulationRow.propTypes = {
-  population: PropTypes.arrayOf(PropTypes.number).isRequired,
-  id: PropTypes.number.isRequired
+  data: dataObjectArrayType.isRequired,
+  sample: dataObjectArrayType.isRequired,
+  sampleSize: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  setPopulationAttr: PropTypes.func.isRequired
 }

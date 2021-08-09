@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
-export default function SampleSizeInput({ maxSize, minSize, handleClick, classname }) {
+export default function SampleSizeInput({ maxSize, minSize, handleClick }) {
   const [sampleSize, setSampleSize] = useState('');
 
   useEffect(() => {
@@ -10,7 +10,7 @@ export default function SampleSizeInput({ maxSize, minSize, handleClick, classna
   }, [maxSize]);
 
   return (
-    <InputGroup className={classname}>
+    <InputGroup className="sample-size-input">
       <Form.Control
         align="right"
         type="number"

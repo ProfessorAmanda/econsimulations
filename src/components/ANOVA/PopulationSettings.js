@@ -26,7 +26,14 @@ export default function PopulationSettings({ setPopulations }) {
   }
 
   const generatePopulations = () => {
-    setPopulations(means.map(({ value, id }) => ({ data: getCounts(generateNormal(500, value, stdDev, 1)), id })))
+    setPopulations(means.map(({ value, id }) => (
+      {
+        data: getCounts(generateNormal(500, value, stdDev, 1)),
+        sampleSize: '',
+        sample: [],
+        id
+      }
+    )));
   }
 
   return (

@@ -1,19 +1,37 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
+import FTest from './FTest';
 import PopulationRow from './PopulationRow';
 import PopulationSettings from './PopulationSettings';
 
 export default function ANOVA() {
   const [populations, setPopulations] = useState([]);
 
+  const setPopulationAttr = (id, attr, value) => {
+    const newPopulations = populations.map((pop) => {
+      if (pop.id === id) {
+        return {...pop, [attr]: value}
+      } else {
+        return pop
+      }
+    });
+    setPopulations(newPopulations);
+  }
+
   return (
     <>
       <PopulationSettings setPopulations={setPopulations}/>
-      {populations.map(({ data, id }) => (
+      {populations.map(({ id, data, sample, sampleSize }) => (
+        <Fragment key={id}>
+          <hr/>
+          <PopulationRow data={data} sample={sample} id={id} sampleSize={sampleSize} setPopulationAttr={setPopulationAttr}/>
+        </Fragment>
+      ))}
+      {(populations.length > 0) && (
         <>
           <hr/>
-          <PopulationRow key={id} population={data} id={id + 1}/>
+          <FTest populations={populations}/>
         </>
-      ))}
+      )}
     </>
   )
 }
