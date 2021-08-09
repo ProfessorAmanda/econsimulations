@@ -51,10 +51,12 @@ export default function FTest({ populations }) {
 }
 
 FTest.propTypes = {
-  populations: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    data: dataObjectArrayType.isRequired,
-    sample: dataObjectArrayType.isRequired,
-    sampleSize: stringOrNumberType.isRequired
-  }))
+  populations: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      data: dataObjectArrayType.isRequired,
+      sample: dataObjectArrayType.isRequired,
+      sampleSize: stringOrNumberType.isRequired
+    })
+  ).isRequired
 }
