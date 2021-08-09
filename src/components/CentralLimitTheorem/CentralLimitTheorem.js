@@ -52,7 +52,7 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
           <div>
             <Row>
               <p style={{ margin: 15 }}>Try drawing some samples and calculating means</p>
-              <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={handleClick}/>
+              <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={handleClick} classname="sample-size-input"/>
             </Row>
             <Row>
               <Col lg="8">

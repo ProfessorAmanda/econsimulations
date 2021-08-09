@@ -101,7 +101,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
               popShape={popShape}
             />
             <p>Try drawing some samples and calculating means</p>
-            <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={generateSamples}/>
+            <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={generateSamples} classname="sample-size-input"/>
           </Col>
           <Col>
             <ConfidenceIntervalsChart
