@@ -8,7 +8,12 @@ export default function ANOVA() {
   return (
     <>
       <PopulationSettings setPopulations={setPopulations}/>
-      {populations.map(({ data, id }) => <PopulationRow key={id} population={data}/>)}
+      {populations.map(({ data, id }) => (
+        <>
+          <hr/>
+          <PopulationRow key={id} population={data} id={id + 1}/>
+        </>
+      ))}
     </>
   )
 }

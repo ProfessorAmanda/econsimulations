@@ -6,7 +6,7 @@ import DotPlot from '../DotPlot';
 import SampleSizeInput from '../SampleSizeInput';
 import PropTypes from 'prop-types';
 
-export default function PopulationRow({ population }) {
+export default function PopulationRow({ population, id }) {
   const [sample, setSample] = useState([]);
 
   const generateSample = (size) => {
@@ -28,25 +28,42 @@ export default function PopulationRow({ population }) {
   const sampleSeries = [
     {
       name: 'Sampled Observations',
-      data: getCounts(sample.map(({ x }) => x))
+      data: getCounts(sample.map(({ x }) => x)),
+      color: 'orange',
+      marker: {
+        lineWidth: 1,
+        lineColor: 'orange',
+        symbol: 'diamond'
+      },
     }
   ];
 
   return (
     <Row className="g-4">
       <Col md="12" lg="4">
-        <DotPlot series={popSeries}/>
+        <DotPlot
+          series={popSeries}
+          title={`Population ${id}`}
+          xLabel="value"
+          yLabel="Observations"
+        />
       </Col>
       <Col md="6" lg="4" style={{display: 'flex', alignItems: 'center'}}>
         <SampleSizeInput maxSize={500} minSize={1} handleClick={generateSample}/>
       </Col>
       <Col md="6" lg="4">
-        <DotPlot series={sampleSeries}/>
+        <DotPlot
+          series={sampleSeries}
+          title={`Sample ${id}`}
+          xLabel="value"
+          yLabel="Observations"
+        />
       </Col>
     </Row>
   )
 }
 
 PopulationRow.propTypes = {
-  population: PropTypes.arrayOf(PropTypes.number).isRequired
+  population: PropTypes.arrayOf(PropTypes.number).isRequired,
+  id: PropTypes.number.isRequired
 }
