@@ -3,7 +3,7 @@ import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import { getCounts } from '../../lib/stats-utils';
 import DotPlot from '../DotPlot';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType } from '../../lib/types';
+import { dataObjectArrayType, stringOrNumberType } from '../../lib/types';
 
 export default function PopulationRow({ data, sample, sampleSize, id, setPopulationAttr }) {
 
@@ -83,7 +83,7 @@ export default function PopulationRow({ data, sample, sampleSize, id, setPopulat
 PopulationRow.propTypes = {
   data: dataObjectArrayType.isRequired,
   sample: dataObjectArrayType.isRequired,
-  sampleSize: PropTypes.number.isRequired,
+  sampleSize: stringOrNumberType.isRequired,
   id: PropTypes.number.isRequired,
   setPopulationAttr: PropTypes.func.isRequired
 }

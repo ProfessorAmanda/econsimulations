@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import { Button, Col, Form, InputGroup } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import _ from 'lodash';
-import { BlockMath, InlineMath } from 'react-katex';
-import { mean, sum } from "mathjs";
-import { populationMean, populationStandardDev } from "../../lib/stats-utils";
+import { BlockMath } from 'react-katex';
+import { mean, sum } from 'mathjs';
+import { populationMean, populationStandardDev } from '../../lib/stats-utils';
 import { jStat } from 'jstat';
+import PropTypes from 'prop-types';
+import { dataObjectArrayType, stringOrNumberType } from '../../lib/types';
 
 export default function FTest({ populations }) {
   const [showResults, setShowResults] = useState(false);
@@ -46,4 +48,13 @@ export default function FTest({ populations }) {
       )}
     </>
   )
+}
+
+FTest.propTypes = {
+  populations: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    data: dataObjectArrayType.isRequired,
+    sample: dataObjectArrayType.isRequired,
+    sampleSize: stringOrNumberType.isRequired
+  }))
 }
