@@ -155,7 +155,7 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
       <Form.Check
         checked={enableClick}
         inline
-        type="checkbox"
+        className="form-switch"
         label="Enable Click for New Points"
         onChange={() => setEnableClick(!enableClick)}
       />

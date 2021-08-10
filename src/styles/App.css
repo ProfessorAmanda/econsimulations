@@ -198,6 +198,7 @@ h1 {
   height: 30px;
   width: 400px;
   margin: auto;
+  align-items: center;
 }
 
 .custom-range {

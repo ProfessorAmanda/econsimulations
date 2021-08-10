@@ -8,7 +8,7 @@ export default function InputSlider({ value, min, max, step, onChange }) {
       <Form.Control
         type="range"
         custom
-        className="custom-range"
+        className="form-range custom-range"
         value={value}
         min={min}
         max={max}

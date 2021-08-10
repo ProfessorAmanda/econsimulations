@@ -39,7 +39,7 @@ export default function SlopeDistributionPlot({ samples, populationShape }) {
       <Form.Check
         checked={standardized}
         inline
-        type="checkbox"
+        className="form-switch"
         label="Convert to Standard Normal"
         onChange={() => setStandardized(!standardized)}
       />
