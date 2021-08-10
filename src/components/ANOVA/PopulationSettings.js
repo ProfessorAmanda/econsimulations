@@ -45,7 +45,7 @@ export default function PopulationSettings({ populations, setPopulations }) {
 
   const generatePopulations = () => {
     setPopulations(populations.map((pop) => {
-      const data = getCounts(generateNormal(500, pop.mean, stdDev, 1));
+      const data = getCounts(generateNormal(500, pop.mean, stdDev, 0));
       const sample = _.sampleSize(data, pop.sampleSize);
       return { ...pop, data, sample }
     }));
@@ -68,7 +68,7 @@ export default function PopulationSettings({ populations, setPopulations }) {
       {(populations.length > 0) && (
         <>
           <br/>
-          <LabeledSelector min={1} max={5} label="Set the standard deviations:" value={stdDev} setValue={setStdDev}/>
+          <LabeledSelector min={1} max={4} label="Set the standard deviations:" value={stdDev} setValue={setStdDev}/>
           <br/>
         </>
       )}

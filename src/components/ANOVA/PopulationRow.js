@@ -36,6 +36,8 @@ export default function PopulationRow({ data, sample, id }) {
         <DotPlot
           series={popSeries}
           title={`Population ${id}`}
+          xMin={-20}
+          xMax={20}
           xLabel="value"
           yLabel="Observations"
         />
@@ -44,7 +46,8 @@ export default function PopulationRow({ data, sample, id }) {
         <DotPlot
           series={sampleSeries}
           title={`Sample ${id}`}
-          yMax={5}
+          xMin={-20}
+          xMax={20}
           xLabel="value"
           yLabel="Observations"
         />
