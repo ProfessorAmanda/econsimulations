@@ -78,13 +78,6 @@ export default function FTest({ populations }) {
               </tr>
             </tbody>
           </Table>
-          {/* <BlockMath math={`\\bar{\\bar{x}} = ${_.round(overallSampleMean, 2)}`}/>
-          <BlockMath math={`SSTR = ${_.round(SSTR, 2)}`}/>
-          <BlockMath math={`MSTR = ${_.round(MSTR, 2)}`}/>
-          <BlockMath math={`SSE = ${_.round(SSE, 2)}`}/>
-          <BlockMath math={`MSE = ${_.round(MSE, 2)}`}/>
-          <BlockMath math={`F = ${_.round(F, 2)}`}/>
-          <BlockMath math={`p-value \\approx ${_.round(pValue, 2)}`}/> */}
         </>
       )}
     </>
