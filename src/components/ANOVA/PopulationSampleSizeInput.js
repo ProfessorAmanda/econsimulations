@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { stringOrNumberType } from '../../lib/types';
 import LabeledInput from '../LabeledInput';
 
 export default function PopulationSampleSizeInput({ sampleSize, setSampleSize, id }) {
@@ -13,7 +14,7 @@ export default function PopulationSampleSizeInput({ sampleSize, setSampleSize, i
 }
 
 PopulationSampleSizeInput.propTypes = {
-  sampleSize: PropTypes.number.isRequired,
+  sampleSize: stringOrNumberType.isRequired,
   setSampleSize: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired
 }

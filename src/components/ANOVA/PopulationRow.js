@@ -1,8 +1,9 @@
 import { Col, Row } from 'react-bootstrap';
-import { getCounts } from '../../lib/stats-utils';
+import { getCounts, populationMean, populationStandardDev } from '../../lib/stats-utils';
 import DotPlot from '../DotPlot';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types';
+import { max } from 'mathjs';
 
 export default function PopulationRow({ data, sample, id }) {
 
@@ -17,6 +18,10 @@ export default function PopulationRow({ data, sample, id }) {
     }
   ];
 
+  const sampleMean = populationMean(sample);
+  const sampleSD = populationStandardDev(sample);
+  const yMax = max(getCounts(sample.map(({ x }) => x)).map(({ y }) => y)) + 1;
+
   const sampleSeries = [
     {
       name: 'Sampled Observations',
@@ -27,6 +32,16 @@ export default function PopulationRow({ data, sample, id }) {
         lineColor: 'orange',
         symbol: 'diamond'
       },
+    },
+    {
+      type: 'line',
+      name: 'Sample Mean',
+      data: [{ x: sampleMean || 0, y: 0 }, { x: sampleMean || 0, y: yMax }],
+      color: 'red',
+      enableMouseTracking: false,
+      label: {
+        format: `<div>Sample Mean: ${sampleMean.toFixed(2)}<br/>Sample SD: ${sampleSD.toFixed(2)}</div>`
+      }
     }
   ];
 
