@@ -11,6 +11,7 @@ import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { MODULES } from '../lib/constants.js';
 import OLSEstimatorsAreConsistentContainer from './OLSEstimatorsAreConsistent/OLSEstimatorsAreConsistentContainer.js';
+import ANOVAContainer from './ANOVA/ANOVAContainer.js';
 
 
 export default function SimulationContainer({ mode, setMode }) {
@@ -28,6 +29,7 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Sample Distribution of OLS Estimators' && <SampleDistributionOLSEstimatorsContainer/>}
       {mode === 'Multiple Regression' && <MultipleRegressionContainer/>}
       {mode === 'The OLS Estimators are Consistent' && <OLSEstimatorsAreConsistentContainer/>}
+      {mode === 'ANOVA' && <ANOVAContainer/>}
     </div>
   )
 }

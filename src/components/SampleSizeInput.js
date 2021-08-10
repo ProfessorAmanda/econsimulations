@@ -34,4 +34,5 @@ SampleSizeInput.propTypes = {
   maxSize: PropTypes.number.isRequired,
   minSize: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
+  classname: PropTypes.string
 }

@@ -74,3 +74,11 @@ export const olsSampleType = PropTypes.shape({
 export const hypothesisEqualityType = PropTypes.oneOf(['<', '>', '!=']);
 
 export const optionalLaTeXType = PropTypes.oneOfType([PropTypes.element, PropTypes.string]);
+
+export const anovaObjectType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  mean: PropTypes.number.isRequired,
+  sampleSize: stringOrNumberType.isRequired,
+  data: dataObjectArrayType.isRequired,
+  sample: dataObjectArrayType.isRequired
+});

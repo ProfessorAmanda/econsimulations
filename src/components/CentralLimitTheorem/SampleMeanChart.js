@@ -36,7 +36,7 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
       />
       <Form.Check
         inline
-        type="checkbox"
+        className="form-switch"
         label="Convert to Standard Normal"
         onClick={() => setNormalized(!normalized)}
       />

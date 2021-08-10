@@ -102,7 +102,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         <Col>
           <Alert variant="primary">
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
-            <SampleSizeInput maxSize={data.length} minSize={2} handleClick={addSamples}/>
+            <SampleSizeInput maxSize={data.length} minSize={2} handleClick={addSamples} classname="sample-size-input"/>
           </Alert>
           <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
         </Col>

@@ -143,7 +143,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
           )}
           <Form.Check
             inline
-            type="checkbox"
+            className="form-switch"
             label="Convert to Standard Normal"
             onClick={() => setStandardized(!standardized)}
           />
