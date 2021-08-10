@@ -7,13 +7,20 @@ import { generateNormal, getCounts } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
 import PopulationSampleSizeInput from './PopulationSampleSizeInput';
 import { anovaObjectType } from '../../lib/types.js';
+import { randomInt } from 'mathjs';
 
 export default function PopulationSettings({ populations, setPopulations }) {
   const [stdDev, setStdDev] = useState(3);
 
   const setNumPops = (numPops) => {
     if (numPops <= populations.length) {
-      const newPops = populations.slice(0, numPops);
+      const newPops = populations.slice(0, numPops).map((pop) => (
+        {
+          ...pop,
+          data: [],
+          sample: []
+        }
+      ));
       setPopulations(newPops);
     } else {
       const newPops = [
@@ -21,7 +28,7 @@ export default function PopulationSettings({ populations, setPopulations }) {
         ..._.range(populations.length, numPops).map((i) => (
           {
             id: i+1,
-            mean: 0,
+            mean: randomInt(-5, 6),
             sampleSize: 30,
             data: [],
             sample: []

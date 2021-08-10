@@ -37,7 +37,7 @@ export default function PopulationRow({ data, sample, id }) {
       type: 'line',
       name: 'Sample Mean',
       data: [{ x: sampleMean || 0, y: 0 }, { x: sampleMean || 0, y: yMax }],
-      color: 'red',
+      color: 'black',
       enableMouseTracking: false,
       label: {
         format: `<div>Sample Mean: ${sampleMean && sampleMean.toFixed(2)}<br/>Sample SD: ${sampleMean && sampleSD.toFixed(2)}</div>`

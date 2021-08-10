@@ -1,3 +1,4 @@
+import { randomInt } from 'mathjs';
 import { useEffect, useState, Fragment } from 'react';
 import FTest from './FTest';
 import PopulationRow from './PopulationRow';
@@ -8,7 +9,7 @@ export default function ANOVA() {
   const [populations, setPopulations] = useState([
     {
       id: 1,
-      mean: 0,
+      mean: randomInt(-5, 6),
       sampleSize: 30,
       data: [],
       sample: []
@@ -22,8 +23,6 @@ export default function ANOVA() {
       setShowFTest(true)
     }
   }, [populations]);
-
-
 
   return (
     <>
