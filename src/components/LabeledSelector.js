@@ -6,7 +6,7 @@ export default function LabeledSelector({ min, max, label, value, setValue }) {
   return (
     <Form>
       <Form.Group as={Row} className="justify-content-md-center">
-        <Form.Label column sm="6">{label}</Form.Label>
+        <Form.Label column sm="6" md="auto">{label}</Form.Label>
         <Col sm="auto">
           <select className="form-select" value={value} onChange={(event) => setValue(+event.target.value)}>
             {_.range(min, max + 1).map((i) => <option key={i} value={i}>{i}</option>)}

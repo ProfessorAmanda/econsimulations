@@ -6,7 +6,7 @@ export default function LabeledInput({ min, max, label, value, setValue }) {
   return (
     <Form>
       <Form.Group as={Row} className="justify-content-md-center">
-        <Form.Label column sm="6">{label}</Form.Label>
+        <Form.Label column sm="6" md="auto">{label}</Form.Label>
         <Col sm="auto">
           <Form.Control
             style={{padding: 6}}

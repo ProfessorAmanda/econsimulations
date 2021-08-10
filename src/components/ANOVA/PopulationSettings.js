@@ -60,18 +60,7 @@ export default function PopulationSettings({ populations, setPopulations }) {
 
   return (
     <>
-      <LabeledSelector min={1} max={20} label="Set the number of populations:" value={populations.length} setValue={setNumPops}/>
-      <br/>
-      {populations.map(({ sampleSize, mean, id }) => (
-        <Row key={id}>
-          <Col>
-            <PopulationMeanInput mean={mean} setMean={setPopulationAttr} id={id}/>
-          </Col>
-          <Col>
-            <PopulationSampleSizeInput sampleSize={sampleSize} setSampleSize={setPopulationAttr} id={id}/>
-          </Col>
-        </Row>
-      ))}
+      <LabeledSelector min={2} max={20} label="Set the number of populations:" value={populations.length} setValue={setNumPops}/>
       {(populations.length > 0) && (
         <>
           <br/>
@@ -79,6 +68,17 @@ export default function PopulationSettings({ populations, setPopulations }) {
           <br/>
         </>
       )}
+      {populations.map(({ sampleSize, mean, id }) => (
+        <Row key={id}>
+          <Col xl={{span: 4, offset: 2}} xs="6">
+            <PopulationMeanInput mean={mean} setMean={setPopulationAttr} id={id}/>
+          </Col>
+          <Col xl="4" xs="6">
+            <PopulationSampleSizeInput sampleSize={sampleSize} setSampleSize={setPopulationAttr} id={id}/>
+          </Col>
+        </Row>
+      ))}
+      <br/>
       <Button onClick={() => generatePopulations()}>Generate Populations and Samples</Button>
     </>
   )

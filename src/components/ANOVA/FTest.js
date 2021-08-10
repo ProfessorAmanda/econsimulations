@@ -40,13 +40,13 @@ export default function FTest({ populations }) {
           <Table borderless style={{marginTop: 20}}>
             <thead>
               <tr>
-                <th></th>
+                <th/>
                 <th><BlockMath math={`\\bar{\\bar{x}} = ${_.round(overallSampleMean, 2)}`}/></th>
-                <th></th>
-                <th></th>
+                <th/>
+                <th/>
               </tr>
               <tr>
-                <th></th>
+                <th/>
                 <th>Sum of Squares</th>
                 <th>df</th>
                 <th>Mean Sum of Squares</th>
@@ -66,8 +66,8 @@ export default function FTest({ populations }) {
                 <td>{_.round(MSE, 2)}</td>
               </tr>
               <tr>
-                <td></td>
-                <td></td>
+                <td/>
+                <td/>
                 <td><BlockMath math={`F = ${F.toPrecision(3)}`}/></td>
                 <td><BlockMath math={`p-value \\approx ${pValue.toPrecision(3)}`}/></td>
               </tr>

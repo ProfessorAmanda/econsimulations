@@ -13,6 +13,13 @@ export default function ANOVA() {
       sampleSize: 30,
       data: [],
       sample: []
+    },
+    {
+      id: 2,
+      mean: randomInt(-5, 6),
+      sampleSize: 30,
+      data: [],
+      sample: []
     }
   ]);
 
