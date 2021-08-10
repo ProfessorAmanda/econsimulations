@@ -44,14 +44,12 @@ export default function FTest({ populations }) {
                 <th><BlockMath math={`\\bar{\\bar{x}} = ${_.round(overallSampleMean, 2)}`}/></th>
                 <th></th>
                 <th></th>
-                <th></th>
               </tr>
               <tr>
                 <th></th>
                 <th>Sum of Squares</th>
                 <th>df</th>
                 <th>Mean Sum of Squares</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -60,17 +58,14 @@ export default function FTest({ populations }) {
                 <td>{_.round(SSTR, 2)}</td>
                 <td>{populations.length - 1}</td>
                 <td>{_.round(MSTR, 2)}</td>
-                <td></td>
               </tr>
               <tr>
                 <td>Due to Error</td>
                 <td>{_.round(SSE, 2)}</td>
                 <td>{_.flatten(samples).length - populations.length}</td>
                 <td>{_.round(MSE, 2)}</td>
-                <td></td>
               </tr>
               <tr>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td><BlockMath math={`F = ${F.toPrecision(3)}`}/></td>
