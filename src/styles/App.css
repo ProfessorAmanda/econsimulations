@@ -220,7 +220,3 @@ h1 {
   color: white;
   border: 1px solid gray;
 }
-
-.anova-table th, .anova-table td, .anova-table tr {
-  border: 0px
-}

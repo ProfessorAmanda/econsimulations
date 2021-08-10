@@ -37,7 +37,7 @@ export default function FTest({ populations }) {
       </Button>
       {showResults && (
         <>
-          <Table bordered style={{marginTop: 20}} className="anova-table">
+          <Table borderless style={{marginTop: 20}}>
             <thead>
               <tr>
                 <th></th>
