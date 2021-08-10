@@ -7,7 +7,7 @@ import { generateNormal, getCounts } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
 
 export default function PopulationSettings({ setPopulations }) {
-  const [means, setMeans] = useState([]);
+  const [means, setMeans] = useState([{value: 0, id: 1}]);
   const [stdDev, setStdDev] = useState(3);
 
   const setNumPops = (numPops) => {
@@ -15,7 +15,7 @@ export default function PopulationSettings({ setPopulations }) {
       const newMeans = means.slice(0, numPops);
       setMeans(newMeans);
     } else {
-      const newMeans = [...means, ..._.range(means.length, numPops).map((i) => ({value: 0, id: i}))];
+      const newMeans = [...means, ..._.range(means.length, numPops).map((i) => ({value: 0, id: i + 1}))];
       setMeans(newMeans);
     }
   };
@@ -43,7 +43,7 @@ export default function PopulationSettings({ setPopulations }) {
 
   return (
     <>
-      <LabeledSelector min={0} max={20} label="Set the number of populations:" value={means.length} setValue={setNumPops}/>
+      <LabeledSelector min={1} max={20} label="Set the number of populations:" value={means.length} setValue={setNumPops}/>
       <br/>
       {means.map(({ value, id }) => <PopulationMeanInput key={id} mean={value} setMean={setMean} id={id}/>)}
       {(means.length > 0) && (

@@ -8,7 +8,7 @@ export default function PopulationMeanInput({ mean, setMean, id }) {
   }
 
   return (
-    <LabeledSelector min={0} max={20} label={`Set mean for Population ${id + 1}: `} value={mean} setValue={setValue}/>
+    <LabeledSelector min={0} max={20} label={`Set mean for Population ${id}: `} value={mean} setValue={setValue}/>
   )
 }
 
