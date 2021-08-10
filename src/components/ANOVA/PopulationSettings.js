@@ -1,63 +1,83 @@
 import _ from 'lodash';
 import { useState } from 'react'
-import LabeledSelector from '../../LabeledSelector';
+import LabeledSelector from '../LabeledSelector';
 import PopulationMeanInput from './PopulationMeanInput';
-import { Button } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import { generateNormal, getCounts } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
+import PopulationSampleSizeInput from './PopulationSampleSizeInput';
+import { anovaObjectType } from '../../lib/types.js';
 
-export default function PopulationSettings({ setPopulations }) {
-  const [means, setMeans] = useState([{value: 0, id: 1}]);
+export default function PopulationSettings({ populations, setPopulations }) {
   const [stdDev, setStdDev] = useState(3);
 
   const setNumPops = (numPops) => {
-    if (numPops <= means.length) {
-      const newMeans = means.slice(0, numPops);
-      setMeans(newMeans);
+    if (numPops <= populations.length) {
+      const newPops = populations.slice(0, numPops);
+      setPopulations(newPops);
     } else {
-      const newMeans = [...means, ..._.range(means.length, numPops).map((i) => ({value: 0, id: i + 1}))];
-      setMeans(newMeans);
+      const newPops = [
+        ...populations.map((pop) => ({...pop, data: [], sample: []})),
+        ..._.range(populations.length, numPops).map((i) => (
+          {
+            id: i+1,
+            mean: 0,
+            sampleSize: 30,
+            data: [],
+            sample: []
+          }
+        ))
+      ];
+      setPopulations(newPops);
     }
   };
 
-  const setMean = (id, value) => {
-    setMeans(means.map((mean) => {
-      if (mean.id === id) {
-        return {...mean, value}
+  const setPopulationAttr = (id, attr, value) => {
+    const newPopulations = populations.map((pop) => {
+      if (pop.id === id) {
+        return {...pop, [attr]: value}
       } else {
-        return mean
+        return pop
       }
-    }));
+    });
+    setPopulations(newPopulations);
   }
 
   const generatePopulations = () => {
-    setPopulations(means.map(({ value, id }) => (
-      {
-        data: getCounts(generateNormal(500, value, stdDev, 1)),
-        sampleSize: '',
-        sample: [],
-        id
-      }
-    )));
+    setPopulations(populations.map((pop) => {
+      const data = getCounts(generateNormal(500, pop.mean, stdDev, 1));
+      const sample = _.sampleSize(data, pop.sampleSize);
+      return { ...pop, data, sample }
+    }));
   }
 
   return (
     <>
-      <LabeledSelector min={1} max={20} label="Set the number of populations:" value={means.length} setValue={setNumPops}/>
+      <LabeledSelector min={1} max={20} label="Set the number of populations:" value={populations.length} setValue={setNumPops}/>
       <br/>
-      {means.map(({ value, id }) => <PopulationMeanInput key={id} mean={value} setMean={setMean} id={id}/>)}
-      {(means.length > 0) && (
+      {populations.map(({ sampleSize, mean, id }) => (
+        <Row key={id}>
+          <Col>
+            <PopulationMeanInput mean={mean} setMean={setPopulationAttr} id={id}/>
+          </Col>
+          <Col>
+            <PopulationSampleSizeInput sampleSize={sampleSize} setSampleSize={setPopulationAttr} id={id}/>
+          </Col>
+        </Row>
+      ))}
+      {(populations.length > 0) && (
         <>
           <br/>
           <LabeledSelector min={1} max={5} label="Set the standard deviations:" value={stdDev} setValue={setStdDev}/>
           <br/>
         </>
       )}
-      <Button onClick={() => generatePopulations()}>Generate Populations</Button>
+      <Button onClick={() => generatePopulations()}>Generate Populations and Samples</Button>
     </>
   )
 }
 
 PopulationSettings.propTypes = {
+  populations: PropTypes.arrayOf(anovaObjectType).isRequired,
   setPopulations: PropTypes.func.isRequired
 }

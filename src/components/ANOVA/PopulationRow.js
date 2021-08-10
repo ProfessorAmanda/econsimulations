@@ -1,19 +1,10 @@
-import _ from 'lodash';
-import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { getCounts } from '../../lib/stats-utils';
 import DotPlot from '../DotPlot';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType, stringOrNumberType } from '../../lib/types';
+import { dataObjectArrayType } from '../../lib/types';
 
-export default function PopulationRow({ data, sample, sampleSize, id, setPopulationAttr }) {
-
-  const generateSample = (size) => {
-    setPopulationAttr(id, 'sample', _.sampleSize(data, size));
-  }
-
-  const adjustSampleSize = (value) => {
-    setPopulationAttr(id, 'sampleSize', value);
-  }
+export default function PopulationRow({ data, sample, id }) {
 
   const popSeries = [
     {
@@ -40,8 +31,8 @@ export default function PopulationRow({ data, sample, sampleSize, id, setPopulat
   ];
 
   return (
-    <Row className="g-4">
-      <Col md="12" lg="4">
+    <Row>
+      <Col xs="12" sm={{span: 8, offset: 2}} md={{span: 4, offset: 2}}>
         <DotPlot
           series={popSeries}
           title={`Population ${id}`}
@@ -49,24 +40,7 @@ export default function PopulationRow({ data, sample, sampleSize, id, setPopulat
           yLabel="Observations"
         />
       </Col>
-      <Col md="6" lg="4" style={{display: 'flex', alignItems: 'center'}}>
-        <InputGroup>
-          <Form.Control
-            align="right"
-            type="number"
-            placeholder="Sample Size:"
-            value={sampleSize}
-            onChange={(event) => adjustSampleSize(event.target.value)}
-          />
-          <Button
-            variant="secondary"
-            disabled={!sampleSize || sampleSize > 500 || sampleSize < 1} onClick={() => generateSample(+sampleSize)}
-          >
-            Sample
-          </Button>
-        </InputGroup>
-      </Col>
-      <Col md="6" lg="4">
+      <Col xs="12" sm={{span: 8, offset: 2}} md={{span: 4, offset: 0}}>
         <DotPlot
           series={sampleSeries}
           title={`Sample ${id}`}
@@ -82,7 +56,5 @@ export default function PopulationRow({ data, sample, sampleSize, id, setPopulat
 PopulationRow.propTypes = {
   data: dataObjectArrayType.isRequired,
   sample: dataObjectArrayType.isRequired,
-  sampleSize: stringOrNumberType.isRequired,
-  id: PropTypes.number.isRequired,
-  setPopulationAttr: PropTypes.func.isRequired
+  id: PropTypes.number.isRequired
 }

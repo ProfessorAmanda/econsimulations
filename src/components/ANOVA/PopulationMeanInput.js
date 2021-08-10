@@ -1,10 +1,10 @@
-import LabeledSelector from '../../LabeledSelector';
+import LabeledSelector from '../LabeledSelector';
 import PropTypes from 'prop-types';
 
 export default function PopulationMeanInput({ mean, setMean, id }) {
 
   const setValue = (value) => {
-    setMean(id, +value)
+    setMean(id, 'mean', +value)
   }
 
   return (

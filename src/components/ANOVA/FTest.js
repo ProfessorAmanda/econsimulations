@@ -6,7 +6,7 @@ import { mean, sum } from 'mathjs';
 import { populationMean, populationStandardDev } from '../../lib/stats-utils';
 import { jStat } from 'jstat';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType, stringOrNumberType } from '../../lib/types';
+import { anovaObjectType } from '../../lib/types';
 
 export default function FTest({ populations }) {
   const [showResults, setShowResults] = useState(false);
@@ -43,7 +43,7 @@ export default function FTest({ populations }) {
           <BlockMath math={`SSE = ${_.round(SSE, 2)}`}/>
           <BlockMath math={`MSE = ${_.round(MSE, 2)}`}/>
           <BlockMath math={`F = ${_.round(F, 2)}`}/>
-          <BlockMath math={`p-value = ${_.round(pValue, 2)}`}/>
+          <BlockMath math={`p-value \\approx ${_.round(pValue, 2)}`}/>
         </>
       )}
     </>
@@ -51,12 +51,5 @@ export default function FTest({ populations }) {
 }
 
 FTest.propTypes = {
-  populations: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      data: dataObjectArrayType.isRequired,
-      sample: dataObjectArrayType.isRequired,
-      sampleSize: stringOrNumberType.isRequired
-    })
-  ).isRequired
+  populations: PropTypes.arrayOf(anovaObjectType).isRequired
 }
