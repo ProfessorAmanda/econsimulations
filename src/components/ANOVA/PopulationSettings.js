@@ -93,7 +93,7 @@ export default function PopulationSettings({ populations, setPopulations }) {
           disabled={populations.some(({ data }) => data.length === 0)}
           onClick={() => generateSamples()}
         >
-          Generate Samples
+          Take Samples
         </Button>
       </ButtonGroup>
     </>
