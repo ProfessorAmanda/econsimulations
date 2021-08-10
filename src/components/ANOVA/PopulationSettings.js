@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import LabeledSelector from '../../LabeledSelector';
 import PopulationMeanInput from './PopulationMeanInput';
 import { Button } from 'react-bootstrap';
@@ -7,13 +7,18 @@ import { generateNormal, getCounts } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
 
 export default function PopulationSettings({ setPopulations }) {
-  const [numPops, setNumPops] = useState(0);
   const [means, setMeans] = useState([]);
   const [stdDev, setStdDev] = useState(3);
 
-  useEffect(() => {
-    setMeans(_.range(0, numPops).map((i) => ({value: 0, id: i})))
-  }, [numPops]);
+  const setNumPops = (numPops) => {
+    if (numPops <= means.length) {
+      const newMeans = means.slice(0, numPops);
+      setMeans(newMeans);
+    } else {
+      const newMeans = [...means, ..._.range(means.length, numPops).map((i) => ({value: 0, id: i}))];
+      setMeans(newMeans);
+    }
+  };
 
   const setMean = (id, value) => {
     setMeans(means.map((mean) => {
@@ -38,14 +43,14 @@ export default function PopulationSettings({ setPopulations }) {
 
   return (
     <>
-      <LabeledSelector min={0} max={20} label="Set the number of populations:" value={numPops} setValue={setNumPops}/>
-      <hr/>
+      <LabeledSelector min={0} max={20} label="Set the number of populations:" value={means.length} setValue={setNumPops}/>
+      <br/>
       {means.map(({ value, id }) => <PopulationMeanInput key={id} mean={value} setMean={setMean} id={id}/>)}
-      {(numPops > 0) && (
+      {(means.length > 0) && (
         <>
-          <hr/>
+          <br/>
           <LabeledSelector min={0} max={5} label="Set the standard deviations:" value={stdDev} setValue={setStdDev}/>
-          <hr/>
+          <br/>
         </>
       )}
       <Button onClick={() => generatePopulations()}>Generate Populations</Button>
