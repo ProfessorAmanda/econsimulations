@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import _ from 'lodash';
 import { BlockMath } from 'react-katex';
 import { mean, sum } from 'mathjs';
@@ -37,13 +37,54 @@ export default function FTest({ populations }) {
       </Button>
       {showResults && (
         <>
-          <BlockMath math={`\\bar{\\bar{x}} = ${_.round(overallSampleMean, 2)}`}/>
+          <Table bordered style={{marginTop: 20}} className="anova-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th><BlockMath math={`\\bar{\\bar{x}} = ${_.round(overallSampleMean, 2)}`}/></th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr>
+                <th></th>
+                <th>Sum of Squares</th>
+                <th>df</th>
+                <th>Mean Sum of Squares</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Due to Treatment</td>
+                <td>{_.round(SSTR, 2)}</td>
+                <td>{populations.length - 1}</td>
+                <td>{_.round(MSTR, 2)}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Due to Error</td>
+                <td>{_.round(SSE, 2)}</td>
+                <td>{_.flatten(samples).length - populations.length}</td>
+                <td>{_.round(MSE, 2)}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><BlockMath math={`F = ${F.toPrecision(3)}`}/></td>
+                <td><BlockMath math={`p-value \\approx ${pValue.toPrecision(3)}`}/></td>
+              </tr>
+            </tbody>
+          </Table>
+          {/* <BlockMath math={`\\bar{\\bar{x}} = ${_.round(overallSampleMean, 2)}`}/>
           <BlockMath math={`SSTR = ${_.round(SSTR, 2)}`}/>
           <BlockMath math={`MSTR = ${_.round(MSTR, 2)}`}/>
           <BlockMath math={`SSE = ${_.round(SSE, 2)}`}/>
           <BlockMath math={`MSE = ${_.round(MSE, 2)}`}/>
           <BlockMath math={`F = ${_.round(F, 2)}`}/>
-          <BlockMath math={`p-value \\approx ${_.round(pValue, 2)}`}/>
+          <BlockMath math={`p-value \\approx ${_.round(pValue, 2)}`}/> */}
         </>
       )}
     </>
