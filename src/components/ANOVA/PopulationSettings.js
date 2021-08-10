@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { useState } from 'react'
 import LabeledSelector from '../LabeledSelector';
 import PopulationMeanInput from './PopulationMeanInput';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
 import { generateNormal, getCounts } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
 import PopulationSampleSizeInput from './PopulationSampleSizeInput';
@@ -53,8 +53,15 @@ export default function PopulationSettings({ populations, setPopulations }) {
   const generatePopulations = () => {
     setPopulations(populations.map((pop) => {
       const data = getCounts(generateNormal(500, pop.mean, stdDev, 0));
-      const sample = _.sampleSize(data, pop.sampleSize);
-      return { ...pop, data, sample }
+      // const sample = _.sampleSize(data, pop.sampleSize);
+      return { ...pop, data }
+    }));
+  }
+
+  const generateSamples = () => {
+    setPopulations(populations.map((pop) => {
+      const sample = _.sampleSize(pop.data, pop.sampleSize);
+      return { ...pop, sample }
     }));
   }
 
@@ -79,7 +86,16 @@ export default function PopulationSettings({ populations, setPopulations }) {
         </Row>
       ))}
       <br/>
-      <Button onClick={() => generatePopulations()}>Generate Populations and Samples</Button>
+      <ButtonGroup>
+        <Button variant="outline-primary" onClick={() => generatePopulations()}>Generate Populations</Button>
+        <Button
+          variant="outline-primary"
+          disabled={populations.some(({ data }) => data.length === 0)}
+          onClick={() => generateSamples()}
+        >
+          Generate Samples
+        </Button>
+      </ButtonGroup>
     </>
   )
 }
