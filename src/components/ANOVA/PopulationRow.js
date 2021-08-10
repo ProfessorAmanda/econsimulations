@@ -55,8 +55,6 @@ export default function PopulationRow({ data, sample, sampleSize, id, setPopulat
             align="right"
             type="number"
             placeholder="Sample Size:"
-            min={1}
-            max={500}
             value={sampleSize}
             onChange={(event) => adjustSampleSize(event.target.value)}
           />
@@ -72,6 +70,7 @@ export default function PopulationRow({ data, sample, sampleSize, id, setPopulat
         <DotPlot
           series={sampleSeries}
           title={`Sample ${id}`}
+          yMax={5}
           xLabel="value"
           yLabel="Observations"
         />

@@ -49,7 +49,7 @@ export default function PopulationSettings({ setPopulations }) {
       {(means.length > 0) && (
         <>
           <br/>
-          <LabeledSelector min={0} max={5} label="Set the standard deviations:" value={stdDev} setValue={setStdDev}/>
+          <LabeledSelector min={1} max={5} label="Set the standard deviations:" value={stdDev} setValue={setStdDev}/>
           <br/>
         </>
       )}
