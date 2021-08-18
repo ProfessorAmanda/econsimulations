@@ -112,6 +112,11 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
         />
       )}
       </Alert>
+      {([...accepts, ...rejects].length > 0) && (
+        <Alert variant="primary">
+          {`We rejected the null hypothesis in ${100 * rejects.length / (rejects.length + accepts.length)}% of replications.`}
+        </Alert>
+      )}
     </>
   )
 }
