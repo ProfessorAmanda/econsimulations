@@ -4,8 +4,9 @@ import { anovaPopulationObjectType, stringOrNumberType } from '../../lib/types';
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
 import _ from 'lodash';
 import { mean, std, sum } from 'mathjs';
-import DotPlot from '../DotPlot';
 import { jStat } from 'jstat';
+import HighchartsReact from 'highcharts-react-official';
+import Highcharts from 'highcharts';
 
 export default function DistributionOfFStatistic({ populations, alpha }) {
   const [numSamples, setNumSamples] = useState('');
@@ -48,38 +49,60 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
     setRejects(newRejects);
   }
 
-  const tooltipFormat = {
-    pointFormat: 'F-Statistic: <b>{point.F}</b><br/>p-value: <b>{point.pValue}</b><br/>reject H_0: <b>{point.reject}</b></br>'
-  }
-
-  const series = [
-    {
-      name: 'Fail to Reject H_0',
-      type: 'scatter',
-      data: accepts,
-      color: '#03fc0b',
-      marker: {
-        symbol: 'diamond',
-        radius: 4,
-        lineColor: 'green',
-        lineWidth: 1
-      },
-      tooltip: tooltipFormat
+  const chart = {
+    chart: {
+      zoomType: 'xy',
+      animation: false,
+      type: 'scatter'
     },
-    {
-      name: 'Reject H_0',
-      type: 'scatter',
-      data: rejects,
-      color: 'red',
-      marker: {
-        symbol: 'diamond',
-        radius: 4,
-        lineColor: '#800000',
-        lineWidth: 1
+    title: {
+      text: 'Distribution of F-Statistic'
+    },
+    xAxis: {
+      title: {
+        text: 'F-Statistic',
       },
-      tooltip: tooltipFormat
-    }
-  ]
+      min: 0,
+      startOnTick: true,
+      endOnTick: true
+    },
+    yAxis: {
+      startOnTick: true,
+      endOnTick: true,
+      title: {
+        text: 'Observations of F-Statistic'
+      }
+    },
+    tooltip: {
+      pointFormat: 'F-Statistic: <b>{point.F}</b><br/>p-value: <b>{point.pValue}</b><br/>reject H_0: <b>{point.reject}</b></br>'
+    },
+    series: [
+      {
+        name: 'Fail to Reject H_0',
+        type: 'scatter',
+        data: accepts,
+        color: '#03fc0b',
+        marker: {
+          symbol: 'diamond',
+          radius: 4,
+          lineColor: 'green',
+          lineWidth: 1
+        }
+      },
+      {
+        name: 'Reject H_0',
+        type: 'scatter',
+        data: rejects,
+        color: 'red',
+        marker: {
+          symbol: 'diamond',
+          radius: 4,
+          lineColor: '#800000',
+          lineWidth: 1
+        }
+      }
+    ]
+  }
 
   return (
     <>
@@ -101,16 +124,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
             Simulate
           </Button>
         </InputGroup>
-      {([...accepts, ...rejects].length > 0) && (
-        <DotPlot
-          series={series}
-          title="Distribution of F-Statistic"
-          xLabel="F-Statistic"
-          yLabel="Observations of F-Statistic"
-          xMin={0}
-          zoom
-        />
-      )}
+      {([...accepts, ...rejects].length > 0) && <HighchartsReact highcharts={Highcharts} options={chart}/>}
       </Alert>
       {([...accepts, ...rejects].length > 0) && (
         <Alert variant="primary">
