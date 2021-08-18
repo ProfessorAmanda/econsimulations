@@ -1,4 +1,3 @@
-import { Alert } from 'react-bootstrap';
 import OLSEstimatorsAreConsistent from './OLSEstimatorsAreConsistent.js';
 import SelectorButtonGroup from '../SelectorButtonGroup.js';
 import { useState } from 'react';

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import _ from 'lodash';
 import { BlockMath } from 'react-katex';
-import { mean, sum } from 'mathjs';
-import { populationMean, populationStandardDev } from '../../lib/stats-utils';
+import { mean, std, sum } from 'mathjs';
 import { jStat } from 'jstat';
 import PropTypes from 'prop-types';
-import { anovaObjectType } from '../../lib/types';
+import { anovaPopulationObjectType } from '../../lib/types';
+import SimulateType1Error from './SimulateType1Error';
 
 export default function FTest({ populations }) {
   const [showResults, setShowResults] = useState(false);
@@ -18,10 +18,10 @@ export default function FTest({ populations }) {
   const samples = populations.map(({ sample }) => sample.map(({ x }) => x));
 
   const overallSampleMean = (_.flatten(samples).length > 0) ? mean(_.flatten(samples)) : undefined;
-  const SSTR = sum(populations.map(({ data }) => data.length * (populationMean(data) - overallSampleMean) ** 2));
+  const SSTR = sum(samples.map((sample) => sample.length * (((sample.length > 0) ? mean(sample) : 0) - overallSampleMean) ** 2));
   const MSTR = SSTR / (populations.length - 1);
-  const SSE = sum(populations.map(({ data }) => (data.length - 1) * populationStandardDev(data) ** 2));
-  const MSE = SSE / (sum(populations.map(({ data }) => data.length)) - populations.length);
+  const SSE = sum(samples.map((sample) => (sample.length - 1) * ((sample.length > 0) ? std(sample) : 0) ** 2));
+  const MSE = SSE / (sum(samples.map((sample) => sample.length)) - populations.length);
   const F = MSTR / MSE;
   const pValue = jStat.anovaftest(...samples);
 
@@ -73,6 +73,8 @@ export default function FTest({ populations }) {
               </tr>
             </tbody>
           </Table>
+          <hr/>
+          <SimulateType1Error/>
         </>
       )}
     </>
@@ -80,5 +82,5 @@ export default function FTest({ populations }) {
 }
 
 FTest.propTypes = {
-  populations: PropTypes.arrayOf(anovaObjectType).isRequired
+  populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired
 }

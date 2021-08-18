@@ -14,5 +14,5 @@ export default function SimulationIntro({ name, text }) {
 
 SimulationIntro.propTypes = {
   name: PropTypes.string.isRequired,
-  text: PropTypes.oneOfType(optionalLaTeXType).isRequired
+  text: optionalLaTeXType.isRequired
 }

@@ -1,4 +1,4 @@
-import { Alert, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import OmittedVariableBias from './OmittedVariableBias';
 import { InlineMath } from 'react-katex';
 import SimulationIntro from '../SimulationIntro';
