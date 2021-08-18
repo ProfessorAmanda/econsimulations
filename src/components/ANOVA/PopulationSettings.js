@@ -61,7 +61,7 @@ export default function PopulationSettings({ populations, setPopulations, setSho
 
   const generatePopulations = () => {
     setPopulations(populations.map((pop) => {
-      const data = getCounts(generateNormal(500, pop.mean, stdDev, 0));
+      const data = getCounts(generateNormal(500, pop.mean, stdDev, 1));
       return { ...pop, data, sample: [] }
     }));
     setShowFTest(true);
