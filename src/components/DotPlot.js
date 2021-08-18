@@ -59,7 +59,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
             pointFormat: `${xLabel}: <b>{point.x}</b><br />`
           },
           ...seriesObject,
-          data: seriesObject.data.map(({ x, y }) => ({ x, y }))
+          data: seriesObject.data.map(({ x, y }) => ({ x, y }))  // don't want any other attributes
         })
       )
     }
