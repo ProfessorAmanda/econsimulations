@@ -6,7 +6,7 @@ import { mean, sum } from 'mathjs';
 import { populationMean, populationStandardDev } from '../../lib/stats-utils';
 import { jStat } from 'jstat';
 import PropTypes from 'prop-types';
-import { anovaObjectType } from '../../lib/types';
+import { anovaPopulationObjectType } from '../../lib/types';
 import SimulateType1Error from './SimulateType1Error';
 
 export default function FTest({ populations }) {
@@ -83,5 +83,5 @@ export default function FTest({ populations }) {
 }
 
 FTest.propTypes = {
-  populations: PropTypes.arrayOf(anovaObjectType).isRequired
+  populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired
 }

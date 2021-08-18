@@ -2,7 +2,7 @@ import { min } from 'mathjs';
 import { Col, Row } from 'react-bootstrap';
 import DotPlot from '../DotPlot';
 import PropTypes from 'prop-types';
-import { dataObjectArrayType } from '../../lib/types';
+import { anovaPopulationObjectType } from '../../lib/types';
 
 export default function SimulationPopulationsDisplay({ populations }) {
   return (
@@ -24,11 +24,5 @@ export default function SimulationPopulationsDisplay({ populations }) {
 }
 
 SimulationPopulationsDisplay.propTypes = {
-  populations: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      data: dataObjectArrayType.isRequired,
-      sampleSize: PropTypes.number.isRequired
-    })
-  ).isRequired
+  populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired
 }

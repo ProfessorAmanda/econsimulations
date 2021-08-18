@@ -6,7 +6,7 @@ import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
 import { generateNormal, getCounts } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
 import PopulationSampleSizeInput from './PopulationSampleSizeInput';
-import { anovaObjectType } from '../../lib/types.js';
+import { anovaPopulationObjectType } from '../../lib/types.js';
 import { randomInt } from 'mathjs';
 
 export default function PopulationSettings({ populations, setPopulations, setShowFTest }) {
@@ -110,7 +110,7 @@ export default function PopulationSettings({ populations, setPopulations, setSho
 }
 
 PopulationSettings.propTypes = {
-  populations: PropTypes.arrayOf(anovaObjectType).isRequired,
+  populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired,
   setPopulations: PropTypes.func.isRequired,
   setShowFTest: PropTypes.func.isRequired
 }
