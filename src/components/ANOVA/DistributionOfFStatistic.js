@@ -55,6 +55,7 @@ export default function DistributionOfFStatistic({ populations }) {
           title="Distribution of F-Statistic"
           xLabel="F-Statistic"
           yLabel="Observations of F-Statistic"
+          xMin={0}
         />
       )}
       </Alert>
