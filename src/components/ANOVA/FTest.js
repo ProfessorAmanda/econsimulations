@@ -7,6 +7,7 @@ import { populationMean, populationStandardDev } from '../../lib/stats-utils';
 import { jStat } from 'jstat';
 import PropTypes from 'prop-types';
 import { anovaObjectType } from '../../lib/types';
+import SimulateType1Error from './SimulateType1Error';
 
 export default function FTest({ populations }) {
   const [showResults, setShowResults] = useState(false);
@@ -73,6 +74,8 @@ export default function FTest({ populations }) {
               </tr>
             </tbody>
           </Table>
+          <hr/>
+          <SimulateType1Error/>
         </>
       )}
     </>

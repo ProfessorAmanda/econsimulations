@@ -2,7 +2,7 @@ import { Form, Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { stringOrNumberType } from '../lib/types';
 
-export default function LabeledInput({ min, max, label, value, setValue }) {
+export default function LabeledInput({ min, max, step, label, value, setValue }) {
   return (
     <Form>
       <Form.Group as={Row} className="justify-content-md-center">
@@ -13,6 +13,7 @@ export default function LabeledInput({ min, max, label, value, setValue }) {
             type="number"
             min={min}
             max={max}
+            step={step || 1}
             value={value}
             onChange={(event) => setValue(event.target.value)}
           />
@@ -25,6 +26,7 @@ export default function LabeledInput({ min, max, label, value, setValue }) {
 LabeledInput.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
+  step: PropTypes.number,
   label: PropTypes.string.isRequired,
   value: stringOrNumberType.isRequired,
   setValue: PropTypes.func.isRequired
