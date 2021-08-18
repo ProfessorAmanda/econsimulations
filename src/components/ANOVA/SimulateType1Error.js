@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import DistributionOfFStatistic from './DistributionOfFStatistic';
 import SimulationPopulationsDisplay from './SimulationPopulationsDisplay';
 import SimulationPopulationSettings from './SimulationPopulationSettings';
 import SimulationSampleSettings from './SimulationSampleSettings';
@@ -29,6 +30,8 @@ export default function SimulateType1Error() {
               <SimulationPopulationsDisplay populations={populations}/>
               <br/>
               <SimulationSampleSettings populations={populations} setPopulations={setPopulations}/>
+              <br/>
+              <DistributionOfFStatistic populations={populations}/>
             </>
           )}
         </>

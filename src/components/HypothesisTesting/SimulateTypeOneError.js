@@ -125,7 +125,6 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
         <Col>
           {!standardized ? (
             <NormalCurve
-              meansDiff={sampleMeans.mean}
               means={sampleMeans}
               mu0={mu0}
               popStandardDev={_.defaultTo(populationStandardDev(population), 0)}
