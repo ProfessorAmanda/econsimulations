@@ -129,7 +129,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
         <>
           <p>
             <strong>Distribution of F-Statistic </strong>
-            (<InlineMath math={`df_{num} = ${populations.length}, df_{den} = ${sum(populations.map(({ sampleSize }) => sampleSize)) - populations.length}`}/>)
+            (<InlineMath math={`df_{num} = ${populations.length - 1}, df_{den} = ${sum(populations.map(({ sampleSize }) => sampleSize)) - populations.length}`}/>)
           </p>
           <HighchartsReact highcharts={Highcharts} options={chart}/>
         </>
