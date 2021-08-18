@@ -58,7 +58,8 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
           tooltip: {
             pointFormat: `${xLabel}: <b>{point.x}</b><br />`
           },
-          ...seriesObject
+          ...seriesObject,
+          data: seriesObject.data.map(({ x, y }) => ({ x, y }))
         })
       )
     }
