@@ -36,7 +36,7 @@ export default function DistributionOfFStatistic({ populations }) {
 
   return (
     <>
-      <Alert variant="primary">
+      <Alert variant="secondary">
         <p>Let's plot the distribution of the F-Statistic:</p>
         <InputGroup className="sample-size-input">
           <Form.Control
@@ -54,7 +54,14 @@ export default function DistributionOfFStatistic({ populations }) {
             Simulate
           </Button>
         </InputGroup>
-      {(fStats.length > 0) && <DotPlot series={series} xLabel="F-Statistic" yLabel="Observations of F-Statistic"/>}
+      {(fStats.length > 0) && (
+        <DotPlot
+          series={series}
+          title="Distribution of F-Statistic"
+          xLabel="F-Statistic"
+          yLabel="Observations of F-Statistic"
+        />
+      )}
       </Alert>
     </>
   )
