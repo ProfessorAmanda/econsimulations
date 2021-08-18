@@ -1,13 +1,15 @@
 import { Alert } from 'react-bootstrap';
+import SimulationIntro from '../SimulationIntro';
 import MultipleRegression from './MultipleRegression';
 
 export default function MultipleRegressionContainer() {
 
   return (
     <div className="module-container">
-      <Alert style={{ width: '50%', margin: 'auto' }} variant="primary">
-        Multiple Regression
-      </Alert>
+      <SimulationIntro
+        name="Multiple Regression"
+        text=""
+      />
       <br/>
       <MultipleRegression/>
     </div>

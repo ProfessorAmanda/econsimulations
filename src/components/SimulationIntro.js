@@ -6,6 +6,7 @@ export default function SimulationIntro({ name, text }) {
   return (
     <Alert className="sim-description" variant="primary">
       <Alert.Heading>{name}</Alert.Heading>
+      <hr/>
       {text}
     </Alert>
   )
