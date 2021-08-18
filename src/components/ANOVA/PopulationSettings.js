@@ -9,10 +9,16 @@ import PopulationSampleSizeInput from './PopulationSampleSizeInput';
 import { anovaObjectType } from '../../lib/types.js';
 import { randomInt } from 'mathjs';
 
-export default function PopulationSettings({ populations, setPopulations }) {
+export default function PopulationSettings({ populations, setPopulations, setShowFTest }) {
   const [stdDev, setStdDev] = useState(3);
 
+  const changeSTD = (val) => {
+    setStdDev(val);
+    setShowFTest(false);
+  }
+
   const setNumPops = (numPops) => {
+    setShowFTest(false);
     if (numPops <= populations.length) {
       const newPops = populations.slice(0, numPops).map((pop) => (
         {
@@ -47,15 +53,18 @@ export default function PopulationSettings({ populations, setPopulations }) {
         return pop
       }
     });
+    if (attr === 'mean') {
+      setShowFTest(false);
+    }
     setPopulations(newPopulations);
   }
 
   const generatePopulations = () => {
     setPopulations(populations.map((pop) => {
       const data = getCounts(generateNormal(500, pop.mean, stdDev, 0));
-      // const sample = _.sampleSize(data, pop.sampleSize);
-      return { ...pop, data }
+      return { ...pop, data, sample: [] }
     }));
+    setShowFTest(true);
   }
 
   const generateSamples = () => {
@@ -71,7 +80,7 @@ export default function PopulationSettings({ populations, setPopulations }) {
       {(populations.length > 0) && (
         <>
           <br/>
-          <LabeledSelector min={1} max={4} label="Set the standard deviations:" value={stdDev} setValue={setStdDev}/>
+          <LabeledSelector min={1} max={4} label="Set the standard deviations:" value={stdDev} setValue={changeSTD}/>
           <br/>
         </>
       )}
@@ -102,5 +111,6 @@ export default function PopulationSettings({ populations, setPopulations }) {
 
 PopulationSettings.propTypes = {
   populations: PropTypes.arrayOf(anovaObjectType).isRequired,
-  setPopulations: PropTypes.func.isRequired
+  setPopulations: PropTypes.func.isRequired,
+  setShowFTest: PropTypes.func.isRequired
 }
