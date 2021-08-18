@@ -19,7 +19,7 @@ export default function SimulationPopulationSettings({ setPopulations, alpha, se
 
   const generatePopulations = () => {
     const newPopulations = _.range(1, numPops + 1).map((id) => ({
-      data: getCounts(generateNormal(500, mean, stdDev, 0)),
+      data: getCounts(generateNormal(500, mean, stdDev, 1)),
       id,
       sampleSize: 30
     }));

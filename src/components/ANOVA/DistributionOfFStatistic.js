@@ -24,7 +24,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       const MSE = SSE / (sum(populations.map(({ data }) => data.length)) - populations.length);
       const F = MSTR / MSE;
       const pValue = jStat.anovaftest(...samples);
-      fStats.push({ F: _.round(F, 1), pValue, reject: pValue < +alpha });
+      fStats.push({ F: (F < 1) ? +F.toPrecision(2) : _.round(F, 1), pValue, reject: pValue < +alpha });
     }
     const fCounts = {};
     const newRejects = [];
@@ -32,7 +32,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
     fStats.forEach(({ F, pValue, reject }) => {
       fCounts[F] = _.defaultTo(fCounts[F] + 1, 1);
       const fObject = {
-        x: F,
+        x: +F,
         y: fCounts[F],
         F,
         pValue: pValue.toPrecision(3),
