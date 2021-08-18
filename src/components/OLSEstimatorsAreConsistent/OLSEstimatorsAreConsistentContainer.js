@@ -3,15 +3,17 @@ import OLSEstimatorsAreConsistent from './OLSEstimatorsAreConsistent.js';
 import SelectorButtonGroup from '../SelectorButtonGroup.js';
 import { useState } from 'react';
 import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
+import SimulationIntro from '../SimulationIntro.js';
 
 export default function OLSEstimatorsAreConsistentContainer() {
   const [assumption, setAssumption] = useState('');
 
   return (
     <div className="module-container">
-      <Alert className="sim-description" variant="primary">
-        OLS Estimators are Consistent
-      </Alert>
+      <SimulationIntro
+        name="OLS Estimators are Consistent"
+        text=""
+      />
       <br/>
       <SelectorButtonGroup
         options={OLS_ASSUMPTIONS_OPTIONS}
