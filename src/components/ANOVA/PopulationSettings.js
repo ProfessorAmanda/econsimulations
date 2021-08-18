@@ -53,7 +53,9 @@ export default function PopulationSettings({ populations, setPopulations, setSho
         return pop
       }
     });
-    setShowFTest(false);
+    if (attr === "mean") {
+      setShowFTest(false);
+    }
     setPopulations(newPopulations);
   }
 
