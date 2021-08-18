@@ -21,7 +21,7 @@ export default function FTest({ populations }) {
   const SSTR = sum(samples.map((sample) => sample.length * (((sample.length > 0) ? mean(sample) : 0) - overallSampleMean) ** 2));
   const MSTR = SSTR / (populations.length - 1);
   const SSE = sum(samples.map((sample) => (sample.length - 1) * ((sample.length > 0) ? std(sample) : 0) ** 2));
-  const MSE = SSE / (sum(populations.map(({ data }) => data.length)) - populations.length);
+  const MSE = SSE / (sum(samples.map((sample) => sample.length)) - populations.length);
   const F = MSTR / MSE;
   const pValue = jStat.anovaftest(...samples);
 

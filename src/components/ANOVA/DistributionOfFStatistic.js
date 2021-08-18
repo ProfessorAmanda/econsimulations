@@ -22,10 +22,10 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       const SSTR = sum(samples.map((sample) => sample.length * (mean(sample) - overallSampleMean) ** 2));
       const MSTR = SSTR / (populations.length - 1);
       const SSE = sum(samples.map((sample) => (sample.length - 1) * std(sample) ** 2));
-      const MSE = SSE / (sum(populations.map(({ data }) => data.length)) - populations.length);
+      const MSE = SSE / (sum(samples.map((sample) => sample.length)) - populations.length);
       const F = MSTR / MSE;
       const pValue = jStat.anovaftest(...samples);
-      fStats.push({ F: (F < 1) ? +F.toPrecision(2) : _.round(F, 1), pValue, reject: pValue < +alpha });
+      fStats.push({ F: _.round(F, 2), pValue, reject: pValue < +alpha });
     }
     const fCounts = {};
     const newRejects = [];
