@@ -7,6 +7,7 @@ import { mean, std, sum } from 'mathjs';
 import { jStat } from 'jstat';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+import { InlineMath } from 'react-katex';
 
 export default function DistributionOfFStatistic({ populations, alpha }) {
   const [numSamples, setNumSamples] = useState('');
@@ -25,7 +26,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       const MSE = SSE / (sum(samples.map((sample) => sample.length)) - populations.length);
       const F = MSTR / MSE;
       const pValue = jStat.anovaftest(...samples);
-      fStats.push({ F: _.round(F, 2), pValue, reject: pValue < +alpha });
+      fStats.push({ F: (F < 1) ? +F.toPrecision(2) : _.round(F, 2), pValue, reject: pValue < +alpha });
     }
     const fCounts = {};
     const newRejects = [];
@@ -56,7 +57,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       type: 'scatter'
     },
     title: {
-      text: 'Distribution of F-Statistic'
+      text: ''
     },
     xAxis: {
       title: {
@@ -124,7 +125,15 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
             Simulate
           </Button>
         </InputGroup>
-      {([...accepts, ...rejects].length > 0) && <HighchartsReact highcharts={Highcharts} options={chart}/>}
+      {([...accepts, ...rejects].length > 0) && (
+        <>
+          <p>
+            <strong>Distribution of F-Statistic </strong>
+            (<InlineMath math={`df_{num} = ${populations.length}, df_{den} = ${sum(populations.map(({ sampleSize }) => sampleSize)) - populations.length}`}/>)
+          </p>
+          <HighchartsReact highcharts={Highcharts} options={chart}/>
+        </>
+      )}
       </Alert>
       {([...accepts, ...rejects].length > 0) && (
         <Alert variant="primary">
