@@ -1,6 +1,6 @@
 import { Form, Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { stringOrNumberType } from '../lib/types';
+import { optionalLaTeXType, stringOrNumberType } from '../lib/types';
 
 export default function LabeledInput({ min, max, step, label, value, setValue }) {
   return (
@@ -27,7 +27,7 @@ LabeledInput.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
   step: PropTypes.number,
-  label: PropTypes.string.isRequired,
+  label: optionalLaTeXType.isRequired,
   value: stringOrNumberType.isRequired,
   setValue: PropTypes.func.isRequired
 }

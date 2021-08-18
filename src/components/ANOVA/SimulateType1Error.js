@@ -8,6 +8,7 @@ import SimulationSampleSettings from './SimulationSampleSettings';
 export default function SimulateType1Error() {
   const [showSim, setShowSim] = useState(false);
   const [populations, setPopulations] = useState([]);
+  const [alpha, setAlpha] = useState(0.05);
 
   return (
     <>
@@ -22,7 +23,12 @@ export default function SimulateType1Error() {
       <br/>
       {showSim && (
         <>
-          <SimulationPopulationSettings activeButton={populations.length > 0} setPopulations={setPopulations}/>
+          <SimulationPopulationSettings
+            activeButton={populations.length > 0}
+            setPopulations={setPopulations}
+            alpha={alpha}
+            setAlpha={setAlpha}
+          />
           <br/>
           <br/>
           {(populations.length > 0) && (
@@ -31,7 +37,7 @@ export default function SimulateType1Error() {
               <br/>
               <SimulationSampleSettings populations={populations} setPopulations={setPopulations}/>
               <br/>
-              <DistributionOfFStatistic populations={populations}/>
+              <DistributionOfFStatistic populations={populations} alpha={alpha}/>
             </>
           )}
         </>

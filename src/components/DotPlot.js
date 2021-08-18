@@ -54,11 +54,10 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
         {
           showInLegend: seriesObject.data.length > 0,
           turboThreshold: 0,
-          ...seriesObject,
-          data: seriesObject.data.map(({ x, y }) => ({ x, y })), // don't want any other attributes
           tooltip: {
             pointFormat: `${xLabel}: <b>{point.x}</b><br />`
-          }
+          },
+          ...seriesObject
         })
       )
     }

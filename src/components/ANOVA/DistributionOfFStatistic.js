@@ -4,16 +4,17 @@ import { anovaPopulationObjectType } from '../../lib/types';
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
 import _ from 'lodash';
 import { mean, sum } from 'mathjs';
-import { getCounts, populationMean, populationStandardDev } from '../../lib/stats-utils';
+import { populationMean, populationStandardDev } from '../../lib/stats-utils';
 import DotPlot from '../DotPlot';
 import { jStat } from 'jstat';
 
-export default function DistributionOfFStatistic({ populations }) {
+export default function DistributionOfFStatistic({ populations, alpha }) {
   const [numSamples, setNumSamples] = useState('');
-  const [fStats, setFStats] = useState([]);
+  const [accepts, setAccepts] = useState([]);
+  const [rejects, setRejects] = useState([]);
 
   const runSimulation = () => {
-    const newFStats = [];
+    const fStats = [];
     for (let i = 0; i < numSamples; i++) {
       const sampleObjects = populations.map(({ data, sampleSize }) => _.sampleSize(data, sampleSize));
       const samples = sampleObjects.map((sample) => sample.map(({ x }) => x));
@@ -24,10 +25,62 @@ export default function DistributionOfFStatistic({ populations }) {
       const MSE = SSE / (sum(populations.map(({ data }) => data.length)) - populations.length);
       const F = MSTR / MSE;
       const pValue = jStat.anovaftest(...samples);
-      newFStats.push({ F: F.toPrecision(3), pValue: pValue.toPrecision(3) });
+      fStats.push({ F, pValue, reject: pValue < alpha });
     }
-    setFStats(newFStats);
+    const fCounts = {};
+    const newRejects = [];
+    const newAccepts = [];
+    fStats.forEach(({ F, pValue, reject }) => {
+      fCounts[F] = _.defaultTo(fCounts[F] + 1, 1);
+      const fObject = {
+        x: _.round(F, 3),
+        y: fCounts[F],
+        F: F.toPrecision(3),
+        pValue: pValue.toPrecision(3),
+        reject,
+      }
+      if (reject) {
+        newRejects.push(fObject)
+      } else {
+        newAccepts.push(fObject)
+      }
+    });
+    setAccepts(newAccepts);
+    setRejects(newRejects);
   }
+
+  const tooltipFormat = {
+    pointFormat: 'F-Statistic: <b>{point.F}</b><br/>p-value: <b>{point.pValue}</b><br/>reject H_0: <b>{point.reject}</b></br>'
+  }
+
+  const series = [
+    {
+      name: 'Fail to Reject H_0',
+      type: 'scatter',
+      data: accepts,
+      color: '#03fc0b',
+      marker: {
+        symbol: 'diamond',
+        radius: 4,
+        lineColor: 'green',
+        lineWidth: 1
+      },
+      tooltip: tooltipFormat
+    },
+    {
+      name: 'Reject H_0',
+      type: 'scatter',
+      data: rejects,
+      color: 'red',
+      marker: {
+        symbol: 'diamond',
+        radius: 4,
+        lineColor: '#800000',
+        lineWidth: 1
+      },
+      tooltip: tooltipFormat
+    }
+  ]
 
   return (
     <>
@@ -49,9 +102,9 @@ export default function DistributionOfFStatistic({ populations }) {
             Simulate
           </Button>
         </InputGroup>
-      {(fStats.length > 0) && (
+      {([...accepts, ...rejects].length > 0) && (
         <DotPlot
-          series={[{ name: 'F-Statistics', data: getCounts(fStats.map(({ F }) => F)) }]}
+          series={series}
           title="Distribution of F-Statistic"
           xLabel="F-Statistic"
           yLabel="Observations of F-Statistic"
@@ -64,5 +117,6 @@ export default function DistributionOfFStatistic({ populations }) {
 }
 
 DistributionOfFStatistic.propTypes = {
-  populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired
+  populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired,
+  alpha: PropTypes.number.isRequired
 }

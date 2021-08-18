@@ -7,9 +7,8 @@ import LabeledInput from '../LabeledInput';
 import LabeledSelector from '../LabeledSelector';
 import PropTypes from 'prop-types';
 
-export default function SimulationPopulationSettings({ activeButton, setPopulations }) {
+export default function SimulationPopulationSettings({ activeButton, setPopulations, alpha, setAlpha }) {
   const [numPops, setNumPops] = useState(2);
-  const [alpha, setAlpha] = useState(0.05);
   const [mean, setMean] = useState(0);
   const [stdDev, setStdDev] = useState(3);
 
@@ -59,5 +58,7 @@ export default function SimulationPopulationSettings({ activeButton, setPopulati
 
 SimulationPopulationSettings.propTypes = {
   activeButton: PropTypes.bool.isRequired,
-  setPopulations: PropTypes.func.isRequired
+  setPopulations: PropTypes.func.isRequired,
+  alpha: PropTypes.number.isRequired,
+  setAlpha: PropTypes.func.isRequired
 }
