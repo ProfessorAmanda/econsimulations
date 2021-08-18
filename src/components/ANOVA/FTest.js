@@ -7,6 +7,7 @@ import { populationMean, populationStandardDev } from '../../lib/stats-utils';
 import { jStat } from 'jstat';
 import PropTypes from 'prop-types';
 import { anovaObjectType } from '../../lib/types';
+import DistributionOfFStatistic from './DistributionOfFStatistic';
 
 export default function FTest({ populations }) {
   const [showResults, setShowResults] = useState(false);
@@ -16,7 +17,6 @@ export default function FTest({ populations }) {
   }, [populations]);
 
   const samples = populations.map(({ sample }) => sample.map(({ x }) => x));
-
   const overallSampleMean = (_.flatten(samples).length > 0) ? mean(_.flatten(samples)) : undefined;
   const SSTR = sum(populations.map(({ data }) => data.length * (populationMean(data) - overallSampleMean) ** 2));
   const MSTR = SSTR / (populations.length - 1);
@@ -73,6 +73,8 @@ export default function FTest({ populations }) {
               </tr>
             </tbody>
           </Table>
+          <br/>
+          <DistributionOfFStatistic populations={populations}/>
         </>
       )}
     </>
