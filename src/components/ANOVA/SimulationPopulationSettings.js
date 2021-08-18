@@ -7,7 +7,7 @@ import LabeledInput from '../LabeledInput';
 import LabeledSelector from '../LabeledSelector';
 import PropTypes from 'prop-types';
 
-export default function SimulationPopulationSettings({ activeButton, setPopulations, alpha, setAlpha }) {
+export default function SimulationPopulationSettings({ setPopulations, alpha, setAlpha }) {
   const [numPops, setNumPops] = useState(2);
   const [mean, setMean] = useState(0);
   const [stdDev, setStdDev] = useState(3);
@@ -46,7 +46,6 @@ export default function SimulationPopulationSettings({ activeButton, setPopulati
       <LabeledSelector min={1} max={4} label="Set the standard deviations:" value={stdDev} setValue={setStdDev}/>
       <br/>
       <Button
-        active={activeButton}
         variant="outline-primary"
         onClick={() => generatePopulations()}
       >
@@ -57,7 +56,6 @@ export default function SimulationPopulationSettings({ activeButton, setPopulati
 }
 
 SimulationPopulationSettings.propTypes = {
-  activeButton: PropTypes.bool.isRequired,
   setPopulations: PropTypes.func.isRequired,
   alpha: PropTypes.number.isRequired,
   setAlpha: PropTypes.func.isRequired

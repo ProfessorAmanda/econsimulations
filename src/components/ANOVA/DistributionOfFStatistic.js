@@ -35,7 +35,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       const fObject = {
         x: _.round(F, 3),
         y: fCounts[F],
-        F: F.toPrecision(3),
+        F: _.round(F, 3),
         pValue: pValue.toPrecision(3),
         reject,
       }

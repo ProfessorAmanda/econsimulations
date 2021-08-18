@@ -24,7 +24,6 @@ export default function SimulateType1Error() {
       {showSim && (
         <>
           <SimulationPopulationSettings
-            activeButton={populations.length > 0}
             setPopulations={setPopulations}
             alpha={alpha}
             setAlpha={setAlpha}
