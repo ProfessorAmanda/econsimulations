@@ -6,6 +6,7 @@ import { generateNormal, getCounts } from '../../lib/stats-utils';
 import LabeledInput from '../LabeledInput';
 import LabeledSelector from '../LabeledSelector';
 import PropTypes from 'prop-types';
+import { stringOrNumberType } from '../../lib/types';
 
 export default function SimulationPopulationSettings({ setPopulations, alpha, setAlpha }) {
   const [numPops, setNumPops] = useState(2);
@@ -57,6 +58,6 @@ export default function SimulationPopulationSettings({ setPopulations, alpha, se
 
 SimulationPopulationSettings.propTypes = {
   setPopulations: PropTypes.func.isRequired,
-  alpha: PropTypes.number.isRequired,
+  alpha: stringOrNumberType.isRequired,
   setAlpha: PropTypes.func.isRequired
 }

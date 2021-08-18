@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import PopBar from '../PopBar.js';
-import { Alert } from 'react-bootstrap';
 import ConfidenceIntervals from './ConfidenceIntervals.js';
 import { SAMPLE_SIZE } from '../../lib/constants.js';
 import SimulationIntro from '../SimulationIntro.js';

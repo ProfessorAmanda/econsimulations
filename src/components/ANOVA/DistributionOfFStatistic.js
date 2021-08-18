@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { anovaPopulationObjectType } from '../../lib/types';
+import { anovaPopulationObjectType, stringOrNumberType } from '../../lib/types';
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
 import _ from 'lodash';
-import { mean, sum } from 'mathjs';
-import { populationMean, populationStandardDev } from '../../lib/stats-utils';
+import { mean, std, sum } from 'mathjs';
 import DotPlot from '../DotPlot';
 import { jStat } from 'jstat';
 
@@ -19,13 +18,13 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       const sampleObjects = populations.map(({ data, sampleSize }) => _.sampleSize(data, sampleSize));
       const samples = sampleObjects.map((sample) => sample.map(({ x }) => x));
       const overallSampleMean = (_.flatten(samples).length > 0) ? mean(_.flatten(samples)) : undefined;
-      const SSTR = sum(populations.map(({ data }) => data.length * (populationMean(data) - overallSampleMean) ** 2));
+      const SSTR = sum(samples.map((sample) => sample.length * (mean(sample) - overallSampleMean) ** 2));
       const MSTR = SSTR / (populations.length - 1);
-      const SSE = sum(populations.map(({ data }) => (data.length - 1) * populationStandardDev(data) ** 2));
+      const SSE = sum(samples.map((sample) => (sample.length - 1) * std(sample) ** 2));
       const MSE = SSE / (sum(populations.map(({ data }) => data.length)) - populations.length);
       const F = MSTR / MSE;
       const pValue = jStat.anovaftest(...samples);
-      fStats.push({ F, pValue, reject: pValue < alpha });
+      fStats.push({ F: _.round(F, 1), pValue, reject: pValue < +alpha });
     }
     const fCounts = {};
     const newRejects = [];
@@ -33,9 +32,9 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
     fStats.forEach(({ F, pValue, reject }) => {
       fCounts[F] = _.defaultTo(fCounts[F] + 1, 1);
       const fObject = {
-        x: _.round(F, 3),
+        x: F,
         y: fCounts[F],
-        F: _.round(F, 3),
+        F,
         pValue: pValue.toPrecision(3),
         reject,
       }
@@ -109,6 +108,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
           xLabel="F-Statistic"
           yLabel="Observations of F-Statistic"
           xMin={0}
+          zoom
         />
       )}
       </Alert>
@@ -123,5 +123,5 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
 
 DistributionOfFStatistic.propTypes = {
   populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired,
-  alpha: PropTypes.number.isRequired
+  alpha: stringOrNumberType.isRequired
 }

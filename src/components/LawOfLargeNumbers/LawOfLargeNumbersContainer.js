@@ -1,11 +1,5 @@
-/*
-
-  Displays the description for the LLN simulation, a menu bar to choose the different variations, and the simulation component itself
-
-*/
 import { useState } from 'react';
 import PopBar from '../PopBar.js';
-import { Alert } from 'react-bootstrap';
 import LawOfLargeNumbers from './LawOfLargeNumbers.js';
 import { SAMPLE_SIZE } from '../../lib/constants.js';
 import SimulationIntro from '../SimulationIntro.js';

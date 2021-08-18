@@ -1,5 +1,4 @@
 import LeastSquares from './LeastSquares';
-import { Alert } from 'react-bootstrap';
 import SimulationIntro from '../SimulationIntro';
 
 export default function LeastSquaresContainer() {

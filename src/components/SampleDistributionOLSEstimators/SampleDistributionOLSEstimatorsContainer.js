@@ -1,4 +1,3 @@
-import { Alert } from 'react-bootstrap';
 import SampleDistributionOLSEstimators from './SampleDistributionOLSEstimators.js';
 import SelectorButtonGroup from '../SelectorButtonGroup.js';
 import { useState } from 'react';

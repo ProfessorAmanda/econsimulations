@@ -1,9 +1,3 @@
-/*
-
-  A container component that holds the description and simulation for Joint Distribution
-
-*/
-import { Alert } from 'react-bootstrap';
 import SimulationIntro from '../SimulationIntro.js';
 import JointDistributions from './JointDistributions.js';
 

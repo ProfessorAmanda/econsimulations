@@ -13,7 +13,8 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
     const newChart = {
       chart: {
         type: 'scatter',
-        animation: !!animation
+        animation: !!animation,
+        zoomType: zoom && 'xy'
       },
       plotOptions: {
         series: {

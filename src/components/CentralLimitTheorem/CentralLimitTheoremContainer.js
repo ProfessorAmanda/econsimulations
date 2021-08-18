@@ -1,11 +1,5 @@
-/*
-
-  Displays the description for the CLT simulation, a menu bar to choose the different variations, and the simulation component itself
-
-*/
 import { useState } from 'react';
 import PopBar from '../PopBar.js';
-import { Alert } from 'react-bootstrap';
 import CentralLimitTheorem from './CentralLimitTheorem.js';
 import SimulationIntro from '../SimulationIntro.js';
 
