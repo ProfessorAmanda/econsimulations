@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import SimulationPopulationsDisplay from './SimulationPopulationsDisplay';
 import SimulationPopulationSettings from './SimulationPopulationSettings';
+import SimulationSampleSettings from './SimulationSampleSettings';
 
 export default function SimulateType1Error() {
   const [showSim, setShowSim] = useState(false);
@@ -23,7 +24,13 @@ export default function SimulateType1Error() {
           <SimulationPopulationSettings activeButton={populations.length > 0} setPopulations={setPopulations}/>
           <br/>
           <br/>
-          {(populations.length > 0) && <SimulationPopulationsDisplay populations={populations}/>}
+          {(populations.length > 0) && (
+            <>
+              <SimulationPopulationsDisplay populations={populations}/>
+              <br/>
+              <SimulationSampleSettings populations={populations} setPopulations={setPopulations}/>
+            </>
+          )}
         </>
       )}
     </>
