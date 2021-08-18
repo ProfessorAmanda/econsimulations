@@ -54,8 +54,8 @@ export default function DistributionOfFStatistic({ populations }) {
             Simulate
           </Button>
         </InputGroup>
-      </Alert>
       {(fStats.length > 0) && <DotPlot series={series} xLabel="F-Statistic" yLabel="Observations of F-Statistic"/>}
+      </Alert>
     </>
   )
 }
