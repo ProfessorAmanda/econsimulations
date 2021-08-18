@@ -164,6 +164,6 @@ export const MODULES = [
   },
   {
     name: 'ANOVA',
-    description: 'In Progress',
+    description: 'The module presents a simple version of ANOVA (Analysis of Variance), in which we test the null hypothesis that the means of two or more populations are equal.',
   }
 ];
