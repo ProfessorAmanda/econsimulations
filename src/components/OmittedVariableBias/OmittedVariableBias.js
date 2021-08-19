@@ -23,16 +23,6 @@ export default function OmittedVariableBias() {
   const OBS = 1000;
 
   useEffect(() => {
-    const generatePoints = (slope, int) => {
-      const points = [];
-
-      for (let i = 0; i < 11; i++) {
-        points[i] = _.round(int + i * slope, 2);
-      }
-
-      return points;
-    }
-
     if (series.length > 0) {
       // TODO - simplify this
 
@@ -70,6 +60,8 @@ export default function OmittedVariableBias() {
       const Y = transpose(matrix([scores]));
       const inverse = inv(multiply(transpose(X), X));
       const bHat = multiply(multiply(inverse, transpose(X)), Y);
+
+      const generatePoints = (slope, int) => _.range(0, 11).map((i) => _.round(int + i * slope, 2));
 
       setAllData({
         points: studyScores.map(([x, y]) => ({ x, y })),
