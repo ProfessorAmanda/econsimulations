@@ -1,10 +1,3 @@
-/*
-
-  Displays a table of values and a corresponding HighCharts plot
-
-  Used by Law of Large Numbers and Central Limit Theorem
-
-*/
 import DotPlot from './DotPlot';
 import { Alert, Container, Col, Row } from 'react-bootstrap';
 import PopTable from './PopTable.js'
