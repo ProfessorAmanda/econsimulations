@@ -9,9 +9,6 @@ updates:
       # updates to nivo broke the chart synchronization in Joint Distributions
       - dependency-name: "@nivo/core"
       - dependency-name: "@nivo/scatterplot"
-      # - dependency-name: "plotly.js"
-      #   # version 2.3.1 somehow breaks the build
-      #   versions: ["2.3.1"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
