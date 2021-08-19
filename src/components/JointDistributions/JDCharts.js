@@ -1,9 +1,3 @@
-/*
-
-  A container component to hold the three charts for the Joint Distribution simulation
-  Note that Nivo is used for these plots instead of HighCharts - easier to synchronize
-
-*/
 import { useState, useCallback, useMemo } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import JointChart from './JointChart.js';

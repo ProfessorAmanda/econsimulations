@@ -1,8 +1,3 @@
-/*
-
-  Displays the Joint Distributions simulation
-
-*/
 import { useEffect, useState } from 'react';
 import MultivariateNormal from 'multivariate-normal';
 import { Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
