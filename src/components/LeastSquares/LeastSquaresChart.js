@@ -104,7 +104,7 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
         width: 600,
         height: 600,
         events: {
-          click: (e) => {
+          click: (e) => {  // click to add a point on the plot!
             if (enableClick) {
               const x = e.xAxis[0].value;
               const y = e.yAxis[0].value;

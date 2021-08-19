@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import _ from 'lodash';
 import { Col, Container, Row } from 'react-bootstrap';
-import regression from 'regression';
-import { generateBinary } from '../../lib/stats-utils.js';
+import { generateBinary, linearRegression } from '../../lib/stats-utils.js';
 import PopulationPlot from './PopulationPlot.js';
 import SampleInput from './SampleInput.js';
 import SamplePlot from './SamplePlot.js';
@@ -68,12 +67,12 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       sample = samplingFunction(data, size);
     } while (_.uniq(sample.map(({ category }) => category)).length === 1);
 
-    const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
+    const { slope, intercept } = linearRegression(sample, 1);
     const sampleObject = {
       data: sample,
       size: sample.length,
-      slope: equation[0],
-      intercept: equation[1],
+      slope,
+      intercept,
     }
     const newSamples = [...samples, sampleObject].map((obj, index) => ({ ...obj, id: index }));
     setSelected(newSamples[newSamples.length - 1]);
@@ -81,13 +80,13 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   }
 
   const getBestFitSlope = (sample) => {
-    const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
-    return equation[0];
+    const { slope } = linearRegression(sample, 1);
+    return slope;
   }
 
   const getBestFitIntercept = (sample) => {
-    const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
-    return equation[1];
+    const { intercept } = linearRegression(sample, 1);
+    return intercept;
   }
 
   return (

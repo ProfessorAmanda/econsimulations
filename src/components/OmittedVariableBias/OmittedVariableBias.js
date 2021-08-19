@@ -3,11 +3,11 @@ import { Row, Col, Button, InputGroup } from 'react-bootstrap';
 import CoefficientInput from './CoefficientInput.js';
 import MultivariateNormal from 'multivariate-normal';
 import { round, transpose, matrix, multiply, inv } from 'mathjs';
-import regression from 'regression';
 import OmittedVariableChart from './OmittedVariableChart.js';
 import PD from 'probability-distributions';
 import _ from 'lodash';
 import InputSlider from '../InputSlider.js';
+import { linearRegression } from '../../lib/stats-utils.js';
 
 export default function OmittedVariableBias() {
   const [beta, setBeta] = useState(3);
@@ -61,7 +61,7 @@ export default function OmittedVariableBias() {
       }
 
       // regress study hours with test scores
-      const [naiveSlope, naiveInt] = regression.linear(studyScores).equation;
+      const { slope, intercept } = linearRegression(studyScores)
 
       // Corrected regression
 
@@ -73,7 +73,7 @@ export default function OmittedVariableBias() {
 
       setAllData({
         points: studyScores.map(([x, y]) => ({ x, y })),
-        naiveLine: generatePoints(naiveSlope, naiveInt),
+        naiveLine: generatePoints(slope, intercept),
         correctedLine: generatePoints(parseFloat(bHat.get([1, 0])), parseFloat(bHat.get([0, 0])))
       });
       setShowCorrect(false);

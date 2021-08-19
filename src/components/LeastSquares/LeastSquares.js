@@ -3,9 +3,9 @@ import { Row, Col } from 'react-bootstrap';
 import NewPointsInput from './NewPointsInput';
 import LeastSquaresChart from './LeastSquaresChart.js';
 import PlotLine from './PlotLine.js';
-import regression from 'regression';
 import InputSlider from '../InputSlider.js';
 import { random } from 'mathjs';
+import { linearRegression } from '../../lib/stats-utils';
 
 export default function LeastSquares() {
   const [points, setPoints] = useState([]);
@@ -49,9 +49,9 @@ export default function LeastSquares() {
   }
 
   const generateBestLine = () => {
-    const { equation } = regression.linear(points.map(({ x, y }) => [x, y]), { precision: 1 });
-    setSlope(equation[0]);
-    setIntercept(equation[1]);
+    const { slope: newSlope, intercept: newIntercept } = linearRegression(points, 1);
+    setSlope(newSlope);
+    setIntercept(newIntercept);
   }
 
   return (

@@ -3,6 +3,7 @@ import PD from 'probability-distributions';
 import _ from 'lodash';
 import { jStat } from 'jstat';
 import MultivariateNormal from 'multivariate-normal';
+import regression from 'regression';
 
 export const getCounts = (data) => {
   const counts = [];
@@ -129,4 +130,17 @@ export const generateBinary = (size, mean1, mean2, std1, std2, precision = 2) =>
 
 export const convertToStandardNormal = (array, popMean, popSD, attr) => {
   return array.map((p) => ({...p, [attr]: (p[attr] - popMean) / popSD}));
+}
+
+export const linearRegression = (data, precision = 2) => {
+  let parsedData;
+  if (data.every((elem) => _.isArray(elem))) {
+    parsedData = data;
+  } else if (data.every((elem) => _.isObject(elem))) {
+    parsedData = data.map(({ x, y }) => [x, y]);
+  } else {
+    throw new Error();
+  }
+  const { equation } = regression.linear(parsedData, { precision });
+  return { slope: equation[0], intercept: equation[1] }
 }
