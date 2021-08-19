@@ -4,10 +4,10 @@ import SampleSizeInput from '../SampleSizeInput.js';
 import _ from 'lodash';
 import { dataObjectArrayType, olsSampleType } from '../../lib/types.js';
 import PropTypes from 'prop-types';
-import SamplesTable from './SamplesTable.js';
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
 import { OLSE_VALUES } from '../../lib/constants.js';
+import SelectableDataTable from '../SelectableDataTable.js';
 
 export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample, populationShape }) {
   const sample = selected || { data: [] };
@@ -104,7 +104,17 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
             <SampleSizeInput maxSize={data.length} minSize={2} handleClick={addSamples} classname="sample-size-input"/>
           </Alert>
-          <SamplesTable samples={samples} setSelected={selectSample} selected={selected}/>
+          <SelectableDataTable
+            data={samples}
+            setSelected={selectSample}
+            selected={selected}
+            headers={{
+              'Sample': 'id',
+              'Size': 'size',
+              'Slope': 'slope',
+              'Intercept': 'intercept'
+            }}
+          />
         </Col>
         <Col>
           <div style={{ marginLeft: '20%' }}>
