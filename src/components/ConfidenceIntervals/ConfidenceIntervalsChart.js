@@ -19,6 +19,8 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
     const containsMean = [];
     const doesntContainMean = [];
 
+    // put objects into separate lists depending on whether or not they contain the mean
+    // can't seem to color individual points in a highcharts series, so this is the next best option imo
     samples.forEach((sampleObject) => {
       sampleMeans.push({
         ...sampleObject,
@@ -56,7 +58,7 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
         animation: false,
         zoomType: 'xy',
         events: {
-          // hack to allow zoom
+          // hack to allow zoom - this unselects all points in the plot
           selection: (event) => {
             event.target.series.forEach((series) => {
               series.data.forEach((point) => {
@@ -200,13 +202,13 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
 
   return (
     <div>
-      {
-        selected ? (
-          <Alert variant={selected.label ? 'success' : 'danger'}>
-            Sample number {selected.id} has a mean of {selected.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(selected.lowerConf, 2)}, {_.round(selected.upperConf, 2)}). CI contains the population mean? {selected.label.toString()}
-          </Alert>
-        ) : <div style={{ height: 80 }}/>
-      }
+      {selected ? (
+        <Alert variant={selected.label ? 'success' : 'danger'}>
+          Sample number {selected.id} has a mean of {selected.mean.toFixed(2)}, with {confidenceLevel}% CI ({_.round(selected.lowerConf, 2)}, {_.round(selected.upperConf, 2)}). CI contains the population mean? {selected.label.toString()}
+        </Alert>
+      ) : (
+        <div style={{ height: 80 }}/>
+      )}
       <HighchartsReact highcharts={Highcharts} options={chart}/>
     </div>
   );

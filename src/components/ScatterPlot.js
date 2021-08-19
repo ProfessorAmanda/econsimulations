@@ -68,7 +68,7 @@ export default function ScatterPlot({
             pointFormat: tooltipFormat || 'x: <b>{point.x}</b><br/>y: <b>{point.y}</b><br/>'
           },
           ...seriesObject,
-          data: seriesObject.data.map(({ x, y }) => ({ x, y })), // don"t want any other attributes
+          data: seriesObject.data.map(({ x, y }) => ({ x, y })), // don't want any other attributes
         })
       )
     }

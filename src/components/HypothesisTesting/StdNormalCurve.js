@@ -9,9 +9,11 @@ import { sqrt } from 'mathjs';
 require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 export default function StdNormalCurve({ means, sampleSize, distType, testType }) {
+  // use a placeholder population to draw the bell curve in the plot
   const [population] = useState(
     dataFromDistribution('Normal', 2000, { mean: 0, standardDev: 1 })
   );
+
   const [chart, setChart] = useState({
     chart: {
       zoomType: 'xy'
@@ -55,7 +57,7 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
       meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
         x: testStatistic,
-        y: meanCounts[mean] * ((distType === 'T') ? 1 : 0.005 * sqrt(sampleSize)),
+        y: meanCounts[mean] * ((distType === 'T') ? 1 : 0.005 * sqrt(sampleSize)),  // scale the y-value so the plot looks good
         testStatistic,
         mean,
         reject,
