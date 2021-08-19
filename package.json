@@ -28,7 +28,7 @@
     "@nivo/scatterplot": "^0.70.1",
     "bootstrap": "^5.0.2",
     "gh-pages": "^3.2.3",
-    "highcharts": "^9.1.2",
+    "highcharts": "^9.2.0",
     "highcharts-react-official": "^3.0.0",
     "jstat": "^1.9.4",
     "lodash": "^4.17.21",
