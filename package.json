@@ -5,7 +5,7 @@
   "homepage": "https://professoramanda.github.io/econsimulations",
   "license": "Apache-2.0",
   "engines": {
-    "node": "12.18.x"
+    "node": "14.x"
   },
   "browserslist": [
     ">0.2%",
