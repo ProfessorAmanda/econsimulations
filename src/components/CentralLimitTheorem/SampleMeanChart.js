@@ -39,7 +39,7 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
         inline
         className="form-switch"
         label="Convert to Standard Normal"
-        onClick={() => setNormalized(!normalized)}
+        onChange={() => setNormalized(!normalized)}
       />
     </div>
   )

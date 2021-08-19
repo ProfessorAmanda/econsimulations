@@ -145,7 +145,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
             inline
             className="form-switch"
             label="Convert to Standard Normal"
-            onClick={() => setStandardized(!standardized)}
+            onChange={() => setStandardized(!standardized)}
           />
         </Col>
       </Row>

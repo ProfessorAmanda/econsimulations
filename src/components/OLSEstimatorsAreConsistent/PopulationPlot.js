@@ -27,12 +27,12 @@ export default function PopulationPlot({ data, selected, assumption }) {
     },
     {
       name: 'sample',
-      data: sampleData.filter((obj) => !obj.originalY),
+      data: sampleData.filter((obj) => !obj.altered),
       tooltip: tooltipFormat
     },
     {
       name: `${showViolation ? 'after' : 'before'} violation`,
-      data: sampleData.filter((obj) => obj.originalY).map((obj) => ({...obj, y: showViolation ? obj.y : obj.originalY})),
+      data: sampleData.filter((obj) => obj.altered).map((obj) => ({...obj, y: showViolation ? obj.y : obj.originalY})),
       tooltip: tooltipFormat,
       color: showViolation ? 'red' : '#00ff15',
       marker: {
@@ -61,7 +61,7 @@ export default function PopulationPlot({ data, selected, assumption }) {
           inline
           className="form-switch"
           label="Show Violation"
-          onClick={() => setShowViolation(!showViolation)}
+          onChange={() => setShowViolation(!showViolation)}
         />
       )}
     </>

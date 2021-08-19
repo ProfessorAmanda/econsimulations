@@ -44,15 +44,14 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const sample = _.sampleSize(population, size);
       const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
       const randomIndices = _.sampleSize(_.range(0, sampleJobCorps.length), _.round(sampleJobCorps.length * 0.2));
-      // const alteredJobCorps = sampleJobCorps.map(
-      //   (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y)})
-      // );
-      const alteredJobCorps = sampleJobCorps.map(
-        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y), originalY: (randomIndices.includes(idx) ? obj.y : undefined) })
-      );
-      // const alteredJobCorps = sampleJobCorps.map(
-      //   (obj, idx) => ({ ...obj, alteredY: (randomIndices.includes(idx) ? obj.y * 2 : undefined)})
-      // );
+      const alteredJobCorps = sampleJobCorps.map((obj, idx) => (
+        {
+          ...obj,
+          y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y),
+          originalY: obj.y,
+          altered: randomIndices.includes(idx)
+        }
+      ));
       const remainingSample = sample.filter(({ id }) => !alteredJobCorps.some((obj) => obj.id === id));
       return [...remainingSample, ...alteredJobCorps];
 
@@ -60,15 +59,14 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');
-      // const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
-      //   (obj) => ({ ...obj, y: obj.y + randomNormal({mean: 16, dev: 5}), protocolBreaker: true })
-      // );
-      const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
-        (obj) => ({ ...obj, y: obj.y + randomNormal({mean: 16, dev: 5}), originalY: obj.y })
-      );
-      // const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
-      //   (obj) => ({ ...obj, alteredY: obj.y + randomNormal({mean: 16, dev: 5}) })
-      // );
+      const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map((obj) => (
+        {
+          ...obj,
+          y: obj.y + randomNormal({mean: 16, dev: 5}),
+          originalY: obj.y,
+          altered: true
+        }
+      ));
       const remainingSample = sample.filter(({ id }) => !protocolBreakers.some((obj) => obj.id === id));
       return [...remainingSample, ...protocolBreakers];
     }
@@ -80,12 +78,17 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       sample = samplingFunction(data, size);
     } while (_.uniq(sample.map(({ category }) => category)).length === 1);
 
-    const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
+    const { equation: violation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
+    const { equation: original } = regression.linear(
+      sample.map(({ x, y, originalY, altered }) => [x, (altered ? originalY : y)]), { precision: 1 }
+    );
     const sampleObject = {
       data: sample,
       size: sample.length,
-      slope: equation[0],
-      intercept: equation[1],
+      slope: violation[0],
+      intercept: violation[1],
+      originalSlope: original[0],
+      originalIntercept: original[1]
     }
     const newSamples = [...samples, sampleObject].map((obj, index) => ({ ...obj, id: index }));
     setSelected(newSamples[newSamples.length - 1]);
@@ -122,9 +125,10 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
             />
           </Col>
           <Col>
-            <SamplePlot sample={selected}/>
+            <SamplePlot sample={selected} assumption={assumption}/>
           </Col>
         </Row>
+        <br/>
         <Row>
           <SimulateSamples
             mathTitle={<p>Population vs Sample Slope ({assumption})<br /><InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/></p>}
