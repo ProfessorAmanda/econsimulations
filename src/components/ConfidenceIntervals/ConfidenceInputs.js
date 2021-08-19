@@ -3,13 +3,14 @@ import InputSlider from '../InputSlider.js';
 import SelectorButtonGroup from '../SelectorButtonGroup.js';
 import PropTypes from 'prop-types';
 import { distributionType, stringOrNumberType } from '../../lib/types.js';
+import { InlineMath } from 'react-katex';
 
 export default function ConfidenceInputs({ distType, setDistType, confLevel, setConfLevel }) {
   return (
     <div>
       <Row>
         <div>
-          1) Do you want to assume that you know σ? If yes, choose Z. If no, choose T: {' '}
+          1) Do you want to assume that you know <InlineMath math="\sigma"/>? If yes, choose Z. If no, choose T: {' '}
           <SelectorButtonGroup options={['Z', 'T']} select={setDistType} selected={distType}/>
         </div>
       </Row>

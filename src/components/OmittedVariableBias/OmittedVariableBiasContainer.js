@@ -13,7 +13,7 @@ export default function OmittedVariableBiasContainer() {
       <br/>
       <Row>
         <p>We are studying the relationship between test score and study hours:</p>
-        <p>Test Score = β₀ + β₁Study Hoursᵢ + 𝛿Sleep Hoursᵢ + uᵢ</p>
+        <InlineMath math="Test\ Score = \beta_0 + \beta_1 Study\ Hours_i + \delta Sleep\ Hours_i + u_i"/>
       </Row>
       <br/>
       <OmittedVariableBias/>

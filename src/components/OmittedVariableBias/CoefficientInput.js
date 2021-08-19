@@ -1,11 +1,12 @@
 import { Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { InlineMath } from 'react-katex';
 
 export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
   return (
     <div>
       <InputGroup>
-        <InputGroup.Text>β₁, the Coefficient on Study Hours:</InputGroup.Text>
+        <InputGroup.Text><InlineMath math="\beta_1"/>, the Coefficient on Study Hours:</InputGroup.Text>
         <Form.Control
           type="number"
           step={0.1}
@@ -17,7 +18,7 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
       </InputGroup>
       <br/>
       <InputGroup>
-        <InputGroup.Text>𝛿, the Coefficient on Sleep Hours:</InputGroup.Text>
+        <InputGroup.Text><InlineMath math="\delta_1"/>, the Coefficient on Sleep Hours:</InputGroup.Text>
         <Form.Control
           type="number"
           step={0.1}

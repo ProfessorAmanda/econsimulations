@@ -2,13 +2,14 @@ import SelectorButtonGroup from '../SelectorButtonGroup';
 import { Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { distributionType } from '../../lib/types.js';
+import { InlineMath } from 'react-katex';
 
 export default function TestInputs({ setDistType, distType, testType, setTestType, popShape, setPopType }) {
   return (
     <div style={{ padding: 20 }}>
       <Row style={{ padding: 10 }}>
         <div>
-          Do you want to assume that you know σ? If yes, choose Z. If no, choose T: {' '}
+          Do you want to assume that you know <InlineMath math="\sigma"/>? If yes, choose Z. If no, choose T: {' '}
           <SelectorButtonGroup options={['Z', 'T']} select={setDistType} selected={distType}/>
         </div>
       </Row>
