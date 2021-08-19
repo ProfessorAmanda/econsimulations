@@ -35,6 +35,7 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
         yLabel="Observations of Sample Mean"
       />
       <Form.Check
+        checked={normalized}
         inline
         className="form-switch"
         label="Convert to Standard Normal"

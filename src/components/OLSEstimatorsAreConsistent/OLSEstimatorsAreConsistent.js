@@ -44,9 +44,15 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const sample = _.sampleSize(population, size);
       const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
       const randomIndices = _.sampleSize(_.range(0, sampleJobCorps.length), _.round(sampleJobCorps.length * 0.2));
+      // const alteredJobCorps = sampleJobCorps.map(
+      //   (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y)})
+      // );
       const alteredJobCorps = sampleJobCorps.map(
-        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y)})
+        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y), originalY: (randomIndices.includes(idx) ? obj.y : undefined) })
       );
+      // const alteredJobCorps = sampleJobCorps.map(
+      //   (obj, idx) => ({ ...obj, alteredY: (randomIndices.includes(idx) ? obj.y * 2 : undefined)})
+      // );
       const remainingSample = sample.filter(({ id }) => !alteredJobCorps.some((obj) => obj.id === id));
       return [...remainingSample, ...alteredJobCorps];
 
@@ -54,9 +60,15 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');
+      // const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
+      //   (obj) => ({ ...obj, y: obj.y + randomNormal({mean: 16, dev: 5}), protocolBreaker: true })
+      // );
       const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
-        (obj) => ({ ...obj, y: obj.y + randomNormal({mean: 16, dev: 5}), protocolBreaker: true })
+        (obj) => ({ ...obj, y: obj.y + randomNormal({mean: 16, dev: 5}), originalY: obj.y })
       );
+      // const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
+      //   (obj) => ({ ...obj, alteredY: obj.y + randomNormal({mean: 16, dev: 5}) })
+      // );
       const remainingSample = sample.filter(({ id }) => !protocolBreakers.some((obj) => obj.id === id));
       return [...remainingSample, ...protocolBreakers];
     }
@@ -95,9 +107,10 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       <Container>
         <Row>
           <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
-            <PopulationPlot data={data} selected={selected}/>
+            <PopulationPlot data={data} selected={selected} assumption={assumption}/>
           </Col>
         </Row>
+        <br/>
         <Row md={1} lg={2}>
           <Col>
             <SampleInput
