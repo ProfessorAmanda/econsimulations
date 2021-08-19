@@ -56,7 +56,7 @@ export default function StandardNormalOLS({ seriesName, data }) {
         },
         {
           name: seriesName,
-          data,//: data.map(({x, y}) => ({ x, y: y * 0.05 })),
+          data,
           showInLegend: false,
           color: 'red',
           marker: {

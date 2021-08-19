@@ -53,6 +53,9 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       },
       tooltip: tooltipFormat
     },
+
+    // add a new series for each 'grayed-out' line
+    // couldn't figure out how to add multiple lines to one series, so this makes it slower with more replications
     ...samples.filter((sample) => sample !== selected).map(({ data, slope, intercept, id }) => ({
       name: `Sample ${id}`,
       type: 'line',

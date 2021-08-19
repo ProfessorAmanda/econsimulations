@@ -5,7 +5,6 @@ import { distributionType, hypothesisTestingSampleArrayType, testTypeType } from
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { dataFromDistribution } from '../../lib/stats-utils';
-import { sqrt } from 'mathjs';
 require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 export default function StdNormalCurve({ means, sampleSize, distType, testType }) {
@@ -36,14 +35,16 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
       startOnTick: true,
       endOnTick: true
     },
-    yAxis: {
-      labels: {
-        enabled: false
-      },
+    yAxis: [{  // Primary yAxis
+      tickInterval: 1,
       startOnTick: true,
       endOnTick: true,
-      title: false
-    },
+      title: {
+        text: 'Observations of Test Statistic'
+      }
+    }, {  // Secondary yAxis for bell curve
+      visible: false
+    }],
     tooltip: {
       pointFormat: `test statistic: <b>{point.testStatistic}</b><br/>${(testType === 'oneSample') ? 'sample mean' : 'difference of means'}: <b>{point.mean}</b><br/>reject H_0: <b>{point.reject}</b></br>`
     }
@@ -57,7 +58,7 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
       meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
         x: testStatistic,
-        y: meanCounts[mean] * ((distType === 'T') ? 1 : 0.005 * sqrt(sampleSize)),  // scale the y-value so the plot looks good
+        y: meanCounts[mean],
         testStatistic,
         mean,
         reject,
@@ -79,7 +80,8 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
           enableMouseTracking: false,
           label: false,
           showInLegend: false,
-          visible: !(distType === 'T')
+          visible: !(distType === 'T'),
+          yAxis: 1
         },
         {
           name: 'Data',

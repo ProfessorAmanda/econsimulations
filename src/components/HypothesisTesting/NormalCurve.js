@@ -38,14 +38,16 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
       startOnTick: true,
       endOnTick: true
     },
-    yAxis: {
-      labels: {
-        enabled: false
-      },
+    yAxis: [{  // Primary yAxis
+      tickInterval: 1,
       startOnTick: true,
       endOnTick: true,
-      title: false
-    },
+      title: {
+        text: 'Observations of Sample Mean'
+      }
+    }, {  // Secondary yAxis for bell curve
+      visible: false
+    }],
     tooltip: {
       pointFormat: `${(testType === 'oneSample') ? 'sample mean' : 'difference of means'}: <b>{point.mean}</b><br/>test statistic: <b>{point.testStatistic}</b><br/>reject H_0: <b>{point.reject}</b></br>`
     }
@@ -67,7 +69,7 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
       meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
         x: mean,
-        y: meanCounts[mean] * ((distType === 'T') ? 1 : 0.005 * sqrt(sampleSize)),  // scale the y-value so the plot looks good
+        y: meanCounts[mean],
         testStatistic,
         mean,
         reject,
@@ -89,7 +91,8 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
           enableMouseTracking: false,
           label: false,
           showInLegend: false,
-          visible: !(distType === 'T')
+          visible: !(distType === 'T'),
+          yAxis: 1
         },
         {
           name: 'Data',
