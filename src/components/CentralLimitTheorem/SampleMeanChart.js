@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DotPlot from '../DotPlot.js';
 import { VALUES } from '../../lib/constants.js';
 import { max, min, sqrt } from 'mathjs';
-import { popShapeType } from '../../lib/types.js';
+import { popShapeType, sampleMeanArrayType } from '../../lib/types.js';
 import _ from 'lodash';
 import { Form } from 'react-bootstrap';
 import { getCounts } from '../../lib/stats-utils.js';
@@ -44,7 +44,7 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
 }
 
 SampleMeanChart.propTypes = {
-  sampleMeans: PropTypes.arrayOf(PropTypes.number).isRequired,
+  sampleMeans: sampleMeanArrayType.isRequired,
   popMean: PropTypes.number,
   sd: PropTypes.number,
   popShape: popShapeType.isRequired

@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 export default function SelectableDataTable({ data, setSelected, selected, headers }) {
+  const clickRow = (row) => {
+    if (setSelected) {
+      setSelected(row)
+    }
+  }
+
   const dataTable = data.map((object) => (
     <tr
       style={{ backgroundColor: (selected && (object.id === selected.id)) ? '#747EF2' : undefined, cursor: 'pointer' }}
       key={object.id}
-      onClick={() => setSelected(object)}
+      onClick={() => clickRow(object)}
     >
-      {_.values(headers).map((name) => <td key={name}>{object[name]}</td>)}
+      {_.values(headers).map((name) => <td key={name}>{_.round(object[name], 2)}</td>)}
     </tr>
   ));
 
@@ -17,7 +23,7 @@ export default function SelectableDataTable({ data, setSelected, selected, heade
 
   return (
     <div className="ols-table-container">
-      <Table hover striped className="ci-table">
+      <Table hover={!!setSelected} striped className="ci-table">
         <thead>
           <tr>
             {_.keys(headers).map((name) => <th key={name}>{name}</th>)}
@@ -33,7 +39,7 @@ export default function SelectableDataTable({ data, setSelected, selected, heade
 
 SelectableDataTable.propTypes = {
   data: PropTypes.array.isRequired,
-  setSelected: PropTypes.func.isRequired,
+  setSelected: PropTypes.func,
   selected: PropTypes.shape({id: PropTypes.number.isRequired}),
   headers: PropTypes.object.isRequired
 }

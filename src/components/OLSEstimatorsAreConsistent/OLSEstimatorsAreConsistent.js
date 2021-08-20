@@ -49,6 +49,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
         {
           ...obj,
           y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y),
+          // store the original y-value and mark that the sample was modified
           originalY: obj.y,
           altered: randomIndices.includes(idx)
         }
@@ -64,6 +65,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
         {
           ...obj,
           y: obj.y + randomNormal({mean: 16, dev: 5}),
+          // store the original y-value and mark that the sample was modified
           originalY: obj.y,
           altered: true
         }
@@ -85,6 +87,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       ({ x, y, originalY, altered }) => [x, (altered ? originalY : y)]
     ), 1);
 
+    // store the slope/intercept from both the altered and non-altered samples
     const sampleObject = {
       data: sample,
       size: sample.length,

@@ -6,10 +6,10 @@ import SampleMeansSimulator from './SampleMeansSimulator.js'
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 import { populationMean, dataFromDistribution, populationStandardDev } from '../../lib/stats-utils.js';
 import SampleSizeInput from '../SampleSizeInput.js';
-import SampleMeansTable from './SampleMeansTable.js';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { popShapeType } from '../../lib/types.js';
+import SelectableDataTable from '../SelectableDataTable.js';
 
 export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
@@ -64,7 +64,14 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
                 />
               </Col>
               <Col lg="4">
-                <SampleMeansTable sampleMeans={sampleMeans}/>
+                <SelectableDataTable
+                  data={sampleMeans}
+                  headers={{
+                    'Sample': 'id',
+                    'Size': 'size',
+                    'Mean': 'mean'
+                  }}
+                />
               </Col>
             </Row>
             <Row>
