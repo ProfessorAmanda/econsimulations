@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
 import { OLSE_VALUES } from '../../lib/constants.js';
-import SelectableDataTable from '../SelectableDataTable.js';
+import DataTable from '../DataTable.js';
 
 export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample, populationShape }) {
   const sample = selected || { data: [] };
@@ -106,16 +106,16 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
             <p>Try drawing some samples and observe the line of best fit on the graph</p>
             <SampleSizeInput maxSize={data.length} minSize={2} handleClick={addSamples} classname="sample-size-input"/>
           </Alert>
-          <SelectableDataTable
+          <DataTable
             data={samples}
-            setSelected={selectSample}
-            selected={selected}
             headers={{
               'Sample': 'id',
               'Size': 'size',
               'Slope': 'slope',
               'Intercept': 'intercept'
             }}
+            setSelected={selectSample}
+            setRowColor={(object) => (selected && (object.id === selected.id)) ? '#747EF2' : undefined}
           />
         </Col>
         <Col>

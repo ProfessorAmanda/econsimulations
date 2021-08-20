@@ -48,7 +48,7 @@ export default function PopulationPlot({ data, selected, assumption, showViolati
         height="75%"
         xCategories={['Control Group', 'Job Corps']}
       />
-      {(selected && selected.data) && (
+      {((assumption !== 'OLS Assumptions Hold') && selected && selected.data) && (
         <Alert variant="danger">
           <p>{OLS_ASSUMPTIONS_TEXTS[assumption]}</p>
           {((assumption === 'Large Outliers') || (assumption === 'E(u|x) != 0')) && (

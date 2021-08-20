@@ -9,7 +9,7 @@ import SampleSizeInput from '../SampleSizeInput.js';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { popShapeType } from '../../lib/types.js';
-import SelectableDataTable from '../SelectableDataTable.js';
+import DataTable from '../DataTable.js';
 
 export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
@@ -64,7 +64,7 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
                 />
               </Col>
               <Col lg="4">
-                <SelectableDataTable
+                <DataTable
                   data={sampleMeans}
                   headers={{
                     'Sample': 'id',
