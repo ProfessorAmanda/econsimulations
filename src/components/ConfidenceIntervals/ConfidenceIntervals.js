@@ -4,7 +4,6 @@ import ConfidenceInputs from './ConfidenceInputs.js';
 import SampleSizeInput from '../SampleSizeInput.js';
 import ConfidenceIntervalsChart from './ConfidenceIntervalsChart.js';
 import ManySamplesInput from './ManySamplesInput.js';
-import SamplesTable from './SamplesTable.js';
 import { dataFromDistribution, populationMean, populationStandardDev } from '../../lib/stats-utils.js';
 import { Row, Col, Alert } from 'react-bootstrap';
 import PopulationChart from './PopulationChart.js';
@@ -13,6 +12,7 @@ import { jStat } from 'jstat';
 import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import { popShapeType } from '../../lib/types.js';
+import DataTable from '../DataTable.js';
 
 export default function ConfidenceIntervals({ popShape, populationSize }) {
   const [distType, setDistType] = useState('Z'); // can be "Z" or "T"
@@ -125,7 +125,21 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
             />
           </Col>
           <Col lg={12} xl={7}>
-            <SamplesTable samples={samples} setSelected={selectPoint}/>
+            <DataTable
+              data={samples}
+              headers={{
+                'Sample': 'id',
+                'Size': 'size',
+                'Mean': 'mean',
+                'Lower Bound for CI': 'lowerConf',
+                'Upper Bound for CI': 'upperConf',
+                'Confidence Level': 'confidenceLevel',
+                'Distribution': 'distribution'
+              }}
+              height={400}
+              setSelected={selectPoint}
+              setRowColor={(object) => object.label ? 'rgba(23, 161, 80, 0.233)' : 'rgba(161, 23, 23, 0.233)'}
+            />
           </Col>
         </Row>
         <br/>

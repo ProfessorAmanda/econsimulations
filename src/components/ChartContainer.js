@@ -1,10 +1,10 @@
 import DotPlot from './DotPlot';
 import { Alert, Container, Col, Row } from 'react-bootstrap';
-import PopTable from './PopTable.js'
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType, popShapeType } from '../lib/types';
 import { TEXTS, VALUES } from '../lib/constants';
+import DataTable from './DataTable';
 
 export default function ChartContainer({ popArray, popMean, sampled, sampleMean, popShape }) {
   const { xmaxval, xminval, ymaxval, title, xLabel } = VALUES[popShape];
@@ -50,10 +50,14 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
         </Row>
         <Row>
           <Col lg={2} md={12}>
-            <PopTable
-              popArray={popArray}
-              sampleIDs={sampled.map((obj) => obj.id)}
-              popShape={popShape}
+            <DataTable
+              data={popArray}
+              headers={{
+                [VALUES[popShape].tableCol]: 'id',
+                [VALUES[popShape].xLabel]: 'x'
+              }}
+              height={350}
+              setRowColor={(object) => sampled.map((obj) => obj.id).includes(object.id) ? '#747EF2' : undefined}
             />
           </Col>
           <Col lg={10}>
