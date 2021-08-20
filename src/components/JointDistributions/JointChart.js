@@ -1,8 +1,3 @@
-/*
-
-  Displays a Nivo scatterplot for the joint distribution data
-
-*/
 import { ResponsiveScatterPlot } from '@nivo/scatterplot';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js';

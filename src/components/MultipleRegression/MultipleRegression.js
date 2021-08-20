@@ -16,12 +16,12 @@ export default function MultipleRegression() {
     }
     const getData = async () => {
       const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/${dataSetPaths[dataSet]}`);
-      setData(csvData);
+      setData(csvData.map((object) => _.values(object).map((val) => +val)));
     }
     getData();
   }, [dataSet])
 
-  const [z, x, y] = _.unzip(data.map((object) => _.values(object).map((val) => +val)));
+  const [z, x, y] = _.unzip(data);
 
   return (
     <>

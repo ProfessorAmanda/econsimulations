@@ -1,8 +1,3 @@
-/*
-
-  Displays sliders for the user to adjust the mean and standard deviation
-
-*/
 import { Form, InputGroup, } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { stringOrNumberType } from '../../lib/types.js';

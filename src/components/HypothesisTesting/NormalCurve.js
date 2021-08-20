@@ -9,11 +9,13 @@ import { sqrt } from 'mathjs';
 require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, distType, testType }) {
+  // use a placeholder population to draw the bell curve in the plot
   const [population, setPopulation] = useState(
     dataFromDistribution(
       'Normal', 2000, { mean: (testType === 'oneSample') ? mu0 : 0, standardDev: popStandardDev / sqrt(sampleSize) }
     )
   );
+
   const [chart, setChart] = useState({
     chart: {
       zoomType: 'xy'
@@ -36,14 +38,15 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
       startOnTick: true,
       endOnTick: true
     },
-    yAxis: {
-      labels: {
-        enabled: false
-      },
-      startOnTick: true,
-      endOnTick: true,
-      title: false
-    },
+    yAxis: [{  // Primary yAxis
+      allowDecimals: false,
+      min: 0,
+      title: {
+        text: 'Observations of Sample Mean'
+      }
+    }, {  // Secondary yAxis for bell curve
+      visible: false
+    }],
     tooltip: {
       pointFormat: `${(testType === 'oneSample') ? 'sample mean' : 'difference of means'}: <b>{point.mean}</b><br/>test statistic: <b>{point.testStatistic}</b><br/>reject H_0: <b>{point.reject}</b></br>`
     }
@@ -65,7 +68,7 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
       meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
         x: mean,
-        y: meanCounts[mean] * ((distType === 'T') ? 1 : 0.005 * sqrt(sampleSize)),
+        y: meanCounts[mean],
         testStatistic,
         mean,
         reject,
@@ -87,7 +90,8 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
           enableMouseTracking: false,
           label: false,
           showInLegend: false,
-          visible: !(distType === 'T')
+          visible: !(distType === 'T'),
+          yAxis: 1
         },
         {
           name: 'Data',

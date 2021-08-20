@@ -1,8 +1,3 @@
-/*
-  Allows the user to select simulation variations
-
-  Used by Law of Large Numbers and Central Limit Theorem
-*/
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import SelectorButtonGroup from './SelectorButtonGroup';

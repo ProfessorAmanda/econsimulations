@@ -2,10 +2,10 @@ import { Fragment, useState } from 'react';
 import Plot from 'react-plotly.js';
 import _ from 'lodash';
 import { column, inv, matrix, max, min, multiply, transpose } from 'mathjs';
-import regression from 'regression';
 import PropTypes from 'prop-types';
 import { MULTIPLE_REGRESSION_VALUES } from '../../lib/constants';
 import { Col, Form, Row, Button } from 'react-bootstrap';
+import { linearRegression } from '../../lib/stats-utils';
 
 export default function Scatter3D({ x, y, z, dataSet }) {
   const [display, setDisplay] = useState('3D');
@@ -13,6 +13,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
 
   const values = MULTIPLE_REGRESSION_VALUES[dataSet][display];
 
+  // list of objects for the data to be displayed in the plot
   const plotData = [
     {
       x: (display === 'YZ') ? y : x,
@@ -35,6 +36,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
   let title = '';
 
   if (display === '3D' && showBestFit) {
+    // matrix math to generate a best-fit plane
     const A = matrix(_.zip(_.range(0, x.length).map(() => 1), x, y));
 
     const theta = multiply(inv(multiply(transpose(A), A)), multiply(transpose(A), matrix(z)));
@@ -85,7 +87,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
       'XZ': _.zip(x, z)
     }
 
-    const { equation: [slope, intercept] } = regression.linear(displayPointsMap[display]);
+    const { slope, intercept } = linearRegression(displayPointsMap[display]);
     const [lineX, lineY] = _.unzip(displayPointsMap[display].map((point) => ([point[0], (point[0] * slope) + intercept ])));
     title = `${values.yAbbr}ᵢ = ${intercept} + ${slope} * ${values.xAbbr}ᵢ + uᵢ`;
 

@@ -3,12 +3,11 @@ import Collapsable from '../Collapsable.js';
 import _ from 'lodash';
 import { Container, Row, Col } from 'react-bootstrap';
 import PopulationAndSampleCharts from './PopulationAndSampleCharts.js';
-import regression from 'regression';
 import SlopeDistributionPlot from './SlopeDistributionPlot.js';
 import InterceptDistributionPlot from './InterceptDistributionPlot.js';
 import MultipleSamplesInput from './MultipleSamplesInput.js';
 import PropTypes from 'prop-types';
-import { generateBinary, generateScatter } from '../../lib/stats-utils.js';
+import { generateBinary, generateScatter, linearRegression } from '../../lib/stats-utils.js';
 
 export default function SampleDistributionOLSEstimators({ populationShape }) {
   const [data, setData] = useState([]);
@@ -29,16 +28,19 @@ export default function SampleDistributionOLSEstimators({ populationShape }) {
     const newSamples = [];
     for (let i = 0; i < replications; i++) {
       const sample = _.sampleSize(data, size);
+
+      // ensure that the sample data is spread between both x-categories
       if ((populationShape === 'Binary') && (_.uniq(sample.map(({ x }) => x)).length === 1)) {
         i -= 1;
         continue;
       }
-      const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
+
+      const { slope, intercept } = linearRegression(sample, 1);
       const sampleObject = {
         data: sample,
         size,
-        slope: equation[0],
-        intercept: equation[1],
+        slope,
+        intercept,
       }
       newSamples.push(sampleObject);
     }

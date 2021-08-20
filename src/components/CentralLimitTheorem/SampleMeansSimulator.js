@@ -1,8 +1,3 @@
-/*
-
-  Displays inputs to allow the user to run a large number of resamples
-
-*/
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import _ from 'lodash';

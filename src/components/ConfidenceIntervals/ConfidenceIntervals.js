@@ -56,6 +56,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
         const standardDev = populationStandardDev((distType === 'Z') ? popArray : sample);
         const ciFunction = (distType === 'Z') ? jStat.normalci : jStat.tci;
         const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
+
         const sampleObject = {
           data: sample,
           size: +size,
@@ -66,8 +67,10 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
           distribution: distType,
           label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2)),
         }
+
         sampleObjects.push(sampleObject);
       }
+
       const newSamples = [...samples, ...sampleObjects];
       const indexedSamples = newSamples.map((sample, index) => ({ ...sample, id: index + 1 }))
       setSamples(indexedSamples);

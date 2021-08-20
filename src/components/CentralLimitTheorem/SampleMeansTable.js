@@ -1,8 +1,3 @@
-/*
-
-  Displays a table of sample means
-
-*/
 import { Table } from 'react-bootstrap';
 import { sampleMeanArrayType } from '../../lib/types.js';
 import _ from 'lodash';
@@ -14,8 +9,7 @@ export default function SampleMeansTable({ sampleMeans }) {
       <td>{size}</td>
       <td>{_.round(mean, 2)}</td>
     </tr>
-  )
-  );
+  ));
 
   return (
     <Table hover className="pop-table">
