@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { InlineMath } from 'react-katex';
 import { hypothesisEqualityType, testTypeType } from '../../lib/types';
 
 export default function Conclusion({ firstMean, secondMean, equality, reject, testType }) {
@@ -17,9 +18,13 @@ export default function Conclusion({ firstMean, secondMean, equality, reject, te
   }
 
   return (
-    <p>
-      {(testType === 'oneSample') ? `The true mean is ${relation} μ_0.` : `The second population mean is ${relation} the first population mean.`} Therefore we should {(result) ? 'reject' : 'fail to reject'} the null hypothesis. Our conclusion above was {(result === reject) ? 'correct' : 'incorrect'}.
-    </p>
+    (testType === 'oneSample') ? (
+      <p>The true mean is {relation} <InlineMath math="\mu_0"/>. Therefore we should {(result) ? 'reject' : 'fail to reject'} the null hypothesis. Our conclusion above was {(result === reject) ? 'correct' : 'incorrect'}</p>
+    ) : (
+      <p>
+        The second population mean is ${relation} the first population mean. Therefore we should {(result) ? 'reject' : 'fail to reject'} the null hypothesis. Our conclusion above was {(result === reject) ? 'correct' : 'incorrect'}.
+      </p>
+    )
   )
 }
 

@@ -20,7 +20,9 @@ export default function PopulationRow({ data, sample, id }) {
 
   const sampleMean = populationMean(sample);
   const sampleSD = populationStandardDev(sample);
-  const yMax = (sample.length > 0) ? max(getCounts(sample.map(({ x }) => x)).map(({ y }) => y)) + 1 : 0
+
+  // determine max height for the sample mean line
+  const yMax = (sample.length > 0) && max(getCounts(sample.map(({ x }) => x)).map(({ y }) => y)) + 1;
 
   const sampleSeries = [
     {
@@ -41,7 +43,9 @@ export default function PopulationRow({ data, sample, id }) {
       enableMouseTracking: false,
       label: {
         format: `<div>Sample Mean: ${sampleMean && sampleMean.toFixed(2)}<br/>Sample SD: ${sampleMean && sampleSD.toFixed(2)}</div>`
-      }
+      },
+      visible: (sample.length > 0),
+      showInLegend: (sample.length > 0)
     }
   ];
 

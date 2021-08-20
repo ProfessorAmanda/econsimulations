@@ -28,7 +28,7 @@ export default function MultipleSamplesInput({ populationSize, addSamples, minSi
         <span>Number of Replications:</span>
         <Form.Control
           style={{ width: '50%', margin: 'auto' }}
-          min={minSize}
+          min={1}
           type="number"
           placeholder="Replications:"
           onChange={(event) => setNumberResamples(event.target.value)}

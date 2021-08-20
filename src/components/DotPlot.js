@@ -1,72 +1,24 @@
-import { useState, useEffect } from 'react';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types';
 import { highchartsSeriesType } from '../lib/types';
-import '../styles/dark-unica.css';
-require('highcharts/modules/series-label')(Highcharts);
+import ScatterPlot from './ScatterPlot';
 
 export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel, animation, zoom }) {
-  const [chart, setChart] = useState({});
-
-  useEffect(() => {
-    const newChart = {
-      chart: {
-        type: 'scatter',
-        animation: !!animation,
-        zoomType: zoom && 'xy'
-      },
-      plotOptions: {
-        series: {
-          animation: {
-            duration: 100,
-            easing: 'easeOutBounce'
-          },
-        }
-      },
-      legend: {
-        symbolHeight: 12,
-        symbolWidth: 12,
-        symbolRadius: 6
-      },
-      xAxis: {
-        min: xMin,
-        max: xMax,
-        title: {
-          enabled: true,
-          text: xLabel
-        },
-        startOnTick: true,
-        endOnTick: true
-      },
-      title: {
-        text: title
-      },
-      yAxis: {
-        min: 0,
-        max: yMax,
-        startOnTick: true,
-        endOnTick: true,
-        title: {
-          text: yLabel || 'Count'
-        }
-      },
-      series: series.map((seriesObject) => (
-        {
-          showInLegend: seriesObject.data.length > 0,
-          turboThreshold: 0,
-          tooltip: {
-            pointFormat: `${xLabel}: <b>{point.x}</b><br />`
-          },
-          ...seriesObject,
-          data: seriesObject.data.map(({ x, y }) => ({ x, y }))  // don't want any other attributes
-        })
-      )
-    }
-    setChart(newChart);
-  }, [series, title, xMin, xMax, yMax, xLabel, yLabel, animation, zoom]);
-
-  return <HighchartsReact highcharts={Highcharts} options={chart}/>
+  return (
+    <ScatterPlot
+      series={series}
+      title={title}
+      xMin={xMin}
+      xMax={xMax}
+      yMin={0}
+      yMax={yMax}
+      xLabel={xLabel}
+      yLabel={yLabel || 'Count'}
+      animation={animation}
+      zoom={zoom}
+      allowDecimalsY={false}
+      tooltipFormat={`${xLabel}: <b>{point.x}</b><br />`}
+    />
+  )
 }
 
 DotPlot.propTypes = {

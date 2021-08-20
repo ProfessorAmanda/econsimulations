@@ -6,9 +6,10 @@ updates:
     schedule:
       interval: "weekly"
     ignore:
+      # updates to nivo broke the chart synchronization in Joint Distributions
       - dependency-name: "@nivo/core"
       - dependency-name: "@nivo/scatterplot"
-      
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

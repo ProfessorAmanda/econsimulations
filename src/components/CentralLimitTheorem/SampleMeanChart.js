@@ -6,20 +6,18 @@ import { max, min, sqrt } from 'mathjs';
 import { popShapeType } from '../../lib/types.js';
 import _ from 'lodash';
 import { Form } from 'react-bootstrap';
+import { getCounts } from '../../lib/stats-utils.js';
 
 export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) {
   const [normalized, setNormalized] = useState(false);
 
-  const newSampleMeans = normalized ? sampleMeans.map(({ size, mean }) => ((mean - popMean) / (sd / sqrt(size)))) : sampleMeans.map(({ mean }) => mean);
+  const newSampleMeans = normalized
+    ? sampleMeans.map(({ size, mean }) => _.round((mean - popMean) / (sd / sqrt(size)), 2))
+    : sampleMeans.map(({ mean }) => _.round(mean, 2));
 
-  const meanCounts = _.countBy(newSampleMeans.map((mean) => _.round(mean, 2)));
-  const sampleMeansPoints = [];
-  _.entries(meanCounts).forEach(([amt, count]) => {
-    for (let i = 1; i <= count; i++) {
-      sampleMeansPoints.push({ x: +amt, y: i })
-    }
-  });
+  const sampleMeansPoints = getCounts(newSampleMeans);
 
+  // these lists are used to determine axis sizing as more samples are added to the plot
   const onlyValues = sampleMeansPoints.map((obj) => obj.x);
   const onlyCounts = sampleMeansPoints.map((obj) => obj.y);
 

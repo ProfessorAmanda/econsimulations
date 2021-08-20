@@ -63,22 +63,22 @@ export const HYPOTHESIS_OPTIONS = {
     {
       type: '>',
       hypoText: 'Option 1: These cows produce more than ',
-      nullH: 'H_0: μ ≤  ',
-      alterH: 'H_a: μ >  ',
+      nullH: <InlineMath math="H_0: \mu \leq "/>,
+      alterH: <InlineMath math="H_a: \mu \gt "/>,
       sides: 1
     },
     {
       type: '<',
       hypoText: 'Option 2: These cows produce less than ',
-      nullH: 'H_0: μ ≥  ',
-      alterH: 'H_a: μ <  ',
+      nullH: <InlineMath math="H_0: \mu \geq "/>,
+      alterH: <InlineMath math="H_a: \mu \lt "/>,
       sides: 1
     },
     {
       type: '!=',
       hypoText: 'Option 3: These cows produce an amount not equal to ',
-      nullH: 'H_0: μ =  ',
-      alterH: 'H_a: μ ≠  ',
+      nullH: <InlineMath math="H_0: \mu = "/>,
+      alterH: <InlineMath math="H_a: \mu \neq "/>,
       sides: 2
     }
   ],
@@ -86,22 +86,22 @@ export const HYPOTHESIS_OPTIONS = {
     {
       type: '<',
       hypoText: 'Option 1: These cows produce more than they did before.',
-      nullH: 'H_0: μ_1 - μ_2 ≥ 0',
-      alterH: 'H_a: μ_1 - μ_2 < 0',
+      nullH: <InlineMath math="H_0: \mu_1 - \mu_2 \geq 0"/>,
+      alterH: <InlineMath math="H_a: \mu_1 - \mu_2 \lt 0"/>,
       sides: 1
     },
     {
       type: '>',
       hypoText: 'Option 2: These cows produce less than they did before',
-      nullH: 'H_0: μ_1 - μ_2 ≤ 0',
-      alterH: 'H_a: μ_1 - μ_2 > 0',
+      nullH: <InlineMath math="H_0: \mu_1 - \mu_2 \leq 0"/>,
+      alterH: <InlineMath math="H_a: \mu_1 - \mu_2 \gt 0"/>,
       sides: 1
     },
     {
       type: '!=',
       hypoText: 'Option 3: These cows produce a different amount now compared to before.',
-      nullH: 'H_0: μ_1 - μ_2 = 0',
-      alterH: 'H_a: μ_1 - μ_2 ≠ 0',
+      nullH: <InlineMath math="H_0: \mu_1 - \mu_2 = 0"/>,
+      alterH: <InlineMath math="H_a: \mu_1 - \mu_2 \neq 0"/>,
       sides: 2
     }
   ]

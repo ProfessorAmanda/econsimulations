@@ -53,6 +53,9 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       },
       tooltip: tooltipFormat
     },
+
+    // add a new series for each 'grayed-out' line
+    // couldn't figure out how to add multiple lines to one series, so this makes it slower with more replications
     ...samples.filter((sample) => sample !== selected).map(({ data, slope, intercept, id }) => ({
       name: `Sample ${id}`,
       type: 'line',
@@ -90,7 +93,6 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
             yMax={OLSE_VALUES[populationShape].yMax}
             xLabel={OLSE_VALUES[populationShape].xLabel}
             yLabel={OLSE_VALUES[populationShape].yLabel}
-            zoom
             height="75%"
             xCategories={OLSE_VALUES[populationShape].xCategories}
             yTickInterval={OLSE_VALUES[populationShape].yTickInterval}

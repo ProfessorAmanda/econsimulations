@@ -1,8 +1,3 @@
-/*
-
-  Uses the Collapse element to create a variable-size div for its contents
-
-*/
 import Collapse from 'react-collapse';
 import { presets } from 'react-motion';
 import '../styles/MarzEg.css';

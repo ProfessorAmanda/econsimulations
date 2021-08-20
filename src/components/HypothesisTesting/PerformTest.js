@@ -23,6 +23,9 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   const [sampleSize, setSampleSize] = useState(0);
   const [alpha, setAlpha] = useState(0);
   const [stage, setStage] = useState(0);
+
+  // in the two-sample case, 'popArr' becomes the '2nd' population, and we use 'originalPop' as the first population
+  // see the ResultsDisplay component for an example of this
   const [originalPop, setOriginalPop] = useState([]);
   const [originalPopSample, setOriginalPopSample] = useState([]);
   const [originalPopSampleSize, setOriginalPopSampleSize] = useState(0);
@@ -71,11 +74,12 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
   const sampleSD = populationStandardDev(sample);
   const populationSD = populationStandardDev(popArr);
 
-  // for two-sample
+  // for the two-sample case
   const originalSampleMean = populationMean(originalPopSample);
   const originalSampleSD = populationStandardDev(originalPopSample);
   const originalPopSD = populationStandardDev(originalPop);
 
+  // use the population or sample sd based on the distribution type (Z or T)
   const oneSampleSD = (distType === 'Z') ? populationSD : sampleSD;
   const twoSampleSD1 = (distType === 'Z') ? originalPopSD : originalSampleSD;
   const twoSampleSD2 = (distType === 'Z') ? originalPopSD : sampleSD;
@@ -125,8 +129,9 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
         <Container>
           <ResultsDisplay
             testType={testType}
+            // note how we use the 'original' mean in the two-sample case but the 'regular' mean in the one-sample case
             mean={(testType === 'twoSample') ? originalSampleMean : sampleMean}
-            mean2={sampleMean}
+            mean2={sampleMean}  // mean2 has no effect in the one-sample case
             standardDev={(testType === 'twoSample') ? originalSampleSD : sampleSD}
             standardDev2={sampleSD}
             testStatistic={testStatistic}

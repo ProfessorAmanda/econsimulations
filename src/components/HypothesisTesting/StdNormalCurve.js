@@ -5,13 +5,14 @@ import { distributionType, hypothesisTestingSampleArrayType, testTypeType } from
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { dataFromDistribution } from '../../lib/stats-utils';
-import { sqrt } from 'mathjs';
 require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 export default function StdNormalCurve({ means, sampleSize, distType, testType }) {
+  // use a placeholder population to draw the bell curve in the plot
   const [population] = useState(
     dataFromDistribution('Normal', 2000, { mean: 0, standardDev: 1 })
   );
+
   const [chart, setChart] = useState({
     chart: {
       zoomType: 'xy'
@@ -34,14 +35,15 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
       startOnTick: true,
       endOnTick: true
     },
-    yAxis: {
-      labels: {
-        enabled: false
-      },
-      startOnTick: true,
-      endOnTick: true,
-      title: false
-    },
+    yAxis: [{  // Primary yAxis
+      allowDecimals: false,
+      min: 0,
+      title: {
+        text: 'Observations of Test Statistic'
+      }
+    }, {  // Secondary yAxis for bell curve
+      visible: false
+    }],
     tooltip: {
       pointFormat: `test statistic: <b>{point.testStatistic}</b><br/>${(testType === 'oneSample') ? 'sample mean' : 'difference of means'}: <b>{point.mean}</b><br/>reject H_0: <b>{point.reject}</b></br>`
     }
@@ -55,7 +57,7 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
       meanCounts[mean] = _.defaultTo(meanCounts[mean] + 1, 1);
       const meanObject = {
         x: testStatistic,
-        y: meanCounts[mean] * ((distType === 'T') ? 1 : 0.005 * sqrt(sampleSize)),
+        y: meanCounts[mean],
         testStatistic,
         mean,
         reject,
@@ -77,7 +79,8 @@ export default function StdNormalCurve({ means, sampleSize, distType, testType }
           enableMouseTracking: false,
           label: false,
           showInLegend: false,
-          visible: !(distType === 'T')
+          visible: !(distType === 'T'),
+          yAxis: 1
         },
         {
           name: 'Data',

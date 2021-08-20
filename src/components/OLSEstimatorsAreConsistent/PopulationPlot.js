@@ -51,7 +51,6 @@ export default function PopulationPlot({ data, selected, assumption }) {
         xMin={0}
         xMax={1}
         yLabel="Weekly Earnings"
-        zoom
         height="75%"
         xCategories={['Control Group', 'Job Corps']}
       />

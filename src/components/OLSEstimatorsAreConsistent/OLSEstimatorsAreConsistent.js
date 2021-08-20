@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import _ from 'lodash';
 import { Col, Container, Row } from 'react-bootstrap';
-import regression from 'regression';
-import { generateBinary } from '../../lib/stats-utils.js';
+import { generateBinary, linearRegression } from '../../lib/stats-utils.js';
 import PopulationPlot from './PopulationPlot.js';
 import SampleInput from './SampleInput.js';
 import SamplePlot from './SamplePlot.js';
@@ -24,23 +23,25 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     setSelected();
   }, [assumption]);
 
+  // takes a sample of 'size' from 'population' - the sample is altered based on 'assumption'
   const samplingFunction = (population, size) => {
     if (assumption === 'OLS Assumptions Hold') {
-
+      // take a normal sample
       return _.sampleSize(population, size);
 
     } else if (assumption === 'Non-Random Sample') {
-
+      // only sample from observations below the median value
       const medianValue = median(population.map(({ y }) => y));
       const belowMedian = population.filter(({ y }) => y < medianValue);
       const aboveMedian = population.filter(({ y }) => y >= medianValue);
 
       const belowMedianSample = _.sampleSize(belowMedian, size);
+      // if the sample size is too big, sample the rest normally
       const aboveMedianSample = _.sampleSize(aboveMedian, size - belowMedian.length);
       return [...belowMedianSample, ...aboveMedianSample];
 
     } else if (assumption === 'Large Outliers') {
-
+      // take a normal sample, then multiply the income by 2 of 20% of the sampled jobCorps observations
       const sample = _.sampleSize(population, size);
       const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
       const randomIndices = _.sampleSize(_.range(0, sampleJobCorps.length), _.round(sampleJobCorps.length * 0.2));
@@ -56,7 +57,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       return [...remainingSample, ...alteredJobCorps];
 
     } else if (assumption.props && assumption.props.math === 'E(u|x)\\neq 0') {
-
+      // take a normal sample, then increase 20% of the sampled control observations by ~16
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');
       const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map((obj) => (
@@ -76,19 +77,21 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     let sample;
     do {
       sample = samplingFunction(data, size);
+      // ensures that the sample has points in both of the x-categories
     } while (_.uniq(sample.map(({ category }) => category)).length === 1);
 
-    const { equation: violation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
-    const { equation: original } = regression.linear(
-      sample.map(({ x, y, originalY, altered }) => [x, (altered ? originalY : y)]), { precision: 1 }
-    );
+    const { slope: violationSlope, intercept: violationIntercept } = linearRegression(sample, 1);
+    const { slope: originalSlope, intercept: originalIntercept } = linearRegression(sample.map(
+      ({ x, y, originalY, altered }) => [x, (altered ? originalY : y)]
+    ), 1);
+
     const sampleObject = {
       data: sample,
       size: sample.length,
-      slope: violation[0],
-      intercept: violation[1],
-      originalSlope: original[0],
-      originalIntercept: original[1]
+      slope: violationSlope,
+      intercept: violationIntercept,
+      originalSlope,
+      originalIntercept
     }
     const newSamples = [...samples, sampleObject].map((obj, index) => ({ ...obj, id: index }));
     setSelected(newSamples[newSamples.length - 1]);
@@ -96,13 +99,13 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   }
 
   const getBestFitSlope = (sample) => {
-    const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
-    return equation[0];
+    const { slope } = linearRegression(sample, 1);
+    return slope;
   }
 
   const getBestFitIntercept = (sample) => {
-    const { equation } = regression.linear(sample.map(({ x, y }) => [x, y]), { precision: 1 });
-    return equation[1];
+    const { intercept } = linearRegression(sample, 1);
+    return intercept;
   }
 
   return (

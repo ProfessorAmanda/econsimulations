@@ -62,8 +62,11 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
     for (let i = 0; i < replications; i++) {
       const sample = _.sampleSize(population, size);
       const sampleMean = populationMean(sample);
+
+      // these are only used in the two-sample case
       const sample2 = (testType === 'twoSample') ? _.sampleSize(population2, size) : [];
       const sampleMean2 = populationMean(sample2);
+
       const testStatistic = (testType === 'oneSample')
         ? calculateOneSampleTestStatistic(
           distType,
@@ -85,9 +88,10 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
 
       const sampleObject = {
         testStatistic: _.round(testStatistic, 2),
-        mean: testType === 'oneSample' ? _.round(sampleMean, 2) : _.round(sampleMean - sampleMean2, 2),
+        mean: (testType === 'oneSample') ? _.round(sampleMean, 2) : _.round(sampleMean - sampleMean2, 2),
         reject: !(((equality === '<') && (testStatistic > 0)) || ((equality === '>') && (testStatistic < 0))) && pValue <= alpha
       };
+
       means.push(sampleObject);
     }
     const newSampleMeans = clear ? means : [...sampleMeans, ...means];
