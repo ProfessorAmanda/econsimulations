@@ -47,9 +47,9 @@ export default function DataTable({ data, headers, height, setSelected, setRowCo
 }
 
 DataTable.propTypes = {
-  data: PropTypes.arrayOf([PropTypes.shape({id: PropTypes.number.isRequired})]).isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({id: PropTypes.number.isRequired})).isRequired,
   headers: PropTypes.object.isRequired,
   height: PropTypes.number,
   setSelected: PropTypes.func,
-  setRowColor: PropTypes.func
+  setRowColor: PropTypes.func  // takes the current object as a parameter and returns a color or undefined
 }
