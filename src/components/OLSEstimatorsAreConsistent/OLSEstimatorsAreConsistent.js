@@ -8,19 +8,21 @@ import SampleInput from './SampleInput.js';
 import SamplePlot from './SamplePlot.js';
 import SimulateSamples from '../SimulateSamples.js';
 import { InlineMath } from 'react-katex';
-import PropTypes from 'prop-types';
-import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
 import randomNormal from 'random-normal';
 import { median } from 'mathjs';
+import { olsAssumptionType } from '../../lib/types.js';
+import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
 
 export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
+  const [showViolation, setShowViolation] = useState(true);
 
   useEffect(() => {
     setSamples([]);
     setSelected();
+    setShowViolation(true);
   }, [assumption]);
 
   // takes a sample of 'size' from 'population' - the sample is altered based on 'assumption'
@@ -57,7 +59,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const remainingSample = sample.filter(({ id }) => !alteredJobCorps.some((obj) => obj.id === id));
       return [...remainingSample, ...alteredJobCorps];
 
-    } else if (assumption.props && assumption.props.math === 'E(u|x)\\neq 0') {
+    } else if (assumption === 'E(u|x) != 0') {
       // take a normal sample, then increase 20% of the sampled control observations by ~16
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');
@@ -116,7 +118,13 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       <Container>
         <Row>
           <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
-            <PopulationPlot data={data} selected={selected} assumption={assumption}/>
+            <PopulationPlot
+              data={data}
+              selected={selected}
+              assumption={assumption}
+              showViolation={showViolation}
+              setShowViolation={setShowViolation}
+            />
           </Col>
         </Row>
         <br/>
@@ -131,13 +139,21 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
             />
           </Col>
           <Col>
-            <SamplePlot sample={selected} assumption={assumption}/>
+            <SamplePlot sample={selected} showViolation={showViolation}/>
           </Col>
         </Row>
         <br/>
         <Row>
           <SimulateSamples
-            mathTitle={<p>Population vs Sample Slope ({assumption})<br /><InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/></p>}
+            mathTitle={
+              <p>
+                Population vs Sample Slope
+                <br/>
+                {OLS_ASSUMPTIONS_OPTIONS[assumption]} Violation
+                <br/>
+                <InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/>
+              </p>
+            }
             popArray={data}
             popValSeriesName={`Population Slope (${getBestFitSlope(data)})`}
             sampleSeriesName="Estimated Slope"
@@ -149,7 +165,15 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
         <br/>
         <Row>
           <SimulateSamples
-            mathTitle={<p>Population vs Sample Intercept ({assumption})<br /><InlineMath math="\hat{\beta_0}\ vs\ \beta_0"/></p>}
+            mathTitle={
+              <p>
+                Population vs Sample Intercept
+                <br/>
+                {OLS_ASSUMPTIONS_OPTIONS[assumption]} Violation
+                <br/>
+                <InlineMath math="\hat{\beta_0}\ vs\ \beta_0"/>
+              </p>
+            }
             popArray={data}
             popValSeriesName={`Population Intercept (${getBestFitIntercept(data)})`}
             sampleSeriesName="Estimated Intercept"
@@ -164,5 +188,5 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 }
 
 OLSEstimatorsAreConsistent.propTypes = {
-  assumption: PropTypes.oneOf(OLS_ASSUMPTIONS_OPTIONS).isRequired
+  assumption: olsAssumptionType.isRequired
 }

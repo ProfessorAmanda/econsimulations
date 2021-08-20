@@ -1,16 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
-import { dataObjectArrayType, olsSampleType } from '../../lib/types';
+import { dataObjectArrayType, olsAssumptionType, olsSampleType } from '../../lib/types';
 import ScatterPlot from '../ScatterPlot';
 import PropTypes from 'prop-types';
-import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants';
+import { Alert, Form } from 'react-bootstrap';
+import { OLS_ASSUMPTIONS_TEXTS } from '../../lib/constants';
 
-export default function PopulationPlot({ data, selected, assumption }) {
-  const [showViolation, setShowViolation] = useState(false);
-
-  useEffect(() => {
-    setShowViolation(false);
-  }, [assumption]);
+export default function PopulationPlot({ data, selected, assumption, showViolation, setShowViolation }) {
 
   const tooltipFormat = {
     headerFormat: '',
@@ -31,7 +25,7 @@ export default function PopulationPlot({ data, selected, assumption }) {
       tooltip: tooltipFormat
     },
     {
-      name: `${showViolation ? 'after' : 'before'} violation`,
+      name: `${showViolation ? '' : 'without '}violation`,
       data: sampleData.filter((obj) => obj.altered).map((obj) => ({...obj, y: showViolation ? obj.y : obj.originalY})),
       tooltip: tooltipFormat,
       color: showViolation ? 'red' : '#00ff15',
@@ -54,14 +48,19 @@ export default function PopulationPlot({ data, selected, assumption }) {
         height="75%"
         xCategories={['Control Group', 'Job Corps']}
       />
-      {((assumption === 'Large Outliers') || (assumption.props && assumption.props.math === 'E(u|x)\\neq 0')) && (
-        <Form.Check
-          checked={showViolation}
-          inline
-          className="form-switch"
-          label="Show Violation"
-          onChange={() => setShowViolation(!showViolation)}
-        />
+      {(selected && selected.data) && (
+        <Alert variant="danger">
+          <p>{OLS_ASSUMPTIONS_TEXTS[assumption]}</p>
+          {((assumption === 'Large Outliers') || (assumption === 'E(u|x) != 0')) && (
+            <Form.Check
+              checked={showViolation}
+              inline
+              className="form-switch"
+              label="Toggle Violation"
+              onChange={() => setShowViolation(!showViolation)}
+            />
+            )}
+        </Alert>
       )}
     </>
   )
@@ -70,5 +69,7 @@ export default function PopulationPlot({ data, selected, assumption }) {
 PopulationPlot.propTypes = {
   data: dataObjectArrayType.isRequired,
   selected: olsSampleType,
-  assumption: PropTypes.oneOf(OLS_ASSUMPTIONS_OPTIONS).isRequired
+  assumption: olsAssumptionType.isRequired,
+  showViolation: PropTypes.bool.isRequired,
+  setShowViolation: PropTypes.func.isRequired
 }

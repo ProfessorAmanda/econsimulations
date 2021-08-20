@@ -1,17 +1,8 @@
 import { BlockMath } from 'react-katex';
 import ScatterPlot from '../ScatterPlot';
 import { olsSampleType } from '../../lib/types';
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants';
-import { Form } from 'react-bootstrap';
-
-export default function SamplePlot({ sample, assumption }) {
-  const [showViolation, setShowViolation] = useState(false);
-
-  useEffect(() => {
-    setShowViolation(false);
-  }, [assumption]);
+export default function SamplePlot({ sample, showViolation }) {
 
   const sampleData = sample ? sample.data : [];
 
@@ -51,7 +42,7 @@ export default function SamplePlot({ sample, assumption }) {
       }
     },
     {
-      name: `${showViolation ? 'after' : 'before'} violation`,
+      name: `${showViolation ? '' : 'without '}violation`,
       data: sampleData.filter((obj) => obj.altered).map((obj) => ({...obj, y: showViolation ? obj.y : obj.originalY})),
       tooltip: {
         headerFormat: '',
@@ -82,20 +73,11 @@ export default function SamplePlot({ sample, assumption }) {
         yLabel="Weekly Earnings"
         xCategories={['Control Group', 'Job Corps']}
       />
-      {((assumption === 'Large Outliers') || (assumption.props && assumption.props.math === 'E(u|x)\\neq 0')) && (
-        <Form.Check
-          checked={showViolation}
-          inline
-          className="form-switch"
-          label="Show Violation"
-          onChange={() => setShowViolation(!showViolation)}
-        />
-      )}
     </>
   )
 }
 
 SamplePlot.propTypes = {
   sample: olsSampleType,
-  assumption: PropTypes.oneOf(OLS_ASSUMPTIONS_OPTIONS).isRequired
+  showViolation: PropTypes.bool.isRequired
 }

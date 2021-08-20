@@ -107,18 +107,18 @@ export const HYPOTHESIS_OPTIONS = {
   ]
 }
 
-export const OLS_ASSUMPTIONS_OPTIONS = [
-  'OLS Assumptions Hold',
-  'Non-Random Sample',
-  'Large Outliers',
-  <InlineMath key="E(u|x)\neq 0" math="E(u|x)\neq 0"/>
-];
+export const OLS_ASSUMPTIONS_OPTIONS = {
+  'OLS Assumptions Hold': 'OLS Assumptions Hold',
+  'Non-Random Sample': 'Non-Random Sample',
+  'Large Outliers': 'Large Outliers',
+  'E(u|x) != 0': <InlineMath key="E(u|x)\neq 0" math="E(u|x)\neq 0"/>
+};
 
 export const OLS_ASSUMPTIONS_TEXTS = {
   'OLS Assumptions Hold': '',
-  'Non-Random Sample': '',
-  'Large Outliers': '',
-  'E(u|x)=0': ''
+  'Non-Random Sample': 'Due to non-random sampling, as much of each sample as possible includes only data points with a weekly income below the median weekly income of the population.',
+  'Large Outliers': 'Due to a series of typos, a portion of the Job Corps data in each sample has been recorded as having a weekly income much higher than the actual value. Toggle the switch below to view the data before and after this violation.',
+  'E(u|x) != 0': 'Several members of the Control group data in each sample have incorrectly taken part in the Job Corps training, resulting in an increase in their weekly incomes. Toggle the switch below to view the data before and after this violation.'
 }
 
 export const MODULES = [
