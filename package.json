@@ -32,7 +32,7 @@
     "highcharts-react-official": "^3.0.0",
     "jstat": "^1.9.5",
     "lodash": "^4.17.21",
-    "mathjs": "^9.4.3",
+    "mathjs": "^9.4.4",
     "multivariate-normal": "^0.1.2",
     "papaparse": "^5.3.1",
     "plotly.js": "^2.3.1",
