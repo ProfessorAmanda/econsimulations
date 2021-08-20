@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DotPlot from '../DotPlot.js';
 import { VALUES } from '../../lib/constants.js';
 import { max, min, sqrt } from 'mathjs';
-import { popShapeType } from '../../lib/types.js';
+import { popShapeType, sampleMeanArrayType } from '../../lib/types.js';
 import _ from 'lodash';
 import { Form } from 'react-bootstrap';
 import { getCounts } from '../../lib/stats-utils.js';
@@ -33,17 +33,18 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
         yLabel="Observations of Sample Mean"
       />
       <Form.Check
+        checked={normalized}
         inline
         className="form-switch"
         label="Convert to Standard Normal"
-        onClick={() => setNormalized(!normalized)}
+        onChange={() => setNormalized(!normalized)}
       />
     </div>
   )
 }
 
 SampleMeanChart.propTypes = {
-  sampleMeans: PropTypes.arrayOf(PropTypes.number).isRequired,
+  sampleMeans: sampleMeanArrayType.isRequired,
   popMean: PropTypes.number,
   sd: PropTypes.number,
   popShape: popShapeType.isRequired

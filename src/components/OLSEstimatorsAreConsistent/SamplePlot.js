@@ -1,17 +1,27 @@
 import { BlockMath } from 'react-katex';
 import ScatterPlot from '../ScatterPlot';
-import _ from 'lodash';
 import { olsSampleType } from '../../lib/types';
+import PropTypes from 'prop-types';
+export default function SamplePlot({ sample, showViolation }) {
 
-export default function SamplePlot({ sample }) {
+  const sampleData = sample ? sample.data : [];
+
+  const lineData = sample ? [
+    {
+      x: 0,
+      y: showViolation ? sample.intercept : sample.originalIntercept
+    },
+    {
+      x: 1,
+      y: (showViolation ? sample.slope : sample.originalSlope) + (showViolation ? sample.intercept : sample.originalIntercept)
+    }
+  ] : [];
 
   const sampleSeries = [
     {
       name: 'best fit line',
       type: 'line',
-      data: sample ? [{ x: 0 }, { x: 1 }, ...sample.data].map((point) => (
-        { x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2) }
-      )) : [],
+      data: lineData,
       label: false,
       marker: false,
       showInLegend: false,
@@ -20,7 +30,7 @@ export default function SamplePlot({ sample }) {
     },
     {
       name: 'sample',
-      data: sample ? sample.data.filter((obj) => !obj.protocolBreaker) : [],
+      data: sampleData.filter((obj) => !obj.altered),
       color: 'orange',
       marker: {
         lineWidth: 1,
@@ -32,8 +42,8 @@ export default function SamplePlot({ sample }) {
       }
     },
     {
-      name: 'protocol breakers',
-      data: sample ? sample.data.filter((obj) => obj.protocolBreaker) : [],
+      name: `${showViolation ? '' : 'without '}violation`,
+      data: sampleData.filter((obj) => obj.altered).map((obj) => ({...obj, y: showViolation ? obj.y : obj.originalY})),
       tooltip: {
         headerFormat: '',
         pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'
@@ -41,9 +51,9 @@ export default function SamplePlot({ sample }) {
       marker: {
         symbol: 'diamond',
         lineWidth: 1,
-        lineColor: 'red'
+        lineColor: showViolation ? 'red' : '#00ff15'
       },
-      color: 'red'
+      color: showViolation ? 'red' : '#00ff15'
     },
   ];
 
@@ -53,7 +63,7 @@ export default function SamplePlot({ sample }) {
       <div style={{ marginLeft: '20%' }}>
         <BlockMath math={'\\widehat{Earnings}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1{Job\\ Corps}_i'}/>
         {sample && (
-          <BlockMath math={`\\widehat{Earnings}_i = ${sample.intercept} + ${sample.slope}{Job\\ Corps}_i`}/>
+          <BlockMath math={`\\widehat{Earnings}_i = ${(showViolation ? sample.intercept : sample.originalIntercept)} + ${(showViolation ? sample.slope : sample.originalSlope)}{Job\\ Corps}_i`}/>
         )}
       </div>
       <ScatterPlot
@@ -69,4 +79,5 @@ export default function SamplePlot({ sample }) {
 
 SamplePlot.propTypes = {
   sample: olsSampleType,
+  showViolation: PropTypes.bool.isRequired
 }

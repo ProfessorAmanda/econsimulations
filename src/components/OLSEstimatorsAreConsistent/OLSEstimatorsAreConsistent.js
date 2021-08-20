@@ -8,19 +8,21 @@ import SampleInput from './SampleInput.js';
 import SamplePlot from './SamplePlot.js';
 import SimulateSamples from '../SimulateSamples.js';
 import { InlineMath } from 'react-katex';
-import PropTypes from 'prop-types';
-import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
 import randomNormal from 'random-normal';
 import { median } from 'mathjs';
+import { olsAssumptionType } from '../../lib/types.js';
+import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
 
 export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
+  const [showViolation, setShowViolation] = useState(true);
 
   useEffect(() => {
     setSamples([]);
     setSelected();
+    setShowViolation(true);
   }, [assumption]);
 
   // takes a sample of 'size' from 'population' - the sample is altered based on 'assumption'
@@ -45,19 +47,31 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const sample = _.sampleSize(population, size);
       const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
       const randomIndices = _.sampleSize(_.range(0, sampleJobCorps.length), _.round(sampleJobCorps.length * 0.2));
-      const alteredJobCorps = sampleJobCorps.map(
-        (obj, idx) => ({ ...obj, y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y)})
-      );
+      const alteredJobCorps = sampleJobCorps.map((obj, idx) => (
+        {
+          ...obj,
+          y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y),
+          // store the original y-value and mark that the sample was modified
+          originalY: obj.y,
+          altered: randomIndices.includes(idx)
+        }
+      ));
       const remainingSample = sample.filter(({ id }) => !alteredJobCorps.some((obj) => obj.id === id));
       return [...remainingSample, ...alteredJobCorps];
 
-    } else if (assumption.props && assumption.props.math === 'E(u|x)\\neq 0') {
+    } else if (assumption === 'E(u|x) != 0') {
       // take a normal sample, then increase 20% of the sampled control observations by ~16
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');
-      const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
-        (obj) => ({ ...obj, y: obj.y + randomNormal({mean: 16, dev: 5}), protocolBreaker: true })
-      );
+      const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map((obj) => (
+        {
+          ...obj,
+          y: obj.y + randomNormal({mean: 16, dev: 5}),
+          // store the original y-value and mark that the sample was modified
+          originalY: obj.y,
+          altered: true
+        }
+      ));
       const remainingSample = sample.filter(({ id }) => !protocolBreakers.some((obj) => obj.id === id));
       return [...remainingSample, ...protocolBreakers];
     }
@@ -70,12 +84,19 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       // ensures that the sample has points in both of the x-categories
     } while (_.uniq(sample.map(({ category }) => category)).length === 1);
 
-    const { slope, intercept } = linearRegression(sample, 1);
+    const { slope: violationSlope, intercept: violationIntercept } = linearRegression(sample, 1);
+    const { slope: originalSlope, intercept: originalIntercept } = linearRegression(sample.map(
+      ({ x, y, originalY, altered }) => [x, (altered ? originalY : y)]
+    ), 1);
+
+    // store the slope/intercept from both the altered and non-altered samples
     const sampleObject = {
       data: sample,
       size: sample.length,
-      slope,
-      intercept,
+      slope: violationSlope,
+      intercept: violationIntercept,
+      originalSlope,
+      originalIntercept
     }
     const newSamples = [...samples, sampleObject].map((obj, index) => ({ ...obj, id: index }));
     setSelected(newSamples[newSamples.length - 1]);
@@ -97,9 +118,16 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       <Container>
         <Row>
           <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
-            <PopulationPlot data={data} selected={selected}/>
+            <PopulationPlot
+              data={data}
+              selected={selected}
+              assumption={assumption}
+              showViolation={showViolation}
+              setShowViolation={setShowViolation}
+            />
           </Col>
         </Row>
+        <br/>
         <Row md={1} lg={2}>
           <Col>
             <SampleInput
@@ -111,12 +139,21 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
             />
           </Col>
           <Col>
-            <SamplePlot sample={selected}/>
+            <SamplePlot sample={selected} showViolation={showViolation}/>
           </Col>
         </Row>
+        <br/>
         <Row>
           <SimulateSamples
-            mathTitle={<p>Population vs Sample Slope ({assumption})<br /><InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/></p>}
+            mathTitle={
+              <p>
+                Population vs Sample Slope
+                <br/>
+                {OLS_ASSUMPTIONS_OPTIONS[assumption]} Violation
+                <br/>
+                <InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/>
+              </p>
+            }
             popArray={data}
             popValSeriesName={`Population Slope (${getBestFitSlope(data)})`}
             sampleSeriesName="Estimated Slope"
@@ -128,7 +165,15 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
         <br/>
         <Row>
           <SimulateSamples
-            mathTitle={<p>Population vs Sample Intercept ({assumption})<br /><InlineMath math="\hat{\beta_0}\ vs\ \beta_0"/></p>}
+            mathTitle={
+              <p>
+                Population vs Sample Intercept
+                <br/>
+                {OLS_ASSUMPTIONS_OPTIONS[assumption]} Violation
+                <br/>
+                <InlineMath math="\hat{\beta_0}\ vs\ \beta_0"/>
+              </p>
+            }
             popArray={data}
             popValSeriesName={`Population Intercept (${getBestFitIntercept(data)})`}
             sampleSeriesName="Estimated Intercept"
@@ -143,5 +188,5 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 }
 
 OLSEstimatorsAreConsistent.propTypes = {
-  assumption: PropTypes.oneOf(OLS_ASSUMPTIONS_OPTIONS).isRequired
+  assumption: olsAssumptionType.isRequired
 }

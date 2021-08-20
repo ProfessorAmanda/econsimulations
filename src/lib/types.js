@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import PropTypes from 'prop-types';
+import { OLS_ASSUMPTIONS_OPTIONS } from './constants';
 
 export const popShapeType = PropTypes.oneOf([
   'Normal',
@@ -82,3 +84,5 @@ export const anovaPopulationObjectType = PropTypes.shape({
   data: dataObjectArrayType.isRequired,
   sample: dataObjectArrayType
 });
+
+export const olsAssumptionType = PropTypes.oneOf(_.keys(OLS_ASSUMPTIONS_OPTIONS))
