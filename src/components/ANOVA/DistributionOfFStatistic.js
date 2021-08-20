@@ -17,6 +17,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
   const runSimulation = () => {
     const fStats = [];
     for (let i = 0; i < numSamples; i++) {
+      // calculate F-statistic and p-value
       const sampleObjects = populations.map(({ data, sampleSize }) => _.sampleSize(data, sampleSize));
       const samples = sampleObjects.map((sample) => sample.map(({ x }) => x));
       const overallSampleMean = (_.flatten(samples).length > 0) ? mean(_.flatten(samples)) : undefined;
@@ -26,11 +27,13 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       const MSE = SSE / (sum(samples.map((sample) => sample.length)) - populations.length);
       const F = MSTR / MSE;
       const pValue = jStat.anovaftest(...samples);
+      // round slightly differently below 1 so there are no f-stats = 0
       fStats.push({ F: (F < 1) ? +F.toPrecision(2) : _.round(F, 2), pValue, reject: pValue < +alpha });
     }
     const fCounts = {};
     const newRejects = [];
     const newAccepts = [];
+    // separate F-stats into two arrays for rejecting/failing to reject
     fStats.forEach(({ F, pValue, reject }) => {
       fCounts[F] = _.defaultTo(fCounts[F] + 1, 1);
       const fObject = {
@@ -77,6 +80,8 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
     tooltip: {
       pointFormat: 'F-Statistic: <b>{point.F}</b><br/>p-value: <b>{point.pValue}</b><br/>reject H_0: <b>{point.reject}</b></br>'
     },
+    // fail to reject and reject are in two different series so they can be colored differently
+    // I can't figure out how to color points within one series differently so this is the best option
     series: [
       {
         name: 'Fail to Reject H_0',

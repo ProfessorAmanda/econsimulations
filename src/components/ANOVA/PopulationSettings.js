@@ -9,17 +9,17 @@ import PopulationSampleSizeInput from './PopulationSampleSizeInput';
 import { anovaPopulationObjectType } from '../../lib/types.js';
 import { randomInt } from 'mathjs';
 
-export default function PopulationSettings({ populations, setPopulations, setShowFTest }) {
+export default function PopulationSettings({ populations, setPopulations }) {
   const [stdDev, setStdDev] = useState(3);
 
-  const changeSTD = (val) => {
-    setStdDev(val);
-    setShowFTest(false);
+  const resetPopulations = () => {
+    const newPops = populations.map((pop) => ({ ...pop, data: [], sample: [] }));
+    setPopulations(newPops);
   }
 
   const setNumPops = (numPops) => {
-    setShowFTest(false);
     if (numPops <= populations.length) {
+      // keep only a slice of the population array but reset the data and the sample
       const newPops = populations.slice(0, numPops).map((pop) => (
         {
           ...pop,
@@ -30,6 +30,7 @@ export default function PopulationSettings({ populations, setPopulations, setSho
       setPopulations(newPops);
     } else {
       const newPops = [
+        // add new populations with randomized mean and sample size of 30 and reset all data and samples
         ...populations.map((pop) => ({...pop, data: [], sample: []})),
         ..._.range(populations.length, numPops).map((i) => (
           {
@@ -48,14 +49,16 @@ export default function PopulationSettings({ populations, setPopulations, setSho
   const setPopulationAttr = (id, attr, value) => {
     const newPopulations = populations.map((pop) => {
       if (pop.id === id) {
-        return {...pop, [attr]: value}
+        return {
+          ...pop,
+          [attr]: value,
+          data: (attr === 'mean') ? [] : pop.data,
+          sample: (attr === 'mean') ? [] : pop.sample
+        }
       } else {
         return pop
       }
     });
-    if (attr === 'mean') {
-      setShowFTest(false);
-    }
     setPopulations(newPopulations);
   }
 
@@ -64,7 +67,6 @@ export default function PopulationSettings({ populations, setPopulations, setSho
       const data = getCounts(generateNormal(500, pop.mean, stdDev, 1));
       return { ...pop, data, sample: [] }
     }));
-    setShowFTest(true);
   }
 
   const generateSamples = () => {
@@ -72,6 +74,11 @@ export default function PopulationSettings({ populations, setPopulations, setSho
       const sample = _.sampleSize(pop.data, pop.sampleSize);
       return { ...pop, sample }
     }));
+  }
+
+  const changeSTD = (val) => {
+    setStdDev(val);
+    resetPopulations();
   }
 
   return (
@@ -111,6 +118,5 @@ export default function PopulationSettings({ populations, setPopulations, setSho
 
 PopulationSettings.propTypes = {
   populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired,
-  setPopulations: PropTypes.func.isRequired,
-  setShowFTest: PropTypes.func.isRequired
+  setPopulations: PropTypes.func.isRequired
 }

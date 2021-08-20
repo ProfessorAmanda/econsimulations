@@ -23,23 +23,25 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     setSelected();
   }, [assumption]);
 
+  // takes a sample of 'size' from 'population' - the sample is altered based on 'assumption'
   const samplingFunction = (population, size) => {
     if (assumption === 'OLS Assumptions Hold') {
-
+      // take a normal sample
       return _.sampleSize(population, size);
 
     } else if (assumption === 'Non-Random Sample') {
-
+      // only sample from observations below the median value
       const medianValue = median(population.map(({ y }) => y));
       const belowMedian = population.filter(({ y }) => y < medianValue);
       const aboveMedian = population.filter(({ y }) => y >= medianValue);
 
       const belowMedianSample = _.sampleSize(belowMedian, size);
+      // if the sample size is too big, sample the rest normally
       const aboveMedianSample = _.sampleSize(aboveMedian, size - belowMedian.length);
       return [...belowMedianSample, ...aboveMedianSample];
 
     } else if (assumption === 'Large Outliers') {
-
+      // take a normal sample, then multiply the income by 2 of 20% of the sampled jobCorps observations
       const sample = _.sampleSize(population, size);
       const sampleJobCorps = sample.filter(({ category }) => category === 'Job Corps');
       const randomIndices = _.sampleSize(_.range(0, sampleJobCorps.length), _.round(sampleJobCorps.length * 0.2));
@@ -50,7 +52,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       return [...remainingSample, ...alteredJobCorps];
 
     } else if (assumption.props && assumption.props.math === 'E(u|x)\\neq 0') {
-
+      // take a normal sample, then increase 20% of the sampled control observations by ~16
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');
       const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map(
@@ -65,6 +67,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     let sample;
     do {
       sample = samplingFunction(data, size);
+      // ensures that the sample has points in both of the x-categories
     } while (_.uniq(sample.map(({ category }) => category)).length === 1);
 
     const { slope, intercept } = linearRegression(sample, 1);
