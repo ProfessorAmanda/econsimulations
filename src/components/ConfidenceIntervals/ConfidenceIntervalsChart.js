@@ -96,7 +96,9 @@ export default function ConfidenceIntervalsChart({ confidenceLevel, samples, pop
           text: 'Sample Number'
         },
         tickPixelInterval: 1,
-        tickInterval: 1
+        tickInterval: 1,
+        tickWidth: 0,
+        lineWidth: 0
       },
       yAxis: {
         min: xminval,

@@ -39,9 +39,8 @@ export default function NormalCurve({ means, mu0, popStandardDev, sampleSize, di
       endOnTick: true
     },
     yAxis: [{  // Primary yAxis
-      tickInterval: 1,
-      startOnTick: true,
-      endOnTick: true,
+      allowDecimals: false,
+      min: 0,
       title: {
         text: 'Observations of Sample Mean'
       }

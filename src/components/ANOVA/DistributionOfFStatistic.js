@@ -71,8 +71,10 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       endOnTick: true
     },
     yAxis: {
+      allowDecimals: false,
       startOnTick: true,
       endOnTick: true,
+      min: 0,
       title: {
         text: 'Observations of F-Statistic'
       }

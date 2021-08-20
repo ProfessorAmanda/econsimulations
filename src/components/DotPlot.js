@@ -15,6 +15,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
       yLabel={yLabel || 'Count'}
       animation={animation}
       zoom={zoom}
+      allowDecimalsY={false}
       tooltipFormat={`${xLabel}: <b>{point.x}</b><br />`}
     />
   )

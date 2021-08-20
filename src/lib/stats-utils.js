@@ -129,7 +129,7 @@ export const generateBinary = (size, mean1, mean2, std1, std2, precision = 2) =>
 }
 
 export const convertToStandardNormal = (array, popMean, popSD, attr) => {
-  return array.map((p) => ({...p, [attr]: (p[attr] - popMean) / popSD}));
+  return array.map((p) => ({...p, [attr]: (p[attr] - popMean) / (popSD || 1)}));
 }
 
 export const linearRegression = (data, precision = 2) => {

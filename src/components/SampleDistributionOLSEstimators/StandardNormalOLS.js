@@ -4,6 +4,7 @@ import HighchartsReact from 'highcharts-react-official'
 import { dataFromDistribution } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types';
+import { max } from 'mathjs';
 require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 export default function StandardNormalOLS({ seriesName, data }) {
@@ -29,7 +30,9 @@ export default function StandardNormalOLS({ seriesName, data }) {
       yAxis: [{  // Primary yAxis
         startOnTick: true,
         endOnTick: true,
-        tickInterval: 1,
+        min: 0,
+        max: max(4, ...data.map(({ y }) => y)),
+        allowDecimals: false,
         title: {
           text: `Observation of Sample ${seriesName.slice(0, -1)}`
         }

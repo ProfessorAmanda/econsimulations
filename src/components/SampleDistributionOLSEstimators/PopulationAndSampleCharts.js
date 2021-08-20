@@ -93,7 +93,6 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
             yMax={OLSE_VALUES[populationShape].yMax}
             xLabel={OLSE_VALUES[populationShape].xLabel}
             yLabel={OLSE_VALUES[populationShape].yLabel}
-            zoom
             height="75%"
             xCategories={OLSE_VALUES[populationShape].xCategories}
             yTickInterval={OLSE_VALUES[populationShape].yTickInterval}
