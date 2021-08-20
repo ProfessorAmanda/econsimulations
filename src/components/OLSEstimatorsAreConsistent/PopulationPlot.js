@@ -56,7 +56,7 @@ export default function PopulationPlot({ data, selected, assumption, showViolati
               checked={showViolation}
               inline
               className="form-switch"
-              label={`Toggle Violation ${showViolation ? 'OFF' : 'ON'}`}
+              label={`Turn Violation ${showViolation ? 'OFF' : 'ON'}`}
               onChange={() => setShowViolation(!showViolation)}
             />
             )}
