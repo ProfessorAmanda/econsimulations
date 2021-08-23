@@ -57,7 +57,7 @@ export default function SamplePlot({ sample, showViolation }) {
       marker: {
         symbol: 'diamond',
         lineWidth: 1,
-        lineColor: showViolation ? 'red' : '#00ff15'
+        lineColor: showViolation ? 'black' : '#00ff15'
       },
       color: showViolation ? 'red' : '#00ff15'
     },

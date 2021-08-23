@@ -38,7 +38,7 @@ export default function PopulationPlot({ data, selected, assumption, showViolati
       marker: {
         symbol: 'diamond',
         lineWidth: 1,
-        lineColor: showViolation ? 'red' : '#00ff15'
+        lineColor: showViolation ? 'black' : '#00ff15'
       },
     },
   ];
