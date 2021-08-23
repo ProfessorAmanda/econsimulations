@@ -43,7 +43,13 @@ export default function SamplePlot({ sample, showViolation }) {
     },
     {
       name: `${showViolation ? '' : 'without '}violation`,
-      data: sampleData.filter((obj) => obj.altered).map((obj) => ({...obj, y: showViolation ? obj.y : obj.originalY})),
+      data: sampleData.filter((obj) => obj.altered).map((obj) => (
+        {
+          ...obj,
+          x: showViolation ? obj.x : obj.originalX,
+          y: showViolation ? obj.y : obj.originalY
+        }
+      )),
       tooltip: {
         headerFormat: '',
         pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'

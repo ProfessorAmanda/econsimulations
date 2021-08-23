@@ -26,7 +26,13 @@ export default function PopulationPlot({ data, selected, assumption, showViolati
     },
     {
       name: `${showViolation ? '' : 'without '}violation`,
-      data: sampleData.filter((obj) => obj.altered).map((obj) => ({...obj, y: showViolation ? obj.y : obj.originalY})),
+      data: sampleData.filter((obj) => obj.altered).map((obj) => (
+        {
+          ...obj,
+          x: showViolation ? obj.x : obj.originalX,
+          y: showViolation ? obj.y : obj.originalY
+        }
+      )),
       tooltip: tooltipFormat,
       color: showViolation ? 'red' : '#00ff15',
       marker: {

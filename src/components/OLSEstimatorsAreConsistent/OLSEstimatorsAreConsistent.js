@@ -27,13 +27,13 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 
   // takes a sample of 'size' from 'population' - the sample is altered based on 'assumption'
   const samplingFunction = (population, size) => {
+    const medianValue = median(population.map(({ y }) => y));
     if (assumption === 'OLS Assumptions Hold') {
       // take a normal sample
       return _.sampleSize(population, size);
 
     } else if (assumption === 'Non-Random Sample') {
       // only sample from observations below the median value
-      const medianValue = median(population.map(({ y }) => y));
       const belowMedian = population.filter(({ y }) => y < medianValue);
       const aboveMedian = population.filter(({ y }) => y >= medianValue);
 
@@ -60,15 +60,20 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       return [...remainingSample, ...alteredJobCorps];
 
     } else if (assumption === 'E(u|x) != 0') {
-      // take a normal sample, then increase 20% of the sampled control observations by ~16
+      // take a normal sample, then increase 20% of the top sampled control observations by ~16 and move them to the Job Corps
       const sample = _.sampleSize(population, size);
       const sampleControl = sample.filter(({ category }) => category === 'Control');
-      const protocolBreakers = _.sampleSize(sampleControl, _.round(size * 0.2)).map((obj) => (
+      const sampleControlAboveMedian = sampleControl.filter(({ y }) => y >= medianValue);
+      const protocolBreakers = _.sampleSize(sampleControlAboveMedian, _.round(size * 0.2)).map((obj) => (
         {
           ...obj,
+          x: 1,
+          // store the original x-value
+          originalX: 0,
           y: obj.y + randomNormal({mean: 16, dev: 5}),
-          // store the original y-value and mark that the sample was modified
+          // store the original y-value
           originalY: obj.y,
+          // mark that the sample was modified
           altered: true
         }
       ));
