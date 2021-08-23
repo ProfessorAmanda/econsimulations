@@ -18,12 +18,20 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
   const [showViolation, setShowViolation] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     setSamples([]);
     setSelected();
     setShowViolation(true);
   }, [assumption]);
+
+  useEffect(() => {
+    if (selected && assumption === 'E(u|x) != 0') {
+      // display a message if no violation occurs
+      setShowMessage(selected.data.every((obj) => !obj.altered))
+    }
+  }, [selected, assumption]);
 
   // takes a sample of 'size' from 'population' - the sample is altered based on 'assumption'
   const samplingFunction = (population, size) => {
@@ -141,6 +149,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
               samples={samples}
               selected={selected}
               setSelected={setSelected}
+              showMessage={showMessage}
             />
           </Col>
           <Col>
