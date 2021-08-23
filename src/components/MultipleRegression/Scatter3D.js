@@ -170,6 +170,7 @@ export default function Scatter3D({ x, y, z, dataSet }) {
             modeBarButtonsToRemove: ['toImage', 'resetCameraLastSave3d', 'select2d', 'lasso2d', 'autoScale2d'],
           }}
         />
+        <p>{MULTIPLE_REGRESSION_VALUES[dataSet].citation}</p>
       </Col>
       <Col style={{margin: 'auto', paddingLeft: 50}}>
         <Form>

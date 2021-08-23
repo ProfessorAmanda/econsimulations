@@ -28,18 +28,24 @@ export const MULTIPLE_REGRESSION_VALUES = {
     'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Test Scores', yAbbr: 'TestScores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Student-Teacher Ratio</p> },
     'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PercentEngLearners', xRange: [0, 100], yLabel: 'Test Scores', yAbbr: 'TestScores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners</p> },
     '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PercentEngLearners' , yRange: [0, 100], zLabel: 'Test Scores', zAbbr: 'TestScores', zRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
+    path: 'california_schools_data.csv',
+    citation: ''
   },
   'CPS Earnings Data': {
     'XY': { xLabel: '', xAbbr: 'College', yLabel: '', yAbbr: 'Female', buttonLabel: <p>Gender (Female)<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
     'XZ': { xLabel: '', xAbbr: 'College', yLabel: 'Weekly Earnings', yAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'] },
     'YZ': { xLabel: '', xAbbr: 'Female', yLabel: 'Weekly Earnings', yAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
     '3D': { xLabel: '', xAbbr: 'College', xRange: [-0.5, 1.5], yLabel: '', yAbbr: 'Female', yRange: [-0.5, 1.5], zLabel: 'Weekly Earnings', zAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    path: 'CPS_earnings_data.csv',
+    citation: <>The data is a random sample from the CPS Outgoing Rotation group earner study in March 2019.<br/><cite>(Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles and J. Robert Warren. Integrated Public Use Microdata Series, Current Population Survey: Version 8.0 [dataset]. Minneapolis, MN: IPUMS, 2020. <a href="https://doi.org/10.18128/D030.V8.0" target="_blank" rel="noopener noreferrer">https://doi.org/10.18128/D030.V8.0</a>)</cite></>
   },
   'CPS Log Earnings Data': {
     'XY': { yLabel: 'Years of Education', yAbbr: 'Years_of_Ed', xLabel: '', xAbbr: 'Female', buttonLabel: <p>Years of Education<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
     'YZ': { xLabel: 'Years of Education', xAbbr: 'Years_of_Ed', yLabel: 'Log Weekly Earnings', yAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Years of Education</p> },
     'XZ': { xLabel: '', xAbbr: 'Female', yLabel: 'Log Weekly Earnings', yAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
     '3D': { yLabel: 'Years of Education', yAbbr: 'Years_of_Ed', xLabel: '', xAbbr: 'Female', xRange: [-0.5, 1.5], zLabel: 'Log Weekly Earnings', zAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>Years of Education</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
+    path: 'CPS_log_earnings_data.csv',
+    citation: <>The data is a random sample from the CPS Outgoing Rotation group earner study in March 2019.<br/><cite>(Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles and J. Robert Warren. Integrated Public Use Microdata Series, Current Population Survey: Version 8.0 [dataset]. Minneapolis, MN: IPUMS, 2020. <a href="https://doi.org/10.18128/D030.V8.0" target="_blank" rel="noopener noreferrer">https://doi.org/10.18128/D030.V8.0</a>)</cite></>
   }
 }
 
@@ -117,7 +123,7 @@ export const OLS_ASSUMPTIONS_OPTIONS = {
 export const OLS_ASSUMPTIONS_TEXTS = {
   'OLS Assumptions Hold': '',
   'Non-Random Sample': 'Researchers collect their sample by randomly calling people from list of people in the study population. BUT, people who are not working are much more likely to answer the phone to respond to the survey. This means that the sample is not actually random and draws people from the bottom half of the earnings distribution (those working fewer hours or without steady jobs).',
-  'Large Outliers': 'The technician hired to enter earnings from the sample respondents makes data entry errors when recording a batch of earnings data from the treatment group, accidently adding a zero to these entries (inflating the values).',
+  'Large Outliers': 'The technician hired to enter earnings from the sample respondents makes data entry errors when recording a batch of earnings data from the treatment group, accidently inflating the values.',
   'E(u|x) != 0': 'Some people who were randomized into the control group are very ambitious and well-connected and find a way to get into the Job Corps program. This is an example of “failure to follow treatment protocol.” In this scenario, the regressor (X=indicator for being in Job Corps) in no longer uncorrelated with other characteristics (eg. motivation, connections) of the individual.'
 }
 
