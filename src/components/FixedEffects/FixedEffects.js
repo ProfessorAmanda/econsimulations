@@ -75,10 +75,10 @@ export default function FixedEffects() {
             width: 800,
             height: 800,
             xaxis: {
-              range: [-10, 10]
+              range: [-12, 12]
             },
             yaxis: {
-              range: [-10, 10]
+              range: [-12, 12]
             },
             legend: {
               itemclick: false,
