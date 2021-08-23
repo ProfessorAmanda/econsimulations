@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { MODULES } from '../lib/constants.js';
 import OLSEstimatorsAreConsistentContainer from './OLSEstimatorsAreConsistent/OLSEstimatorsAreConsistentContainer.js';
 import ANOVAContainer from './ANOVA/ANOVAContainer.js';
+import FixedEffectsContainer from './FixedEffects/FixedEffectsContainer.js';
 
 
 export default function SimulationContainer({ mode, setMode }) {
@@ -30,6 +31,7 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'Multiple Regression' && <MultipleRegressionContainer/>}
       {mode === 'The OLS Estimators are Consistent' && <OLSEstimatorsAreConsistentContainer/>}
       {mode === 'ANOVA' && <ANOVAContainer/>}
+      {mode === 'Fixed Effects' && <FixedEffectsContainer/>}
     </div>
   )
 }
