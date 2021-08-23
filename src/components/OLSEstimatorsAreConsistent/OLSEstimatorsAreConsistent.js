@@ -109,12 +109,12 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   }
 
   const getBestFitSlope = (sample) => {
-    const { slope } = linearRegression(sample, 1);
+    const { slope } = linearRegression(sample, 2);
     return slope;
   }
 
   const getBestFitIntercept = (sample) => {
-    const { intercept } = linearRegression(sample, 1);
+    const { intercept } = linearRegression(sample, 2);
     return intercept;
   }
 
@@ -160,7 +160,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
               </p>
             }
             popArray={data}
-            popValSeriesName={`Population Slope (${getBestFitSlope(data)})`}
+            popValSeriesName={`Population Slope ($${getBestFitSlope(data).toFixed(2)})`}
             sampleSeriesName="Estimated Slope"
             yLabel="Slope"
             sampleFn={samplingFunction}
@@ -180,7 +180,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
               </p>
             }
             popArray={data}
-            popValSeriesName={`Population Intercept (${getBestFitIntercept(data)})`}
+            popValSeriesName={`Population Intercept ($${getBestFitIntercept(data).toFixed(2)})`}
             sampleSeriesName="Estimated Intercept"
             yLabel="Intercept"
             sampleFn={samplingFunction}

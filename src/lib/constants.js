@@ -116,9 +116,9 @@ export const OLS_ASSUMPTIONS_OPTIONS = {
 
 export const OLS_ASSUMPTIONS_TEXTS = {
   'OLS Assumptions Hold': '',
-  'Non-Random Sample': 'Due to non-random sampling, as much of each sample as possible includes only data points with a weekly income below the median weekly income of the population.',
-  'Large Outliers': 'Due to a series of typos, a portion of the Job Corps data in each sample has been recorded as having a weekly income much higher than the actual value. Toggle the switch below to view the data before and after this violation.',
-  'E(u|x) != 0': 'Several members of the Control group data in each sample have incorrectly taken part in the Job Corps training, resulting in an increase in their weekly incomes. Toggle the switch below to view the data before and after this violation.'
+  'Non-Random Sample': 'Researchers collect their sample by randomly calling people from list of people in the study population. BUT, people who are not working are much more likely to answer the phone to respond to the survey. This means that the sample is not actually random and draws people from the bottom half of the earnings distribution (those working fewer hours or without steady jobs).',
+  'Large Outliers': 'The technician hired to enter earnings from the sample respondents makes data entry errors when recording a batch of earnings data from the treatment group, accidently adding a zero to these entries (inflating the values).',
+  'E(u|x) != 0': 'Some people who were randomized into the control group are very ambitious and well-connected and find a way to get into the Job Corps program. This is an example of “failure to follow treatment protocol.” In this scenario, the regressor (X=indicator for being in Job Corps) in no longer uncorrelated with other characteristics (eg. motivation, connections) of the individual.'
 }
 
 export const MODULES = [
@@ -156,7 +156,7 @@ export const MODULES = [
   },
   {
     name: 'The OLS Estimators are Consistent',
-    description: 'In Progress'
+    description: <> If the least squares assumptions hold, the OLS estimators, <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/>, converge to the population intercept and slope when the sample is large.</>
   },
   {
     name: 'Omitted Variable Bias',
@@ -164,6 +164,6 @@ export const MODULES = [
   },
   {
     name: 'Multiple Regression',
-    description: 'In Progress'
+    description: <>OLS regression with multiple regressors (<InlineMath math="k"/>) estimates the <InlineMath math="k+1"/> dimensional plane that best fits the data.</>
   }
 ];
