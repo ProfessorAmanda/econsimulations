@@ -149,7 +149,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
               <p>
                 Population vs Sample Slope
                 <br/>
-                {OLS_ASSUMPTIONS_OPTIONS[assumption]} Violation
+                {OLS_ASSUMPTIONS_OPTIONS[assumption]}
                 <br/>
                 <InlineMath math="\hat{\beta_1}\ vs\ \beta_1"/>
               </p>
@@ -169,7 +169,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
               <p>
                 Population vs Sample Intercept
                 <br/>
-                {OLS_ASSUMPTIONS_OPTIONS[assumption]} Violation
+                {OLS_ASSUMPTIONS_OPTIONS[assumption]}
                 <br/>
                 <InlineMath math="\hat{\beta_0}\ vs\ \beta_0"/>
               </p>

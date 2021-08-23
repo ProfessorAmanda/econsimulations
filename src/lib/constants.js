@@ -139,16 +139,16 @@ export const MODULES = [
     description: 'Hypothesis testing is a procedure that allows us to form conclusions based on information derived from a sample.',
   },
   {
+    name: 'ANOVA',
+    description: 'The module presents a simple version of ANOVA (Analysis of Variance), in which we test the null hypothesis that the means of two or more populations are equal.',
+  },
+  {
     name: 'Joint Distributions',
     description: 'A joint probability distribution describes the simultaneous behavior of two random variables.',
   },
   {
     name: 'Least Squares',
     description: 'Ordinary least squares regression estimates the slope(s) and intercept of a line to best fit data for two (or more) variables by minimizing the sum of the squared distances from the data points to the line.',
-  },
-  {
-    name: 'Multiple Regression',
-    description: 'In Progress'
   },
   {
     name: 'Sample Distribution of OLS Estimators',
@@ -163,7 +163,7 @@ export const MODULES = [
     description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one of the included regressors is omitted from the regression model.',
   },
   {
-    name: 'ANOVA',
-    description: 'The module presents a simple version of ANOVA (Analysis of Variance), in which we test the null hypothesis that the means of two or more populations are equal.',
+    name: 'Multiple Regression',
+    description: 'In Progress'
   }
 ];
