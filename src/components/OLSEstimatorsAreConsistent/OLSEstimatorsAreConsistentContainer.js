@@ -28,6 +28,8 @@ export default function OLSEstimatorsAreConsistentContainer() {
               <li style={{margin: 5}}><InlineMath math="(X_i,Y_i), i=1, \dotsc , n,"/> are independent and identically distributed (i.i.d.) draws from their joint distribution; and</li>
               <li style={{margin: 5}}>Large outliers are unlikely: <InlineMath math="X_i"/> and <InlineMath math="Y_i"/> have nonzero finite fourth moments.</li>
             </ol>
+            <br/>
+            Stock, James H., and Mark W. Watson. 2019. <cite>Introduction to econometrics, 4th Edition.</cite> Boston: Pearson/Addison Wesley.
           </>
         }
       />

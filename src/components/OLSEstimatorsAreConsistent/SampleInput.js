@@ -10,7 +10,7 @@ export default function SampleInput({ maxSize, addSample, samples, selected, set
     <>
       <Alert variant="primary">
         <p>Try drawing some samples and observe the line of best fit on the graph</p>
-        <SampleSizeInput maxSize={maxSize} minSize={2} handleClick={addSample} classname="sample-size-input"/>
+        <SampleSizeInput maxSize={maxSize} minSize={2} handleClick={addSample}/>
       </Alert>
       <DataTable
         data={samples}
