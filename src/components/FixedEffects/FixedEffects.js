@@ -60,7 +60,7 @@ export default function FixedEffects() {
     <>
       <Row>
         <Col>
-          <FixedEffectsPlot data={data} effects={effects} means={means}/>
+          <FixedEffectsPlot data={data} effects={effects} means={means} olsLines={olsLines}/>
         </Col>
         <Col style={{margin: 'auto'}}>
           <EffectsToggle

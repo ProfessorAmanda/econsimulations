@@ -1,13 +1,14 @@
 import Plot from 'react-plotly.js';
 import _ from 'lodash';
-import { mean } from 'mathjs';
+import { max, mean, min } from 'mathjs';
 import { linearRegression } from '../../lib/stats-utils';
 import { fixedEffectsDataType, fixedEffectsToggleType } from '../../lib/types';
+import PropTypes from 'prop-types';
 
 const PLOT_MAX = 12;
 const PLOT_MIN = -12;
 
-export default function FixedEffectsPlot({ data, effects, means }) {
+export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
 
   const demean = (val, id, dim, index) => {
     let newVal = val;
@@ -64,9 +65,32 @@ export default function FixedEffectsPlot({ data, effects, means }) {
     });
   });
 
-  const zippedPoints = _.zip([...newData[1].x, ...newData[2].x], [...newData[1].y, ...newData[2].y]);
-  const { slope, intercept } = linearRegression(zippedPoints);
-  const [lineX, lineY] = _.unzip([[PLOT_MIN], [PLOT_MAX], ...zippedPoints].map((point) => ([point[0], (point[0] * slope) + intercept ])));
+  const demeanForOLS = (val, id, dim, index, type) => {
+    let newVal = val;
+    if (type === 'With Entity Fixed Effect') {
+      newVal -= mean(data[id][dim]);
+    }
+    if (type === 'With Period Fixed Effect') {
+      newVal -= mean(data[1][dim][index], data[2][dim][index])
+    }
+    return newVal;
+  }
+
+  const bestFitLines = [];
+  olsLines.forEach((type) => {
+    const zippedPoints = _.zip(
+      [
+        ...data[1].x.map((xi, i) => demeanForOLS(xi, 1, 'x', i, type)),
+        ...data[2].x.map((xi, i) => demeanForOLS(xi, 2, 'x', i, type))
+      ],
+      [
+        ...data[1].y.map((yi, i) => demeanForOLS(yi, 1, 'y', i, type)),
+        ...data[2].y.map((yi, i) => demeanForOLS(yi, 2, 'y', i, type))
+      ]
+    );
+    const { slope, intercept } = linearRegression(zippedPoints);
+    bestFitLines.push({ slope, intercept, label: type })
+  });
 
   return (
     <Plot
@@ -130,16 +154,6 @@ export default function FixedEffectsPlot({ data, effects, means }) {
           },
           hoverinfo: 'x+y',
           showlegend: false
-        },
-        {
-          x: lineX,
-          y: lineY,
-          name: 'Best Fit Line',
-          mode: 'lines',
-          marker: { color: 'black' },
-          hovertemplate: '(%{x}, %{y})<extra></extra>',
-          visible: false,
-          showlegend: false
         }
       ]}
       layout={{
@@ -189,6 +203,20 @@ export default function FixedEffectsPlot({ data, effects, means }) {
             ax: PLOT_MIN,
             axref: 'x',
             ayref: 'y'
+          })),
+          ...bestFitLines.map(({ label, slope, intercept }) => ({
+            y: min(PLOT_MAX * slope + intercept, PLOT_MAX),
+            x: PLOT_MAX,
+            xref: 'x',
+            yref: 'y',
+            text: label,
+            showarrow: true,
+            arrowside: 'none',
+            arrowwidth: 1,
+            ay: max(PLOT_MIN * slope + intercept, PLOT_MIN),
+            ax: PLOT_MIN,
+            axref: 'x',
+            ayref: 'y'
           }))
         ]
       }}
@@ -200,5 +228,6 @@ export default function FixedEffectsPlot({ data, effects, means }) {
 FixedEffectsPlot.propTypes = {
   data: fixedEffectsDataType.isRequired,
   effects: fixedEffectsToggleType.isRequired,
-  means: fixedEffectsToggleType.isRequired
+  means: fixedEffectsToggleType.isRequired,
+  olsLines: PropTypes.arrayOf(PropTypes.string).isRequired
 }
