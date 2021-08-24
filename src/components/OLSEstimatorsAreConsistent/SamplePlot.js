@@ -43,7 +43,13 @@ export default function SamplePlot({ sample, showViolation }) {
     },
     {
       name: `${showViolation ? '' : 'without '}violation`,
-      data: sampleData.filter((obj) => obj.altered).map((obj) => ({...obj, y: showViolation ? obj.y : obj.originalY})),
+      data: sampleData.filter((obj) => obj.altered).map((obj) => (
+        {
+          ...obj,
+          x: showViolation ? obj.x : obj.originalX,
+          y: showViolation ? obj.y : obj.originalY
+        }
+      )),
       tooltip: {
         headerFormat: '',
         pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'
@@ -51,7 +57,7 @@ export default function SamplePlot({ sample, showViolation }) {
       marker: {
         symbol: 'diamond',
         lineWidth: 1,
-        lineColor: showViolation ? 'red' : '#00ff15'
+        lineColor: showViolation ? 'black' : '#00ff15'
       },
       color: showViolation ? 'red' : '#00ff15'
     },

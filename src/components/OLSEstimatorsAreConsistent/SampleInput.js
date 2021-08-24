@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import { olsSampleType } from '../../lib/types';
 import DataTable from '../DataTable';
 
-export default function SampleInput({ maxSize, addSample, samples, selected, setSelected }) {
+export default function SampleInput({ maxSize, addSample, samples, selected, setSelected, showMessage }) {
 
   return (
     <>
       <Alert variant="primary">
         <p>Try drawing some samples and observe the line of best fit on the graph</p>
-        <SampleSizeInput maxSize={maxSize} minSize={2} handleClick={addSample} classname="sample-size-input"/>
+        <SampleSizeInput maxSize={maxSize} minSize={2} handleClick={addSample}/>
+        {showMessage && <p style={{color: 'red'}}>Given this random sample, none of those failing to follow the protocol were selected.</p>}
       </Alert>
       <DataTable
         data={samples}
@@ -33,4 +34,5 @@ SampleInput.propTypes = {
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
   selected: olsSampleType,
   setSelected: PropTypes.func.isRequired,
+  showMessage: PropTypes.bool.isRequired
 }

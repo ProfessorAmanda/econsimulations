@@ -28,18 +28,24 @@ export const MULTIPLE_REGRESSION_VALUES = {
     'XZ': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Test Scores', yAbbr: 'TestScores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Student-Teacher Ratio</p> },
     'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PercentEngLearners', xRange: [0, 100], yLabel: 'Test Scores', yAbbr: 'TestScores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners</p> },
     '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PercentEngLearners' , yRange: [0, 100], zLabel: 'Test Scores', zAbbr: 'TestScores', zRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
+    path: 'california_schools_data.csv',
+    citation: <>This data is California Standardized Testing and Reporting data for 420 elementary school districts in California for 1999. This dataset is used throughout Stock and Watson, Introduction to Econometrics and was originally obtained from the California Department of Education (<a href="https://www.cde.ca.gov/" target="_blank" rel="noopener noreferrer">www.cde.ca.gov</a>).</>
   },
   'CPS Earnings Data': {
     'XY': { xLabel: '', xAbbr: 'College', yLabel: '', yAbbr: 'Female', buttonLabel: <p>Gender (Female)<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
     'XZ': { xLabel: '', xAbbr: 'College', yLabel: 'Weekly Earnings', yAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'] },
     'YZ': { xLabel: '', xAbbr: 'Female', yLabel: 'Weekly Earnings', yAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
     '3D': { xLabel: '', xAbbr: 'College', xRange: [-0.5, 1.5], yLabel: '', yAbbr: 'Female', yRange: [-0.5, 1.5], zLabel: 'Weekly Earnings', zAbbr: 'Earnings', buttonLabel: <p>Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
+    path: 'CPS_earnings_data.csv',
+    citation: <>The data is a random sample from the CPS Outgoing Rotation group earner study in March 2019.<br/><cite>(Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles and J. Robert Warren. Integrated Public Use Microdata Series, Current Population Survey: Version 8.0 [dataset]. Minneapolis, MN: IPUMS, 2020. <a href="https://doi.org/10.18128/D030.V8.0" target="_blank" rel="noopener noreferrer">https://doi.org/10.18128/D030.V8.0</a>)</cite></>
   },
   'CPS Log Earnings Data': {
     'XY': { yLabel: 'Years of Education', yAbbr: 'Years_of_Ed', xLabel: '', xAbbr: 'Female', buttonLabel: <p>Years of Education<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
     'YZ': { xLabel: 'Years of Education', xAbbr: 'Years_of_Ed', yLabel: 'Log Weekly Earnings', yAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Years of Education</p> },
     'XZ': { xLabel: '', xAbbr: 'Female', yLabel: 'Log Weekly Earnings', yAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
     '3D': { yLabel: 'Years of Education', yAbbr: 'Years_of_Ed', xLabel: '', xAbbr: 'Female', xRange: [-0.5, 1.5], zLabel: 'Log Weekly Earnings', zAbbr: 'ln(Earnings)', buttonLabel: <p>Log Earnings<br/>vs<br/>Gender (Female)<br/>vs<br/>Years of Education</p>, xtickvals: [0, 1], xticktext: ['Male', 'Female'] },
+    path: 'CPS_log_earnings_data.csv',
+    citation: <>The data is a random sample from the CPS Outgoing Rotation group earner study in March 2019.<br/><cite>(Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles and J. Robert Warren. Integrated Public Use Microdata Series, Current Population Survey: Version 8.0 [dataset]. Minneapolis, MN: IPUMS, 2020. <a href="https://doi.org/10.18128/D030.V8.0" target="_blank" rel="noopener noreferrer">https://doi.org/10.18128/D030.V8.0</a>)</cite></>
   }
 }
 
@@ -116,9 +122,9 @@ export const OLS_ASSUMPTIONS_OPTIONS = {
 
 export const OLS_ASSUMPTIONS_TEXTS = {
   'OLS Assumptions Hold': '',
-  'Non-Random Sample': 'Due to non-random sampling, as much of each sample as possible includes only data points with a weekly income below the median weekly income of the population.',
-  'Large Outliers': 'Due to a series of typos, a portion of the Job Corps data in each sample has been recorded as having a weekly income much higher than the actual value. Toggle the switch below to view the data before and after this violation.',
-  'E(u|x) != 0': 'Several members of the Control group data in each sample have incorrectly taken part in the Job Corps training, resulting in an increase in their weekly incomes. Toggle the switch below to view the data before and after this violation.'
+  'Non-Random Sample': 'Researchers collect their sample by randomly calling people from list of people in the study population. BUT, people who are not working are much more likely to answer the phone to respond to the survey. This means that the sample is not actually random and draws people from the bottom half of the earnings distribution (those working fewer hours or without steady jobs).',
+  'Large Outliers': 'The technician hired to enter earnings from the sample respondents makes data entry errors when recording a batch of earnings data from the treatment group, accidently inflating the values.',
+  'E(u|x) != 0': 'Some people who were randomized into the control group are very ambitious and well-connected and find a way to get into the Job Corps program. This is an example of “failure to follow treatment protocol.” In this scenario, the regressor (X=indicator for being in Job Corps) in no longer uncorrelated with other characteristics (eg. motivation, connections) of the individual.'
 }
 
 export const MODULES = [
@@ -139,6 +145,10 @@ export const MODULES = [
     description: 'Hypothesis testing is a procedure that allows us to form conclusions based on information derived from a sample.',
   },
   {
+    name: 'ANOVA',
+    description: 'The module presents a simple version of ANOVA (Analysis of Variance), in which we test the null hypothesis that the means of two or more populations are equal.',
+  },
+  {
     name: 'Joint Distributions',
     description: 'A joint probability distribution describes the simultaneous behavior of two random variables.',
   },
@@ -147,23 +157,19 @@ export const MODULES = [
     description: 'Ordinary least squares regression estimates the slope(s) and intercept of a line to best fit data for two (or more) variables by minimizing the sum of the squared distances from the data points to the line.',
   },
   {
-    name: 'Multiple Regression',
-    description: 'In Progress'
-  },
-  {
     name: 'Sample Distribution of OLS Estimators',
     description: <>The sampling distributions of the OLS estimators <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/> are approximately normal.</>
   },
   {
     name: 'The OLS Estimators are Consistent',
-    description: 'In Progress'
+    description: <> If the least squares assumptions hold, the OLS estimators, <InlineMath math="\hat{\beta}_0"/> and <InlineMath math="\hat{\beta}_1"/>, converge to the population intercept and slope when the sample is large.</>
   },
   {
     name: 'Omitted Variable Bias',
     description: 'Omitted variable bias (OVB) arises when a variable that is i) correlated with the outcome and ii) correlated with one of the included regressors is omitted from the regression model.',
   },
   {
-    name: 'ANOVA',
-    description: 'The module presents a simple version of ANOVA (Analysis of Variance), in which we test the null hypothesis that the means of two or more populations are equal.',
+    name: 'Multiple Regression',
+    description: <>OLS regression with multiple regressors (<InlineMath math="k"/>) estimates the <InlineMath math="k+1"/> dimensional plane that best fits the data.</>
   }
 ];
