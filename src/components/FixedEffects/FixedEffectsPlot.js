@@ -30,7 +30,7 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
 
   const zippedPoints = _.zip([...newData[1].x, ...newData[2].x], [...newData[1].y, ...newData[2].y]);
   const { slope, intercept } = linearRegression(zippedPoints);
-  const [lineX, lineY] = _.unzip([[-10], [10], ...zippedPoints].map((point) => ([point[0], (point[0] * slope) + intercept ])));
+  const [lineX, lineY] = _.unzip([[-12], [12], ...zippedPoints].map((point) => ([point[0], (point[0] * slope) + intercept ])));
 
   return (
     <Plot
@@ -49,6 +49,22 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
           },
           hoverinfo: 'x+y'
         },
+        // {
+        //   x: data[1].x,
+        //   y: data[1].y,
+        //   name: 'Entity 1',
+        //   type: 'scatter',
+        //   text: _.range(1, 4).map((i) => `(X<sub>1${i}</sub>, Y<sub>1${i}</sub>)`),
+        //   textposition: 'bottom right',
+        //   mode: 'markers+text',
+        //   marker: {
+        //     color: 'red',
+        //     size: 10,
+        //     opacity: 0.5
+        //   },
+        //   hoverinfo: 'x+y',
+        //   showlegend: false,
+        // },
         {
           x: newData[2].x,
           y: newData[2].y,
@@ -63,14 +79,31 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
           },
           hoverinfo: 'x+y'
         },
+        // {
+        //   x: data[2].x,
+        //   y: data[2].y,
+        //   name: 'Entity 2',
+        //   type: 'scatter',
+        //   text: _.range(1, 4).map((i) => `(X<sub>2${i}</sub>, Y<sub>2${i}</sub>)`),
+        //   textposition: 'bottom right',
+        //   mode: 'markers+text',
+        //   marker: {
+        //     color: 'blue',
+        //     size: 10,
+        //     opacity: 0.5
+        //   },
+        //   hoverinfo: 'x+y',
+        //   showlegend: false
+        // },
         {
           x: lineX,
           y: lineY,
           name: 'Best Fit Line',
           mode: 'lines',
-          marker: {color: 'black'},
+          marker: { color: 'black' },
           hovertemplate: '(%{x}, %{y})<extra></extra>',
-          visible: showBestFit
+          visible: showBestFit,
+          showlegend: false
         }
       ]}
       layout={{
@@ -91,9 +124,7 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
           easing: 'sin'
         }
       }}
-      config={{
-        displayModeBar: false
-      }}
+      config={{ displayModeBar: false }}
     />
   )
 }
