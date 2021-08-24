@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import EffectsToggle from './EffectsToggle';
 import FixedEffectsPlot from './FixedEffectsPlot';
+import MeansTable from './MeansTable';
 
 export default function FixedEffects() {
   const [effects, setEffects] = useState([]);
@@ -27,13 +28,16 @@ export default function FixedEffects() {
   }
 
   return (
-    <Row>
-      <Col>
-        <FixedEffectsPlot data={data} effects={effects} showBestFit={showBestFit}/>
-      </Col>
-      <Col style={{margin: 'auto'}}>
-        <EffectsToggle effects={effects} toggleEffect={toggleEffect} showBestFit={showBestFit} setShowBestFit={setShowBestFit}/>
-      </Col>
-    </Row>
+    <>
+      <Row>
+        <Col>
+          <FixedEffectsPlot data={data} effects={effects} showBestFit={showBestFit}/>
+        </Col>
+        <Col style={{margin: 'auto'}}>
+          <EffectsToggle effects={effects} toggleEffect={toggleEffect} showBestFit={showBestFit} setShowBestFit={setShowBestFit}/>
+        </Col>
+      </Row>
+      <MeansTable data={data}/>
+    </>
   )
 }

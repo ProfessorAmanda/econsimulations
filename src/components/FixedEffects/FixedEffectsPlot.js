@@ -3,6 +3,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { mean } from 'mathjs';
 import { linearRegression } from '../../lib/stats-utils';
+import { fixedEffectsDataType } from '../../lib/types';
 
 export default function FixedEffectsPlot({ data, effects, showBestFit }) {
 
@@ -49,22 +50,22 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
           },
           hoverinfo: 'x+y'
         },
-        // {
-        //   x: data[1].x,
-        //   y: data[1].y,
-        //   name: 'Entity 1',
-        //   type: 'scatter',
-        //   text: _.range(1, 4).map((i) => `(X<sub>1${i}</sub>, Y<sub>1${i}</sub>)`),
-        //   textposition: 'bottom right',
-        //   mode: 'markers+text',
-        //   marker: {
-        //     color: 'red',
-        //     size: 10,
-        //     opacity: 0.5
-        //   },
-        //   hoverinfo: 'x+y',
-        //   showlegend: false,
-        // },
+        {
+          x: data[1].x,
+          y: data[1].y,
+          name: 'Entity 1',
+          type: 'scatter',
+          text: _.range(1, 4).map((i) => `(X<sub>1${i}</sub>, Y<sub>1${i}</sub>)`),
+          textposition: 'bottom right',
+          mode: 'markers+text',
+          marker: {
+            color: 'red',
+            size: 10,
+            opacity: 0.25
+          },
+          hoverinfo: 'x+y',
+          showlegend: false
+        },
         {
           x: newData[2].x,
           y: newData[2].y,
@@ -79,22 +80,22 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
           },
           hoverinfo: 'x+y'
         },
-        // {
-        //   x: data[2].x,
-        //   y: data[2].y,
-        //   name: 'Entity 2',
-        //   type: 'scatter',
-        //   text: _.range(1, 4).map((i) => `(X<sub>2${i}</sub>, Y<sub>2${i}</sub>)`),
-        //   textposition: 'bottom right',
-        //   mode: 'markers+text',
-        //   marker: {
-        //     color: 'blue',
-        //     size: 10,
-        //     opacity: 0.5
-        //   },
-        //   hoverinfo: 'x+y',
-        //   showlegend: false
-        // },
+        {
+          x: data[2].x,
+          y: data[2].y,
+          name: 'Entity 2',
+          type: 'scatter',
+          text: _.range(1, 4).map((i) => `(X<sub>2${i}</sub>, Y<sub>2${i}</sub>)`),
+          textposition: 'bottom right',
+          mode: 'markers+text',
+          marker: {
+            color: 'blue',
+            size: 10,
+            opacity: 0.25
+          },
+          hoverinfo: 'x+y',
+          showlegend: false
+        },
         {
           x: lineX,
           y: lineY,
@@ -122,7 +123,24 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
         transition: {
           duration: 500,
           easing: 'sin'
-        }
+        },
+        // annotations: _.flatten([1, 2].map((id) => [0, 1, 2].map((i) => (
+        //   {
+        //     x: newData[id].x[i],
+        //     y: newData[id].y[i],
+        //     xref: 'x',
+        //     yref: 'y',
+        //     text: '',
+        //     showarrow: true,
+        //     arrowhead: 2,
+        //     arrowsize: 1.5,
+        //     arrowwidth: 1,
+        //     ax: data[id].x[i],
+        //     ay: data[id].y[i],
+        //     axref: 'x',
+        //     ayref: 'y'
+        //   }
+        // ))))
       }}
       config={{ displayModeBar: false }}
     />
@@ -130,16 +148,7 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
 }
 
 FixedEffectsPlot.propTypes = {
-  data: PropTypes.shape({
-    1: PropTypes.shape({
-      x: PropTypes.arrayOf(PropTypes.number).isRequired,
-      y: PropTypes.arrayOf(PropTypes.number).isRequired
-    }).isRequired,
-    2: PropTypes.shape({
-      x: PropTypes.arrayOf(PropTypes.number).isRequired,
-      y: PropTypes.arrayOf(PropTypes.number).isRequired
-    }).isRequired
-  }).isRequired,
+  data: fixedEffectsDataType.isRequired,
   effects: PropTypes.arrayOf(PropTypes.string).isRequired,
   showBestFit: PropTypes.bool.isRequired
 }
