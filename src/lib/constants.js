@@ -29,7 +29,7 @@ export const MULTIPLE_REGRESSION_VALUES = {
     'YZ': { xLabel: 'Percent English Learners', xAbbr: 'PercentEngLearners', xRange: [0, 100], yLabel: 'Test Scores', yAbbr: 'TestScores', yRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners</p> },
     '3D': { xLabel: 'Student-Teacher Ratio', xAbbr: 'StudentTeacherRatio', xRange: [10, 30], yLabel: 'Percent English Learners', yAbbr: 'PercentEngLearners' , yRange: [0, 100], zLabel: 'Test Scores', zAbbr: 'TestScores', zRange: [600, 720], buttonLabel: <p>Test Scores<br/>vs<br/>Percent English Learners<br/>vs<br/>Student-Teacher Ratio</p> },
     path: 'california_schools_data.csv',
-    citation: ''
+    citation: <>This data is California Standardized Testing and Reporting data for 420 elementary school districts in California for 1999. This dataset is used throughout Stock and Watson, Introduction to Econometrics and was originally obtained from the California Department of Education (<a href="https://www.cde.ca.gov/" target="_blank" rel="noopener noreferrer">www.cde.ca.gov</a>).</>
   },
   'CPS Earnings Data': {
     'XY': { xLabel: '', xAbbr: 'College', yLabel: '', yAbbr: 'Female', buttonLabel: <p>Gender (Female)<br/>vs<br/>College</p>, xtickvals: [0, 1], xticktext: ['No College', 'College'], ytickvals: [0, 1], yticktext: ['Male', 'Female'] },
