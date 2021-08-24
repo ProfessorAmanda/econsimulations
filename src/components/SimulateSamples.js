@@ -89,18 +89,29 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
   const startSim = () => {
     setSampled([]);
     setMeanLine([]);
+    const simSpeeds = (iteration) => {
+      if (iteration < 200) {
+        return 1
+      } else if (iteration < 500) {
+        return 2
+      } else if (iteration < 1000) {
+        return 4
+      } else {
+        return 8
+      }
+    }
     let n = 0;
     timer.current = setInterval(() => {
       const newSamples = [];
-      for (let i = 0; i < (n >= 600 ? 4 : (n >= 300 ? 2 : 1)); i++) {
+      for (let i = 0; i < simSpeeds(n); i++) {
         n += 1;
-        if (n >= 1000) {
+        if (n >= 2000) {
           clearInterval(timer.current);
           setStart(false);
           break;
         }
         const sample = sampleFn(popArray, n);
-        newSamples.push({ y: yFn(sample) });
+        newSamples.push({ x: n, y: yFn(sample) });
       }
       setSampled((currSampled) => [...currSampled, ...newSamples]);
       setMeanLine((currMeanLine) => [...currMeanLine, { x: n, y: yFn(popArray) }]);
