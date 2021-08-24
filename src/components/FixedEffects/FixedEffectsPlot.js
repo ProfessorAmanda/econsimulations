@@ -1,18 +1,17 @@
 import Plot from 'react-plotly.js';
 import _ from 'lodash';
-import PropTypes from 'prop-types';
 import { mean } from 'mathjs';
 import { linearRegression } from '../../lib/stats-utils';
-import { fixedEffectsDataType } from '../../lib/types';
+import { fixedEffectsDataType, fixedEffectsToggleType } from '../../lib/types';
 
-export default function FixedEffectsPlot({ data, effects, showBestFit }) {
+export default function FixedEffectsPlot({ data, effects, means }) {
 
   const demean = (val, id, dim, index) => {
     let newVal = val;
-    if (effects.includes('unit')) {
+    if (effects.entities.includes(id)) {
       newVal -= mean(data[id][dim]);
     }
-    if (effects.includes('time')) {
+    if (effects.periods.includes(index)) {
       newVal -= mean(data[1][dim][index], data[2][dim][index])
     }
     return newVal;
@@ -28,6 +27,39 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
       y: data[2].y.map((yi, i) => demean(yi, 2, 'y', i))
     }
   }
+
+  const periodColorMap = {
+    0: 'green',
+    1: 'purple',
+    2: 'orange'
+  }
+
+  const xMeans = [];
+  const yMeans = [];
+  means.periods.forEach((p) => {
+    xMeans.push({
+      label: `X<sub>i${p+1}</sub>`,
+      value: mean(data[1].x[p], data[2].x[p]),
+      color: periodColorMap[p]
+    });
+    yMeans.push({
+      label: `Y<sub>i${p+1}</sub>`,
+      value: mean(data[1].y[p], data[2].y[p]),
+      color: periodColorMap[p]
+    });
+  });
+  means.entities.forEach((e) => {
+    xMeans.push({
+      label: `X<sub>${e}t</sub>`,
+      value: mean(data[e].x),
+      color: 'red'
+    });
+    yMeans.push({
+      label: `Y<sub>${e}t</sub>`,
+      value: mean(data[e].y),
+      color: 'blue'
+    });
+  });
 
   const zippedPoints = _.zip([...newData[1].x, ...newData[2].x], [...newData[1].y, ...newData[2].y]);
   const { slope, intercept } = linearRegression(zippedPoints);
@@ -103,13 +135,13 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
           mode: 'lines',
           marker: { color: 'black' },
           hovertemplate: '(%{x}, %{y})<extra></extra>',
-          visible: showBestFit,
+          visible: false,
           showlegend: false
         }
       ]}
       layout={{
-        width: 800,
-        height: 800,
+        width: 780,
+        height: 780,
         xaxis: {
           range: [-12, 12]
         },
@@ -124,23 +156,38 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
           duration: 500,
           easing: 'sin'
         },
-        // annotations: _.flatten([1, 2].map((id) => [0, 1, 2].map((i) => (
-        //   {
-        //     x: newData[id].x[i],
-        //     y: newData[id].y[i],
-        //     xref: 'x',
-        //     yref: 'y',
-        //     text: '',
-        //     showarrow: true,
-        //     arrowhead: 2,
-        //     arrowsize: 1.5,
-        //     arrowwidth: 1,
-        //     ax: data[id].x[i],
-        //     ay: data[id].y[i],
-        //     axref: 'x',
-        //     ayref: 'y'
-        //   }
-        // ))))
+        annotations: [
+          ...xMeans.map(({ label, value, color }) => ({
+            x: value,
+            y: -12,
+            xref: 'x',
+            yref: 'y',
+            text: label,
+            showarrow: true,
+            arrowside: 'none',
+            arrowcolor: color,
+            arrowwidth: 1,
+            ax: value,
+            ay: 12,
+            axref: 'x',
+            ayref: 'y'
+          })),
+          ...yMeans.map(({ label, value, color }) => ({
+            y: value,
+            x: 12,
+            xref: 'x',
+            yref: 'y',
+            text: label,
+            showarrow: true,
+            arrowside: 'none',
+            arrowcolor: color,
+            arrowwidth: 1,
+            ay: value,
+            ax: -12,
+            axref: 'x',
+            ayref: 'y'
+          }))
+        ]
       }}
       config={{ displayModeBar: false }}
     />
@@ -149,6 +196,6 @@ export default function FixedEffectsPlot({ data, effects, showBestFit }) {
 
 FixedEffectsPlot.propTypes = {
   data: fixedEffectsDataType.isRequired,
-  effects: PropTypes.arrayOf(PropTypes.string).isRequired,
-  showBestFit: PropTypes.bool.isRequired
+  effects: fixedEffectsToggleType.isRequired,
+  means: fixedEffectsToggleType.isRequired
 }

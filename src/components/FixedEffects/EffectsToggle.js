@@ -1,36 +1,73 @@
-import { Alert, Form } from 'react-bootstrap';
+import { Form, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { fixedEffectsToggleType } from '../../lib/types';
 
-export default function EffectsToggle({ effects, toggleEffect, showBestFit, setShowBestFit }) {
+export default function EffectsToggle({ effects, toggleEffect, means, toggleMean, olsLines, toggleOLSLine }) {
   return (
-    <Alert variant="success" style={{width: 'fit-content'}}>
-      <Form.Label>Fix By:</Form.Label>
-      <Form.Check
-        checked={effects.includes('unit')}
-        type="checkbox"
-        label="unit"
-        onChange={() => toggleEffect('unit')}
-      />
-      <Form.Check
-        checked={effects.includes('time')}
-        type="checkbox"
-        label="time"
-        onChange={() => toggleEffect('time')}
-      />
-      <hr/>
-      <Form.Check
-        checked={showBestFit}
-        type="checkbox"
-        label="Show Best Fit Line"
-        onChange={() => setShowBestFit(!showBestFit)}
-      />
-    </Alert>
+    <ListGroup variant="flush" style={{width: 'fit-content'}}>
+      <ListGroup.Item>
+        <Form.Label>Entity Fixed Effects:</Form.Label>
+        {[1, 2].map((i) => (
+          <Form.Check
+            key={i}
+            checked={means.entities.includes(i)}
+            type="checkbox"
+            label={`Show means for Entity ${i}`}
+            onChange={() => toggleMean(i, 'entities')}
+          />
+        ))}
+        {[1, 2].map((i) => (
+          <Form.Check
+            key={i}
+            checked={effects.entities.includes(i)}
+            type="checkbox"
+            label={`De-mean Entity ${i}`}
+            onChange={() => toggleEffect(i, 'entities')}
+          />
+        ))}
+      </ListGroup.Item>
+      <ListGroup.Item>
+        <Form.Label>Period Fixed Effects:</Form.Label>
+        {[0, 1, 2].map((i) => (
+          <Form.Check
+            key={i}
+            checked={means.periods.includes(i)}
+            type="checkbox"
+            label={`Show means for Period ${i+1}`}
+            onChange={() => toggleMean(i, 'periods')}
+          />
+        ))}
+        {[0, 1, 2].map((i) => (
+          <Form.Check
+            key={i}
+            checked={effects.periods.includes(i)}
+            type="checkbox"
+            label={`De-mean Period ${i+1}`}
+            onChange={() => toggleEffect(i, 'periods')}
+          />
+        ))}
+      </ListGroup.Item>
+      <ListGroup.Item>
+        <Form.Label>Show OLS Lines:</Form.Label>
+        {['Naive', 'With Entity Fixed Effect', 'With Period Fixed Effect'].map((type) => (
+          <Form.Check
+            key={type}
+            checked={olsLines.includes(type)}
+            type="checkbox"
+            label={type}
+            onChange={() => toggleOLSLine(type)}
+          />
+        ))}
+      </ListGroup.Item>
+    </ListGroup>
   )
 }
 
 EffectsToggle.propTypes = {
-  effects: PropTypes.arrayOf(PropTypes.string).isRequired,
+  effects: fixedEffectsToggleType.isRequired,
   toggleEffect: PropTypes.func.isRequired,
-  showBestFit: PropTypes.bool.isRequired,
-  setShowBestFit: PropTypes.func.isRequired
+  means: fixedEffectsToggleType.isRequired,
+  toggleMean: PropTypes.func.isRequired,
+  olsLines: PropTypes.arrayOf(PropTypes.string).isRequired,
+  toggleOLSLine: PropTypes.func.isRequired
 }

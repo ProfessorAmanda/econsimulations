@@ -5,15 +5,44 @@ import FixedEffectsPlot from './FixedEffectsPlot';
 import MeansTable from './MeansTable';
 
 export default function FixedEffects() {
-  const [effects, setEffects] = useState([]);
-  const [showBestFit, setShowBestFit] = useState(false);
+  const [effects, setEffects] = useState({
+    periods: [],
+    entities: []
+  });
+  const [means, setMeans] = useState({
+    periods: [],
+    entities: []
+  });
+  const [olsLines, setOLSLines] = useState([]);
 
-  const toggleEffect = (effect) => {
-    if (effects.includes(effect)) {
-      setEffects(effects.filter((e) => e !== effect))
+  const toggleEffect = (effect, type) => {
+    let newEffects;
+    if (effects[type].includes(effect)) {
+      newEffects = effects[type].filter((e) => e !== effect)
     } else {
-      setEffects([...effects, effect])
+      newEffects = [...effects[type], effect]
     }
+    setEffects({ ...effects, [type]: newEffects });
+  }
+
+  const toggleMean = (mean, type) => {
+    let newMeans;
+    if (means[type].includes(mean)) {
+      newMeans = means[type].filter((m) => m !== mean)
+    } else {
+      newMeans = [...means[type], mean]
+    }
+    setMeans({ ...means, [type]: newMeans });
+  }
+
+  const toggleOLSLine = (type) => {
+    let newLines;
+    if (olsLines.includes(type)) {
+      newLines = olsLines.filter((line) => line !== type)
+    } else {
+      newLines = [...olsLines, type]
+    }
+    setOLSLines(newLines);
   }
 
   const data = {
@@ -31,10 +60,17 @@ export default function FixedEffects() {
     <>
       <Row>
         <Col>
-          <FixedEffectsPlot data={data} effects={effects} showBestFit={showBestFit}/>
+          <FixedEffectsPlot data={data} effects={effects} means={means}/>
         </Col>
         <Col style={{margin: 'auto'}}>
-          <EffectsToggle effects={effects} toggleEffect={toggleEffect} showBestFit={showBestFit} setShowBestFit={setShowBestFit}/>
+          <EffectsToggle
+            effects={effects}
+            toggleEffect={toggleEffect}
+            means={means}
+            toggleMean={toggleMean}
+            olsLines={olsLines}
+            toggleOLSLine={toggleOLSLine}
+          />
         </Col>
       </Row>
       <MeansTable data={data}/>

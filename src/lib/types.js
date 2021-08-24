@@ -97,3 +97,8 @@ export const fixedEffectsDataType = PropTypes.shape({
     y: PropTypes.arrayOf(PropTypes.number).isRequired
   }).isRequired
 });
+
+export const fixedEffectsToggleType = PropTypes.shape({
+  periods: PropTypes.arrayOf(PropTypes.number).isRequired,
+  entities: PropTypes.arrayOf(PropTypes.number).isRequired
+})
