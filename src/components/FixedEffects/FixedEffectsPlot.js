@@ -4,6 +4,9 @@ import { mean } from 'mathjs';
 import { linearRegression } from '../../lib/stats-utils';
 import { fixedEffectsDataType, fixedEffectsToggleType } from '../../lib/types';
 
+const PLOT_MAX = 12;
+const PLOT_MIN = -12;
+
 export default function FixedEffectsPlot({ data, effects, means }) {
 
   const demean = (val, id, dim, index) => {
@@ -38,24 +41,24 @@ export default function FixedEffectsPlot({ data, effects, means }) {
   const yMeans = [];
   means.periods.forEach((p) => {
     xMeans.push({
-      label: `X<sub>i${p+1}</sub>`,
+      label: `X̄<sub>i${p+1}</sub>`,
       value: mean(data[1].x[p], data[2].x[p]),
       color: periodColorMap[p]
     });
     yMeans.push({
-      label: `Y<sub>i${p+1}</sub>`,
+      label: `Ȳ<sub>i${p+1}</sub>`,
       value: mean(data[1].y[p], data[2].y[p]),
       color: periodColorMap[p]
     });
   });
   means.entities.forEach((e) => {
     xMeans.push({
-      label: `X<sub>${e}t</sub>`,
+      label: `X̄<sub>${e}t</sub>`,
       value: mean(data[e].x),
       color: 'red'
     });
     yMeans.push({
-      label: `Y<sub>${e}t</sub>`,
+      label: `Ȳ<sub>${e}t</sub>`,
       value: mean(data[e].y),
       color: 'blue'
     });
@@ -63,7 +66,7 @@ export default function FixedEffectsPlot({ data, effects, means }) {
 
   const zippedPoints = _.zip([...newData[1].x, ...newData[2].x], [...newData[1].y, ...newData[2].y]);
   const { slope, intercept } = linearRegression(zippedPoints);
-  const [lineX, lineY] = _.unzip([[-12], [12], ...zippedPoints].map((point) => ([point[0], (point[0] * slope) + intercept ])));
+  const [lineX, lineY] = _.unzip([[PLOT_MIN], [PLOT_MAX], ...zippedPoints].map((point) => ([point[0], (point[0] * slope) + intercept ])));
 
   return (
     <Plot
@@ -143,10 +146,10 @@ export default function FixedEffectsPlot({ data, effects, means }) {
         width: 780,
         height: 780,
         xaxis: {
-          range: [-12, 12]
+          range: [PLOT_MIN, PLOT_MAX]
         },
         yaxis: {
-          range: [-12, 12]
+          range: [PLOT_MIN, PLOT_MAX]
         },
         legend: {
           itemclick: false,
@@ -159,7 +162,7 @@ export default function FixedEffectsPlot({ data, effects, means }) {
         annotations: [
           ...xMeans.map(({ label, value, color }) => ({
             x: value,
-            y: -12,
+            y: PLOT_MIN,
             xref: 'x',
             yref: 'y',
             text: label,
@@ -168,13 +171,13 @@ export default function FixedEffectsPlot({ data, effects, means }) {
             arrowcolor: color,
             arrowwidth: 1,
             ax: value,
-            ay: 12,
+            ay: PLOT_MAX,
             axref: 'x',
             ayref: 'y'
           })),
           ...yMeans.map(({ label, value, color }) => ({
             y: value,
-            x: 12,
+            x: PLOT_MAX,
             xref: 'x',
             yref: 'y',
             text: label,
@@ -183,7 +186,7 @@ export default function FixedEffectsPlot({ data, effects, means }) {
             arrowcolor: color,
             arrowwidth: 1,
             ay: value,
-            ax: -12,
+            ax: PLOT_MIN,
             axref: 'x',
             ayref: 'y'
           }))
