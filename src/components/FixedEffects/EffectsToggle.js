@@ -49,7 +49,7 @@ export default function EffectsToggle({ effects, toggleEffect, means, toggleMean
       </ListGroup.Item>
       <ListGroup.Item>
         <Form.Label>Show OLS Lines:</Form.Label>
-        {['Naive', 'With Entity Fixed Effect', 'With Period Fixed Effect'].map((type) => (
+        {['Naive', 'With Entity Fixed Effect', 'With Period Fixed Effect', 'With Both Fixed Effects'].map((type) => (
           <Form.Check
             key={type}
             checked={olsLines.includes(type)}

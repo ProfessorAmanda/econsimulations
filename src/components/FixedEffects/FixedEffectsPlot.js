@@ -1,6 +1,6 @@
 import Plot from 'react-plotly.js';
 import _ from 'lodash';
-import { max, mean, min } from 'mathjs';
+import { mean } from 'mathjs';
 import { linearRegression } from '../../lib/stats-utils';
 import { fixedEffectsDataType, fixedEffectsToggleType } from '../../lib/types';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ const PLOT_MIN = -12;
 
 export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
 
+  // returns a de-meaned value based on settings that the user selects
   const demean = (val, id, dim, index) => {
     let newVal = val;
     if (effects.entities.includes(id)) {
@@ -21,6 +22,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     return newVal;
   }
 
+  // construct a new data set with the de-meaned points
   const newData = {
     1: {
       x: data[1].x.map((xi, i) => demean(xi, 1, 'x', i)),
@@ -65,12 +67,13 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     });
   });
 
+  // separate de-meaning function for the ols lines
   const demeanForOLS = (val, id, dim, index, type) => {
     let newVal = val;
-    if (type === 'With Entity Fixed Effect') {
+    if ((type === 'With Entity Fixed Effect') || (type === 'With Both Fixed Effects')) {
       newVal -= mean(data[id][dim]);
     }
-    if (type === 'With Period Fixed Effect') {
+    if ((type === 'With Period Fixed Effect') || (type === 'With Both Fixed Effects')) {
       newVal -= mean(data[1][dim][index], data[2][dim][index])
     }
     return newVal;
@@ -89,7 +92,19 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
       ]
     );
     const { slope, intercept } = linearRegression(zippedPoints);
-    bestFitLines.push({ slope, intercept, label: type })
+
+    // plotly annotations can go outside the plot
+    // so this finds the closest point where both ends of the line will be within the plot
+    let lineMin = PLOT_MIN;
+    while (lineMin * slope + intercept < PLOT_MIN) {
+      lineMin += 0.1
+    }
+    let lineMax = PLOT_MAX;
+    while (lineMax * slope + intercept > PLOT_MAX) {
+      lineMax -= 0.1
+    }
+
+    bestFitLines.push({ slope, intercept, label: type, lineMin, lineMax })
   });
 
   return (
@@ -204,17 +219,17 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
             axref: 'x',
             ayref: 'y'
           })),
-          ...bestFitLines.map(({ label, slope, intercept }) => ({
-            y: min(PLOT_MAX * slope + intercept, PLOT_MAX),
-            x: PLOT_MAX,
+          ...bestFitLines.map(({ label, slope, intercept, lineMin, lineMax }) => ({
+            y: lineMax * slope + intercept,
+            x: lineMax,
             xref: 'x',
             yref: 'y',
             text: label,
             showarrow: true,
             arrowside: 'none',
             arrowwidth: 1,
-            ay: max(PLOT_MIN * slope + intercept, PLOT_MIN),
-            ax: PLOT_MIN,
+            ay: lineMin * slope + intercept,
+            ax: lineMin,
             axref: 'x',
             ayref: 'y'
           }))
