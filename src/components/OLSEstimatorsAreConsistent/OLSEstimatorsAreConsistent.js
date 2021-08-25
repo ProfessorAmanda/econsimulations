@@ -12,7 +12,7 @@ import randomNormal from 'random-normal';
 import { median } from 'mathjs';
 import { olsAssumptionType } from '../../lib/types.js';
 import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
-import { fetchCsv } from '../../lib/data-utils.js';
+import { fetchCSV } from '../../lib/data-utils.js';
 
 export default function OLSEstimatorsAreConsistent({ assumption }) {
   const [data, setData] = useState([]);
@@ -23,11 +23,11 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
 
   useEffect(() => {
     // use a pre-generated dataset
-    const getData = async () => {
-      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`);
-      setData(csvData.map(([x, y, category], id) => ({ x: +x, y: +y, category, id })));
+    const parseData = (results) => {
+      setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id })));
     }
-    getData();
+
+    fetchCSV(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`, parseData);
   }, []);
 
   useEffect(() => {

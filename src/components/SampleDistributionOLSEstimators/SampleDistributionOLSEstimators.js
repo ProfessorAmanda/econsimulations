@@ -8,32 +8,26 @@ import InterceptDistributionPlot from './InterceptDistributionPlot.js';
 import MultipleSamplesInput from './MultipleSamplesInput.js';
 import PropTypes from 'prop-types';
 import { generateScatter, linearRegression } from '../../lib/stats-utils.js';
-import { fetchCsv } from '../../lib/data-utils.js';
+import { fetchCSV } from '../../lib/data-utils.js';
 
 export default function SampleDistributionOLSEstimators({ regressorType }) {
-  const [csvDataset, setCSVDataset] = useState([]);
   const [data, setData] = useState([]);
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
 
   useEffect(() => {
-    // only fetch the data from the CSV once
-    const getData = async () => {
-      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`);
-      setCSVDataset(csvData.map(([x, y, category]) => ({ x: +x, y: +y, category })));
-    }
-    getData();
-  }, []);
-
-  useEffect(() => {
     if (regressorType === 'Continuous') {
       setData(generateScatter(1000, 7, 2, 2.5, 6, -0.5))
     } else if (regressorType === 'Binary') {
-      setData(csvDataset)  // use a pre-generated dataset
+      // use a pre-generated dataset
+      const parseData = (results) => {
+        setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id })));
+      }
+      fetchCSV(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`, parseData);
     }
     setSamples([]);
     setSelected();
-  }, [regressorType, csvDataset]);
+  }, [regressorType]);
 
   const addSamples = (size, replications, clear) => {
     const newSamples = [];
