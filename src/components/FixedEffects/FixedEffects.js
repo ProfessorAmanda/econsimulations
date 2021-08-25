@@ -51,8 +51,8 @@ export default function FixedEffects() {
       y: [-5, -4, 7]
     },
     2: {
-      x: [-2, 2, 5],
-      y: [1, 3, 4]
+      x: [-7, -3, 2],
+      y: [6, 3, 1]
     }
   }
 

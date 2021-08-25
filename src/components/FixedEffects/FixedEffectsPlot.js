@@ -239,7 +239,10 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
           }))
         ]
       }}
-      config={{ displayModeBar: false }}
+      config={{
+        staticPlot: true,
+        displayModeBar: false
+       }}
     />
   )
 }
