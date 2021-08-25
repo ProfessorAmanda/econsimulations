@@ -9,20 +9,20 @@ import MultipleSamplesInput from './MultipleSamplesInput.js';
 import PropTypes from 'prop-types';
 import { generateBinary, generateScatter, linearRegression } from '../../lib/stats-utils.js';
 
-export default function SampleDistributionOLSEstimators({ populationShape }) {
+export default function SampleDistributionOLSEstimators({ regressorType }) {
   const [data, setData] = useState([]);
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
 
   useEffect(() => {
-    if (populationShape === 'Continuous') {
+    if (regressorType === 'Continuous') {
       setData(generateScatter(1000, 7, 2, 2.5, 6, -0.5))
-    } else if (populationShape === 'Binary') {
+    } else if (regressorType === 'Binary') {
       setData(generateBinary(1000, 195, 211, 30, 30))
     }
     setSamples([]);
     setSelected();
-  }, [populationShape]);
+  }, [regressorType]);
 
   const addSamples = (size, replications, clear) => {
     const newSamples = [];
@@ -30,7 +30,7 @@ export default function SampleDistributionOLSEstimators({ populationShape }) {
       const sample = _.sampleSize(data, size);
 
       // ensure that the sample data is spread between both x-categories
-      if ((populationShape === 'Binary') && (_.uniq(sample.map(({ x }) => x)).length === 1)) {
+      if ((regressorType === 'Binary') && (_.uniq(sample.map(({ x }) => x)).length === 1)) {
         i -= 1;
         continue;
       }
@@ -58,7 +58,7 @@ export default function SampleDistributionOLSEstimators({ populationShape }) {
           selected={selected}
           samples={samples}
           selectSample={setSelected}
-          populationShape={populationShape}
+          regressorType={regressorType}
         />
         <br/>
         <Row>
@@ -68,10 +68,10 @@ export default function SampleDistributionOLSEstimators({ populationShape }) {
         </Row>
         <Row>
           <Col>
-            <SlopeDistributionPlot samples={samples} populationShape={populationShape}/>
+            <SlopeDistributionPlot samples={samples} regressorType={regressorType}/>
           </Col>
           <Col>
-            <InterceptDistributionPlot samples={samples} populationShape={populationShape}/>
+            <InterceptDistributionPlot samples={samples} regressorType={regressorType}/>
           </Col>
         </Row>
       </Container>
@@ -80,5 +80,5 @@ export default function SampleDistributionOLSEstimators({ populationShape }) {
 }
 
 SampleDistributionOLSEstimators.propTypes = {
-  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
+  regressorType: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }
