@@ -20,7 +20,7 @@ export default function OLSEstimatorsAreConsistentContainer() {
             The Least Squares Assumptions:
             <br/>
             <br/>
-            <InlineMath math="Y_i = \beta_0 + \beta_1X_1 + u_i, i = 1, \dotsc , n,"/> where
+            <InlineMath math="Y_i = \beta_0 + \beta_1X_i + u_i, i = 1, \dotsc , n,"/> where
             <br/>
             <br/>
             <ol style={{textAlign: 'left'}}>

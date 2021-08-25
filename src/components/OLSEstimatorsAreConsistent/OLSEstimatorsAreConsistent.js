@@ -36,6 +36,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   // takes a sample of 'size' from 'population' - the sample is altered based on 'assumption'
   const samplingFunction = (population, size) => {
     const medianValue = median(population.map(({ y }) => y));
+
     if (assumption === 'OLS Assumptions Hold') {
       // take a normal sample
       return _.sampleSize(population, size);
@@ -43,12 +44,10 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     } else if (assumption === 'Non-Random Sample') {
       // only sample from observations below the median value
       const belowMedian = population.filter(({ y }) => y < medianValue);
-      const aboveMedian = population.filter(({ y }) => y >= medianValue);
-
       const belowMedianSample = _.sampleSize(belowMedian, size);
-      // if the sample size is too big, sample the rest normally
-      const aboveMedianSample = _.sampleSize(aboveMedian, size - belowMedian.length);
-      return [...belowMedianSample, ...aboveMedianSample];
+      // if the sample size is too big, resample from below the median
+      const belowMedianResample = _.sampleSize(belowMedian, size - belowMedian.length);
+      return [...belowMedianSample, ...belowMedianResample];
 
     } else if (assumption === 'Large Outliers') {
       // take a normal sample, then multiply the income by 2 of 20% of the sampled jobCorps observations
