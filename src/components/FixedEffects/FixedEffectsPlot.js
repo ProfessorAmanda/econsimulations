@@ -44,6 +44,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     2: 'blue'
   }
 
+  // calculate the mean lines
   const xMeans = [];
   const yMeans = [];
   means.periods.forEach((p) => {
@@ -83,6 +84,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     return newVal;
   }
 
+  // calculate the ols lines
   const bestFitLines = [];
   olsLines.forEach((type) => {
     const zippedPoints = _.zip(
@@ -111,12 +113,12 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     bestFitLines.push({ slope, intercept, label: type, lineMin, lineMax })
   });
 
+  // determine where the arrows to show the de-meaning should go
   const dataMidpoints = { 1: { x: data[1].x, y: [] }, 2: { x: data[2].x, y: [] } }
   _.keys(dataMidpoints).forEach((id) => {
     const ys = _.zip(data[id].y, newData[id].y);
     ys.forEach(([orig, now]) => dataMidpoints[id].y.push(orig + (now - orig)));
   });
-
   const firstArrows1 = _.zip(_.zip(dataMidpoints[1].x, dataMidpoints[1].y), _.zip(data[1].x, data[1].y));
   const secondArrows1 = _.zip(_.zip(newData[1].x, newData[1].y), _.zip(dataMidpoints[1].x, dataMidpoints[1].y));
   const firstArrows2 = _.zip(_.zip(dataMidpoints[2].x, dataMidpoints[2].y), _.zip(data[2].x, data[2].y));
@@ -125,6 +127,8 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
   return (
     <Plot
       data={[
+
+        // plot the actual points
         {
           x: newData[1].x,
           y: newData[1].y,
@@ -140,20 +144,6 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
           hoverinfo: 'x+y'
         },
         {
-          x: data[1].x,
-          y: data[1].y,
-          name: 'Entity 1',
-          type: 'scatter',
-          mode: 'markers',
-          marker: {
-            color: 'red',
-            size: 10,
-            opacity: 0.25
-          },
-          hoverinfo: 'x+y',
-          showlegend: false
-        },
-        {
           x: newData[2].x,
           y: newData[2].y,
           name: 'Entity 2',
@@ -166,6 +156,22 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
             size: 10
           },
           hoverinfo: 'x+y'
+        },
+
+        // plot the original locations of the points
+        {
+          x: data[1].x,
+          y: data[1].y,
+          name: 'Entity 1',
+          type: 'scatter',
+          mode: 'markers',
+          marker: {
+            color: 'red',
+            size: 10,
+            opacity: 0.25
+          },
+          hoverinfo: 'x+y',
+          showlegend: false
         },
         {
           x: data[2].x,
@@ -200,6 +206,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
           easing: 'sin'
         },
         annotations: [
+          // draw the mean lines
           ...xMeans.map(({ label, value, color }) => ({
             x: value,
             y: PLOT_MIN,
@@ -230,6 +237,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
             axref: 'x',
             ayref: 'y'
           })),
+          // draw the ols lines
           ...bestFitLines.map(({ label, slope, intercept, lineMin, lineMax }) => ({
             y: lineMax * slope + intercept,
             x: lineMax,
@@ -244,6 +252,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
             axref: 'x',
             ayref: 'y'
           })),
+          // draw the arrows
           ...[...firstArrows1, ...secondArrows1, ...firstArrows2, ...secondArrows2].map(([[x, y], [ax, ay]], i) => ({
             x,
             y,
