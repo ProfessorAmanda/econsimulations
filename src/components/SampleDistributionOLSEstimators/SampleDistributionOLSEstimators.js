@@ -19,7 +19,7 @@ export default function SampleDistributionOLSEstimators({ regressorType }) {
   useEffect(() => {
     // only fetch the data from the CSV once
     const getData = async () => {
-      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/RTC_data.csv`);
+      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`);
       setCSVDataset(csvData.map(([x, y, category]) => ({ x: +x, y: +y, category })));
     }
     getData();

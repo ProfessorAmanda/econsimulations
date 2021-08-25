@@ -24,7 +24,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   useEffect(() => {
     // use a pre-generated dataset
     const getData = async () => {
-      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/RTC_data.csv`);
+      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`);
       setData(csvData.map(([x, y, category]) => ({ x: +x, y: +y, category })));
     }
     getData();

@@ -165,7 +165,7 @@ export const generateBinary = (size, mean1, mean2, std1, std2, precision = 2) =>
 // }
   const control = generateNormal(size, mean1, std1, precision).map((num) => ({ x: 0, y: num, category: 'Control' }));
   const jobCorps = generateNormal(size, mean2, std2, precision).map((num) => ({ x: 1, y: num, category: 'Job Corps' }));
-  // exportToCsv('RTC_data', [...control, ...jobCorps].map(({ x, y, category }) => [x, y, category]))
+  // exportToCsv('Job_Corps_data', [...control, ...jobCorps].map(({ x, y, category }) => [x, y, category]))
   return [...control, ...jobCorps].map((obj, id) => ({ ...obj, id }));
 }
 
