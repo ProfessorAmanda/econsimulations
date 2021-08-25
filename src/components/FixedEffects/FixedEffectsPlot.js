@@ -117,10 +117,10 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     ys.forEach(([orig, now]) => dataMidpoints[id].y.push(orig + (now - orig)));
   });
 
-  const firstArrows1 = _.zip(_.zip(dataMidpoints[1].x, dataMidpoints[1].y), _.zip(data[1].x, data[1].y))
-  const secondArrows1 = _.zip(_.zip(newData[1].x, newData[1].y), _.zip(dataMidpoints[1].x, dataMidpoints[1].y))
-  const firstArrows2 = _.zip(_.zip(dataMidpoints[2].x, dataMidpoints[2].y), _.zip(data[2].x, data[2].y))
-  const secondArrows2 = _.zip(_.zip(newData[2].x, newData[2].y), _.zip(dataMidpoints[2].x, dataMidpoints[2].y))
+  const firstArrows1 = _.zip(_.zip(dataMidpoints[1].x, dataMidpoints[1].y), _.zip(data[1].x, data[1].y));
+  const secondArrows1 = _.zip(_.zip(newData[1].x, newData[1].y), _.zip(dataMidpoints[1].x, dataMidpoints[1].y));
+  const firstArrows2 = _.zip(_.zip(dataMidpoints[2].x, dataMidpoints[2].y), _.zip(data[2].x, data[2].y));
+  const secondArrows2 = _.zip(_.zip(newData[2].x, newData[2].y), _.zip(dataMidpoints[2].x, dataMidpoints[2].y));
 
   return (
     <Plot
@@ -255,8 +255,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
             ay,
             axref: 'x',
             ayref: 'y',
-            arrowcolor: i < 6 ? 'red' : 'blue',
-            opacity: 0.5
+            opacity: 0.7
           }))
         ]
       }}
