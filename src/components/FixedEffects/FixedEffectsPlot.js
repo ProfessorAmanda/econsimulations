@@ -111,6 +111,17 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     bestFitLines.push({ slope, intercept, label: type, lineMin, lineMax })
   });
 
+  const dataMidpoints = { 1: { x: data[1].x, y: [] }, 2: { x: data[2].x, y: [] } }
+  _.keys(dataMidpoints).forEach((id) => {
+    const ys = _.zip(data[id].y, newData[id].y);
+    ys.forEach(([orig, now]) => dataMidpoints[id].y.push(orig + (now - orig)));
+  });
+
+  const firstArrows1 = _.zip(_.zip(dataMidpoints[1].x, dataMidpoints[1].y), _.zip(data[1].x, data[1].y))
+  const secondArrows1 = _.zip(_.zip(newData[1].x, newData[1].y), _.zip(dataMidpoints[1].x, dataMidpoints[1].y))
+  const firstArrows2 = _.zip(_.zip(dataMidpoints[2].x, dataMidpoints[2].y), _.zip(data[2].x, data[2].y))
+  const secondArrows2 = _.zip(_.zip(newData[2].x, newData[2].y), _.zip(dataMidpoints[2].x, dataMidpoints[2].y))
+
   return (
     <Plot
       data={[
@@ -133,8 +144,6 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
           y: data[1].y,
           name: 'Entity 1',
           type: 'scatter',
-          text: _.range(1, 4).map((i) => `(X<sub>1${i}</sub>, Y<sub>1${i}</sub>)`),
-          textposition: 'bottom right',
           mode: 'markers',
           marker: {
             color: 'red',
@@ -163,8 +172,6 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
           y: data[2].y,
           name: 'Entity 2',
           type: 'scatter',
-          text: _.range(1, 4).map((i) => `(X<sub>2${i}</sub>, Y<sub>2${i}</sub>)`),
-          textposition: 'bottom right',
           mode: 'markers',
           marker: {
             color: 'blue',
@@ -236,11 +243,23 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
             ax: lineMin,
             axref: 'x',
             ayref: 'y'
+          })),
+          ...[...firstArrows1, ...secondArrows1, ...firstArrows2, ...secondArrows2].map(([[x, y], [ax, ay]], i) => ({
+            x,
+            y,
+            xref: 'x',
+            yref: 'y',
+            showarrow: true,
+            arrowwidth: 1,
+            ax,
+            ay,
+            axref: 'x',
+            ayref: 'y',
+            arrowcolor: i < 6 ? 'red' : 'blue'
           }))
         ]
       }}
       config={{
-        staticPlot: true,
         displayModeBar: false
        }}
     />
