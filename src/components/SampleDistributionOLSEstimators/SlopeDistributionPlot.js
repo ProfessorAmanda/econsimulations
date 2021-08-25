@@ -9,12 +9,12 @@ import { OLSE_VALUES } from '../../lib/constants.js';
 import _ from 'lodash';
 import StandardNormalOLS from './StandardNormalOLS.js';
 
-export default function SlopeDistributionPlot({ samples, populationShape }) {
+export default function SlopeDistributionPlot({ samples, regressorType }) {
   const [standardized, setStandardized] = useState(false);
 
   useEffect(() => {
     setStandardized(false)
-  }, [populationShape]);
+  }, [regressorType]);
 
   const slopeMean = populationMean(samples, 'slope');
   const slopeSD = populationStandardDev(samples, 'slope')
@@ -29,8 +29,8 @@ export default function SlopeDistributionPlot({ samples, populationShape }) {
         <DotPlot
           series={[{ name: 'Slopes', data: plotData, showInLegend: false }]}
           title="Distribution of Sample Slopes"
-          xMin={min(OLSE_VALUES[populationShape].slopeMin, ...plotData.map(({ x }) => x))}
-          xMax={max(OLSE_VALUES[populationShape].slopeMax, ...plotData.map(({ x }) => x))}
+          xMin={min(OLSE_VALUES[regressorType].slopeMin, ...plotData.map(({ x }) => x))}
+          xMax={max(OLSE_VALUES[regressorType].slopeMax, ...plotData.map(({ x }) => x))}
           yMax={max(4, ...plotData.map(({ y }) => y))}
           xLabel="Slope"
           yLabel="Observations of Sample Slope"
@@ -49,5 +49,5 @@ export default function SlopeDistributionPlot({ samples, populationShape }) {
 
 SlopeDistributionPlot.propTypes = {
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
-  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
+  regressorType: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }

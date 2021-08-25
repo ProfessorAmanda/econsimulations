@@ -9,12 +9,12 @@ import { OLSE_VALUES } from '../../lib/constants.js';
 import _ from 'lodash';
 import StandardNormalOLS from './StandardNormalOLS.js';
 
-export default function InterceptDistributionPlot({ samples, populationShape }) {
+export default function InterceptDistributionPlot({ samples, regressorType }) {
   const [standardized, setStandardized] = useState(false);
 
   useEffect(() => {
     setStandardized(false)
-  }, [populationShape]);
+  }, [regressorType]);
 
   const interceptMean = populationMean(samples, 'intercept');
   const interceptSD = populationStandardDev(samples, 'intercept')
@@ -29,8 +29,8 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
         <DotPlot
           series={[{ name: 'Intercepts', data: plotData, showInLegend: false }]}
           title="Distribution of Sample Intercepts"
-          xMin={min(OLSE_VALUES[populationShape].interceptMin, ...plotData.map(({ x }) => x))}
-          xMax={max(OLSE_VALUES[populationShape].interceptMax, ...plotData.map(({ x }) => x))}
+          xMin={min(OLSE_VALUES[regressorType].interceptMin, ...plotData.map(({ x }) => x))}
+          xMax={max(OLSE_VALUES[regressorType].interceptMax, ...plotData.map(({ x }) => x))}
           yMax={max(4, ...plotData.map(({ y }) => y))}
           xLabel="Intercept"
           yLabel="Observations of Sample Intercept"
@@ -49,5 +49,5 @@ export default function InterceptDistributionPlot({ samples, populationShape }) 
 
 InterceptDistributionPlot.propTypes = {
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
-  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
+  regressorType: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }

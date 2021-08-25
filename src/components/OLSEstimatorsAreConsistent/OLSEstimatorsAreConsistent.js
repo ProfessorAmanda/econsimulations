@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import _ from 'lodash';
 import { Col, Container, Row } from 'react-bootstrap';
-import { generateBinary, linearRegression } from '../../lib/stats-utils.js';
+import { linearRegression } from '../../lib/stats-utils.js';
 import PopulationPlot from './PopulationPlot.js';
 import SampleInput from './SampleInput.js';
 import SamplePlot from './SamplePlot.js';
@@ -12,13 +12,23 @@ import randomNormal from 'random-normal';
 import { median } from 'mathjs';
 import { olsAssumptionType } from '../../lib/types.js';
 import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
+import { fetchCSV } from '../../lib/data-utils.js';
 
 export default function OLSEstimatorsAreConsistent({ assumption }) {
-  const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
+  const [data, setData] = useState([]);
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
   const [showViolation, setShowViolation] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    // use a pre-generated dataset
+    const parseData = (results) => {
+      setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id })));
+    }
+
+    fetchCSV(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`, parseData);
+  }, []);
 
   useEffect(() => {
     setSamples([]);
@@ -36,6 +46,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   // takes a sample of 'size' from 'population' - the sample is altered based on 'assumption'
   const samplingFunction = (population, size) => {
     const medianValue = median(population.map(({ y }) => y));
+
     if (assumption === 'OLS Assumptions Hold') {
       // take a normal sample
       return _.sampleSize(population, size);
@@ -43,12 +54,10 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
     } else if (assumption === 'Non-Random Sample') {
       // only sample from observations below the median value
       const belowMedian = population.filter(({ y }) => y < medianValue);
-      const aboveMedian = population.filter(({ y }) => y >= medianValue);
-
       const belowMedianSample = _.sampleSize(belowMedian, size);
-      // if the sample size is too big, sample the rest normally
-      const aboveMedianSample = _.sampleSize(aboveMedian, size - belowMedian.length);
-      return [...belowMedianSample, ...aboveMedianSample];
+      // if the sample size is too big, resample from below the median
+      const belowMedianResample = _.sampleSize(belowMedian, size - belowMedian.length);
+      return [...belowMedianSample, ...belowMedianResample];
 
     } else if (assumption === 'Large Outliers') {
       // take a normal sample, then multiply the income by 2 of 20% of the sampled jobCorps observations

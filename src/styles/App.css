@@ -169,7 +169,6 @@ h1 {
 
 .data-table-container {
   height: min-content;
-  width: fit-content;
   overflow: auto;
   margin-top: 50px;
 }

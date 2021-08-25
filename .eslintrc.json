@@ -57,6 +57,7 @@
       }
     ],
     "no-extra-boolean-cast": "warn",
+    "no-extra-semi": "off",
     "react/jsx-tag-spacing": [
       "warn",
       {

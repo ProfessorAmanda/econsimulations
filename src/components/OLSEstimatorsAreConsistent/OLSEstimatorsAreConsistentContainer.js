@@ -5,6 +5,7 @@ import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
 import SimulationIntro from '../SimulationIntro.js';
 import _ from 'lodash';
 import { InlineMath } from 'react-katex';
+import JobCorpsDataModal from '../JobCorpsDataModal.js';
 
 export default function OLSEstimatorsAreConsistentContainer() {
   const [assumption, setAssumption] = useState('');
@@ -20,7 +21,7 @@ export default function OLSEstimatorsAreConsistentContainer() {
             The Least Squares Assumptions:
             <br/>
             <br/>
-            <InlineMath math="Y_i = \beta_0 + \beta_1X_1 + u_i, i = 1, \dotsc , n,"/> where
+            <InlineMath math="Y_i = \beta_0 + \beta_1X_i + u_i, i = 1, \dotsc , n,"/> where
             <br/>
             <br/>
             <ol style={{textAlign: 'left'}}>
@@ -39,6 +40,9 @@ export default function OLSEstimatorsAreConsistentContainer() {
         select={setAssumption}
         selected={assumption}
       />
+      <br/>
+      <br/>
+      <JobCorpsDataModal showButton/>
       <br/>
       <br/>
       {assumption && <OLSEstimatorsAreConsistent assumption={assumptionAsString}/>}

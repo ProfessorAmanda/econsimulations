@@ -14,8 +14,8 @@ export const distributionType = PropTypes.oneOf(['Z', 'T']);
 
 export const dataObjectArrayType = PropTypes.arrayOf(
   PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
+    x: PropTypes.number,
+    y: PropTypes.number,
     id: PropTypes.number
   })
 );

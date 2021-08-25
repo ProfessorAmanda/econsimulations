@@ -9,10 +9,10 @@ import { BlockMath } from 'react-katex';
 import { OLSE_VALUES } from '../../lib/constants.js';
 import DataTable from '../DataTable.js';
 
-export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample, populationShape }) {
+export default function PopulationAndSampleCharts({ data, addSamples, selected, samples, selectSample, regressorType }) {
   const sample = selected || { data: [] };
 
-  const tooltipFormat = (populationShape === 'Binary') ? {
+  const tooltipFormat = (regressorType === 'Binary') ? {
     headerFormat: '',
     pointFormat: '<div><strong>{point.category}</strong><br/><strong>${point.y}</strong><br/></div>'
   } : undefined;
@@ -34,7 +34,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
     {
       name: 'best fit line',
       type: 'line',
-      data: [{ x: 0 }, { x: OLSE_VALUES[populationShape].xMax }, ...sample.data].map((point) => (
+      data: [{ x: 0 }, { x: OLSE_VALUES[regressorType].xMax }, ...sample.data].map((point) => (
         { x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2) }
       )),
       label: false,
@@ -59,7 +59,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
     ...samples.filter((sample) => sample !== selected).map(({ data, slope, intercept, id }) => ({
       name: `Sample ${id}`,
       type: 'line',
-      data: [{ x: 0 }, { x: OLSE_VALUES[populationShape].xMax }, ...data].map((point) => (
+      data: [{ x: 0 }, { x: OLSE_VALUES[regressorType].xMax }, ...data].map((point) => (
         { x: point.x, y: (point.x * slope) + intercept }
       )),
       color: '#dddddd',
@@ -87,15 +87,15 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
           <ScatterPlot
             series={mainSeries}
             title="Population"
-            xMin={OLSE_VALUES[populationShape].xMin}
-            xMax={OLSE_VALUES[populationShape].xMax}
-            yMin={OLSE_VALUES[populationShape].yMin}
-            yMax={OLSE_VALUES[populationShape].yMax}
-            xLabel={OLSE_VALUES[populationShape].xLabel}
-            yLabel={OLSE_VALUES[populationShape].yLabel}
+            xMin={OLSE_VALUES[regressorType].xMin}
+            xMax={OLSE_VALUES[regressorType].xMax}
+            yMin={OLSE_VALUES[regressorType].yMin}
+            yMax={OLSE_VALUES[regressorType].yMax}
+            xLabel={OLSE_VALUES[regressorType].xLabel}
+            yLabel={OLSE_VALUES[regressorType].yLabel}
             height="75%"
-            xCategories={OLSE_VALUES[populationShape].xCategories}
-            yTickInterval={OLSE_VALUES[populationShape].yTickInterval}
+            xCategories={OLSE_VALUES[regressorType].xCategories}
+            yTickInterval={OLSE_VALUES[regressorType].yTickInterval}
           />
         </Col>
       </Row>
@@ -120,21 +120,21 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
         </Col>
         <Col>
           <div style={{ marginLeft: '20%' }}>
-            <BlockMath math={`\\widehat{${(populationShape === 'Continuous') ? 'Test\\ Score' : 'Earnings'}}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1{${(populationShape === 'Continuous') ? 'Study\\ Hours' : 'Job\\ Corps'}_i}`}/>
+            <BlockMath math={`\\widehat{${(regressorType === 'Continuous') ? 'Test\\ Score' : 'Earnings'}}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1{${(regressorType === 'Continuous') ? 'Study\\ Hours' : 'Job\\ Corps'}_i}`}/>
             {selected && (
-              <BlockMath math={`\\widehat{${(populationShape === 'Continuous') ? 'Test\\ Score' : 'Earnings'}}_i = ${selected.intercept} + ${selected.slope}{${(populationShape === 'Continuous') ? 'Study\\ Hours' : 'Job\\ Corps'}_i}`}/>
+              <BlockMath math={`\\widehat{${(regressorType === 'Continuous') ? 'Test\\ Score' : 'Earnings'}}_i = ${selected.intercept} + ${selected.slope}{${(regressorType === 'Continuous') ? 'Study\\ Hours' : 'Job\\ Corps'}_i}`}/>
             )}
           </div>
           <ScatterPlot
             series={sampleSeries}
-            xMin={OLSE_VALUES[populationShape].xMin}
-            xMax={OLSE_VALUES[populationShape].xMax}
-            yMin={OLSE_VALUES[populationShape].yMin}
-            yMax={OLSE_VALUES[populationShape].yMax}
-            xLabel={OLSE_VALUES[populationShape].xLabel}
-            yLabel={OLSE_VALUES[populationShape].yLabel}
-            xCategories={OLSE_VALUES[populationShape].xCategories}
-            yTickInterval={OLSE_VALUES[populationShape].yTickInterval}
+            xMin={OLSE_VALUES[regressorType].xMin}
+            xMax={OLSE_VALUES[regressorType].xMax}
+            yMin={OLSE_VALUES[regressorType].yMin}
+            yMax={OLSE_VALUES[regressorType].yMax}
+            xLabel={OLSE_VALUES[regressorType].xLabel}
+            yLabel={OLSE_VALUES[regressorType].yLabel}
+            xCategories={OLSE_VALUES[regressorType].xCategories}
+            yTickInterval={OLSE_VALUES[regressorType].yTickInterval}
           />
         </Col>
       </Row>
@@ -148,5 +148,5 @@ PopulationAndSampleCharts.propTypes = {
   selected: olsSampleType,
   samples: PropTypes.arrayOf(olsSampleType).isRequired,
   selectSample: PropTypes.func.isRequired,
-  populationShape: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
+  regressorType: PropTypes.oneOf(['Continuous', 'Binary']).isRequired
 }
