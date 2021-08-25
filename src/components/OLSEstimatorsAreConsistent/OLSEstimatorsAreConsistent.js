@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Collapsable from '../Collapsable.js';
 import _ from 'lodash';
 import { Col, Container, Row } from 'react-bootstrap';
-import { generateBinary, linearRegression } from '../../lib/stats-utils.js';
+import { linearRegression } from '../../lib/stats-utils.js';
 import PopulationPlot from './PopulationPlot.js';
 import SampleInput from './SampleInput.js';
 import SamplePlot from './SamplePlot.js';
@@ -12,13 +12,23 @@ import randomNormal from 'random-normal';
 import { median } from 'mathjs';
 import { olsAssumptionType } from '../../lib/types.js';
 import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
+import { fetchCsv } from '../../lib/data-utils.js';
 
 export default function OLSEstimatorsAreConsistent({ assumption }) {
-  const [data] = useState(generateBinary(1000, 195, 211, 30, 30));
+  const [data, setData] = useState([]);
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
   const [showViolation, setShowViolation] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    // use a pre-generated dataset
+    const getData = async () => {
+      const csvData = await fetchCsv(`${process.env.PUBLIC_URL}/data/RTC_data.csv`);
+      setData(csvData.map(([x, y, category]) => ({ x: +x, y: +y, category })));
+    }
+    getData();
+  }, []);
 
   useEffect(() => {
     setSamples([]);
