@@ -3,6 +3,7 @@ import SelectorButtonGroup from '../SelectorButtonGroup.js';
 import { useState } from 'react';
 import { InlineMath } from 'react-katex';
 import SimulationIntro from '../SimulationIntro.js';
+import JobCorpsDataModal from '../JobCorpsDataModal.js';
 
 export default function SampleDistributionOLSEstimatorsContainer() {
   const [populationShape, setPopulationShape] = useState('');
@@ -16,6 +17,9 @@ export default function SampleDistributionOLSEstimatorsContainer() {
       <br/>
       <p>Select a population shape:</p>
       <SelectorButtonGroup options={['Continuous', 'Binary']} select={setPopulationShape} selected={populationShape}/>
+      <br/>
+      <br/>
+      <JobCorpsDataModal showButton={populationShape === 'Binary'}/>
       <br/>
       <br/>
       {populationShape && <SampleDistributionOLSEstimators populationShape={populationShape}/>}
