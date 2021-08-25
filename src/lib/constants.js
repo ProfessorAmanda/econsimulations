@@ -122,7 +122,7 @@ export const OLS_ASSUMPTIONS_OPTIONS = {
 
 export const OLS_ASSUMPTIONS_TEXTS = {
   'OLS Assumptions Hold': '',
-  'Non-Random Sample': 'Researchers collect their sample by randomly calling people from the list of people in the study population. BUT, people who are not working are much more likely to answer the phone to respond to the survey. This means that the sample is not actually random and draws people from the bottom half of the earnings distribution (those working fewer hours or without steady jobs).',
+  'Non-Random Sample': 'Researchers collect their sample by randomly calling people from the list of people in the study population. BUT, people who are not working are much more likely to answer the phone to respond to the survey. This means that the sample is not actually random and draws people from the bottom half of the earnings distribution (those working fewer hours or without steady jobs), and so we need to sample with replacement for any sample size over 1000 (half of the population size).',
   'Large Outliers': 'The technician hired to enter earnings from the sample respondents makes data entry errors when recording a batch of earnings data from the treatment group, accidently inflating the values.',
   'E(u|x) != 0': 'Some people who were randomized into the control group are very ambitious and well-connected and find a way to get into the Job Corps program. This is an example of “failure to follow treatment protocol.” In this scenario, the regressor (X=indicator for being in Job Corps) in no longer uncorrelated with other characteristics (eg. motivation, connections) of the individual.'
 }
