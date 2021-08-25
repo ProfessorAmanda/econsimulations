@@ -39,6 +39,10 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     1: 'purple',
     2: 'orange'
   }
+  const entityColorMap = {
+    1: 'red',
+    2: 'blue'
+  }
 
   const xMeans = [];
   const yMeans = [];
@@ -58,12 +62,12 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
     xMeans.push({
       label: `X̄<sub>${e}t</sub>`,
       value: mean(data[e].x),
-      color: 'red'
+      color: entityColorMap[e]
     });
     yMeans.push({
       label: `Ȳ<sub>${e}t</sub>`,
       value: mean(data[e].y),
-      color: 'blue'
+      color: entityColorMap[e]
     });
   });
 
@@ -131,7 +135,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
           type: 'scatter',
           text: _.range(1, 4).map((i) => `(X<sub>1${i}</sub>, Y<sub>1${i}</sub>)`),
           textposition: 'bottom right',
-          mode: 'markers+text',
+          mode: 'markers',
           marker: {
             color: 'red',
             size: 10,
@@ -161,7 +165,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
           type: 'scatter',
           text: _.range(1, 4).map((i) => `(X<sub>2${i}</sub>, Y<sub>2${i}</sub>)`),
           textposition: 'bottom right',
-          mode: 'markers+text',
+          mode: 'markers',
           marker: {
             color: 'blue',
             size: 10,
