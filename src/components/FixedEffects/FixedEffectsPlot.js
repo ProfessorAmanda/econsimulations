@@ -255,7 +255,8 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
             ay,
             axref: 'x',
             ayref: 'y',
-            arrowcolor: i < 6 ? 'red' : 'blue'
+            arrowcolor: i < 6 ? 'red' : 'blue',
+            opacity: 0.5
           }))
         ]
       }}
