@@ -1,6 +1,7 @@
 import { Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { InlineMath } from 'react-katex';
+import { stringOrNumberType } from '../../lib/types';
 
 export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
   return (
@@ -33,8 +34,8 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
 }
 
 CoefficientInput.propTypes = {
-  beta: PropTypes.number.isRequired,
+  beta: stringOrNumberType.isRequired,
   setBeta: PropTypes.func.isRequired,
-  delta: PropTypes.number.isRequired,
+  delta: stringOrNumberType.isRequired,
   setDelta: PropTypes.func.isRequired,
 }

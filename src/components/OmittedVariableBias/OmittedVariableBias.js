@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Button, InputGroup, Alert, Badge } from 'react-bootstrap';
+import { Row, Col, Button, Alert, Badge } from 'react-bootstrap';
 import CoefficientInput from './CoefficientInput.js';
 import MultivariateNormal from 'multivariate-normal';
 import { round, transpose, matrix, multiply, inv } from 'mathjs';
