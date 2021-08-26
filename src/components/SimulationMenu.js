@@ -3,6 +3,7 @@ import SimBar from './SimBar.js';
 import StartHere from './StartHere';
 import { Fade } from 'react-bootstrap';
 import SimulationContainer from './SimulationContainer.js';
+import Footer from './Footer.js';
 
 export default function SimulationMenu() {
   const [mode, setMode] = useState('Home');
@@ -17,18 +18,6 @@ export default function SimulationMenu() {
     return () => clearTimeout(timer);
   }, []);
 
-  const teachingMaterialsLink = (
-    <p>
-      <a
-        href="https://amandagreggeconomics.com/statistics-simulations-project/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        View teaching materials
-      </a>
-    </p>
-  );
-
   return (
     start ? (
       <div>
@@ -40,7 +29,7 @@ export default function SimulationMenu() {
             <br/>
             <br/>
             <br/>
-            {teachingMaterialsLink}
+            <Footer/>
           </>
         )}
       </div>
@@ -50,7 +39,7 @@ export default function SimulationMenu() {
           <Fade in={(mode === 'Home')}>
             <>
               <SimBar setSection={setMode}/>
-              {teachingMaterialsLink}
+              <Footer/>
             </>
           </Fade>
         ) : (
