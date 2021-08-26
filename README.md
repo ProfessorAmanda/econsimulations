@@ -1,6 +1,7 @@
-<img src="src/images/ECONSIMS.png"/>
+<p align="center">
+  <img src="src/images/ECONSIMS.png" alt="logo" width="350"/>
+</p>
 
-<br/>
 <br/>
 
 This website is an interactive educational application developed to simulate and visualize various statistical concepts.
