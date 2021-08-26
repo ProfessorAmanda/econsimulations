@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import SimBar from './SimBar.js';
 import StartHere from './StartHere';
-import { Fade } from 'react-bootstrap';
+import { Button, Fade } from 'react-bootstrap';
 import SimulationContainer from './SimulationContainer.js';
 
 export default function SimulationMenu() {
@@ -18,15 +18,27 @@ export default function SimulationMenu() {
   }, []);
 
   const teachingMaterialsLink = (
-    <p>
-      <a
+    <>
+      <Button
+        size="sm"
+        variant="primary"
         href="https://amandagreggeconomics.com/statistics-simulations-project/"
         target="_blank"
         rel="noopener noreferrer"
       >
         View teaching materials
-      </a>
-    </p>
+      </Button>
+      {' '}
+      <Button
+        size="sm"
+        variant="success"
+        href="https://github.com/ProfessorAmanda/econsimulations"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View code on GitHub
+      </Button>
+    </>
   );
 
   return (
