@@ -142,7 +142,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
           <br/>
           <Row>
             <p>
-              Press here to reveal the true population distribution and mean.&nbsp;
+              Press here to reveal the true population distribution and mean:{' '}
               <Button active={stage >= 2} variant="outline-primary" onClick={() => setStage(2)}>Reveal</Button>
             </p>
           </Row>
