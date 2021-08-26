@@ -3,7 +3,7 @@ import SelectorButtonGroup from '../SelectorButtonGroup.js';
 import { useState } from 'react';
 import { InlineMath } from 'react-katex';
 import SimulationIntro from '../SimulationIntro.js';
-import JobCorpsDataModal from '../JobCorpsDataModal.js';
+import JobCorpsDataPopup from '../JobCorpsDataPopup.js';
 
 export default function SampleDistributionOLSEstimatorsContainer() {
   const [regressorType, setRegressorType] = useState('');
@@ -19,7 +19,7 @@ export default function SampleDistributionOLSEstimatorsContainer() {
       <SelectorButtonGroup options={['Continuous', 'Binary']} select={setRegressorType} selected={regressorType}/>
       <br/>
       <br/>
-      <JobCorpsDataModal showButton={regressorType === 'Binary'}/>
+      <JobCorpsDataPopup showButton={regressorType === 'Binary'}/>
       <br/>
       <br/>
       {regressorType && <SampleDistributionOLSEstimators regressorType={regressorType}/>}

@@ -2,7 +2,7 @@ import { Button, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-export default function JobCorpsDataModal({ showButton }) {
+export default function JobCorpsDataPopup({ showButton }) {
   const [showDataInfo, setShowDataInfo] = useState(false);
 
   return (
@@ -30,6 +30,6 @@ export default function JobCorpsDataModal({ showButton }) {
   )
 }
 
-JobCorpsDataModal.propTypes = {
+JobCorpsDataPopup.propTypes = {
   showButton: PropTypes.bool.isRequired
 }
