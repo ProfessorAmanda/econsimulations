@@ -21,7 +21,7 @@ export default function SampleDistributionOLSEstimators({ regressorType }) {
     } else if (regressorType === 'Binary') {
       // use a pre-generated dataset
       const parseData = (results) => {
-        setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id })));
+        setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id: id + 1 })));
       }
       fetchCSV(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`, parseData);
     }
@@ -49,7 +49,7 @@ export default function SampleDistributionOLSEstimators({ regressorType }) {
       }
       newSamples.push(sampleObject);
     }
-    const indexedSamples = (clear ? newSamples : [...samples, ...newSamples]).map((obj, index) => ({ ...obj, id: index }));
+    const indexedSamples = (clear ? newSamples : [...samples, ...newSamples]).map((obj, index) => ({ ...obj, id: index + 1 }));
     setSelected(indexedSamples[indexedSamples.length - 1]);
     setSamples(indexedSamples);
   }
