@@ -102,8 +102,9 @@ export default function Scatter3D({ x, y, z, dataSet }) {
 
   return (
     <Row>
-      <Col style={{border: '1px solid black', height: 702, width: 802, padding: 0}}>
+      <Col style={{width: 802, padding: 0}}>
         <Plot
+          style={{border: '1px solid black'}}
           data={plotData}
           layout={{
             title: {
