@@ -264,7 +264,7 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
             ay: ay - (y - ay > 0 ? 0.1 : (y - ay < 0 ? -0.1 : 0)),  // hack to make sure arrowheads don't overlap with points
             axref: 'x',
             ayref: 'y',
-            opacity: 0.7,
+            opacity: 0.5,
             arrowcolor: (i < firstArrows1.length + secondArrows1.length) ? 'red' : 'blue'
           }))
         ]
