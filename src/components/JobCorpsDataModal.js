@@ -12,7 +12,7 @@ export default function JobCorpsDataModal({ showButton }) {
           <Button size="sm" variant="outline-success" onClick={() => setShowDataInfo(!showDataInfo)}>
             More about this dataset
           </Button>
-          <Modal show={showDataInfo} onHide={() => setShowDataInfo(false)}>
+          <Modal show={showDataInfo} onHide={() => setShowDataInfo(false)} size="lg" centered>
             <Modal.Header>
               <Modal.Title>More about this dataset:</Modal.Title>
               <Button variant="light" className="btn-close" onClick={() => setShowDataInfo(false)}/>
