@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Button, InputGroup } from 'react-bootstrap';
+import { Row, Col, Button, Alert, Badge } from 'react-bootstrap';
 import CoefficientInput from './CoefficientInput.js';
 import MultivariateNormal from 'multivariate-normal';
 import { round, transpose, matrix, multiply, inv } from 'mathjs';
@@ -113,10 +113,11 @@ export default function OmittedVariableBias() {
           <div style={{ padding: 10 }}>Set the Correlation between Study Hours and Sleep Hours:</div>
           <InputSlider value={correlation} min={-0.99} max={0.99} step={0.01} onChange={(value) => setCorrelation(value)}/>
           <br/>
-          <InputGroup style={{ width: 'fit-content', margin: 'auto' }}>
-            <InputGroup.Text>Covariance between Study Hours and Sleep Hours:</InputGroup.Text>
-            <InputGroup.Text aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</InputGroup.Text>
-          </InputGroup>
+          <Alert variant="secondary" style={{ width: 'fit-content', margin: 'auto' }}>
+            Covariance between Study Hours and Sleep Hours: {' '}
+            <Badge className="badge bg-primary pill" aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</Badge>
+          </Alert>
+
         </Col>
       </Row>
       <br/>

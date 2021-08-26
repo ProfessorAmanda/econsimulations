@@ -5,7 +5,7 @@ import { OLS_ASSUMPTIONS_OPTIONS } from '../../lib/constants.js';
 import SimulationIntro from '../SimulationIntro.js';
 import _ from 'lodash';
 import { InlineMath } from 'react-katex';
-import JobCorpsDataModal from '../JobCorpsDataModal.js';
+import JobCorpsDataPopup from '../JobCorpsDataPopup.js';
 
 export default function OLSEstimatorsAreConsistentContainer() {
   const [assumption, setAssumption] = useState('');
@@ -42,7 +42,7 @@ export default function OLSEstimatorsAreConsistentContainer() {
       />
       <br/>
       <br/>
-      <JobCorpsDataModal showButton/>
+      <JobCorpsDataPopup showButton/>
       <br/>
       <br/>
       {assumption && <OLSEstimatorsAreConsistent assumption={assumptionAsString}/>}

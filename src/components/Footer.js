@@ -5,7 +5,7 @@ export default function Footer() {
     <p>
       <Button
         size="sm"
-        variant="primary"
+        variant="outline-primary"
         href="https://amandagreggeconomics.com/statistics-simulations-project/"
         target="_blank"
         rel="noopener noreferrer"
@@ -15,7 +15,7 @@ export default function Footer() {
       {' '}
       <Button
         size="sm"
-        variant="success"
+        variant="outline-success"
         href="https://github.com/ProfessorAmanda/econsimulations"
         target="_blank"
         rel="noopener noreferrer"

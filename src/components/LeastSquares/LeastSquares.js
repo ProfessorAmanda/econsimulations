@@ -62,18 +62,22 @@ export default function LeastSquares() {
       <Col xs={{ span: 3, offset: 3 }} md={{ span: 3, offset: 0 }} style={{ paddingTop: '100px' }}>
         <NewPointsInput generatePoints={generatePoints}/>
         <br/>
-        {(stage === 2) && <p>Guess a Slope and Y-Intercept to fit the points</p>}
-        {(stage === 3) && <p>Want to try again? Guess a different slope and y-intercept to reduce the Sum of Squares!</p>}
-        {(stage >= 2) && (
-          <div>
-            <h4>Intercept</h4>
-            <InputSlider value={intercept} min={-20} max={20} step={0.1} onChange={(value) => setIntercept(value)}/>
-            <br/>
-            <h4>Slope</h4>
-            <InputSlider value={slope} min={-10} max={10} step={0.1} onChange={(value) => setSlope(value)}/>
-            <br/>
-            <PlotLine stage={stage} setStage={setStage} squareAreas={squareAreas} generateBestLine={generateBestLine}/>
-          </div>
+        {(points.length > 0) && (
+          <>
+            {(stage === 2) && <p>Guess a Slope and Y-Intercept to fit the points</p>}
+            {(stage === 3) && <p>Want to try again? Guess a different slope and y-intercept to reduce the Sum of Squares!</p>}
+            {(stage >= 2) && (
+              <div>
+                <h4>Intercept</h4>
+                <InputSlider value={intercept} min={-20} max={20} step={0.1} onChange={(value) => setIntercept(value)}/>
+                <br/>
+                <h4>Slope</h4>
+                <InputSlider value={slope} min={-10} max={10} step={0.1} onChange={(value) => setSlope(value)}/>
+                <br/>
+                <PlotLine stage={stage} setStage={setStage} squareAreas={squareAreas} generateBestLine={generateBestLine}/>
+              </div>
+            )}
+          </>
         )}
       </Col>
     </Row>

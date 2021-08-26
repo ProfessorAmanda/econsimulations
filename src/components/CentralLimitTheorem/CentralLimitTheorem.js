@@ -29,7 +29,7 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
     if (!means) { // calling addSampleMeans with no arguments clears the data
       setSampleMeans([])
     } else {
-      const newSampleMeans = means.map((mean, index) => ({ ...mean, id: index }));
+      const newSampleMeans = means.map((mean, index) => ({ ...mean, id: index + 1 }));
       setSampleMeans(newSampleMeans);
     }
   }
@@ -38,7 +38,7 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
     const newMeans = [...sampleMeans, { size, mean: populationMean(sample) }];
-    setSampleMeans(newMeans.map((mean, index) => ({ ...mean, id: index })));
+    setSampleMeans(newMeans.map((mean, index) => ({ ...mean, id: index + 1 })));
   }
 
   const popMean = populationMean(popArray) || 0;

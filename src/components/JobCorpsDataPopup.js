@@ -2,7 +2,7 @@ import { Button, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-export default function JobCorpsDataModal({ showButton }) {
+export default function JobCorpsDataPopup({ showButton }) {
   const [showDataInfo, setShowDataInfo] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ export default function JobCorpsDataModal({ showButton }) {
           <Button size="sm" variant="outline-success" onClick={() => setShowDataInfo(!showDataInfo)}>
             More about this dataset
           </Button>
-          <Modal show={showDataInfo} onHide={() => setShowDataInfo(false)}>
+          <Modal show={showDataInfo} onHide={() => setShowDataInfo(false)} size="lg" centered>
             <Modal.Header>
               <Modal.Title>More about this dataset:</Modal.Title>
               <Button variant="light" className="btn-close" onClick={() => setShowDataInfo(false)}/>
@@ -30,6 +30,6 @@ export default function JobCorpsDataModal({ showButton }) {
   )
 }
 
-JobCorpsDataModal.propTypes = {
+JobCorpsDataPopup.propTypes = {
   showButton: PropTypes.bool.isRequired
 }

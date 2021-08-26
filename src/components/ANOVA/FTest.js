@@ -58,5 +58,5 @@ export default function FTest({ populations, samples }) {
 
 FTest.propTypes = {
   populations: PropTypes.arrayOf(anovaPopulationObjectType).isRequired,
-  samples: PropTypes.arrayOf(PropTypes.number).isRequired
+  samples: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired
 }

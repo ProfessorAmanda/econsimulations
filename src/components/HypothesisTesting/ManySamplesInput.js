@@ -15,7 +15,7 @@ export default function ManySamplesInput({ populationSize, addSamples }) {
       <span> Sample Size: </span>
       <InputGroup className="sample-size-input" style={{ width: '40%', margin: 'auto' }}>
         <Form.Control
-          align="right"
+          style={{width: 45}}
           type="number"
           placeholder="Sample Size:"
           min={1}
