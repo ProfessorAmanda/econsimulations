@@ -24,7 +24,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
   useEffect(() => {
     // use a pre-generated dataset
     const parseData = (results) => {
-      setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id })));
+      setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id: id + 1 })));
     }
 
     fetchCSV(`${process.env.PUBLIC_URL}/data/Job_Corps_data.csv`, parseData);
@@ -67,6 +67,8 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       const alteredJobCorps = sampleJobCorps.map((obj, idx) => (
         {
           ...obj,
+          // store the original x-value
+          originalX: obj.x,
           y: (randomIndices.includes(idx) ? obj.y * 2 : obj.y),
           // store the original y-value and mark that the sample was modified
           originalY: obj.y,
@@ -120,7 +122,7 @@ export default function OLSEstimatorsAreConsistent({ assumption }) {
       originalSlope,
       originalIntercept
     }
-    const newSamples = [...samples, sampleObject].map((obj, index) => ({ ...obj, id: index }));
+    const newSamples = [...samples, sampleObject].map((obj, index) => ({ ...obj, id: index + 1 }));
     setSelected(newSamples[newSamples.length - 1]);
     setSamples(newSamples);
   }
