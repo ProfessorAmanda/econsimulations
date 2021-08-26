@@ -254,17 +254,18 @@ export default function FixedEffectsPlot({ data, effects, means, olsLines }) {
           })),
           // draw the arrows
           ...[...firstArrows1, ...secondArrows1, ...firstArrows2, ...secondArrows2].map(([[x, y], [ax, ay]], i) => ({
-            x,
+            x: x - (x - ax > 0 ? 0.3 : (x - ax < 0 ? -0.3 : 0)),  // hack to make sure arrowheads don't overlap with points
             y,
             xref: 'x',
             yref: 'y',
             showarrow: true,
             arrowwidth: 1,
             ax,
-            ay,
+            ay: ay - (y - ay > 0 ? 0.1 : (y - ay < 0 ? -0.1 : 0)),  // hack to make sure arrowheads don't overlap with points
             axref: 'x',
             ayref: 'y',
-            opacity: 0.7
+            opacity: 0.7,
+            arrowcolor: (i < firstArrows1.length + secondArrows1.length) ? 'red' : 'blue'
           }))
         ]
       }}
