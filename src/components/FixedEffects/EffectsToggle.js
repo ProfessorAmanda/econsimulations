@@ -4,7 +4,7 @@ import { fixedEffectsToggleType } from '../../lib/types';
 
 export default function EffectsToggle({ effects, toggleEffect, means, toggleMean, olsLines, toggleOLSLine }) {
   return (
-    <ListGroup variant="flush" style={{width: 'fit-content'}}>
+    <ListGroup variant="flush" style={{width: 'fit-content', margin: 'auto'}}>
       <ListGroup.Item>
         <Form.Label>Entity Fixed Effects:</Form.Label>
         {[1, 2].map((i) => (
