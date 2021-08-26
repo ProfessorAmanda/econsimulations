@@ -10,8 +10,8 @@ import { abs } from 'mathjs';
 export default function JointDistributions() {
   const [parentMean, setParentMean] = useState(70);
   const [childMean, setChildMean] = useState(70);
-  const [parentSD, setParentSD] = useState(1);
-  const [childSD, setChildSD] = useState(1);
+  const [parentSD, setParentSD] = useState(3);
+  const [childSD, setChildSD] = useState(3);
   const [correlation, setCorrelation] = useState(0);
   const [stage, setStage] = useState(1);
   const [allData, setAllData] = useState({ parent: [], child: [], joint: [] });
