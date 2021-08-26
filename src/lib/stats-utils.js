@@ -132,6 +132,8 @@ export const convertToStandardNormal = (array, popMean, popSD, attr) => {
   return array.map((p) => ({...p, [attr]: (p[attr] - popMean) / (popSD || 1)}));
 }
 
+// can take either an array of arrays or an array of objects
+// objects must be of shape { x, y }
 export const linearRegression = (data, precision = 2) => {
   let parsedData;
   if (data.every((elem) => _.isArray(elem))) {

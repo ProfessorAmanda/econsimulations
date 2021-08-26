@@ -171,5 +171,9 @@ export const MODULES = [
   {
     name: 'Multiple Regression',
     description: <>OLS regression with multiple regressors (<InlineMath math="k"/>) estimates the <InlineMath math="k+1"/> dimensional plane that best fits the data.</>
+  },
+  {
+    name: 'Fixed Effects',
+    description: 'In Progress',
   }
 ];
