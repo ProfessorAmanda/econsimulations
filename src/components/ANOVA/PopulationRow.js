@@ -22,7 +22,7 @@ export default function PopulationRow({ data, sample, id }) {
   const sampleSD = populationStandardDev(sample);
 
   // determine max height for the sample mean line
-  const yMax = (sample.length > 0) && max(getCounts(sample.map(({ x }) => x)).map(({ y }) => y)) + 1;
+  const yMax = (sample.length > 0) ? max(getCounts(sample.map(({ x }) => x)).map(({ y }) => y)) + 1 : 0;
 
   const sampleSeries = [
     {
