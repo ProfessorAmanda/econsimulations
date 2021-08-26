@@ -1,5 +1,7 @@
-## Econsimulations
-<hr/>
+<img src="src/images/ECONSIMS.png"/>
+
+<br/>
+<br/>
 
 This website is an interactive educational application developed to simulate and visualize various statistical concepts.
 
