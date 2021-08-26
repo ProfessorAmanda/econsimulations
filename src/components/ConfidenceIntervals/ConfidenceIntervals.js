@@ -63,7 +63,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
           mean,
           lowerConf: _.round(lowerConf, 2),
           upperConf: _.round(upperConf, 2),
-          confidenceLevel: confLevel,
+          confidenceLevel: +confLevel,
           distribution: distType,
           label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2)),
         }
@@ -90,7 +90,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
           <ConfidenceInputs
             distType={distType}
             setDistType={setDistType}
-            confLevel={confLevel}
+            confLevel={+confLevel}
             setConfLevel={setConfLevel}
           />
         </Row>
@@ -108,7 +108,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
           </Col>
           <Col>
             <ConfidenceIntervalsChart
-              confidenceLevel={confLevel}
+              confidenceLevel={+confLevel}
               samples={samples}
               popShape={popShape}
               popMean={_.round(populationMean(popArray), 2)}
