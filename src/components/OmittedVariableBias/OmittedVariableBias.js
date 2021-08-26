@@ -115,7 +115,7 @@ export default function OmittedVariableBias() {
           <br/>
           <Alert variant="secondary" style={{ width: 'fit-content', margin: 'auto' }}>
             Covariance between Study Hours and Sleep Hours: {' '}
-            <Badge className="badge bg-primary pill">{(correlation * stdX * stdY).toFixed(2)}</Badge>
+            <Badge className="badge bg-primary pill" aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</Badge>
           </Alert>
 
         </Col>
