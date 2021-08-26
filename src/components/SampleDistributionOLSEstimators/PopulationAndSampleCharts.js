@@ -34,7 +34,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
     {
       name: 'best fit line',
       type: 'line',
-      data: [{ x: 0 }, { x: OLSE_VALUES[regressorType].xMax }, ...sample.data].map((point) => (
+      data: [{ x: 0 }, ...sample.data, { x: OLSE_VALUES[regressorType].xMax }].map((point) => (
         { x: point.x, y: _.round((point.x * sample.slope) + sample.intercept, 2) }
       )),
       label: false,
@@ -45,6 +45,7 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
     },
     {
       name: 'sample',
+      type: 'scatter',
       data: sample.data,
       color: 'orange',
       marker: {
@@ -53,13 +54,12 @@ export default function PopulationAndSampleCharts({ data, addSamples, selected, 
       },
       tooltip: tooltipFormat
     },
-
     // add a new series for each 'grayed-out' line
     // couldn't figure out how to add multiple lines to one series, so this makes it slower with more replications
     ...samples.filter((sample) => sample !== selected).map(({ data, slope, intercept, id }) => ({
       name: `Sample ${id}`,
       type: 'line',
-      data: [{ x: 0 }, { x: OLSE_VALUES[regressorType].xMax }, ...data].map((point) => (
+      data: [{ x: 0 }, ...data.sort((a, b) => a.x - b.x), { x: OLSE_VALUES[regressorType].xMax }].map((point) => (
         { x: point.x, y: (point.x * slope) + intercept }
       )),
       color: '#dddddd',
