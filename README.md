@@ -18,9 +18,27 @@ Link to teaching materials: https://amandagreggeconomics.com/statistics-simulati
 
 ---
 
-References:
+**References**:
 
 1. Stock, James H., and Mark W. Watson. 2019. _Introduction to econometrics, 4th Edition._ Boston: Pearson/Addison Wesley.
 2. Sarah Flood, Miriam King, Renae Rodgers, Steven Ruggles and J. Robert Warren. _Integrated Public Use Microdata Series, Current Population Survey: Version 8.0 [dataset]._ Minneapolis, MN: IPUMS, 2020. https://doi.org/10.18128/D030.V8.0
 2. Schochet, Peter Z, John Burghard, and Sheena McConnell. 2006. _National Job Corps Study and Longer-Term Follow-Up Study: Impact and Benefit-Cost Findings Using Survey and Summary Earnings Records Data._ Mathematica Policy Research, Inc.
 4. https://www.cde.ca.gov/
+
+---
+
+**Installation and Setup Instructions**:
+
+Clone the repository:
+```
+git clone https://github.com/ProfessorAmanda/econsimulations.git
+```
+Install dependencies:
+```
+npm install
+```
+Run the development server
+```
+npm start
+```
+The site should now be visible at http://localhost:3000/econsimulations
