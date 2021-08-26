@@ -49,7 +49,18 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
           </Alert>
         </Row>
         <Row>
-          <Col lg={{span: 2, order: 'first'}} xs={{span: 12, order: 'last'}} style={{width: 'fit-content', margin: 'auto'}}>
+          <Col lg={9} xs={12}>
+            <DotPlot
+              series={series}
+              title={`${title} <br /> Population Mean: ${_.round(popMean, 2)}`}
+              xMin={xminval}
+              xMax={xmaxval}
+              yMax={ymaxval}
+              xLabel={xLabel}
+              animation={false}
+            />
+          </Col>
+          <Col style={{width: 'fit-content', margin: 'auto'}}>
             <DataTable
               data={popArray}
               headers={{
@@ -60,17 +71,6 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
               setRowColor={(object) => sampled.map((obj) => obj.id).includes(object.id) ? '#747EF2' : undefined}
             />
             <br/>
-          </Col>
-          <Col lg={{span: 9, order: 'last'}} xs={{span: 12, order: 'first'}}>
-            <DotPlot
-              series={series}
-              title={`${title} <br /> Population Mean: ${_.round(popMean, 2)}`}
-              xMin={xminval}
-              xMax={xmaxval}
-              yMax={ymaxval}
-              xLabel={xLabel}
-              animation={false}
-            />
           </Col>
         </Row>
       </Container>

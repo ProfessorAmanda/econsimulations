@@ -71,7 +71,7 @@ export const dataFromDistribution = (
 
   const population = getDistributionFunction[distType]();
 
-  return _.shuffle(getCounts(population)).map((obj, index) => ({ ...obj, id: index }));
+  return _.shuffle(getCounts(population)).map((obj, index) => ({ ...obj, id: index + 1 }));
 }
 
 // returns the mean of popArray
