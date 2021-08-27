@@ -14,13 +14,4 @@ describe('CentralLimitTheorem integration tests', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Normal' }));
     expect(screen.getByTestId('clt-sim')).toBeInTheDocument();
   });
-
-  test('switching population shape resets module', () => {
-    fireEvent.click(screen.getByRole('button', { name: 'Normal' }));
-    expect(screen.queryByRole('button', { name: 'Sample' })).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByRole('button', { name: 'Sample' })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'Uniform' }));
-    expect(screen.queryByRole('button', { name: 'Sample' })).not.toBeInTheDocument();
-  });
 });
