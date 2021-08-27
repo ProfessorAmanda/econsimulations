@@ -6,6 +6,7 @@ window.HTMLCanvasElement.prototype.getContext = () => {};  // eslint-disable-lin
 window.URL.createObjectURL = () => {};  // eslint-disable-line
 
 // tests with jsx-highcharts weren't working - grabbed this from the jsx-highcharts repo, tests run now?
+// update: confirmed that this is the solution in https://github.com/whawker/react-jsx-highcharts/issues/345
 const nodeCrypto = require('crypto');
 window.crypto = {
   getRandomValues: function (buffer) {
