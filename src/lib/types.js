@@ -87,6 +87,14 @@ export const anovaPopulationObjectType = PropTypes.shape({
 
 export const olsAssumptionType = PropTypes.oneOf(_.keys(OLS_ASSUMPTIONS_OPTIONS));
 
+export const fStatisticObjectType = PropTypes.shape({
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  F: PropTypes.number.isRequired,
+  pValue: PropTypes.number.isRequired,
+  reject: PropTypes.bool.isRequired
+});
+
 export const fixedEffectsDataType = PropTypes.shape({
   1: PropTypes.shape({
     x: PropTypes.arrayOf(PropTypes.number).isRequired,

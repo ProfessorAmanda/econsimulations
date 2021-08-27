@@ -16,6 +16,7 @@ import {
   populationMean,
   populationStandardDev
 } from '../../lib/stats-utils.js';
+import { InlineMath } from 'react-katex';
 
 export default function PerformTest({ distType, shape, sides, mu0, equality, testType }) {
   const [popArr, setPopArr] = useState([]);
@@ -99,7 +100,7 @@ export default function PerformTest({ distType, shape, sides, mu0, equality, tes
 
   return (
     <Container fluid>
-      <p>Let’s test your assertion by taking a sample and setting our tolerance for making a type-one error α!</p>
+      <p>Let’s test your assertion by taking a sample and setting our tolerance for making a type-one error <InlineMath math="\alpha"/>!</p>
       <SampleSizeAlphaInputs
         sampleSize={sampleSize}
         setSampleSize={setSampleSize}

@@ -1,7 +1,7 @@
 import Highcharts from 'highcharts';
 import PropTypes from 'prop-types';
 import { highchartsSeriesType, stringOrNumberType } from '../lib/types';
-import { Chart, HighchartsChart, HighchartsProvider, Series, Title, Tooltip, XAxis, YAxis } from 'react-jsx-highcharts';
+import { Chart, HighchartsChart, HighchartsProvider, Legend, Series, Title, Tooltip, XAxis, YAxis } from 'react-jsx-highcharts';
 require('highcharts/modules/series-label')(Highcharts);
 
 export default function ScatterPlot({
@@ -61,6 +61,7 @@ export default function ScatterPlot({
             />
           ))}
         </YAxis>
+        <Legend/>
       </HighchartsChart>
     </HighchartsProvider>
   )

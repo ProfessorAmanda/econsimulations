@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { highchartsSeriesType } from '../lib/types';
 import ScatterPlot from './ScatterPlot';
 
-export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel, animation, zoom }) {
+export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabel, animation, zoom, tooltipFormat }) {
   return (
     <ScatterPlot
       series={series}
@@ -16,7 +16,7 @@ export default function DotPlot({ series, title, xMin, xMax, yMax, xLabel, yLabe
       animation={animation}
       zoom={zoom}
       allowDecimalsY={false}
-      tooltipFormat={`${xLabel}: <b>{point.x}</b><br />`}
+      tooltipFormat={tooltipFormat || `${xLabel}: <b>{point.x}</b><br />`}
     />
   )
 }
@@ -30,5 +30,6 @@ DotPlot.propTypes = {
   xLabel: PropTypes.string,
   yLabel: PropTypes.string,
   animation: PropTypes.bool,
-  zoom: PropTypes.bool
+  zoom: PropTypes.bool,
+  tooltipFormat: PropTypes.string
 }

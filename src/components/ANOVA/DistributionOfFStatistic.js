@@ -5,9 +5,8 @@ import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
 import _ from 'lodash';
 import { mean, std, sum } from 'mathjs';
 import { jStat } from 'jstat';
-import HighchartsReact from 'highcharts-react-official';
-import Highcharts from 'highcharts';
 import { InlineMath } from 'react-katex';
+import FDistributionPlot from './FDistributionPlot';
 
 export default function DistributionOfFStatistic({ populations, alpha }) {
   const [numSamples, setNumSamples] = useState('');
@@ -53,65 +52,6 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
     setRejects(newRejects);
   }
 
-  const chart = {
-    chart: {
-      zoomType: 'xy',
-      animation: false,
-      type: 'scatter'
-    },
-    title: {
-      text: ''
-    },
-    xAxis: {
-      title: {
-        text: 'F-Statistic',
-      },
-      min: 0,
-      startOnTick: true,
-      endOnTick: true
-    },
-    yAxis: {
-      allowDecimals: false,
-      startOnTick: true,
-      endOnTick: true,
-      min: 0,
-      title: {
-        text: 'Observations of F-Statistic'
-      }
-    },
-    tooltip: {
-      pointFormat: 'F-Statistic: <b>{point.F}</b><br/>p-value: <b>{point.pValue}</b><br/>reject H_0: <b>{point.reject}</b></br>'
-    },
-    // fail to reject and reject are in two different series so they can be colored differently
-    // I can't figure out how to color points within one series differently so this is the best option
-    series: [
-      {
-        name: 'Fail to Reject H_0',
-        type: 'scatter',
-        data: accepts,
-        color: '#03fc0b',
-        marker: {
-          symbol: 'diamond',
-          radius: 4,
-          lineColor: 'green',
-          lineWidth: 1
-        }
-      },
-      {
-        name: 'Reject H_0',
-        type: 'scatter',
-        data: rejects,
-        color: 'red',
-        marker: {
-          symbol: 'diamond',
-          radius: 4,
-          lineColor: '#800000',
-          lineWidth: 1
-        }
-      }
-    ]
-  }
-
   return (
     <>
       <Alert variant="secondary">
@@ -138,7 +78,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
             <strong>Distribution of F-Statistic </strong>
             (<InlineMath math={`df_{num} = ${populations.length - 1}, df_{den} = ${sum(populations.map(({ sampleSize }) => sampleSize)) - populations.length}`}/>)
           </p>
-          <HighchartsReact highcharts={Highcharts} options={chart}/>
+          <FDistributionPlot accepts={accepts} rejects={rejects}/>
         </>
       )}
       </Alert>
