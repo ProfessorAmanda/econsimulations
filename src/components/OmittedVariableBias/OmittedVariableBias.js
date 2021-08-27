@@ -61,7 +61,7 @@ export default function OmittedVariableBias() {
       const inverse = inv(multiply(transpose(X), X));
       const bHat = multiply(multiply(inverse, transpose(X)), Y);
 
-      const generatePoints = (slope, int) => _.range(0, 11).map((i) => _.round(int + i * slope, 2));
+      const generatePoints = (slope, int) => _.range(0, 11).map((i) => ({x: i, y: _.round(int + i * slope, 2)}));
 
       setAllData({
         points: studyScores.map(([x, y]) => ({ x, y })),
