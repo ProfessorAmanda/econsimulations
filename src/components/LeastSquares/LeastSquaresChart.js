@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js'
 import { Form } from 'react-bootstrap';
 import { HighchartsProvider, HighchartsChart, Chart, XAxis, YAxis, ScatterSeries, Tooltip, Caption, Annotation, LineSeries } from 'react-jsx-highcharts';
+require('highcharts/modules/annotations')(Highcharts);
 
 export default function LeastSquaresChart({ points, addPoint, linePoints, setSquareAreas }) {
   const [enableClick, setEnableClick] = useState(false);
@@ -101,7 +102,7 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
           <XAxis max={20} min={0} tickInterval={2}/>
           <YAxis max={20} min={0} tickInterval={2}>
             <ScatterSeries data={points} marker={{radius: 5}}/>
-            <LineSeries data={linePoints} marker={{color: 'orange', enabled: true}}/>
+            <LineSeries data={linePoints} marker={{color: 'orange', enabled: true}} label={false}/>
           </YAxis>
           <Annotation draggable="" shapes={squares}/>
         </HighchartsChart>
