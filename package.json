@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://professoramanda.github.io/econsimulations",
-  "license": "Apache-2.0",
+  "license": "CC-BY-NC-SA-4.0",
   "engines": {
     "node": "14.x"
   },
