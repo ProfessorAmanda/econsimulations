@@ -79,6 +79,7 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
             <LineSeries
               name={popValSeriesName}
               data={meanLine}
+              label={false}
               color="red"
               marker={false}
               states={{hover: false}}
@@ -86,6 +87,7 @@ export default function SimulateSamples({ title, mathTitle, popArray, sampleSeri
             <LineSeries
               name={sampleSeriesName}
               data={sampled}
+              label={false}
               marker={false}
               color="black"
               states={{hover: false}}

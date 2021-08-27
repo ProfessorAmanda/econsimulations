@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import '../styles/dark-unica.css';
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import PropTypes from 'prop-types';
 import { highchartsSeriesType, stringOrNumberType } from '../lib/types';
+import { Chart, HighchartsChart, HighchartsProvider, Series, Title, Tooltip, XAxis, YAxis } from 'react-jsx-highcharts';
+require('highcharts/modules/series-label')(Highcharts);
 
 export default function ScatterPlot({
   series,
@@ -22,73 +21,49 @@ export default function ScatterPlot({
   allowDecimalsY,
   tooltipFormat,
 }) {
-  const [chart, setChart] = useState({});
 
-  useEffect(() => {
-    const newChart = {
-      chart: {
-        type: 'scatter',
-        animation: !!animation,
-        height,
-        zoomType: zoom ? 'xy' : ''
-      },
-      xAxis: {
-        min: xMin,
-        max: xMax,
-        title: {
-          enabled: true,
-          text: xLabel
-        },
-        startOnTick: true,
-        endOnTick: true,
-        categories: xCategories
-      },
-      title: {
-        text: title
-      },
-      yAxis: {
-        min: yMin,
-        max: yMax,
-        startOnTick: true,
-        endOnTick: true,
-        title: {
-          text: yLabel
-        },
-        tickInterval: yTickInterval,
-        allowDecimals: allowDecimalsY
-      },
-      series: series.map((seriesObject) => (
-        {
-          showInLegend: seriesObject.data.length > 0,
-          turboThreshold: 0,
-          tooltip: {
-            pointFormat: tooltipFormat || 'x: <b>{point.x}</b><br/>y: <b>{point.y}</b><br/>'
-          },
-          ...seriesObject,
-          data: seriesObject.data.map(({ x, y }) => ({ x, y })), // don't want any other attributes
-        })
-      )
-    }
-    setChart(newChart);
-  }, [
-    series,
-    title,
-    xMin,
-    xMax,
-    yMin,
-    yMax,
-    xLabel,
-    yLabel,
-    animation,
-    zoom,
-    height,
-    xCategories,
-    yTickInterval,
-    allowDecimalsY,
-    tooltipFormat
-  ]);
-
-  return <HighchartsReact highcharts={Highcharts} options={chart}/>
+  return (
+    <HighchartsProvider Highcharts={Highcharts}>
+      <HighchartsChart>
+        <Chart
+          animation={!!animation}
+          height={height}
+          zoomType={zoom ? 'xy' : ''}
+        />
+        <Title>{title}</Title>
+        <Tooltip pointFormat={tooltipFormat || 'x: <b>{point.x}</b><br/>y: <b>{point.y}</b><br/>'}/>
+        <XAxis
+          min={xMin}
+          max={xMax}
+          startOnTick
+          endOnTick
+          categories={xCategories}
+        >
+          <XAxis.Title>{xLabel}</XAxis.Title>
+        </XAxis>
+        <YAxis
+          min={yMin}
+          max={yMax}
+          startOnTick
+          endOnTick
+          tickInterval={yTickInterval}
+          allowDecimals={allowDecimalsY}
+        >
+          <YAxis.Title>{yLabel}</YAxis.Title>
+          {series.map((seriesObject) => (
+            <Series
+              key={seriesObject.name}
+              showInLegend={seriesObject.data.length > 0}
+              turboThreshold={0}
+              type={seriesObject.type || 'scatter'}
+              {...seriesObject}
+              data={seriesObject.data.map(({ x, y }) => ({ x, y }))}
+            />
+          ))}
+        </YAxis>
+      </HighchartsChart>
+    </HighchartsProvider>
+  )
 }
 
 ScatterPlot.propTypes = {
