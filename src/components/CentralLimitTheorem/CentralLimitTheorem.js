@@ -45,7 +45,7 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
 
   return (
     <Collapsable>
-      <div>
+      <div data-testid="clt-sim">
         <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape}/>
         <Button variant="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) && (
@@ -89,7 +89,6 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
             </Row>
           </div>
         )}
-
       </div>
     </Collapsable>
   );

@@ -11,7 +11,7 @@ describe('top-level integration tests', () => {
   beforeEach(async () => {
     jest.useFakeTimers();
     render(<App/>);
-    await act(async () => jest.runAllTimers());
+    await act(async () => jest.runAllTimers());  // waits for the intro animation to complete before running each test
   });
 
   afterEach(() => {

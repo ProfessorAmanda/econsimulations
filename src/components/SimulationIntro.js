@@ -4,7 +4,7 @@ import { optionalLaTeXType } from '../lib/types';
 
 export default function SimulationIntro({ name, text }) {
   return (
-    <Alert className="sim-description" variant="primary">
+    <Alert className="sim-description" variant="primary" data-testid={`${name}-into`}>
       <Alert.Heading>{name}</Alert.Heading>
       <hr/>
       {text}
