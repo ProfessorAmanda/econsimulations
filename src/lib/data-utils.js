@@ -10,6 +10,7 @@ export async function fetchCSV(path, callback) {
   })
 }
 
+// if we need to save a generated population
 // source: https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
 export function exportToCsv(filename, rows) {
   const processRow = function (row) {
