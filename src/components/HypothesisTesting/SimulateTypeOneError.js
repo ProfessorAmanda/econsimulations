@@ -139,7 +139,6 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
           ) : (
             <StdNormalCurve
               means={sampleMeans}
-              sampleSize={+sampleSize || 1}
               distType={distType}
               testType={testType}
             />
