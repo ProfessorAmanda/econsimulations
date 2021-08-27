@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import HypothesisTestingContainer from '../components/HypothesisTesting/HypothesisTestingContainer';
+import HypothesisTesting from '../components/HypothesisTesting/HypothesisTesting';
 
 describe('HypothesisTesting integration tests', () => {
   beforeEach(() => {
-    render(<HypothesisTestingContainer/>)
+    render(<HypothesisTesting/>)
   });
 
   test('buttons rendered', () => {
