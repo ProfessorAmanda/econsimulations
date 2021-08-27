@@ -1,42 +1,14 @@
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official'
 import { abs } from 'mathjs';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js'
 import { Form } from 'react-bootstrap';
-require('highcharts/modules/annotations')(Highcharts);
+import { HighchartsProvider, HighchartsChart, Chart, XAxis, YAxis, ScatterSeries, Tooltip, Caption, Annotation, LineSeries } from 'react-jsx-highcharts';
 
 export default function LeastSquaresChart({ points, addPoint, linePoints, setSquareAreas }) {
   const [enableClick, setEnableClick] = useState(false);
-  const [myChart, setMyChart] = useState({
-    tooltip: {
-      headerFormat: '',
-      pointFormat: 'x: {point.x:.2f}<br/>y: {point.y:.2f}',
-    },
-    title: {
-      text: ''
-    },
-    xAxis: {
-      title: {
-        enabled: false
-      },
-      min: 0,
-      max: 20,
-      tickInterval: 2
-    },
-    yAxis: {
-      title: {
-        enabled: false
-      },
-      min: 0,
-      max: 20,
-      tickInterval: 2
-    },
-    legend: {
-      enabled: false
-    }
-  });
+  const [squares, setSquares] = useState([]);
 
   useEffect(() => {
     // generate pairs for the corresponding points to create squares
@@ -85,7 +57,7 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
     }
 
     // create the actual square objects for highcharts
-    const squares = pairs.map(({ p1, p2 }) => (
+    const newSquares = pairs.map(({ p1, p2 }) => (
       {
         dashStyle: 'solid',
         fill: 'rgba(255, 255, 255, 0)',
@@ -94,64 +66,46 @@ export default function LeastSquaresChart({ points, addPoint, linePoints, setSqu
       })
     );
 
-    const newChart = {
-      chart: {
-        animation: false,
-        type: 'line',
-        plotBorderColor: '#000000',
-        plotBorderWidth: 1,
-        margin: [100, 100, 100, 100],
-        width: 600,
-        height: 600,
-        events: {
-          click: (e) => {  // click to add a point on the plot!
-            if (enableClick) {
-              const x = e.xAxis[0].value;
-              const y = e.yAxis[0].value;
-              addPoint({x, y});
-            }
-          }
-        }
-      },
-      caption: {
-        align: 'center',
-        y: 0,
-        style: {fontSize: 15},
-        text: enableClick ? 'Click on the chart to add a data point. <br/> Notice how it affects the slope and intercept of the estimated line.' : '',
-        verticalAlign: 'bottom'
-      },
-      series: [
-        {
-          type: 'scatter',
-          marker: {
-            radius: 5,
-          },
-          data: points,
-        },
-        {
-          type: 'line',
-          data: linePoints,
-          marker: {
-            enabled: true,
-            fillColor: 'orange'
-          },
-          label: {
-            enabled: false
-          }
-        }
-      ],
-      annotations: [{
-        draggable: '',
-        shapes: squares
-      }]
-    }
+    setSquares(newSquares);
+  }, [linePoints, points, setSquareAreas]);
 
-    setMyChart(newChart);
-  }, [points, addPoint, linePoints, setSquareAreas, enableClick]);
+  const click = (e) => {  // click to add a point on the plot!
+    if (enableClick) {
+      const x = e.xAxis[0].value;
+      const y = e.yAxis[0].value;
+      addPoint({x, y});
+    }
+  }
 
   return (
     <>
-      <HighchartsReact highcharts={Highcharts} options={myChart}/>
+      <HighchartsProvider Highcharts={Highcharts}>
+        <HighchartsChart>
+          <Chart
+            width={600}
+            height={600}
+            margin={[100, 100, 100, 100]}
+            plotBorderColor="#000000"
+            plotBorderWidth={1}
+            animation={false}
+            onClick={click}
+          />
+          <Caption
+            align="center"
+            y={0}
+            style={{fontSize: 15}}
+            text={enableClick ? 'Click on the chart to add a data point. <br/> Notice how it affects the slope and intercept of the estimated line.' : ''}
+            verticalAlign="bottom"
+          />
+          <Tooltip headerFormat="" pointFormat="x: {point.x:.2f}<br/>y: {point.y:.2f}"/>
+          <XAxis max={20} min={0} tickInterval={2}/>
+          <YAxis max={20} min={0} tickInterval={2}>
+            <ScatterSeries data={points} marker={{radius: 5}}/>
+            <LineSeries data={linePoints} marker={{color: 'orange', enabled: true}}/>
+          </YAxis>
+          <Annotation draggable="" shapes={squares}/>
+        </HighchartsChart>
+      </HighchartsProvider>
       <Form.Check
         checked={enableClick}
         inline

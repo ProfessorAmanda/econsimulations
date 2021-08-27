@@ -32,11 +32,6 @@ export default function ScatterPlot({
         height,
         zoomType: zoom ? 'xy' : ''
       },
-      legend: {
-        symbolHeight: 12,
-        symbolWidth: 12,
-        symbolRadius: 6
-      },
       xAxis: {
         min: xMin,
         max: xMax,
