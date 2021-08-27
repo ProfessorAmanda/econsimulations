@@ -33,7 +33,7 @@ export default function StandardNormalOLS({ seriesName, data }) {
         </YAxis>
         {/* Primary yAxis */}
         <YAxis min={0} max={max(4, ...data.map(({ y }) => y))} startOnTick endOnTick allowDecimals={false}>
-          <YAxis.Title>{`Observation of Sample ${seriesName}`}</YAxis.Title>
+          <YAxis.Title>{`Observations of Sample ${seriesName}`}</YAxis.Title>
           {/*
             This is the series that the bell curve maps to.
             Must be the second series defined or else change BellCurveSeries.baseSeries

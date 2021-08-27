@@ -32,9 +32,9 @@ export default function ResultsDisplay({ testType, mean, mean2, standardDev, sta
 
 ResultsDisplay.propTypes = {
   testType: testTypeType.isRequired,
-  mean: PropTypes.number.isRequired,
+  mean: PropTypes.number,
   mean2: PropTypes.number,
-  standardDev: PropTypes.number.isRequired,
+  standardDev: PropTypes.number,
   standardDev2: PropTypes.number,
   testStatistic: PropTypes.number.isRequired,
   pValue: PropTypes.number.isRequired,
