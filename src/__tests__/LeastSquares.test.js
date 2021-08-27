@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import LeastSquares from '../components/LeastSquares/LeastSquares.js';
-import { getAllCharts } from '../lib/test-utils.js';
 
 describe('LeastSquares tests', () => {
   beforeEach(() => {
@@ -26,43 +25,5 @@ describe('LeastSquares tests', () => {
     expect(screen.getByRole('button', { name: 'Reveal the Least Squares Line' })).toBeInTheDocument();
     expect(screen.getByText('Sum Squares:', { exact: false })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Plot Your Guess' })).not.toBeInTheDocument();
-  });
-
-  test('generating points plots on graph', () => {
-    fireEvent.change(screen.getByRole('slider', { target: { value: 5 } }));
-    fireEvent.click(screen.getByRole('button', { name: 'New Points' }));
-    expect(getAllCharts()[0].series[0].data).toHaveLength(5);
-  });
-
-  test('new points replace points on graph', () => {
-    fireEvent.change(screen.getByTestId('new-points-slider'), { target: { value: 5 } });
-    fireEvent.click(screen.getByRole('button', { name: 'New Points' }));
-    expect(getAllCharts()[0].series[0].data).toHaveLength(5);
-    fireEvent.change(screen.getByTestId('new-points-slider'), { target: { value: 7 } });
-    fireEvent.click(screen.getByRole('button', { name: 'New Points' }));
-    expect(getAllCharts()[0].series[0].data).toHaveLength(7);
-  });
-
-  test('plotting line adds points to graph', () => {
-    fireEvent.change(screen.getByTestId('new-points-slider'), { target: { value: 5 } });
-    fireEvent.click(screen.getByRole('button', { name: 'New Points' }));
-    expect(getAllCharts()[0].series[0].data).toHaveLength(5);
-    expect(getAllCharts()[0].series[1].data).toHaveLength(0);
-    fireEvent.click(screen.getByRole('button', { name: 'Plot Your Guess' }));
-    expect(getAllCharts()[0].series[0].data).toHaveLength(5);
-    expect(getAllCharts()[0].series[1].data).toHaveLength(6);
-  });
-
-  test('clicking New Points button removes line points', () => {
-    fireEvent.change(screen.getByTestId('new-points-slider'), { target: { value: 5 } });
-    fireEvent.click(screen.getByRole('button', { name: 'New Points' }));
-    expect(getAllCharts()[0].series[0].data).toHaveLength(5);
-    expect(getAllCharts()[0].series[1].data).toHaveLength(0);
-    fireEvent.click(screen.getByRole('button', { name: 'Plot Your Guess' }));
-    expect(getAllCharts()[0].series[0].data).toHaveLength(5);
-    expect(getAllCharts()[0].series[1].data).toHaveLength(6);
-    fireEvent.click(screen.getByRole('button', { name: 'New Points' }));
-    expect(getAllCharts()[0].series[0].data).toHaveLength(5);
-    expect(getAllCharts()[0].series[1].data).toHaveLength(0);
   });
 });
