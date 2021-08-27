@@ -29,7 +29,6 @@
     "bootstrap": "^5.1.0",
     "gh-pages": "^3.2.3",
     "highcharts": "^9.2.1",
-    "highcharts-react-official": "^3.0.0",
     "jstat": "^1.9.5",
     "lodash": "^4.17.21",
     "mathjs": "^9.4.4",
