@@ -4,7 +4,6 @@ import SampleSizeInput from '../SampleSizeInput.js';
 import _ from 'lodash';
 import { dataObjectArrayType, olsSampleType } from '../../lib/types.js';
 import PropTypes from 'prop-types';
-import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
 import { OLSE_VALUES } from '../../lib/constants.js';
 import DataTable from '../DataTable.js';
