@@ -42,3 +42,7 @@ Run the development server
 npm start
 ```
 The site should now be visible at http://localhost:3000/econsimulations
+
+---
+
+This project is licensed under CC BY-NC-SA
