@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types.js';
 import ScatterPlot from '../ScatterPlot.js';
 
@@ -48,6 +47,6 @@ export default function OmittedVariableChart({ dataPoints, naiveLine, correctedL
 
 OmittedVariableChart.propTypes = {
   dataPoints: dataObjectArrayType.isRequired,
-  naiveLine: PropTypes.arrayOf(PropTypes.number),
-  correctedLine: PropTypes.arrayOf(PropTypes.number)
+  naiveLine: dataObjectArrayType,
+  correctedLine: dataObjectArrayType
 }
