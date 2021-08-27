@@ -28,9 +28,9 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
     setSelected();
   }, [popShape, populationSize]);
 
-  // this is a hack to get around what I believe is a bug in highcharts
-  // where a point will sometimes turn gray when selected
-  const unselect = () => {
+  useEffect(() => {
+    // this is a hack to get around what I believe is a bug in highcharts
+    // where a point will sometimes turn gray when selected
     Highcharts.charts.forEach((chart) => {
       if (chart) {
         chart.series.forEach((series) => {
@@ -40,10 +40,11 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
         })
       }
     });
-  }
+  }, [selected]);
+
+
 
   const generateSamples = (size, replications = 1) => {
-    unselect();
     if (!size) { // calling generateSamples with no arguments clears the data
       setSamples([]);
       setSelected();
@@ -76,11 +77,6 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
       setSamples(indexedSamples);
       setSelected(indexedSamples[indexedSamples.length - 1]);
     }
-  }
-
-  const selectPoint = (point) => {
-    setSelected(point);
-    unselect();
   }
 
   return (
@@ -137,7 +133,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
                 'Distribution': 'distribution'
               }}
               height={400}
-              setSelected={selectPoint}
+              setSelected={setSelected}
               setRowColor={(object) => object.label ? 'rgba(23, 161, 80, 0.233)' : 'rgba(161, 23, 23, 0.233)'}
             />
           </Col>

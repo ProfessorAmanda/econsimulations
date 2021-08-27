@@ -1,81 +1,50 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official'
 import { dataFromDistribution } from '../../lib/stats-utils';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '../../lib/types';
 import { max } from 'mathjs';
+import { Chart, HighchartsChart, HighchartsProvider, Title, Tooltip, XAxis, YAxis, Legend, BellCurveSeries, ScatterSeries } from 'react-jsx-highcharts';
 require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 export default function StandardNormalOLS({ seriesName, data }) {
-  const [chart, setChart] = useState({});
   const [population] = useState(dataFromDistribution('Normal', 2000, { mean: 0, standardDev: 1 }));
 
-  useEffect(() => {
-    const newChart = {
-      chart: {
-        type: 'scatter',
-        animation: false,
-      },
-      title: {
-        text: `Distribution of Sample ${seriesName}`
-      },
-      xAxis: {
-        title: {
-          text: 'Standard Deviations',
-        },
-        startOnTick: true,
-        endOnTick: true
-      },
-      yAxis: [{  // Primary yAxis
-        startOnTick: true,
-        endOnTick: true,
-        min: 0,
-        max: max(4, ...data.map(({ y }) => y)),
-        allowDecimals: false,
-        title: {
-          text: `Observation of Sample ${seriesName.slice(0, -1)}`
-        }
-      }, {  // Secondary yAxis for bell curve
-        visible: false
-      }],
-      series: [
-        {
-          name: 'Normal Distribution',
-          type: 'bellcurve',
-          baseSeries: 1,
-          zIndex: -1,
-          enableMouseTracking: false,
-          label: false,
-          showInLegend: false,
-          yAxis: 1
-        },
-        {
-          name: 'Data',
-          type: 'scatter',
-          data: population.map(({ x }) => x),
-          visible: false,
-          showInLegend: false
-        },
-        {
-          name: seriesName,
-          data,
-          showInLegend: false,
-          color: 'red',
-          marker: {
-            symbol: 'circle'
-          },
-          tooltip: {
-            pointFormat: `${seriesName}: <b>{point.x}</b><br/>`
-          },
-        }
-      ]
-    }
-    setChart(newChart);
-
-  }, [seriesName, data, population]);
-
-  return <HighchartsReact highcharts={Highcharts} options={chart}/>
+  return (
+    <HighchartsProvider Highcharts={Highcharts}>
+      <HighchartsChart>
+        <Chart animation={false}/>
+        <Title>{`Distribution of Sample ${seriesName}`}</Title>
+        <Tooltip headerFormat="" pointFormat={`${seriesName.slice(0, -1)}: <b>{point.x}</b><br/>`}/>
+        <XAxis startOnTick endOnTick>
+          <XAxis.Title>Standard Deviations</XAxis.Title>
+        </XAxis>
+        {/* Secondary yAxis for bell curve */}
+        <YAxis visible={false}>
+          <BellCurveSeries
+            name="Normal Distribution"
+            baseSeries={1}
+            zIndex={-1}
+            enableMouseTracking={false}
+            label={false}
+            showInLegend={false}
+            yAxis={1}
+          />
+        </YAxis>
+        {/* Primary yAxis */}
+        <YAxis min={0} max={max(4, ...data.map(({ y }) => y))} startOnTick endOnTick allowDecimals={false}>
+          <YAxis.Title>{`Observation of Sample ${seriesName}`}</YAxis.Title>
+          {/*
+            This is the series that the bell curve maps to.
+            Must be the second series defined or else change BellCurveSeries.baseSeries
+          */}
+          <ScatterSeries name="Data" data={population.map(({ x }) => x)} visible={false} showInLegend={false}/>
+          <ScatterSeries name={seriesName} data={data} showInLegend={false} color="red" marker={{symbol: 'circle'}}/>
+        </YAxis>
+        <Legend/>
+      </HighchartsChart>
+    </HighchartsProvider>
+  )
 }
 
 StandardNormalOLS.propTypes = {

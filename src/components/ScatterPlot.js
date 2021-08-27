@@ -25,30 +25,13 @@ export default function ScatterPlot({
   return (
     <HighchartsProvider Highcharts={Highcharts}>
       <HighchartsChart>
-        <Chart
-          animation={!!animation}
-          height={height}
-          zoomType={zoom ? 'xy' : ''}
-        />
+        <Chart animation={!!animation} height={height} zoomType={zoom ? 'xy' : ''}/>
         <Title>{title}</Title>
         <Tooltip pointFormat={tooltipFormat || 'x: <b>{point.x}</b><br/>y: <b>{point.y}</b><br/>'}/>
-        <XAxis
-          min={xMin}
-          max={xMax}
-          startOnTick
-          endOnTick
-          categories={xCategories}
-        >
+        <XAxis min={xMin} max={xMax} startOnTick endOnTick categories={xCategories}>
           <XAxis.Title>{xLabel}</XAxis.Title>
         </XAxis>
-        <YAxis
-          min={yMin}
-          max={yMax}
-          startOnTick
-          endOnTick
-          tickInterval={yTickInterval}
-          allowDecimals={allowDecimalsY}
-        >
+        <YAxis min={yMin} max={yMax} startOnTick endOnTick tickInterval={yTickInterval} allowDecimals={allowDecimalsY}>
           <YAxis.Title>{yLabel}</YAxis.Title>
           {series.map((seriesObject) => (
             <Series
