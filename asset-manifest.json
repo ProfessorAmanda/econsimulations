@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/econsimulations/static/css/main.1f40b6dd.chunk.css",
-    "main.js": "/econsimulations/static/js/main.3657614c.chunk.js",
-    "main.js.map": "/econsimulations/static/js/main.3657614c.chunk.js.map",
+    "main.js": "/econsimulations/static/js/main.6eebdf7f.chunk.js",
+    "main.js.map": "/econsimulations/static/js/main.6eebdf7f.chunk.js.map",
     "runtime-main.js": "/econsimulations/static/js/runtime-main.7dde2822.js",
     "runtime-main.js.map": "/econsimulations/static/js/runtime-main.7dde2822.js.map",
     "static/css/2.3cb0dca4.chunk.css": "/econsimulations/static/css/2.3cb0dca4.chunk.css",
-    "static/js/2.5d930a1d.chunk.js": "/econsimulations/static/js/2.5d930a1d.chunk.js",
-    "static/js/2.5d930a1d.chunk.js.map": "/econsimulations/static/js/2.5d930a1d.chunk.js.map",
+    "static/js/2.b65449ba.chunk.js": "/econsimulations/static/js/2.b65449ba.chunk.js",
+    "static/js/2.b65449ba.chunk.js.map": "/econsimulations/static/js/2.b65449ba.chunk.js.map",
     "index.html": "/econsimulations/index.html",
     "static/css/2.3cb0dca4.chunk.css.map": "/econsimulations/static/css/2.3cb0dca4.chunk.css.map",
     "static/css/main.1f40b6dd.chunk.css.map": "/econsimulations/static/css/main.1f40b6dd.chunk.css.map",
-    "static/js/2.5d930a1d.chunk.js.LICENSE.txt": "/econsimulations/static/js/2.5d930a1d.chunk.js.LICENSE.txt",
+    "static/js/2.b65449ba.chunk.js.LICENSE.txt": "/econsimulations/static/js/2.b65449ba.chunk.js.LICENSE.txt",
     "static/media/App.css": "/econsimulations/static/media/bg.0e1df83b.png",
     "static/media/katex.min.css": "/econsimulations/static/media/KaTeX_Typewriter-Regular.c5441b17.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.7dde2822.js",
     "static/css/2.3cb0dca4.chunk.css",
-    "static/js/2.5d930a1d.chunk.js",
+    "static/js/2.b65449ba.chunk.js",
     "static/css/main.1f40b6dd.chunk.css",
-    "static/js/main.3657614c.chunk.js"
+    "static/js/main.6eebdf7f.chunk.js"
   ]
 }
