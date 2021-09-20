@@ -35,7 +35,7 @@
     "mathjs": "^9.4.4",
     "multivariate-normal": "^0.1.2",
     "papaparse": "^5.3.1",
-    "plotly.js": "^2.4.0",
+    "plotly.js": "^2.5.1",
     "probability-distributions": "^0.9.1",
     "prop-types": "^15.7.2",
     "random-normal": "^1.0.0",
