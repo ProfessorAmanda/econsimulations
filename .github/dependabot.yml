@@ -10,7 +10,15 @@ updates:
       - dependency-name: "@nivo/core"
       - dependency-name: "@nivo/scatterplot"
 
+    # Temporarily disable dependabot updates for npm packages
+    # to re-enable, remove/comment out the following line
+    open-pull-requests-limit: 0
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+
+    # Temporarily disable dependabot updates for npm packages
+    # to re-enable, remove/comment out the following line
+    open-pull-requests-limit: 0
