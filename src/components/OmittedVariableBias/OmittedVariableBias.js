@@ -8,6 +8,8 @@ import PD from 'probability-distributions';
 import _ from 'lodash';
 import InputSlider from '../InputSlider.js';
 import { linearRegression } from '../../lib/stats-utils.js';
+import { InlineMath, BlockMath } from 'react-katex';
+//import TeX from '@matejmazur/react-katex';
 
 export default function OmittedVariableBias() {
   const [beta, setBeta] = useState(3);
@@ -148,16 +150,15 @@ export default function OmittedVariableBias() {
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
                 alignItems: 'flex-start',
                 marginTop: '20%'
               }}>
-                <p>
-                  {`Naive Regression: f(x) = ${naiveLine[0].toFixed(2)}x + ${naiveLine[1].toFixed(2)}`}
-                </p>
-                <p>
-                  {showCorrect ? `Corrected Regression: f(x) = ${correctedLine[0].toFixed(2)}x + ${correctedLine[1].toFixed(2)}` : ''}
-                </p>
+                <InlineMath>
+                  {`\\text{Naive Regression: }f(x) = ${naiveLine[0].toFixed(2)}x + ${naiveLine[1].toFixed(2)}`}
+                </InlineMath>
+                <InlineMath>
+                  {showCorrect ? `\\text{Corrected Regression: }f(x) = ${correctedLine[0].toFixed(2)}x + ${correctedLine[1].toFixed(2)}` : ''}
+                </InlineMath>
               </div>
             </Col>
           </Row>
