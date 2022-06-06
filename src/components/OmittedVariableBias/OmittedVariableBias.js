@@ -18,6 +18,9 @@ export default function OmittedVariableBias() {
   const [showCorrect, setShowCorrect] = useState(false);
   const [allData, setAllData] = useState({ points: [], naiveLine: [], correctedLine: [] });
 
+  const [naiveLine, setNaiveLine] = useState([0, 0]); // [slope, intercept]
+  const [correctedLine, setCorrectedLine] = useState([0, 0]); // [slope, intercept]
+
   const stdX = 3;
   const stdY = 6;
   const OBS = 1000;
@@ -63,6 +66,9 @@ export default function OmittedVariableBias() {
 
       const generatePoints = (slope, int) => _.range(0, 11).map((i) => _.round(int + i * slope, 2));
 
+      setNaiveLine([slope, intercept]);
+      setCorrectedLine([parseFloat(bHat.get([1, 0])), parseFloat(bHat.get([0, 0]))]);
+
       setAllData({
         points: studyScores.map(([x, y]) => ({ x, y })),
         naiveLine: generatePoints(slope, intercept),
@@ -104,15 +110,15 @@ export default function OmittedVariableBias() {
       <Row>
         <p>Choose Population Parameters:</p>
       </Row>
-      <br/>
+      <br />
       <Row lg={2} sm={1}>
         <Col style={{ margin: 'auto', padding: 10 }}>
-          <CoefficientInput beta={beta} setBeta={setBeta} delta={delta} setDelta={setDelta}/>
+          <CoefficientInput beta={beta} setBeta={setBeta} delta={delta} setDelta={setDelta} />
         </Col>
         <Col>
           <div style={{ padding: 10 }}>Set the Correlation between Study Hours and Sleep Hours:</div>
-          <InputSlider value={correlation} min={-0.99} max={0.99} step={0.01} onChange={(value) => setCorrelation(value)}/>
-          <br/>
+          <InputSlider value={correlation} min={-0.99} max={0.99} step={0.01} onChange={(value) => setCorrelation(value)} />
+          <br />
           <Alert variant="secondary" style={{ width: 'fit-content', margin: 'auto' }}>
             Covariance between Study Hours and Sleep Hours: {' '}
             <Badge className="badge bg-primary pill" aria-label="covariance">{(correlation * stdX * stdY).toFixed(2)}</Badge>
@@ -120,23 +126,39 @@ export default function OmittedVariableBias() {
 
         </Col>
       </Row>
-      <br/>
+      <br />
       <Row>
         <Col>
           <p>Estimate Regression Using Test Score and Study Hours Data </p>
           <Button variant="primary" onClick={() => generateSeries()}>Generate!</Button>
         </Col>
       </Row>
-      <br/>
+      <br />
       {(stage >= 2) && (
         <div>
           <Row>
-            <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
+            <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 0 }}>
               <OmittedVariableChart
                 dataPoints={allData.points}
                 naiveLine={allData.naiveLine}
                 correctedLine={showCorrect ? allData.correctedLine : []}
               />
+            </Col>
+            <Col lg={{ span: 12, offset: 0 }} xl={{ span: 4, offset: 0 }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                marginTop: '20%'
+              }}>
+                <p>
+                  {`Naive Regression: f(x) = ${naiveLine[0].toFixed(2)}x + ${naiveLine[1].toFixed(2)}`}
+                </p>
+                <p>
+                  {showCorrect ? `Corrected Regression: f(x) = ${correctedLine[0].toFixed(2)}x + ${correctedLine[1].toFixed(2)}` : ''}
+                </p>
+              </div>
             </Col>
           </Row>
           <Row>
