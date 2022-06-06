@@ -8,8 +8,7 @@ import PD from 'probability-distributions';
 import _ from 'lodash';
 import InputSlider from '../InputSlider.js';
 import { linearRegression } from '../../lib/stats-utils.js';
-import { InlineMath, BlockMath } from 'react-katex';
-//import TeX from '@matejmazur/react-katex';
+import { InlineMath } from 'react-katex';
 
 export default function OmittedVariableBias() {
   const [beta, setBeta] = useState(3);

@@ -31,6 +31,7 @@
     "highcharts": "^9.2.2",
     "highcharts-react-official": "^3.0.0",
     "jstat": "^1.9.5",
+    "katex": "^0.16.0",
     "lodash": "^4.17.21",
     "mathjs": "^9.4.4",
     "multivariate-normal": "^0.1.2",
