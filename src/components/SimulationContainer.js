@@ -13,6 +13,7 @@ import { MODULES } from '../lib/constants.js';
 import OLSEstimatorsAreConsistentContainer from './OLSEstimatorsAreConsistent/OLSEstimatorsAreConsistentContainer.js';
 import ANOVAContainer from './ANOVA/ANOVAContainer.js';
 import FixedEffectsContainer from './FixedEffects/FixedEffectsContainer.js';
+import MeasurementErrorContainer from './MeasurementError/MeasurementErrorContainer.js';
 
 
 export default function SimulationContainer({ mode, setMode }) {
@@ -32,6 +33,7 @@ export default function SimulationContainer({ mode, setMode }) {
       {mode === 'The OLS Estimators are Consistent' && <OLSEstimatorsAreConsistentContainer/>}
       {mode === 'ANOVA' && <ANOVAContainer/>}
       {mode === 'Fixed Effects' && <FixedEffectsContainer/>}
+      {mode === 'Measurement Error' && <MeasurementErrorContainer/>}
     </div>
   )
 }
