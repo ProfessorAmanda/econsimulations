@@ -14,7 +14,7 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
           value={beta}
           min={-4}
           max={4}
-          onChange={(event) => setBeta(event.target.value)}
+          onChange={(event) => setBeta(parseFloat(event.target.value))}
         />
       </InputGroup>
       <br/>
@@ -26,7 +26,7 @@ export default function CoefficientInput({ beta, setBeta, delta, setDelta }) {
           value={delta}
           min={-4}
           max={4}
-          onChange={(event) => setDelta(event.target.value)}
+          onChange={(event) => {setDelta(parseFloat(event.target.value))}}
         />
       </InputGroup>
     </div>

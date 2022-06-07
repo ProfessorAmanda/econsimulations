@@ -19,8 +19,8 @@ export default function OmittedVariableBias() {
   const [showCorrect, setShowCorrect] = useState(false);
   const [allData, setAllData] = useState({ points: [], naiveLine: [], correctedLine: [] });
 
-  const [naiveLine, setNaiveLine] = useState([0, 0]); // [slope, intercept]
-  const [correctedLine, setCorrectedLine] = useState([0, 0]); // [slope, intercept]
+  const [naiveLine, setNaiveLine] = useState([0, 0]); // [beta0, slope]
+  const [correctedLine, setCorrectedLine] = useState([0, 0, 0]); // [beta0, beta1, delta]
 
   const stdX = 3;
   const stdY = 6;
@@ -67,8 +67,8 @@ export default function OmittedVariableBias() {
 
       const generatePoints = (slope, int) => _.range(0, 11).map((i) => _.round(int + i * slope, 2));
 
-      setNaiveLine([slope, intercept]);
-      setCorrectedLine([parseFloat(bHat.get([1, 0])), parseFloat(bHat.get([0, 0]))]);
+      setNaiveLine([intercept, slope]);
+      setCorrectedLine([parseFloat(bHat.get([0, 0])), beta, delta]);
 
       setAllData({
         points: studyScores.map(([x, y]) => ({ x, y })),
@@ -138,27 +138,12 @@ export default function OmittedVariableBias() {
       {(stage >= 2) && (
         <div>
           <Row>
-            <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 0 }}>
+            <Col lg={{ span: 12, offset: 0 }} xl={{ span: 8, offset: 2 }}>
               <OmittedVariableChart
                 dataPoints={allData.points}
                 naiveLine={allData.naiveLine}
                 correctedLine={showCorrect ? allData.correctedLine : []}
               />
-            </Col>
-            <Col lg={{ span: 12, offset: 0 }} xl={{ span: 4, offset: 0 }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                marginTop: '20%'
-              }}>
-                <InlineMath>
-                  {`\\text{Naive Regression: }f(x) = ${naiveLine[0].toFixed(2)}x + ${naiveLine[1].toFixed(2)}`}
-                </InlineMath>
-                <InlineMath>
-                  {showCorrect ? `\\text{Corrected Regression: }f(x) = ${correctedLine[0].toFixed(2)}x + ${correctedLine[1].toFixed(2)}` : ''}
-                </InlineMath>
-              </div>
             </Col>
           </Row>
           <Row>
@@ -172,6 +157,20 @@ export default function OmittedVariableBias() {
                 Show Corrected Regression Line
               </Button>
             </Col>
+          </Row>
+          <Row lg={{ span: 12, offset: 0 }} xl={{ span: 4, offset: 1 }}>
+            <div style={{
+              marginTop: 30,
+              marginBottom: 30,
+            }}>
+              <InlineMath>
+                {`\\text{Naive Regression: }TestScore = ${naiveLine[0].toFixed(1)} + ${naiveLine[1].toFixed(1)} * StudyHours + u_i`}
+              </InlineMath>
+              <br />
+              <InlineMath>
+                {showCorrect ? `\\text{Corrected Regression: }TestScore = ${correctedLine[0].toFixed(1)} + ${correctedLine[1]} * StudyHours + ${correctedLine[2].toFixed(1)} * SleepHours + u_i` : ''}
+              </InlineMath>
+            </div>
           </Row>
         </div>
       )}
