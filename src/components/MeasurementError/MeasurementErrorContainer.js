@@ -6,7 +6,7 @@ export default function MeasurementErrorContainer() {
     <div className="module-container">
       <SimulationIntro
         name="Measurement Error"
-        text={"Intro!"}
+        text={'Intro!'}
       />
       <MeasurementError/>
       
