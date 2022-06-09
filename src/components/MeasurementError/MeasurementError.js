@@ -5,48 +5,88 @@ import HighchartsReact from 'highcharts-react-official';
 import { linearRegression } from '../../lib/stats-utils';
 import _ from 'lodash';
 
-const generatePoints = ({ slope, intercept }) => _.range(0, 11).map((i) => _.round(intercept + i * slope, 2));
+
 
 export default function MeasurementError() {
+  const [sampleSize, setSampleSize] = useState(5);
+  const [shouldShowOrigRegression, setShouldShowOrigRegression] = useState(false);
+  const [shouldShowErrorRegression, setShouldShowErrorRegression] = useState(false);
+  const [shouldShowErrorInput, setShouldShowErrorInput] = useState(false);
+
+  const [errorDirection, setErrorDirection] = useState('');
+  const [errorAmplitude, setErrorAmplitude] = useState('');
+
   const [origDataPoints, setOrigDataPoints] = useState([]);
   const [errorDataPoints, setErrorDataPoints] = useState([]);
   const [origRegression, setOrigRegression] = useState({});
   const [errorRegression, setErrorRegression] = useState({});
 
-  const [shouldShowErrorInput, setShouldShowErrorInput] = useState(false);
   const [shouldShowError, setShouldShowError] = useState(false);
 
-  const [sampleSize, setSampleSize] = useState(5);
-  const [xErrorRange, setXErrorRange] = useState(0);
-  const [yErrorRange, setYErrorRange] = useState(0);
-
-  useEffect(() => {
-    setOrigRegression(generatePoints(linearRegression(origDataPoints)));
-    setErrorRegression(generatePoints(linearRegression(errorDataPoints)));
-  }, [origDataPoints, errorDataPoints]);
-
-  const confirmSampleSize = () => {
-    const newDataPoints = [];
-    for (let i = 0; i < sampleSize; i++) {
-      const x = Math.random() * 10;
-      const y = Math.random() * 10;
-      newDataPoints.push({ x, y, id: i + 1 });
+  const regressionToPoints = ({ slope, intercept }) => _.range(0, 51, 50).map((i) => [i, _.round(intercept + i * slope, 2)]);
+  const amplitudeToErrorRange = (amplitude) => {
+    let [min, max] = [0, 0];
+    switch (amplitude) {
+      case 'Low': [min, max] = [0, 2]; break;
+      case 'Medium': [min, max] = [2, 6]; break;
+      case 'High': [min, max] = [6, 10]; break;
+      default: [min, max] = [0, 0];
     }
-    setShouldShowErrorInput(true);
-    setShouldShowError(false);
-    setOrigDataPoints(newDataPoints);
-    setErrorDataPoints(newDataPoints);
-    setErrorRegression([]);
+    return [min, max];
   }
 
-  const confirmErrorRange = () => {
-    const newDataPoints = origDataPoints.map((point) => {
-      const x = point.x + (Math.random() * xErrorRange) - (xErrorRange / 2);
-      const y = point.y + (Math.random() * yErrorRange) - (yErrorRange / 2);
+  const generatePointsWithError = (origPoints) => {
+    const [xMin, xMax] = errorDirection === 'X' ? amplitudeToErrorRange(errorAmplitude) : [0, 0];
+    const [yMin, yMax] = errorDirection === 'Y' ? amplitudeToErrorRange(errorAmplitude) : [0, 0];
+    const newDataPoints = origPoints.map((point) => {
+      const x = point.x + (Math.random() * (xMax - xMin) + xMin) * (Math.random() > 0.5 ? 1 : -1);
+      const y = point.y + (Math.random() * (yMax - yMin) + yMin) * (Math.random() > 0.5 ? 1 : -1);
       return { x, y, id: point.id };
     });
-    setShouldShowError(true);
+    return newDataPoints;
+  }
+
+  useEffect(() => {
+    if (errorAmplitude !== '' && errorDirection !== '') {
+      const newDataPoints = generatePointsWithError(origDataPoints);
+      setErrorDataPoints(newDataPoints);
+      setErrorRegression(regressionToPoints(linearRegression(newDataPoints)));
+    }
+    setOrigRegression(regressionToPoints(linearRegression(origDataPoints)));
+    setShouldShowError(false);
+    setShouldShowErrorRegression(false);
+  }, [origDataPoints]); // eslint-disable-line
+
+  useEffect(() => {
+    if (errorAmplitude !== '') {
+      const newDataPoints = generatePointsWithError(origDataPoints);
+      setShouldShowError(true);
+      setErrorDataPoints(newDataPoints);
+      setErrorRegression(regressionToPoints(linearRegression(newDataPoints)));
+    }
+  }, [errorDirection, errorAmplitude]); // eslint-disable-line
+
+  const generatePoints = () => {
+    const newDataPoints = [];
+    for (let i = 0; i < sampleSize; i++) {
+      const x = 10 + Math.random() * 30; // range: 10 to 40
+      const y = 10 + Math.random() * 30; // range: 10 to 40
+      newDataPoints.push({ x, y, id: i + 1 });
+    }
+    setOrigDataPoints(newDataPoints);
     setErrorDataPoints(newDataPoints);
+    setShouldShowErrorInput(true);
+  }
+
+  const onErrorAmplitudeClick = (amplitude) => {
+    if (amplitude === errorAmplitude && errorAmplitude !== '') {
+      const newDataPoints = generatePointsWithError(origDataPoints);
+      setShouldShowError(true);
+      setErrorDataPoints(newDataPoints);
+      setErrorRegression(regressionToPoints(linearRegression(newDataPoints)));
+    } else {
+      setErrorAmplitude(amplitude);
+    }
   }
 
   const myChart = {
@@ -56,23 +96,9 @@ export default function MeasurementError() {
       width: 500,
       height: 500,
     },
-    title: {
-      text: 'Measurement Error',
-    },
-    xAxis: {
-      min: 0,
-      max: 10,
-      title: {
-        text: 'X-axis'
-      }
-    },
-    yAxis: {
-      min: 0,
-      max: 10,
-      title: {
-        text: 'Y-axis'
-      }
-    },
+    title: { text: 'Measurement Error' },
+    xAxis: { min: 0, max: 50, title: { text: 'X-axis' } },
+    yAxis: { min: 0, max: 50, title: { text: 'Y-axis' } },
     series: [
       {
         type: 'scatter',
@@ -82,14 +108,14 @@ export default function MeasurementError() {
       },
       {
         type: 'scatter',
-        data: errorDataPoints,
+        data: setShouldShowError ? errorDataPoints : [],
         name: 'data with error',
         color: '#880000',
         visible: shouldShowError
       },
       {
         type: 'line',
-        data: origRegression,
+        data: shouldShowOrigRegression ? origRegression : [],
         name: 'original regression',
         color: '#2AC208',
         label: {
@@ -98,7 +124,7 @@ export default function MeasurementError() {
       },
       {
         type: 'line',
-        data: errorRegression,
+        data: shouldShowErrorRegression ? errorRegression : [],
         name: 'regression with error',
         color: '#880000',
         label: {
@@ -120,13 +146,18 @@ export default function MeasurementError() {
         <MeasurementErrorInput
           sampleSize={sampleSize}
           setSampleSize={setSampleSize}
-          confirmSampleSize={confirmSampleSize}
-          xErrorRange={xErrorRange}
-          setXErrorRange={setXErrorRange}
-          yErrorRange={yErrorRange}
-          setYErrorRange={setYErrorRange}
-          confirmErrorRange={confirmErrorRange}
+          generatePoints={generatePoints}
+          shouldShowOrigRegression={shouldShowOrigRegression}
+          setShouldShowOrigRegression={setShouldShowOrigRegression}
+          errorDirection={errorDirection}
+          setErrorDirection={setErrorDirection}
+          errorAmplitude={errorAmplitude}
+          setErrorAmplitude={onErrorAmplitudeClick}
+          shouldShowErrorRegression={shouldShowErrorRegression}
+          setShouldShowErrorRegression={setShouldShowErrorRegression}
           shouldShowErrorInput={shouldShowErrorInput}
+          shouldShowErrorPoints={shouldShowError}
+          setShouldShowErrorPoints={setShouldShowError}
         />
       </div>
     </div>
