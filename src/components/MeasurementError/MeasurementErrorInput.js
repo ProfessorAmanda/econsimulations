@@ -33,7 +33,7 @@ export default function MeasurementErrorInput({
             className="form-range custom-range"
             data-testid="new-points-slider"
             style={{ width: '50%' }}
-            min={1}
+            min={5}
             max={20}
             value={sampleSize}
             onChange={(event) => setSampleSize(parseInt(event.target.value))}
@@ -78,7 +78,7 @@ export default function MeasurementErrorInput({
               <Button
                 variant="outline-primary" 
                 onClick={() => { setShouldShowErrorRegression(!shouldShowErrorRegression) }}
-              >{shouldShowErrorRegression ? 'Hide error regression' : 'Show error regression'}</Button>
+              >{shouldShowErrorRegression ? 'Hide regression with error' : 'Show regression with error'}</Button>
             </ButtonGroup>
           </div>
 

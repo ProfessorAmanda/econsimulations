@@ -4,6 +4,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { linearRegression } from '../../lib/stats-utils';
 import _ from 'lodash';
+import { InlineMath } from 'react-katex';
 
 
 
@@ -18,6 +19,8 @@ export default function MeasurementError() {
 
   const [origDataPoints, setOrigDataPoints] = useState([]);
   const [errorDataPoints, setErrorDataPoints] = useState([]);
+  const [origRegressionPoints, setOrigRegressionPoints] = useState([]);
+  const [errorRegressionPoints, setErrorRegressionPoints] = useState([]);
   const [origRegression, setOrigRegression] = useState({});
   const [errorRegression, setErrorRegression] = useState({});
 
@@ -50,9 +53,13 @@ export default function MeasurementError() {
     if (errorAmplitude !== '' && errorDirection !== '') {
       const newDataPoints = generatePointsWithError(origDataPoints);
       setErrorDataPoints(newDataPoints);
-      setErrorRegression(regressionToPoints(linearRegression(newDataPoints)));
+      const newRegression = linearRegression(newDataPoints);
+      setErrorRegression(newRegression);
+      setErrorRegressionPoints(regressionToPoints(newRegression));
     }
-    setOrigRegression(regressionToPoints(linearRegression(origDataPoints)));
+    const newRegression = linearRegression(origDataPoints);
+    setOrigRegression(newRegression);
+    setOrigRegressionPoints(regressionToPoints(newRegression));
     setShouldShowError(false);
     setShouldShowErrorRegression(false);
   }, [origDataPoints]); // eslint-disable-line
@@ -62,7 +69,9 @@ export default function MeasurementError() {
       const newDataPoints = generatePointsWithError(origDataPoints);
       setShouldShowError(true);
       setErrorDataPoints(newDataPoints);
-      setErrorRegression(regressionToPoints(linearRegression(newDataPoints)));
+      const newRegression = linearRegression(newDataPoints);
+      setErrorRegression(newRegression);
+      setErrorRegressionPoints(regressionToPoints(newRegression));
     }
   }, [errorDirection, errorAmplitude]); // eslint-disable-line
 
@@ -83,7 +92,9 @@ export default function MeasurementError() {
       const newDataPoints = generatePointsWithError(origDataPoints);
       setShouldShowError(true);
       setErrorDataPoints(newDataPoints);
-      setErrorRegression(regressionToPoints(linearRegression(newDataPoints)));
+      const newRegression = linearRegression(newDataPoints);
+      setErrorRegression(newRegression);
+      setErrorRegressionPoints(regressionToPoints(newRegression));
     } else {
       setErrorAmplitude(amplitude);
     }
@@ -115,7 +126,7 @@ export default function MeasurementError() {
       },
       {
         type: 'line',
-        data: shouldShowOrigRegression ? origRegression : [],
+        data: shouldShowOrigRegression ? origRegressionPoints : [],
         name: 'original regression',
         color: '#2AC208',
         label: {
@@ -124,7 +135,7 @@ export default function MeasurementError() {
       },
       {
         type: 'line',
-        data: shouldShowErrorRegression ? errorRegression : [],
+        data: shouldShowErrorRegression ? errorRegressionPoints : [],
         name: 'regression with error',
         color: '#880000',
         label: {
@@ -138,27 +149,45 @@ export default function MeasurementError() {
   return (
     <div style={{
       display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
+      flexDirection: 'column',
+      alignItems: 'center',
     }}>
-      <HighchartsReact highcharts={Highcharts} options={myChart} />
-      <div style={{ marginTop: 100, marginLeft: 100 }}>
-        <MeasurementErrorInput
-          sampleSize={sampleSize}
-          setSampleSize={setSampleSize}
-          generatePoints={generatePoints}
-          shouldShowOrigRegression={shouldShowOrigRegression}
-          setShouldShowOrigRegression={setShouldShowOrigRegression}
-          errorDirection={errorDirection}
-          setErrorDirection={setErrorDirection}
-          errorAmplitude={errorAmplitude}
-          setErrorAmplitude={onErrorAmplitudeClick}
-          shouldShowErrorRegression={shouldShowErrorRegression}
-          setShouldShowErrorRegression={setShouldShowErrorRegression}
-          shouldShowErrorInput={shouldShowErrorInput}
-          shouldShowErrorPoints={shouldShowError}
-          setShouldShowErrorPoints={setShouldShowError}
-        />
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+      }}>
+        <HighchartsReact highcharts={Highcharts} options={myChart} />
+        <div style={{ marginTop: 100, marginLeft: 100 }}>
+          <MeasurementErrorInput
+            sampleSize={sampleSize}
+            setSampleSize={setSampleSize}
+            generatePoints={generatePoints}
+            shouldShowOrigRegression={shouldShowOrigRegression}
+            setShouldShowOrigRegression={setShouldShowOrigRegression}
+            errorDirection={errorDirection}
+            setErrorDirection={setErrorDirection}
+            errorAmplitude={errorAmplitude}
+            setErrorAmplitude={onErrorAmplitudeClick}
+            shouldShowErrorRegression={shouldShowErrorRegression}
+            setShouldShowErrorRegression={setShouldShowErrorRegression}
+            shouldShowErrorInput={shouldShowErrorInput}
+            shouldShowErrorPoints={shouldShowError}
+            setShouldShowErrorPoints={setShouldShowError}
+          />
+        </div>
+      </div>
+      <div style={{
+        marginTop: 30,
+        marginBottom: 30,
+      }}>
+        <InlineMath>
+          {shouldShowOrigRegression && origDataPoints.length !== 0 ? `\\text{Original Regression: }f(x) = ${origRegression.slope} * x + ${origRegression.intercept}` : ''}
+        </InlineMath>
+        <br />
+        <InlineMath>
+          {shouldShowErrorRegression && errorRegressionPoints.length !== 0 ? `\\text{Regression with error: }f(x) = ${errorRegression.slope} * x + ${errorRegression.intercept}` : ''}
+        </InlineMath>
       </div>
     </div>
   );
