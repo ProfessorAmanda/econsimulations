@@ -1,5 +1,6 @@
 import MeasurementError from './MeasurementError';
 import SimulationIntro from '../SimulationIntro';
+import MeasurementErrorPhaseTwo from './MeasurementErrorPhaseTwo';
 
 export default function MeasurementErrorContainer() {
   return (
@@ -9,6 +10,7 @@ export default function MeasurementErrorContainer() {
         text={'We need a brief introduction here :D'}
       />
       <MeasurementError/>
+      <MeasurementErrorPhaseTwo/>
       
     </div>
   );
