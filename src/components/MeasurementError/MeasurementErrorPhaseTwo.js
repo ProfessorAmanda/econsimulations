@@ -48,6 +48,13 @@ export default function MeasurementErrorPhaseTwo() {
       const y = 10 + Math.random() * 30; // range: 10 to 40
       newDataPoints.push({ x, y, id: i + 1 });
     });
+
+    _.range(0, dataSize).forEach((i) => {
+      const x = (i/dataSize)*50 + (Math.random()>0.5 ? 1 : -1) * Math.random()*10; // range: 0 to 50
+      const y = (i/dataSize)*50 + (Math.random()>0.5 ? 1 : -1) * Math.random()*10; // range: 0 to 50
+      newDataPoints.push({ x, y, id: i + 1 });
+    });
+
     setOrigDataPoints(newDataPoints);
     setErrorDataPoints(generatePointsWithError(newDataPoints));
   }
@@ -60,7 +67,6 @@ export default function MeasurementErrorPhaseTwo() {
       setCurrSample(samples);
       acumSampleRegressions.push({ data: regressionPoints, id: i });
     });
-    console.log("acumSampleRegressions", acumSampleRegressions);
     setAllSampleRegressions(acumSampleRegressions);
   }, [errorDataPoints]);
 
