@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { linearRegression } from '../../lib/stats-utils';
 import _ from 'lodash';
-import { Form, Button, Col, Row } from 'react-bootstrap';
+import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 import ScatterPlot from '../ScatterPlot';
 import SelectorButtonGroup from '../SelectorButtonGroup';
 
@@ -18,6 +18,8 @@ export default function MeasurementErrorPhaseTwo() {
 
   const [currSample, setCurrSample] = useState([]);
   const [allSampleRegressions, setAllSampleRegressions] = useState([]);
+
+  const [alert, setAlert] = useState('');
 
 
   const generatePointsWithError = (origPoints) => {
@@ -39,24 +41,37 @@ export default function MeasurementErrorPhaseTwo() {
     };
   });
 
-
+  const checkInput = () => {
+    if (iterationCnt < 1 || iterationCnt > 100) {
+      setAlert('Number of iterations must be between 1 and 100');
+      return false;
+    }
+    if (errorDirection === '') {
+      setAlert('Error direction must be selected');
+      return false;
+    }
+    setAlert('');
+    return true;
+  }
 
   const onConfirm = () => {
-    const newDataPoints = [];
-    _.range(0, dataSize).forEach((i) => {
-      const x = 10 + Math.random() * 30; // range: 10 to 40
-      const y = 10 + Math.random() * 30; // range: 10 to 40
-      newDataPoints.push({ x, y, id: i + 1 });
-    });
+    if (checkInput() === true) {
+      const newDataPoints = [];
 
-    _.range(0, dataSize).forEach((i) => {
-      const x = (i/dataSize)*50 + (Math.random()>0.5 ? 1 : -1) * Math.random()*10; // range: 0 to 50
-      const y = (i/dataSize)*50 + (Math.random()>0.5 ? 1 : -1) * Math.random()*10; // range: 0 to 50
-      newDataPoints.push({ x, y, id: i + 1 });
-    });
+      // Generate error points with some randomness:
+      // First plot points along f(x)=x or f(x)=-x+50
+      // Then add randomeness to both x and y directions
+      const origSlope = Math.random() > 0.5 ? 1 : -1;
+      _.range(0, dataSize).forEach((i) => {
+        const x = (i / dataSize) * 50 + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 10; // range: 0 to 50
+        const y = (i / dataSize) * 50 * origSlope + (origSlope === 1 ? 0 : 50) + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 10; // range: 0 to 50
+        newDataPoints.push({ x, y, id: i + 1 });
+      });
 
-    setOrigDataPoints(newDataPoints);
-    setErrorDataPoints(generatePointsWithError(newDataPoints));
+      setOrigDataPoints(newDataPoints);
+      setErrorDataPoints(generatePointsWithError(newDataPoints));
+    }
+
   }
 
   useEffect(() => {
@@ -96,7 +111,7 @@ export default function MeasurementErrorPhaseTwo() {
     ...allSampleRegressions.map(({ data, id }) => ({
       name: `Sample ${id}`,
       type: 'line',
-      data: data,
+      data,
       color: '#dddddd',
       animation: false,
       label: false,
@@ -153,6 +168,7 @@ export default function MeasurementErrorPhaseTwo() {
           <Button style={{ marginTop: 30 }} variant="outline-primary" onClick={onConfirm}>
             Generate Data
           </Button>
+          {alert==='' ? null : <Alert variant="danger" style={{ marginTop: 10 }}>{alert}</Alert>}
         </Col>
         <Col lg={{ span: 6, offset: 1 }}>
           <ScatterPlot

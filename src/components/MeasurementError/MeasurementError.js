@@ -76,12 +76,20 @@ export default function MeasurementError() {
   }, [errorDirection, errorAmplitude]); // eslint-disable-line
 
   const generatePoints = () => {
+    // Generate error points with some randomness:
+    // First plot points along f(x)=x or f(x)=-x+50
+    // Then add randomeness to both x and y directions
+    // Generate error points with some randomness:
+    // First plot points along f(x)=x or f(x)=-x+50
+    // Then add randomeness to both x and y directions
     const newDataPoints = [];
-    for (let i = 0; i < sampleSize; i++) {
-      const x = 10 + Math.random() * 30; // range: 10 to 40
-      const y = 10 + Math.random() * 30; // range: 10 to 40
+    const origSlope = Math.random() > 0.5 ? 1 : -1;
+    _.range(0, sampleSize).forEach((i) => {
+      const x = 15 + (i / sampleSize) * 20 + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 5; // range: 10 to 40
+      const y = origSlope * (15 + (i / sampleSize) * 20) + (origSlope === 1 ? 0 : 50) + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 5; // range: 10 to 40
       newDataPoints.push({ x, y, id: i + 1 });
-    }
+    });
+    
     setOrigDataPoints(newDataPoints);
     setErrorDataPoints(newDataPoints);
     setShouldShowErrorInput(true);
@@ -129,18 +137,18 @@ export default function MeasurementError() {
         data: shouldShowOrigRegression ? origRegressionPoints : [],
         name: 'original regression',
         color: '#2AC208',
-        label: {
-          enabled: false
-        },
+        enableMouseTracking: false,
+        marker: false,
+        label: false
       },
       {
         type: 'line',
         data: shouldShowErrorRegression ? errorRegressionPoints : [],
         name: 'regression with error',
         color: '#880000',
-        label: {
-          enabled: false
-        },
+        enableMouseTracking: false,
+        marker: false,
+        label: false,
         visible: shouldShowError
       }
     ]
