@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import OmittedVariableBias from '../src/pages/modules/OmittedVariableBias/OmittedVariableBias';
-import { getAllCharts } from '../src/lib/test-utils';
+import OmittedVariableBias from '@/modules/OmittedVariableBias/OmittedVariableBias';
+import { getAllCharts } from '@/lib/test-utils';
 
 describe('Omitted Variable Bias tests', () => {
   beforeEach(() => {

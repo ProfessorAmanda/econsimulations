@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import FixedEffects from '../src/pages/modules/FixedEffects/FixedEffects';
+import FixedEffects from '@/modules/FixedEffects/FixedEffects';
 
 describe('FixedEffects integration tests', () => {
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import LeastSquares from '../src/pages/modules/LeastSquares/LeastSquares';
-import { getAllCharts } from '../src/lib/test-utils.js';
+import LeastSquares from '@/modules/LeastSquares/LeastSquares';
+import { getAllCharts } from '@/lib/test-utils';
 
 describe('LeastSquares tests', () => {
   beforeEach(() => {

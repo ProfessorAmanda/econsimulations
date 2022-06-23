@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ANOVA from '../src/pages/modules/ANOVA/ANOVA';
+import ANOVA from '@/modules/ANOVA/ANOVA';
 
 describe('ANOVA integration tests', () => {
   beforeEach(() => {

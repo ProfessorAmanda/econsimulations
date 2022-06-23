@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import CentralLimitTheoremContainer from '../src/pages/modules/CentralLimitTheorem/CentralLimitTheoremContainer';
+import CentralLimitTheoremContainer from '@/modules/CentralLimitTheorem/CentralLimitTheoremContainer';
 
 describe('CentralLimitTheorem integration tests', () => {
   beforeEach(() => {

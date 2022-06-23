@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import SampleDistributionOLSEstimatorsContainer from '../src/pages/modules/SampleDistributionOLSEstimators/SampleDistributionOLSEstimatorsContainer';
+import SampleDistributionOLSEstimatorsContainer from '@/modules/SampleDistributionOLSEstimators/SampleDistributionOLSEstimatorsContainer';
 
 describe('SampleDistributionOLSEstimators integration tests', () => {
   beforeEach(() => {

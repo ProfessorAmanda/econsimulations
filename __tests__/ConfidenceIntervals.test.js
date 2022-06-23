@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ConfidenceIntervalsContainer from '../src/pages/modules/ConfidenceIntervals/ConfidenceIntervalsContainer';
+import ConfidenceIntervalsContainer from '@/modules/ConfidenceIntervals/ConfidenceIntervalsContainer';
 
 describe('ConfidenceIntervals integration tests', () => {
   beforeEach(() => {

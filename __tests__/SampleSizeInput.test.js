@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import SampleSizeInput from '../src/components/SampleSizeInput';
+import SampleSizeInput from '@/components/SampleSizeInput';
 
 describe('SampleSizeInput tests', () => {
   const handler = jest.fn();

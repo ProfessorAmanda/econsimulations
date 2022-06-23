@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import Home from '../src/pages/index';
+import Home from '@/pages/index';
 
 describe('top-level integration tests', () => {
   const clickIntoModule = (moduleName) => {

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MODULES } from '../src/lib/constants';
-import Menu from '../src/pages/menu';
+import { MODULES } from '@/lib/constants';
+import Menu from '@/pages/menu';
 
 describe('SimBar tests', () => {
   const handler = jest.fn();

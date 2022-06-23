@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import JointDistributions from '../src/pages/modules/JointDistributions/JointDistributions';
+import JointDistributions from '@/modules/JointDistributions/JointDistributions';
 
 describe('Joint Distributions tests', () => {
   beforeEach(() => {

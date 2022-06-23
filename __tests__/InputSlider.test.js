@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import InputSlider from '../src/components/InputSlider';
+import InputSlider from '@/components/InputSlider';
 
 describe('InputSlider tests', () => {
   const handler = jest.fn();

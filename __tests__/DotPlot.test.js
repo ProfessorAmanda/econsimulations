@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
-import { getAllCharts, testPopulation } from '../src/lib/test-utils'
-import DotPlot from '../src/components/DotPlot.js';
+import { getAllCharts, testPopulation } from '@/lib/test-utils'
+import DotPlot from '@/components/DotPlot';
 
 const testSeries = [
   {

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import SelectorButtonGroup from '../src/components/SelectorButtonGroup';
+import SelectorButtonGroup from '@/components/SelectorButtonGroup';
 
 describe('SelectorButtonGroup tests', () => {
   const options = ['Normal', 'Uniform', 'Exponential'];

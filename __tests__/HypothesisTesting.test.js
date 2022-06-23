@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import HypothesisTesting from '../src/pages/modules/HypothesisTesting/HypothesisTesting';
+import HypothesisTesting from '@/modules/HypothesisTesting/HypothesisTesting';
 
 describe('HypothesisTesting integration tests', () => {
   beforeEach(() => {

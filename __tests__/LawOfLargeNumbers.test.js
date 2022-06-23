@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import LawOfLargeNumbers from '../src/pages/modules/LawOfLargeNumbers/LawOfLargeNumbers';
-import LawOfLargeNumbersContainer from '../src/pages/modules/LawOfLargeNumbers/LawOfLargeNumbersContainer';
-import { dataFromDistribution, populationMean } from '../src/lib/stats-utils';
-import { testPopulation } from '../src/lib/test-utils.js';
+import LawOfLargeNumbers from '@/modules/LawOfLargeNumbers/LawOfLargeNumbers';
+import LawOfLargeNumbersContainer from '@/modules/LawOfLargeNumbers/LawOfLargeNumbersContainer';
+import { dataFromDistribution, populationMean } from '@/lib/stats-utils';
+import { testPopulation } from '@/lib/test-utils';
 
-jest.mock('../src/lib/stats-utils.js', () => {
+jest.mock('@/lib/stats-utils', () => {
   // Require the original module to not be mocked...
-  const originalModule = jest.requireActual('../src/lib/stats-utils.js');
+  const originalModule = jest.requireActual('@/lib/stats-utils');
 
   return {
     ...originalModule,
