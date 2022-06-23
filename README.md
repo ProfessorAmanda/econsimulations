@@ -39,9 +39,9 @@ npm install
 ```
 Run the development server
 ```
-npm start
+npm run dev
 ```
-The site should now be visible at http://localhost:3000/econsimulations
+The site should now be visible at http://localhost:3000/
 
 ---
 
