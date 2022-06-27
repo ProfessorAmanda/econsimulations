@@ -90,3 +90,10 @@ export type Section = {
   name: string,
   description: string | React.ReactElement
 }
+
+export type solowValsOverTime = {
+  K: {x: number, y: number, id: number}[];
+  Y: {x: number, y: number, id: number}[];
+  I: {x: number, y: number, id: number}[];
+  C: {x: number, y: number, id: number}[];
+}

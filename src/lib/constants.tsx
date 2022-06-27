@@ -175,5 +175,9 @@ export const MODULES = [
   {
     name: 'Fixed Effects',
     description: 'In Progress',
+  },
+  {
+    name: 'Solow Model',
+    description: 'In Progress',
   }
 ];

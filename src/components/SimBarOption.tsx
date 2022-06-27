@@ -18,6 +18,7 @@ const modeToRoute = (mode : string) => {
     case 'The OLS Estimators are Consistent': return 'ols-estimators-are-consistent';
     case 'ANOVA': return 'anova';
     case 'Fixed Effects': return 'fixed-effects';
+    case 'Solow Model': return 'solow-model';
     default: return '';
   }
 }
