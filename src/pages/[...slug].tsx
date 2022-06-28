@@ -11,6 +11,7 @@ import MultipleRegressionContainer from '../modules/MultipleRegression/MultipleR
 import OLSEstimatorsAreConsistentContainer from '../modules/OLSEstimatorsAreConsistent/OLSEstimatorsAreConsistentContainer';
 import ANOVAContainer from '../modules/ANOVA/ANOVAContainer';
 import FixedEffectsContainer from '../modules/FixedEffects/FixedEffectsContainer';
+import MeasurementErrorContainer from '../modules/MeasurementError/MeasurementErrorContainer';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
@@ -29,6 +30,7 @@ const slugToContainer = (slug : string) => {
     case 'ols-estimators-are-consistent': return <OLSEstimatorsAreConsistentContainer />;
     case 'anova': return <ANOVAContainer />;
     case 'fixed-effects': return <FixedEffectsContainer />;
+    case 'measurement-error': return <MeasurementErrorContainer />;
     case '': return <></>;
     default: return <div>404</div>;
   }

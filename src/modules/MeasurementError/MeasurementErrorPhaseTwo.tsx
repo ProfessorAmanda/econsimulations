@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { linearRegression } from '../../lib/stats-utils';
+import { linearRegression } from 'src/lib/stats-utils';
 import _ from 'lodash';
 import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
-import ScatterPlot from '../ScatterPlot';
-import SelectorButtonGroup from '../SelectorButtonGroup';
+import ScatterPlot from 'src/components/ScatterPlot';
+import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
+import { dataObject } from 'src/lib/ts-types';
 
 
 export default function MeasurementErrorPhaseTwo() {
@@ -13,16 +14,16 @@ export default function MeasurementErrorPhaseTwo() {
   const [iterationCnt, setIterationCnt] = useState(0);
   const [errorDirection, setErrorDirection] = useState('');
 
-  const [origDataPoints, setOrigDataPoints] = useState([]);
-  const [errorDataPoints, setErrorDataPoints] = useState([]);
+  const [origDataPoints, setOrigDataPoints] = useState<dataObject[]>([]);
+  const [errorDataPoints, setErrorDataPoints] = useState<dataObject[]>([]);
 
-  const [currSample, setCurrSample] = useState([]);
-  const [allSampleRegressions, setAllSampleRegressions] = useState([]);
+  const [currSample, setCurrSample] = useState<dataObject[]>([]);
+  const [allSampleRegressions, setAllSampleRegressions] = useState<{data: dataObject[], id: number}[]>([]);
 
   const [alert, setAlert] = useState('');
 
 
-  const generatePointsWithError = (origPoints) => {
+  const generatePointsWithError = (origPoints: dataObject[]) => {
     const [xMin, xMax] = errorDirection === 'X' ? [6, 10] : [0, 0];
     const [yMin, yMax] = errorDirection === 'Y' ? [6, 10] : [0, 0];
     const newDataPoints = origPoints.map((point) => {
@@ -33,13 +34,15 @@ export default function MeasurementErrorPhaseTwo() {
     return newDataPoints;
   }
 
-  const regressionToPoints = ({ slope, intercept }) => _.range(2).map((i) => {
-    return {
-      x: i * 50,
-      y: _.round(intercept + i * 50 * slope, 2),
-      id: i
-    };
-  });
+  const regressionToPoints = ({ slope, intercept }: { slope: number, intercept: number }) => {
+    return _.range(2).map((i) => {
+      return {
+        x: i * 50,
+        y: _.round(intercept + i * 50 * slope, 2),
+        id: i
+      };
+    });
+  };
 
   const checkInput = () => {
     if (iterationCnt < 1 || iterationCnt > 100) {
@@ -56,7 +59,7 @@ export default function MeasurementErrorPhaseTwo() {
 
   const onConfirm = () => {
     if (checkInput() === true) {
-      const newDataPoints = [];
+      const newDataPoints: dataObject[] = [];
 
       // Generate error points with some randomness:
       // First plot points along f(x)=x or f(x)=-x+50
@@ -75,7 +78,7 @@ export default function MeasurementErrorPhaseTwo() {
   }
 
   useEffect(() => {
-    const acumSampleRegressions = [];
+    const acumSampleRegressions: {data: dataObject[], id: number}[] = [];
     _.range(iterationCnt).forEach((i) => {
       const samples = _.sampleSize(errorDataPoints, sampleSize);
       const regressionPoints = regressionToPoints(linearRegression(samples));
@@ -135,7 +138,7 @@ export default function MeasurementErrorPhaseTwo() {
 
 
       <Row>
-        <Col lg={{ span: 4, offset: 0 }}>
+        <Col lg={{ span: 3, offset: 2 }}>
           <div style={{
             display: 'flex',
             flexDirection: 'row',
@@ -151,7 +154,7 @@ export default function MeasurementErrorPhaseTwo() {
               min={1}
               max={100}
               value={iterationCnt}
-              onChange={(event) => setIterationCnt(event.target.value)}
+              onChange={(event : any) => setIterationCnt(event.target.value)}
             />
           </div>
           <div style={{
@@ -163,14 +166,14 @@ export default function MeasurementErrorPhaseTwo() {
             width: '100%'
           }}>
             <span >Error direction:</span>
-            <div style={{ width: 100, marginLeft: 20 }}><SelectorButtonGroup style={{ flex: 1 }} options={['X', 'Y']} select={setErrorDirection} selected={errorDirection} /></div>
+            <div style={{ width: 100, marginLeft: 20 }}><SelectorButtonGroup options={['X', 'Y']} select={setErrorDirection} selected={errorDirection} /></div>
           </div>
           <Button style={{ marginTop: 30 }} variant="outline-primary" onClick={onConfirm}>
             Generate Data
           </Button>
           {alert==='' ? null : <Alert variant="danger" style={{ marginTop: 10 }}>{alert}</Alert>}
         </Col>
-        <Col lg={{ span: 6, offset: 1 }}>
+        <Col lg={{ span: 6, offset: 0 }}>
           <ScatterPlot
             series={sampleSeries}
             xMin={0}

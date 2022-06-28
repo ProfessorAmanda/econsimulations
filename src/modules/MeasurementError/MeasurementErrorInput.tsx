@@ -1,6 +1,19 @@
 import { Button, Form, InputGroup, ButtonGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import SelectorButtonGroup from '../SelectorButtonGroup';
+import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
+import InputSlider from 'src/components/InputSlider';
+
+interface MeasurementErrorInputProps {
+  sampleSize: number; setSampleSize: Function;
+  generatePoints: Function;
+  shouldShowOrigRegression: boolean; setShouldShowOrigRegression: Function;
+  errorDirection: string; setErrorDirection: Function;
+  errorAmplitude: string; setErrorAmplitude: Function;
+  shouldShowErrorRegression: boolean; setShouldShowErrorRegression: Function;
+  shouldShowErrorInput: boolean;
+  shouldShowErrorPoints: boolean; setShouldShowErrorPoints: Function;
+}
+
 
 export default function MeasurementErrorInput({
   sampleSize,
@@ -17,7 +30,7 @@ export default function MeasurementErrorInput({
   shouldShowErrorInput,
   shouldShowErrorPoints,
   setShouldShowErrorPoints,
-}) {
+} : MeasurementErrorInputProps) {
   return (
     <div>
       <div style={{
@@ -26,21 +39,25 @@ export default function MeasurementErrorInput({
         alignItems: 'center',
       }}>
         <span style={{ marginRight: 20 }}>Sample size:</span>
-        <InputGroup className="input-slider-group">
+        <InputGroup className="input-slider-group" style={{
+          height: 30,
+          width: 350,
+          alignItems: 'center',
+        }}>
           <Form.Control
             type="range"
-            custom
-            className="form-range custom-range"
+            className="form-range"
             data-testid="new-points-slider"
-            style={{ width: '50%' }}
+            style={{ borderWidth: 0 }}
             min={5}
             max={20}
             value={sampleSize}
-            onChange={(event) => setSampleSize(parseInt(event.target.value))}
+            onChange={(event : any) => setSampleSize(parseInt(event.target.value))}
           />
-          <InputGroup.Text>{sampleSize}</InputGroup.Text>
-          <Button variant="outline-primary" onClick={generatePoints}>New Points</Button>
+          <InputGroup.Text style={{ width: 40, justifyContent: 'center' }}>{sampleSize}</InputGroup.Text>
+          <Button variant="outline-primary" onClick={() => generatePoints()}>New Points</Button>
         </InputGroup>
+
       </div>
       <div style={{ marginTop: 30 }}>
         <Button
@@ -76,7 +93,7 @@ export default function MeasurementErrorInput({
                 onClick={() => { setShouldShowErrorPoints(!shouldShowErrorPoints) }}
               >{shouldShowErrorPoints ? 'Hide error points' : 'Show error points'}</Button>
               <Button
-                variant="outline-primary" 
+                variant="outline-primary"
                 onClick={() => { setShouldShowErrorRegression(!shouldShowErrorRegression) }}
               >{shouldShowErrorRegression ? 'Hide regression with error' : 'Show regression with error'}</Button>
             </ButtonGroup>

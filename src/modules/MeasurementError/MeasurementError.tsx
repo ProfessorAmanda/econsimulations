@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import MeasurementErrorInput from './MeasurementErrorInput';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { linearRegression } from '../../lib/stats-utils';
+import { linearRegression } from 'src/lib/stats-utils';
 import _ from 'lodash';
-import { InlineMath } from 'react-katex';
+import TeX from '@matejmazur/react-katex';
+import { dataObject } from 'src/lib/ts-types';
+import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 
 
 
@@ -17,17 +19,21 @@ export default function MeasurementError() {
   const [errorDirection, setErrorDirection] = useState('');
   const [errorAmplitude, setErrorAmplitude] = useState('');
 
-  const [origDataPoints, setOrigDataPoints] = useState([]);
-  const [errorDataPoints, setErrorDataPoints] = useState([]);
-  const [origRegressionPoints, setOrigRegressionPoints] = useState([]);
-  const [errorRegressionPoints, setErrorRegressionPoints] = useState([]);
-  const [origRegression, setOrigRegression] = useState({});
-  const [errorRegression, setErrorRegression] = useState({});
+  const [origDataPoints, setOrigDataPoints] = useState<dataObject[]>([]);
+  const [errorDataPoints, setErrorDataPoints] = useState<dataObject[]>([]);
+  const [origRegressionPoints, setOrigRegressionPoints] = useState<dataObject[]>([]);
+  const [errorRegressionPoints, setErrorRegressionPoints] = useState<dataObject[]>([]);
+  const [origRegression, setOrigRegression] = useState<{ slope: number, intercept: number }>({ slope: 0, intercept: 0 });
+  const [errorRegression, setErrorRegression] = useState<{ slope: number, intercept: number }>({ slope: 0, intercept: 0 });
 
   const [shouldShowError, setShouldShowError] = useState(false);
 
-  const regressionToPoints = ({ slope, intercept }) => _.range(0, 51, 50).map((i) => [i, _.round(intercept + i * slope, 2)]);
-  const amplitudeToErrorRange = (amplitude) => {
+  const regressionToPoints = ({ slope, intercept }: { slope: number, intercept: number }) => {
+    return _.range(0, 51, 50).map((i) => {
+      return { x: i, y: _.round(intercept + i * slope, 2), id: i }
+    });
+  };
+  const amplitudeToErrorRange = (amplitude: string) => {
     let [min, max] = [0, 0];
     switch (amplitude) {
       case 'Low': [min, max] = [0, 2]; break;
@@ -38,7 +44,7 @@ export default function MeasurementError() {
     return [min, max];
   }
 
-  const generatePointsWithError = (origPoints) => {
+  const generatePointsWithError = (origPoints: dataObject[]) => {
     const [xMin, xMax] = errorDirection === 'X' ? amplitudeToErrorRange(errorAmplitude) : [0, 0];
     const [yMin, yMax] = errorDirection === 'Y' ? amplitudeToErrorRange(errorAmplitude) : [0, 0];
     const newDataPoints = origPoints.map((point) => {
@@ -82,20 +88,20 @@ export default function MeasurementError() {
     // Generate error points with some randomness:
     // First plot points along f(x)=x or f(x)=-x+50
     // Then add randomeness to both x and y directions
-    const newDataPoints = [];
+    const newDataPoints: dataObject[] = [];
     const origSlope = Math.random() > 0.5 ? 1 : -1;
     _.range(0, sampleSize).forEach((i) => {
       const x = 15 + (i / sampleSize) * 20 + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 5; // range: 10 to 40
       const y = origSlope * (15 + (i / sampleSize) * 20) + (origSlope === 1 ? 0 : 50) + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 5; // range: 10 to 40
       newDataPoints.push({ x, y, id: i + 1 });
     });
-    
+
     setOrigDataPoints(newDataPoints);
     setErrorDataPoints(newDataPoints);
     setShouldShowErrorInput(true);
   }
 
-  const onErrorAmplitudeClick = (amplitude) => {
+  const onErrorAmplitudeClick = (amplitude : string) => {
     if (amplitude === errorAmplitude && errorAmplitude !== '') {
       const newDataPoints = generatePointsWithError(origDataPoints);
       setShouldShowError(true);
@@ -127,7 +133,7 @@ export default function MeasurementError() {
       },
       {
         type: 'scatter',
-        data: setShouldShowError ? errorDataPoints : [],
+        data: errorDataPoints,
         name: 'data with error',
         color: '#880000',
         visible: shouldShowError
@@ -189,13 +195,13 @@ export default function MeasurementError() {
         marginTop: 30,
         marginBottom: 30,
       }}>
-        <InlineMath>
+        <TeX>
           {shouldShowOrigRegression && origDataPoints.length !== 0 ? `\\text{Original Regression: }f(x) = ${origRegression.slope} * x + ${origRegression.intercept}` : ''}
-        </InlineMath>
+        </TeX>
         <br />
-        <InlineMath>
+        <TeX>
           {shouldShowErrorRegression && errorRegressionPoints.length !== 0 ? `\\text{Regression with error: }f(x) = ${errorRegression.slope} * x + ${errorRegression.intercept}` : ''}
-        </InlineMath>
+        </TeX>
       </div>
     </div>
   );

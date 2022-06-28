@@ -1,5 +1,5 @@
 import MeasurementError from './MeasurementError';
-import SimulationIntro from '../SimulationIntro';
+import SimulationIntro from 'src/components/SimulationIntro';
 import MeasurementErrorPhaseTwo from './MeasurementErrorPhaseTwo';
 
 export default function MeasurementErrorContainer() {
