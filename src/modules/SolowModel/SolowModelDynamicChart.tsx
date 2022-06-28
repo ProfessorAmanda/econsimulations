@@ -1,7 +1,6 @@
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import _ from "lodash";
-import { solowValsOverTime } from 'src/lib/ts-types';
 import { Col, Row, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
