@@ -5,9 +5,14 @@ import { solowValsOverTime } from 'src/lib/ts-types';
 import { Col, Row, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
-export default function SolowModelDynamicChart({ valsOverTime, onDynamicClick }: { valsOverTime: solowValsOverTime, onDynamicClick: () => void }) {
+interface SolowModelDynamicChartProps {
+  KOverTime: { x: number, y: number }[];
+  YOverTime: { x: number, y: number }[];
+  IOverTime: { x: number, y: number }[];
+  COverTime: { x: number, y: number }[];
+}
 
-  const [myCharts, setMyCharts] = useState<{ K: Object, Y: Object, I: Object, C: Object }>({ K: {}, Y: {}, I: {}, C: {} });
+export default function SolowModelDynamicChart({ KOverTime, YOverTime, IOverTime, COverTime }: SolowModelDynamicChartProps) {
 
   const plotOptions = {
     spline: {
@@ -20,82 +25,66 @@ export default function SolowModelDynamicChart({ valsOverTime, onDynamicClick }:
 
   const tooltip = {
     headerFormat: '<b>{series.name}</b><br>',
-    pointFormat: ''
+    pointFormat: '{point.y:.2f}',
+  }
+  const KChart = {
+    chart: { type: "spline" },
+    title: { text: "K" },
+    plotOptions: plotOptions,
+    tooltip: tooltip,
+    xAxis: { title: { text: "Time" } },
+    yAxis: { title: { text: "K" }, min: 0, max: Math.max(5, Math.max(...KOverTime.map(o => o.y))) },
+    series: [{ name: "K", data: KOverTime, animation: animation }]
+  }
+  const YChart = {
+    chart: { type: "spline" },
+    title: { text: "Y" },
+    plotOptions: plotOptions,
+    tooltip: tooltip,
+    xAxis: { title: { text: "Time" } },
+    yAxis: { title: { text: "Y" }, min: 0, max: Math.max(5, Math.max(...YOverTime.map(o => o.y))) },
+    series: [{ name: "Y", data: YOverTime, animation: animation }]
   }
 
-  useEffect(() => {
-    const KChart = {
-      chart: { type: "spline" },
-      title: { text: "K" },
-      plotOptions: plotOptions,
-      tooltip: tooltip,
-      xAxis: { title: { text: "Time" } },
-      yAxis: { title: { text: "K" }, min: 0, max: Math.max(5, Math.max(...valsOverTime.K.map(o => o.y))) },
-      series: [{ name: "K", data: valsOverTime.K, animation: animation }]
-    }
+  const IChart = {
+    chart: { type: "spline" },
+    title: { text: "I" },
+    plotOptions: plotOptions,
+    tooltip: tooltip,
+    xAxis: { title: { text: "Time" } },
+    yAxis: { title: { text: "I" }, min: 0, max: Math.max(5, Math.max(...IOverTime.map(o => o.y))) },
+    series: [{ name: "I", data: IOverTime, animation: animation }]
+  }
 
-    const YChart = {
-      chart: { type: "spline" },
-      title: { text: "Y" },
-      plotOptions: plotOptions,
-      tooltip: tooltip,
-      xAxis: { title: { text: "Time" } },
-      yAxis: { title: { text: "Y" }, min: 0, max: Math.max(5, Math.max(...valsOverTime.Y.map(o => o.y))) },
-      series: [{ name: "Y", data: valsOverTime.Y, animation: animation }]
-    }
-
-    const IChart = {
-      chart: { type: "spline" },
-      title: { text: "I" },
-      plotOptions: plotOptions,
-      tooltip: tooltip,
-      xAxis: { title: { text: "Time" } },
-      yAxis: { title: { text: "I" }, min: 0, max: Math.max(5, Math.max(...valsOverTime.I.map(o => o.y))) },
-      series: [{ name: "I", data: valsOverTime.I, animation: animation }]
-    }
-
-    const CChart = {
-      chart: { type: "spline" },
-      title: { text: "C" },
-      plotOptions: plotOptions,
-      tooltip: tooltip,
-      xAxis: { title: { text: "Time" } },
-      yAxis: { title: { text: "C" }, min: 0, max: Math.max(5, Math.max(...valsOverTime.C.map(o => o.y))) },
-      series: [{ name: "C", data: valsOverTime.C, animation: animation }]
-    }
-    setMyCharts({ K: KChart, Y: YChart, I: IChart, C: CChart });
-  }, [valsOverTime]);
-
-  const onButtonClick = () => {
-    setMyCharts({ K: {}, Y: {}, I: {}, C: {} });
-    onDynamicClick();
+  const CChart = {
+    chart: { type: "spline" },
+    title: { text: "C" },
+    plotOptions: plotOptions,
+    tooltip: tooltip,
+    xAxis: { title: { text: "Time" } },
+    yAxis: { title: { text: "C" }, min: 0, max: Math.max(5, Math.max(...COverTime.map(o => o.y))) },
+    series: [{ name: "C", data: COverTime, animation: animation }]
   }
 
 
   return (
     <div>
-      <Button
-        style={{ marginTop: '1rem' }}
-        variant='outline-primary'
-        onClick={onButtonClick}
-      > Dynamic </Button>
       <Row>
-        <Col>
-          <HighchartsReact highcharts={Highcharts} options={myCharts.K} />
+        <Col lg={{ span: 4, offset: 2 }}>
+          <HighchartsReact highcharts={Highcharts} options={KChart} />
         </Col>
-        <Col>
-          <HighchartsReact highcharts={Highcharts} options={myCharts.Y} />
+        <Col lg={{ span: 4, offset: 0 }}>
+          <HighchartsReact highcharts={Highcharts} options={YChart} />
         </Col>
       </Row>
       <Row>
-        <Col>
-          <HighchartsReact highcharts={Highcharts} options={myCharts.I} />
+        <Col lg={{ span: 4, offset: 2 }}>
+          <HighchartsReact highcharts={Highcharts} options={IChart} />
         </Col>
-        <Col>
-          <HighchartsReact highcharts={Highcharts} options={myCharts.C} />
+        <Col lg={{ span: 4, offset: 0 }}>
+          <HighchartsReact highcharts={Highcharts} options={CChart} />
         </Col>
       </Row>
-      
     </div>
   )
 }

@@ -4,7 +4,6 @@ import _ from 'lodash';
 import SolowModelChart from './SolowModelChart';
 import { Button, Table } from 'react-bootstrap';
 import SolowModelDynamicChart from './SolowModelDynamicChart';
-import { solowValsOverTime } from 'src/lib/ts-types';
 
 export default function SolowModel() {
   const [alpha, setAlpha] = useState(+(1 / 3).toFixed(2));
@@ -41,7 +40,15 @@ export default function SolowModel() {
   const [shouldShowModel, setShouldShowModel] = useState(false);
   const [shouldShowModel2, setShouldShowModel2] = useState(false);
 
-  const [valsOverTime, setValsOverTime] = useState<solowValsOverTime>({ K: [], Y: [], I: [], C: []});
+  const [KOverTime, setKOverTime] = useState<{ x: number, y: number }[]>([]);
+  const [YOverTime, setYOverTime] = useState<{ x: number, y: number }[]>([]);
+  const [IOverTime, setIOverTime] = useState<{ x: number, y: number }[]>([]);
+  const [COverTime, setCOverTime] = useState<{ x: number, y: number }[]>([]);
+
+  const time = { t0: 0, t1: 20, interval: 0.1 };
+  useEffect(() => {
+    onDynamicClick();
+  }, []);
 
   const onShowClick = () => {
     setDisableSecondCol(false);
@@ -66,9 +73,12 @@ export default function SolowModel() {
 
 
   const onDynamicClick = () => {
-    const myValsOverTime: solowValsOverTime = { K: [], Y: [], I: [], C: [] };
-    const time = { t0: 0, t1: 20, interval: 0.1 };
-    const time_arr: number[] = _.range(0, 20, 0.1);
+    const KArr: { x: number, y: number }[] = [];
+    const IArr: { x: number, y: number }[] = [];
+    const YArr: { x: number, y: number }[] = [];
+    const CArr: { x: number, y: number }[] = [];
+
+    const time_arr: number[] = _.range(time.t0, time.t1, time.interval);
     const getValAtTime = (v0: number, v1: number, t: number) => {
       if (v1 === v0) return v0;
       return v0 + (v1 - v0) * (t - time.t0) / (time.t1 - time.t0);
@@ -85,12 +95,16 @@ export default function SolowModel() {
       const I = K * curr_delta;
       const Y = curr_A * Math.pow(K, curr_alpha) * Math.pow(curr_L, curr_beta);
       const C = Y - I;
-      myValsOverTime.K.push({x: t, y: K, id: i});
-      myValsOverTime.I.push({x: t, y: I, id: i});
-      myValsOverTime.Y.push({x: t, y: Y, id: i});
-      myValsOverTime.C.push({x: t, y: C, id: i});
-    })
-    setValsOverTime(myValsOverTime);
+      KArr.push({ x: t, y: K });
+      IArr.push({ x: t, y: I });
+      YArr.push({ x: t, y: Y });
+      CArr.push({ x: t, y: C });
+
+    });
+    setKOverTime(KArr);
+    setIOverTime(IArr);
+    setYOverTime(YArr);
+    setCOverTime(CArr);
   }
 
   return (
@@ -190,8 +204,9 @@ export default function SolowModel() {
             </tbody>
           </Table>
         </div>
-        <div>
-          <SolowModelDynamicChart valsOverTime={valsOverTime} onDynamicClick={onDynamicClick}/>
+        <div style={{ marginTop: '8rem' }}>
+          <Button variant='outline-primary' onClick={onDynamicClick}> Dynamic Chart </Button>
+          <SolowModelDynamicChart KOverTime={KOverTime} IOverTime={IOverTime} YOverTime={YOverTime} COverTime={COverTime} />
         </div>
       </div>
     </div>
