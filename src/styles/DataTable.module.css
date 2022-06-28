@@ -1,0 +1,15 @@
+.dataTableContainer {
+  height: min-content;
+  overflow: auto;
+  margin-top: 50px;
+}
+
+.dataTable {
+  position: relative;
+}
+
+.dataTable th {
+  background: white;
+  position: sticky;
+  top: 0;
+}
