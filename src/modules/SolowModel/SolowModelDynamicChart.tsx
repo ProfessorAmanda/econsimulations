@@ -1,8 +1,6 @@
-import HighchartsReact from "highcharts-react-official";
-import Highcharts from "highcharts";
-import _ from "lodash";
-import { Col, Row, Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import HighchartsReact from 'highcharts-react-official';
+import Highcharts from 'highcharts';
+import { Col, Row } from 'react-bootstrap';
 
 interface SolowModelDynamicChartProps {
   KOverTime: { x: number, y: number }[];
@@ -27,42 +25,42 @@ export default function SolowModelDynamicChart({ KOverTime, YOverTime, IOverTime
     pointFormat: '{point.y:.2f}',
   }
   const KChart = {
-    chart: { type: "spline" },
-    title: { text: "K" },
-    plotOptions: plotOptions,
-    tooltip: tooltip,
-    xAxis: { title: { text: "Time" } },
-    yAxis: { title: { text: "K" }, min: 0, max: Math.max(5, Math.max(...KOverTime.map(o => o.y))) },
-    series: [{ name: "K", data: KOverTime, animation: animation }]
+    chart: { type: 'spline' },
+    title: { text: 'K' },
+    plotOptions,
+    tooltip,
+    xAxis: { title: { text: 'Time' } },
+    yAxis: { title: { text: 'K' }, min: 0, max: Math.max(5, Math.max(...KOverTime.map(o => o.y))) },
+    series: [{ name: 'K', data: KOverTime, animation }]
   }
   const YChart = {
-    chart: { type: "spline" },
-    title: { text: "Y" },
-    plotOptions: plotOptions,
-    tooltip: tooltip,
-    xAxis: { title: { text: "Time" } },
-    yAxis: { title: { text: "Y" }, min: 0, max: Math.max(5, Math.max(...YOverTime.map(o => o.y))) },
-    series: [{ name: "Y", data: YOverTime, animation: animation }]
+    chart: { type: 'spline' },
+    title: { text: 'Y' },
+    plotOptions,
+    tooltip,
+    xAxis: { title: { text: 'Time' } },
+    yAxis: { title: { text: 'Y' }, min: 0, max: Math.max(5, Math.max(...YOverTime.map(o => o.y))) },
+    series: [{ name: 'Y', data: YOverTime, animation }]
   }
 
   const IChart = {
-    chart: { type: "spline" },
-    title: { text: "I" },
-    plotOptions: plotOptions,
-    tooltip: tooltip,
-    xAxis: { title: { text: "Time" } },
-    yAxis: { title: { text: "I" }, min: 0, max: Math.max(5, Math.max(...IOverTime.map(o => o.y))) },
-    series: [{ name: "I", data: IOverTime, animation: animation }]
+    chart: { type: 'spline' },
+    title: { text: 'I' },
+    plotOptions,
+    tooltip,
+    xAxis: { title: { text: 'Time' } },
+    yAxis: { title: { text: 'I' }, min: 0, max: Math.max(5, Math.max(...IOverTime.map(o => o.y))) },
+    series: [{ name: 'I', data: IOverTime, animation }]
   }
 
   const CChart = {
-    chart: { type: "spline" },
-    title: { text: "C" },
-    plotOptions: plotOptions,
-    tooltip: tooltip,
-    xAxis: { title: { text: "Time" } },
-    yAxis: { title: { text: "C" }, min: 0, max: Math.max(5, Math.max(...COverTime.map(o => o.y))) },
-    series: [{ name: "C", data: COverTime, animation: animation }]
+    chart: { type: 'spline' },
+    title: { text: 'C' },
+    plotOptions,
+    tooltip,
+    xAxis: { title: { text: 'Time' } },
+    yAxis: { title: { text: 'C' }, min: 0, max: Math.max(5, Math.max(...COverTime.map(o => o.y))) },
+    series: [{ name: 'C', data: COverTime, animation }]
   }
 
 

@@ -1,19 +1,10 @@
 {
   "root": true,
-  "extends": ["next/core-web-vitals"],
-  "plugins": ["testing-library"],
-  "overrides": [
-    // Only uses Testing Library lint rules in test files
-    {
-      "files": [
-        "**/__tests__/**/*.[jt]s?(x)",
-        "**/?(*.)+(spec|test).[jt]s?(x)"
-      ],
-      "extends": ["plugin:testing-library/react"]
-    }
-  ],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["testing-library", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
-    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
     "no-plusplus": [
       "warn",
       {
@@ -74,6 +65,10 @@
     "react/prop-types": "warn",
     "react/no-unescaped-entities": "off",
     "react-hooks/exhaustive-deps": "off",
-    "react/jsx-key": "warn"
+    "react/jsx-key": "warn",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

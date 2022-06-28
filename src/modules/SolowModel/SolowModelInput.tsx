@@ -1,6 +1,5 @@
-import { Button, Form, InputGroup, ButtonGroup } from 'react-bootstrap';
+import { Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import SelectorButtonGroup from '../../components/SelectorButtonGroup';
 import TeX from '@matejmazur/react-katex';
 
 interface SolowModelInputProps {

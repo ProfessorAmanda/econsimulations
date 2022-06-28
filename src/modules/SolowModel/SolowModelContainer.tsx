@@ -2,6 +2,7 @@ import SolowModel from './SolowModel';
 import SimulationIntro from 'src/components/SimulationIntro';
 
 export default function SolowModelContainer() {
+  // eslint-disable-next-line
   const intro = (
     <div style={{
       textAlign: 'left',
@@ -55,7 +56,7 @@ export default function SolowModelContainer() {
     <div className="module-container">
       <SimulationIntro
         name="Solow Model"
-        text={"placeholder"}
+        text={'placeholder'}
         //text={intro}
       />
       <SolowModel />

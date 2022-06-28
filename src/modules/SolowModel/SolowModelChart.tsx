@@ -1,6 +1,5 @@
-import HighchartsReact from "highcharts-react-official";
-import Highcharts from "highcharts";
-import _ from "lodash";
+import HighchartsReact from 'highcharts-react-official';
+import Highcharts from 'highcharts';
 
 interface SolowModelChartProps {
   K: number[];
@@ -17,11 +16,10 @@ interface SolowModelChartProps {
 }
 
 export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel, equalibrium, Y2, I2, deltaTimesK2, shouldShowModel2, equalibrium2 }: SolowModelChartProps) {
-
   const yDataPoints = Y.map((y, i) => {
     return {
       x: K[i],
-      y: y,
+      y,
       id: i,
     };
   });
@@ -45,7 +43,7 @@ export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel,
   const yDataPoints2 = Y2.map((y, i) => {
     return {
       x: K[i],
-      y: y,
+      y,
       id: i,
     };
   });
@@ -103,49 +101,49 @@ export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel,
       headerFormat: '<b>{series.name}</b><br>',
       pointFormat: ''
     },
-    colors: ["bbd8b3", "f3b61f", "a29f15", "510d0a", "191102"],
+    colors: ['bbd8b3', 'f3b61f', 'a29f15', '510d0a', '191102'],
     series: [{
-      name: "Y = A * K^α * L^β",
+      name: 'Y = A * K^α * L^β',
       data: yDataPoints,
       visible: shouldShowModel,
     }, {
-      name: "I = s * Y",
+      name: 'I = s * Y',
       data: iDataPoints,
       visible: shouldShowModel
     }, {
-      name: "𝛿 * K",
+      name: '𝛿 * K',
       data: deltaTimesKDataPoints,
       visible: shouldShowModel
     }, {
-      name: "Y2 = A2 * K^α2 * L^β2",
+      name: 'Y2 = A2 * K^α2 * L^β2',
       data: yDataPoints2,
       visible: shouldShowModel2
     }, {
-      name: "I2 = s2 * Y",
+      name: 'I2 = s2 * Y',
       data: iDataPoints2,
       visible: shouldShowModel2
     }, {
-      name: "𝛿2 * K",
+      name: '𝛿2 * K',
       data: deltaTimesKDataPoints2,
       visible: shouldShowModel2
     }, {
-      name: "EqualibriumXLine",
-      type: "line",
+      name: 'EqualibriumXLine',
+      type: 'line',
       data: [equalibrium, { x: equalibrium.x, y: 0 }],
       visible: shouldShowModel,
     }, {
-      name: "EqualibriumYLine",
-      type: "line",
+      name: 'EqualibriumYLine',
+      type: 'line',
       data: [equalibrium, { x: 0, y: equalibrium.y }],
       visible: shouldShowModel,
     }, {
-      name: "Equalibrium2XLine",
-      type: "line",
+      name: 'Equalibrium2XLine',
+      type: 'line',
       data: [equalibrium2, { x: equalibrium2.x, y: 0 }],
       visible: shouldShowModel2,
     }, {
-      name: "Equalibrium2YLine",
-      type: "line",
+      name: 'Equalibrium2YLine',
+      type: 'line',
       data: [equalibrium2, { x: 0, y: equalibrium2.y }],
       visible: shouldShowModel2,
     }]

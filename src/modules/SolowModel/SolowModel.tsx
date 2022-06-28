@@ -80,10 +80,9 @@ export default function SolowModel() {
 
     const time_arr: number[] = _.range(time.t0, time.t1, time.interval);
     const getValAtTime = (v0: number, v1: number, t: number) => {
-      if (v1 === v0) return v0;
-      return v0 + (v1 - v0) * (t - time.t0) / (time.t1 - time.t0);
+      return (v1 === v0) ? v0 : v0 + (v1 - v0) * (t - time.t0) / (time.t1 - time.t0);
     }
-    time_arr.forEach((t, i) => {
+    time_arr.forEach((t) => {
       const curr_s = getValAtTime(s, s2, t);
       const curr_A = getValAtTime(A, A2, t);
       const curr_L = getValAtTime(L, L2, t);
@@ -124,7 +123,7 @@ export default function SolowModel() {
               />
               <Button
                 style={{ marginTop: '1rem' }}
-                variant='outline-primary'
+                variant="outline-primary"
                 onClick={onShowClick}
               > {shouldShowModel ? 'Hide' : 'Show'} First <br /> Solow Model </Button>
             </div>
@@ -140,7 +139,7 @@ export default function SolowModel() {
               />
               <Button
                 style={{ marginTop: '1rem', marginLeft: '1rem' }}
-                variant='outline-primary'
+                variant="outline-primary"
                 onClick={onShowClick2}
                 disabled={disableSecondCol}
               > {shouldShowModel2 ? 'Hide' : 'Show'} Second <br /> Solow Model </Button>
@@ -167,7 +166,7 @@ export default function SolowModel() {
             shouldShowModel2={shouldShowModel2}
             equalibrium2={{ x: equalibriumK2, y: equalibriumI2 }}
           />
-          <Table hover={true} striped style={{
+          <Table hover striped style={{
             marginLeft: '3rem',
             width: 200,
             height: 200,
@@ -184,28 +183,28 @@ export default function SolowModel() {
               <tr>
                 <th scope="row">K</th>
                 <td>{equalibraiumVals.K.toFixed(2)}</td>
-                <td>{shouldShowModel2 ? equalibraiumVals.K2.toFixed(2) : ""}</td>
+                <td>{shouldShowModel2 ? equalibraiumVals.K2.toFixed(2) : ''}</td>
               </tr>
               <tr>
                 <th scope="row">Y</th>
                 <td>{equalibraiumVals.Y.toFixed(2)}</td>
-                <td>{shouldShowModel2 ? equalibraiumVals.Y2.toFixed(2) : ""}</td>
+                <td>{shouldShowModel2 ? equalibraiumVals.Y2.toFixed(2) : ''}</td>
               </tr>
               <tr>
                 <th scope="row">I</th>
                 <td>{equalibraiumVals.I.toFixed(2)}</td>
-                <td>{shouldShowModel2 ? equalibraiumVals.I2.toFixed(2) : ""}</td>
+                <td>{shouldShowModel2 ? equalibraiumVals.I2.toFixed(2) : ''}</td>
               </tr>
               <tr>
                 <th scope="row">C</th>
                 <td>{equalibraiumVals.C.toFixed(2)}</td>
-                <td>{shouldShowModel2 ? equalibraiumVals.C2.toFixed(2) : ""}</td>
+                <td>{shouldShowModel2 ? equalibraiumVals.C2.toFixed(2) : ''}</td>
               </tr>
             </tbody>
           </Table>
         </div>
         <div style={{ marginTop: '8rem' }}>
-          <Button variant='outline-primary' onClick={onDynamicClick}> Dynamic Chart </Button>
+          <Button variant="outline-primary" onClick={onDynamicClick}> Dynamic Chart </Button>
           <SolowModelDynamicChart KOverTime={KOverTime} IOverTime={IOverTime} YOverTime={YOverTime} COverTime={COverTime} />
         </div>
       </div>
