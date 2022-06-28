@@ -1,23 +1,17 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
-  "plugins": ["react", "react-hooks"],
-  "env": {
-    "node": true,
-    "jest": true,
-    "browser": true
-  },
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "sourceType": "module"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
+  "root": true,
+  "extends": ["next/core-web-vitals"],
+  "plugins": ["testing-library"],
+  "overrides": [
+    // Only uses Testing Library lint rules in test files
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": ["plugin:testing-library/react"]
     }
-  },
+  ],
   "rules": {
     "no-unused-vars": "warn",
     "no-plusplus": [
@@ -44,7 +38,10 @@
         "avoidEscape": true
       }
     ],
-    "jsx-quotes": ["warn", "prefer-double"],
+    "jsx-quotes": [
+      "warn",
+      "prefer-double"
+    ],
     "object-shorthand": "warn",
     "eqeqeq": "warn",
     "no-var": "warn",
@@ -53,7 +50,10 @@
     "no-console": [
       "warn",
       {
-        "allow": ["warn", "error"]
+        "allow": [
+          "warn",
+          "error"
+        ]
       }
     ],
     "no-extra-boolean-cast": "warn",
@@ -64,7 +64,10 @@
         "beforeSelfClosing": "allow"
       }
     ],
-    "react/jsx-boolean-value": ["warn", "never"],
+    "react/jsx-boolean-value": [
+      "warn",
+      "never"
+    ],
     "react/no-array-index-key": "warn",
     "react/no-unused-state": "warn",
     "react/react-in-jsx-scope": "off",

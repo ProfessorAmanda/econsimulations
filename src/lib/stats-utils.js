@@ -1,3 +1,8 @@
+// When transitioning to tsx, found that jStat is not typed.
+// According to its maintainer, it's not like to be updated in the near future.
+// TODO: transition to using "@stdlib/stats", which is a typed stats lib.
+// Need to understand the stats functionalities (takes time) before the transition, so keeping this file as .js for now.
+
 import { mean, std, sqrt } from 'mathjs';
 import PD from 'probability-distributions';
 import _ from 'lodash';

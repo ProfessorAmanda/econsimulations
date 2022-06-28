@@ -1,3 +1,5 @@
+
+
 h1 {
   font-size: 2em;
   padding: 1em 0;
@@ -60,4 +62,5 @@ h2 {
   border: 1px solid rgba(3, 169, 244, 0.3);
   /* border-radius: 10px; */
   background-color: rgba(100, 255, 100, 0);
+  transition: height 500ms;
 }

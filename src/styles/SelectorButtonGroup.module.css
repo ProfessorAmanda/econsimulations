@@ -1,0 +1,11 @@
+.selected {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid gray;
+}
+
+.unselected {
+  background-color: #555555;
+  color: white;
+  border: 1px solid gray;
+}
