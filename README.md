@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/images/ECONSIMS.png" alt="logo" width="350"/>
+  <img src="public/images/ECONSIMS.png" alt="logo" width="350"/>
 </p>
 
 <br/>
