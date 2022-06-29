@@ -24,7 +24,7 @@ const modeToRoute = (mode : string) => {
 
 export default function SimBarOption({ section } : { section : Section }) {
   return (
-    <Link href={`/${modeToRoute(section.name)}`} passHref>
+    <Link href={`/modules/${modeToRoute(section.name)}`} passHref>
       <Card border="primary" className="menu-item" data-testid={`module-${section.name}`}>
         <Card.Header className="menu-item-title">{section.name}</Card.Header>
         <Card.Body>
