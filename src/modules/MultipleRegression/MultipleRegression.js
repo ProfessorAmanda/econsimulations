@@ -14,7 +14,7 @@ export default function MultipleRegression() {
       setData(results.map((object) => _.values(object).map((val) => +val)));
     }
 
-    fetchCSV(`/data/${MULTIPLE_REGRESSION_VALUES[dataSet].path}`, parseData);
+    fetchCSV(`/public/data/${MULTIPLE_REGRESSION_VALUES[dataSet].path}`, parseData);
   }, [dataSet]);
 
   const [z, x, y] = _.unzip(data);
