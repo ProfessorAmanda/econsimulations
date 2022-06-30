@@ -1,10 +1,10 @@
-import NormalDistributionChart from "./NormalDistributionChart";
-import NormalDistributionChartShade from "./NormalDistributionChartShade";
-import NormalDistributionInput from "./NormalDistributionInput";
-import NormalDistributionInputShade from "./NormalDistributionInputShade";
-import { useState } from "react";
-import { dataObject } from "src/lib/ts-types";
-import _ from "lodash";
+import NormalDistributionChart from './NormalDistributionChart';
+import NormalDistributionChartShade from './NormalDistributionChartShade';
+import NormalDistributionInput from './NormalDistributionInput';
+import NormalDistributionInputShade from './NormalDistributionInputShade';
+import { useState } from 'react';
+import { dataObject } from 'src/lib/ts-types';
+import _ from 'lodash';
 
 export default function NormalDistribution() {
   const [mu, setMu] = useState(0);
@@ -18,29 +18,29 @@ export default function NormalDistribution() {
   const bellCurvePoints: dataObject[] = [];
   _.range(range.start, range.end, range.step).forEach((x, i) => {
     const y = 1 / (sigma * Math.sqrt(2 * Math.PI)) * Math.exp(-((x - mu) ** 2 / (2 * sigma ** 2)));
-    bellCurvePoints.push({ x: x, y: y, id: i });
+    bellCurvePoints.push({ x, y, id: i });
   });
 
 
   const bellCurvePointsShading: {x: number, high: number, low: number}[] = [];
   _.range(range.start, val-range.step, range.step).forEach((x) => {
     const y = largerThan ? 0 : 1 / (sigma * Math.sqrt(2 * Math.PI)) * Math.exp(-((x - mu) ** 2 / (2 * sigma ** 2)));
-    bellCurvePointsShading.push({ x: x, high: y, low: 0 });
+    bellCurvePointsShading.push({ x, high: y, low: 0 });
   });
 
   // More refined steps around val to ensure a perpendicular line
-  _.range(val-0.05, val+0.05, 0.01).forEach((x, i) => {
+  _.range(val-0.05, val+0.05, 0.01).forEach((x) => {
     if ((largerThan && x > val) || (!largerThan && x <= val)) {
       const y = 1 / (sigma * Math.sqrt(2 * Math.PI)) * Math.exp(-((x - mu) ** 2 / (2 * sigma ** 2)));
-      bellCurvePointsShading.push({ x: x, high: y, low: 0 });
+      bellCurvePointsShading.push({ x, high: y, low: 0 });
     } else {
-      bellCurvePointsShading.push({ x: x, high: 0, low: 0 });
+      bellCurvePointsShading.push({ x, high: 0, low: 0 });
     }
   });
 
   _.range(val+range.step, range.end, range.step).forEach((x) => {
     const y = largerThan ? 1 / (sigma * Math.sqrt(2 * Math.PI)) * Math.exp(-((x - mu) ** 2 / (2 * sigma ** 2))) : 0;
-    bellCurvePointsShading.push({ x: x, high: y, low: 0 });
+    bellCurvePointsShading.push({ x, high: y, low: 0 });
   });
 
 

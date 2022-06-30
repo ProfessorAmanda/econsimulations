@@ -6,7 +6,6 @@ import { Section } from 'src/lib/ts-types';
 
 const module2Slug = (module : string) => {
   const slug = module.toLowerCase().replace(/\s/g, '-');
-  console.log(`module2Slug: ${module} -> ${slug}`);
   return slug;
 }
 

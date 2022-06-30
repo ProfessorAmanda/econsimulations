@@ -1,4 +1,4 @@
-import InputSlider from "src/components/InputSlider";
+import InputSlider from 'src/components/InputSlider';
 
 interface NormalDistributionInputProps {
   mu: number;
