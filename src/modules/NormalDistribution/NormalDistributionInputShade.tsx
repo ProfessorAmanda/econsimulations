@@ -1,5 +1,5 @@
-import InputSlider from "src/components/InputSlider";
-import SelectorButtonGroup from "src/components/SelectorButtonGroup";
+import InputSlider from 'src/components/InputSlider';
+import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
 
 interface NormalDistributionInputShadeProps {
   largerThan: boolean;
