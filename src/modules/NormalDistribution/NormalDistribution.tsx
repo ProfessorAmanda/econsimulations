@@ -1,7 +1,5 @@
 import NormalDistributionChart from './NormalDistributionChart';
-import NormalDistributionChartShade from './NormalDistributionChartShade';
 import NormalDistributionInput from './NormalDistributionInput';
-import NormalDistributionInputShade from './NormalDistributionInputShade';
 import { useState } from 'react';
 import { dataObject } from 'src/lib/ts-types';
 import _ from 'lodash';
@@ -48,19 +46,13 @@ export default function NormalDistribution() {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         <div>
-          <NormalDistributionChart bellCurvePoints={bellCurvePoints} />
+          <NormalDistributionChart bellCurvePoints={bellCurvePoints} bellCurvePointsShading={bellCurvePointsShading}/>
         </div>
         <div style={{ marginLeft: '5rem', marginTop: '5rem' }}>
-          <NormalDistributionInput mu={mu} sigma={sigma} onMuChange={setMu} onSigmaChange={setSigma} />
+          <NormalDistributionInput mu={mu} sigma={sigma} onMuChange={setMu} onSigmaChange={setSigma} largerThan={largerThan} val={val} onLargerThanChange={setLargerThan} onValChange={setVal}/>
         </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '3rem' }}>
-        <div>
-          <NormalDistributionChartShade bellCurvePoints={bellCurvePoints} bellCurvePointsShading={bellCurvePointsShading} />
-        </div>
-        <div style={{ marginLeft: '5rem', marginTop: '5rem' }}>
-          <NormalDistributionInputShade largerThan={largerThan} val={val} onLargerThanChange={setLargerThan} onValChange={setVal} />
-        </div>
       </div>
     </div>
 
