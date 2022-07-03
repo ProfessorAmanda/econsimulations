@@ -21,13 +21,13 @@ export default function NormalDistributionInput({ mu, sigma, onMuChange, onSigma
         <span style={{ width: 100, justifyContent: 'flex-end' }}>Mean:</span>
         <InputSlider value={mu} onChange={onMuChange} min={-10} max={10} step={0.01} />
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: '1rem' }}>
         <span style={{ width: 100 }}>Standard deviation:</span>
         <InputSlider value={sigma} onChange={onSigmaChange} min={0.1} max={5} step={0.01} />
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '2rem' }}>
         <span>P(x</span>
-        <div style={{ marginLeft: 5 }}>
+        <div style={{ marginLeft: '0.5rem' }}>
           <SelectorButtonGroup
             options={['>=', '<=']}
             selected={largerThan ? '>=' : '<='}
@@ -35,7 +35,7 @@ export default function NormalDistributionInput({ mu, sigma, onMuChange, onSigma
           />
         </div>
         <Form.Control
-            style={{ width: 70, marginLeft: 5 }}
+            style={{ width: 80, marginLeft: '0.5rem' }}
             type="number"
             className="input-group-append"
             value={val}
@@ -44,7 +44,7 @@ export default function NormalDistributionInput({ mu, sigma, onMuChange, onSigma
             step={0.1}
             onChange={(event: any) => onValChange(parseFloat(event.target.value))}
           />
-        <span style={{ marginLeft: 5 }}>)</span>
+        <span style={{ marginLeft: '0.5rem' }}>)</span>
       </div>
     </div>
   );

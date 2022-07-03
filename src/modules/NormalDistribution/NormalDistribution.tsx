@@ -1,8 +1,9 @@
 import NormalDistributionChart from './NormalDistributionChart';
 import NormalDistributionInput from './NormalDistributionInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dataObject } from 'src/lib/ts-types';
 import _ from 'lodash';
+import ND from 'normal-distribution';
 
 export default function NormalDistribution() {
   const [mu, setMu] = useState(0);
@@ -11,11 +12,19 @@ export default function NormalDistribution() {
   const [largerThan, setLargerThan] = useState(true);
   const [val, setVal] = useState(mu);
 
+  const [area, setArea] = useState(0);
+  useEffect(() => {
+    const nd = new ND(mu, sigma);
+    setArea(largerThan ? 1-nd.cdf(val) : nd.cdf(val));
+  }, [mu, sigma, largerThan, val]);
+  
   const range = { start: -10, end: 10, step: 0.1 };
 
+  const normDist = new ND(mu, sigma);
   const bellCurvePoints: dataObject[] = [];
   _.range(range.start, range.end, range.step).forEach((x, i) => {
-    const y = 1 / (sigma * Math.sqrt(2 * Math.PI)) * Math.exp(-((x - mu) ** 2 / (2 * sigma ** 2)));
+    //const y = 1 / (sigma * Math.sqrt(2 * Math.PI)) * Math.exp(-((x - mu) ** 2 / (2 * sigma ** 2)));
+    const y = normDist.pdf(x);
     bellCurvePoints.push({ x, y, id: i });
   });
 
@@ -50,9 +59,9 @@ export default function NormalDistribution() {
         </div>
         <div style={{ marginLeft: '5rem', marginTop: '5rem' }}>
           <NormalDistributionInput mu={mu} sigma={sigma} onMuChange={setMu} onSigmaChange={setSigma} largerThan={largerThan} val={val} onLargerThanChange={setLargerThan} onValChange={setVal}/>
+          <div style={{ marginTop: '2rem'}}>{`Area under the curve: ${(area*100).toFixed(2)}%`}</div>
         </div>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '3rem' }}>
+        
       </div>
     </div>
 
