@@ -7,9 +7,12 @@ interface SolowModelDynamicChartProps {
   YOverTime: { x: number, y: number }[];
   IOverTime: { x: number, y: number }[];
   COverTime: { x: number, y: number }[];
+  shockKOverTime: { x: number, y: number }[];
+  positiveShock: boolean;
+  shouldShowShock: boolean;
 }
 
-export default function SolowModelDynamicChart({ KOverTime, YOverTime, IOverTime, COverTime }: SolowModelDynamicChartProps) {
+export default function SolowModelDynamicChart({ KOverTime, YOverTime, IOverTime, COverTime, shockKOverTime, positiveShock, shouldShowShock }: SolowModelDynamicChartProps) {
 
   const plotOptions = {
     spline: {
@@ -30,9 +33,20 @@ export default function SolowModelDynamicChart({ KOverTime, YOverTime, IOverTime
     plotOptions,
     tooltip,
     xAxis: { title: { text: 'Time' } },
-    yAxis: { title: { text: 'K' }, min: 0, max: Math.max(5, Math.max(...KOverTime.map(o => o.y))) },
-    series: [{ name: 'K', data: KOverTime, animation }]
+    yAxis: { title: { text: 'K' }, min: 0, max: Math.max(5, Math.max(...KOverTime.map(o => o.y))) * 1.5},
+    series: [{
+      name: 'K',
+      data: KOverTime,
+      animation 
+    }, {
+      name: 'Shock',
+      data: shockKOverTime,
+      animation,
+      color: positiveShock ? '#00aa00' : '#aa0000',
+      visible: shouldShowShock,
+    }],
   }
+
   const YChart = {
     chart: { type: 'spline' },
     title: { text: 'Y' },
