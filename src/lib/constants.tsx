@@ -178,6 +178,6 @@ export const MODULES = [
   },
   {
     name: 'Normal Distribution',
-    description: 'In Progress',
+    description: 'The normal distribution can be described entirely by its mean and standard deviation. Many natural phenomena can be described by this distribution, and it is possible to test whether a given dataset follows a normal distribution.',
   },
 ];

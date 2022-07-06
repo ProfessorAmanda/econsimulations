@@ -59,7 +59,7 @@ export default function NormalDistribution() {
         </div>
         <div style={{ marginLeft: '5rem', marginTop: '5rem' }}>
           <NormalDistributionInput mu={mu} sigma={sigma} onMuChange={setMu} onSigmaChange={setSigma} largerThan={largerThan} val={val} onLargerThanChange={setLargerThan} onValChange={setVal}/>
-          <div style={{ marginTop: '2rem'}}>{`Area under the curve: ${(area*100).toFixed(2)}%`}</div>
+          <div style={{ marginTop: '2rem'}}>{`Area under the curve: ${(area).toFixed(3)}`}</div>
         </div>
         
       </div>
