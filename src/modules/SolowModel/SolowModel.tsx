@@ -94,7 +94,7 @@ export default function SolowModel() {
 
       setShouldShowShock(true);
       setShockK(calculatedShockK);
-      setShockI(calculatedShockK * delta);
+      setShockI(K2Y(calculatedShockK) * s);
       setShockY(K2Y(calculatedShockK));
       setShockKOverTime(KArr);
     } else {
