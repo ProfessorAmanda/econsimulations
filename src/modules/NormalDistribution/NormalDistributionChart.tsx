@@ -12,9 +12,11 @@ if (typeof Highcharts === 'object') {
 interface NormalDistributionChartShadeProps {
   bellCurvePoints: dataObject[];
   bellCurvePointsShading: {x: number, high: number, low: number}[];
+  samplePoints: {x: number, y: number}[];
 }
 
-export default function NormalDistributionChart({ bellCurvePoints, bellCurvePointsShading }: NormalDistributionChartShadeProps) {
+export default function NormalDistributionChart({ bellCurvePoints, bellCurvePointsShading, samplePoints }: NormalDistributionChartShadeProps) {
+  
   const myChart = {
     chart: {
       type: 'spline',
@@ -31,7 +33,7 @@ export default function NormalDistributionChart({ bellCurvePoints, bellCurvePoin
     },
     yAxis: {
       title: { text: 'y' },
-      max: 1,
+      max: 20,
       visible: false,
     },
     tooltip: {
@@ -52,7 +54,15 @@ export default function NormalDistributionChart({ bellCurvePoints, bellCurvePoin
         showInLegend: false,
         enableMouseTracking: false,
         color: '#00aa00',
-      }
+      },
+      {
+        type: 'scatter',
+        name: 'Sample Points',
+        data: samplePoints,
+        marker: { symbol: 'diamond' },
+        showInLegend: true,
+        color: 'orange',
+      },
     ]
   };
 
