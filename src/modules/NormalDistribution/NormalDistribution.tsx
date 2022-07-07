@@ -7,6 +7,7 @@ import ND from 'normal-distribution';
 import { Button } from 'react-bootstrap';
 import { dataFromDistribution } from 'src/lib/stats-utils';
 import InputSlider from 'src/components/InputSlider';
+import DataTable from 'src/components/DataTable';
 
 export default function NormalDistribution() {
   const [mu, setMu] = useState(0);
@@ -19,10 +20,12 @@ export default function NormalDistribution() {
 
   const [sampleSizeInput, setSampleSizeInput] = useState('30');
   const [sampleSize, setSampleSize] = useState(30);
-  const [samplePoints, setSamplePoints] = useState<{x: number, y: number}[]>([]);
+  const [samplePoints, setSamplePoints] = useState<dataObject[]>([]);
 
+  const [popArray, setPopArray] = useState<dataObject[]>([]);
+  // This value is used to scale the bell curve to a proper size that fits well with the sample points
   const scale = 25;
-  
+
   useEffect(() => {
     if (sampleSizeInput !== '') {
       setSampleSize(parseInt(sampleSizeInput));
@@ -66,26 +69,37 @@ export default function NormalDistribution() {
     bellCurvePointsShading.push({ x, high: y * scale, low: 0 });
   });
 
-  const onDrawClick = () => {    
-    const newPopArray = dataFromDistribution('Normal', 100, {
+  const onDrawClick = () => {
+    const allDataCount = dataFromDistribution('Normal', 100, {
       mean: mu,
       standardDev: sigma,
       low: range.start,
       hi: range.end,
       precision: 1
-    }).map((sample) => {
-      return { x: sample.x, y: sample.y };
     });
 
-    //setSamplePoints(newPopArray);
-    setSamplePoints(_.sampleSize(newPopArray, sampleSize));
+    setPopArray(allDataCount);
+
+    setSamplePoints(_.sampleSize(allDataCount, sampleSize));
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-        <div>
-          <NormalDistributionChart bellCurvePoints={bellCurvePoints} bellCurvePointsShading={bellCurvePointsShading} samplePoints={samplePoints} />
+        <div style={ { display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30rem' } }>
+          <NormalDistributionChart bellCurvePoints={bellCurvePoints} bellCurvePointsShading={bellCurvePointsShading} samplePoints={samplePoints.map((sample) => { return { x: sample.x, y: sample.y }; })} />
+          <div style={ { width: '15rem' } }>
+            <DataTable
+            data={popArray}
+            headers={{
+              'id': 'id',
+              'x': 'x'
+            }}
+            height={350}
+            setRowColor={(object: { id: number }) => samplePoints.map((obj) => obj.id).includes(object.id) ? '#747EF2' : undefined}
+          />
+          </div>
+          
         </div>
         <div style={{ marginLeft: '5rem', marginTop: '5rem' }}>
           <NormalDistributionInput mu={mu} sigma={sigma} onMuChange={setMu} onSigmaChange={setSigma} largerThan={largerThan} val={val} onLargerThanChange={setLargerThan} onValChange={setVal} />
@@ -93,6 +107,7 @@ export default function NormalDistribution() {
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <span style={{ marginRight: '2rem' }}>Sample size: </span>
             <InputSlider value={sampleSizeInput} min={1} max={50} step={1} onChange={setSampleSizeInput} />
+
           </div>
           <Button style={{ marginTop: '2rem' }} onClick={onDrawClick}>Draw Samples</Button>
         </div>
