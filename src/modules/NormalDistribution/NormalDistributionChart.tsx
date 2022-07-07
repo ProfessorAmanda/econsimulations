@@ -16,7 +16,7 @@ interface NormalDistributionChartShadeProps {
 }
 
 export default function NormalDistributionChart({ bellCurvePoints, bellCurvePointsShading, samplePoints }: NormalDistributionChartShadeProps) {
-  
+
   const myChart = {
     chart: {
       type: 'spline',
@@ -27,7 +27,7 @@ export default function NormalDistributionChart({ bellCurvePoints, bellCurvePoin
       text: 'Normal Distribution',
     },
     xAxis: {
-      title: { text: 'x' },
+      title: { text: 'value' },
       min: -10,
       max: 10,
     },
@@ -38,7 +38,7 @@ export default function NormalDistributionChart({ bellCurvePoints, bellCurvePoin
     },
     tooltip: {
       headerFormat: '',
-      pointFormat: 'x: {point.x:.2f}, y: {point.y:.2f}',
+      pointFormat: 'value: {point.x:.1f}',
     },
     series: [
       {
@@ -62,6 +62,10 @@ export default function NormalDistributionChart({ bellCurvePoints, bellCurvePoin
         marker: { symbol: 'diamond' },
         showInLegend: true,
         color: 'orange',
+        tooltip: {
+          headerFormat: '',
+          pointFormat: 'sample value: {point.x:.1f}',
+        }
       },
     ]
   };
