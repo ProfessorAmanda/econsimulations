@@ -99,6 +99,7 @@ export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel,
         lineWidth: 1,
         color: '#aaaaaa',
         showInLegend: false,
+        animation: { enabled: false },
       },
     },
     tooltip: {
@@ -150,22 +151,19 @@ export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel,
       type: 'line',
       data: [equalibrium2, { x: 0, y: equalibrium2.y }],
       visible: shouldShowModel2,
-    },
-    {
+    }, {
       name: 'ShockXLine',
       type: 'line',
       data: [{x: shockK, y: 0}, { x: shockK, y: shockY }],
       visible: shouldShowShock && shouldShowModel,
-      color: shockK < equalibrium.x ? '#aa0000' : '#00aa00',
-    },
-    {
+      color: shockK < equalibrium.x ? '#aa0000' : '#00aa00'
+    }, {
       name: 'ShockYLineY',
       type: 'line',
       data: [{x: 0, y: shockY}, { x: shockK, y: shockY }],
       visible: shouldShowShock && shouldShowModel,
       color: shockK < equalibrium.x ? '#aa0000' : '#00aa00',
-    },
-    {
+    }, {
       name: 'ShockYLineI',
       type: 'line',
       data: [{x: 0, y: shockI}, { x: shockK, y: shockI }],

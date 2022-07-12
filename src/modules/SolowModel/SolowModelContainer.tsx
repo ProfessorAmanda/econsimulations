@@ -1,7 +1,12 @@
 import SolowModel from './SolowModel';
 import SimulationIntro from 'src/components/SimulationIntro';
+import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
+import { useState } from 'react';
 
 export default function SolowModelContainer() {
+
+  const [mode, setMode] = useState('');
+
   // eslint-disable-next-line
   const intro = (
     <div style={{
@@ -59,6 +64,7 @@ export default function SolowModelContainer() {
         text={'placeholder'}
         //text={intro}
       />
+      <SelectorButtonGroup options={[ 'Shift', 'Shock' ]} select={setMode} selected={mode} />
       <SolowModel />
     </div>
   );

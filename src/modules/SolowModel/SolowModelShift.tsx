@@ -6,7 +6,7 @@ import { Button, Col, Form, Row, Table, } from 'react-bootstrap';
 import SolowModelDynamicChart from './SolowModelDynamicChart';
 import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
 
-export default function SolowModel() {
+export default function SolowModelShift() {
   const [alpha, setAlpha] = useState(+(1 / 3).toFixed(2));
   const [beta, setBeta] = useState(+(2 / 3).toFixed(2));
   const [A, setA] = useState(1);
