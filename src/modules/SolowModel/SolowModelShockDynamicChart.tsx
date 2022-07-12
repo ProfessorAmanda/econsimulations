@@ -35,10 +35,7 @@ export default function SolowModelDynamicChart({ KOverTime, YOverTime, IOverTime
     },
   }
 
-  const animation = { duration: 2000, complete: () => {
-    setShouldAnimate(false);
-    console.log('animation complete'); 
-  }};
+  const animation = { duration: 2000, complete: () => { setShouldAnimate(false); } };
 
   const tooltip = {
     headerFormat: '<b>{series.name}</b><br>',

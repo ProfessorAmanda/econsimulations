@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import SolowModelInput from './SolowModelInput';
 import _ from 'lodash';
 import SolowModelShockChart from './SolowModelShockChart';
-import { Button, Form, Table, } from 'react-bootstrap';
+import { Button, Table, } from 'react-bootstrap';
 import SolowModelShockDynamicChart from './SolowModelShockDynamicChart';
 import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
 
@@ -50,15 +50,9 @@ export default function SolowModelShock() {
   useEffect(() => {
     setShockI(K2Y(hoverKVal) * s);
     setShockY(K2Y(hoverKVal));
-    console.log("new hoverKVal: ", hoverKVal);
   }, [hoverKVal]);
 
-
-
   const time = { t0: 0, t1: 20, interval: 0.1 };
-  const getValAtTime = (v0: number, v1: number, t: number) => {
-    return (v1 === v0) ? v0 : v0 + (v1 - v0) * (t - time.t0) / (time.t1 - time.t0);
-  }
 
   const equalibriumVals = {
     K: equalibriumK,
@@ -126,10 +120,17 @@ export default function SolowModelShock() {
     const Y = A * Math.pow(K, alpha) * Math.pow(L, beta);
     const C = Y - I;
 
-    const KArr = [{ x: time.t0, y: K }, { x: time.t1, y: K }];
-    const YArr = [{ x: time.t0, y: Y }, { x: time.t1, y: Y }];
-    const IArr = [{ x: time.t0, y: I }, { x: time.t1, y: I }];
-    const CArr = [{ x: time.t0, y: C }, { x: time.t1, y: C }];
+    const KArr : { x: number, y: number }[] = [];
+    const YArr : { x: number, y: number }[] = [];
+    const IArr : { x: number, y: number }[] = [];
+    const CArr : { x: number, y: number }[] = [];
+
+    _.range(time.t0, time.t1, time.interval).forEach((t) => {
+      KArr.push({ x: t, y: K });
+      YArr.push({ x: t, y: Y });
+      IArr.push({ x: t, y: I });
+      CArr.push({ x: t, y: C });
+    });
 
     setKOverTime(KArr);
     setIOverTime(IArr);

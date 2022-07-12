@@ -1,7 +1,7 @@
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import { Col, Row } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface SolowModelShiftDynamicChartProps {
   KOverTime: { x: number, y: number }[];
