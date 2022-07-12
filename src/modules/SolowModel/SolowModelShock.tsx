@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import SolowModelInput from './SolowModelInput';
 import _ from 'lodash';
-import SolowModelChart from './SolowModelChart';
-import { Button, Col, Form, Row, Table, } from 'react-bootstrap';
-import SolowModelDynamicChart from './SolowModelDynamicChart';
+import SolowModelShockChart from './SolowModelShockChart';
+import { Button, Form, Table, } from 'react-bootstrap';
+import SolowModelShockDynamicChart from './SolowModelShockDynamicChart';
 import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
 
 export default function SolowModelShock() {
@@ -14,32 +14,17 @@ export default function SolowModelShock() {
   const [L, setL] = useState(1);
   const [s, setS] = useState(0.25);
 
-  const [alpha2, setAlpha2] = useState(+(1 / 3).toFixed(2));
-  const [beta2, setBeta2] = useState(+(2 / 3).toFixed(2));
-  const [A2, setA2] = useState(1);
-  const [delta2, setDelta2] = useState(0.1);
-  const [L2, setL2] = useState(1);
-  const [s2, setS2] = useState(0.25);
-  const [disableSecondCol, setDisableSecondCol] = useState(true);
-
   const K = _.range(0, 20, 0.1);
   const K2Y = (k: number) => A * Math.pow(k, alpha) * Math.pow(L, beta);
-  const K2Y2 = (k: number) => A2 * Math.pow(k, alpha2) * Math.pow(L2, beta2);
 
   const Y: number[] = K.map((k) => K2Y(k));
-  const Y2: number[] = K.map((k) => K2Y2(k));
   const I: number[] = Y.map((y) => y * s);
-  const I2: number[] = Y2.map((y) => y * s2);
   const deltaTimesK: number[] = K.map((k) => k * delta);
-  const deltaTimesK2: number[] = K.map((k) => k * delta2);
 
   const equalibriumK = Math.pow(s * A * Math.pow(L, beta) / delta, 1 / (1 - alpha));
   const equalibriumI = equalibriumK * delta;
-  const equalibriumK2 = Math.pow(s2 * A2 * Math.pow(L2, beta2) / delta2, 1 / (1 - alpha2));
-  const equalibriumI2 = equalibriumK2 * delta2;
 
   const [shouldShowModel, setShouldShowModel] = useState(false);
-  const [shouldShowModel2, setShouldShowModel2] = useState(false);
 
   // Dynamic
   const [KOverTime, setKOverTime] = useState<{ x: number, y: number }[]>([]);
@@ -79,23 +64,17 @@ export default function SolowModelShock() {
     K: equalibriumK,
     I: equalibriumI,
     Y: K2Y(equalibriumK),
-    C: K2Y(equalibriumK) - equalibriumI,
-    K2: equalibriumK2,
-    I2: equalibriumI2,
-    Y2: K2Y2(equalibriumK2),
-    C2: K2Y2(equalibriumK2) - equalibriumI2,
+    C: K2Y(equalibriumK) - equalibriumI
   }
 
   useEffect(() => {
-    updateDynamicData();
     updateShockData();
     refreshDynamic();
   }, []);
 
   useEffect(() => {
-    console.log("updating dynamic data");
     updateDynamicData();
-  }, [alpha, beta, A, delta, L, s, alpha2, beta2, A2, delta2, L2, s2]);
+  }, [alpha, beta, A, delta, L, s]);
 
   useEffect(() => {
     updateShockData();
@@ -106,34 +85,14 @@ export default function SolowModelShock() {
   }, [shockK]);
 
   useEffect(() => {
-    if (!shouldShowShock) {
-      setDisableSecondCol(false);
-    }
     refreshDynamic();
   }, [shouldShowShock]);
 
   const onShowClick = () => {
-    setDisableSecondCol(false);
     setShouldShowModel(!shouldShowModel);
   }
 
-  const onShowClick2 = () => {
-    setShouldShowModel2(!shouldShowModel2);
-    setShouldShowShock(false);
-  }
-
   const updateShockData = () => {
-    // Reset the second model to the initial state and disable its display,
-    // since it is not the point we try to make here.
-    setAlpha2(alpha);
-    setBeta2(beta);
-    setA2(A);
-    setDelta2(delta);
-    setL2(L);
-    setS2(s);
-    setDisableSecondCol(true);
-    setShouldShowModel2(false);
-
     // Calculate the shock value and set the state accordingly.
     const shockSizeInPercent = shockSize === 'Small' ? 0.25 : 0.5;
     const calculatedShockK = equalibriumK * (1 + shockSizeInPercent * (shockDirection === 'Positive' ? 1 : -1));
@@ -149,8 +108,8 @@ export default function SolowModelShock() {
       }
     });
 
-    const YArr = KArr.map((k) => ({x: k.x, y: K2Y(k.y) }));
-    const IArr = YArr.map((y) => ({x: y.x, y: y.y * s }));
+    const YArr = KArr.map((k) => ({ x: k.x, y: K2Y(k.y) }));
+    const IArr = YArr.map((y) => ({ x: y.x, y: y.y * s }));
 
     setShockK(calculatedShockK);
     setShockI(K2Y(calculatedShockK) * s);
@@ -161,52 +120,30 @@ export default function SolowModelShock() {
   }
 
   const updateDynamicData = () => {
-    const KArr: { x: number, y: number }[] = [];
-    const IArr: { x: number, y: number }[] = [];
-    const YArr: { x: number, y: number }[] = [];
-    const CArr: { x: number, y: number }[] = [];
+    
+    const K = Math.pow(s * A * Math.pow(L, beta) / delta, 1 / (1 - alpha));
+    const I = K * delta;
+    const Y = A * Math.pow(K, alpha) * Math.pow(L, beta);
+    const C = Y - I;
 
-    _.range(time.t0, time.t1, time.interval).forEach((t) => {
-      const curr_s = getValAtTime(s, s2, t);
-      const curr_A = getValAtTime(A, A2, t);
-      const curr_L = getValAtTime(L, L2, t);
-      const curr_delta = getValAtTime(delta, delta2, t);
-      const curr_alpha = getValAtTime(alpha, alpha2, t);
-      const curr_beta = getValAtTime(beta, beta2, t);
+    const KArr = [{ x: time.t0, y: K }, { x: time.t1, y: K }];
+    const YArr = [{ x: time.t0, y: Y }, { x: time.t1, y: Y }];
+    const IArr = [{ x: time.t0, y: I }, { x: time.t1, y: I }];
+    const CArr = [{ x: time.t0, y: C }, { x: time.t1, y: C }];
 
-      const K = Math.pow(curr_s * curr_A * Math.pow(curr_L, curr_beta) / curr_delta, 1 / (1 - curr_alpha));
-      const I = K * curr_delta;
-      const Y = curr_A * Math.pow(K, curr_alpha) * Math.pow(curr_L, curr_beta);
-      const C = Y - I;
-      KArr.push({ x: t, y: K });
-      IArr.push({ x: t, y: I });
-      YArr.push({ x: t, y: Y });
-      CArr.push({ x: t, y: C });
-
-    });
     setKOverTime(KArr);
     setIOverTime(IArr);
     setYOverTime(YArr);
     setCOverTime(CArr);
   }
 
-  const dynamicChart = (<SolowModelDynamicChart KOverTime={KOverTime} IOverTime={IOverTime} YOverTime={YOverTime} COverTime={COverTime} shockKOverTime={shockKOverTime} shockYOverTime={shockYOverTime} shockIOverTime={shockIOverTime} positiveShock={shockK > equalibriumK} shouldShowShock={shouldShowShock} updateHoverKValue={setHoverKVal} shockKVal={shockK} />);
+  const dynamicChart = (<SolowModelShockDynamicChart KOverTime={KOverTime} IOverTime={IOverTime} YOverTime={YOverTime} COverTime={COverTime} shockKOverTime={shockKOverTime} shockYOverTime={shockYOverTime} shockIOverTime={shockIOverTime} positiveShock={shockK > equalibriumK} shouldShowShock={shouldShowShock} updateHoverKValue={setHoverKVal} shockKVal={shockK} />);
 
   const [renderCharts, setRenderCharts] = useState<React.ReactElement>(dynamicChart);
 
   // This is a workaround for animation bug in Highcharts.
   // Without this 'force update', the animation does not display on each refresh.
   const refreshDynamic = () => {
-    if (shouldShowShock) {
-      setAlpha2(alpha);
-      setBeta2(beta);
-      setA2(A);
-      setDelta2(delta);
-      setL2(L);
-      setS2(s);
-      setDisableSecondCol(true);
-      setShouldShowModel2(false); // Don't show the second model when showing the shock.
-    }
     setRenderCharts(<div></div>);
     setTimeout(() => {
       setRenderCharts(dynamicChart);
@@ -230,24 +167,7 @@ export default function SolowModelShock() {
             style={{ marginTop: '1rem' }}
             variant="outline-primary"
             onClick={onShowClick}
-          > {shouldShowModel ? 'Hide' : 'Show'} First <br /> Solow Model </Button>
-        </div>
-        <div style={{ marginLeft: '1rem' }}>
-          <SolowModelInput
-            alpha={alpha2} setAlpha={setAlpha2}
-            beta={beta2} setBeta={setBeta2}
-            A={A2} setA={setA2}
-            delta={delta2} setDelta={setDelta2}
-            L={L2} setL={setL2}
-            s={s2} setS={setS2}
-            disabled={disableSecondCol}
-          />
-          <Button
-            style={{ marginTop: '1rem', marginLeft: '1rem' }}
-            variant="outline-primary"
-            onClick={onShowClick2}
-            disabled={disableSecondCol}
-          > {shouldShowModel2 ? 'Hide' : 'Show'} Second <br /> Solow Model </Button>
+          > {shouldShowModel ? 'Hide' : 'Show'} Solow Model </Button>
         </div>
       </div>
 
@@ -257,18 +177,13 @@ export default function SolowModelShock() {
         flexDirection: 'row',
         justifyContent: 'center'
       }}>
-        <SolowModelChart
+        <SolowModelShockChart
           K={K}
           Y={Y}
           I={I}
           deltaTimesK={deltaTimesK}
           shouldShowModel={shouldShowModel}
           equalibrium={{ x: equalibriumK, y: equalibriumI }}
-          Y2={Y2}
-          I2={I2}
-          deltaTimesK2={deltaTimesK2}
-          shouldShowModel2={shouldShowModel2}
-          equalibrium2={{ x: equalibriumK2, y: equalibriumI2 }}
           shockK={hoverKVal}
           shockI={shockI}
           shockY={shockY}
@@ -283,30 +198,25 @@ export default function SolowModelShock() {
           <thead>
             <tr>
               <th scope="col"></th>
-              <th scope="col">First</th>
-              <th scope="col">Second</th>
+              <th scope="col">Value</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <th scope="row">K</th>
               <td>{equalibriumVals.K.toFixed(2)}</td>
-              <td>{shouldShowModel2 ? equalibriumVals.K2.toFixed(2) : ''}</td>
             </tr>
             <tr>
               <th scope="row">Y</th>
               <td>{equalibriumVals.Y.toFixed(2)}</td>
-              <td>{shouldShowModel2 ? equalibriumVals.Y2.toFixed(2) : ''}</td>
             </tr>
             <tr>
               <th scope="row">I</th>
               <td>{equalibriumVals.I.toFixed(2)}</td>
-              <td>{shouldShowModel2 ? equalibriumVals.I2.toFixed(2) : ''}</td>
             </tr>
             <tr>
               <th scope="row">C</th>
               <td>{equalibriumVals.C.toFixed(2)}</td>
-              <td>{shouldShowModel2 ? equalibriumVals.C2.toFixed(2) : ''}</td>
             </tr>
           </tbody>
         </Table>
@@ -314,8 +224,8 @@ export default function SolowModelShock() {
 
 
       <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-        <div style={{ width: '50rem'}}>
-          <Button variant="outline-primary" onClick={refreshDynamic}> Play dynamic charts </Button>
+        <div style={{ width: '50rem' }}>
+          <Button variant="outline-primary" onClick={refreshDynamic}> Refresh dynamic charts </Button>
           <div style={{ height: '60rem' }}>
             {renderCharts}
           </div>
@@ -332,21 +242,12 @@ export default function SolowModelShock() {
             </div>
             <div style={{ marginTop: '1rem', width: '100%' }}>
               <Button variant="outline-primary" onClick={() => {
-                setShouldShowShock(true);
+                setShouldShowShock(!shouldShowShock);
                 refreshDynamic();
               }}>
-                Apply Shock
+                {shouldShowShock ? 'Remove' : 'Apply'} shock
               </Button>
             </div>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginLeft: '2rem', marginTop: '1rem', width: '10rem' }}>
-            <Form.Check
-              checked={shouldShowShock}
-              inline
-              className="form-switch"
-              label="Show Shock"
-              onChange={() => setShouldShowShock(!shouldShowShock)}
-            />
           </div>
         </div>
       </div>

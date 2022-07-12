@@ -8,18 +8,13 @@ interface SolowModelChartProps {
   deltaTimesK: number[];
   shouldShowModel: boolean;
   equalibrium: { x: number; y: number };
-  Y2: number[];
-  I2: number[];
-  deltaTimesK2: number[];
-  shouldShowModel2: boolean;
-  equalibrium2: { x: number; y: number };
   shockK: number;
   shockI: number;
   shockY: number;
   shouldShowShock: boolean;
 }
 
-export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel, equalibrium, Y2, I2, deltaTimesK2, shouldShowModel2, equalibrium2, shockK, shockI, shockY, shouldShowShock} : SolowModelChartProps) {
+export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel, equalibrium, shockK, shockI, shockY, shouldShowShock} : SolowModelChartProps) {
   const yDataPoints = Y.map((y, i) => {
     return {
       x: K[i],
@@ -37,30 +32,6 @@ export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel,
   });
 
   const deltaTimesKDataPoints = deltaTimesK.map((deltaTimesK, i) => {
-    return {
-      x: K[i],
-      y: deltaTimesK,
-      id: i
-    };
-  });
-
-  const yDataPoints2 = Y2.map((y, i) => {
-    return {
-      x: K[i],
-      y,
-      id: i,
-    };
-  });
-
-  const iDataPoints2 = I2.map((i, iIndex) => {
-    return {
-      x: K[iIndex],
-      y: i,
-      id: iIndex
-    };
-  });
-
-  const deltaTimesKDataPoints2 = deltaTimesK2.map((deltaTimesK, i) => {
     return {
       x: K[i],
       y: deltaTimesK,
@@ -120,18 +91,6 @@ export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel,
       data: deltaTimesKDataPoints,
       visible: shouldShowModel
     }, {
-      name: 'Y2 = A2 * K^α2 * L^β2',
-      data: yDataPoints2,
-      visible: shouldShowModel2
-    }, {
-      name: 'I2 = s2 * Y',
-      data: iDataPoints2,
-      visible: shouldShowModel2
-    }, {
-      name: '𝛿2 * K',
-      data: deltaTimesKDataPoints2,
-      visible: shouldShowModel2
-    }, {
       name: 'EqualibriumXLine',
       type: 'line',
       data: [equalibrium, { x: equalibrium.x, y: 0 }],
@@ -141,16 +100,6 @@ export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel,
       type: 'line',
       data: [equalibrium, { x: 0, y: equalibrium.y }],
       visible: shouldShowModel,
-    }, {
-      name: 'Equalibrium2XLine',
-      type: 'line',
-      data: [equalibrium2, { x: equalibrium2.x, y: 0 }],
-      visible: shouldShowModel2,
-    }, {
-      name: 'Equalibrium2YLine',
-      type: 'line',
-      data: [equalibrium2, { x: 0, y: equalibrium2.y }],
-      visible: shouldShowModel2,
     }, {
       name: 'ShockXLine',
       type: 'line',

@@ -1,4 +1,5 @@
-import SolowModel from './SolowModel';
+import SolowModelShift from './SolowModelShift';
+import SolowModelShock from './SolowModelShock';
 import SimulationIntro from 'src/components/SimulationIntro';
 import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
 import { useState } from 'react';
@@ -64,8 +65,12 @@ export default function SolowModelContainer() {
         text={'placeholder'}
         //text={intro}
       />
-      <SelectorButtonGroup options={[ 'Shift', 'Shock' ]} select={setMode} selected={mode} />
-      <SolowModel />
+      <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+        <SelectorButtonGroup options={[ 'Shift', 'Shock' ]} select={setMode} selected={mode} />
+      </div>
+      
+      {mode === 'Shift' && <SolowModelShift />}
+      {mode === 'Shock' && <SolowModelShock />}
     </div>
   );
 }
