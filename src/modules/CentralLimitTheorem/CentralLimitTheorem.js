@@ -25,15 +25,6 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
     setSampleMeans([]);
   }, [popShape, mainSampleSize]);
 
-  const addSampleMeans = (means) => {
-    if (!means) { // calling addSampleMeans with no arguments clears the data
-      setSampleMeans([])
-    } else {
-      const newSampleMeans = means.map((mean, index) => ({ ...mean, id: index + 1 }));
-      setSampleMeans(newSampleMeans);
-    }
-  }
-
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
@@ -83,7 +74,7 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
                 <br/>
                 <SampleMeansSimulator
                   population={popArray}
-                  addSamples={addSampleMeans}
+                  addSamples={setSampleMeans}
                 />
               </div>
             </Row>

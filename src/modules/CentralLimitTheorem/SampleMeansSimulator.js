@@ -1,26 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '@/lib/types';
-import { populationMean } from '@/lib/stats-utils';
 
 export default function SampleMeansSimulator({ population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
   const [resampleSize, setResampleSize] = useState(0);
 
-  const resample = () => {
-    const samplePop = _.sampleSize(population, resampleSize);
-    const sampleMean = populationMean(samplePop);
-    return { size: +resampleSize, mean: sampleMean };
-  }
+  const workerRef = useRef();
 
-  const runSim = () => {
-    const newSamples = [];
-    for (let i = 0; i < numberResamples; i++) {
-      newSamples.push(resample())
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('./SimulationWorker', import.meta.url))
+    workerRef.current.onmessage = (evt) => {
+      //console.log('worker sent: ', evt.data);
+      addSamples(evt.data);
     }
-    addSamples(newSamples);
+  }, [])
+
+  const onRunClick = async () => {
+    //console.log('running simulation', numberResamples, resampleSize);
+    workerRef.current.postMessage({ numberResamples, population, resampleSize });
   }
 
   return (
@@ -34,7 +33,7 @@ export default function SampleMeansSimulator({ population, addSamples }) {
         onChange={(event) => setResampleSize(event.target.value)}
         value={resampleSize}
       />
-      <br/>
+      <br />
       <span> Number of Replications: </span>
       <Form.Control
         style={{ width: '40%', margin: 'auto' }}
@@ -44,14 +43,14 @@ export default function SampleMeansSimulator({ population, addSamples }) {
         onChange={(event) => setNumberResamples(event.target.value)}
         value={numberResamples}
       />
-      <br/>
+      <br />
       <Button
         variant="secondary"
-        onClick={() => runSim()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}
+        onClick={() => onRunClick()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}
       >
         Run
       </Button>
-      <Button variant="secondary" onClick={() => addSamples()}>Clear</Button>
+      <Button variant="secondary" onClick={() => { addSamples([]); }}>Clear</Button>
     </div>
   );
 }
