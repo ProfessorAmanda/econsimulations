@@ -12,7 +12,7 @@ export default function SampleMeansSimulator({ population, addSamples }) {
   useEffect(() => {
     workerRef.current = new Worker(new URL('./SimulationWorker', import.meta.url))
     workerRef.current.onmessage = (evt) => {
-      //console.log('worker sent: ', evt.data);
+      //console.log('worker done, sending: ', evt.data);
       addSamples(evt.data);
     }
   }, [])
