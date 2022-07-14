@@ -37,7 +37,10 @@ export default function NormalDistribution() {
 
   useEffect(() => {
     const nd = new ND(mu, sigma);
-    setArea(largerThan ? 1 - nd.cdf(val) : nd.cdf(val));
+    const newArea = largerThan ? 1 - nd.cdf(val) : nd.cdf(val);
+    if (newArea < 0.001) { setArea(0.001); }
+    else if (newArea > 0.999) { setArea(0.999); }
+    else { setArea(newArea); }
   }, [mu, sigma, largerThan, val]);
 
   const range = { start: -10, end: 10, step: 0.1 };
@@ -89,43 +92,41 @@ export default function NormalDistribution() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30rem' }}>
-          <NormalDistributionChart bellCurvePoints={bellCurvePoints} bellCurvePointsShading={bellCurvePointsShading} samplePoints={samplePoints.map((sample) => { return { x: sample.x, y: sample.y }; })} />
-          <div style={{ width: '15rem' }}>
-            <DataTable
-              data={popArray}
-              headers={{
-                'id': 'id',
-                'x': 'x'
-              }}
-              height={350}
-              setRowColor={(object: { id: number }) => samplePoints.map((obj) => obj.id).includes(object.id) ? '#747EF2' : undefined}
-            />
-          </div>
-        </div>
+        <NormalDistributionChart bellCurvePoints={bellCurvePoints} bellCurvePointsShading={bellCurvePointsShading} samplePoints={samplePoints.map((sample) => { return { x: sample.x, y: sample.y }; })} />
         <div style={{ marginLeft: '5rem', marginTop: '5rem' }}>
           <NormalDistributionInput mu={mu} sigma={sigma} onMuChange={setMu} onSigmaChange={setSigma} largerThan={largerThan} val={val} onLargerThanChange={setLargerThan} onValChange={setVal} />
           <div style={{ marginTop: '2rem' }}>{`Area under the curve: ${(area).toFixed(3)}`}</div>
-          <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-            <Alert variant="primary" style={{ width: '30rem', marginTop: '3rem' }}>
-              Experiment with Drawing Samples from This Distribution
-              <InputGroup style={{ width: '60%', margin: 'auto', marginBottom: '1rem', marginTop: '1rem' }}>
-                <Form.Control
-                  // @ts-ignore
-                  align="right"
-                  type="number"
-                  placeholder="Sample Size:"
-                  min={sampleSizeRange.min}
-                  value={sampleSizeInput}
-                  max={sampleSizeRange.max}
-                  onChange={(evt: any) => setSampleSizeInput(evt.target.value)}
-                />
-                <Button variant={validSampleInput ? 'primary' : 'secondary'} disabled={!validSampleInput} onClick={() => onDrawClick()}>
-                  Draw a Sample
-                </Button>
-              </InputGroup>
-            </Alert>
-          </div>
+        </div>
+      </div>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Alert variant="primary" style={{ width: '30rem', marginTop: '3rem' }}>
+          Experiment with Drawing Samples from This Distribution
+          <InputGroup style={{ width: '60%', margin: 'auto', marginBottom: '1rem', marginTop: '1rem' }}>
+            <Form.Control
+              // @ts-ignore
+              align="right"
+              type="number"
+              placeholder="Sample Size:"
+              min={sampleSizeRange.min}
+              value={sampleSizeInput}
+              max={sampleSizeRange.max}
+              onChange={(evt: any) => setSampleSizeInput(evt.target.value)}
+            />
+            <Button variant={validSampleInput ? 'primary' : 'secondary'} disabled={!validSampleInput} onClick={() => onDrawClick()}>
+              Draw a Sample
+            </Button>
+          </InputGroup>
+        </Alert>
+        <div style={{ width: '20rem' }}>
+          <DataTable
+            data={popArray}
+            headers={{
+              'id': 'id',
+              'x': 'x'
+            }}
+            height={350}
+            setRowColor={(object: { id: number }) => samplePoints.map((obj) => obj.id).includes(object.id) ? '#747EF2' : undefined}
+          />
         </div>
       </div>
     </div>
