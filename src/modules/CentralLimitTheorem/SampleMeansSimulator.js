@@ -2,24 +2,36 @@ import { useState, useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '@/lib/types';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 export default function SampleMeansSimulator({ population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
   const [resampleSize, setResampleSize] = useState(0);
+
+  const [shouldShowProgress, setShouldShowProgress] = useState(false);
+  const [progressPercent, setProgressPercent] = useState(0);
 
   const workerRef = useRef();
 
   useEffect(() => {
     workerRef.current = new Worker(new URL('./SimulationWorker', import.meta.url))
     workerRef.current.onmessage = (evt) => {
-      //console.log('worker done, sending: ', evt.data);
-      addSamples(evt.data);
+      if (evt.data.type === 'progress') {
+        setProgressPercent(evt.data.percentComplete);
+      } else if (evt.data.type === 'done') {
+        addSamples(evt.data.sampleMeans);
+        setProgressPercent(100);
+      }
     }
   }, [])
 
   const onRunClick = async () => {
-    //console.log('running simulation', numberResamples, resampleSize);
-    workerRef.current.postMessage({ numberResamples, population, resampleSize });
+    setProgressPercent(0);
+    setShouldShowProgress(true);
+    setTimeout(() => {
+      workerRef.current.postMessage({ numberResamples, population, resampleSize });
+    }, 600);
   }
 
   return (
@@ -47,10 +59,15 @@ export default function SampleMeansSimulator({ population, addSamples }) {
       <Button
         variant="secondary"
         onClick={() => onRunClick()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}
-      >
-        Run
-      </Button>
-      <Button variant="secondary" onClick={() => { addSamples([]); }}>Clear</Button>
+      >Run</Button>
+      <Button variant="secondary" onClick={() => { addSamples([]); setShouldShowProgress(false); }}>Clear</Button>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+        <div style={{ height: '100px', width: '100px' }}>
+          {shouldShowProgress && (
+            <CircularProgressbar value={progressPercent} text={`${progressPercent}%`} />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

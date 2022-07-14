@@ -50,6 +50,7 @@
     "react-addons-pure-render-mixin": "^15.6.3",
     "react-base-table": "^1.13.2",
     "react-bootstrap": "^2.4.0",
+    "react-circular-progressbar": "^2.1.0",
     "react-collapse": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-motion": "^0.5.2",
