@@ -12,9 +12,10 @@ interface SolowModelChartProps {
   shockI: number;
   shockY: number;
   shouldShowShock: boolean;
+  positiveShock: boolean;
 }
 
-export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel, equalibrium, shockK, shockI, shockY, shouldShowShock} : SolowModelChartProps) {
+export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel, equalibrium, shockK, shockI, shockY, shouldShowShock, positiveShock} : SolowModelChartProps) {
   const yDataPoints = Y.map((y, i) => {
     return {
       x: K[i],
@@ -105,19 +106,19 @@ export default function SolowModelChart({ K, Y, I, deltaTimesK, shouldShowModel,
       type: 'line',
       data: [{x: shockK, y: 0}, { x: shockK, y: shockY }],
       visible: shouldShowShock && shouldShowModel,
-      color: shockK < equalibrium.x ? '#aa0000' : '#00aa00'
+      color: positiveShock ? '#00aa00' : '#aa0000',
     }, {
       name: 'ShockYLineY',
       type: 'line',
       data: [{x: 0, y: shockY}, { x: shockK, y: shockY }],
       visible: shouldShowShock && shouldShowModel,
-      color: shockK < equalibrium.x ? '#aa0000' : '#00aa00',
+      color: positiveShock ? '#00aa00' : '#aa0000',
     }, {
       name: 'ShockYLineI',
       type: 'line',
       data: [{x: 0, y: shockI}, { x: shockK, y: shockI }],
       visible: shouldShowShock && shouldShowModel,
-      color: shockK < equalibrium.x ? '#aa0000' : '#00aa00',
+      color: positiveShock ? '#00aa00' : '#aa0000',
     }]
   }
   

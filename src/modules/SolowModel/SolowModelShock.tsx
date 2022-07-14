@@ -189,6 +189,7 @@ export default function SolowModelShock() {
           shockI={shockI}
           shockY={shockY}
           shouldShowShock={shouldShowShock}
+          positiveShock={shockDirection === 'Positive'}
         />
         <Table hover striped style={{
           marginLeft: '3rem',

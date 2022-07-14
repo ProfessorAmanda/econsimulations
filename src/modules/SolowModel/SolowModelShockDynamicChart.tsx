@@ -112,7 +112,15 @@ export default function SolowModelDynamicChart({ KOverTime, YOverTime, IOverTime
       animation: shouldAnimate ? animation : false
     }, {
       name: 'Shock',
-      data: shockIOverTime,
+      data: shockIOverTime.map(o => (o.x === hoverTimeVal ? {
+        x: o.x,
+        y: o.y,
+        marker: { enabled: true, radius: 5, fillColor: '#ffff00' }
+      } : {
+        x: o.x,
+        y: o.y,
+        marker: { enabled: false }
+      })),
       animation: shouldAnimate ? animation : false,
       color: positiveShock ? '#00aa00' : '#aa0000',
       visible: shouldShowShock,
