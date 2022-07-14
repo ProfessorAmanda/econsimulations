@@ -41,6 +41,16 @@ export default function NormalDistribution() {
     if (newArea < 0.001) { setArea(0.001); }
     else if (newArea > 0.999) { setArea(0.999); }
     else { setArea(newArea); }
+
+    const allDataCount = dataFromDistribution('Normal', 100, {
+      mean: mu,
+      standardDev: sigma,
+      low: range.start,
+      hi: range.end,
+      precision: 1
+    });
+
+    setPopArray(allDataCount);
   }, [mu, sigma, largerThan, val]);
 
   const range = { start: -10, end: 10, step: 0.1 };
@@ -76,17 +86,9 @@ export default function NormalDistribution() {
   });
 
   const onDrawClick = () => {
-    const allDataCount = dataFromDistribution('Normal', 100, {
-      mean: mu,
-      standardDev: sigma,
-      low: range.start,
-      hi: range.end,
-      precision: 1
-    });
+    
 
-    setPopArray(allDataCount);
-
-    setSamplePoints(_.sampleSize(allDataCount, sampleSize));
+    setSamplePoints(_.sampleSize(popArray, sampleSize));
   }
 
   return (

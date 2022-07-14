@@ -9,13 +9,13 @@ if (typeof Highcharts === 'object') {
   HighchartMore(Highcharts);
 }
 
-interface NormalDistributionChartShadeProps {
+interface NormalDistributionChartProps {
   bellCurvePoints: dataObject[];
   bellCurvePointsShading: {x: number, high: number, low: number}[];
   samplePoints: {x: number, y: number}[];
 }
 
-export default function NormalDistributionChart({ bellCurvePoints, bellCurvePointsShading, samplePoints }: NormalDistributionChartShadeProps) {
+export default function NormalDistributionChart({ bellCurvePoints, bellCurvePointsShading, samplePoints }: NormalDistributionChartProps) {
 
   const myChart = {
     chart: {
