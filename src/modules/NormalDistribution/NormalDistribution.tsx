@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import { dataObject } from 'src/lib/ts-types';
 import _ from 'lodash';
 import ND from 'normal-distribution';
-import { Button } from 'react-bootstrap';
+import { Button, Alert, InputGroup, Form } from 'react-bootstrap';
 import { dataFromDistribution } from 'src/lib/stats-utils';
-import InputSlider from 'src/components/InputSlider';
 import DataTable from 'src/components/DataTable';
 
 export default function NormalDistribution() {
@@ -23,6 +22,10 @@ export default function NormalDistribution() {
   const [samplePoints, setSamplePoints] = useState<dataObject[]>([]);
 
   const [popArray, setPopArray] = useState<dataObject[]>([]);
+
+  const sampleSizeRange = { min: 1, max: 50 };
+  const validSampleInput = sampleSizeInput && +sampleSizeInput > sampleSizeRange.min && +sampleSizeInput < sampleSizeRange.max;
+
   // This value is used to scale the bell curve to a proper size that fits well with the sample points
   const scale = 25;
 
@@ -86,32 +89,44 @@ export default function NormalDistribution() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-        <div style={ { display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30rem' } }>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30rem' }}>
           <NormalDistributionChart bellCurvePoints={bellCurvePoints} bellCurvePointsShading={bellCurvePointsShading} samplePoints={samplePoints.map((sample) => { return { x: sample.x, y: sample.y }; })} />
-          <div style={ { width: '15rem' } }>
+          <div style={{ width: '15rem' }}>
             <DataTable
-            data={popArray}
-            headers={{
-              'id': 'id',
-              'x': 'x'
-            }}
-            height={350}
-            setRowColor={(object: { id: number }) => samplePoints.map((obj) => obj.id).includes(object.id) ? '#747EF2' : undefined}
-          />
+              data={popArray}
+              headers={{
+                'id': 'id',
+                'x': 'x'
+              }}
+              height={350}
+              setRowColor={(object: { id: number }) => samplePoints.map((obj) => obj.id).includes(object.id) ? '#747EF2' : undefined}
+            />
           </div>
-          
         </div>
         <div style={{ marginLeft: '5rem', marginTop: '5rem' }}>
           <NormalDistributionInput mu={mu} sigma={sigma} onMuChange={setMu} onSigmaChange={setSigma} largerThan={largerThan} val={val} onLargerThanChange={setLargerThan} onValChange={setVal} />
           <div style={{ marginTop: '2rem' }}>{`Area under the curve: ${(area).toFixed(3)}`}</div>
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <span style={{ marginRight: '2rem' }}>Sample size: </span>
-            <InputSlider value={sampleSizeInput} min={1} max={50} step={1} onChange={setSampleSizeInput} />
-
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+            <Alert variant="primary" style={{ width: '30rem', marginTop: '3rem' }}>
+              Experiment with Drawing Samples from This Distribution
+              <InputGroup style={{ width: '60%', margin: 'auto', marginBottom: '1rem', marginTop: '1rem' }}>
+                <Form.Control
+                  // @ts-ignore
+                  align="right"
+                  type="number"
+                  placeholder="Sample Size:"
+                  min={sampleSizeRange.min}
+                  value={sampleSizeInput}
+                  max={sampleSizeRange.max}
+                  onChange={(evt: any) => setSampleSizeInput(evt.target.value)}
+                />
+                <Button variant={validSampleInput ? 'primary' : 'secondary'} disabled={!validSampleInput} onClick={() => onDrawClick()}>
+                  Draw a Sample
+                </Button>
+              </InputGroup>
+            </Alert>
           </div>
-          <Button style={{ marginTop: '2rem' }} onClick={onDrawClick}>Draw Samples</Button>
         </div>
-
       </div>
     </div>
 
