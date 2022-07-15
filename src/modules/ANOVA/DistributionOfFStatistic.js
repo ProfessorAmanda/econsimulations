@@ -1,56 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { anovaPopulationObjectType, stringOrNumberType } from '@/lib/types';
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
-import _ from 'lodash';
-import { mean, std, sum } from 'mathjs';
-import { jStat } from 'jstat';
+import { sum } from 'mathjs';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import TeX from '@matejmazur/react-katex';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
+// A HighChartReact bug when integrating with Next.js's server-side rendering
+// Work around: https://github.com/highcharts/highcharts/issues/10588
+import Boost from 'highcharts/modules/boost';
+if (typeof Highcharts === 'object') {
+  Boost(Highcharts);
+}
 
 export default function DistributionOfFStatistic({ populations, alpha }) {
   const [numSamples, setNumSamples] = useState('');
   const [accepts, setAccepts] = useState([]);
   const [rejects, setRejects] = useState([]);
 
-  const runSimulation = () => {
-    const fStats = [];
-    for (let i = 0; i < numSamples; i++) {
-      // calculate F-statistic and p-value
-      const sampleObjects = populations.map(({ data, sampleSize }) => _.sampleSize(data, sampleSize));
-      const samples = sampleObjects.map((sample) => sample.map(({ x }) => x));
-      const overallSampleMean = (_.flatten(samples).length > 0) ? mean(_.flatten(samples)) : undefined;
-      const SSTR = sum(samples.map((sample) => sample.length * (mean(sample) - overallSampleMean) ** 2));
-      const MSTR = SSTR / (populations.length - 1);
-      const SSE = sum(samples.map((sample) => (sample.length - 1) * std(sample) ** 2));
-      const MSE = SSE / (sum(samples.map((sample) => sample.length)) - populations.length);
-      const F = MSTR / MSE;
-      const pValue = jStat.anovaftest(...samples);
-      // round slightly differently below 1 so there are no f-stats = 0
-      fStats.push({ F: (F < 1) ? +F.toPrecision(2) : _.round(F, 2), pValue, reject: pValue < +alpha });
+  const [shouldShowProgress, setShouldShowProgress] = useState(false);
+  const [progressPercent, setProgressPercent] = useState(0);
+
+  const workerRef = useRef();
+
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('./SimulationWorker', import.meta.url))
+    workerRef.current.onmessage = (evt) => {
+      if (evt.data.type === 'progress') {
+        setProgressPercent(evt.data.percentComplete);
+      } else if (evt.data.type === 'done') {
+        setAccepts(evt.data.newAccepts);
+        setRejects(evt.data.newRejects);
+        setProgressPercent(100);
+      }
     }
-    const fCounts = {};
-    const newRejects = [];
-    const newAccepts = [];
-    // separate F-stats into two arrays for rejecting/failing to reject
-    fStats.forEach(({ F, pValue, reject }) => {
-      fCounts[F] = _.defaultTo(fCounts[F] + 1, 1);
-      const fObject = {
-        x: +F,
-        y: fCounts[F],
-        F,
-        pValue: pValue.toPrecision(3),
-        reject,
-      }
-      if (reject) {
-        newRejects.push(fObject)
-      } else {
-        newAccepts.push(fObject)
-      }
-    });
-    setAccepts(newAccepts);
-    setRejects(newRejects);
+  }, [])
+
+  const onSimulateClick = async () => {
+    setProgressPercent(0);
+    setShouldShowProgress(true);
+    setTimeout(() => {
+      workerRef.current.postMessage({ populations, alpha, numSamples });
+    }, 600);
   }
 
   const chart = {
@@ -58,6 +52,15 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
       zoomType: 'xy',
       animation: false,
       type: 'scatter'
+    },
+    boost: {
+      useGPUTranslations: true,
+      usePreAllocated: true
+    },
+    plotOptions: {
+      series: {
+        boostThreshold: 10000
+      }
     },
     title: {
       text: ''
@@ -127,20 +130,27 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
           />
           <Button
             variant="secondary"
-            disabled={!numSamples || numSamples < 1} onClick={() => runSimulation()}
+            disabled={!numSamples || numSamples < 1} onClick={() => onSimulateClick()}
           >
             Simulate
           </Button>
         </InputGroup>
-      {([...accepts, ...rejects].length > 0) && (
-        <>
-          <p>
-            <strong>Distribution of F-Statistic </strong>
-            (<TeX math={`df_{num} = ${populations.length - 1}, df_{den} = ${sum(populations.map(({ sampleSize }) => sampleSize)) - populations.length}`}/>)
-          </p>
-          <HighchartsReact highcharts={Highcharts} options={chart}/>
-        </>
-      )}
+        {([...accepts, ...rejects].length > 0) && (
+          <>
+            <p>
+              <strong>Distribution of F-Statistic </strong>
+              (<TeX math={`df_{num} = ${populations.length - 1}, df_{den} = ${sum(populations.map(({ sampleSize }) => sampleSize)) - populations.length}`} />)
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+              <div style={{ height: '100px', width: '100px' }}>
+                {shouldShowProgress && (
+                  <CircularProgressbar value={progressPercent} text={`${progressPercent}%`} />
+                )}
+              </div>
+            </div>
+            <HighchartsReact highcharts={Highcharts} options={chart} />
+          </>
+        )}
       </Alert>
       {([...accepts, ...rejects].length > 0) && (
         <Alert variant="primary">
