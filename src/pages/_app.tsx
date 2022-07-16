@@ -5,6 +5,7 @@ import 'katex/dist/katex.min.css';
 import '../styles/dark-unica.css'; // for HighCharts in ScatterPlot
 import '../styles/MarzEg.css'; // for react-collapse in Collapsable
 import PropTypes from 'prop-types';
+import 'react-circular-progressbar/dist/styles.css';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />

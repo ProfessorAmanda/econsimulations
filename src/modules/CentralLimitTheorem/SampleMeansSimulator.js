@@ -3,7 +3,6 @@ import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '@/lib/types';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
 
 export default function SampleMeansSimulator({ population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);

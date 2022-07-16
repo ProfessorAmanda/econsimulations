@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import { popShapeType } from '@/lib/types';
 import DataTable from '@/components/DataTable';
-import { InfinitySpin } from 'react-loader-spinner';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 export default function ConfidenceIntervals({ popShape, populationSize }) {
   const [distType, setDistType] = useState('Z'); // can be "Z" or "T"
@@ -116,7 +116,10 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
               populationSize={popArray.length}
               addSamples={generateSamples}
             />
-            {isLoading && <InfinitySpin color="#3e98c7"/>}
+            {isLoading && <div>
+              <span>Calculating...</span>
+              <BeatLoader color="#3e98c7" />
+            </div>}
           </Col>
           <Col lg={12} xl={7}>
             <DataTable
