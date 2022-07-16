@@ -15,7 +15,7 @@ export default function SampleMeansSimulator({ population, addSamples }) {
   const workerRef = useRef();
 
   useEffect(() => {
-    workerRef.current = new Worker(new URL('./SimulationWorker', import.meta.url))
+    workerRef.current = new Worker(new URL('./SampleMeansSimulationWorker', import.meta.url))
     workerRef.current.onmessage = (evt) => {
       if (evt.data.type === 'progress') {
         setProgressPercent(evt.data.percentComplete);

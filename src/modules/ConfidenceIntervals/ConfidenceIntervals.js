@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Collapsable from '@/components/Collapsable';
 import ConfidenceInputs from './ConfidenceInputs';
 import SampleSizeInput from '@/components/SampleSizeInput';
 import ConfidenceIntervalsChart from './ConfidenceIntervalsChart';
 import ManySamplesInput from './ManySamplesInput';
-import { dataFromDistribution, populationMean, populationStandardDev } from '@/lib/stats-utils';
+import { dataFromDistribution, populationMean } from '@/lib/stats-utils';
 import { Row, Col, Alert } from 'react-bootstrap';
 import PopulationChart from './PopulationChart';
 import _ from 'lodash';
-import { jStat } from 'jstat';
 import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import { popShapeType } from '@/lib/types';
 import DataTable from '@/components/DataTable';
+import { InfinitySpin } from 'react-loader-spinner';
 
 export default function ConfidenceIntervals({ popShape, populationSize }) {
   const [distType, setDistType] = useState('Z'); // can be "Z" or "T"
@@ -20,6 +20,22 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
   const [popArray, setPopArray] = useState([]);
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const workerRef = useRef();
+
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('./ConfidenceIntervalsSimulationWorker', import.meta.url));
+    workerRef.current.onmessage = (evt) => {
+      if (evt.data.type === 'done') {
+        const newSamples = samples.concat(evt.data.samples);
+        const indexedSamples = newSamples.map((sample, index) => ({ ...sample, id: index + 1 }));
+        setSamples(indexedSamples);
+        setSelected(indexedSamples[indexedSamples.length - 1]);
+        setIsLoading(false);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const newPop = dataFromDistribution(popShape, populationSize, { low: 55, hi: 75 });
@@ -48,33 +64,10 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
       setSamples([]);
       setSelected();
     } else {
-      const sampleObjects = [];
-      for (let i = 0; i < replications; i++) {
-        const sample = _.sampleSize(popArray, size);
-        const mean = _.round(populationMean(sample), 2);
-        const popMean = _.round(populationMean(popArray), 2);
-        const standardDev = populationStandardDev((distType === 'Z') ? popArray : sample);
-        const ciFunction = (distType === 'Z') ? jStat.normalci : jStat.tci;
-        const [lowerConf, upperConf] = ciFunction(mean, 1 - (confLevel / 100), standardDev, size);
-
-        const sampleObject = {
-          data: sample,
-          size: +size,
-          mean,
-          lowerConf: _.round(lowerConf, 2),
-          upperConf: _.round(upperConf, 2),
-          confidenceLevel: +confLevel,
-          distribution: distType,
-          label: (popMean >= _.round(lowerConf, 2)) && (popMean <= _.round(upperConf, 2)),
-        }
-
-        sampleObjects.push(sampleObject);
-      }
-
-      const newSamples = [...samples, ...sampleObjects];
-      const indexedSamples = newSamples.map((sample, index) => ({ ...sample, id: index + 1 }))
-      setSamples(indexedSamples);
-      setSelected(indexedSamples[indexedSamples.length - 1]);
+      setIsLoading(true);
+      setTimeout(() => {
+        workerRef.current.postMessage({ size, replications, popArray, distType, confLevel });
+      }, 600);
     }
   }
 
@@ -94,7 +87,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
             setConfLevel={setConfLevel}
           />
         </Row>
-        <br/>
+        <br />
         <Row md={1} lg={2}>
           <Col>
             <PopulationChart
@@ -104,7 +97,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
               popShape={popShape}
             />
             <p>Try drawing some samples and calculating means</p>
-            <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={generateSamples} classname="sample-size-input"/>
+            <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={generateSamples} classname="sample-size-input" />
           </Col>
           <Col>
             <ConfidenceIntervalsChart
@@ -123,6 +116,7 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
               populationSize={popArray.length}
               addSamples={generateSamples}
             />
+            {isLoading && <InfinitySpin color="#3e98c7"/>}
           </Col>
           <Col lg={12} xl={7}>
             <DataTable
@@ -142,12 +136,12 @@ export default function ConfidenceIntervals({ popShape, populationSize }) {
             />
           </Col>
         </Row>
-        <br/>
+        <br />
         <Row>
           {(samples.length > 0) && (
             <Alert variant="info">
               {samples.filter(({ label }) => !label).length} intervals did not contain the population mean.
-              <br/>
+              <br />
               {samples.filter(({ label }) => label).length} did ({_.round(100 * samples.filter(({ label }) => label).length / samples.length, 2)}%).
             </Alert>
           )}

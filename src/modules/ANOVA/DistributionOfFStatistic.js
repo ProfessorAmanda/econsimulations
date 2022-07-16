@@ -7,7 +7,6 @@ import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import TeX from '@matejmazur/react-katex';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
 
 // A HighChartReact bug when integrating with Next.js's server-side rendering
 // Work around: https://github.com/highcharts/highcharts/issues/10588
@@ -27,7 +26,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
   const workerRef = useRef();
 
   useEffect(() => {
-    workerRef.current = new Worker(new URL('./SimulationWorker', import.meta.url))
+    workerRef.current = new Worker(new URL('./ANOVASimulationWorker', import.meta.url))
     workerRef.current.onmessage = (evt) => {
       if (evt.data.type === 'progress') {
         setProgressPercent(evt.data.percentComplete);
@@ -117,6 +116,13 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
 
   return (
     <>
+      {shouldShowProgress && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
+          <div style={{ height: '100px', width: '100px' }}>
+            <CircularProgressbar value={progressPercent} text={`${progressPercent}%`} />
+          </div>
+        </div>
+      )}
       <Alert variant="secondary">
         <p>Let's plot the distribution of the F-Statistic:</p>
         <InputGroup className="sample-size-input">
@@ -141,13 +147,7 @@ export default function DistributionOfFStatistic({ populations, alpha }) {
               <strong>Distribution of F-Statistic </strong>
               (<TeX math={`df_{num} = ${populations.length - 1}, df_{den} = ${sum(populations.map(({ sampleSize }) => sampleSize)) - populations.length}`} />)
             </p>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-              <div style={{ height: '100px', width: '100px' }}>
-                {shouldShowProgress && (
-                  <CircularProgressbar value={progressPercent} text={`${progressPercent}%`} />
-                )}
-              </div>
-            </div>
+
             <HighchartsReact highcharts={Highcharts} options={chart} />
           </>
         )}

@@ -53,6 +53,7 @@
     "react-circular-progressbar": "^2.1.0",
     "react-collapse": "^5.1.0",
     "react-dom": "^18.2.0",
+    "react-loader-spinner": "^5.1.5",
     "react-motion": "^0.5.2",
     "react-plotly.js": "^2.5.1",
     "regression": "^2.0.1",
