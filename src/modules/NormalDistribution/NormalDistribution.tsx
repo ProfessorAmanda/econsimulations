@@ -17,17 +17,15 @@ export default function NormalDistribution() {
 
   const [area, setArea] = useState(0);
 
-  const [sampleSizeInput, setSampleSizeInput] = useState('30');
+  const [sampleSizeInput, setSampleSizeInput] = useState('');
   const [sampleSize, setSampleSize] = useState(30);
   const [samplePoints, setSamplePoints] = useState<dataObject[]>([]);
 
-  const [popArray, setPopArray] = useState<dataObject[]>([]);
-
   const sampleSizeRange = { min: 1, max: 50 };
-  const validSampleInput = sampleSizeInput && +sampleSizeInput > sampleSizeRange.min && +sampleSizeInput < sampleSizeRange.max;
+  const validSampleInput = sampleSizeInput && +sampleSizeInput >= sampleSizeRange.min && +sampleSizeInput <= sampleSizeRange.max;
 
   // This value is used to scale the bell curve to a proper size that fits well with the sample points
-  const scale = 25;
+  const scale = 22;
 
   useEffect(() => {
     if (sampleSizeInput !== '') {
@@ -41,16 +39,6 @@ export default function NormalDistribution() {
     if (newArea < 0.001) { setArea(0.001); }
     else if (newArea > 0.999) { setArea(0.999); }
     else { setArea(newArea); }
-
-    const allDataCount = dataFromDistribution('Normal', 100, {
-      mean: mu,
-      standardDev: sigma,
-      low: range.start,
-      hi: range.end,
-      precision: 1
-    });
-
-    setPopArray(allDataCount);
   }, [mu, sigma, largerThan, val]);
 
   const range = { start: -10, end: 10, step: 0.1 };
@@ -58,7 +46,6 @@ export default function NormalDistribution() {
   const normDist = new ND(mu, sigma);
   const bellCurvePoints: dataObject[] = [];
   _.range(range.start, range.end, range.step).forEach((x, i) => {
-    //const y = 1 / (sigma * Math.sqrt(2 * Math.PI)) * Math.exp(-((x - mu) ** 2 / (2 * sigma ** 2)));
     const y = normDist.pdf(x);
     bellCurvePoints.push({ x, y: y * scale, id: i });
   });
@@ -86,9 +73,14 @@ export default function NormalDistribution() {
   });
 
   const onDrawClick = () => {
-    
-
-    setSamplePoints(_.sampleSize(popArray, sampleSize));
+    const samples = dataFromDistribution('Normal', sampleSize, {
+      mean: mu,
+      standardDev: sigma,
+      low: range.start,
+      hi: range.end,
+      precision: 1
+    });
+    setSamplePoints(samples);
   }
 
   return (
@@ -103,12 +95,12 @@ export default function NormalDistribution() {
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <Alert variant="primary" style={{ width: '30rem', marginTop: '3rem' }}>
           Experiment with Drawing Samples from This Distribution
-          <InputGroup style={{ width: '60%', margin: 'auto', marginBottom: '1rem', marginTop: '1rem' }}>
+          <InputGroup style={{ width: '80%', margin: 'auto', marginBottom: '1rem', marginTop: '1rem' }}>
             <Form.Control
               // @ts-ignore
               align="right"
               type="number"
-              placeholder="Sample Size:"
+              placeholder="Sample Size: 1-50"
               min={sampleSizeRange.min}
               value={sampleSizeInput}
               max={sampleSizeRange.max}
@@ -121,13 +113,18 @@ export default function NormalDistribution() {
         </Alert>
         <div style={{ width: '20rem' }}>
           <DataTable
-            data={popArray}
+            data={samplePoints}
             headers={{
               'id': 'id',
               'x': 'x'
             }}
             height={350}
-            setRowColor={(object: { id: number }) => samplePoints.map((obj) => obj.id).includes(object.id) ? '#747EF2' : undefined}
+            setRowColor={(object: { id: number }) => {
+              const x = samplePoints.find((obj) => obj.id===object.id)?.x ?? 0;
+              const inRange = largerThan && x >=val || !largerThan && x <= val;
+              return inRange ? '#00aa00' : undefined;
+            }}
+            //'#747EF2'
           />
         </div>
       </div>
