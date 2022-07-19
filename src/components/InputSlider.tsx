@@ -8,15 +8,17 @@ interface InputSliderProps {
   max: number;
   step: number;
   onChange: Function;
+  customStyle?: object;
 }
 
-export default function InputSlider({ value, min, max, step, onChange } : InputSliderProps) {
+export default function InputSlider({ value, min, max, step, onChange, customStyle} : InputSliderProps) {
   return (
     <InputGroup className="input-slider-group" style={{
       height: 30,
       width: 400,
       margin: 'auto',
       alignItems: 'center',
+      ...customStyle
     }}>
       <Form.Control
         type="range"

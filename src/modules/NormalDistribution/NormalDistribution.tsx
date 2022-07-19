@@ -7,6 +7,7 @@ import ND from 'normal-distribution';
 import { Button, Alert, InputGroup, Form } from 'react-bootstrap';
 import { dataFromDistribution } from 'src/lib/stats-utils';
 import DataTable from 'src/components/DataTable';
+import TestingForNormality from './TestingForNormality';
 
 export default function NormalDistribution() {
   const [mu, setMu] = useState(0);
@@ -84,7 +85,7 @@ export default function NormalDistribution() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         <NormalDistributionChart bellCurvePoints={bellCurvePoints} bellCurvePointsShading={bellCurvePointsShading} samplePoints={samplePoints.map((sample) => { return { x: sample.x, y: sample.y }; })} />
         <div style={{ marginLeft: '5rem', marginTop: '5rem' }}>
@@ -111,24 +112,30 @@ export default function NormalDistribution() {
             </Button>
           </InputGroup>
         </Alert>
-        <div style={{ width: '20rem' }}>
-          <DataTable
-            data={samplePoints}
-            headers={{
-              'id': 'id',
-              'x': 'x'
-            }}
-            height={350}
-            setRowColor={(object: { id: number }) => {
-              const x = samplePoints.find((obj) => obj.id===object.id)?.x ?? 0;
-              const inRange = largerThan && x >=val || !largerThan && x <= val;
-              return inRange ? '#00aa00' : undefined;
-            }}
-            //'#747EF2'
-          />
-        </div>
-      </div>
-    </div>
 
+      </div>
+      {
+        samplePoints.length > 0 && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ width: '20rem' }}>
+            <DataTable
+              data={samplePoints}
+              headers={{
+                'id': 'id',
+                'x': 'x'
+              }}
+              height={350}
+              setRowColor={(object: { id: number }) => {
+                const x = samplePoints.find((obj) => obj.id === object.id)?.x ?? 0;
+                const inRange = largerThan && x >= val || !largerThan && x <= val;
+                return inRange ? '#00aa00' : undefined;
+              }}
+            />
+          </div>
+          <div style={{ width: '100%', marginTop: '5rem' }}>
+            <TestingForNormality />
+          </div>
+        </div>
+      }
+    </div>
   );
 }
