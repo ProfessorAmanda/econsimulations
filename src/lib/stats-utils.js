@@ -47,8 +47,13 @@ export const generateMystery = (sampleSize, mysteryMean1, mysteryMean2, mysteryS
   return _.sampleSize([...normal1, ...normal2], 2000);
 }
 
-// returns the data set from the function corresponding with distType
-// objects in array are of shape {x, y, id}
+/**
+ * Returns an array of values with a normal distribution
+ * @param {*} distType the type of distribution to generate
+ * @param {*} sampleSize the number of values to generate
+ * @param {*} object custom parameters 
+ * @returns An array of generated points in the shape of {x, y, id}
+ */
 export const dataFromDistribution = (
   distType,
   sampleSize,

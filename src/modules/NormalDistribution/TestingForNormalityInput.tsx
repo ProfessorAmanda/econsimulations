@@ -38,7 +38,7 @@ export default function TestingForNormalityInput({ sampleSize, setSampleSize, mu
           type="number"
           placeholder="Sample Size:"
           min={1}
-          value={sampleSize}
+          value={sampleSizeInput}
           max={100}
           onChange={(event: any) => setSampleSizeInput(event.target.value)}
         />
@@ -47,7 +47,7 @@ export default function TestingForNormalityInput({ sampleSize, setSampleSize, mu
         <span style={{ width: '15rem', textAlign: 'right', marginRight: '2rem' }}>Mean:</span>
         <InputSlider
           customStyle={{ width: '20rem' }}
-          value={+muInput}
+          value={muInput}
           min={-10}
           max={10}
           step={0.1}
@@ -63,7 +63,7 @@ export default function TestingForNormalityInput({ sampleSize, setSampleSize, mu
           type="number"
           placeholder="Standard deviation:"
           min={0.1}
-          value={sigma}
+          value={sigmaInput}
           max={5}
           step={0.1}
           onChange={(event: any) => setSigmaInput(event.target.value)}
@@ -78,7 +78,7 @@ export default function TestingForNormalityInput({ sampleSize, setSampleSize, mu
           type="number"
           placeholder="Alpha:"
           min={0}
-          value={+alphaInput}
+          value={alphaInput}
           max={1}
           step={0.01}
           onChange={(event: any) => setAlphaInput(event.target.value)}
