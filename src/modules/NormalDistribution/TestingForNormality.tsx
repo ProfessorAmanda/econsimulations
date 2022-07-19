@@ -2,7 +2,6 @@ import { useState } from 'react';
 import _ from 'lodash';
 import { Button, Alert } from 'react-bootstrap';
 import TestingForNormalityInput from './TestingForNormalityInput';
-import { dataObject } from 'src/lib/ts-types';
 import { dataFromDistribution } from 'src/lib/stats-utils';
 import TestingForNormalityHistogramChart from './TestingForNormalityHistogramChart';
 
@@ -27,7 +26,7 @@ export default function TestingForNormality() {
   
 
   const onGenerateSampleClick = () => {
-    const distributionShape = _.sample(availableDistributions) ?? "";
+    const distributionShape = _.sample(availableDistributions) ?? '';
     setDistributionShape(distributionShape);
     const data = dataFromDistribution(distributionShape, sampleSize, {
       mean: mu,

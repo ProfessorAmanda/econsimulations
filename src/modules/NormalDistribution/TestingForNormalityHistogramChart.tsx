@@ -1,6 +1,5 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { dataObject } from 'src/lib/ts-types';
 
 // A HighChartReact bug when integrating with Next.js's server-side rendering
 // Work around: https://github.com/highcharts/highcharts/issues/10588

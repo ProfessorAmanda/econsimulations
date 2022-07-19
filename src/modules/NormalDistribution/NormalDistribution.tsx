@@ -81,7 +81,6 @@ export default function NormalDistribution() {
       hi: range.end,
       precision: 1
     });
-    console.log("samples in ND", samples);
     setSamplePoints(samples);
   }
 
