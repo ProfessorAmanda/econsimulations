@@ -11,6 +11,15 @@ interface InputSliderProps {
   customStyle?: object;
 }
 
+/**
+ * Input slider is composed of a slider and a number input.
+ * @value: the value of the number input
+ * @min: the minimum value
+ * @max: the maximum value
+ * @step: the step size of the slider
+ * @onChange: the function to call when the number input is changed
+ * @customStyle: an optional object containing custom styles to override the default styles
+ */
 export default function InputSlider({ value, min, max, step, onChange, customStyle} : InputSliderProps) {
   return (
     <InputGroup className="input-slider-group" style={{
