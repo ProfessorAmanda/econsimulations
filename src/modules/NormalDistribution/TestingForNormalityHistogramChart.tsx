@@ -15,6 +15,14 @@ interface TestingForNormalityHistogramChartProps {
 
 export default function TestingForNormalityHistogramChart({ dataPoints }: TestingForNormalityHistogramChartProps) {
 
+  const processedPoints = dataPoints.map((point, index) => {
+    return {
+      x: index,
+      y: point,
+    };
+  });
+
+
   const myChart = {
     chart: {
       type: 'histogram',
@@ -23,26 +31,35 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
     plotOptions: {
       histogram: {
         binWidth: 1,
+        tooltip: {
+            pointFormat: '<bold>{point.x:.1f} to {point.x2:.1f}</bold><br/>Count: {point.y}',
+        },
       }
     },
     title: {
       text: 'Testing For Normality',
     },
-    xAxis: {
-      title: { text: 'value' },
+    xAxis: [{
+      title: { text: 'Data' },
+      alignTicks: false
+    }, {
+      title: { text: 'Histogram' },
       min: -10,
       max: 10,
-    },
-    yAxis: {
-      title: { text: 'count' },
+      alignTicks: false,
+      opposite: true
+    }],
+    yAxis: [{
+      title: { text: 'Data' },
+      min: -10,
+      max: 10,
+      opposite: true,
+    }, {
+      title: { text: 'Histogram' },
       max: 50,
       min: 0,
       //visible: false,
-    },
-    tooltip: {
-      headerFormat: '',
-      pointFormat: '{index}. {point.x:.3f} to {point.x2:.3f}. Count: {point.y}',
-    },
+    }],
     series: [
       {
         type: 'histogram',
@@ -50,23 +67,25 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
         baseSeries: 's1',
         showInLegend: false,
         marker: { enabled: false },
+        zIndex: -1,
+        xAxis: 1,
+        yAxis: 1,
       },
       {
         name: 'Data',
         type: 'scatter',
-        data: dataPoints,
+        data: processedPoints,
         id: 's1',
         marker: {
-            radius: 1.5
+          radius: 1.5
         },
-        visible: false,
       }
     ]
   };
 
-return (
-  <>
-    <HighchartsReact highcharts={Highcharts} options={myChart} />
-  </>
-);
+  return (
+    <>
+      <HighchartsReact highcharts={Highcharts} options={myChart} />
+    </>
+  );
 }
