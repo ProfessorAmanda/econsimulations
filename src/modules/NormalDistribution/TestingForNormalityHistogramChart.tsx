@@ -11,9 +11,10 @@ if (typeof Highcharts === 'object') {
 
 interface TestingForNormalityHistogramChartProps {
   dataPoints: number[];
+  numberOfBins: number;
 }
 
-export default function TestingForNormalityHistogramChart({ dataPoints }: TestingForNormalityHistogramChartProps) {
+export default function TestingForNormalityHistogramChart({ dataPoints, numberOfBins }: TestingForNormalityHistogramChartProps) {
 
   const processedPoints = dataPoints.map((point, index) => {
     return {
@@ -30,7 +31,7 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
     },
     plotOptions: {
       histogram: {
-        binWidth: 1,
+        binsNumber: numberOfBins,
         tooltip: {
           pointFormat: '<bold>{point.x:.1f} to {point.x2:.1f}</bold><br/>Count: {point.y}',
         }
@@ -83,7 +84,7 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
 
   return (
     <div>
-      {dataPoints.length > 0 && (<HighchartsReact highcharts={Highcharts} options={myChart} />)}
+      <HighchartsReact highcharts={Highcharts} options={myChart} />
     </div>
   );
 }
