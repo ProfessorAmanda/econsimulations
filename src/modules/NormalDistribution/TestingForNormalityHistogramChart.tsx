@@ -32,8 +32,8 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
       histogram: {
         binWidth: 1,
         tooltip: {
-            pointFormat: '<bold>{point.x:.1f} to {point.x2:.1f}</bold><br/>Count: {point.y}',
-        },
+          pointFormat: '<bold>{point.x:.1f} to {point.x2:.1f}</bold><br/>Count: {point.y}',
+        }
       }
     },
     title: {
@@ -41,13 +41,13 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
     },
     xAxis: [{
       title: { text: 'Data' },
-      alignTicks: false
+      alignTicks: false,
+      opposite: true
     }, {
       title: { text: 'Histogram' },
       min: -10,
       max: 10,
-      alignTicks: false,
-      opposite: true
+      alignTicks: false
     }],
     yAxis: [{
       title: { text: 'Data' },
@@ -63,7 +63,6 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
     series: [
       {
         type: 'histogram',
-        name: 'Data',
         baseSeries: 's1',
         showInLegend: false,
         marker: { enabled: false },
@@ -72,7 +71,6 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
         yAxis: 1,
       },
       {
-        name: 'Data',
         type: 'scatter',
         data: processedPoints,
         id: 's1',
@@ -84,8 +82,8 @@ export default function TestingForNormalityHistogramChart({ dataPoints }: Testin
   };
 
   return (
-    <>
-      <HighchartsReact highcharts={Highcharts} options={myChart} />
-    </>
+    <div>
+      {dataPoints.length > 0 && (<HighchartsReact highcharts={Highcharts} options={myChart} />)}
+    </div>
   );
 }

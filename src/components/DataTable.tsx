@@ -26,12 +26,7 @@ export default function DataTable({ data, headers, height, setSelected, setRowCo
     }
   }
 
-  const determineRowColor = (object: { id: number }) => {
-    if (setRowColor) {
-      return setRowColor(object)
-    }
-    return undefined
-  }
+  const determineRowColor = (object: { id: number }) => (setRowColor ? setRowColor(object) : undefined);
 
   const dataTable = data.map((object) => (
     <tr
