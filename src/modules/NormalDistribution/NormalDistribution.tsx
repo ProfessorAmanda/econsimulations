@@ -123,7 +123,7 @@ export default function NormalDistribution() {
                 'id': 'id',
                 'x': 'x'
               }}
-              height={350}
+              height={200}
               setRowColor={(object: { id: number }) => {
                 const x = samplePoints.find((obj) => obj.id === object.id)?.x ?? 0;
                 const inRange = largerThan && x >= val || !largerThan && x <= val;

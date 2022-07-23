@@ -11,10 +11,10 @@ if (typeof Highcharts === 'object') {
 
 interface TestingForNormalityHistogramChartProps {
   dataPoints: number[];
-  numberOfBins: number;
+  dataAggregated: { lowerBound: number, upperBound: number, count: number }[];
 }
 
-export default function TestingForNormalityHistogramChart({ dataPoints, numberOfBins }: TestingForNormalityHistogramChartProps) {
+export default function TestingForNormalityHistogramChart({ dataPoints, dataAggregated }: TestingForNormalityHistogramChartProps) {
 
   const processedPoints = dataPoints.map((point, index) => {
     return {
@@ -23,18 +23,17 @@ export default function TestingForNormalityHistogramChart({ dataPoints, numberOf
     };
   });
 
-
   const myChart = {
     chart: {
-      type: 'histogram',
+      type: 'column',
       height: '300px',
     },
     plotOptions: {
-      histogram: {
-        binsNumber: numberOfBins,
-        tooltip: {
-          pointFormat: '<bold>{point.x:.1f} to {point.x2:.1f}</bold><br/>Count: {point.y}',
-        }
+      column: {
+        pointPadding: 0,
+        borderWidth: 0,
+        groupPadding: 0,
+        shadow: false
       }
     },
     title: {
@@ -42,13 +41,11 @@ export default function TestingForNormalityHistogramChart({ dataPoints, numberOf
     },
     xAxis: [{
       title: { text: 'Data' },
-      alignTicks: false,
       opposite: true
     }, {
       title: { text: 'Histogram' },
       min: -10,
       max: 10,
-      alignTicks: false
     }],
     yAxis: [{
       title: { text: 'Data' },
@@ -59,25 +56,31 @@ export default function TestingForNormalityHistogramChart({ dataPoints, numberOf
       title: { text: 'Histogram' },
       max: 50,
       min: 0,
-      //visible: false,
     }],
     series: [
       {
-        type: 'histogram',
-        baseSeries: 's1',
+        type: 'column',
+        data: dataAggregated.map(({ lowerBound, upperBound, count }) => ({ x: lowerBound+(upperBound-lowerBound)/2, y: count, lowerBound, upperBound })),
         showInLegend: false,
         marker: { enabled: false },
         zIndex: -1,
         xAxis: 1,
         yAxis: 1,
+        visible: dataAggregated.length > 0,
+        tooltip: {
+          headerFormat: '',
+          pointFormat: '<bold>{point.lowerBound:.2f} - {point.upperBound:.2f}</bold><br/>Count: {point.y}',
+        }
       },
       {
         type: 'scatter',
         data: processedPoints,
-        id: 's1',
-        marker: {
-          radius: 1.5
-        },
+        marker: { radius: 1.5 },
+        showInLegend: false,
+        tooltip: {
+          headerFormat: '',
+          pointFormat: 'Value: {point.y}',
+        }
       }
     ]
   };

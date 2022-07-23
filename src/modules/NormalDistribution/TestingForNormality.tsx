@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
-import { Button, Alert, Form, InputGroup } from 'react-bootstrap';
+import { Button, Alert, Form, InputGroup, Table } from 'react-bootstrap';
 import TestingForNormalityInput from './TestingForNormalityInput';
 import { dataFromDistribution } from 'src/lib/stats-utils';
 import TestingForNormalityHistogramChart from './TestingForNormalityHistogramChart';
@@ -17,9 +17,12 @@ export default function TestingForNormality() {
   const [dataPoints, setDataPoints] = useState<number[]>([]);
 
   const [numberOfBinsInput, setNumberOfBinsInput] = useState('');
-  const [numberOfBins, setNumberOfBins] = useState(10);
+  const [numberOfBins, setNumberOfBins] = useState(0);
   const [validNumberOfBinsInput, setValidNumberOfBinsInput] = useState(false);
   const [numberOfBinsErrorMessage, setNumberOfBinsErrorMessage] = useState('');
+
+  const [ranges, setRanges] = useState<{ lowerBound: number, upperBound: number }[]>([]);
+  const [dataAggregated, setDataAggregated] = useState<{ lowerBound: number, upperBound: number, count: number }[]>([]);
 
   useEffect(() => {
     if (numberOfBinsInput !== '') {
@@ -47,17 +50,48 @@ export default function TestingForNormality() {
       low: -10
     });
     setDataPoints(data.map(d => d.x));
+    setNumberOfBinsInput('');
+    setNumberOfBins(0);
+    setDataAggregated([]);
   }
 
   const onConfirmBinsClick = () => {
     if (sampleSize / parseInt(numberOfBinsInput) >= 5) {
-      setNumberOfBins(parseInt(numberOfBinsInput));
       setNumberOfBinsErrorMessage('');
+      setNumberOfBins(parseInt(numberOfBinsInput));
+      const minData = _.min(dataPoints) ?? 0;
+      const maxData = _.max(dataPoints) ?? 0;
+      const binWidth = (maxData - minData) / parseInt(numberOfBinsInput);
+
+      const ranges: { lowerBound: number, upperBound: number }[] = [];
+      const aggregated: { lowerBound: number, upperBound: number, count: number }[] = [];
+
+      _.range(1, parseInt(numberOfBinsInput)).forEach(i => {
+        ranges.push({ lowerBound: minData + (i - 1) * binWidth, upperBound: minData + i * binWidth });
+        aggregated.push({ lowerBound: minData + (i - 1) * binWidth, upperBound: minData + i * binWidth, count: 0 });
+      });
+      // The last bin is extedned to the max value – it's inclusive on both ends
+      ranges.push({ lowerBound: minData + (parseInt(numberOfBinsInput) - 1) * binWidth, upperBound: maxData });
+      aggregated.push({ lowerBound: minData + (parseInt(numberOfBinsInput) - 1) * binWidth, upperBound: maxData, count: 0 });
+
+      const sortedData = _.sortBy(dataPoints);
+
+      let binIndex = 0;
+      sortedData.forEach((val) => {
+        if (val > aggregated[binIndex].upperBound) { binIndex += 1; }
+        aggregated[binIndex].count += 1;
+      });
+
+      setRanges(ranges);
+      setDataAggregated(aggregated);
     } else {
       setNumberOfBinsErrorMessage('Cannot ensure at least 5 samples per bin. Please try a lower number of bins.');
     }
-
   }
+
+  const tableHeaders = ranges.map((r, i) => (<th key={r.lowerBound}> {`[${r.lowerBound.toFixed(2)}, ${r.upperBound.toFixed(2)}${(i < (ranges.length - 1)) ? ')' : ']'}`} </th>));
+
+  const tableFrequencies = dataAggregated.map(r => (<td key={r.lowerBound}> {r.count} </td>));
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10rem' }}>
@@ -72,7 +106,7 @@ export default function TestingForNormality() {
       <p>{`Randomly chose ${distributionShape} as distribition shape`}</p>
 
       {dataPoints.length > 0 && (<div>
-        <TestingForNormalityHistogramChart dataPoints={dataPoints} numberOfBins={numberOfBins} />
+        <TestingForNormalityHistogramChart dataPoints={dataPoints} dataAggregated={dataAggregated} />
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '1.5rem' }}>
           <span style={{ width: '15rem', marginRight: '2rem' }}>How many bins would you like to divide the data into?</span>
           <InputGroup style={{ width: '80%', margin: 'auto', marginBottom: '1rem', marginTop: '1rem' }}>
@@ -94,7 +128,28 @@ export default function TestingForNormality() {
           </InputGroup>
         </div>
       </div>)}
-      {numberOfBinsErrorMessage !== '' && <Alert style={{ marginTop: '1rem'}} variant="danger">{numberOfBinsErrorMessage}</Alert>}
+      {numberOfBinsErrorMessage !== '' && <Alert style={{ marginTop: '1rem' }} variant="danger">{numberOfBinsErrorMessage}</Alert>}
+      <Alert variant="info" style={{ marginTop: '2rem' }}>
+        If this dataset came from a normal distribution with the mean and standard deviation of the plotted points, how many points would be located in each bin?
+      </Alert>
+      {numberOfBins > 0 && <Table style={{ width: '60rem' }} hover striped>
+        <thead>
+          <tr>
+            {/* @ts-ignore */}
+            <th width="150" key={'Bin'}>{'Bin'}</th>
+            {tableHeaders}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td key={'abc'}>{'Observed Freq.'}</td>
+            {tableFrequencies}
+          </tr>
+          <tr>
+            <td key={'abc'}>{'Expected Freq.'}</td>
+          </tr>
+        </tbody>
+      </Table>}
     </div>
   );
 }
