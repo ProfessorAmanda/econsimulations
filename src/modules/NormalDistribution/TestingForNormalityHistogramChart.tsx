@@ -4,6 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 // A HighChartReact bug when integrating with Next.js's server-side rendering
 // Work around: https://github.com/highcharts/highcharts/issues/10588
 import HighchartsHistogram from 'highcharts/modules/histogram-bellcurve';
+import _ from 'lodash';
 if (typeof Highcharts === 'object') {
   HighchartsHistogram(Highcharts);
 }
@@ -16,11 +17,15 @@ interface TestingForNormalityHistogramChartProps {
 
 export default function TestingForNormalityHistogramChart({ dataPoints, dataAggregated }: TestingForNormalityHistogramChartProps) {
 
-  const processedPoints = dataPoints.map((point, index) => {
-    return {
-      x: index,
-      y: point,
-    };
+  const sortedDataPoints = _.sortBy(dataPoints);
+
+  const processedPoints: { x: number, y: number }[] = [];
+  sortedDataPoints.forEach((v, i) => {
+    if (i > 0 && processedPoints[i-1].x === v) {
+      processedPoints.push({ x: v, y: processedPoints[i-1].y + 1 });
+    } else {
+      processedPoints.push({ x: v, y: 1 });
+    }
   });
 
   const myChart = {
@@ -41,32 +46,30 @@ export default function TestingForNormalityHistogramChart({ dataPoints, dataAggr
     },
     xAxis: [{
       title: { text: 'Data' },
-      opposite: true
-    }, {
-      title: { text: 'Histogram' },
       min: -10,
       max: 10,
+      startOnTick: false,
+      endOnTick: false,
     }],
     yAxis: [{
-      title: { text: 'Data' },
-      min: -10,
-      max: 10,
-      opposite: true,
+      title: { text: 'Data Count' },
+      max: 30,
+      min: 0,
       endOnTick: false,
     }, {
-      title: { text: 'Histogram' },
+      title: { text: 'Histogram Count' },
       max: 50,
       min: 0,
       endOnTick: false,
+      opposite: true,
     }],
     series: [
       {
         type: 'column',
-        data: dataAggregated.map(({ lowerBound, upperBound, count }) => ({ x: lowerBound+(upperBound-lowerBound)/2, y: count, lowerBound, upperBound })),
+        data: dataAggregated.map(({ lowerBound, upperBound, count }) => ({ x: lowerBound + (upperBound - lowerBound) / 2, y: count, lowerBound, upperBound })),
         showInLegend: false,
         marker: { enabled: false },
         zIndex: -1,
-        xAxis: 1,
         yAxis: 1,
         visible: dataAggregated.length > 0,
         tooltip: {
@@ -77,11 +80,11 @@ export default function TestingForNormalityHistogramChart({ dataPoints, dataAggr
       {
         type: 'scatter',
         data: processedPoints,
-        marker: { radius: 1.5 },
+        marker: { radius: 3, symbol: 'diamond' },
         showInLegend: false,
         tooltip: {
           headerFormat: '',
-          pointFormat: 'Value: {point.y}',
+          pointFormat: 'Value: {point.x}',
         }
       }
     ]
