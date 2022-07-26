@@ -124,8 +124,15 @@ export default function TestingForNormality() {
     const x = dataAggregated.map(r => r.count);
     const y = expectedFreq;
     const result = chi2gof(x, y, { alpha });
-    const reject = result.pValue < alpha;
-    setTestResult(reject ? <Alert variant="danger">Reject the null hypothesis.<br/>The dataset is not normally distributed.</Alert> : <Alert variant="success">Accept the null hypothesis.<br/>The dataset is normally distributed.</Alert>);
+    setTestResult(
+      <div>
+        <Alert variant={result.rejected ? 'danger' : 'success'}>
+          <TeX>{`p\\text{-}value: ${result.pValue.toFixed(3)}`}</TeX><br />
+          <TeX>{`test\\text{ }statistic: ${result.statistic.toFixed(3)}`}</TeX><br />
+          {result.rejected ? <>Reject the null hypothesis.<br />The dataset is not normally distributed.</> : <>Accept the null hypothesis.<br />The dataset is normally distributed.</>}
+        </Alert>
+      </div>
+    );
   }
 
   return (
@@ -173,7 +180,7 @@ export default function TestingForNormality() {
       </div>)}
 
       {numberOfBins > 0 &&
-        <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Table style={{ width: '60rem' }} hover striped>
             <thead>
               <tr>
