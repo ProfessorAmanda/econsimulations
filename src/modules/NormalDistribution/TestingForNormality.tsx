@@ -43,13 +43,19 @@ export default function TestingForNormality() {
 
   const onGenerateSampleClick = () => {
     const distributionShape = _.sample(availableDistributions) ?? '';
-    setDistributionShape(distributionShape);
-    const data = dataFromDistribution(distributionShape, sampleSize, {
+    const params = {
       mean: mu,
       standardDev: sigma,
       hi: 10,
       low: -10
-    });
+    };
+
+    if (distributionShape === 'Uniform') {
+      params['hi'] = mu + Math.sqrt(3) * sigma;
+      params['low'] = mu - Math.sqrt(3) * sigma;
+    }
+    const data = dataFromDistribution(distributionShape, sampleSize, params);
+    setDistributionShape(distributionShape);
     setDataPoints(data.map(d => d.x));
     setNumberOfBinsInput('');
     setNumberOfBins(0);
