@@ -52,10 +52,12 @@ export default function TestingForNormalityHistogramChart({ dataPoints, dataAggr
       min: -10,
       max: 10,
       opposite: true,
+      endOnTick: false,
     }, {
       title: { text: 'Histogram' },
       max: 50,
       min: 0,
+      endOnTick: false,
     }],
     series: [
       {

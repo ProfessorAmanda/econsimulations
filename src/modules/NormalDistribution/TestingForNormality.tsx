@@ -4,6 +4,7 @@ import { Button, Alert, Form, InputGroup, Table } from 'react-bootstrap';
 import TestingForNormalityInput from './TestingForNormalityInput';
 import { dataFromDistribution } from 'src/lib/stats-utils';
 import TestingForNormalityHistogramChart from './TestingForNormalityHistogramChart';
+import ND from 'normal-distribution';
 
 export default function TestingForNormality() {
   const [sampleSize, setSampleSize] = useState(80);
@@ -91,7 +92,13 @@ export default function TestingForNormality() {
 
   const tableHeaders = ranges.map((r, i) => (<th key={r.lowerBound}> {`[${r.lowerBound.toFixed(2)}, ${r.upperBound.toFixed(2)}${(i < (ranges.length - 1)) ? ')' : ']'}`} </th>));
 
-  const tableFrequencies = dataAggregated.map(r => (<td key={r.lowerBound}> {r.count} </td>));
+  const observedFreq = dataAggregated.map(r => (<td key={r.lowerBound}> {r.count} </td>));
+
+  let expectedFreq : JSX.Element[] = [];
+  if (distributionShape === 'Normal') {
+    const nd = new ND(mu, sigma);
+    expectedFreq = ranges.map(r => (<td key={r.lowerBound}> {(nd.pdf(_.mean([r.lowerBound, r.upperBound])) * sampleSize).toFixed(2)} </td>));
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10rem' }}>
@@ -105,7 +112,7 @@ export default function TestingForNormality() {
       <Button style={{ marginTop: '2rem' }} onClick={onGenerateSampleClick}>Generate sample from unknown distribution</Button>
       <p>{`Randomly chose ${distributionShape} as distribition shape`}</p>
 
-      {dataPoints.length > 0 && (<div>
+      {dataPoints.length > 0 && (<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <TestingForNormalityHistogramChart dataPoints={dataPoints} dataAggregated={dataAggregated} />
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '1.5rem' }}>
           <span style={{ width: '15rem', marginRight: '2rem' }}>How many bins would you like to divide the data into?</span>
@@ -127,11 +134,12 @@ export default function TestingForNormality() {
             </Button>
           </InputGroup>
         </div>
+        {numberOfBinsErrorMessage !== '' && <Alert style={{ marginTop: '1rem' }} variant="danger">{numberOfBinsErrorMessage}</Alert>}
+        <Alert variant="info" style={{ marginTop: '2rem' }}>
+          If this dataset came from a normal distribution with the mean and standard deviation of the plotted points, how many points would be located in each bin?
+        </Alert>
       </div>)}
-      {numberOfBinsErrorMessage !== '' && <Alert style={{ marginTop: '1rem' }} variant="danger">{numberOfBinsErrorMessage}</Alert>}
-      <Alert variant="info" style={{ marginTop: '2rem' }}>
-        If this dataset came from a normal distribution with the mean and standard deviation of the plotted points, how many points would be located in each bin?
-      </Alert>
+
       {numberOfBins > 0 && <Table style={{ width: '60rem' }} hover striped>
         <thead>
           <tr>
@@ -143,10 +151,11 @@ export default function TestingForNormality() {
         <tbody>
           <tr>
             <td key={'abc'}>{'Observed Freq.'}</td>
-            {tableFrequencies}
+            {observedFreq}
           </tr>
           <tr>
             <td key={'abc'}>{'Expected Freq.'}</td>
+            {expectedFreq}
           </tr>
         </tbody>
       </Table>}
