@@ -54,9 +54,8 @@ export default function TestingForNormality() {
       params['hi'] = mu + Math.sqrt(3) * sigma;
       params['low'] = mu - Math.sqrt(3) * sigma;
     }
-    const data = dataFromDistribution(distributionShape, sampleSize, params);
     setDistributionShape(distributionShape);
-    setDataPoints(data.map(d => d.x));
+    setDataPoints(dataFromDistribution(distributionShape, sampleSize, params).map(d => d.x));
     setNumberOfBinsInput('');
     setNumberOfBins(0);
     setDataAggregated([]);
@@ -100,13 +99,8 @@ export default function TestingForNormality() {
 
   const observedFreq = dataAggregated.map(r => (<td key={r.lowerBound}> {r.count} </td>));
 
-  let expectedFreq : JSX.Element[] = [];
-  if (distributionShape === 'Normal') {
-    const nd = new ND(mu, sigma);
-    expectedFreq = ranges.map(r => (<td key={r.lowerBound}> {((nd.cdf(r.upperBound) - nd.cdf(r.lowerBound)) * sampleSize).toFixed(2)} </td>));
-  } else if (distributionShape === 'Uniform') {
-    expectedFreq = ranges.map(r => (<td key={r.lowerBound}> {(sampleSize / numberOfBins).toFixed(2)} </td>));
-  }
+  const nd = new ND(mu, sigma);
+  const expectedFreq = ranges.map(r => (<td key={r.lowerBound}> {((nd.cdf(r.upperBound) - nd.cdf(r.lowerBound)) * sampleSize).toFixed(2)} </td>));
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10rem' }}>

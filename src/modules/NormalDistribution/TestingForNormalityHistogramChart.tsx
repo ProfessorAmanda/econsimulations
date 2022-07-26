@@ -19,10 +19,13 @@ export default function TestingForNormalityHistogramChart({ dataPoints, dataAggr
 
   const sortedDataPoints = _.sortBy(dataPoints);
 
+  const minData = sortedDataPoints[0];
+  const maxData = sortedDataPoints[sortedDataPoints.length - 1];
+
   const processedPoints: { x: number, y: number }[] = [];
   sortedDataPoints.forEach((v, i) => {
-    if (i > 0 && processedPoints[i-1].x === v) {
-      processedPoints.push({ x: v, y: processedPoints[i-1].y + 1 });
+    if (i > 0 && processedPoints[i - 1].x === v) {
+      processedPoints.push({ x: v, y: processedPoints[i - 1].y + 1 });
     } else {
       processedPoints.push({ x: v, y: 1 });
     }
@@ -32,6 +35,7 @@ export default function TestingForNormalityHistogramChart({ dataPoints, dataAggr
     chart: {
       type: 'column',
       height: '300px',
+      animation: false,
     },
     plotOptions: {
       column: {
@@ -46,9 +50,8 @@ export default function TestingForNormalityHistogramChart({ dataPoints, dataAggr
     },
     xAxis: [{
       title: { text: 'Data' },
-      min: -10,
-      max: 10,
-      startOnTick: false,
+      min: minData-1,
+      max: maxData+1,
       endOnTick: false,
     }],
     yAxis: [{
@@ -85,7 +88,7 @@ export default function TestingForNormalityHistogramChart({ dataPoints, dataAggr
         tooltip: {
           headerFormat: '',
           pointFormat: 'Value: {point.x}',
-        }
+        },
       }
     ]
   };
