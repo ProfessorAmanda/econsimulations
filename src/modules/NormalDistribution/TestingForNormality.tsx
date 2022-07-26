@@ -108,7 +108,7 @@ export default function TestingForNormality() {
       setRanges(ranges);
       setDataAggregated(aggregated);
     } else {
-      setNumberOfBinsErrorMessage('Cannot ensure at least 5 samples per bin. Please try a lower number of bins.');
+      setNumberOfBinsErrorMessage('Cannot ensure at least 5 sample points per bin. Please try a lower number of bins.');
     }
   }
 
@@ -129,7 +129,7 @@ export default function TestingForNormality() {
         <Alert variant={result.rejected ? 'danger' : 'success'}>
           <TeX>{`p\\text{-}value: ${result.pValue.toFixed(3)}`}</TeX><br />
           <TeX>{`test\\text{ }statistic: ${result.statistic.toFixed(3)}`}</TeX><br />
-          {result.rejected ? <>Reject the null hypothesis.<br />The dataset is not normally distributed.</> : <>Accept the null hypothesis.<br />The dataset is normally distributed.</>}
+          {result.rejected ? <>Reject the null hypothesis.</> : <>Fail to reject the null hypothesis.</>}
         </Alert>
       </div>
     );
@@ -149,7 +149,7 @@ export default function TestingForNormality() {
       </Alert>
       <TestingForNormalityInput sampleSize={sampleSize} setSampleSize={setSampleSize} mu={mu} setMu={setMu} sigma={sigma} setSigma={setSigma} alpha={alpha} setAlpha={setAlpha} />
       <Button style={{ marginTop: '2rem' }} onClick={onGenerateSampleClick}>Generate sample from unknown distribution</Button>
-      <p>{`Randomly chose ${distributionShape} as distribition shape`}</p>
+      <p>{`Randomly chose ${distributionShape} as distribution shape`}</p>
 
       {dataPoints.length > 0 && (<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <TestingForNormalityHistogramChart dataPoints={dataPoints} dataAggregated={dataAggregated} />
