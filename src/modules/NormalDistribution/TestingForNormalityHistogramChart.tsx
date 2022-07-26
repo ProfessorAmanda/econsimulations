@@ -19,7 +19,7 @@ export default function TestingForNormalityHistogramChart({ dataPoints, dataAggr
 
   const sortedDataPoints = _.sortBy(dataPoints);
 
-  const minData = sortedDataPoints[0];
+  const [minData] = sortedDataPoints;
   const maxData = sortedDataPoints[sortedDataPoints.length - 1];
 
   const processedPoints: { x: number, y: number }[] = [];

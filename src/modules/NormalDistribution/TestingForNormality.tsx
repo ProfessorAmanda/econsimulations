@@ -5,6 +5,8 @@ import TestingForNormalityInput from './TestingForNormalityInput';
 import { dataFromDistribution } from 'src/lib/stats-utils';
 import TestingForNormalityHistogramChart from './TestingForNormalityHistogramChart';
 import ND from 'normal-distribution';
+import chi2gof from '@stdlib/stats-chi2gof';
+import TeX from '@matejmazur/react-katex';
 
 export default function TestingForNormality() {
   const [sampleSize, setSampleSize] = useState(80);
@@ -25,6 +27,8 @@ export default function TestingForNormality() {
   const [ranges, setRanges] = useState<{ lowerBound: number, upperBound: number }[]>([]);
   const [dataAggregated, setDataAggregated] = useState<{ lowerBound: number, upperBound: number, count: number }[]>([]);
 
+  const [testResult, setTestResult] = useState(<></>);
+
   useEffect(() => {
     if (numberOfBinsInput !== '') {
       const newNumberOfBins = parseInt(numberOfBinsInput);
@@ -36,26 +40,39 @@ export default function TestingForNormality() {
     'Normal',
     'Uniform',
     //'Exponential',
-    //'Chi-Squared',
+    'Chi-Squared',
     //'Poisson'
   ];
 
+  useEffect(() => {
+    setTestResult(<></>);
+  }, [numberOfBins]);
+
 
   const onGenerateSampleClick = () => {
+    setTestResult(<></>);
     const distributionShape = _.sample(availableDistributions) ?? '';
-    const params = {
-      mean: mu,
-      standardDev: sigma,
-      hi: 10,
-      low: -10
-    };
+    let data: { x: number, y: number, id: number }[] = [];
 
-    if (distributionShape === 'Uniform') {
-      params['hi'] = mu + Math.sqrt(3) * sigma;
-      params['low'] = mu - Math.sqrt(3) * sigma;
+    if (distributionShape === 'Normal') {
+      data = dataFromDistribution(distributionShape, sampleSize, {
+        mean: mu,
+        standardDev: sigma,
+        hi: 10,
+        low: -10,
+      });
+    } else if (distributionShape === 'Uniform') {
+      data = dataFromDistribution(distributionShape, sampleSize, {
+        hi: mu + Math.sqrt(3) * sigma,
+        low: mu - Math.sqrt(3) * sigma,
+      });
+    } else if (distributionShape === 'Chi-Squared') {
+      data = dataFromDistribution(distributionShape, sampleSize, {
+        degreesOfFreedom: 3
+      });
     }
     setDistributionShape(distributionShape);
-    setDataPoints(dataFromDistribution(distributionShape, sampleSize, params).map(d => d.x));
+    setDataPoints(data.map(d => d.x));
     setNumberOfBinsInput('');
     setNumberOfBins(0);
     setDataAggregated([]);
@@ -100,21 +117,34 @@ export default function TestingForNormality() {
   const observedFreq = dataAggregated.map(r => (<td key={r.lowerBound}> {r.count} </td>));
 
   const nd = new ND(mu, sigma);
-  const expectedFreq = ranges.map(r => (<td key={r.lowerBound}> {((nd.cdf(r.upperBound) - nd.cdf(r.lowerBound)) * sampleSize).toFixed(2)} </td>));
+  const expectedFreq = ranges.map(r => ((nd.cdf(r.upperBound) - nd.cdf(r.lowerBound)) * sampleSize));
+
+
+  const onTestClick = () => {
+    const x = dataAggregated.map(r => r.count);
+    const y = expectedFreq;
+    const result = chi2gof(x, y, { alpha });
+    const reject = result.pValue < alpha;
+    setTestResult(reject ? <Alert variant="danger">Reject the null hypothesis.<br/>The dataset is not normally distributed.</Alert> : <Alert variant="success">Accept the null hypothesis.<br/>The dataset is normally distributed.</Alert>);
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10rem' }}>
       <Alert variant="info">
         <h5> Testing For Normality </h5>
         <p>In this section, we will find out if a randomly generated set of 100 points follows a normal distribution. This section employs the Chi-Square Goodness-of-Fit Test to evaluate the following null and alternative hypotheses:</p>
-        <p>H_0: The dataset follows a normal distribution.</p>
-        <p>H_a: The dataset does not follow a normal distribution</p>
+        <p>
+          <TeX>H_0</TeX>: The dataset follows a normal distribution.
+        </p>
+        <p>
+          <TeX>H_a</TeX>: The dataset does not follow a normal distribution.
+        </p>
       </Alert>
       <TestingForNormalityInput sampleSize={sampleSize} setSampleSize={setSampleSize} mu={mu} setMu={setMu} sigma={sigma} setSigma={setSigma} alpha={alpha} setAlpha={setAlpha} />
       <Button style={{ marginTop: '2rem' }} onClick={onGenerateSampleClick}>Generate sample from unknown distribution</Button>
       <p>{`Randomly chose ${distributionShape} as distribition shape`}</p>
 
-      {dataPoints.length > 0 && (<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      {dataPoints.length > 0 && (<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <TestingForNormalityHistogramChart dataPoints={dataPoints} dataAggregated={dataAggregated} />
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '1.5rem' }}>
           <span style={{ width: '15rem', marginRight: '2rem' }}>How many bins would you like to divide the data into?</span>
@@ -142,25 +172,32 @@ export default function TestingForNormality() {
         </Alert>
       </div>)}
 
-      {numberOfBins > 0 && <Table style={{ width: '60rem' }} hover striped>
-        <thead>
-          <tr>
-            {/* @ts-ignore */}
-            <th width="150" key={'Bin'}>{'Bin'}</th>
-            {tableHeaders}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td key={'abc'}>{'Observed Freq.'}</td>
-            {observedFreq}
-          </tr>
-          <tr>
-            <td key={'abc'}>{'Expected Freq.'}</td>
-            {expectedFreq}
-          </tr>
-        </tbody>
-      </Table>}
+      {numberOfBins > 0 &&
+        <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
+          <Table style={{ width: '60rem' }} hover striped>
+            <thead>
+              <tr>
+                {/* @ts-ignore */}
+                <th width="150" key={'Bin'}>{'Bin'}</th>
+                {tableHeaders}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td key={'abc'}>{'Observed Freq.'}</td>
+                {observedFreq}
+              </tr>
+              <tr>
+                <td key={'abc'}>{'Expected Freq.'}</td>
+                {expectedFreq.map((r, i) => (<td key={i}> {r.toFixed(2)} </td>))}
+              </tr>
+            </tbody>
+          </Table>
+          <Button style={{ marginTop: '2rem' }} onClick={onTestClick}>Calculate test statistic and p-value</Button>
+          <div style={{ marginTop: '2rem', width: '24rem' }}>
+            {testResult}
+          </div>
+        </div>}
     </div>
   );
 }
