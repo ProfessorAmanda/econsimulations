@@ -116,20 +116,25 @@ export default function NormalDistribution() {
       </div>
       {
         samplePoints.length > 0 && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ width: '20rem' }}>
-            <DataTable
-              data={samplePoints}
-              headers={{
-                'id': 'id',
-                'x': 'x'
-              }}
-              height={200}
-              setRowColor={(object: { id: number }) => {
-                const x = samplePoints.find((obj) => obj.id === object.id)?.x ?? 0;
-                const inRange = largerThan && x >= val || !largerThan && x <= val;
-                return inRange ? '#00aa00' : undefined;
-              }}
-            />
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+            <div style={{ width: '20rem' }}>
+              <DataTable
+                data={samplePoints}
+                headers={{
+                  'id': 'id',
+                  'x': 'x'
+                }}
+                height={200}
+                setRowColor={(object: { id: number }) => {
+                  const x = samplePoints.find((obj) => obj.id === object.id)?.x ?? 0;
+                  const inRange = largerThan && x >= val || !largerThan && x <= val;
+                  return inRange ? '#00aa00' : undefined;
+                }}
+              />
+            </div>
+            <Alert variant="success" style={{ display: 'flex', alignItems: 'center', width: '20rem', height: '5rem', marginLeft: '2rem', marginTop: '6rem' }}>
+              {`Proportion of Samples in Range: ${(samplePoints.filter((obj) => largerThan && obj.x >= val || !largerThan && obj.x <= val).length / samplePoints.length).toFixed(3)}`}
+            </Alert>
           </div>
           <div style={{ width: '100%', marginTop: '5rem' }}>
             <TestingForNormality />
