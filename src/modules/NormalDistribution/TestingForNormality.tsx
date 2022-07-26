@@ -98,6 +98,8 @@ export default function TestingForNormality() {
   if (distributionShape === 'Normal') {
     const nd = new ND(mu, sigma);
     expectedFreq = ranges.map(r => (<td key={r.lowerBound}> {(nd.pdf(_.mean([r.lowerBound, r.upperBound])) * sampleSize).toFixed(2)} </td>));
+  } else if (distributionShape === 'Uniform') {
+    expectedFreq = ranges.map(r => (<td key={r.lowerBound}> {(sampleSize / numberOfBins).toFixed(2)} </td>));
   }
 
   return (
