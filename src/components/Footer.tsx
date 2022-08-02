@@ -2,7 +2,7 @@ import { Button } from 'react-bootstrap';
 
 export default function Footer() {
   return (
-    <p>
+    <p style={{ paddingBottom: '3rem' }}>
       <Button
         size="sm"
         variant="outline-primary"
