@@ -26,9 +26,11 @@ export default function SampleMeanChart({ sampleMeans, popMean, sd, popShape }) 
       <DotPlot
         series={[{ name: 'Sample Means', data: sampleMeansPoints }]}
         title="Sample Mean Distribution"
-        xMin={normalized ? min(-3, ...onlyValues) : VALUES[popShape].xminval}
-        xMax={normalized ? max(3, ...onlyValues) : VALUES[popShape].xmaxval}
-        yMax={max(8, ...onlyCounts)}
+        // Don't use a spreader on onlyValues / onlyCounts like "min(-3, ...onlyValues)"
+        // When they get large, we get error on either too many arguments to max() function or stack overflow.
+        xMin={normalized ? min(-3, onlyValues.length!==0 ? min(onlyValues) : 0) : VALUES[popShape].xminval}
+        xMax={normalized ? max(3, onlyValues.length!==0 ? max(onlyValues) : 0) : VALUES[popShape].xmaxval}
+        yMax={max(8, onlyCounts.length!==0 ? max(onlyCounts) : 0)}
         xLabel={normalized ? 'Standard Deviations' : VALUES[popShape].xLabel}
         yLabel="Observations of Sample Mean"
       />

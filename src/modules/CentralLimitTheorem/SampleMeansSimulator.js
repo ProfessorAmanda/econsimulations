@@ -1,26 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { dataObjectArrayType } from '@/lib/types';
-import { populationMean } from '@/lib/stats-utils';
+import { CircularProgressbar } from 'react-circular-progressbar';
 
 export default function SampleMeansSimulator({ population, addSamples }) {
   const [numberResamples, setNumberResamples] = useState(0);
   const [resampleSize, setResampleSize] = useState(0);
 
-  const resample = () => {
-    const samplePop = _.sampleSize(population, resampleSize);
-    const sampleMean = populationMean(samplePop);
-    return { size: +resampleSize, mean: sampleMean };
-  }
+  const [shouldShowProgress, setShouldShowProgress] = useState(false);
+  const [progressPercent, setProgressPercent] = useState(0);
 
-  const runSim = () => {
-    const newSamples = [];
-    for (let i = 0; i < numberResamples; i++) {
-      newSamples.push(resample())
+  const workerRef = useRef();
+
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('./SampleMeansSimulationWorker', import.meta.url))
+    workerRef.current.onmessage = (evt) => {
+      if (evt.data.type === 'progress') {
+        setProgressPercent(evt.data.percentComplete);
+      } else if (evt.data.type === 'done') {
+        addSamples(evt.data.sampleMeans);
+        setProgressPercent(100);
+      }
     }
-    addSamples(newSamples);
+  }, [])
+
+  const onRunClick = async () => {
+    setProgressPercent(0);
+    setShouldShowProgress(true);
+    setTimeout(() => {
+      workerRef.current.postMessage({ numberResamples, population, resampleSize });
+    }, 600);
   }
 
   return (
@@ -34,7 +44,7 @@ export default function SampleMeansSimulator({ population, addSamples }) {
         onChange={(event) => setResampleSize(event.target.value)}
         value={resampleSize}
       />
-      <br/>
+      <br />
       <span> Number of Replications: </span>
       <Form.Control
         style={{ width: '40%', margin: 'auto' }}
@@ -44,14 +54,19 @@ export default function SampleMeansSimulator({ population, addSamples }) {
         onChange={(event) => setNumberResamples(event.target.value)}
         value={numberResamples}
       />
-      <br/>
+      <br />
       <Button
         variant="secondary"
-        onClick={() => runSim()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}
-      >
-        Run
-      </Button>
-      <Button variant="secondary" onClick={() => addSamples()}>Clear</Button>
+        onClick={() => onRunClick()} disabled={(resampleSize < 1) || (resampleSize > population.length) || (numberResamples < 1)}
+      >Run</Button>
+      <Button variant="secondary" onClick={() => { addSamples([]); setShouldShowProgress(false); }}>Clear</Button>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+        <div style={{ height: '100px', width: '100px' }}>
+          {shouldShowProgress && (
+            <CircularProgressbar value={progressPercent} text={`${progressPercent}%`} />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
