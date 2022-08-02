@@ -32,7 +32,8 @@
     "paths": {
       "@/components/*": ["/src/components/*"],
       "@/modules/*": ["/src/modules/*"],
-      "@/lib/*": ["/src/lib/*"]
+      "@/lib/*": ["/src/lib/*"],
+      "@/styles/*": ["/src/styles/*"],
     },
     /*"paths": {
       "@/components/*": ["components/*"],

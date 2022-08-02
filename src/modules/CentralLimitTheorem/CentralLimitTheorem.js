@@ -46,13 +46,15 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
   return (
     <Collapsable>
       <div data-testid="clt-sim">
-        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape}/>
+        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape} />
         <Button variant="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) && (
           <div>
             <Row>
-              <p style={{ margin: 15 }}>Try drawing some samples and calculating means</p>
-              <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={handleClick} classname="sample-size-input"/>
+              <p style={{ marginTop: 15 }}>Try drawing some samples and calculating means</p>
+            </Row>
+            <Row>
+              <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={handleClick} classname="sample-size-input" />
             </Row>
             <Row>
               <Col lg="8">
@@ -76,11 +78,11 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
             </Row>
             <Row>
               <div>
-                <br/>
+                <br />
                 <Alert variant="primary" style={{ width: '50%', margin: 'auto' }}>
                   Simulate drawing many many samples
                 </Alert>
-                <br/>
+                <br />
                 <SampleMeansSimulator
                   population={popArray}
                   addSamples={addSampleMeans}

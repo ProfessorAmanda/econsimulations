@@ -1,10 +1,14 @@
 .dataTableContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: min-content;
   overflow: auto;
   margin-top: 50px;
 }
 
 .dataTable {
+  width: 100%;
   position: relative;
 }
 
