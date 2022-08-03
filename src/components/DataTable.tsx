@@ -3,14 +3,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import styles from '../styles/DataTable.module.css';
 
-DataTable.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({id: PropTypes.number.isRequired})).isRequired,
-  headers: PropTypes.object.isRequired,
-  height: PropTypes.number,
-  setSelected: PropTypes.func,
-  setRowColor: PropTypes.func  // takes the current object as a parameter and returns a color or undefined
-}
-
 interface DataTableProps {
   data: { id: number }[],
   headers: Object,
@@ -26,12 +18,7 @@ export default function DataTable({ data, headers, height, setSelected, setRowCo
     }
   }
 
-  const determineRowColor = (object: { id: number }) => {
-    if (setRowColor) {
-      return setRowColor(object)
-    }
-    return undefined
-  }
+  const determineRowColor = (object: { id: number }) => (setRowColor ? setRowColor(object) : undefined);
 
   const dataTable = data.map((object) => (
     <tr
