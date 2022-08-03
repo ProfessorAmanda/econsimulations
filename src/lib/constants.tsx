@@ -177,11 +177,11 @@ export const MODULES = [
     description: 'This module demonstrates how two-way fixed effects impact regression estimates.',
   },
   {
-    name: 'Measurement Error',
-    description: 'In Progress',
-  },
-  {
     name: 'Normal Distribution',
     description: 'The normal distribution can be described entirely by its mean and standard deviation. Many natural phenomena can be described by this distribution, and it is possible to test whether a given dataset follows a normal distribution.',
+  },
+  {
+    name: 'Measurement Error',
+    description: 'In Progress',
   },
 ];
