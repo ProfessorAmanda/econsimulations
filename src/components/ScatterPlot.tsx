@@ -5,6 +5,13 @@ import PropTypes from 'prop-types';
 import { highchartsSeriesType, stringOrNumberType } from 'src/lib/types';
 import { highchartsSeries } from 'src/lib/ts-types';
 
+// A HighChartReact bug when integrating with Next.js's server-side rendering
+// Work around: https://github.com/highcharts/highcharts/issues/10588
+import Boost from 'highcharts/modules/boost';
+if (typeof Highcharts === 'object') {
+  Boost(Highcharts);
+}
+
 interface ScatterPlotProps {
   series: highchartsSeries;
   title?: string;
@@ -49,6 +56,15 @@ export default function ScatterPlot({
         animation: !!animation,
         height,
         zoomType: zoom ? 'xy' : ''
+      },
+      boost: {
+        useGPUTranslations: true,
+        usePreAllocated: true
+      },
+      plotOptions: {
+        series:{
+          boostThreshold: 5000
+        }
       },
       legend: {
         symbolHeight: 12,

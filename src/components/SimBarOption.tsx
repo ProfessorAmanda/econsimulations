@@ -4,28 +4,14 @@ import { optionalLaTeXType } from 'src/lib/types';
 import Link from 'next/link';
 import { Section } from 'src/lib/ts-types';
 
-const modeToRoute = (mode : string) => {
-  switch (mode) {
-    case 'Law of Large Numbers': return 'law-of-large-numbers';
-    case 'Central Limit Theorem': return 'central-limit-theorem';
-    case 'Joint Distributions': return 'joint-distributions';
-    case 'Least Squares': return 'least-squares';
-    case 'Omitted Variable Bias': return 'omitted-variable-bias';
-    case 'Confidence Intervals': return 'confidence-intervals';
-    case 'Hypothesis Testing': return 'hypothesis-testing';
-    case 'Sample Distribution of OLS Estimators': return 'sample-distribution-of-ols-estimators';
-    case 'Multiple Regression': return 'multiple-regression';
-    case 'The OLS Estimators are Consistent': return 'ols-estimators-are-consistent';
-    case 'ANOVA': return 'anova';
-    case 'Fixed Effects': return 'fixed-effects';
-    case 'Solow Model': return 'solow-model';
-    default: return '';
-  }
+const module2Slug = (module : string) => {
+  const slug = module.toLowerCase().replace(/\s/g, '-');
+  return slug;
 }
 
 export default function SimBarOption({ section } : { section : Section }) {
   return (
-    <Link href={`/modules/${modeToRoute(section.name)}`} passHref>
+    <Link href={`/modules/${module2Slug(section.name)}`} passHref>
       <Card border="primary" className="menu-item" data-testid={`module-${section.name}`}>
         <Card.Header className="menu-item-title">{section.name}</Card.Header>
         <Card.Body>
