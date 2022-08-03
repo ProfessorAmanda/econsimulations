@@ -174,7 +174,7 @@ export const MODULES = [
   },
   {
     name: 'Fixed Effects',
-    description: 'In Progress',
+    description: 'This module demonstrates how two-way fixed effects impact regression estimates.',
   },
   {
     name: 'Normal Distribution',
