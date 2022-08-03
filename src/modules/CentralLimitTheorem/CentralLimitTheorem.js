@@ -9,7 +9,7 @@ import SampleSizeInput from '@/components/SampleSizeInput';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { popShapeType } from '@/lib/types';
-import DataTable from '@/components/DataTable';
+import DataTableDynamicLoading from 'src/components/DataTableDynamicLoad';
 
 export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
   const [sampleMeans, setSampleMeans] = useState([]);
@@ -25,15 +25,6 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
     setSampleMeans([]);
   }, [popShape, mainSampleSize]);
 
-  const addSampleMeans = (means) => {
-    if (!means) { // calling addSampleMeans with no arguments clears the data
-      setSampleMeans([])
-    } else {
-      const newSampleMeans = means.map((mean, index) => ({ ...mean, id: index + 1 }));
-      setSampleMeans(newSampleMeans);
-    }
-  }
-
   const handleClick = (size) => {
     const sample = _.sampleSize(popArray, size);
     setSampled(sample);
@@ -46,13 +37,13 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
   return (
     <Collapsable>
       <div data-testid="clt-sim">
-        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape}/>
+        <ChartContainer popArray={popArray} popMean={popMean} sampled={sampled} popShape={popShape} />
         <Button variant="success" onClick={() => setStage(2)}>Continue</Button>
         {(stage >= 2) && (
           <div>
             <Row>
               <p style={{ margin: 15 }}>Try drawing some samples and calculating means</p>
-              <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={handleClick} classname="sample-size-input"/>
+              <SampleSizeInput maxSize={popArray.length} minSize={1} handleClick={handleClick} classname="sample-size-input" />
             </Row>
             <Row>
               <Col lg="8">
@@ -64,26 +55,23 @@ export default function CentralLimitTheorem({ popShape, mainSampleSize }) {
                 />
               </Col>
               <Col lg="4">
-                <DataTable
-                  data={sampleMeans}
-                  headers={{
-                    'Sample': 'id',
-                    'Size': 'size',
-                    'Mean': 'mean'
-                  }}
-                />
+                <DataTableDynamicLoading headers={[
+                  { title: 'Sample', dataKey: 'id', width: 100 },
+                  { title: 'Size', dataKey: 'size', width: 80 },
+                  { title: 'Mean', dataKey: 'mean', width: 80 },
+                ]} data={sampleMeans} height={240} />
               </Col>
             </Row>
             <Row>
               <div>
-                <br/>
+                <br />
                 <Alert variant="primary" style={{ width: '50%', margin: 'auto' }}>
                   Simulate drawing many many samples
                 </Alert>
-                <br/>
+                <br />
                 <SampleMeansSimulator
                   population={popArray}
-                  addSamples={addSampleMeans}
+                  addSamples={setSampleMeans}
                 />
               </div>
             </Row>
