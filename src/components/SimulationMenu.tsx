@@ -16,7 +16,7 @@ export default function SimulationMenuNew() {
     setGif('/images/Intro.gif');
   }, []);
 
-  const imgStyles = useSpring({
+  const imgAnimation = useSpring({
     from: { y: '0rem' },
     to: { y: '-10rem' },
     config: {
@@ -32,7 +32,7 @@ export default function SimulationMenuNew() {
     }
   });
 
-  const textStyles = useSpring({
+  const textAnimation = useSpring({
     config: {
       mass: 1,
       tension: 200,
@@ -46,7 +46,7 @@ export default function SimulationMenuNew() {
   return (
     <div>
       <animated.div style={{
-        ...imgStyles,
+        ...imgAnimation,
         position: 'absolute',
         top: 0,
         left: 0,
@@ -59,7 +59,7 @@ export default function SimulationMenuNew() {
         zIndex: -1,
       }} />
       <animated.div style={{
-        ...textStyles,
+        ...textAnimation,
         marginLeft: isMobile ? '10%' : '25%',
         marginRight: isMobile ? '10%' : '25%',
       }}>
