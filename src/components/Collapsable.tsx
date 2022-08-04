@@ -20,7 +20,7 @@ export default function Collapsable({ children }: { children: React.ReactElement
         isOpened
         springConfig={{ ...presets.gentle }}
       >
-        <div style={{ height: '100%', padding: windowDimensions.isMobile ? '1em' : '4em' }}>
+        <div style={{ height: '100%', padding: windowDimensions.isMobilePortrait ? '1em' : '4em' }}>
           {children}
         </div>
       </Collapse>
