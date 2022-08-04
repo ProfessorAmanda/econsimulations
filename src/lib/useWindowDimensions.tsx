@@ -4,6 +4,7 @@ type WindowDimensions = {
   width: number | undefined;
   height: number | undefined;
   isMobile: boolean;
+  isMobilePortrait: boolean;
 };
 
 const useWindowDimensions = (): WindowDimensions => {
@@ -11,6 +12,7 @@ const useWindowDimensions = (): WindowDimensions => {
     width: undefined,
     height: undefined,
     isMobile: false,
+    isMobilePortrait: false,
   });
 
   useEffect(() => {
@@ -18,7 +20,8 @@ const useWindowDimensions = (): WindowDimensions => {
       setWindowDimensions({
         width: window.innerWidth,
         height: window.innerHeight,
-        isMobile: window.innerWidth < 768,
+        isMobile: window.innerWidth < 768 || window.innerHeight < 768,
+        isMobilePortrait: (window.innerWidth < 768 || window.innerHeight < 768) && (window.innerWidth < window.innerHeight),
       });
     }
     handleResize();

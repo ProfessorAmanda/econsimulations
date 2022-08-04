@@ -23,7 +23,7 @@ export default function SelectorButtonGroup({ options, select, selected }: { opt
       {/* If the screen is super small (phone in portrait orientation), we want to use smaller buttons.
       Note that undefined means a medium size button that we want for all other screens,
       not 'lg' which is too big) */}
-      <ButtonGroup size={windowDimensions.isMobile ? 'sm' : undefined}>
+      <ButtonGroup size={windowDimensions.isMobilePortrait ? 'sm' : undefined}>
         {buttons}
       </ButtonGroup>
     </div>
