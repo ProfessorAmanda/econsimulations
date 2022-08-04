@@ -49,7 +49,7 @@ export default function SimulationMenuNew() {
       }}
       >
         <Image
-          src="/images/IntroNew.gif"
+          src="/images/Intro.gif"
           width="768"
           height="408"
           alt="logo" />
