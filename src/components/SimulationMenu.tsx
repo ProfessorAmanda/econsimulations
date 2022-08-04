@@ -18,7 +18,7 @@ export default function SimulationMenuNew() {
 
   const imgAnimation = useSpring({
     from: { y: '0rem' },
-    to: { y: '-10rem' },
+    to: { y: isMobile ? '-5rem' : '-15rem' },
     config: {
       mass: 1,
       tension: 300,
