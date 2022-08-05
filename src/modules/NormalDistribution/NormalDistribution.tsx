@@ -133,7 +133,7 @@ export default function NormalDistribution() {
               />
             </div>
             <Alert variant="success" style={{ display: 'flex', alignItems: 'center', width: '20rem', height: '5rem', marginLeft: '2rem', marginTop: '6rem' }}>
-              {`Proportion of Samples in Range: ${(samplePoints.filter((obj) => largerThan && obj.x >= val || !largerThan && obj.x <= val).length / samplePoints.length).toFixed(3)}`}
+              {`Proportion of Sample Points in Range: ${(samplePoints.filter((obj) => largerThan && obj.x >= val || !largerThan && obj.x <= val).length / samplePoints.length).toFixed(3)}`}
             </Alert>
           </div>
           <div style={{ width: '100%', marginTop: '5rem' }}>
