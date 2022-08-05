@@ -68,7 +68,8 @@ export default function TestingForNormality() {
       });
     } else if (distributionShape === 'Chi-Squared') {
       data = dataFromDistribution(distributionShape, sampleSize, {
-        degreesOfFreedom: mu > 0 ? 2*mu : 0.5,
+        // Set the degrees of freedom equal to the mean if the mean >= 0 and equal to .5 if the mean < 0.
+        degreesOfFreedom: mu >= 0 ? mu : 0.5,
       });
     }
     setDistributionShape(distributionShape);
