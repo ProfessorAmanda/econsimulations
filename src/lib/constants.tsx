@@ -182,6 +182,6 @@ export const MODULES = [
   },
   {
     name: 'Solow Model',
-    description: 'In Progress',
+    description: 'Modeling long run economic growth using capital as the driver with shocks.',
   },
 ];
