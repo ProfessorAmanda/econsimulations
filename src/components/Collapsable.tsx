@@ -1,8 +1,11 @@
 import Collapse from 'react-collapse';
 import { presets } from 'react-motion';
 import PropTypes from 'prop-types';
+import useWindowDimensions from 'src/lib/useWindowDimensions';
 
-export default function Collapsable({ children } : { children: React.ReactElement }) {
+export default function Collapsable({ children }: { children: React.ReactElement }) {
+  const windowDimensions = useWindowDimensions();
+
   return (
     <div>
       {/*//@ts-ignore*/}
@@ -17,10 +20,8 @@ export default function Collapsable({ children } : { children: React.ReactElemen
         isOpened
         springConfig={{ ...presets.gentle }}
       >
-        <div style={{ height: '100%', padding: '2em' }}>
-          <div style={{ padding: '2em' }}>
-            {children}
-          </div>
+        <div style={{ height: '100%', padding: windowDimensions.isMobilePortrait ? '1em' : '4em' }}>
+          {children}
         </div>
       </Collapse>
     </div>

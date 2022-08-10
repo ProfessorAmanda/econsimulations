@@ -57,8 +57,8 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
             )}
           </Alert>
         </Row>
-        <Row>
-          <Col lg={9} xs={12}>
+        <Row xs={1} lg={2}>
+          <Col lg={9} >
             <DotPlot
               series={series}
               title={`${title} <br /> Population Mean: ${_.round(popMean, 2)}`}
@@ -69,7 +69,7 @@ export default function ChartContainer({ popArray, popMean, sampled, sampleMean,
               animation={false}
             />
           </Col>
-          <Col style={{ width: 'fit-content', margin: 'auto' }}>
+          <Col lg={3} >
             <DataTable
               data={popArray}
               headers={{

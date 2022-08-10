@@ -181,7 +181,11 @@ export const MODULES = [
     description: 'The normal distribution can be described entirely by its mean and standard deviation. Many natural phenomena can be described by this distribution, and it is possible to test whether a given dataset follows a normal distribution.',
   },
   {
+    name: 'Solow Model',
+    description: 'Modeling long run economic growth using capital as the driver with shocks.',
+  },
+  {
     name: 'Measurement Error',
     description: 'In Progress',
-  },
+  }
 ];

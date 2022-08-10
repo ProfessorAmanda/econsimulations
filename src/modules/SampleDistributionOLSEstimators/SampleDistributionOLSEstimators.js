@@ -23,7 +23,7 @@ export default function SampleDistributionOLSEstimators({ regressorType }) {
       const parseData = (results) => {
         setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id: id + 1 })));
       }
-      fetchCSV('/public/data/Job_Corps_data.csv', parseData);
+      fetchCSV('/data/Job_Corps_data.csv', parseData);
     }
     setSamples([]);
     setSelected();
