@@ -1,9 +1,14 @@
 import SimulationMenu from '../components/SimulationMenu';
 import Image from 'next/image';
+import Head from 'next/head';
 
 export default function Home() {
   return (
     <div>
+      <Head>
+        <title>Econ Simulations</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div style={{
         position: 'fixed',
         objectFit: 'cover',
