@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Collapsable from '@/components/Collapsable';
 import _ from 'lodash';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -9,11 +9,38 @@ import MultipleSamplesInput from './MultipleSamplesInput';
 import PropTypes from 'prop-types';
 import { generateScatter, linearRegression } from '@/lib/stats-utils';
 import { fetchCSV } from '@/lib/data-utils';
+import { CircularProgressbar } from 'react-circular-progressbar';
 
 export default function SampleDistributionOLSEstimators({ regressorType }) {
   const [data, setData] = useState([]);
   const [samples, setSamples] = useState([]);
   const [selected, setSelected] = useState();
+
+  const [shouldShowProgress, setShouldShowProgress] = useState(false);
+  const [progressPercent, setProgressPercent] = useState(0);
+
+  const workerRef = useRef();
+
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('./SampleDistributionOLSEstimatorsWorker', import.meta.url))
+    workerRef.current.onmessage = (evt) => {
+      if (evt.data.type === 'progress') {
+        setProgressPercent(evt.data.percentComplete);
+      } else if (evt.data.type === 'done') {
+        setSelected(evt.data.selected);
+        setSamples(evt.data.samples);
+        setProgressPercent(100);
+      }
+    }
+  }, [])
+
+  const onRunClick = async (size, replications, clear) => {
+    setProgressPercent(0);
+    setShouldShowProgress(true);
+    setTimeout(() => {
+      workerRef.current.postMessage({ size, replications, clear, data, regressorType, samples });
+    }, 600);
+  }
 
   useEffect(() => {
     if (regressorType === 'Continuous') {
@@ -23,7 +50,7 @@ export default function SampleDistributionOLSEstimators({ regressorType }) {
       const parseData = (results) => {
         setData(results.map(([x, y, category], id) => ({ x: +x, y: +y, category, id: id + 1 })));
       }
-      fetchCSV('/public/data/Job_Corps_data.csv', parseData);
+      fetchCSV('/data/Job_Corps_data.csv', parseData);
     }
     setSamples([]);
     setSelected();
@@ -65,18 +92,25 @@ export default function SampleDistributionOLSEstimators({ regressorType }) {
           selectSample={setSelected}
           regressorType={regressorType}
         />
-        <br/>
+        <br />
         <Row>
           <Col xs={{ span: 8, offset: 2 }}>
-            <MultipleSamplesInput populationSize={data.length} addSamples={addSamples} minSize={2}/>
+            <MultipleSamplesInput populationSize={data.length} addSamples={onRunClick} minSize={2} />
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+              <div style={{ height: '100px', width: '100px' }}>
+                {shouldShowProgress && (
+                  <CircularProgressbar value={progressPercent} text={`${progressPercent}%`} />
+                )}
+              </div>
+            </div>
           </Col>
         </Row>
         <Row>
           <Col>
-            <SlopeDistributionPlot samples={samples} regressorType={regressorType}/>
+            <SlopeDistributionPlot samples={samples} regressorType={regressorType} />
           </Col>
           <Col>
-            <InterceptDistributionPlot samples={samples} regressorType={regressorType}/>
+            <InterceptDistributionPlot samples={samples} regressorType={regressorType} />
           </Col>
         </Row>
       </Container>

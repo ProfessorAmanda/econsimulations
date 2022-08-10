@@ -67,7 +67,7 @@ h1 {
 .mini-logo {
   margin: auto;
   z-index: 0;
-  background-image: url('../../public/images/ECONSIMS.png');
+  background-image: url('/images/ECONSIMS.png');
   background-size: contain;
   background-position: top;
   background-repeat: no-repeat;
