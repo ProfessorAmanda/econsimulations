@@ -186,6 +186,6 @@ export const MODULES = [
   },
   {
     name: 'Measurement Error',
-    description: 'In Progress',
+    description: 'This module simulates how coefficients are biased given measurement error in a dependent or independent variable',
   }
 ];
