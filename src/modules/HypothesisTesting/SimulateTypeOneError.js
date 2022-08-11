@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import DotPlot from '@/components/DotPlot';
 import NormalCurve from './NormalCurve';
 import ManySamplesInput from './ManySamplesInput';
@@ -8,14 +8,8 @@ import PropTypes from 'prop-types';
 import { distributionType, hypothesisEqualityType, popShapeType, testTypeType } from '@/lib/types';
 import StdNormalCurve from './StdNormalCurve';
 import { random } from 'mathjs';
-import {
-  calculateOneSampleTestStatistic,
-  calculatePValue,
-  calculateTwoSampleTestStatistic,
-  dataFromDistribution,
-  populationMean,
-  populationStandardDev
-} from '@/lib/stats-utils';
+import { dataFromDistribution, populationStandardDev } from '@/lib/stats-utils';
+import { CircularProgressbar } from 'react-circular-progressbar';
 
 export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, sides, equality, testType, sd1, sd2 }) {
   const [population, setPopulation] = useState([]);
@@ -23,6 +17,32 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
   const [sampleMeans, setSampleMeans] = useState([]);
   const [sampleSize, setSampleSize] = useState(0);
   const [standardized, setStandardized] = useState(false);
+
+  const [shouldShowProgress, setShouldShowProgress] = useState(false);
+  const [progressPercent, setProgressPercent] = useState(0);
+
+  const workerRef = useRef();
+
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('./SimulateTypeOneErrorWorker', import.meta.url))
+    workerRef.current.onmessage = (evt) => {
+      if (evt.data.type === 'progress') {
+        setProgressPercent(evt.data.percentComplete);
+      } else if (evt.data.type === 'done') {
+        setSampleMeans(evt.data.newSampleMeans);
+        setSampleSize(evt.data.sampleSize);
+        setProgressPercent(100);
+      }
+    }
+  }, [])
+
+  const onRunClick = async (size, replications, clear) => {
+    setProgressPercent(0);
+    setShouldShowProgress(true);
+    setTimeout(() => {
+      workerRef.current.postMessage({ size, replications, clear, population, population2, testType, distType, mu0, equality, sides, sampleMeans, alpha });
+    }, 600);
+  }
 
   useEffect(() => {
     setPopulation(dataFromDistribution(
@@ -57,48 +77,6 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
     }
   }, [mu0, popShape, testType, sd1, sd2]);
 
-  const addSamples = (size, replications, clear) => {
-    const means = [];
-    for (let i = 0; i < replications; i++) {
-      const sample = _.sampleSize(population, size);
-      const sampleMean = populationMean(sample);
-
-      // these are only used in the two-sample case
-      const sample2 = (testType === 'twoSample') ? _.sampleSize(population2, size) : [];
-      const sampleMean2 = populationMean(sample2);
-
-      const testStatistic = (testType === 'oneSample')
-        ? calculateOneSampleTestStatistic(
-          distType,
-          sampleMean,
-          mu0,
-          populationStandardDev((distType === 'Z') ? population : sample),
-          size
-        )
-        : calculateTwoSampleTestStatistic(
-          sampleMean,
-          sampleMean2,
-          populationStandardDev((distType === 'Z') ? population : sample),
-          populationStandardDev((distType === 'Z') ? population2 : sample2),
-          size,
-          size
-        );
-
-      const pValue = calculatePValue(distType, testStatistic, equality, size, sides);
-
-      const sampleObject = {
-        testStatistic: _.round(testStatistic, 2),
-        mean: (testType === 'oneSample') ? _.round(sampleMean, 2) : _.round(sampleMean - sampleMean2, 2),
-        reject: !(((equality === '<') && (testStatistic > 0)) || ((equality === '>') && (testStatistic < 0))) && pValue <= alpha
-      };
-
-      means.push(sampleObject);
-    }
-    const newSampleMeans = clear ? means : [...sampleMeans, ...means];
-    setSampleMeans(newSampleMeans);
-    setSampleSize(size);
-  }
-
   const dotPlotSeries = [
     {
       name: `Population${(testType === 'twoSample') ? ' 1' : ''}`,
@@ -124,7 +102,7 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
       </Alert>
       <Row>
         <Col>
-          <DotPlot series={dotPlotSeries} title={`Population${(testType === 'twoSample') ? 's' : ''}`} xLabel="Gallons"/>
+          <DotPlot series={dotPlotSeries} title={`Population${(testType === 'twoSample') ? 's' : ''}`} xLabel="Gallons" />
         </Col>
         <Col>
           {!standardized ? (
@@ -153,12 +131,19 @@ export default function SimulateTypeOneError({ popShape, mu0, alpha, distType, s
           />
         </Col>
       </Row>
-      <ManySamplesInput populationSize={population.length} addSamples={addSamples}/>
+      <ManySamplesInput populationSize={population.length} addSamples={onRunClick} />
       {(sampleMeans.length > 0) && (
         <Alert variant="info">
           Out of {sampleMeans.length} samples, we rejected the null hypothesis {sampleMeans.filter(({ reject }) => reject).length} times ({_.round(100 * sampleMeans.filter(({ reject }) => reject).length / sampleMeans.length, 2)}%).
         </Alert>
       )}
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <div style={{ height: '100px', width: '100px' }}>
+          {shouldShowProgress && (
+            <CircularProgressbar value={progressPercent} text={`${progressPercent}%`} />
+          )}
+        </div>
+      </div>
     </Container>
   )
 }
