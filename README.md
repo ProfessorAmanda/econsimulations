@@ -29,19 +29,13 @@ Link to teaching materials: https://amandagreggeconomics.com/statistics-simulati
 
 **Installation and Setup Instructions**:
 
-Clone the repository:
-```
-git clone https://github.com/ProfessorAmanda/econsimulations.git
-```
-Install dependencies:
-```
-npm install
-```
-Run the development server
-```
-npm run dev
-```
-The site should now be visible at http://localhost:3000/
+- Clone the repository:
+`git clone https://github.com/ProfessorAmanda/econsimulations.git`
+- Install dependencies:
+`npm install` or `npm install --legacy-peer-deps` if complains occur
+- Run the development server
+`npm run dev`
+- The site should now be visible at http://localhost:3000/
 
 ---
 
