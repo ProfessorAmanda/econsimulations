@@ -7,7 +7,7 @@ export default function MeasurementErrorContainer() {
     <div className="module-container">
       <SimulationIntro
         name="Measurement Error"
-        text={''}
+        text={'This module is currently under construction'}
       />
       <MeasurementError/>
       <MeasurementErrorPhaseTwo/>
