@@ -6,7 +6,6 @@ import { linearRegression } from 'src/lib/stats-utils';
 import _ from 'lodash';
 import TeX from '@matejmazur/react-katex';
 import { dataObject } from 'src/lib/ts-types';
-import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 
 
 

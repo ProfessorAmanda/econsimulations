@@ -1,7 +1,6 @@
 import { Button, Form, InputGroup, ButtonGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import SelectorButtonGroup from 'src/components/SelectorButtonGroup';
-import InputSlider from 'src/components/InputSlider';
 
 interface MeasurementErrorInputProps {
   sampleSize: number; setSampleSize: Function;
