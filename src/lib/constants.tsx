@@ -184,4 +184,8 @@ export const MODULES = [
     name: 'Solow Model',
     description: 'Modeling long run economic growth using capital as the driver with shocks.',
   },
+  {
+    name: 'Measurement Error',
+    description: 'This module simulates how coefficients are biased given measurement error in a dependent or independent variable',
+  }
 ];
