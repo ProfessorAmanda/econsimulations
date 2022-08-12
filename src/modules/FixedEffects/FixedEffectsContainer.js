@@ -7,7 +7,7 @@ export default function FixedEffectsContainer() {
     <div className="module-container">
       <SimulationIntro
         name="Fixed Effects"
-        text=""
+        text="This module is currently under construction"
       />
       <br/>
       <FixedEffects/>
